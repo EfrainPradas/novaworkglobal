@@ -1,0 +1,39 @@
+# Dependencies
+**/node_modules
+node_modules
+.pnp
+.pnp.js
+
+# Testing
+coverage
+
+# Production
+**/build
+build
+**/dist
+dist
+
+# Videos & Heavy Assets
+*.mp4
+*.mov
+*.avi
+frontend/public/videos/
+
+# Misc
+.DS_Store
+.env
+.env.*
+!.env.example
+.npm
+*.log
+
+# Editor directories and files
+.idea
+.vscode
+*.swp
+*.swo
+
+# Project specific
+.gemini
+artifacts
+tmp
