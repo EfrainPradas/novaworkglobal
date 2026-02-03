@@ -36,4 +36,5 @@ frontend/public/videos/
 # Project specific
 .gemini
 artifacts
-tmp
+tmpOwnerIQ.pem
+*.pem
