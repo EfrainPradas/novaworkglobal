@@ -136,11 +136,11 @@ export default function Landing() {
 
       {/* Header / Navigation */}
       <header className="fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
-        <nav className="w-full px-6 md:px-12 lg:px-16">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-24">
             {/* Logo */}
             <div className="flex items-center">
-              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-20 w-auto" />
             </div>
 
             {/* Navigation Links */}
@@ -177,39 +177,38 @@ export default function Landing() {
       </header>
 
       {/* Hero Section */}
-      {/* Hero Section - Full Width Immersive */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20">
-        {/* Dynamic Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-white to-gray-50 z-0"></div>
-
-        {/* Content */}
-        <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold text-gray-900 mb-8 tracking-tight leading-tight">
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-5xl sm:text-6xl font-heading font-bold text-gray-900 mb-6">
               {t('landing.hero.title')}{' '}
-              <span className="text-primary-600 block mt-2">{t('landing.hero.titleHighlight')}</span>
+              <span className="text-primary-600">{t('landing.hero.titleHighlight')}</span>
             </h1>
-            <p className="text-lg sm:text-xl text-gray-600 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-xl text-gray-600 mb-8">
               {t('landing.hero.subtitle')}
             </p>
+            <p className="text-lg text-gray-500 mb-10">
+              {t('landing.hero.description')}
+            </p>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={handleStartTrial}
-                className="group relative px-10 py-5 bg-primary-600 text-white rounded-full text-lg font-bold hover:bg-primary-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                className="bg-primary text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-600 transition-colors shadow-lg hover:shadow-xl"
               >
                 {t('landing.hero.startTrial')}
-                <span className="ml-2 inline-block transition-transform group-hover:translate-x-1">→</span>
               </button>
               <button
                 onClick={() => navigate('/signin')}
-                className="px-10 py-5 bg-white border-2 border-gray-200 text-gray-900 rounded-full text-lg font-semibold hover:border-primary-600 hover:text-primary-600 transition-all"
+                className="bg-white text-primary border-2 border-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-primary-50 transition-colors"
               >
                 {t('common.signIn')}
               </button>
             </div>
 
-            <p className="mt-10 text-sm text-gray-400 font-medium tracking-wide uppercase">
+            {/* Social Proof */}
+            <p className="mt-8 text-sm text-gray-500">
               {t('landing.hero.noCreditCard')}
             </p>
           </div>
@@ -217,8 +216,8 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-32 bg-white relative">
-        <div className="w-full px-6 md:px-12 lg:px-16">
+      <section id="features" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-heading font-bold text-gray-900 mb-4">
               {t('landing.features.title')}
@@ -328,8 +327,8 @@ export default function Landing() {
       </div>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-32 bg-gray-50">
-        <div className="w-full px-6 md:px-12 lg:px-16">
+      <section id="pricing" className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-heading font-bold text-gray-900 mb-4">
               {t('landing.pricing.title')}
@@ -539,7 +538,7 @@ export default function Landing() {
 
       {/* Footer */}
       <footer className="bg-gray-900 text-gray-300 py-12">
-        <div className="w-full px-6 md:px-12 lg:px-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
             {/* Brand */}
             <div>
