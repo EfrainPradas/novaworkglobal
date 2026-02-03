@@ -185,11 +185,11 @@ export default function Landing() {
         {/* Content */}
         <div className="relative z-10 w-full px-6 md:px-12 lg:px-16 text-center">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-6xl sm:text-7xl lg:text-8xl font-heading font-bold text-gray-900 mb-8 tracking-tight leading-tight">
+            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-heading font-bold text-gray-900 mb-8 tracking-tight leading-tight">
               {t('landing.hero.title')}{' '}
               <span className="text-primary-600 block mt-2">{t('landing.hero.titleHighlight')}</span>
             </h1>
-            <p className="text-xl sm:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-600 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
               {t('landing.hero.subtitle')}
             </p>
 
