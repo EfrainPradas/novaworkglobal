@@ -1,0 +1,204 @@
+{
+  "common": {
+    "signIn": "Se connecter",
+    "signUp": "S'inscrire",
+    "getStarted": "Commencer",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "backToHome": "Retour à l'accueil",
+    "continueWith": "Continuer avec {{provider}}",
+    "orContinueWith": "Ou continuer avec email"
+  },
+  "landing": {
+    "nav": {
+      "features": "Fonctionnalités",
+      "howItWorks": "Comment ça marche",
+      "pricing": "Tarifs"
+    },
+    "hero": {
+      "title": "Votre reconversion professionnelle,",
+      "titleHighlight": "Accélérée",
+      "subtitle": "Expérience humaine + Outils intelligents = Votre réussite",
+      "description": "Nous comprenons que les transitions de carrière sont difficiles. C'est pourquoi nous combinons des conseils empathiques avec une IA de pointe pour vous aider à décrocher l'emploi de vos rêves plus rapidement.",
+      "startTrial": "Commencer l'essai gratuit",
+      "noCreditCard": "Aucune carte bancaire requise • Essai gratuit de 14 jours"
+    },
+    "features": {
+      "title": "Tout ce dont vous avez besoin pour réussir",
+      "subtitle": "Des outils puissants conçus pour vous donner un avantage injuste dans votre recherche d'emploi",
+      "atsResumes": {
+        "title": "CV optimisés pour les ATS",
+        "description": "Créateur de CV alimenté par l'IA qui passe les systèmes de suivi des candidatures et arrive entre les mains humaines"
+      },
+      "smartMatching": {
+        "title": "Correspondance intelligente d'emplois",
+        "description": "Trouvez des postes qui correspondent vraiment à vos compétences, votre expérience et vos objectifs de carrière grâce à notre algorithme intelligent"
+      },
+      "autoApplications": {
+        "title": "Candidatures automatisées",
+        "description": "Postulez à des centaines de postes pertinents avec des lettres de motivation et CV personnalisés en quelques minutes"
+      },
+      "interviewPrep": {
+        "title": "Préparation aux entretiens",
+        "description": "Entraînez-vous avec des simulations d'entretiens IA adaptées à vos postes cibles et recevez des retours instantanés"
+      },
+      "analytics": {
+        "title": "Analytique de carrière",
+        "description": "Suivez votre progression de recherche d'emploi, taux de réussite des candidatures et optimisez votre stratégie avec des insights basés sur les données"
+      },
+      "skillDev": {
+        "title": "Développement des compétences",
+        "description": "Identifiez les lacunes en compétences et obtenez des parcours d'apprentissage personnalisés pour être plus compétitif sur votre marché cible"
+      }
+    },
+    "howItWorks": {
+      "badge": "Processus simple",
+      "title": "Comment ça marche",
+      "subtitle": "Du profil à l'offre en quatre étapes simples",
+      "cta": "Commencez aujourd'hui",
+      "steps": {
+        "profile": {
+          "title": "Créez votre profil",
+          "description": "Parlez-nous de votre expérience, vos compétences et vos objectifs de carrière en quelques minutes"
+        },
+        "resume": {
+          "title": "Construisez votre CV",
+          "description": "Notre IA crée un CV optimisé pour les ATS qui met en valeur votre valeur unique"
+        },
+        "ai": {
+          "title": "Laissez l'IA travailler",
+          "description": "Correspondance automatique avec des emplois et candidatures avec applications personnalisées"
+        },
+        "interviews": {
+          "title": "Décrochez des entretiens",
+          "description": "Préparez-vous avec des simulations d'entretiens et suivez votre progression vers le succès"
+        }
+      }
+    },
+    "pricing": {
+      "title": "Tarifs simples et transparents",
+      "subtitle": "Choisissez le plan qui correspond à vos besoins de transition de carrière",
+      "monthly": "mois",
+      "mostPopular": "Le plus populaire",
+      "basic": {
+        "name": "Basique",
+        "description": "Parfait pour commencer",
+        "feature1": "1 CV optimisé pour ATS",
+        "feature2": "10 candidatures/mois",
+        "feature3": "Correspondance d'emplois de base",
+        "feature4": "Support par email",
+        "feature5": "Tableau de bord analytique de carrière"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "Pour les chercheurs d'emploi sérieux",
+        "feature1": "CV et lettres de motivation illimités",
+        "feature2": "100 candidatures/mois",
+        "feature3": "Correspondance avancée par IA",
+        "feature4": "Pratique d'entretiens simulés",
+        "feature5": "Support prioritaire",
+        "feature6": "Optimisation du profil LinkedIn",
+        "feature7": "Analyse des lacunes de compétences"
+      },
+      "enterprise": {
+        "name": "Entreprise",
+        "description": "Solutions personnalisées pour les équipes",
+        "feature1": "Tout dans Pro",
+        "feature2": "Candidatures illimitées",
+        "feature3": "Coach de carrière dédié",
+        "feature4": "Intégrations personnalisées",
+        "feature5": "Outils de collaboration d'équipe",
+        "feature6": "Analytique et reporting avancés",
+        "feature7": "Options de marque blanche"
+      },
+      "contactUs": "Nous contacter",
+      "choosePlan": "Choisir le plan"
+    },
+    "cta": {
+      "title": "Prêt à accélérer votre carrière ?",
+      "subtitle": "Rejoignez des milliers de professionnels qui ont réussi leur transition vers l'emploi de leurs rêves",
+      "button": "Commencez votre essai gratuit"
+    },
+    "footer": {
+      "tagline": "Autonomiser les transitions de carrière avec l'IA",
+      "product": "Produit",
+      "productLinks": {
+        "features": "Fonctionnalités",
+        "pricing": "Tarifs",
+        "testimonials": "Témoignages",
+        "roadmap": "Feuille de route"
+      },
+      "company": "Entreprise",
+      "companyLinks": {
+        "about": "À propos",
+        "careers": "Carrières",
+        "blog": "Blog",
+        "press": "Kit presse"
+      },
+      "resources": "Ressources",
+      "resourceLinks": {
+        "docs": "Documentation",
+        "guides": "Guides de carrière",
+        "apiDocs": "Docs API",
+        "support": "Support"
+      },
+      "legal": "Légal",
+      "legalLinks": {
+        "privacy": "Politique de confidentialité",
+        "terms": "Conditions d'utilisation",
+        "cookie": "Politique de cookies"
+      },
+      "copyright": "© 2025 NovaWork Global. Tous droits réservés."
+    }
+  },
+  "auth": {
+    "signUp": {
+      "title": "Créez votre compte",
+      "subtitle": "Commencez votre voyage de transformation de carrière aujourd'hui",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Au moins 8 caractères",
+      "confirmPassword": "Confirmer le mot de passe",
+      "confirmPasswordPlaceholder": "Répétez votre mot de passe",
+      "createAccount": "Créer un compte",
+      "creatingAccount": "Création du compte...",
+      "alreadyHaveAccount": "Vous avez déjà un compte ?",
+      "terms": "En vous inscrivant, vous acceptez nos",
+      "termsLink": "Conditions d'utilisation",
+      "and": "et",
+      "privacyLink": "Politique de confidentialité",
+      "errors": {
+        "fillAllFields": "Veuillez remplir tous les champs",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "passwordLength": "Le mot de passe doit contenir au moins 8 caractères"
+      },
+      "success": "Compte créé avec succès ! Veuillez vérifier votre e-mail pour vérifier votre compte."
+    },
+    "signIn": {
+      "title": "Bon retour",
+      "subtitle": "Connectez-vous pour continuer votre parcours professionnel",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "Entrez votre mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "signInButton": "Se connecter",
+      "signingIn": "Connexion...",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "errors": {
+        "fillAllFields": "Veuillez remplir tous les champs"
+      }
+    },
+    "callback": {
+      "completing": "Finalisation de la connexion",
+      "processing": "Traitement de l'authentification...",
+      "success": "Succès !",
+      "successMessage": "Authentification réussie ! Redirection vers l'intégration...",
+      "failed": "Échec de l'authentification",
+      "noSession": "Aucune session trouvée. Redirection...",
+      "returnHome": "Retour à l'accueil"
+    }
+  }
+}

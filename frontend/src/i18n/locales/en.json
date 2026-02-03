@@ -1,0 +1,411 @@
+{
+  "common": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "getStarted": "Get Started",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "back": "Back",
+    "continue": "Continue",
+    "backToHome": "Back to home",
+    "continueWith": "Continue with {{provider}}",
+    "orContinueWith": "Or continue with email",
+    "save": "Save",
+    "saving": "Saving...",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Confirm Delete",
+    "add": "Add",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "actions": "actions",
+    "pleaseSignIn": "Please sign in to access this feature"
+  },
+  "landing": {
+    "nav": {
+      "features": "Features",
+      "howItWorks": "How It Works",
+      "pricing": "Pricing"
+    },
+    "hero": {
+      "title": "Your Career Reinvention,",
+      "titleHighlight": "Accelerated",
+      "subtitle": "Human Experience + Intelligent Tools = Your Success Story",
+      "description": "We understand career transitions are challenging. That's why we combine empathetic guidance with cutting-edge AI to help you land your dream job faster.",
+      "startTrial": "Start Free Trial",
+      "noCreditCard": "No credit card required • 14-day free trial"
+    },
+    "features": {
+      "title": "Everything You Need to Succeed",
+      "subtitle": "Powerful tools designed to give you an unfair advantage in your job search",
+      "atsResumes": {
+        "title": "ATS-Optimized Resumes",
+        "description": "AI-powered resume builder that gets past Applicant Tracking Systems and into human hands"
+      },
+      "smartMatching": {
+        "title": "Smart Job Matching",
+        "description": "Find roles that truly fit your skills, experience, and career goals with our intelligent matching algorithm"
+      },
+      "autoApplications": {
+        "title": "Automated Applications",
+        "description": "Apply to hundreds of relevant positions with personalized cover letters and resumes in minutes"
+      },
+      "interviewPrep": {
+        "title": "Interview Preparation",
+        "description": "Practice with AI-powered mock interviews tailored to your target roles and get instant feedback"
+      },
+      "analytics": {
+        "title": "Career Analytics",
+        "description": "Track your job search progress, application success rates, and optimize your strategy with data-driven insights"
+      },
+      "skillDev": {
+        "title": "Skill Development",
+        "description": "Identify skill gaps and get personalized learning paths to make you more competitive in your target market"
+      }
+    },
+    "howItWorks": {
+      "badge": "Simple Process",
+      "title": "How It Works",
+      "subtitle": "From profile to offer in four simple steps",
+      "cta": "Get Started Today",
+      "steps": {
+        "profile": {
+          "title": "Create Your Profile",
+          "description": "Tell us about your experience, skills, and career goals in minutes"
+        },
+        "resume": {
+          "title": "Build Your Resume",
+          "description": "Our AI crafts an ATS-optimized resume that highlights your unique value"
+        },
+        "ai": {
+          "title": "Let AI Work",
+          "description": "Automatically match with jobs and apply with personalized applications"
+        },
+        "interviews": {
+          "title": "Land Interviews",
+          "description": "Prepare with mock interviews and track your progress to success"
+        }
+      }
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Choose the plan that fits your career transition needs",
+      "monthly": "month",
+      "mostPopular": "Most Popular",
+      "basic": {
+        "name": "Basic",
+        "description": "Perfect for getting started",
+        "feature1": "1 ATS-optimized resume",
+        "feature2": "10 job applications/month",
+        "feature3": "Basic job matching",
+        "feature4": "Email support",
+        "feature5": "Career analytics dashboard"
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "For serious job seekers",
+        "feature1": "Unlimited resumes & cover letters",
+        "feature2": "100 applications/month",
+        "feature3": "Advanced AI matching",
+        "feature4": "Mock interview practice",
+        "feature5": "Priority support",
+        "feature6": "LinkedIn profile optimization",
+        "feature7": "Skill gap analysis"
+      },
+      "enterprise": {
+        "name": "Enterprise",
+        "description": "Custom solutions for teams",
+        "feature1": "Everything in Pro",
+        "feature2": "Unlimited applications",
+        "feature3": "Dedicated career coach",
+        "feature4": "Custom integrations",
+        "feature5": "Team collaboration tools",
+        "feature6": "Advanced analytics & reporting",
+        "feature7": "White-label options"
+      },
+      "contactUs": "Contact Us",
+      "choosePlan": "Choose Plan"
+    },
+    "cta": {
+      "title": "Ready to Accelerate Your Career?",
+      "subtitle": "Join thousands of professionals who've successfully transitioned to their dream jobs",
+      "button": "Start Your Free Trial"
+    },
+    "footer": {
+      "tagline": "Empowering career transitions with AI",
+      "product": "Product",
+      "productLinks": {
+        "features": "Features",
+        "pricing": "Pricing",
+        "testimonials": "Testimonials",
+        "roadmap": "Roadmap"
+      },
+      "company": "Company",
+      "companyLinks": {
+        "about": "About Us",
+        "careers": "Careers",
+        "blog": "Blog",
+        "press": "Press Kit"
+      },
+      "resources": "Resources",
+      "resourceLinks": {
+        "docs": "Documentation",
+        "guides": "Career Guides",
+        "apiDocs": "API Docs",
+        "support": "Support"
+      },
+      "legal": "Legal",
+      "legalLinks": {
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Service",
+        "cookie": "Cookie Policy"
+      },
+      "copyright": "© 2025 NovaWork Global. All rights reserved."
+    }
+  },
+  "auth": {
+    "signUp": {
+      "title": "Create your account",
+      "subtitle": "Start your career transformation journey today",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Repeat your password",
+      "createAccount": "Create account",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "terms": "By signing up, you agree to our",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "errors": {
+        "fillAllFields": "Please fill in all fields",
+        "passwordMismatch": "Passwords do not match",
+        "passwordLength": "Password must be at least 8 characters long"
+      },
+      "success": "Account created successfully! Please check your email to verify your account."
+    },
+    "signIn": {
+      "title": "Welcome back",
+      "subtitle": "Sign in to continue your career journey",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "signInButton": "Sign in",
+      "signingIn": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "errors": {
+        "fillAllFields": "Please fill in all fields"
+      }
+    },
+    "callback": {
+      "completing": "Completing Sign In",
+      "processing": "Processing authentication...",
+      "success": "Success!",
+      "successMessage": "Authentication successful! Redirecting to onboarding...",
+      "failed": "Authentication Failed",
+      "noSession": "No session found. Redirecting back...",
+      "returnHome": "Return to Home"
+    }
+  },
+  "onboarding": {
+    "steps": {
+      "welcome": "Welcome",
+      "questions": "Career Clarity",
+      "snapshot": "Your Paths"
+    },
+    "welcome": {
+      "title": "Welcome to NovaWork Global!",
+      "subtitle": "Let's unlock your career potential in just 60 seconds. We'll analyze your goals and show you exactly where you can go next.",
+      "feature1Title": "Get Career Clarity",
+      "feature1Description": "Discover 3 personalized career paths based on your goals and the current job market",
+      "feature2Title": "AI-Powered Insights",
+      "feature2Description": "See salary ranges, demand levels, and required skills for each path",
+      "feature3Title": "60-Second Setup",
+      "feature3Description": "Answer 5 quick questions and get your Career Clarity Snapshot™ instantly",
+      "timeEstimate": "Takes less than 60 seconds",
+      "getStarted": "Get Started"
+    },
+    "questions": {
+      "title": "Tell me about yourself",
+      "subtitle": "Answer 5 quick questions to get personalized career path recommendations",
+      "question1": "What's your current situation?",
+      "question2": "What's your top priority right now?",
+      "question3": "What's your target job title?",
+      "question4": "Where are you currently located?",
+      "selectOption": "Select an option...",
+      "jobTitlePlaceholder": "e.g., Product Manager, Data Analyst, Software Engineer",
+      "jobTitleHelp": "Don't worry if you're not sure - just give us your best guess!",
+      "cityPlaceholder": "City",
+      "countryPlaceholder": "Country",
+      "generating": "Generating your snapshot...",
+      "analyzingYourProfile": "Analyzing your profile and market data...",
+      "situations": {
+        "activelyJobHunting": "Actively job hunting",
+        "exploringNewCareer": "Exploring a new career",
+        "feelingStuck": "Feeling stuck in current role",
+        "recentlyLaidOff": "Recently laid off",
+        "newGraduate": "New graduate",
+        "careerChanger": "Career changer"
+      },
+      "priorities": {
+        "betterJob": "Better job fit",
+        "higherSalary": "Higher salary",
+        "careerChange": "Career change",
+        "workLifeBalance": "Work-life balance",
+        "remoteWork": "Remote work",
+        "internationalOpportunity": "International opportunity"
+      },
+      "errors": {
+        "selectSituation": "Please select your current situation",
+        "selectPriority": "Please select your top priority",
+        "enterJobTitle": "Please enter your target job title",
+        "enterCity": "Please enter your city",
+        "enterCountry": "Please enter your country"
+      }
+    },
+    "snapshot": {
+      "title": "Your Tell me about yourself",
+      "subtitle": "Based on your goals and current market data, here are 3 career paths tailored for you",
+      "loading": "Generating your personalized career snapshot...",
+      "clarityScore": "Career Clarity Score",
+      "recommended": "Recommended",
+      "salaryRange": "Salary Range",
+      "demand": "Market Demand",
+      "keySkills": "Key Skills",
+      "skills": "skills",
+      "demandLevels": {
+        "high": "High Demand",
+        "medium": "Medium Demand",
+        "low": "Growing Demand"
+      },
+      "nextStepTitle": "Ready to build your winning resume?",
+      "nextStepDescription": "Upload your existing resume or start from scratch. Our AI will help you create an ATS-optimized resume that gets interviews.",
+      "goToDashboard": "Continue to Dashboard"
+    }
+  },
+  "resumeBuilder": {
+    "steps": {
+      "capture": "Capture & Position",
+      "craft": "Craft & Structure",
+      "target": "Target & Launch"
+    },
+    "par": {
+      "title": "CAR Story Builder",
+      "subtitle": "Challenge → Actions → Results",
+      "description": "Capture your accomplishments using the proven CAR framework. These stories will become powerful resume bullets.",
+      "addNew": "Add New Story",
+      "noStories": "No CAR stories yet",
+      "noStoriesHelp": "Start by capturing your first accomplishment using the CAR framework",
+      "storiesFound": "stories found",
+      "roleCompany": "Role & Company",
+      "year": "Year",
+      "problem": "Challenge",
+      "problemHelp": "What challenge did you face?",
+      "actions": "What did you do?",
+      "actionsHelp": "List 2-3 key actions you took to solve the challenge",
+      "result": "What was the result?",
+      "resultHelp": "Quantify the outcome with metrics: $, %, time, volume, etc.",
+      "metrics": "Metrics",
+      "metricsHelp": "Add specific numbers from your result (e.g., 40%, $2M, 3 months)",
+      "willDoAgain": "Would I gladly do this again?",
+      "willDoAgainHelp": "Check this to highlight work you want more of",
+      "wouldDoAgain": "Would do again",
+      "competencies": "Competencies Demonstrated",
+      "competenciesHelp": "Select the skills you used in this accomplishment",
+      "convertToBullet": "Turn into a winning accomplishment",
+      "converted": "Converted",
+      "filterByCompetency": "Filter by Competency",
+      "filterByWillDoAgain": "Filter by 'Would Do Again'",
+      "errors": {
+        "roleRequired": "Role/Company is required",
+        "problemRequired": "Challenge is required",
+        "actionsRequired": "At least 2 actions are required",
+        "resultRequired": "Result is required",
+        "metricsRequired": "At least one metric is required"
+      }
+    },
+    "profile": {
+      "title": "Professional Profile",
+      "subtitle": "Create your positioning statement: who you are, what you do, and what makes you unique",
+      "whoYouAre": "Who you are",
+      "whoYouAreHelp": "Your title + experience level + industry",
+      "whoYouArePlaceholder": "e.g., Service Business Leader with local and international experience in consulting firms",
+      "coreSkills": "Core skills that define you",
+      "coreSkillsHelp": "3-5 skills you excel at",
+      "coreSkillsPlaceholder": "e.g., Expert at successfully starting up, developing, and growing outsourcing service firms",
+      "softSkills": "Soft skills aligned with target role",
+      "softSkillsHelp": "3-4 sentences showcasing your soft skills",
+      "softSkillsPlaceholder": "e.g., Skilled at leading multicultural teams, managing complex projects, negotiating favorable deals...",
+      "areasOfExcellence": "Areas of Excellence",
+      "areasOfExcellenceHelp": "6-12 ATS keywords from your sector/industry",
+      "generateWithAI": "Generate with AI",
+      "preview": "Preview"
+    },
+    "workExperience": {
+      "title": "Work Experience",
+      "addNew": "Add Experience",
+      "company": "Company Name",
+      "companyDesc": "Short description with measurables",
+      "companyDescPlaceholder": "e.g., Global tech company, $50B revenue, 125 countries",
+      "location": "Location",
+      "jobTitle": "Job Title",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "current": "I currently work here",
+      "scope": "Purpose & Scope",
+      "scopeHelp": "Include budget/headcount/geographies/vendors measured",
+      "scopePlaceholder": "e.g., Led team of 36, $12M budget across LATAM",
+      "tools": "Tools/Systems",
+      "accomplishments": "Key Accomplishments",
+      "accomplishmentsHelp": "4-7 bullet points recommended",
+      "linkPARStory": "Link CAR Story",
+      "addBullet": "Add Bullet"
+    },
+    "export": {
+      "title": "Export Resume",
+      "atsCompliant": "ATS-Compliant Export",
+      "pdf": "Download PDF",
+      "docx": "Download DOCX",
+      "plainText": "Copy Plain Text",
+      "fileName": "File Name",
+      "atsChecklist": "ATS Checklist",
+      "checkStandardFonts": "Standard fonts (Calibri/Arial)",
+      "checkMargins": "0.5-1\" margins",
+      "checkLength": "1 page (<10 yrs) or 2 pages (10+ yrs)",
+      "checkDates": "Consistent dates (YYYY)",
+      "checkNoTables": "No tables/graphics/text boxes",
+      "checkBullets": "4-7 bullets per role with metrics"
+    },
+    "jdAnalyzer": {
+      "title": "Job Description Analyzer",
+      "subtitle": "Paste a job description to extract keywords and tailor your resume",
+      "jobTitle": "Job Title",
+      "companyName": "Company Name",
+      "paste": "Paste the full job description",
+      "jdUrl": "Job Description URL (optional)",
+      "analyze": "Analyze & Extract Keywords",
+      "analyzing": "Analyzing job description...",
+      "topKeywords": "Top 15 Keywords",
+      "keywordMapping": "Keyword Mapping",
+      "keyword": "Keyword",
+      "whereItGoes": "Where It Goes",
+      "matchingEvidence": "Matching Evidence",
+      "status": "Status",
+      "statuses": {
+        "done": "Done",
+        "tweak": "Tweak",
+        "missing": "Missing"
+      },
+      "generateTailored": "Generate Tailored Resume",
+      "tailoredResume": "Tailored Resume"
+    }
+  }
+}
