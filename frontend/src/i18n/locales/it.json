@@ -1,204 +1,378 @@
 {
   "common": {
+    "continueWith": "Continua con {{provider}}",
+    "orContinueWith": "o continua con e-mail",
     "signIn": "Accedi",
     "signUp": "Registrati",
-    "getStarted": "Inizia",
-    "loading": "Caricamento...",
-    "error": "Errore",
-    "success": "Successo",
-    "backToHome": "Torna alla home",
-    "continueWith": "Continua con {{provider}}",
-    "orContinueWith": "Oppure continua con email"
+    "backToHome": "Torna alla Home",
+    "add": "Add",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "pleaseSignIn": "Please sign in to view this page.",
+    "present": "Present",
+    "or": "or",
+    "all": "Tutti",
+    "yes": "Sì",
+    "no": "No",
+    "actions": "azioni",
+    "confirmDelete": "Are you sure you want to delete this experience?"
   },
-  "landing": {
-    "nav": {
-      "features": "Funzionalità",
-      "howItWorks": "Come funziona",
-      "pricing": "Prezzi"
-    },
-    "hero": {
-      "title": "La tua reinvenzione professionale,",
-      "titleHighlight": "Accelerata",
-      "subtitle": "Esperienza umana + Strumenti intelligenti = La tua storia di successo",
-      "description": "Capiamo che le transizioni di carriera sono difficili. Ecco perché combiniamo una guida empatica con l'IA all'avanguardia per aiutarti a ottenere il lavoro dei tuoi sogni più velocemente.",
-      "startTrial": "Inizia la prova gratuita",
-      "noCreditCard": "Nessuna carta di credito richiesta • Prova gratuita di 14 giorni"
-    },
-    "features": {
-      "title": "Tutto ciò di cui hai bisogno per avere successo",
-      "subtitle": "Strumenti potenti progettati per darti un vantaggio ingiusto nella tua ricerca di lavoro",
-      "atsResumes": {
-        "title": "CV ottimizzati per ATS",
-        "description": "Creatore di CV alimentato da IA che supera i sistemi di tracciamento dei candidati e arriva nelle mani umane"
-      },
-      "smartMatching": {
-        "title": "Corrispondenza intelligente dei lavori",
-        "description": "Trova ruoli che si adattano davvero alle tue competenze, esperienza e obiettivi di carriera con il nostro algoritmo intelligente"
-      },
-      "autoApplications": {
-        "title": "Candidature automatizzate",
-        "description": "Candidati a centinaia di posizioni rilevanti con lettere di presentazione e CV personalizzati in pochi minuti"
-      },
-      "interviewPrep": {
-        "title": "Preparazione ai colloqui",
-        "description": "Esercitati con simulazioni di colloqui IA adattate ai tuoi ruoli target e ricevi feedback istantaneo"
-      },
-      "analytics": {
-        "title": "Analisi della carriera",
-        "description": "Monitora i tuoi progressi nella ricerca di lavoro, tassi di successo delle candidature e ottimizza la tua strategia con insights basati sui dati"
-      },
-      "skillDev": {
-        "title": "Sviluppo delle competenze",
-        "description": "Identifica le lacune nelle competenze e ottieni percorsi di apprendimento personalizzati per essere più competitivo nel tuo mercato di riferimento"
-      }
-    },
-    "howItWorks": {
-      "badge": "Processo semplice",
-      "title": "Come funziona",
-      "subtitle": "Dal profilo all'offerta in quattro semplici passaggi",
-      "cta": "Inizia oggi",
-      "steps": {
-        "profile": {
-          "title": "Crea il tuo profilo",
-          "description": "Raccontaci della tua esperienza, competenze e obiettivi di carriera in pochi minuti"
-        },
-        "resume": {
-          "title": "Costruisci il tuo CV",
-          "description": "La nostra IA crea un CV ottimizzato per ATS che evidenzia il tuo valore unico"
-        },
-        "ai": {
-          "title": "Lascia lavorare l'IA",
-          "description": "Corrispondenza automatica con i lavori e candidature con applicazioni personalizzate"
-        },
-        "interviews": {
-          "title": "Ottieni colloqui",
-          "description": "Preparati con simulazioni di colloqui e monitora i tuoi progressi verso il successo"
-        }
-      }
-    },
-    "pricing": {
-      "title": "Prezzi semplici e trasparenti",
-      "subtitle": "Scegli il piano che si adatta alle tue esigenze di transizione di carriera",
-      "monthly": "mese",
-      "mostPopular": "Più popolare",
-      "basic": {
-        "name": "Base",
-        "description": "Perfetto per iniziare",
-        "feature1": "1 CV ottimizzato per ATS",
-        "feature2": "10 candidature/mese",
-        "feature3": "Corrispondenza base dei lavori",
-        "feature4": "Supporto via email",
-        "feature5": "Dashboard di analisi della carriera"
-      },
-      "pro": {
-        "name": "Pro",
-        "description": "Per chi cerca lavoro seriamente",
-        "feature1": "CV e lettere di presentazione illimitati",
-        "feature2": "100 candidature/mese",
-        "feature3": "Corrispondenza avanzata con IA",
-        "feature4": "Pratica di colloqui simulati",
-        "feature5": "Supporto prioritario",
-        "feature6": "Ottimizzazione del profilo LinkedIn",
-        "feature7": "Analisi delle lacune di competenze"
-      },
-      "enterprise": {
-        "name": "Azienda",
-        "description": "Soluzioni personalizzate per i team",
-        "feature1": "Tutto in Pro",
-        "feature2": "Candidature illimitate",
-        "feature3": "Career coach dedicato",
-        "feature4": "Integrazioni personalizzate",
-        "feature5": "Strumenti di collaborazione del team",
-        "feature6": "Analisi e reporting avanzati",
-        "feature7": "Opzioni white-label"
-      },
-      "contactUs": "Contattaci",
-      "choosePlan": "Scegli il piano"
-    },
-    "cta": {
-      "title": "Pronto ad accelerare la tua carriera?",
-      "subtitle": "Unisciti a migliaia di professionisti che hanno avuto successo nella transizione verso il lavoro dei loro sogni",
-      "button": "Inizia la tua prova gratuita"
-    },
-    "footer": {
-      "tagline": "Potenziare le transizioni di carriera con l'IA",
-      "product": "Prodotto",
-      "productLinks": {
-        "features": "Funzionalità",
-        "pricing": "Prezzi",
-        "testimonials": "Testimonianze",
-        "roadmap": "Roadmap"
-      },
-      "company": "Azienda",
-      "companyLinks": {
-        "about": "Chi siamo",
-        "careers": "Carriere",
-        "blog": "Blog",
-        "press": "Kit stampa"
-      },
-      "resources": "Risorse",
-      "resourceLinks": {
-        "docs": "Documentazione",
-        "guides": "Guide di carriera",
-        "apiDocs": "Docs API",
-        "support": "Supporto"
-      },
-      "legal": "Legale",
-      "legalLinks": {
-        "privacy": "Privacy Policy",
-        "terms": "Termini di servizio",
-        "cookie": "Cookie Policy"
-      },
-      "copyright": "© 2025 NovaWork Global. Tutti i diritti riservati."
+  "nav": {
+    "signIn": "Accedi",
+    "getStarted": "Inizia",
+    "menu": {
+      "programs": "Programmi",
+      "methodology": "Metodologia",
+      "insights": "Approfondimenti",
+      "howitworks": "Come Funziona"
     }
   },
-  "auth": {
-    "signUp": {
-      "title": "Crea il tuo account",
-      "subtitle": "Inizia oggi il tuo viaggio di trasformazione professionale",
-      "email": "Indirizzo email",
-      "emailPlaceholder": "tu@esempio.com",
-      "password": "Password",
-      "passwordPlaceholder": "Almeno 8 caratteri",
-      "confirmPassword": "Conferma password",
-      "confirmPasswordPlaceholder": "Ripeti la tua password",
-      "createAccount": "Crea account",
-      "creatingAccount": "Creazione account...",
-      "alreadyHaveAccount": "Hai già un account?",
-      "terms": "Registrandoti, accetti i nostri",
-      "termsLink": "Termini di servizio",
-      "and": "e",
-      "privacyLink": "Privacy Policy",
-      "errors": {
-        "fillAllFields": "Si prega di compilare tutti i campi",
-        "passwordMismatch": "Le password non corrispondono",
-        "passwordLength": "La password deve contenere almeno 8 caratteri"
-      },
-      "success": "Account creato con successo! Controlla la tua email per verificare il tuo account."
+  "hero": {
+    "badge": "REINVENTA LA TUA CARRIERA",
+    "title": "Accendi il Tuo Prossimo Capitolo Professionale",
+    "subtitle": "Chiarezza. Direzione. Slancio.",
+    "description": "NovaWork Global aiuta i professionisti a navigare nel cambiamento di carriera con un sistema collaudato che fonde l'esperienza umana pratica nel career coaching con strumenti intelligenti di IA, in modo da avanzare con fiducia e chiarezza.",
+    "ctaStart": "Inizia il Tuo Viaggio",
+    "ctaExplore": "Esplora i Programmi"
+  },
+  "trust": {
+    "title": "Scelto da Professionisti in Tutto il Mondo",
+    "subtitle": "Risultati reali da persone reali che hanno trasformato le loro carriere con il nostro sistema collaudato",
+    "stats": {
+      "guided": "Professionisti Guidati",
+      "expertise": "Esperienza Combinata",
+      "global": "Esperienza Globale",
+      "rating": "Valutazione Media"
     },
+    "testimonial": "NovaWork Global mi ha dato la chiarezza e gli strumenti necessari per fare una transizione professionale sicura. La combinazione di guida esperta e strumenti basati sull'IA ha fatto la differenza."
+  },
+  "problem": {
+    "titlePart1": "Il cambiamento di carriera non è il problema.",
+    "titlePart2": "L'incertezza lo è.",
+    "descriptionPart1": "La maggior parte delle persone non si blocca per mancanza di talento.",
+    "descriptionPart2": "Si bloccano perché non sanno quale mossa ha senso dopo.",
+    "card1": "Incerto su quale ruolo o settore sia adatto a te ora",
+    "card2": "Colpito da licenziamenti, disruption dell'IA o cambiamenti del mercato",
+    "card3": "Diviso tra più percorsi senza una direzione chiara",
+    "solutionPart1": "NovaWork sostituisce l'incertezza con",
+    "solutionPart2": "struttura e opzioni chiare per avanzare."
+  },
+  "philosophy": {
+    "bgText": "IA + UMANO",
+    "badge": "La Nostra Filosofia",
+    "quotePart1": "Crediamo che il futuro del lavoro non riguardi la competizione con l'IA, ma l'",
+    "quotePart2": "orchestrarla",
+    "quotePart3": "insieme all'intuizione umana.",
+    "precisionTitle": "01. Precisione",
+    "precisionText": "I nostri algoritmi analizzano milioni di punti dati per identificare lacune di mercato che corrispondono al tuo DNA esecutivo unico. Niente ipotesi, solo strategia basata sui dati.",
+    "empathyTitle": "02. Empatia",
+    "empathyText": "La tecnologia apre la porta, ma la connessione umana la attraversa. Ti alleniamo a padroneggiare le sfumature dello storytelling di leadership che l'IA non può replicare."
+  },
+  "differentiator": {
+    "title": "Esperienza Umana + Intelligenza Artificiale",
+    "description": "Combiniamo oltre 30 anni di esperienza pratica nel career coaching con strumenti intelligenti di IA, per offrirti la profondità dell'intuizione umana e la velocità della tecnologia.",
+    "humanCardTitle": "Sistema Progettato da Umani",
+    "humanCardText": "Costruito da career coach che hanno guidato migliaia di transizioni di successo. Esperienza reale, framework collaudati.",
+    "aiCardTitle": "Strumenti Potenziati dall'IA",
+    "aiCardText": "L'automazione intelligente gestisce il lavoro pesante (ottimizzazione ATS, matching dei lavori, creazione di CV) così ti muovi più velocemente.",
+    "pathCardTitle": "Il Tuo Percorso Personalizzato",
+    "pathCardText": "Nessun consiglio generico. Una strategia su misura adatta al tuo background, ai tuoi obiettivi e alla tua tempistica.",
+    "resultLabel": "Il risultato?",
+    "resultText": "Ottieni una guida di livello esperto senza aspettare settimane per un consulente, ed esecuzione alla velocità dell'IA senza perdere il tocco umano che fa funzionare davvero il cambiamento di carriera."
+  },
+  "programs": {
+    "title": "Percorsi Curati",
+    "description": "Seleziona la traiettoria allineata con il tuo obiettivo professionale.",
+    "compare": "Confronta tutti i programmi",
+    "viewProgram": "Visualizza Programma",
+    "cards": {
+      "novanext": {
+        "title": "NovaNext™",
+        "subtitle": "Accelerazione di Carriera",
+        "description": "La metodologia collaudata per ottenere il tuo ruolo ideale. Precisione dell'IA combinata con strategia umana."
+      },
+      "novarearchitect": {
+        "title": "NovaRearchitect™",
+        "subtitle": "Reinvenzione Completa",
+        "description": "Per dirigenti che cercano una svolta. Ridefinisci la tua proposta di valore ed entra in nuovi settori."
+      },
+      "novalign": {
+        "title": "NovaAlign™",
+        "subtitle": "Integrazione della Leadership",
+        "description": "Padronanza dei primi 90 giorni. Assicurati non solo di ottenere il lavoro, ma di guidare con impatto immediato."
+      }
+    }
+  },
+  "cta": {
+    "title": "Pronto a Iniziare il Tuo Prossimo Capitolo Professionale?",
+    "subtitle": "Unisciti a migliaia di professionisti che hanno trasformato le loro carriere con NovaWork Global",
+    "button": "Trova Il Tuo Percorso →"
+  },
+  "footer": {
+    "tagline": "Potenziare i professionisti per navigare il cambiamento di carriera con chiarezza e sicurezza",
+    "programs": "Programmi",
+    "company": "Azienda",
+    "legal": "Legale",
+    "links": {
+      "novanext": "NovaNext™",
+      "novarearchitect": "NovaRearchitect™",
+      "novalign": "NovaAlign™",
+      "about": "Chi Siamo",
+      "methodology": "Metodologia",
+      "insights": "Approfondimenti",
+      "privacy": "Privacy Policy",
+      "terms": "Termini di Servizio"
+    },
+    "copyright": "© {{year}} NovaWork Global. Tutti i diritti riservati."
+  },
+  "auth": {
     "signIn": {
       "title": "Bentornato",
-      "subtitle": "Accedi per continuare il tuo percorso professionale",
-      "email": "Indirizzo email",
-      "emailPlaceholder": "tu@esempio.com",
+      "subtitle": "Accedi per continuare il tuo percorso di carriera",
+      "email": "E-mail",
+      "emailPlaceholder": "Inserisci la tua e-mail",
       "password": "Password",
       "passwordPlaceholder": "Inserisci la tua password",
       "forgotPassword": "Password dimenticata?",
       "signInButton": "Accedi",
-      "signingIn": "Accesso...",
+      "signingIn": "Accesso in corso...",
       "noAccount": "Non hai un account?",
       "errors": {
-        "fillAllFields": "Si prega di compilare tutti i campi"
+        "fillAllFields": "Per favore compila tutti i campi"
       }
     },
-    "callback": {
-      "completing": "Completamento accesso",
-      "processing": "Elaborazione autenticazione...",
-      "success": "Successo!",
-      "successMessage": "Autenticazione riuscita! Reindirizzamento all'onboarding...",
-      "failed": "Autenticazione fallita",
-      "noSession": "Nessuna sessione trovata. Reindirizzamento...",
-      "returnHome": "Torna alla home"
+    "signUp": {
+      "title": "Crea Il Tuo Account",
+      "subtitle": "Inizia la tua trasformazione professionale oggi",
+      "email": "E-mail",
+      "emailPlaceholder": "Inserisci la tua e-mail",
+      "password": "Password",
+      "passwordPlaceholder": "Crea una password",
+      "confirmPassword": "Conferma Password",
+      "confirmPasswordPlaceholder": "Conferma la tua password",
+      "createAccount": "Crea Account",
+      "creatingAccount": "Creazione account in corso...",
+      "alreadyHaveAccount": "Hai già un account?",
+      "terms": "Creando un account, accetti i nostri",
+      "termsLink": "Termini di Servizio",
+      "and": "e",
+      "privacyLink": "Privacy Policy",
+      "success": "Account creato! Controlla la tua e-mail per confermare.",
+      "errors": {
+        "fillAllFields": "Per favore compila tutti i campi",
+        "passwordMismatch": "Le password non corrispondono",
+        "passwordLength": "La password deve contenere almeno 6 caratteri"
+      }
     }
+  },
+  "resumeBuilder": {
+    "steps": {
+      "capture": "Capture",
+      "craft": "Craft",
+      "refine": "Refine",
+      "step": "Step {{number}}"
+    },
+    "menu": {
+      "title": "Resume Builder",
+      "subtitle": "Create a professional, ATS-optimized resume. Follow the steps below or use individual tools.",
+      "backToDashboard": "Back to Dashboard",
+      "yourProgress": "Your Progress",
+      "stepsCompleted": "{{completed}} of {{total}} steps completed",
+      "editDetails": "Edit Details",
+      "getStarted": "Get Started",
+      "readyToApply": "Ready to Apply?",
+      "readyToApplyLocked": "Ready to Apply? (Momentum Only)",
+      "applyDesc": "Start your job search journey with AI-powered recommendations.",
+      "applyDescLocked": "Upgrade to Momentum to access our AI-powered job search engine.",
+      "workExperience": "Work Experience",
+      "workExperienceDesc": "Build your career history with ease.",
+      "carStories": "CAR Stories",
+      "carStoriesDesc": "Highlight your key achievements.",
+      "profile": "Professional Profile",
+      "profileDesc": "Craft a compelling summary.",
+      "coverLetter": "Cover Letter Generator",
+      "coverLetterDesc": "AI-powered personalized cover letters.",
+      "accomplishmentLibrary": "Accomplishment Library",
+      "accomplishmentLibraryDesc": "Your personal bank of achievements — pick, tag, and auto-assemble for any job."
+    },
+    "profile": {
+      "title": "Professional Profile",
+      "subtitle": "Define who you are and what you bring to the table",
+      "whoYouAre": "Who You Are (The Hook)",
+      "whoYouAreHelp": "One powerful sentence that defines your professional identity.",
+      "coreSkills": "Technical & Hard Skills",
+      "coreSkillsHelp": "List your key technical competencies.",
+      "softSkills": "Leadership & Soft Skills",
+      "softSkillsHelp": "Describe your leadership style and interpersonal strengths.",
+      "areasOfExcellence": "Areas of Excellence",
+      "areasOfExcellenceHelp": "Key domains where you act as a subject matter expert.",
+      "preview": "Profile Preview",
+      "generateWithAI": "Generate with AI"
+    },
+    "workExperience": {
+      "title": "Work Experience",
+      "addNew": "Add New Experience",
+      "noExperience": "No work experience added yet",
+      "startAdding": "Start by adding your most recent role",
+      "addFirst": "Add First Experience",
+      "importFromResume": "Import from Resume",
+      "dragDrop": "Drag and drop your resume here",
+      "browseFiles": "Browse Files",
+      "supportFormat": "Support for PDF and DOCX files",
+      "cancel": "Cancel",
+      "importing": "Importing...",
+      "import": "Import Experience",
+      "removeFile": "Remove file",
+      "importDescription": "Upload your existing resume (PDF or DOCX) and we'll automatically extract your work experience using AI.",
+      "accomplishments": "Accomplishments",
+      "accomplishmentsHelp": "Bullet points highlighting your success.",
+      "addBullet": "Add Bullet",
+      "linkPARStory": "Link CAR Story",
+      "selectCARStory": "Select a CAR Story to Convert",
+      "noUnconvertedStories": "No unconverted CAR stories available. Create more in the CAR Story Builder.",
+      "convert": "Convert",
+      "addBulletTitle": "Add Accomplishment Bullet",
+      "bulletHelp": "Use: Verb + Scope + Action + Metric",
+      "bulletPlaceholder": "e.g., Led team of 12 engineers to deliver new payment system, reducing transaction time by 40% and saving $2M annually",
+      "adding": "Aggiunta...",
+      "fromCARStory": "Dalla storia CAR",
+      "pickFromBank": "Scegli dalla banca",
+      "selectAccomplishments": "Seleziona i risultati dalla tua banca",
+      "addSelected": "Aggiungi selezionati ({{count}})",
+      "noBankItems": "La tua banca dei traguardi è vuota. Aggiungi prima gli elementi nella libreria."
+    },
+    "par": {
+      "title": "CAR Story Builder",
+      "subtitle": "Challenge. Action. Result. The framework for powerful accomplishments.",
+      "description": "Structure your accomplishments using the Challenge-Action-Result framework.",
+      "addNew": "Add New Story",
+      "noStories": "No CAR Stories yet",
+      "noStoriesHelp": "Create stories to highlight your problem-solving skills.",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "legend": {
+        "challenge": "Challenge",
+        "actions": "Actions",
+        "result": "Result"
+      },
+      "roleCompany": "Role & Company",
+      "year": "Year",
+      "problem": "Challenge (Context)",
+      "problemHelp": "What specific problem or situation did you face?",
+      "actions": "Actions Taken",
+      "actionsHelp": "What specific steps did YOU take? (Use active verbs)",
+      "result": "Result (Outcome)",
+      "resultHelp": "What was the quantifiable outcome?",
+      "willDoAgain": "I would do this again",
+      "willDoAgainHelp": "Mark if this is a type of work you enjoy and want to repeat.",
+      "wouldDoAgain": "Rifarebbe",
+      "converted": "Convertito",
+      "filterByCompetency": "Filtra per competenza",
+      "filterByWillDoAgain": "Rifarebbe",
+      "storiesFound": "storie trovate",
+      "convertToBullet": "Converti in Punto",
+      "errors": {
+        "roleRequired": "Role and Company are required",
+        "problemRequired": "Challenge description is required",
+        "actionsRequired": "At least 2 actions are required",
+        "resultRequired": "Result is required",
+        "requiredFields": "Please fill in Challenge and Result fields first"
+      }
+    },
+    "placeholders": {
+      "whoYouAre": "e.g., Senior Product Manager with 10+ years driving digital transformation in FinTech.",
+      "coreSkills": "e.g., Strategic Planning, Agile Methodologies, Stakeholder Management, Python, SQL.",
+      "softSkills": "e.g., Empathetic leader who builds high-performing teams through mentorship and clear communication.",
+      "areasOfExcellence": "e.g., Project Management, budget Planning, Team Leadership",
+      "roleCompany": "e.g., Senior Product Manager at Google",
+      "problem": "e.g., Product adoption was declining 15% QoQ due to poor onboarding UX",
+      "result": "e.g., Increased user activation by 40% in 3 months, reduced churn from 25% to 12%, and generated $2M in additional ARR",
+      "metricInput": "e.g., Increased efficiency by 25%",
+      "action1": "e.g., Conducted user research with 50+ customers",
+      "action2": "e.g., Redesigned the onboarding flow",
+      "action3": "e.g., Collaborated with engineering to implement changes",
+      "fullName": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1 (555) 123-4567",
+      "linkedin": "https://linkedin.com/in/johndoe",
+      "city": "San Francisco",
+      "cityGeneric": "Enter city name"
+    },
+    "accomplishmentLibrary": {
+      "title": "Accomplishment Library",
+      "subtitle": "Your personal bank of achievements — organized, tagged, and ready for any resume.",
+      "addNew": "Add Accomplishment",
+      "importExisting": "Import from Work Experience",
+      "importingAll": "Importing...",
+      "importSuccess": "{{count}} accomplishments imported!",
+      "importNone": "No new accomplishments to import — all are already in your library.",
+      "filterByRole": "Filter by role",
+      "filterBySkill": "Filter by skill",
+      "starredOnly": "Starred only",
+      "allItems": "All",
+      "noAccomplishments": "No accomplishments yet",
+      "noAccomplishmentsHelp": "Start building your library by adding accomplishments or importing them from your work experience.",
+      "noResults": "No accomplishments match your filters.",
+      "autoAssemble": "AI Auto-Select",
+      "autoAssembleHelp": "Enter a target job title and let AI pick the best accomplishments for your resume.",
+      "targetJobTitle": "Target Job Title",
+      "targetJobPlaceholder": "e.g., Senior Product Manager",
+      "selectBullets": "How many bullets?",
+      "assembling": "AI is selecting...",
+      "assemble": "Auto-Select",
+      "aiSelected": "AI selected {{count}} accomplishments for \"{{job}}\"",
+      "timesUsed": "Used {{count}} times",
+      "source": "Source",
+      "sourceManual": "Manual",
+      "sourceImported": "Imported",
+      "sourceCarStory": "CAR Story",
+      "sourceAI": "AI Generated",
+      "skills": "Skills",
+      "competencies": "Competencies",
+      "addSkill": "Add skill...",
+      "addCompetency": "Add competency...",
+      "bulletPlaceholder": "e.g., Led team of 12 to deliver payment system, reducing transaction time by 40%",
+      "rolePlaceholder": "e.g., Senior Product Manager",
+      "companyPlaceholder": "e.g., Google",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "editBullet": "Edit accomplishment",
+      "starred": "Starred",
+      "groupedBy": "Grouped by role"
+    }
+  },
+  "dashboard": {
+    "welcomeBack": "Bentornato,",
+    "whatToAchieve": "Cosa vuoi raggiungere oggi?",
+    "pickFocus": "Scegli un obiettivo — ti guideremo passo dopo passo verso i risultati più rapidi.",
+    "recommendedNext": "Prossimo Passo Consigliato",
+    "continue": "Continua",
+    "start": "Inizia",
+    "watchVideo": "Guarda video",
+    "learnMore": "Scopri di più",
+    "buildMyResume": "Costruisci il Mio CV",
+    "buildMyResumeDesc": "Continua da dove avevi interrotto. Daremo priorità alle modifiche per migliorare la compatibilità ATS e la chiarezza.",
+    "progress": "Progresso",
+    "steps": "passaggi",
+    "preview": "Anteprima",
+    "locked": "Bloccato",
+    "upgradeTo": "Passa a",
+    "yourStats": "Le tue statistiche questa settimana",
+    "resumeScore": "Punteggio del CV",
+    "applicationsTracked": "Candidature monitorate",
+    "interviewsScheduled": "Colloqui programmati",
+    "quickActions": "Azioni rapide",
+    "uploadResume": "Carica CV",
+    "analyzeJD": "Analizza descrizione lavoro",
+    "careerVision": "Comprendi la Tua Visione Professionale",
+    "careerVisionDesc": "Ottieni una chiara comprensione di chi sei e qual è la tua formula di successo.",
+    "resumeBuilder": "Costruttore di CV",
+    "resumeBuilderDesc": "Crea un CV che attira colloqui e il tuo archivio personale di risultati.",
+    "jobSearch": "Ricerca Lavoro e Posizionamento",
+    "jobSearchDesc": "Usa queste tecniche e ricevi chiamate per colloqui il 75% più velocemente degli altri.",
+    "interviewMastery": "Padronanza dei Colloqui",
+    "interviewMasteryDesc": "Sii la scelta giusta. Comprendi e pratica il colloquio per essere il candidato vincente."
   }
 }

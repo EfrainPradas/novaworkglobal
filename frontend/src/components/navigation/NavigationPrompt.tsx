@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../common/UserMenu'
 import {
@@ -10,19 +11,22 @@ import {
   Sparkles,
   Star,
   Crown,
-  Users
+  Users,
+  Play,
+  BookOpen
 } from 'lucide-react'
 
 interface ActionItem {
   id: string
-  title: string
-  description: string
+  titleKey: string
+  descKey: string
   icon: React.ElementType
   color: string
   gradient: string
   shadow: string
   modules: string[]
-  requiredLevel: 'basic' | 'pro' | 'executive'
+  requiredLevel: 'essentials' | 'momentum' | 'executive'
+  videoSrc: string
 }
 
 export default function NavigationPrompt() {
@@ -30,54 +34,59 @@ export default function NavigationPrompt() {
   const [userProfile, setUserProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'basic' | 'pro' | 'executive'>('basic')
+  const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
 
   const actions: ActionItem[] = [
     {
       id: 'career-discovery',
-      title: 'Discover My Career Path',
-      description: 'Find your ideal career direction through AI-powered assessment and market analysis.',
+      titleKey: 'careerVision',
+      descKey: 'careerVisionDesc',
       icon: Brain,
       color: 'text-white',
       gradient: 'from-navy-light to-navy',
       shadow: 'shadow-navy/30',
       modules: ['Career Direction', 'Market Fit'],
-      requiredLevel: 'executive'
+      requiredLevel: 'momentum',
+      videoSrc: '/videos/AI_&_Your_Career_Path-EN.mp4'
     },
     {
       id: 'build-resume',
-      title: 'Build My Resume',
-      description: 'Create a powerful, ATS-optimized resume that gets noticed by top recruiters.',
+      titleKey: 'resumeBuilder',
+      descKey: 'resumeBuilderDesc',
       icon: FileText,
       color: 'text-white',
       gradient: 'from-primary-400 to-primary-600',
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
-      requiredLevel: 'basic'
+      requiredLevel: 'essentials',
+      videoSrc: '/videos/BRE-EN.mp4'
     },
     {
       id: 'job-search-suite',
-      title: 'Resume Track & Job Search',
-      description: 'Your command center: Application Tracker, JD Analyzer, Interview Prep, and Search Strategy.',
+      titleKey: 'jobSearch',
+      descKey: 'jobSearchDesc',
       icon: Target,
       color: 'text-white',
       gradient: 'from-teal-400 to-teal-600',
       shadow: 'shadow-teal-500/30',
       modules: ['Application Tracker', 'JD Analysis', 'Interviews'],
-      requiredLevel: 'pro'
+      requiredLevel: 'momentum',
+      videoSrc: '/videos/IMR-EN.mp4'
     },
     {
       id: 'interview-mastery',
-      title: 'Interview Mastery',
-      description: 'Prepare for specific interviews with our 3-phase methodology and Question Bank.',
+      titleKey: 'interviewMastery',
+      descKey: 'interviewMasteryDesc',
       icon: Users,
       color: 'text-white',
       gradient: 'from-accent-400 to-accent-600',
       shadow: 'shadow-accent-500/30',
       modules: ['Interview Prep', 'Question Bank'],
-      requiredLevel: 'executive'
+      requiredLevel: 'executive',
+      videoSrc: '/videos/Your_Interview_Playbook-EN.mp4'
     },
   ]
 
@@ -98,11 +107,13 @@ export default function NavigationPrompt() {
           .eq('id', user.id)
           .single()
 
+        // Map both old and new tier names
         if (userData?.subscription_tier) {
-          const tier = userData.subscription_tier
-          if (tier === 'executive') setUserLevel('executive')
-          else if (tier === 'pro') setUserLevel('pro')
-          else setUserLevel('basic')
+          let tier = userData.subscription_tier
+          // Map old tier names to new ones
+          if (tier === 'basic') tier = 'essentials'
+          if (tier === 'pro') tier = 'momentum'
+          setUserLevel(tier as 'essentials' | 'momentum' | 'executive')
         }
 
         const { data: profile } = await supabase
@@ -121,18 +132,18 @@ export default function NavigationPrompt() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { basic: 1, pro: 2, executive: 3 }
+    const levels = { essentials: 1, momentum: 2, executive: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'basic') return null
+    if (requiredLevel === 'essentials') return null
 
     // Premium badge styles
     const badges = {
-      pro: {
+      momentum: {
         icon: Star,
-        label: 'Pro',
+        label: 'Momentum',
         className: 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-500/20'
       },
       executive: {
@@ -155,7 +166,7 @@ export default function NavigationPrompt() {
 
   const handleActionClick = (action: ActionItem) => {
     if (!canAccess(action.requiredLevel)) {
-      alert(`This feature requires ${action.requiredLevel === 'pro' ? 'Pro' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${action.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -188,21 +199,21 @@ export default function NavigationPrompt() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pb-20">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-10 w-auto" />
+              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
               <div className="hidden sm:block">
-                {userLevel === 'basic' && (
+                {userLevel === 'essentials' && (
                   <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
-                    Basic Plan
+                    Essentials Plan
                   </span>
                 )}
-                {userLevel === 'pro' && (
+                {userLevel === 'momentum' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 ring-1 ring-emerald-500/20">
                     <Star className="w-3.5 h-3.5" />
-                    Pro Member
+                    Momentum Member
                   </div>
                 )}
                 {userLevel === 'executive' && (
@@ -214,7 +225,7 @@ export default function NavigationPrompt() {
               </div>
             </div>
             {user && (
-              <UserMenu user={user} userProfile={userProfile} />
+              <UserMenu user={user} userProfile={userProfile} sizeClass="w-28 h-28 text-3xl" />
             )}
           </div>
         </div>
@@ -225,14 +236,18 @@ export default function NavigationPrompt() {
         <div className="mb-8">
           <div className="flex items-center gap-2 mb-2">
             <h1 className="text-2xl text-gray-600 dark:text-gray-400">
-              Welcome back, <span className="font-bold text-gray-900 dark:text-white">{userProfile?.first_name || 'Efrain'}</span> 👋
+              {t('dashboard.welcomeBack')} <span className="font-bold text-gray-900 dark:text-white">
+                {userProfile?.full_name
+                  ? userProfile.full_name.split(' ')[0]
+                  : user?.email?.split('@')[0] || 'User'}
+              </span> 👋
             </h1>
           </div>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            What do you want to achieve today?
+            {t('dashboard.whatToAchieve')}
           </h2>
           <p className="text-gray-500 dark:text-gray-400">
-            Pick a focus — we'll guide you step-by-step with the fastest path to results.
+            {t('dashboard.pickFocus')}
           </p>
         </div>
 
@@ -243,13 +258,29 @@ export default function NavigationPrompt() {
             {/* Recommended Next Step Card */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8 relative overflow-hidden">
               <div className="flex justify-between items-start mb-6">
-                <span className="text-xs font-bold tracking-wider text-gray-400 uppercase">Recommended Next Step</span>
-                <button
-                  onClick={() => navigate('/resume-builder')}
-                  className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
-                >
-                  Continue <ArrowRight className="w-4 h-4" />
-                </button>
+                <span className="text-xs font-bold tracking-wider text-gray-400 uppercase">{t('dashboard.recommendedNext')}</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => navigate('/resume-builder')}
+                    className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                  >
+                    {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <a
+                    href="/videos/BRE-EN.mp4"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                  >
+                    <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo')}
+                  </a>
+                  <button
+                    onClick={() => navigate('/resume-builder')}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" /> {t('dashboard.learnMore')}
+                  </button>
+                </div>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-6 items-start">
@@ -257,9 +288,9 @@ export default function NavigationPrompt() {
                   <FileText className="w-8 h-8" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Build My Resume</h3>
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">{t('dashboard.buildMyResume')}</h3>
                   <p className="text-gray-600 dark:text-gray-300 mb-4 max-w-lg">
-                    Continue where you left off. We'll prioritize edits to improve ATS match and clarity.
+                    {t('dashboard.buildMyResumeDesc')}
                   </p>
 
                   {/* Progress Bar */}
@@ -267,14 +298,14 @@ export default function NavigationPrompt() {
                     <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden mb-2">
                       <div className="h-full bg-primary-500 w-3/5 rounded-full" />
                     </div>
-                    <p className="text-sm text-gray-500">Progress 3/5 steps</p>
+                    <p className="text-sm text-gray-500">{t('dashboard.progress')} 3/5 {t('dashboard.steps')}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => navigate('/resume-builder')}
                   className="sm:hidden w-full mt-4 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium"
                 >
-                  Start <ArrowRight className="w-4 h-4 inline ml-1" />
+                  {t('dashboard.start')} <ArrowRight className="w-4 h-4 inline ml-1" />
                 </button>
               </div>
             </div>
@@ -311,31 +342,51 @@ export default function NavigationPrompt() {
                         <Icon className="w-6 h-6" strokeWidth={2} />
                       </div>
 
-                      {!isAccessible && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 text-xs font-semibold">
-                          <Crown className="w-3 h-3" />
-                          {action.requiredLevel === 'executive' ? 'Executive' : 'Pro'} Required
-                        </span>
-                      )}
+                      {/* Always show tier badge with color coding */}
+                      <span className={`
+                        inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold
+                        ${action.requiredLevel === 'essentials' ? 'bg-blue-100 text-blue-700' : ''}
+                        ${action.requiredLevel === 'momentum' ? 'bg-emerald-100 text-emerald-700' : ''}
+                        ${action.requiredLevel === 'executive' ? 'bg-amber-100 text-amber-700' : ''}
+                      `}>
+                        {action.requiredLevel === 'essentials' && (
+                          <>
+                            <Star className="w-3 h-3" />
+                            Essentials
+                          </>
+                        )}
+                        {action.requiredLevel === 'momentum' && (
+                          <>
+                            <Star className="w-3 h-3" />
+                            Momentum
+                          </>
+                        )}
+                        {action.requiredLevel === 'executive' && (
+                          <>
+                            <Crown className="w-3 h-3" />
+                            Executive
+                          </>
+                        )}
+                      </span>
                     </div>
 
                     <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                      {action.title}
+                      {t(`dashboard.${action.titleKey}`)}
                     </h3>
                     <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 flex-1">
-                      {action.description}
+                      {t(`dashboard.${action.descKey}`)}
                     </p>
 
-                    <div className="flex items-center justify-between mt-auto">
+                    <div className="flex items-center justify-between mt-auto mb-3">
                       {isAccessible ? (
                         action.id === 'build-resume' ? (
-                          <span className="text-sm font-medium text-primary-600">Continue</span>
+                          <span className="text-sm font-medium text-primary-600">{t('dashboard.continue')}</span>
                         ) : (
-                          <button className="text-sm font-medium text-gray-400 hover:text-gray-600">Preview</button>
+                          <button className="text-sm font-medium text-gray-400 hover:text-gray-600">{t('dashboard.preview')}</button>
                         )
                       ) : (
                         <span className="text-sm font-medium text-amber-600 hover:text-amber-700">
-                          Upgrade to {action.requiredLevel === 'executive' ? 'Executive' : 'Pro'}
+                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'executive' ? 'Executive' : 'Momentum'}
                         </span>
                       )}
 
@@ -346,9 +397,31 @@ export default function NavigationPrompt() {
                         </div>
                       ) : (
                         <div className="flex items-center gap-1 text-gray-400 text-sm">
-                          <div className="w-2 h-2 rounded-full bg-gray-300" /> Locked
+                          <div className="w-2 h-2 rounded-full bg-gray-300" /> {t('dashboard.locked')}
                         </div>
                       )}
+                    </div>
+
+                    {/* Watch video + Learn more */}
+                    <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
+                      <a
+                        href={action.videoSrc}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                      >
+                        <Play className="w-3 h-3" /> {t('dashboard.watchVideo')}
+                      </a>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          if (isAccessible) handleActionClick(action)
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                      >
+                        <BookOpen className="w-3 h-3" /> {t('dashboard.learnMore')}
+                      </button>
                     </div>
                   </div>
                 )
@@ -360,10 +433,10 @@ export default function NavigationPrompt() {
           <div className="col-span-12 lg:col-span-4 space-y-6">
             {/* Stats Widget */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">Your stats this week</h3>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-6">{t('dashboard.yourStats')}</h3>
 
               <div className="flex items-end justify-between mb-2">
-                <span className="text-gray-600 font-medium">Resume score</span>
+                <span className="text-gray-600 font-medium">{t('dashboard.resumeScore')}</span>
                 <span className="text-4xl font-bold text-primary-600">78</span>
               </div>
               <div className="w-full bg-gray-100 rounded-full h-2 mb-8">
@@ -374,14 +447,14 @@ export default function NavigationPrompt() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 text-gray-600">
                     <FileText className="w-5 h-5 text-gray-400" />
-                    <span>Applications tracked</span>
+                    <span>{t('dashboard.applicationsTracked')}</span>
                   </div>
                   <span className="font-bold text-gray-900">12</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 text-gray-600">
                     <Users className="w-5 h-5 text-gray-400" />
-                    <span>Interviews scheduled</span>
+                    <span>{t('dashboard.interviewsScheduled')}</span>
                   </div>
                   <span className="font-bold text-gray-900">2</span>
                 </div>
@@ -390,17 +463,17 @@ export default function NavigationPrompt() {
 
             {/* Quick Actions */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">Quick actions</h3>
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{t('dashboard.quickActions')}</h3>
               <div className="space-y-3">
                 <button
-                  onClick={() => navigate('/resume/upload')}
+                  onClick={() => navigate('/resume/work-experience?openImport=true')}
                   className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
                 >
                   <div className="flex items-center gap-3">
                     <div className="p-2 bg-blue-50 text-blue-600 rounded-lg group-hover:bg-blue-100 transition-colors">
                       <FileText className="w-4 h-4" />
                     </div>
-                    <span className="font-medium text-gray-700">Upload resume</span>
+                    <span className="font-medium text-gray-700">{t('dashboard.uploadResume')}</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>
@@ -413,7 +486,7 @@ export default function NavigationPrompt() {
                     <div className="p-2 bg-amber-50 text-amber-600 rounded-lg group-hover:bg-amber-100 transition-colors">
                       <Target className="w-4 h-4" />
                     </div>
-                    <span className="font-medium text-gray-700">Analyze job description</span>
+                    <span className="font-medium text-gray-700">{t('dashboard.analyzeJD')}</span>
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>

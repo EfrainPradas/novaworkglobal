@@ -1,17 +1,19 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User, Settings, LogOut, Moon, Sun, ChevronDown, Copy, UserCircle } from 'lucide-react'
+import { User, Settings, LogOut, Moon, Sun, ChevronDown, Copy, UserCircle, Globe } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { supabase } from '../../lib/supabase'
+import i18n from '../../i18n/config'
 
 interface UserMenuProps {
   user: any
   userProfile?: {
     full_name?: string
   }
+  sizeClass?: string
 }
 
-export default function UserMenu({ user, userProfile }: UserMenuProps) {
+export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -110,7 +112,7 @@ export default function UserMenu({ user, userProfile }: UserMenuProps) {
         className="flex items-center gap-2 hover:opacity-80 transition-opacity"
       >
         {/* Avatar */}
-        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold text-sm overflow-hidden">
+        <div className={`${sizeClass} rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold text-sm overflow-hidden`}>
           {avatarUrl ? (
             <img src={avatarUrl} alt="User avatar" className="w-full h-full object-cover" />
           ) : (
@@ -219,24 +221,24 @@ export default function UserMenu({ user, userProfile }: UserMenuProps) {
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'basic' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'essentials' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
                     >
-                      Basic
+                      Essentials
                     </button>
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'pro' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'momentum' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-emerald-100 dark:bg-emerald-900/30 rounded hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400"
                     >
-                      Pro
+                      Momentum
                     </button>
                     <button
                       onClick={async () => {
@@ -250,6 +252,29 @@ export default function UserMenu({ user, userProfile }: UserMenuProps) {
                       Exec
                     </button>
                   </div>
+                </div>
+              </div>
+
+              {/* Language Switcher */}
+              <hr className="my-2 border-gray-200 dark:border-gray-700" />
+              <div className="px-4 py-2">
+                <div className="flex items-center gap-2">
+                  <Globe className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  <select
+                    value={i18n.language?.startsWith('en') ? 'en' : i18n.language?.startsWith('es') ? 'es' : i18n.language?.startsWith('fr') ? 'fr' : i18n.language?.startsWith('it') ? 'it' : i18n.language?.startsWith('pt') ? 'pt' : 'en'}
+                    onChange={(e) => {
+                      i18n.changeLanguage(e.target.value).then(() => {
+                        window.location.reload()
+                      })
+                    }}
+                    className="flex-1 px-3 py-2 text-sm bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 cursor-pointer focus:ring-2 focus:ring-primary-500 outline-none"
+                  >
+                    <option value="en">🇺🇸 English</option>
+                    <option value="es">🇪🇸 Español</option>
+                    <option value="fr">🇫🇷 Français</option>
+                    <option value="it">🇮🇹 Italiano</option>
+                    <option value="pt">🇧🇷 Português</option>
+                  </select>
                 </div>
               </div>
 
