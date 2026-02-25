@@ -1,0 +1,616 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { ArrowLeft, ClipboardList, AlertTriangle, ChevronRight, ChevronLeft, Save, Sparkles, Loader2, Check, CheckCircle2, ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { supabase } from '../../lib/supabase'
+import { PositioningQuestionnaire as QuestionnaireType, GeneratedProfessionalProfile } from '../../types/resume'
+import GeneratedProfileView from '../../components/resume-builder/GeneratedProfileView'
+import { trackEvent } from '../../lib/analytics'
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
+const SECTIONS = [
+    { key: 'identity', label: 'Identity & Target' },
+    { key: 'environments', label: 'Environments & Functions' },
+    { key: 'impact', label: 'Impact & Scale' },
+    { key: 'strengths', label: 'Strengths & Differentiators' },
+    { key: 'skills', label: 'Skills & Tools' },
+    { key: 'high_impact', label: 'High-Impact Stories' }
+] as const
+
+const ENVIRONMENT_OPTIONS = [
+    'Fortune 500 / Enterprise', 'Mid-Market', 'Start-up / Scale-up', 'Government / Public Sector',
+    'Non-Profit / NGO', 'Consulting / Professional Services', 'Private Equity / VC-Backed',
+    'Family-Owned', 'Matrix Organization', 'Remote / Distributed'
+]
+
+const IMPACT_TYPE_OPTIONS = [
+    'Revenue Growth', 'Cost Reduction', 'Process Optimization', 'Team Building / Scaling',
+    'Market Expansion', 'Digital Transformation', 'Risk Mitigation', 'Cultural Change',
+    'Innovation / R&D', 'Customer Experience', 'Operational Efficiency', 'M&A Integration'
+]
+
+const STRENGTH_OPTIONS = [
+    'Strategic Thinking', 'Analytical Problem Solving', 'Cross-Functional Leadership',
+    'Change Management', 'Stakeholder Management', 'Negotiation', 'Data-Driven Decision Making',
+    'Team Development', 'Communication / Storytelling', 'Innovation / Creativity',
+    'Execution / Delivery', 'Financial Acumen', 'Client Relationship Building',
+    'Technical Depth', 'Global / Multicultural Awareness', 'Resilience / Adaptability'
+]
+
+const STAKEHOLDER_OPTIONS = [
+    'C-Suite', 'Board of Directors', 'Investors / PE / VC', 'External Clients',
+    'Vendors / Suppliers', 'Cross-Functional Teams', 'Government / Regulators',
+    'International Partners', 'Union / Labor Groups'
+]
+
+export default function PositioningQuestionnairePage() {
+    const { t } = useTranslation()
+    const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+    const isStandalone = searchParams.get('mode') === 'standalone'
+    const [currentSection, setCurrentSection] = useState(0)
+    const [form, setForm] = useState<Partial<QuestionnaireType>>({
+        identity_current_title: '',
+        identity_target_title: '',
+        identity_one_phrase: '',
+        years_experience_bucket: undefined,
+        industries: [],
+        environments: [],
+        functions: [],
+        trusted_problems: '',
+        impact_types: [],
+        scale_team_size: '',
+        scale_budget: '',
+        scale_geo_scope: '',
+        scale_project_scale: '',
+        strengths: [],
+        complexity_moment: '',
+        colleagues_describe: '',
+        differentiator: '',
+        technical_skills_tools: [],
+        certifications_advanced_training: [],
+        platforms_systems: [],
+        methodologies: [],
+        languages_spoken: [],
+        job_descriptions: [],
+        stakeholder_exposure: []
+    })
+    const [loading, setLoading] = useState(true)
+    const [saving, setSaving] = useState(false)
+    const [generating, setGenerating] = useState(false)
+    const [generatedProfile, setGeneratedProfile] = useState<GeneratedProfessionalProfile | null>(null)
+    const [hasStoryCards, setHasStoryCards] = useState(true)
+    const [showProfile, setShowProfile] = useState(false)
+    const [tagInputs, setTagInputs] = useState<Record<string, string>>({})
+    const [error, setError] = useState<string | null>(null)
+    const [saved, setSaved] = useState(false)
+    const trackedSteps = useRef<Set<string>>(new Set())
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    useEffect(() => {
+        if (!loading) {
+            let currentStep = ''
+            if (showProfile) {
+                currentStep = 'generated-profile'
+            } else {
+                const stepMap: Record<number, string> = {
+                    0: 'pos-identity', 1: 'pos-environments', 2: 'pos-impact',
+                    3: 'pos-strengths', 4: 'pos-skills', 5: 'pos-stories'
+                }
+                currentStep = stepMap[currentSection]
+            }
+        }
+    }, [currentSection, showProfile, loading])
+
+    const loadData = async () => {
+        try {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            // Load questionnaire
+            const token = (await supabase.auth.getSession()).data.session?.access_token
+            const resp = await fetch(`${API_BASE_URL}/api/positioning-questionnaire`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            const result = await resp.json()
+            if (result.data) setForm(prev => ({ ...prev, ...result.data }))
+
+            // Check stories & accomplishment bank
+            const { count } = await supabase
+                .from('par_stories')
+                .select('id', { count: 'exact', head: true })
+                .eq('user_id', user.id)
+
+            const { count: bankCount } = await supabase
+                .from('accomplishment_bank')
+                .select('id', { count: 'exact', head: true })
+                .eq('user_id', user.id)
+
+            setHasStoryCards((count || 0) > 0 || (bankCount || 0) > 0)
+
+            // Load existing profile
+            const profileResp = await fetch(`${API_BASE_URL}/api/positioning-questionnaire/generated-profiles`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+            const profileResult = await profileResp.json()
+            if (profileResult.data?.length > 0) {
+                setGeneratedProfile(profileResult.data[0])
+            }
+        } catch (e) {
+            console.error('Error loading questionnaire:', e)
+        }
+        setLoading(false)
+    }
+
+    const handleSave = async () => {
+        setSaving(true)
+        setError(null)
+        try {
+            const token = (await supabase.auth.getSession()).data.session?.access_token
+            const resp = await fetch(`${API_BASE_URL}/api/positioning-questionnaire`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(form)
+            })
+
+            if (!resp.ok) {
+                const err = await resp.json()
+                throw new Error(err.details || err.error || 'Failed to save progress')
+            }
+
+            setSaved(true)
+            setTimeout(() => setSaved(false), 3000)
+            return true
+        } catch (e: any) {
+            console.error('Error saving:', e)
+            setError(e.message)
+            return false
+        } finally {
+            setSaving(false)
+        }
+    }
+
+    const handleGenerate = async () => {
+        const saved = await handleSave()
+        if (!saved) return
+
+        setGenerating(true)
+        setError(null)
+        try {
+            const token = (await supabase.auth.getSession()).data.session?.access_token
+            const resp = await fetch(`${API_BASE_URL}/api/positioning-questionnaire/generate-profile`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+            })
+
+            const result = await resp.json()
+            if (resp.ok && result.success) {
+                await trackEvent('analytics', 'step_completed', { step_name: 'pos-stories', next_step: 'generated-profile' })
+                await trackEvent('analytics', 'step_completed', { step_name: 'funnel-end', next_step: null })
+                setGeneratedProfile(result.data)
+                setShowProfile(true)
+            } else {
+                throw new Error(result.details || result.error || 'Failed to generate profile')
+            }
+        } catch (e: any) {
+            console.error('Error generating:', e)
+            setError(e.message)
+        } finally {
+            setGenerating(false)
+        }
+    }
+
+    const updateField = (field: string, value: any) => {
+        setForm(prev => ({ ...prev, [field]: value }))
+    }
+
+    const toggleArrayItem = (field: string, item: string) => {
+        setForm(prev => {
+            const current = (prev as any)[field] || []
+            return {
+                ...prev,
+                [field]: current.includes(item)
+                    ? current.filter((i: string) => i !== item)
+                    : [...current, item]
+            }
+        })
+    }
+
+    const addTagItem = (field: string) => {
+        const val = tagInputs[field]?.trim()
+        if (!val) return
+        setForm(prev => ({
+            ...prev,
+            [field]: [...((prev as any)[field] || []), val]
+        }))
+        setTagInputs(prev => ({ ...prev, [field]: '' }))
+    }
+
+    const removeTagItem = (field: string, idx: number) => {
+        setForm(prev => ({
+            ...prev,
+            [field]: ((prev as any)[field] || []).filter((_: any, i: number) => i !== idx)
+        }))
+    }
+
+    const nextSection = async () => {
+        const stepMap: Record<number, string> = { 0: 'pos-identity', 1: 'pos-environments', 2: 'pos-impact', 3: 'pos-strengths', 4: 'pos-skills', 5: 'pos-stories' }
+        await trackEvent('analytics', 'step_completed', { step_name: stepMap[currentSection], next_step: stepMap[currentSection + 1] })
+
+        await handleSave()
+        if (currentSection < SECTIONS.length - 1) setCurrentSection(currentSection + 1)
+    }
+
+    const prevSection = async () => {
+        const stepMap: Record<number, string> = { 0: 'pos-identity', 1: 'pos-environments', 2: 'pos-impact', 3: 'pos-strengths', 4: 'pos-skills', 5: 'pos-stories' }
+        await trackEvent('analytics', 'step_completed', { step_name: stepMap[currentSection], next_step: stepMap[currentSection - 1], direction: 'back' })
+
+        await handleSave()
+        if (currentSection > 0) setCurrentSection(currentSection - 1)
+    }
+
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+            </div>
+        )
+    }
+
+    if (showProfile && generatedProfile) {
+        return (
+            <GeneratedProfileView
+                profile={generatedProfile}
+                onBack={() => setShowProfile(false)}
+                onRegenerate={handleGenerate}
+                generating={generating}
+            />
+        )
+    }
+
+    const renderTagField = (field: string, label: string, placeholder: string) => (
+        <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
+            <div className="flex flex-wrap gap-2 mb-2">
+                {((form as any)[field] || []).map((item: string, idx: number) => (
+                    <span key={idx} className="px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs flex items-center gap-1">
+                        {item}
+                        <button onClick={() => removeTagItem(field, idx)} className="hover:text-red-500">×</button>
+                    </span>
+                ))}
+            </div>
+            <div className="flex gap-2">
+                <input
+                    value={tagInputs[field] || ''}
+                    onChange={e => setTagInputs(prev => ({ ...prev, [field]: e.target.value }))}
+                    onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addTagItem(field))}
+                    className="flex-1 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
+                    placeholder={placeholder}
+                />
+                <button onClick={() => addTagItem(field)} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 text-gray-700 dark:text-gray-300">Add</button>
+            </div>
+        </div>
+    )
+
+    const renderChecklistField = (field: string, options: string[], label: string) => (
+        <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
+            <div className="flex flex-wrap gap-2">
+                {options.map(opt => {
+                    const selected = ((form as any)[field] || []).includes(opt)
+                    return (
+                        <button
+                            key={opt}
+                            onClick={() => toggleArrayItem(field, opt)}
+                            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selected
+                                ? 'bg-teal-100 text-teal-700 border border-teal-300 dark:bg-teal-900/30 dark:text-teal-300'
+                                : 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200'
+                                }`}
+                        >
+                            {selected && <Check className="w-3 h-3 inline mr-1" />}
+                            {opt}
+                        </button>
+                    )
+                })}
+            </div>
+        </div>
+    )
+
+    const inputClass = "w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
+            <div className="max-w-3xl mx-auto">
+
+                {/* Back Link */}
+                <button
+                    onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/awards')}
+                    className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
+                >
+                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Awards & Certifications'}
+                </button>
+
+                {/* Header */}
+                <div className="mb-8">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-3">
+                        <ClipboardList className="w-4 h-4" /> Step 3
+                    </div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Professional Positioning Questionnaire</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">Complete this after your accomplishments for best results.</p>
+                </div>
+
+                {/* Warning if no stories */}
+                {!hasStoryCards && (
+                    <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl flex items-start gap-3">
+                        <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <div>
+                            <p className="text-sm font-medium text-amber-800 dark:text-amber-200">Completing your accomplishments first improves the quality of the generated profile.</p>
+                            <button onClick={() => navigate('/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">Go to Story Cards →</button>
+                        </div>
+                    </div>
+                )}
+
+                {/* Error Alert */}
+                {error && (
+                    <div className="mb-6 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+                        <AlertTriangle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-red-800 dark:text-red-200">{error}</p>
+                        </div>
+                        <button onClick={() => setError(null)} className="text-red-400 hover:text-red-600">×</button>
+                    </div>
+                )}
+
+                {/* Success Alert */}
+                {saved && (
+                    <div className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200">{t('common.saved', 'Saved!')}</p>
+                        </div>
+                    </div>
+                )}
+
+                {/* Section Progress & Top Navigation */}
+                <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                    <div className="flex-1 w-full">
+                        <div className="flex items-center gap-1 mb-2">
+                            {SECTIONS.map((s, i) => (
+                                <button
+                                    key={s.key}
+                                    onClick={() => setCurrentSection(i)}
+                                    className={`flex-1 h-2 rounded-full transition-all ${i <= currentSection ? 'bg-blue-500' : 'bg-gray-200 dark:bg-gray-700'
+                                        }`}
+                                />
+                            ))}
+                        </div>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
+                            Section {currentSection + 1} of {SECTIONS.length}: {SECTIONS[currentSection].label}
+                        </p>
+                    </div>
+                    <div className="flex-shrink-0 flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                        {currentSection > 0 && (
+                            <button
+                                onClick={prevSection}
+                                disabled={saving}
+                                className="flex items-center justify-center gap-1 px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-xl text-sm font-medium transition-all"
+                            >
+                                <ArrowLeft className="w-4 h-4" />
+                            </button>
+                        )}
+                        {currentSection < SECTIONS.length - 1 ? (
+                            <button
+                                onClick={nextSection}
+                                disabled={saving}
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                            >
+                                {t('common.nextSection', 'Next Section')}
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleGenerate}
+                                disabled={generating || saving}
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                            >
+                                {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                                {t('common.generateProfile', 'Generate')}
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* Section Card */}
+                <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 space-y-6">
+
+                    {/* Section 1: Identity & Target */}
+                    {currentSection === 0 && (
+                        <>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Job Title</label>
+                                <input value={form.identity_current_title || ''} onChange={e => updateField('identity_current_title', e.target.value)} className={inputClass} placeholder="e.g., Director of Supply Chain" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Job Title</label>
+                                <input value={form.identity_target_title || ''} onChange={e => updateField('identity_target_title', e.target.value)} className={inputClass} placeholder="e.g., VP of Operations" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">One-Phrase Identity</label>
+                                <p className="text-xs text-gray-500 mb-1">How would you describe yourself in one powerful phrase?</p>
+                                <input value={form.identity_one_phrase || ''} onChange={e => updateField('identity_one_phrase', e.target.value)} className={inputClass} placeholder="e.g., Operational strategist who turns complexity into competitive advantage" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Experience</label>
+                                <div className="flex flex-wrap gap-2">
+                                    {(['0-2', '3-5', '6-10', '10-15', '15+'] as const).map(bucket => (
+                                        <button
+                                            key={bucket}
+                                            onClick={() => updateField('years_experience_bucket', bucket)}
+                                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${form.years_experience_bucket === bucket
+                                                ? 'bg-teal-100 text-teal-700 border border-teal-300 dark:bg-teal-900/30 dark:text-teal-300'
+                                                : 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200'
+                                                }`}
+                                        >
+                                            {bucket} years
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            {renderTagField('industries', 'Industries', 'e.g., Manufacturing, Healthcare')}
+                        </>
+                    )}
+
+                    {/* Section 2: Environments & Functions */}
+                    {currentSection === 1 && (
+                        <>
+                            {renderChecklistField('environments', ENVIRONMENT_OPTIONS, 'Work Environments')}
+                            {renderTagField('functions', 'Functions (2-3 primary)', 'e.g., Operations, Finance, Strategy')}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Trusted Problems</label>
+                                <p className="text-xs text-gray-500 mb-1">What type of problems do people bring to you to solve?</p>
+                                <textarea value={form.trusted_problems || ''} onChange={e => updateField('trusted_problems', e.target.value)} rows={3} className={inputClass + ' resize-none'} placeholder="e.g., Complex cross-functional challenges involving multiple stakeholders and tight deadlines" />
+                            </div>
+                        </>
+                    )}
+
+                    {/* Section 3: Impact & Scale */}
+                    {currentSection === 2 && (
+                        <>
+                            {renderChecklistField('impact_types', IMPACT_TYPE_OPTIONS, 'Types of Impact You Deliver')}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Team Size</label>
+                                    <input value={form.scale_team_size || ''} onChange={e => updateField('scale_team_size', e.target.value)} className={inputClass} placeholder="e.g., 50+ direct, 200+ indirect" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget Managed</label>
+                                    <input value={form.scale_budget || ''} onChange={e => updateField('scale_budget', e.target.value)} className={inputClass} placeholder="e.g., $25M annual" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Geographic Scope</label>
+                                    <input value={form.scale_geo_scope || ''} onChange={e => updateField('scale_geo_scope', e.target.value)} className={inputClass} placeholder="e.g., Global (US, EU, APAC)" />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project Scale</label>
+                                    <input value={form.scale_project_scale || ''} onChange={e => updateField('scale_project_scale', e.target.value)} className={inputClass} placeholder="e.g., 12-month, $10M programs" />
+                                </div>
+                            </div>
+                            {renderChecklistField('stakeholder_exposure', STAKEHOLDER_OPTIONS, 'Stakeholder Exposure')}
+                        </>
+                    )}
+
+                    {/* Section 4: Strengths & Differentiators */}
+                    {currentSection === 3 && (
+                        <>
+                            {renderChecklistField('strengths', STRENGTH_OPTIONS, 'Core Strengths (select your top 5-8)')}
+                        </>
+                    )}
+
+                    {/* Section 5: Skills & Tools */}
+                    {currentSection === 4 && (
+                        <>
+                            {renderTagField('technical_skills_tools', 'Technical Skills & Tools', 'e.g., SAP, Python, Tableau')}
+                            {renderTagField('platforms_systems', 'Platforms & Systems', 'e.g., Salesforce, Oracle, AWS')}
+                            {renderTagField('methodologies', 'Methodologies & Frameworks', 'e.g., Lean Six Sigma, Agile, PMBOK')}
+                            {renderTagField('certifications_advanced_training', 'Certifications & Advanced Training', 'e.g., PMP, CPA, AWS Solutions Architect')}
+                            {renderTagField('languages_spoken', 'Languages Spoken', 'e.g., English, Spanish, French')}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Paste Target Job Descriptions (optional)</label>
+                                <p className="text-xs text-gray-500 mb-1">Paste 1-3 job descriptions for roles you're targeting. This helps our AI extract the right keywords.</p>
+                                <textarea
+                                    value={(form.job_descriptions || []).join('\n---\n')}
+                                    onChange={e => updateField('job_descriptions', e.target.value.split('\n---\n').filter(Boolean))}
+                                    rows={4}
+                                    className={inputClass + ' resize-none'}
+                                    placeholder="Paste a job description here... Separate multiple JDs with a line containing only ---"
+                                />
+                            </div>
+                        </>
+                    )}
+
+                    {/* Section 6: High-Impact Stories */}
+                    {currentSection === 5 && (
+                        <>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.largestResult', 'Your Largest Result')}</label>
+                                <p className="text-xs text-gray-500 mb-1">What is the single most impressive number or outcome you've delivered?</p>
+                                <textarea value={form.largest_result || ''} onChange={e => updateField('largest_result', e.target.value)} rows={2} className={inputClass + ' resize-none'} placeholder="e.g., Generated $25M in additional revenue over 18 months by..." />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.mostComplexProject', 'Most Complex Project')}</label>
+                                <p className="text-xs text-gray-500 mb-1">Aside from the complexity moment, what project required the most coordination?</p>
+                                <textarea value={form.most_complex_project || ''} onChange={e => updateField('most_complex_project', e.target.value)} rows={3} className={inputClass + ' resize-none'} placeholder="e.g., Managed the global rollout of a new ERP system for 5000+ users..." />
+                            </div>
+                        </>
+                    )}
+                </div>
+
+                {/* Navigation Footer */}
+                <div className="flex justify-between gap-4 mt-8 pt-6 border-t border-gray-100 dark:border-gray-700">
+                    <div className="flex gap-2">
+                        <button
+                            onClick={prevSection}
+                            disabled={currentSection === 0}
+                            className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-medium transition-all ${currentSection === 0
+                                ? 'text-gray-300 dark:text-gray-600 cursor-not-allowed'
+                                : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                }`}
+                        >
+                            <ArrowLeft className="w-4 h-4" /> {t('common.back', 'Back')}
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            disabled={saving}
+                            className="flex items-center gap-2 px-6 py-2.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl text-sm font-medium transition-all"
+                        >
+                            {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                            {t('common.saveProgress', 'Save Progress')}
+                        </button>
+                    </div>
+
+                    {currentSection < SECTIONS.length - 1 ? (
+                        <button
+                            onClick={nextSection}
+                            disabled={saving}
+                            className="flex items-center gap-2 px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                        >
+                            {t('common.nextSection', 'Next Section')}
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    ) : (
+                        <button
+                            onClick={handleGenerate}
+                            disabled={generating || saving}
+                            className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                        >
+                            {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                            {t('common.generateProfile', 'Generate Professional Profile')}
+                        </button>
+                    )}
+                </div>
+
+                {/* Existing generated profile */}
+                {generatedProfile && !showProfile && (
+                    <div className="mt-8 bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 p-6">
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Generated Profile (v{generatedProfile.version})</h3>
+                                <p className="text-sm text-gray-500">Click to view and edit your professional profile.</p>
+                            </div>
+                            <button
+                                onClick={() => setShowProfile(true)}
+                                className="px-4 py-2 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors"
+                            >
+                                View Profile →
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+}

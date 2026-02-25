@@ -104,7 +104,7 @@ export default function Onboarding() {
         .from('user_profiles')
         .select('onboarding_completed')
         .eq('user_id', user.id)
-        .single()
+        .maybeSingle()
 
       if (profile?.onboarding_completed) {
         // Already completed, redirect to dashboard

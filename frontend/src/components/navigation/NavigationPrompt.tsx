@@ -33,6 +33,8 @@ export default function NavigationPrompt() {
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
+  const [resumeProgress, setResumeProgress] = useState(0)
+  const RESUME_TOTAL_STEPS = 5
   const navigate = useNavigate()
   const { t } = useTranslation()
 
@@ -120,9 +122,38 @@ export default function NavigationPrompt() {
           .from('user_profiles')
           .select('*')
           .eq('user_id', user.id)
-          .single()
+          .maybeSingle()
 
         setUserProfile(profile)
+
+        // Calculate real resume builder progress (5 milestones)
+        let progress = 0
+        try {
+          // 1. Contact info saved?
+          const { data: contactData } = await supabase.from('user_contact_profile').select('user_id').eq('user_id', user.id).maybeSingle()
+          if (contactData) progress++
+
+          // 2. Master resume created?
+          const { data: resumes } = await supabase.from('user_resumes').select('id, profile_summary').eq('user_id', user.id).eq('is_master', true).order('created_at', { ascending: false }).limit(1)
+          const resumeData = resumes && resumes.length > 0 ? resumes[0] : null
+          if (resumeData) progress++
+
+          // 3. Work experience added?
+          if (resumeData) {
+            const { count } = await supabase.from('work_experience').select('id', { count: 'exact', head: true }).eq('resume_id', resumeData.id)
+            if (count && count > 0) progress++
+          }
+
+          // 4. Positioning questionnaire answered?
+          const { count: storyCount } = await supabase.from('par_stories').select('id', { count: 'exact', head: true }).eq('user_id', user.id)
+          if (storyCount && storyCount > 0) progress++
+
+          // 5. Professional profile generated?
+          if (resumeData?.profile_summary) progress++
+        } catch (err) {
+          console.error('Error calculating resume progress:', err)
+        }
+        setResumeProgress(progress)
       }
     } catch (error) {
       console.error('Error checking user:', error)
@@ -296,9 +327,9 @@ export default function NavigationPrompt() {
                   {/* Progress Bar */}
                   <div className="max-w-md">
                     <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden mb-2">
-                      <div className="h-full bg-primary-500 w-3/5 rounded-full" />
+                      <div className="h-full bg-primary-500 rounded-full transition-all duration-500" style={{ width: `${(resumeProgress / RESUME_TOTAL_STEPS) * 100}%` }} />
                     </div>
-                    <p className="text-sm text-gray-500">{t('dashboard.progress')} 3/5 {t('dashboard.steps')}</p>
+                    <p className="text-sm text-gray-500">{t('dashboard.progress')} {resumeProgress}/{RESUME_TOTAL_STEPS} {t('dashboard.steps')}</p>
                   </div>
                 </div>
                 <button
@@ -393,7 +424,7 @@ export default function NavigationPrompt() {
                       {isAccessible ? (
                         action.id === 'build-resume' &&
                         <div className="h-1.5 w-20 bg-gray-100 rounded-full overflow-hidden">
-                          <div className="h-full bg-primary-500 w-3/5 rounded-full" />
+                          <div className="h-full bg-primary-500 rounded-full transition-all duration-500" style={{ width: `${(resumeProgress / RESUME_TOTAL_STEPS) * 100}%` }} />
                         </div>
                       ) : (
                         <div className="flex items-center gap-1 text-gray-400 text-sm">

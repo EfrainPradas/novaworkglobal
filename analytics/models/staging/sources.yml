@@ -1,0 +1,15 @@
+
+version: 2
+
+sources:
+  - name: public
+    database: postgres
+    schema: public
+    tables:
+      - name: user_skills
+      - name: user_interests
+      - name: user_values
+      - name: interviews
+      - name: work_experience
+      - name: job_applications
+      - name: user_resumes

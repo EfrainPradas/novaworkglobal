@@ -16,6 +16,8 @@ import {
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface CoverLetterMetadata {
     jobTitle: string
     companyName: string
@@ -77,7 +79,7 @@ export default function CoverLetterGenerator() {
         setSaved(false)
 
         try {
-            const response = await fetch('/api/cover-letter/generate', {
+            const response = await fetch(`${API_BASE_URL}/api/cover-letter/generate`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +115,7 @@ export default function CoverLetterGenerator() {
         if (!coverLetter) return
 
         try {
-            const response = await fetch('/api/cover-letter/save', {
+            const response = await fetch(`${API_BASE_URL}/api/cover-letter/save`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

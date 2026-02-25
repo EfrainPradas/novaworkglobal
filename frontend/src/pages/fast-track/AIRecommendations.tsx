@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { Brain, Target, TrendingUp, Clock, DollarSign, MapPin, Building, Star, ArrowRight, RefreshCw, AlertCircle, CheckCircle, ExternalLink, Settings } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface AIRecommendation {
   id: string
   title: string
@@ -166,7 +168,7 @@ export default function AIRecommendations() {
     setError(null)
 
     try {
-      const response = await fetch('/api/jobs/recommendations', {
+      const response = await fetch(`${API_BASE_URL}/api/jobs/recommendations`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

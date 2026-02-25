@@ -3,10 +3,10 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
 interface ProtectedRouteProps {
-    requiredLevel?: 'basic' | 'pro' | 'executive'
+    requiredLevel?: 'essentials' | 'momentum' | 'executive'
 }
 
-export default function ProtectedRoute({ requiredLevel = 'basic' }: ProtectedRouteProps) {
+export default function ProtectedRoute({ requiredLevel = 'essentials' }: ProtectedRouteProps) {
     const [loading, setLoading] = useState(true)
     const [hasAccess, setHasAccess] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -28,8 +28,8 @@ export default function ProtectedRoute({ requiredLevel = 'basic' }: ProtectedRou
 
             setIsAuthenticated(true)
 
-            // If only basic auth is required, we are done
-            if (requiredLevel === 'basic') {
+            // If only essentials auth is required, we are done
+            if (requiredLevel === 'essentials') {
                 setHasAccess(true)
                 setLoading(false)
                 return
@@ -42,8 +42,13 @@ export default function ProtectedRoute({ requiredLevel = 'basic' }: ProtectedRou
                 .eq('id', user.id)
                 .single()
 
-            const userTier = userData?.subscription_tier || 'basic'
-            const levels = { basic: 1, pro: 2, executive: 3 }
+            // Support both old and new tier names for backward compatibility
+            let userTier = userData?.subscription_tier || 'essentials'
+            // Map old tier names to new ones
+            if (userTier === 'basic') userTier = 'essentials'
+            if (userTier === 'pro') userTier = 'momentum'
+
+            const levels = { essentials: 1, momentum: 2, executive: 3 }
 
             const userLevelScore = levels[userTier as keyof typeof levels] || 1
             const requiredScore = levels[requiredLevel]

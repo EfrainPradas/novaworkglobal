@@ -14,6 +14,9 @@ const openai = new OpenAI({
 
 const router = express.Router()
 
+// 🔒 Security: Require authentication for all routes in this file
+router.use(requireAuth)
+
 /**
  * POST /api/ai/generate-accomplishments
  * Generate AI-powered accomplishments from PAR story data
@@ -63,13 +66,21 @@ router.post('/generate-accomplishments', async (req, res) => {
       })
     }
 
+    // Fetch Positioning Questionnaire for context
+    const { data: questionnaire } = await supabase
+      .from('positioning_questionnaire')
+      .select('*')
+      .eq('user_id', req.user.id)
+      .single()
+
     // Generate accomplishments using AI
     const accomplishments = await generateAccomplishments({
       challenge,
       result,
       role_company: role_company || '',
       skills: Array.isArray(skills) ? skills : [],
-      competencies: Array.isArray(competencies) ? competencies : []
+      competencies: Array.isArray(competencies) ? competencies : [],
+      positioning: questionnaire || null
     })
 
     console.log('✅ Accomplishments generated successfully')

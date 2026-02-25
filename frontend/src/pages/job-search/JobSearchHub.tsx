@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import VisualGuide from '../../components/common/VisualGuide'
-import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Mail } from 'lucide-react'
+import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe } from 'lucide-react'
 import AIJobSearch from '../../components/job-search/AIJobSearch'
 
 export default function JobSearchHub() {
     const navigate = useNavigate()
     const [showGuide, setShowGuide] = useState(false)
 
+    /*
     useEffect(() => {
         // Auto-show guide if not seen before
         const seen = localStorage.getItem('guide_seen_job-search-hub-tour')
@@ -18,6 +19,7 @@ export default function JobSearchHub() {
             setTimeout(() => setShowGuide(true), 1000)
         }
     }, [])
+    */
 
     const tools = [
         {
@@ -32,21 +34,10 @@ export default function JobSearchHub() {
             badge: 'AI Powered',
             className: 'md:col-span-full'
         },
-        {
-            id: 'cover-letter',
-            title: 'Cover Letter Generator',
-            description: 'Create tailored cover letters in seconds with AI. Customized for each job application.',
-            icon: Mail,
-            route: '/resume/cover-letter',
-            color: 'text-orange-600',
-            bgColor: 'bg-orange-50',
-            borderColor: 'border-orange-200',
-            badge: 'New',
-            className: ''
-        },
+
         {
             id: 'plan-search',
-            title: 'Plan Your Search',
+            title: 'Step 1: Plan Your Search',
             description: 'Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.',
             icon: Compass,
             route: '/job-search/plan-your-search',
@@ -58,7 +49,7 @@ export default function JobSearchHub() {
         },
         {
             id: 'application-tracker',
-            title: 'Online Job Applications',
+            title: 'Step 2: Online Job Applications',
             description: 'Track applications, leverage referrals, and analyze JDs in one place.',
             icon: LayoutDashboard,
             route: '/job-search/online-applications',
@@ -70,7 +61,7 @@ export default function JobSearchHub() {
         },
         {
             id: 'headhunters',
-            title: 'Headhunters & Firms',
+            title: 'Step 3: Headhunters & Firms',
             description: 'Target recruiters with smart filters and access top firm rankings.',
             icon: Users,
             route: '/job-search/headhunters',
@@ -82,7 +73,7 @@ export default function JobSearchHub() {
         },
         {
             id: 'networking',
-            title: 'Networking Strategy',
+            title: 'Step 4: Networking Strategy',
             description: 'Access the hidden job market with the 60-Day Plan and 90-Sec Story.',
             icon: Network,
             route: '/job-search/networking',
@@ -91,27 +82,55 @@ export default function JobSearchHub() {
             borderColor: 'border-green-200',
             badge: null,
             className: ''
+        },
+        {
+            id: 'online-presence',
+            title: 'Step 5: Your online presence',
+            description: 'Optimize your LinkedIn profile and personal brand to attract recruiters.',
+            icon: Globe,
+            route: '/job-search/social-positioning',
+            color: 'text-cyan-600',
+            bgColor: 'bg-cyan-50',
+            borderColor: 'border-cyan-200',
+            badge: null,
+            className: ''
         }
     ]
 
 
     return (
-        <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900 pb-20 transition-colors duration-200">
-            <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+        <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900 pb-10 transition-colors duration-200">
+            <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
 
                 {/* Header Section */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
                     <div>
-                        <BackButton to="/dashboard" label="Back to Dashboard" className="mb-4 pl-0" />
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
+                        <BackButton to="/dashboard" label="Back to Dashboard" className="mb-2 pl-0" />
+                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-3">
                             <span className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-lg">
                                 <Target className="w-8 h-8" />
                             </span>
                             Job Search & Application Suite
                         </h1>
-                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-lg">
+                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-base">
                             Your command center for landing the job. Plan, track, analyze, and prepare.
                         </p>
+                        <div
+                            onClick={() => navigate('/job-search/methodology')}
+                            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
+                        >
+                            <span className="font-bold">Understand the Fast-Track System:</span>
+                            <span>Success, getting called 75% faster than most</span>
+                            <ArrowRight className="w-4 h-4 ml-1" />
+                        </div>
+                    </div>
+                    <div className="flex gap-3">
+                        <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                            ▶ Watch video
+                        </button>
+                        <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                            Learn more
+                        </button>
                     </div>
                 </div>
 
@@ -120,41 +139,21 @@ export default function JobSearchHub() {
                     <AIJobSearch />
                 </div>
 
-                {/* Methodology Banner */}
-                <div
-                    onClick={() => navigate('/job-search/methodology')}
-                    className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white shadow-lg cursor-pointer hover:shadow-xl transition-all hover:scale-[1.01] group relative overflow-hidden"
-                >
-                    <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
-                        <Target className="w-40 h-40" />
-                    </div>
-                    <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                        <div>
-                            <div className="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold mb-3">FIRST TIME HERE?</div>
-                            <h2 className="text-2xl font-bold mb-2">Understand the Fast-Track System</h2>
-                            <p className="text-indigo-100 max-w-xl">
-                                Discover the 4-step strategic approach to turning your job search into a targeted personal marketing campaign.
-                            </p>
-                        </div>
-                        <div className="flex-shrink-0 bg-white text-indigo-600 px-6 py-3 rounded-lg font-bold flex items-center group-hover:bg-indigo-50 transition-colors">
-                            Learn the Process <ArrowRight className="ml-2 w-5 h-5" />
-                        </div>
-                    </div>
-                </div>
+
 
                 {/* Tools Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's now embedded above
                         const Icon = tool.icon
                         return (
                             <div
                                 key={tool.id}
                                 onClick={() => navigate(tool.route)}
-                                className={`group relative p-8 rounded-2xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:shadow-xl transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
+                                className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
                             >
-                                <div className="flex justify-between items-start mb-6">
-                                    <div className={`p-4 rounded-xl ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
-                                        <Icon className="w-8 h-8" />
+                                <div className="flex justify-between items-start mb-3">
+                                    <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
+                                        <Icon className="w-6 h-6" />
                                     </div>
                                     {tool.badge && (
                                         <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white`}>
@@ -163,14 +162,14 @@ export default function JobSearchHub() {
                                     )}
                                 </div>
 
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                     {tool.title}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-300 mb-8 flex-grow leading-relaxed">
+                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
                                     {tool.description}
                                 </p>
 
-                                <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold group-hover:translate-x-2 transition-transform">
+                                <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
                                     Open Tool <ArrowRight className="w-4 h-4 ml-2" />
                                 </div>
                             </div>

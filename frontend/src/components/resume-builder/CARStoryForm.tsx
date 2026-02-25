@@ -4,6 +4,8 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { Sparkles, Loader2, X, Plus } from 'lucide-react'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface CARStoryFormProps {
     onSubmit: (carStory: CARStory) => Promise<void>
     onCancel: () => void
@@ -154,7 +156,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
 
         setGeneratingAccomplishments(true)
         try {
-            const response = await fetch('/api/ai/generate-accomplishments', {
+            const response = await fetch(`${API_BASE_URL}/api/ai/generate-accomplishments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -233,7 +235,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                             type="text"
                             value={formData.role_company}
                             onChange={(e) => setFormData({ ...formData, role_company: e.target.value })}
-                            placeholder="e.g., Senior Product Manager at Google"
+                            placeholder={t('resumeBuilder.placeholders.roleCompany')}
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             required
                         />
@@ -266,7 +268,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                     <textarea
                         value={formData.problem_challenge}
                         onChange={(e) => setFormData({ ...formData, problem_challenge: e.target.value })}
-                        placeholder="e.g., Product adoption was declining 15% QoQ due to poor onboarding UX"
+                        placeholder={t('resumeBuilder.placeholders.problem')}
                         rows={3}
                         maxLength={300}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
@@ -295,7 +297,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                                     type="text"
                                     value={formData.actions[index] || ''}
                                     onChange={(e) => handleActionChange(index, e.target.value)}
-                                    placeholder={`Action ${index + 1}${index < 2 ? ' (required)' : ' (optional)'}`}
+                                    placeholder={index === 0 ? t('resumeBuilder.placeholders.action1') : index === 1 ? t('resumeBuilder.placeholders.action2') : t('resumeBuilder.placeholders.action3')}
                                     className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                                     required={index < 2}
                                 />
@@ -315,7 +317,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                     <textarea
                         value={formData.result}
                         onChange={(e) => setFormData({ ...formData, result: e.target.value })}
-                        placeholder="e.g., Increased user activation by 40% in 3 months, reduced churn from 25% to 12%, and generated $2M in additional ARR"
+                        placeholder={t('resumeBuilder.placeholders.result')}
                         rows={3}
                         maxLength={300}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
@@ -420,7 +422,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                                 value={metricInput}
                                 onChange={(e) => setMetricInput(e.target.value)}
                                 onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), handleAddMetric())}
-                                placeholder="e.g., Increased efficiency by 25%"
+                                placeholder={t('resumeBuilder.placeholders.metricInput')}
                                 className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent text-sm dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             />
                             <button

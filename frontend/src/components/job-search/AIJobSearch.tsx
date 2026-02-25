@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import { Brain, Target, TrendingUp, Clock, DollarSign, MapPin, Building, Star, ArrowRight, RefreshCw, AlertCircle, CheckCircle, ExternalLink, Settings, Search } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface AIRecommendation {
     id: string
     title: string
@@ -152,10 +154,19 @@ export default function AIJobSearch() {
         setError(null)
 
         try {
-            const response = await fetch('/api/jobs/recommendations', {
+            const { data: { session } } = await supabase.auth.getSession()
+
+            if (!session) {
+                setError('Authentication required')
+                setLoading(false)
+                return
+            }
+
+            const response = await fetch(`${API_BASE_URL}/api/jobs/recommendations`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
                 },
                 body: JSON.stringify({
                     userId: user.id,
@@ -271,23 +282,38 @@ export default function AIJobSearch() {
     return (
         <div className="space-y-6">
             {!recommendations.length && (
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 text-center transition-colors duration-200">
-                    <div className="bg-purple-100 dark:bg-purple-900/30 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <Search className="w-8 h-8 text-purple-600 dark:text-purple-400" />
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 transition-colors duration-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div className="flex items-center gap-4 flex-1">
+                        <div className="flex-shrink-0 bg-purple-100 dark:bg-purple-900/30 w-10 h-10 rounded-full flex items-center justify-center">
+                            <Search className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                        </div>
+                        <div>
+                            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+                                <h2 className="text-base font-bold text-gray-900 dark:text-white">AI-Powered Job Matching</h2>
+                                {userProfile && (
+                                    <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                        <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.career_vision.target_roles.slice(0, 1).join(', ')}</span>
+                                        {userProfile.preferences.ideal_work.geographic_location[0] && (
+                                            <span>in <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.preferences.ideal_work.geographic_location[0]}</span></span>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 hidden md:block mt-0.5">
+                                Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.
+                            </p>
+                        </div>
                     </div>
-                    <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">AI-Powered Job Matching</h2>
-                    <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-lg mx-auto">
-                        We'll search Google Jobs via SerpAPI using your profile (Skills, Target Roles, Location) to find the best opportunities for you.
-                    </p>
+
                     <button
                         onClick={generateRecommendations}
                         disabled={loading}
-                        className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 mx-auto active:scale-95 transition-all"
+                        className="flex-shrink-0 px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-all shadow-sm hover:shadow"
                     >
                         {loading ? (
                             <>
                                 <RefreshCw className="w-4 h-4 animate-spin" />
-                                Analyzing & Searching...
+                                Analyzing...
                             </>
                         ) : (
                             <>
@@ -296,15 +322,6 @@ export default function AIJobSearch() {
                             </>
                         )}
                     </button>
-
-                    {userProfile && (
-                        <div className="mt-6 text-sm text-gray-500">
-                            Searching for: <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.career_vision.target_roles.slice(0, 2).join(', ')}</span>
-                            {userProfile.preferences.ideal_work.geographic_location[0] && (
-                                <span> in <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.preferences.ideal_work.geographic_location[0]}</span></span>
-                            )}
-                        </div>
-                    )}
                 </div>
             )}
 

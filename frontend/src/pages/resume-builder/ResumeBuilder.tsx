@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FileText, CheckCircle, ArrowRight, Play, Briefcase, Trophy, User, Search, LineChart } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
+import ServiceAddOns from '../../components/services/ServiceAddOns'
+import { trackEvent } from '../../lib/analytics'
 
 interface Step {
   id: string
@@ -24,6 +26,7 @@ export default function ResumeBuilder() {
 
   useEffect(() => {
     checkUser()
+    trackEvent('analytics', 'resume_builder_started', { source: 'navigation' })
   }, [])
 
   const checkUser = async () => {
@@ -49,7 +52,7 @@ export default function ResumeBuilder() {
         .from('user_profiles')
         .select('id')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
 
       // Check PAR stories
       const { data: parStories } = await supabase
@@ -242,6 +245,9 @@ export default function ResumeBuilder() {
           <ArrowRight className="w-6 h-6 text-white" />
         </div>
       </div>
+
+      {/* Optional Add-ons Section */}
+      <ServiceAddOns />
     </div>
   )
 }

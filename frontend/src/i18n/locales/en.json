@@ -1,6 +1,7 @@
 {
   "common": {
     "continueWith": "Continue with {{provider}}",
+    "continue": "Continue",
     "orContinueWith": "or continue with email",
     "signIn": "Sign In",
     "signUp": "Sign Up",
@@ -8,6 +9,12 @@
     "add": "Add",
     "cancel": "Cancel",
     "save": "Save",
+    "saveProgress": "Save Progress",
+    "saved": "Saved!",
+    "back": "Back",
+    "next": "Next",
+    "nextSection": "Next Section",
+    "generateProfile": "Generate Professional Profile",
     "edit": "Edit",
     "delete": "Delete",
     "deleteConfirm": "Are you sure you want to delete this item?",
@@ -33,10 +40,10 @@
     }
   },
   "hero": {
-    "badge": "REINVENT YOUR CAREER",
+    "badge": "MANAGE YOUR CAREER",
     "title": "Ignite Your Next Career Chapter",
     "subtitle": "Clarity. Direction. Momentum.",
-    "description": "NovaWork Global helps professionals navigate career change with a proven system that blends hands on human experience in career coaching with intelligent AI tools, so you move forward with confidence and clarity.",
+    "description": "NovaWork Global helps professionals navigate career change with a proven system that blends hands-on human experience in career coaching with intelligent AI tools, so you move forward with confidence and clarity.",
     "ctaStart": "Start Your Journey",
     "ctaExplore": "Explore Programs"
   },
@@ -44,18 +51,18 @@
     "title": "Trusted by Professionals Worldwide",
     "subtitle": "Real results from real people who transformed their careers with our proven system",
     "stats": {
-      "guided": "Professionals Guided",
+      "guided": "Professionals Supported",
       "expertise": "Combined Experience",
       "global": "Global Experience",
       "rating": "Average Rating"
     },
-    "testimonial": "NovaWork Global gave me the clarity and tools I needed to make a confident career transition. The combination of expert guidance and AI-powered tools made all the difference."
+    "testimonial": "NovaWork really understands how to get the best out of their clients. They helped me successfully navigate my career options resulting in a new executive role with a Fortune 500 company. Their ability to challenge your assumptions and expand your world view while helping build and work a plan to pursue your ambitions were key in my successful transition. They know how to bring the best out of each person. Even during the most frustrating moments, they knew how to push past barriers and instill confidence through the entire process."
   },
   "problem": {
-    "titlePart1": "Career change isn’t the problem.",
+    "titlePart1": "Career change isn't the problem.",
     "titlePart2": "Uncertainty is.",
-    "descriptionPart1": "Most people don’t get stuck because they lack talent.",
-    "descriptionPart2": "They get stuck because they don’t know which move makes sense next.",
+    "descriptionPart1": "Most people don't get stuck because they lack talent.",
+    "descriptionPart2": "They get stuck because they don't know which move makes sense next.",
     "card1": "Unsure which role or industry fits you now",
     "card2": "Impacted by layoffs, AI disruption, or market shifts",
     "card3": "Torn between multiple paths with no clear direction",
@@ -63,48 +70,48 @@
     "solutionPart2": "structure and clear options forward."
   },
   "philosophy": {
-    "bgText": "AI + HUMAN",
+    "bgText": "HUMAN+AI",
     "badge": "Our Philosophy",
     "quotePart1": "We believe the future of work isn't about competing with AI, but",
     "quotePart2": "orchestrating",
     "quotePart3": "it alongside human intuition.",
-    "precisionTitle": "01. Precision",
-    "precisionText": "Our algorithms analyze millions of data points to identify market gaps that match your unique executive DNA. No guessing, just data-driven strategy.",
-    "empathyTitle": "02. Empathy",
-    "empathyText": "Technology opens the door, but human connection walks through it. We coach you to master the nuances of leadership storytelling that AI cannot replicate."
+    "precisionTitle": "",
+    "precisionText": "",
+    "empathyTitle": "",
+    "empathyText": ""
   },
   "differentiator": {
-    "title": "Human Expertise + AI Intelligence",
-    "description": "We combine 30+ years of hands-on career coaching with intelligent AI tools, so you get the depth of human insight and the speed of technology.",
+    "title": "Human Expertise + AI Support",
+    "description": "We combine 30+ years of hands-on career coaching with AI powered tools, so you get the depth of human insight and the speed of technology.",
     "humanCardTitle": "Human-Designed System",
-    "humanCardText": "Built by career coaches who've guided thousands through successful transitions. Real experience, proven frameworks.",
+    "humanCardText": "Built by expert career coaches who've guided thousands through successful transitions. Real experience, proven frameworks.",
     "aiCardTitle": "AI-Powered Tools",
-    "aiCardText": "Smart automation handles the heavy lifting, ATS optimization, job matching, resume building, so you move faster.",
+    "aiCardText": "Smart automation handles the heavy lifting, ATS optimization, job matching, resume building support, so you move faster.",
     "pathCardTitle": "Your Personalized Path",
     "pathCardText": "Not generic advice. A tailored strategy that adapts to your background, goals, and timeline.",
     "resultLabel": "The result?",
-    "resultText": "You get expert-level guidance without waiting weeks for a consultant, and AI-speed execution without losing the human touch that actually makes career change work."
+    "resultText": "You get expert-level guidance without waiting weeks for an available expert, and AI-speed execution without losing the human touch that actually makes career change work."
   },
   "programs": {
-    "title": "Select your Paths",
-    "description": "Select the trajectory that aligns with your professional objective.",
+    "title": "Select your Path",
+    "description": "Select the trajectory that aligns with your professional moment.",
     "compare": "Compare all programs",
     "viewProgram": "View Program",
     "cards": {
       "novanext": {
         "title": "NovaNext™",
-        "subtitle": "Career Acceleration",
-        "description": "The proven methodology to land your ideal role. Combined AI precision with human strategy."
+        "subtitle": "Career Movement",
+        "description": "Choose this path if you already know which role you want to pursue next."
       },
       "novarearchitect": {
         "title": "NovaRearchitect™",
-        "subtitle": "Complete Reinvention",
-        "description": "For executives seeking a pivot. Redefine your value proposition and break into new industries."
+        "subtitle": "Career Reinvention",
+        "description": "Choose this path if your current role or industry is no longer viable."
       },
       "novalign": {
         "title": "NovaAlign™",
-        "subtitle": "Leadership Integration",
-        "description": "First 90 days mastery. Ensure you not only land the job but lead with immediate impact."
+        "subtitle": "Career Direction",
+        "description": "Choose this path if you need clarity before committing to a career direction."
       }
     }
   },
@@ -133,20 +140,20 @@
   "onboarding": {
     "questions": {
       "situations": {
-        "activelyJobHunting": "Actively Job Hunting",
-        "exploringNewCareer": "Exploring New Career",
-        "feelingStuck": "Feeling Stuck",
-        "recentlyLaidOff": "Recently Laid Off",
-        "newGraduate": "New Graduate",
-        "careerChanger": "Career Changer"
+        "activelyJobHunting": "Actively job hunting",
+        "exploringNewCareer": "Exploring new career",
+        "feelingStuck": "Feeling stuck",
+        "recentlyLaidOff": "Recently separated from last job",
+        "newGraduate": "New graduate",
+        "careerChanger": "Career changer"
       },
       "priorities": {
-        "betterJob": "Better Job",
-        "higherSalary": "Higher Salary",
-        "careerChange": "Career Change",
-        "workLifeBalance": "Work-Life Balance",
-        "remoteWork": "Remote Work",
-        "internationalOpportunity": "International Opportunity"
+        "betterJob": "Better job",
+        "higherSalary": "Higher salary",
+        "careerChange": "Career change",
+        "workLifeBalance": "Work-life balance",
+        "remoteWork": "Remote work",
+        "internationalOpportunity": "International opportunity"
       }
     },
     "situation": {
@@ -175,7 +182,7 @@
     },
     "signUp": {
       "title": "Create Your Account",
-      "subtitle": "Start your career transformation today",
+      "subtitle": "Start your career journey today",
       "email": "Email",
       "emailPlaceholder": "Enter your email",
       "password": "Password",
@@ -202,11 +209,18 @@
       "capture": "Capture",
       "craft": "Craft",
       "refine": "Refine",
-      "step": "Step {{number}}"
+      "step": "Step {{number}}",
+      "workExperience": "Work Experience",
+      "questionnaire": "Positioning Questionnaire",
+      "storyCards": "Story Cards (Accomplishments)",
+      "jdAnalyzer": "JD Analyzer (Finalize)"
+    },
+    "navigation": {
+      "continueToStep": "Continue to {{step}}"
     },
     "menu": {
       "title": "Resume Builder",
-      "subtitle": "Create a professional, ATS-optimized resume. Follow the steps below or use individual tools.",
+      "subtitle": "Follow the steps to complete an interview magnet resume.",
       "backToDashboard": "Back to Dashboard",
       "yourProgress": "Your Progress",
       "stepsCompleted": "{{completed}} of {{total}} steps completed",
@@ -225,18 +239,20 @@
       "coverLetter": "Cover Letter Generator",
       "coverLetterDesc": "AI-powered personalized cover letters.",
       "accomplishmentLibrary": "Accomplishment Library",
-      "accomplishmentLibraryDesc": "Your personal bank of achievements — pick, tag, and auto-assemble for any job."
+      "accomplishmentLibraryDesc": "Your personal bank of achievements — pick, tag, and auto-assemble for any job.",
+      "largestResult": "Your Largest Result",
+      "mostComplexProject": "Most Complex Project"
     },
     "profile": {
       "title": "Professional Profile",
       "subtitle": "Define who you are and what you bring to the table",
       "whoYouAre": "Who You Are (The Hook)",
-      "whoYouAreHelp": "One powerful sentence that defines your professional identity.",
-      "coreSkills": "Technical & Hard Skills",
+      "whoYouAreHelp": "One powerful sentence that defines your professional identity. Includes: your position, amount of experience and industry/industries",
+      "coreSkills": "Technical and Hard Skills: These are the skills that describe you best and, when combined, create your value-add",
       "coreSkillsHelp": "List your key technical competencies.",
-      "softSkills": "Leadership & Soft Skills",
+      "softSkills": "Leadership & Soft Skills: These are usually transferable",
       "softSkillsHelp": "Describe your leadership style and interpersonal strengths.",
-      "areasOfExcellence": "Areas of Excellence",
+      "areasOfExcellence": "Areas of Excellence: This is the list of your technical competencies",
       "areasOfExcellenceHelp": "Key domains where you act as a subject matter expert.",
       "preview": "Profile Preview",
       "generateWithAI": "Generate with AI"
@@ -271,26 +287,26 @@
       "removeFile": "Remove file",
       "importDescription": "Upload your existing resume (PDF or DOCX) and we'll automatically extract your work experience using AI.",
       "accomplishments": "Accomplishments",
-      "accomplishmentsHelp": "Bullet points highlighting your success.",
+      "accomplishmentsHelp": "Specific results you achieved that ensure your value-add and the things you have contributed. Use bullet points to highlight your success.",
       "addBullet": "Add Bullet",
       "linkPARStory": "Link CAR Story",
-      "selectCARStory": "Select a CAR Story to Convert",
+      "selectCARStory": "Select a CAR Story to convert",
       "noUnconvertedStories": "No unconverted CAR stories available. Create more in the CAR Story Builder.",
       "convert": "Convert",
-      "addBulletTitle": "Add Accomplishment Bullet",
-      "bulletHelp": "Use: Verb + Scope + Action + Metric",
-      "bulletPlaceholder": "e.g., Led team of 12 engineers to deliver new payment system, reducing transaction time by 40% and saving $2M annually",
+      "addBulletTitle": "Add an Accomplishment Bullet",
+      "bulletHelp": "Use: Verb + Action + Result (measured)",
+      "bulletPlaceholder": "e.g., Led team of 12 engineers that delivered new payment system, reducing transaction time by 40% and saving $2M annually",
       "adding": "Adding...",
       "fromCARStory": "From CAR Story",
-      "pickFromBank": "Pick from Bank",
+      "pickFromBank": "Pick from bank",
       "selectAccomplishments": "Select accomplishments from your bank",
       "addSelected": "Add Selected ({{count}})",
       "noBankItems": "Your accomplishment bank is empty. Add items in the Library first."
     },
     "par": {
       "title": "CAR Story Builder",
-      "subtitle": "Challenge. Action. Result. The framework for powerful accomplishments.",
-      "description": "Structure your accomplishments using the Challenge-Action-Result framework.",
+      "subtitle": "Challenge. Actions. Result. The framework for powerful accomplishments.",
+      "description": "Structure your accomplishments using the Challenge-Actions-Result (measured) framework.",
       "addNew": "Add New Story",
       "noStories": "No CAR Stories yet",
       "noStoriesHelp": "Create stories to highlight your problem-solving skills.",
@@ -298,15 +314,15 @@
       "legend": {
         "challenge": "Challenge",
         "actions": "Actions",
-        "result": "Result"
+        "result": "Result (measured)"
       },
       "roleCompany": "Role & Company",
       "year": "Year",
       "problem": "Challenge (Context)",
       "problemHelp": "What specific problem or situation did you face?",
-      "actions": "Actions Taken",
-      "actionsHelp": "What specific steps did YOU take? (Use active verbs)",
-      "result": "Result (Outcome)",
+      "actions": "Actions taken",
+      "actionsHelp": "What specific steps did YOU take? (Use active action verbs)",
+      "result": "Result (measured)",
       "resultHelp": "What was the quantifiable outcome?",
       "willDoAgain": "I would do this again",
       "willDoAgainHelp": "Mark if this is a type of work you enjoy and want to repeat.",
@@ -328,7 +344,7 @@
       "whoYouAre": "e.g., Senior Product Manager with 10+ years driving digital transformation in FinTech.",
       "coreSkills": "e.g., Strategic Planning, Agile Methodologies, Stakeholder Management, Python, SQL.",
       "softSkills": "e.g., Empathetic leader who builds high-performing teams through mentorship and clear communication.",
-      "areasOfExcellence": "e.g., Project Management, budget Planning, Team Leadership",
+      "areasOfExcellence": "e.g., Project Management, budget planning, team leadership",
       "roleCompany": "e.g., Senior Product Manager at Google",
       "problem": "e.g., Product adoption was declining 15% QoQ due to poor onboarding UX",
       "result": "e.g., Increased user activation by 40% in 3 months, reduced churn from 25% to 12%, and generated $2M in additional ARR",
@@ -401,7 +417,7 @@
     "preview": "Preview",
     "locked": "Locked",
     "upgradeTo": "Upgrade to",
-    "yourStats": "Your stats this week",
+    "yourStats": "Your stats progress this week",
     "resumeScore": "Resume score",
     "applicationsTracked": "Applications tracked",
     "interviewsScheduled": "Interviews scheduled",

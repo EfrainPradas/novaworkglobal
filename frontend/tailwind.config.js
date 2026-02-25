@@ -8,69 +8,66 @@ export default {
   theme: {
     extend: {
       colors: {
-        // CareerTipsAI Brand Colors
+        // NovaWork Global Brand Colors
         primary: {
-          DEFAULT: '#076370', // Teal primary
-          50: '#e6f4f5',
-          100: '#b3dde1',
-          200: '#80c6cc',
-          300: '#4dafb8',
-          400: '#1a98a3',
-          500: '#076370', // Main brand color
-          600: '#064f5a',
-          700: '#043b43',
-          800: '#03272d',
-          900: '#011316',
+          DEFAULT: '#1F5BAA', // Primary Blue
+          50: '#eef6fc',
+          100: '#d9e9f8',
+          200: '#bcd9f3',
+          300: '#8fc3ec',
+          400: '#5ca2e2',
+          500: '#3682d5',
+          600: '#1F5BAA', // Main Brand Color
+          700: '#1a488a',
+          800: '#193e72',
+          900: '#10375C', // Midnight Blue
         },
+        'brand-teal': { // Keeping for backward compat if needed, but should be phased out
+          200: '#B2CBD2',
+          500: '#2E7886',
+          600: '#0B5F6D',
+        },
+        'brand-ink': '#10375C', // Midnight Blue for ink
+        'brand-surface': '#F8F9FA',
         accent: {
-          DEFAULT: '#F6C45E', // Golden/Yellow accent
-          50: '#FEF9EC',
-          100: '#FDF3DC',
-          200: '#FCE7BA',
-          300: '#FADB97',
-          400: '#F8CF75',
-          500: '#F6C45E', // Main accent color
-          600: '#E5A72F',
-          700: '#C18A1A',
-          800: '#9D6E0F',
-          900: '#7A5109',
-          light: '#FDF3DC',
-          dark: '#E5A72F',
+          DEFAULT: '#4DA8DA', // Sky Blue as Accent
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#4DA8DA', // Sky Blue
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
         },
         navy: {
-          DEFAULT: '#031D40', // Dark navy
-          light: '#0A2F5C',
-          lighter: '#14427A',
+          DEFAULT: '#10375C', // Midnight Blue
+          light: '#1a488a',
+          lighter: '#1F5BAA',
         },
-        teal: {
-          DEFAULT: '#509EB5', // Light teal
-          50: '#E8F5F8',
-          100: '#D1EBF1',
-          200: '#A3D7E3',
-          300: '#76C3D5',
-          400: '#509EB5',
-          500: '#509EB5', // Main teal color
-          600: '#3A7C91',
-          700: '#2D5F70',
-          800: '#1F4350',
-          900: '#12262F',
-          light: '#7CB9CD',
-          dark: '#3A7C91',
+        teal: { // Legacy support mapping to Sky Blue tones
+          DEFAULT: '#4DA8DA',
+          50: '#f0f9ff',
+          500: '#4DA8DA',
+          600: '#0284c7',
+          700: '#0369a1',
         },
         secondary: {
-          DEFAULT: '#6c757d',
+          DEFAULT: '#4DA8DA', // Sky Blue
           light: '#f8f9fa',
-          dark: '#212529',
+          dark: '#10375C',
         },
         success: '#28a745',
-        warning: '#F6C45E', // Using brand accent
+        warning: '#F6C45E',
         danger: '#dc3545',
-        info: '#509EB5', // Using brand teal
+        info: '#4DA8DA',
       },
       fontFamily: {
-        sans: ['Manrope', 'Nunito Sans', 'system-ui', 'sans-serif'],
-        heading: ['Manrope', 'sans-serif'],
-        body: ['Nunito Sans', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'], // Body Copy
+        heading: ['Montserrat', 'sans-serif'], // Headers
+        body: ['Inter', 'sans-serif'],
       },
       fontSize: {
         'xs': '0.75rem',
