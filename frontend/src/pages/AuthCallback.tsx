@@ -4,10 +4,12 @@
  */
 
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 
 export default function AuthCallback() {
+  const navigate = useNavigate()
   const { t } = useTranslation()
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [message, setMessage] = useState(t('auth.callback.processing'))
@@ -43,16 +45,16 @@ export default function AuthCallback() {
           .from('user_profiles')
           .select('has_seen_career_vision_prompt')
           .eq('user_id', session.user.id)
-          .single()
+          .maybeSingle()
 
         // Redirect based on Career Vision status
         setTimeout(() => {
           if (!profile || !profile.has_seen_career_vision_prompt) {
             // New user - show Career Vision welcome
-            window.location.href = '/career-vision/welcome'
+            navigate('/career-vision/welcome')
           } else {
-            // Existing user - go to onboarding or dashboard
-            window.location.href = '/onboarding'
+            // Existing user - go to dashboard
+            navigate('/dashboard')
           }
         }, 2000)
       } else {
@@ -61,7 +63,7 @@ export default function AuthCallback() {
         setMessage(t('auth.callback.noSession'))
 
         setTimeout(() => {
-          window.location.href = '/signin'
+          navigate('/signin')
         }, 2000)
       }
     } catch (error) {

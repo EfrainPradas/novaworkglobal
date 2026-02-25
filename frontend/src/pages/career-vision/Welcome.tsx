@@ -1,12 +1,13 @@
 /**
  * Career Vision Welcome Page
  * Presents Career Vision with 2-circle design (Skills + Interests only)
- * Values will be added as 3rd circle later
+ * Uses NovaWork brand colors
  */
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { Play, BookOpen } from 'lucide-react'
 
 export default function CareerVisionWelcome() {
   const navigate = useNavigate()
@@ -41,9 +42,17 @@ export default function CareerVisionWelcome() {
         {/* Main Welcome Card */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 border border-transparent dark:border-gray-700 transition-colors duration-200">
 
+          {/* Logo */}
+          <div className="text-center mb-6">
+            <img
+              src="/novaworkglobal/logo.png"
+              alt="NovaWork Global"
+              className="h-28 w-auto mx-auto"
+            />
+          </div>
+
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="text-5xl mb-4">🎯</div>
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
               Discover Your Career Vision
             </h1>
@@ -52,112 +61,125 @@ export default function CareerVisionWelcome() {
             </p>
           </div>
 
-          {/* 2-Circle Venn Diagram */}
+          {/* 2-Circle Venn Diagram with NovaWork colors */}
           <div className="mb-8">
             <div className="flex justify-center items-center py-8">
               <svg viewBox="0 0 400 250" className="w-full max-w-lg h-auto">
-                {/* Skills Circle (Left - Blue) */}
+                {/* Skills Circle (Left - NovaWork Primary Blue) */}
                 <circle
-                  cx="140"
+                  cx="130"
                   cy="125"
-                  r="90"
-                  className="fill-blue-50/50 stroke-blue-500 dark:fill-blue-900/20 dark:stroke-blue-400 transition-colors duration-200"
+                  r="100"
+                  fill="rgba(37, 99, 235, 0.08)"
+                  stroke="#1e40af"
                   strokeWidth="3"
                 />
                 <text
-                  x="95"
+                  x="100"
                   y="115"
-                  className="fill-blue-500 dark:fill-blue-400 font-bold transition-colors duration-200"
-                  fontSize="18"
+                  fill="#1e40af"
+                  fontWeight="bold"
+                  fontSize="16"
                   textAnchor="middle"
                 >
-                  Skills &
+                  Skills &amp;
                 </text>
                 <text
-                  x="95"
+                  x="100"
                   y="138"
-                  className="fill-blue-500 dark:fill-blue-400 font-bold transition-colors duration-200"
-                  fontSize="18"
+                  fill="#1e40af"
+                  fontWeight="bold"
+                  fontSize="16"
                   textAnchor="middle"
                 >
                   Knowledge
                 </text>
 
-                {/* Interests Circle (Right - Purple) */}
+                {/* Interests Circle (Right - NovaWork Teal) */}
                 <circle
-                  cx="260"
+                  cx="270"
                   cy="125"
-                  r="90"
-                  className="fill-purple-50/50 stroke-purple-500 dark:fill-purple-900/20 dark:stroke-purple-400 transition-colors duration-200"
+                  r="100"
+                  fill="rgba(13, 148, 136, 0.08)"
+                  stroke="#0d9488"
                   strokeWidth="3"
                 />
                 <text
-                  x="305"
+                  x="300"
                   y="115"
-                  className="fill-purple-500 dark:fill-purple-400 font-bold transition-colors duration-200"
-                  fontSize="18"
+                  fill="#0d9488"
+                  fontWeight="bold"
+                  fontSize="16"
                   textAnchor="middle"
                 >
-                  Interests &
+                  Interests &amp;
                 </text>
                 <text
-                  x="305"
+                  x="300"
                   y="138"
-                  className="fill-purple-500 dark:fill-purple-400 font-bold transition-colors duration-200"
-                  fontSize="18"
+                  fill="#0d9488"
+                  fontWeight="bold"
+                  fontSize="16"
                   textAnchor="middle"
                 >
                   Passions
                 </text>
 
-                {/* Center Intersection - Sweet Spot */}
+                {/* Center Intersection - Ideal Job / Career Vision */}
                 <ellipse
                   cx="200"
                   cy="125"
                   rx="40"
                   ry="50"
-                  className="fill-green-50/80 stroke-green-500 dark:fill-green-900/30 dark:stroke-green-400 transition-colors duration-200"
+                  fill="rgba(37, 99, 235, 0.12)"
+                  stroke="#1e3a5f"
                   strokeWidth="3"
                 />
                 <text
                   x="200"
-                  y="135"
-                  fontSize="30"
+                  y="118"
+                  fill="#1e3a5f"
+                  fontWeight="bold"
+                  fontSize="12"
                   textAnchor="middle"
                 >
-                  ❤️
+                  Ideal Job
+                </text>
+                <text
+                  x="200"
+                  y="135"
+                  fill="#1e3a5f"
+                  fontWeight="bold"
+                  fontSize="11"
+                  textAnchor="middle"
+                >
+                  Career Vision
                 </text>
               </svg>
             </div>
 
             {/* Center text */}
             <div className="text-center text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
-              When these two align, you find your <span className="text-green-600 dark:text-green-400 font-bold">Career Sweet Spot</span>
+              When these two align, you find your <span className="text-primary-600 dark:text-primary-400 font-bold">Career Vision / Ideal Job</span>
             </div>
           </div>
 
-          {/* Benefits */}
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-5 text-center transition-colors duration-200">
-              <div className="text-3xl mb-2">🎯</div>
-              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-                Personalized job recommendations
-              </p>
-            </div>
-
-            <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-5 text-center transition-colors duration-200">
-              <div className="text-3xl mb-2">📝</div>
-              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-                Build targeted resumes faster
-              </p>
-            </div>
-
-            <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-5 text-center transition-colors duration-200">
-              <div className="text-3xl mb-2">✨</div>
-              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-                Focus on opportunities that fit you
-              </p>
-            </div>
+          {/* Watch Video + Learn More Buttons */}
+          <div className="flex items-center justify-center gap-3 mb-8">
+            <a
+              href="/videos/AI_&_Your_Career_Path-EN.mp4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              <Play className="w-4 h-4" /> Watch video
+            </a>
+            <button
+              onClick={() => navigate('/career-vision/dashboard')}
+              className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              <BookOpen className="w-4 h-4" /> Learn more
+            </button>
           </div>
 
           {/* Time & Progress Info */}
@@ -183,17 +205,9 @@ export default function CareerVisionWelcome() {
             <button
               onClick={handleStart}
               disabled={loading}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transition-all shadow-lg disabled:opacity-50"
+              className="px-8 py-4 bg-gradient-to-r from-primary-600 to-teal-600 text-white rounded-xl font-bold text-lg hover:from-primary-700 hover:to-teal-700 transition-all shadow-lg disabled:opacity-50"
             >
               {loading ? 'Loading...' : 'Start Career Vision'}
-            </button>
-
-            <button
-              onClick={handleSkip}
-              disabled={loading}
-              className="px-8 py-4 bg-white dark:bg-gray-700 text-gray-700 dark:text-white rounded-xl font-semibold text-lg hover:bg-gray-50 dark:hover:bg-gray-600 border-2 border-gray-300 dark:border-gray-600 transition-all disabled:opacity-50"
-            >
-              Skip for now →
             </button>
           </div>
 

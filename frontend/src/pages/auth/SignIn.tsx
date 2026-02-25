@@ -35,8 +35,8 @@ export default function SignIn() {
         setError(signInError.message)
       } else {
         console.log('Sign in successful:', data)
-        // TODO: Redirect to onboarding or dashboard based on user profile completion
-        navigate('/onboarding')
+        // Redirect to dashboard after sign in
+        navigate('/dashboard')
       }
     } catch (err) {
       console.error('Unexpected error:', err)
@@ -54,7 +54,7 @@ export default function SignIn() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${window.location.origin}/novaworkglobal/auth/callback`,
         },
       })
 
@@ -76,7 +76,7 @@ export default function SignIn() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'linkedin_oidc',
         options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
+          redirectTo: `${window.location.origin}/novaworkglobal/auth/callback`,
         },
       })
 
@@ -119,7 +119,7 @@ export default function SignIn() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+            <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-24 w-auto" />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {t('auth.signIn.title')}

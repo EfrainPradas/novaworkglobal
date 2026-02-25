@@ -1,5 +1,14 @@
 import express from 'express';
 import OpenAI from 'openai';
+import {
+  Document,
+  Packer,
+  Paragraph,
+  TextRun,
+  HeadingLevel,
+  AlignmentType,
+  BorderStyle
+} from 'docx';
 
 const router = express.Router();
 
@@ -135,7 +144,6 @@ function formatResumeForAnalysis(resumeData) {
 
   // User info skills (if available)
   if (resumeData.user_info) {
-    // Note: skills would typically be in a separate field, but we include what we have
     sections.push(`ADDITIONAL INFO:\n${JSON.stringify(resumeData.user_info)}`);
   }
 
@@ -160,8 +168,6 @@ Para cada palabra clave, determina si el candidato tiene experiencia o habilidad
 Usa coincidencia semántica, no solo textual. Por ejemplo:
 - "Gestión de proyectos" coincide con "Project Management"
 - "Análisis de datos" coincide con "Data Analysis"
-- "Creación de dashboards" coincide con "Dashboard creation"
-- "Procesos ETL" coincide con "ETL processes"
 
 Responde en formato JSON exactamente con esta estructura:
 [
@@ -174,8 +180,6 @@ Responde en formato JSON exactamente con esta estructura:
     "matchReason": "breve explicación de por qué coincide o no"
   }
 ]
-
-Solo devuelve el JSON, sin texto adicional.
 `;
 
     const response = await openai.chat.completions.create({
@@ -183,51 +187,38 @@ Solo devuelve el JSON, sin texto adicional.
       messages: [
         {
           role: "system",
-          content: "Eres un experto en reclutamiento y análisis de resumes. Evalúa si las habilidades y experiencias de un candidato coinciden con los requisitos del puesto, usando análisis semántico más que coincidencia exacta de texto."
+          content: "Eres un experto en reclutamiento y análisis de resumes. Evalúa si las habilidades y experiencias de un candidato coinciden con los requisitos del puesto."
         },
         {
           role: "user",
           content: prompt
         }
       ],
-      temperature: 0.1, // Low temperature for consistent analysis
+      temperature: 0.1,
       max_tokens: 2000
     });
 
     const content = response.choices[0]?.message?.content;
 
     if (!content) {
-      throw new Error('No response from OpenAI for semantic matching');
+      throw new Error('No response from OpenAI');
     }
 
-    // Try to parse JSON response
     let matchedKeywords;
     try {
       matchedKeywords = JSON.parse(content);
     } catch (parseError) {
-      // If direct parsing fails, try to extract JSON from the response
       const jsonMatch = content.match(/\[[\s\S]*\]/);
       if (jsonMatch) {
         matchedKeywords = JSON.parse(jsonMatch[0]);
       } else {
-        throw new Error('Failed to parse semantic matching results');
+        throw new Error('Failed to parse response');
       }
     }
 
-    // Validate we got results for all keywords
-    if (matchedKeywords.length !== keywords.length) {
-      console.warn(`Warning: Expected ${keywords.length} keywords, got ${matchedKeywords.length} results`);
-    }
-
-    // Calculate match score based on AI analysis
     const totalKeywords = matchedKeywords.length;
     const matchedCount = matchedKeywords.filter(k => k.currentMatch).length;
-    const matchScore = Math.round((matchedCount / totalKeywords) * 100);
-
-    console.log('🧠 Semantic matching results:');
-    matchedKeywords.forEach(kw => {
-      console.log(`- ${kw.keyword}: match=${kw.currentMatch}, reason=${kw.matchReason || 'No reason provided'}`);
-    });
+    const matchScore = totalKeywords > 0 ? Math.round((matchedCount / totalKeywords) * 100) : 0;
 
     return {
       keywords: matchedKeywords,
@@ -236,29 +227,9 @@ Solo devuelve el JSON, sin texto adicional.
 
   } catch (error) {
     console.error('Error in semantic matching:', error);
-
-    // Fallback to simple text matching if AI fails
-    console.log('Falling back to simple text matching...');
-    const resumeTextLower = JSON.stringify(resumeData).toLowerCase();
-
-    const keywordsWithMatch = keywords.map(keyword => ({
-      ...keyword,
-      currentMatch: resumeTextLower.includes(keyword.keyword.toLowerCase()),
-      matchReason: resumeTextLower.includes(keyword.keyword.toLowerCase()) ?
-        'Simple text match (fallback)' : 'No match found (fallback)'
-    }));
-
-    const matchedCount = keywordsWithMatch.filter(k => k.currentMatch).length;
-    const matchScore = Math.round((matchedCount / keywordsWithMatch.length) * 100);
-
-    console.log('🔍 Fallback results:');
-    keywordsWithMatch.forEach(kw => {
-      console.log(`- ${kw.keyword}: match=${kw.currentMatch}, reason=${kw.matchReason}`);
-    });
-
     return {
-      keywords: keywordsWithMatch,
-      matchScore
+      keywords: keywords.map(k => ({ ...k, currentMatch: false, matchReason: 'Analysis failed' })),
+      matchScore: 0
     };
   }
 }
@@ -270,14 +241,11 @@ router.post('/analyze', async (req, res) => {
 
     if (!jobDescription || !userResume) {
       return res.status(400).json({
-        error: 'Missing required fields: jobDescription and userResume'
+        error: 'Missing required fields'
       });
     }
 
-    // Extract keywords from job description
     const keywords = await extractKeywordsFromJD(jobDescription);
-
-    // Analyze resume match
     const matchAnalysis = await analyzeResumeMatch(keywords, userResume);
 
     res.json({
@@ -287,15 +255,160 @@ router.post('/analyze', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error in JD analysis:', error);
-    res.status(500).json({
-      error: 'Failed to analyze job description',
-      details: error.message
-    });
+    console.error('Error:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
-// GET /api/jd-analyzer/health
+// POST /api/jd-analyzer/export
+router.post('/export', async (req, res) => {
+  try {
+    const { resumeData } = req.body;
+
+    if (!resumeData) {
+      return res.status(400).json({ error: 'Missing resume data' });
+    }
+
+    const { user_info, profile_summary, areas_of_excellence, work_experience = [], par_stories = [] } = resumeData;
+
+    const doc = new Document({
+      sections: [{
+        children: [
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            children: [
+              new TextRun({
+                text: (user_info?.full_name || 'Your Name').trim(),
+                bold: true,
+                size: 32,
+                font: 'Georgia'
+              }),
+            ],
+          }),
+          // ... Header: Contact Info ...
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { before: 100, after: 300 },
+            children: [
+              new TextRun({
+                text: [
+                  user_info?.location_city && user_info?.location_country ? `${user_info.location_city}, ${user_info.location_country}` : null,
+                  user_info?.phone,
+                  user_info?.email,
+                  user_info?.linkedin_url ? 'LinkedIn' : null
+                ].filter(Boolean).join('  •  '),
+                size: 20,
+                font: 'Georgia'
+              }),
+            ],
+          }),
+          // ... rest of sections ...
+          new Paragraph({
+            text: 'Professional Profile',
+            heading: HeadingLevel.HEADING_2,
+            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+          }),
+          new Paragraph({
+            spacing: { before: 200, after: 200 },
+            children: [
+              new TextRun({
+                text: profile_summary || 'N/A',
+                size: 22,
+                font: 'Georgia'
+              }),
+            ],
+          }),
+          new Paragraph({
+            text: 'Areas of Excellence',
+            heading: HeadingLevel.HEADING_2,
+            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+          }),
+          new Paragraph({
+            spacing: { before: 200, after: 300 },
+            children: [
+              new TextRun({
+                text: (areas_of_excellence || []).join('  |  '),
+                size: 22,
+                font: 'Georgia'
+              }),
+            ],
+          }),
+          ...(par_stories && par_stories.length > 0 ? [
+            new Paragraph({
+              text: 'Key Accomplishments',
+              heading: HeadingLevel.HEADING_2,
+              border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+            }),
+            ...par_stories.flatMap(story => [
+              new Paragraph({
+                spacing: { before: 200 },
+                children: [
+                  new TextRun({ text: 'Problem/Challenge: ', bold: true, size: 22, font: 'Georgia' }),
+                  new TextRun({ text: story.problem_challenge || '', size: 22, font: 'Georgia' })
+                ]
+              }),
+              new Paragraph({
+                children: [
+                  new TextRun({ text: 'Actions: ', bold: true, size: 22, font: 'Georgia' })
+                ]
+              }),
+              ...(Array.isArray(story.actions) ? story.actions : [story.actions]).map(action =>
+                new Paragraph({
+                  bullet: { level: 0 },
+                  children: [new TextRun({ text: action || '', size: 22, font: 'Georgia' })]
+                })
+              ),
+              new Paragraph({
+                spacing: { after: 100 },
+                children: [
+                  new TextRun({ text: 'Results: ', bold: true, size: 22, font: 'Georgia' }),
+                  new TextRun({ text: story.result || '', size: 22, font: 'Georgia' })
+                ]
+              })
+            ])
+          ] : []),
+          new Paragraph({
+            text: 'Work Experience',
+            heading: HeadingLevel.HEADING_2,
+            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+          }),
+          ...(work_experience || []).flatMap(exp => {
+            const dateRange = (exp.start_date || '') + ' - ' + (exp.is_current ? 'Present' : (exp.end_date || ''));
+            return [
+              new Paragraph({
+                spacing: { before: 200 },
+                children: [
+                  new TextRun({ text: exp.job_title || 'Untitled Role', bold: true, size: 24, font: 'Georgia' }),
+                  new TextRun({ text: `\t${dateRange}`, bold: true, size: 22, font: 'Georgia' })
+                ],
+                tabStops: [{ type: 'right', position: 9000 }]
+              }),
+              new Paragraph({
+                children: [new TextRun({ text: exp.company_name || 'Generic Company', bold: true, color: '333333', size: 22, font: 'Georgia' })]
+              }),
+              new Paragraph({
+                spacing: { after: 200 },
+                children: [new TextRun({ text: exp.scope_description || '', size: 22, font: 'Georgia' })],
+                alignment: AlignmentType.JUSTIFIED
+              })
+            ];
+          })
+        ]
+      }]
+    });
+
+    const buffer = await Packer.toBuffer(doc);
+
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+    res.setHeader('Content-Disposition', `attachment; filename=Tailored_Resume.docx`);
+    res.send(buffer);
+
+  } catch (error) {
+    console.error('Error generating docx:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get('/health', (req, res) => {
   res.json({
     status: 'ok',

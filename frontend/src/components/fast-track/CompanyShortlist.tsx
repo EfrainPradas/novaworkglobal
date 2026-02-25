@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Plus, Save, Trash2, Loader2, CheckCircle2, Building2, ExternalLink, Star, Sparkles } from 'lucide-react'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface CompanyData {
   id?: string
   company_name: string
@@ -263,7 +265,7 @@ export default function CompanyShortlist({ onComplete }: Props) {
 
     try {
       // Call backend API to search for real jobs
-      const response = await fetch('/api/jobs/search', {
+      const response = await fetch(`${API_BASE_URL}/api/jobs/search`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -491,7 +493,7 @@ export default function CompanyShortlist({ onComplete }: Props) {
       openings_closings: '',
       notes: '',
       key_contacts: suggested.applyLink ? [{ type: 'apply_link', value: suggested.applyLink }] : [],
-      application_status: 'researching',
+      application_status: 'researching' as const,
       follow_up_date: null,
       priority_score: suggested.matchScore >= 90 ? 9 : suggested.matchScore >= 85 ? 7 : 5,
       criteria_match_count: 0,
@@ -652,19 +654,16 @@ export default function CompanyShortlist({ onComplete }: Props) {
       revenue_range: '',
       why_target: '',
       key_contacts: '',
-      priority_level: 'medium',
-      status: 'researching',
+      priority_score: 5,
+      application_status: 'researching' as const,
       notes: ''
     })
   }
 
-  const getPriorityColor = (level: string) => {
-    switch (level) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200'
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200'
-      case 'low': return 'bg-green-100 text-green-800 border-green-200'
-      default: return 'bg-gray-100 text-gray-800 border-gray-200'
-    }
+  const getPriorityColor = (score: number) => {
+    if (score >= 8) return 'bg-red-100 text-red-800 border-red-200' // High
+    if (score >= 5) return 'bg-yellow-100 text-yellow-800 border-yellow-200' // Medium
+    return 'bg-green-100 text-green-800 border-green-200' // Low
   }
 
   const getStatusColor = (status: string) => {
@@ -718,19 +717,19 @@ export default function CompanyShortlist({ onComplete }: Props) {
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-2xl font-bold text-red-600">
-            {companies.filter(c => c.priority_level === 'high').length}
+            {companies.filter(c => c.priority_score >= 8).length}
           </div>
           <div className="text-sm text-gray-600">High Priority</div>
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-2xl font-bold text-green-600">
-            {companies.filter(c => c.status === 'ready_to_apply').length}
+            {companies.filter(c => c.application_status === 'ready_to_apply').length}
           </div>
           <div className="text-sm text-gray-600">Ready to Apply</div>
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-2xl font-bold text-purple-600">
-            {companies.filter(c => c.status === 'applied').length}
+            {companies.filter(c => c.application_status === 'applied').length}
           </div>
           <div className="text-sm text-gray-600">Applied</div>
         </div>
@@ -1061,13 +1060,13 @@ export default function CompanyShortlist({ onComplete }: Props) {
                 Priority Level
               </label>
               <select
-                value={formData.priority_level}
-                onChange={(e) => setFormData({ ...formData, priority_level: e.target.value as any })}
+                value={formData.priority_score >= 8 ? '9' : formData.priority_score >= 5 ? '5' : '3'}
+                onChange={(e) => setFormData({ ...formData, priority_score: parseInt(e.target.value) })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
-                <option value="high">High - Top choice</option>
-                <option value="medium">Medium - Good fit</option>
-                <option value="low">Low - Backup option</option>
+                <option value="9">High - Top choice</option>
+                <option value="5">Medium - Good fit</option>
+                <option value="3">Low - Backup option</option>
               </select>
             </div>
 
@@ -1077,8 +1076,8 @@ export default function CompanyShortlist({ onComplete }: Props) {
                 Status
               </label>
               <select
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                value={formData.application_status}
+                onChange={(e) => setFormData({ ...formData, application_status: e.target.value as any })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               >
                 <option value="researching">Researching</option>
@@ -1217,7 +1216,7 @@ export default function CompanyShortlist({ onComplete }: Props) {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h4 className="text-lg font-bold text-gray-900">{company.company_name}</h4>
-                    {company.priority_level === 'high' && (
+                    {company.priority_score >= 8 && (
                       <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                     )}
                     {/* Recently Added Badge */}

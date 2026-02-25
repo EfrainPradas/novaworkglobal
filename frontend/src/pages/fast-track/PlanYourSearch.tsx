@@ -95,11 +95,19 @@ export default function PlanYourSearch() {
                 <p className="text-sm text-gray-600 dark:text-gray-400">Step 1: Define your target market</p>
               </div>
             </div>
-            <div className="flex items-center gap-2 text-sm">
-              <span className="text-gray-500 dark:text-gray-400">Progress:</span>
-              <span className="font-semibold text-primary-600 dark:text-primary-400">
-                {[hasCriteria, hasResearch, hasShortlist].filter(Boolean).length}/3 Complete
-              </span>
+            <div className="flex items-center gap-3">
+              <button className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-1.5">
+                ▶ Watch video
+              </button>
+              <button className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                Learn more
+              </button>
+              <div className="flex items-center gap-2 text-sm ml-2">
+                <span className="text-gray-500 dark:text-gray-400">Progress:</span>
+                <span className="font-semibold text-primary-600 dark:text-primary-400">
+                  {[hasCriteria, hasResearch, hasShortlist].filter(Boolean).length}/3 Complete
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -138,8 +146,8 @@ export default function PlanYourSearch() {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`relative p-6 text-left transition-all ${activeTab === tab.id
-                      ? 'bg-primary-50 dark:bg-primary-900/30 border-b-2 border-primary-600 dark:border-primary-400'
-                      : 'hover:bg-gray-50 dark:hover:bg-gray-700'
+                    ? 'bg-primary-50 dark:bg-primary-900/30 border-b-2 border-primary-600 dark:border-primary-400'
+                    : 'hover:bg-gray-50 dark:hover:bg-gray-700'
                     }`}
                 >
                   <div className="flex items-start justify-between mb-2">

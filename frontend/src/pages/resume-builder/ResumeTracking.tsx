@@ -18,6 +18,9 @@ interface TrackedResume {
   match_score: number
   created_at: string
   status?: string
+  tailored_profile?: string
+  tailored_skills?: string[]
+  tailored_bullets?: any
 }
 
 const STATUS_OPTIONS = [
@@ -43,7 +46,7 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
   const [loading, setLoading] = useState(true)
   const [resumes, setResumes] = useState<TrackedResume[]>([])
   const [filteredResumes, setFilteredResumes] = useState<TrackedResume[]>([])
-  const [selectedStatus, setSelectedStatus] = useState<string>('sent')
+  const [selectedStatus, setSelectedStatus] = useState<string>('all')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingStatus, setEditingStatus] = useState<string>('')
   const [editingNotes, setEditingNotes] = useState<string>('')
@@ -186,6 +189,119 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
     const rejected = resumes.filter(r => r.application_status === 'rejected').length
 
     return { total, sent, underReview, interviews, offers, rejected }
+  }
+
+  const handleDownloadResume = async (resume: TrackedResume) => {
+    try {
+      // If tailored_bullets is not loaded, fetch it
+      let resumeData = resume
+      if (!resumeData.tailored_profile && !resumeData.tailored_bullets) {
+        const { data, error } = await supabase
+          .from('tailored_resumes')
+          .select('tailored_profile, tailored_skills, tailored_bullets')
+          .eq('id', resume.id)
+          .single()
+        if (error) throw error
+        resumeData = { ...resume, ...data }
+      }
+
+      // Build resume text content
+      const lines: string[] = []
+
+      // Header
+      const userInfo = resumeData.tailored_bullets?.user_info || {}
+      lines.push(userInfo.full_name || 'Resume')
+      lines.push('='.repeat(50))
+      if (userInfo.email) lines.push(`Email: ${userInfo.email}`)
+      if (userInfo.phone) lines.push(`Phone: ${userInfo.phone}`)
+      if (userInfo.linkedin_url) lines.push(`LinkedIn: ${userInfo.linkedin_url}`)
+      lines.push('')
+      lines.push(`Position: ${resume.job_title}`)
+      lines.push(`Company: ${resume.company_name}`)
+      lines.push('')
+
+      // Profile Summary
+      if (resumeData.tailored_profile) {
+        lines.push('PROFESSIONAL SUMMARY')
+        lines.push('-'.repeat(50))
+        lines.push(resumeData.tailored_profile)
+        lines.push('')
+      }
+
+      // Skills
+      if (resumeData.tailored_skills?.length) {
+        lines.push('CORE COMPETENCIES')
+        lines.push('-'.repeat(50))
+        lines.push(resumeData.tailored_skills.join(' • '))
+        lines.push('')
+      }
+
+      // Work Experience
+      const workExp = resumeData.tailored_bullets?.work_experience || []
+      if (workExp.length > 0) {
+        lines.push('WORK EXPERIENCE')
+        lines.push('-'.repeat(50))
+        workExp.forEach((exp: any) => {
+          lines.push(`${exp.job_title || ''} | ${exp.company_name || ''}`)
+          if (exp.start_date || exp.end_date) {
+            lines.push(`${exp.start_date || ''} - ${exp.end_date || 'Present'}`)
+          }
+          if (exp.scope_description) lines.push(exp.scope_description)
+          const bullets = exp.accomplishments || exp.bullets || []
+          bullets.forEach((b: any) => {
+            const text = typeof b === 'string' ? b : b.bullet_text || b.text || ''
+            if (text) lines.push(`  • ${text}`)
+          })
+          lines.push('')
+        })
+      }
+
+      // PAR Stories
+      const parStories = resumeData.tailored_bullets?.par_stories || []
+      if (parStories.length > 0) {
+        lines.push('KEY ACCOMPLISHMENTS')
+        lines.push('-'.repeat(50))
+        parStories.forEach((story: any) => {
+          if (story.bullet_text) lines.push(`  • ${story.bullet_text}`)
+        })
+        lines.push('')
+      }
+
+      // Create and download the file
+      const content = lines.join('\n')
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Resume_${resume.company_name}_${resume.job_title}.txt`.replace(/[^a-zA-Z0-9_.-]/g, '_')
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (error: any) {
+      console.error('Error downloading resume:', error)
+      alert('Failed to download resume: ' + error.message)
+    }
+  }
+
+  const handleDeleteResume = async (resume: TrackedResume) => {
+    const confirmed = confirm(`Are you sure you want to delete the resume for "${resume.job_title}" at ${resume.company_name}? This cannot be undone.`)
+    if (!confirmed) return
+
+    try {
+      const { error } = await supabase
+        .from('tailored_resumes')
+        .delete()
+        .eq('id', resume.id)
+
+      if (error) throw error
+
+      alert('✅ Resume deleted successfully!')
+      if (userId) await loadResumes(userId)
+    } catch (error: any) {
+      console.error('Error deleting resume:', error)
+      alert('Failed to delete resume: ' + error.message)
+    }
   }
 
   if (loading) {
@@ -332,123 +448,79 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
             </button>
           </div>
         ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden transition-colors duration-200">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Position
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Company
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Status
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Sent Date
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Match Score
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Actions
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {sortedResumes.map((resume) => (
-                    <tr key={resume.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">{resume.job_title}</div>
-                        {resume.recruiter_contact && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Recruiter: {resume.recruiter_contact}</div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="text-sm text-gray-900 dark:text-white">{resume.company_name}</div>
-                        {resume.sent_to_company && resume.sent_to_company !== resume.company_name && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400">Sent to: {resume.sent_to_company}</div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        {editingId === resume.id ? (
-                          <select
-                            value={editingStatus}
-                            onChange={(e) => setEditingStatus(e.target.value)}
-                            className="text-sm px-2 py-1 border border-gray-300 rounded"
-                          >
-                            {STATUS_OPTIONS.map(status => (
-                              <option key={status.value} value={status.value}>{status.label}</option>
-                            ))}
-                          </select>
-                        ) : (
-                          <span className={`inline-flex text-xs px-2 py-1 rounded-full font-semibold ${getStatusBadge(resume.application_status).color}`}>
-                            {getStatusBadge(resume.application_status).label}
-                          </span>
-                        )}
-                        {resume.interview_date && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            📅 {formatDate(resume.interview_date)}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                        {formatDate(resume.sent_at)}
-                        {resume.last_status_update && (
-                          <div className="text-xs text-gray-400 dark:text-gray-500">
-                            Updated: {formatDate(resume.last_status_update)}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
-                          <div className="text-sm font-medium text-gray-900">
-                            {resume.match_score != null ? `${resume.match_score}%` : 'N/A'}
-                          </div>
-                          {resume.match_score != null && (
-                            <div className="ml-2 w-16 bg-gray-200 rounded-full h-2">
-                              <div
-                                className={`h-2 rounded-full ${resume.match_score >= 80 ? 'bg-green-500' :
-                                  resume.match_score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-                                  }`}
-                                style={{ width: `${resume.match_score}%` }}
-                              ></div>
-                            </div>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        {editingId === resume.id ? (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={handleSaveStatus}
-                              className="text-green-600 hover:text-green-900"
-                            >
-                              ✓ Save
-                            </button>
-                            <button
-                              onClick={handleCancelEdit}
-                              className="text-red-600 hover:text-red-900"
-                            >
-                              ✗ Cancel
-                            </button>
-                          </div>
-                        ) : (
-                          <button
-                            onClick={() => handleEditStatus(resume)}
-                            className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300"
-                          >
-                            ✏️ Edit
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div className="space-y-3">
+            {sortedResumes.map((resume) => (
+              <div key={resume.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-4 hover:shadow-md transition-all">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+                  {/* Position & Company */}
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate" title={resume.job_title}>
+                      {resume.job_title}
+                    </h3>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      {resume.company_name}
+                      {resume.recruiter_contact && <span className="ml-2">• Recruiter: {resume.recruiter_contact}</span>}
+                    </p>
+                  </div>
+
+                  {/* Status Badge */}
+                  <div className="flex-shrink-0">
+                    <span className={`inline-flex text-xs px-2.5 py-1 rounded-full font-semibold ${getStatusBadge(resume.application_status).color}`}>
+                      {getStatusBadge(resume.application_status).label}
+                    </span>
+                  </div>
+
+                  {/* Match Score */}
+                  <div className="flex items-center gap-2 flex-shrink-0 w-24">
+                    <span className="text-sm font-bold text-gray-900 dark:text-white">
+                      {resume.match_score != null ? `${resume.match_score}%` : '—'}
+                    </span>
+                    {resume.match_score != null && (
+                      <div className="flex-1 bg-gray-200 dark:bg-gray-600 rounded-full h-1.5">
+                        <div
+                          className={`h-1.5 rounded-full ${resume.match_score >= 80 ? 'bg-green-500' :
+                            resume.match_score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}
+                          style={{ width: `${resume.match_score}%` }}
+                        ></div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Date */}
+                  <div className="flex-shrink-0 text-xs text-gray-400 dark:text-gray-500 w-28 text-right hidden md:block">
+                    {formatDate(resume.sent_at || resume.created_at).split(',')[0]}
+                    {resume.interview_date && (
+                      <div className="text-purple-500 mt-0.5">📅 {formatDate(resume.interview_date).split(',')[0]}</div>
+                    )}
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => handleEditStatus(resume)}
+                      className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-900/20 rounded-lg transition-colors"
+                    >
+                      ✏️ Edit
+                    </button>
+                    <button
+                      onClick={() => handleDownloadResume(resume)}
+                      className="px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                      title="Download Resume"
+                    >
+                      📥 Download
+                    </button>
+                    <button
+                      onClick={() => handleDeleteResume(resume)}
+                      className="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                      title="Delete Resume"
+                    >
+                      🗑️ Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

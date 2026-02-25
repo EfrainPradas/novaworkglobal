@@ -5,7 +5,7 @@ import path from 'path'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: '/novaworkglobal/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -23,10 +23,17 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
       },
+      '/novaworkglobal-api': {
+        target: 'http://localhost:5001',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/novaworkglobal-api/, ''),
+      },
     },
   },
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    outDir: 'dist',
+    sourcemap: false, // 🔒 Security: Disable source maps in production
   },
 })

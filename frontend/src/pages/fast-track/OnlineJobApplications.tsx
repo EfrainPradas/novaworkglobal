@@ -95,6 +95,14 @@ export default function OnlineJobApplications() {
                                 <p className="text-sm text-gray-600 dark:text-gray-400">Step 2: Track applications & leverage referrals</p>
                             </div>
                         </div>
+                        <div className="flex gap-3">
+                            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
+                                ▶ Watch video
+                            </button>
+                            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                                Learn more
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

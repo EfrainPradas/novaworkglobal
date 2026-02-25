@@ -7,7 +7,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { X, Plus, Sparkles, Save, Loader2, ArrowLeft } from 'lucide-react'
+import { X, Plus, Sparkles, Save, Loader2, ArrowLeft, Play, BookOpen } from 'lucide-react'
 
 export default function SkillsValues() {
   const navigate = useNavigate()
@@ -247,23 +247,46 @@ export default function SkillsValues() {
             <ArrowLeft className="w-5 h-5" />
             Back to Career Vision
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            🎯 Skills & Interests
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Identify what you're good at and what excites you
-          </p>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                  Skills & Interests
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Identify what you're good at and what excites you
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href="/videos/AI_&_Your_Career_Path-EN.mp4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
+                <Play className="w-4 h-4" /> Watch video
+              </a>
+              <button
+                onClick={() => navigate('/career-vision/skills-values')}
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
+                <BookOpen className="w-4 h-4" /> Learn more
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Main Content Grid - 2 Columns */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Skills Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors">
-            <h2 className="text-xl font-bold text-blue-600 dark:text-blue-400 mb-3">
+            <h2 className="text-xl font-bold text-primary-600 dark:text-primary-400 mb-3">
               💪 Skills & Knowledge
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              What are you really good at? What expertise do you have?
+              Make a list of your skills, knowledge and competencies. Those things you are very good at from practice or study. Mention as many as possible.
             </p>
 
             {/* Input */}
@@ -274,12 +297,12 @@ export default function SkillsValues() {
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyPress={handleSkillKeyPress}
                 placeholder="e.g., Project Management"
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 options-none"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 options-none"
               />
               <button
                 onClick={addSkill}
                 disabled={!skillInput.trim()}
-                className="p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -290,12 +313,12 @@ export default function SkillsValues() {
               {skills.map((skill, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium border border-blue-200 dark:border-blue-800"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium border border-primary-200 dark:border-primary-800"
                 >
                   {skill}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="hover:bg-blue-200 dark:hover:bg-blue-800 rounded-full p-0.5"
+                    className="hover:bg-primary-200 dark:hover:bg-primary-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -311,11 +334,11 @@ export default function SkillsValues() {
 
           {/* Interests Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors">
-            <h2 className="text-xl font-bold text-purple-600 dark:text-purple-400 mb-3">
+            <h2 className="text-xl font-bold text-teal-600 dark:text-teal-400 mb-3">
               ❤️ Interests & Passions
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              What genuinely excites you? What could you do for hours?
+              Choose from your skills and knowledge the ones you enjoy the most. Add other skills and knowledge you would like to have but you don't now.
             </p>
 
             {/* Input */}
@@ -326,12 +349,12 @@ export default function SkillsValues() {
                 onChange={(e) => setInterestInput(e.target.value)}
                 onKeyPress={handleInterestKeyPress}
                 placeholder="e.g., Data Visualization"
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 outline-none"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
               <button
                 onClick={addInterest}
                 disabled={!interestInput.trim()}
-                className="p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -342,12 +365,12 @@ export default function SkillsValues() {
               {interests.map((interest, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium border border-purple-200 dark:border-purple-800"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium border border-teal-200 dark:border-teal-800"
                 >
                   {interest}
                   <button
                     onClick={() => removeInterest(interest)}
-                    className="hover:bg-purple-200 dark:hover:bg-purple-800 rounded-full p-0.5"
+                    className="hover:bg-teal-200 dark:hover:bg-teal-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -363,7 +386,7 @@ export default function SkillsValues() {
         </div>
 
         {/* AI Suggestions Section */}
-        <div className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/10 dark:to-purple-900/10 border border-blue-100 dark:border-blue-900/30 rounded-xl shadow-lg p-6 mb-8 transition-colors">
+        <div className="bg-gradient-to-r from-primary-50 to-teal-50 dark:from-primary-900/10 dark:to-teal-900/10 border border-primary-100 dark:border-primary-900/30 rounded-xl shadow-lg p-6 mb-8 transition-colors">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -377,7 +400,7 @@ export default function SkillsValues() {
             <button
               onClick={generateAISuggestions}
               disabled={generating}
-              className="px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 flex items-center gap-2 shadow-sm"
+              className="px-4 py-2 bg-gradient-to-r from-primary-600 to-teal-600 text-white rounded-lg font-semibold hover:from-primary-700 hover:to-teal-700 disabled:opacity-50 flex items-center gap-2 shadow-sm"
             >
               {generating ? (
                 <>
@@ -399,13 +422,13 @@ export default function SkillsValues() {
               {/* Skills Suggestions */}
               {aiSuggestions.skills.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 mb-2">💡 SKILLS SUGGESTIONS</p>
+                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 SKILLS SUGGESTIONS</p>
                   <div className="flex flex-wrap gap-2">
                     {aiSuggestions.skills.map((skill, index) => (
                       <button
                         key={index}
                         onClick={() => addFromSuggestion('skills', skill)}
-                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:border-blue-400 transition-colors"
+                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:border-primary-400 transition-colors"
                       >
                         + {skill}
                       </button>
@@ -417,13 +440,13 @@ export default function SkillsValues() {
               {/* Interests Suggestions */}
               {aiSuggestions.interests.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-purple-600 dark:text-purple-400 mb-2">💡 INTERESTS SUGGESTIONS</p>
+                  <p className="text-xs font-semibold text-teal-600 dark:text-teal-400 mb-2">💡 INTERESTS SUGGESTIONS</p>
                   <div className="flex flex-wrap gap-2">
                     {aiSuggestions.interests.map((interest, index) => (
                       <button
                         key={index}
                         onClick={() => addFromSuggestion('interests', interest)}
-                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:border-purple-400 transition-colors"
+                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-teal-300 dark:border-teal-700 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium hover:bg-teal-100 dark:hover:bg-teal-900/30 hover:border-teal-400 transition-colors"
                       >
                         + {interest}
                       </button>
@@ -438,7 +461,7 @@ export default function SkillsValues() {
         {/* Interactive 2-Circle Venn Diagram with Hover Tooltips */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 relative border border-gray-100 dark:border-gray-700 transition-colors">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-            Your Career Sweet Spot
+            Your Career Vision / Ideal Job
           </h3>
 
           <div className="flex items-center justify-center mb-6">
@@ -448,53 +471,53 @@ export default function SkillsValues() {
                   <defs>
                     {/* Premium Gradients */}
                     <linearGradient id="skillsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: '#3B82F6', stopOpacity: 0.2 }} />
-                      <stop offset="100%" style={{ stopColor: '#60A5FA', stopOpacity: 0.3 }} />
+                      <stop offset="0%" style={{ stopColor: '#1e40af', stopOpacity: 0.15 }} />
+                      <stop offset="100%" style={{ stopColor: '#2563eb', stopOpacity: 0.25 }} />
                     </linearGradient>
                     <linearGradient id="interestsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: '#A855F7', stopOpacity: 0.2 }} />
-                      <stop offset="100%" style={{ stopColor: '#C084FC', stopOpacity: 0.3 }} />
+                      <stop offset="0%" style={{ stopColor: '#0d9488', stopOpacity: 0.15 }} />
+                      <stop offset="100%" style={{ stopColor: '#14b8a6', stopOpacity: 0.25 }} />
                     </linearGradient>
                     <linearGradient id="sweetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: '#22C55E', stopOpacity: 0.4 }} />
-                      <stop offset="100%" style={{ stopColor: '#10B981', stopOpacity: 0.5 }} />
+                      <stop offset="0%" style={{ stopColor: '#1e3a5f', stopOpacity: 0.3 }} />
+                      <stop offset="100%" style={{ stopColor: '#1e40af', stopOpacity: 0.4 }} />
                     </linearGradient>
                   </defs>
 
                   {/* Skills Circle (Left) - Interactive Group */}
                   <g className="group cursor-pointer transition-all duration-300">
                     <circle
-                      cx="140"
+                      cx="130"
                       cy="150"
-                      r="110"
+                      r="100"
                       fill="url(#skillsGrad)"
-                      stroke="#3B82F6"
+                      stroke="#1e40af"
                       strokeWidth="3"
                       className="transition-all duration-300 group-hover:stroke-[5]"
-                      style={{ filter: 'drop-shadow(0 4px 6px rgba(59, 130, 246, 0.2))' }}
+                      style={{ filter: 'drop-shadow(0 4px 6px rgba(30, 64, 175, 0.2))' }}
                     />
-                    <text x="85" y="115" fill="#3B82F6" fontSize="16" fontWeight="bold" className="pointer-events-none">
+                    <text x="100" y="115" fill="#1e40af" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
                       Skills
                     </text>
-                    <text x="95" y="138" fill="#3B82F6" fontSize="14" className="pointer-events-none">
+                    <text x="100" y="138" fill="#1e40af" fontSize="14" className="pointer-events-none" textAnchor="middle">
                       ({skills.length})
                     </text>
 
                     {/* Tooltip - Skills */}
                     <foreignObject x="20" y="170" width="160" height="140" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-blue-400">
-                        <p className="text-[10px] font-bold text-blue-700 dark:text-blue-300 mb-1 flex items-center gap-1">
+                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-primary-400">
+                        <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
                           <span>💪</span> Skills:
                         </p>
                         <div className="max-h-24 overflow-y-auto space-y-1">
                           {skills.slice(0, 5).map((skill, idx) => (
                             <div key={idx} className="text-[9px] text-gray-700 dark:text-gray-200 flex items-center gap-1">
-                              <span className="w-1 h-1 bg-blue-500 rounded-full flex-shrink-0"></span>
+                              <span className="w-1 h-1 bg-primary-500 rounded-full flex-shrink-0"></span>
                               <span className="line-clamp-1">{skill}</span>
                             </div>
                           ))}
                           {skills.length > 5 && (
-                            <p className="text-[9px] text-blue-600 dark:text-blue-400 font-bold mt-1">+{skills.length - 5} more</p>
+                            <p className="text-[9px] text-primary-600 dark:text-primary-400 font-bold mt-1">+{skills.length - 5} more</p>
                           )}
                         </div>
                       </div>
@@ -504,37 +527,37 @@ export default function SkillsValues() {
                   {/* Interests Circle (Right) - Interactive Group */}
                   <g className="group cursor-pointer transition-all duration-300">
                     <circle
-                      cx="260"
+                      cx="270"
                       cy="150"
-                      r="110"
+                      r="100"
                       fill="url(#interestsGrad)"
-                      stroke="#A855F7"
+                      stroke="#0d9488"
                       strokeWidth="3"
                       className="transition-all duration-300 group-hover:stroke-[5]"
-                      style={{ filter: 'drop-shadow(0 4px 6px rgba(168, 85, 247, 0.2))' }}
+                      style={{ filter: 'drop-shadow(0 4px 6px rgba(13, 148, 136, 0.2))' }}
                     />
-                    <text x="230" y="115" fill="#A855F7" fontSize="16" fontWeight="bold" className="pointer-events-none">
+                    <text x="300" y="115" fill="#0d9488" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
                       Interests
                     </text>
-                    <text x="245" y="138" fill="#A855F7" fontSize="14" className="pointer-events-none">
+                    <text x="300" y="138" fill="#0d9488" fontSize="14" className="pointer-events-none" textAnchor="middle">
                       ({interests.length})
                     </text>
 
                     {/* Tooltip - Interests */}
                     <foreignObject x="220" y="170" width="160" height="140" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-purple-400">
-                        <p className="text-[10px] font-bold text-purple-700 dark:text-purple-300 mb-1 flex items-center gap-1">
-                          <span>❤️</span> Interests:
+                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-teal-400">
+                        <p className="text-[10px] font-bold text-teal-700 dark:text-teal-300 mb-1 flex items-center gap-1">
+                          <span>💡</span> Interests:
                         </p>
                         <div className="max-h-24 overflow-y-auto space-y-1">
                           {interests.slice(0, 5).map((interest, idx) => (
                             <div key={idx} className="text-[9px] text-gray-700 dark:text-gray-200 flex items-center gap-1">
-                              <span className="w-1 h-1 bg-purple-500 rounded-full flex-shrink-0"></span>
+                              <span className="w-1 h-1 bg-teal-500 rounded-full flex-shrink-0"></span>
                               <span className="line-clamp-1">{interest}</span>
                             </div>
                           ))}
                           {interests.length > 5 && (
-                            <p className="text-[9px] text-purple-600 dark:text-purple-400 font-bold mt-1">+{interests.length - 5} more</p>
+                            <p className="text-[9px] text-teal-600 dark:text-teal-400 font-bold mt-1">+{interests.length - 5} more</p>
                           )}
                         </div>
                       </div>
@@ -547,27 +570,30 @@ export default function SkillsValues() {
                       <ellipse
                         cx="200"
                         cy="150"
-                        rx="50"
+                        rx="40"
                         ry="60"
                         fill="url(#sweetGrad)"
-                        stroke="#22C55E"
+                        stroke="#1e3a5f"
                         strokeWidth="4"
                         className="transition-all duration-300 group-hover:stroke-[6] animate-pulse"
-                        style={{ filter: 'drop-shadow(0 6px 12px rgba(34, 197, 94, 0.3))' }}
+                        style={{ filter: 'drop-shadow(0 6px 12px rgba(30, 58, 95, 0.3))' }}
                       />
-                      <text x="200" y="157" fill="#16A34A" fontSize="28" textAnchor="middle" fontWeight="bold" className="pointer-events-none">
-                        ❤️
+                      <text x="200" y="145" fill="#1e3a5f" fontSize="12" textAnchor="middle" fontWeight="bold" className="pointer-events-none">
+                        Career Vision
+                      </text>
+                      <text x="200" y="162" fill="#1e3a5f" fontSize="11" textAnchor="middle" fontWeight="bold" className="pointer-events-none">
+                        Ideal Job
                       </text>
 
                       {/* Tooltip - Sweet Spot */}
                       <foreignObject x="120" y="60" width="160" height="80" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-gradient-to-br from-green-50 to-emerald-100 dark:from-green-900/80 dark:to-emerald-900/80 rounded-lg shadow-2xl p-2 border-2 border-green-500">
-                          <p className="text-[10px] font-bold text-green-700 dark:text-green-300 mb-1 flex items-center gap-1">
-                            <span>✨</span> Sweet Spot:
+                        <div className="bg-gradient-to-br from-primary-50 to-teal-100 dark:from-primary-900/80 dark:to-teal-900/80 rounded-lg shadow-2xl p-2 border-2 border-primary-500">
+                          <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
+                            <span>✨</span> Career Vision:
                           </p>
                           <div className="flex flex-wrap gap-1">
                             {sweetSpot.slice(0, 4).map((word, idx) => (
-                              <span key={idx} className="px-2 py-0.5 bg-white dark:bg-gray-800 text-green-700 dark:text-green-300 rounded-full text-[9px] font-bold border border-green-400 dark:border-green-700">
+                              <span key={idx} className="px-2 py-0.5 bg-white dark:bg-gray-800 text-primary-700 dark:text-primary-300 rounded-full text-[9px] font-bold border border-primary-400 dark:border-primary-700">
                                 {word}
                               </span>
                             ))}
@@ -583,22 +609,22 @@ export default function SkillsValues() {
 
           {/* Sweet Spot Words Section - Enhanced */}
           {sweetSpot.length > 0 && (
-            <div className="bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 border-2 border-green-300 dark:border-green-800 rounded-lg p-3 mb-3 shadow-sm">
+            <div className="bg-gradient-to-r from-primary-50 via-teal-50 to-primary-50 dark:from-primary-900/20 dark:via-teal-900/20 dark:to-primary-900/20 border-2 border-primary-300 dark:border-primary-800 rounded-lg p-3 mb-3 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">✨</span>
-                <p className="text-sm font-bold text-green-700 dark:text-green-400">Sweet Spot:</p>
+                <p className="text-sm font-bold text-primary-700 dark:text-primary-400">Career Vision / Ideal Job:</p>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {sweetSpot.map((word, index) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-white dark:bg-gray-800 text-green-700 dark:text-green-300 rounded-full text-xs font-bold border border-green-400 dark:border-green-700 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default"
+                    className="px-3 py-1 bg-white dark:bg-gray-800 text-primary-700 dark:text-primary-300 rounded-full text-xs font-bold border border-primary-400 dark:border-primary-700 hover:shadow-md hover:scale-105 transition-all duration-200 cursor-default"
                   >
                     {word}
                   </span>
                 ))}
               </div>
-              <p className="text-xs text-green-600 dark:text-green-500 mt-2 italic">
+              <p className="text-xs text-primary-600 dark:text-primary-500 mt-2 italic">
                 💡 Careers here are most fulfilling!
               </p>
             </div>

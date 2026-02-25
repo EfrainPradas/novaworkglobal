@@ -28,7 +28,7 @@ interface MenuItem {
   icon: React.ElementType
   color: string
   badge?: string
-  requiredLevel: 'basic' | 'pro' | 'executive'
+  requiredLevel: 'essentials' | 'momentum' | 'executive'
   route: string
   steps: string[]
 }
@@ -41,7 +41,7 @@ export default function MainMenu() {
   const navigate = useNavigate()
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'basic' | 'pro' | 'executive'>('basic')
+  const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
 
   const toggleCard = (cardId: string) => {
     setExpandedCards(prev => {
@@ -62,7 +62,7 @@ export default function MainMenu() {
       description: 'Discover your ideal career path through AI-powered assessment and planning',
       icon: Star,
       color: 'from-blue-600 to-indigo-600',
-      requiredLevel: 'executive',
+      requiredLevel: 'momentum',
       route: '/career-vision',
       steps: [
         'Career Vision Discovery',
@@ -77,7 +77,7 @@ export default function MainMenu() {
       description: 'Create a powerful resume that gets noticed by recruiters and ATS systems',
       icon: FileText,
       color: 'from-blue-500 to-cyan-500',
-      requiredLevel: 'basic',
+      requiredLevel: 'essentials',
       route: '/resume-builder',
       steps: [
         'Work Experience',
@@ -94,7 +94,7 @@ export default function MainMenu() {
       description: 'Strategic job search with smart tracking, networking, and application management',
       icon: Search,
       color: 'from-emerald-600 to-teal-600',
-      requiredLevel: 'pro',
+      requiredLevel: 'momentum',
       route: '/job-search/plan-your-search',
       steps: [
         'Plan Your Search',
@@ -155,19 +155,20 @@ export default function MainMenu() {
         console.log('📊 Subscription Data:', userData)
         if (error) console.error('❌ Error fetching subscription:', error)
 
-        // Map DB subscription_tier to UI userLevel
-        // DB: basic, pro, executive
-        // UI: basic, pro, executive
+        // DB supports both old (basic, pro) and new (essentials, momentum) tier names
         if (userData?.subscription_tier) {
-          const tier = userData.subscription_tier
-          console.log('🏷️ Resolved Tier:', tier)
+          let tier = userData.subscription_tier
+          console.log('🏷️ Raw Tier from DB:', tier)
 
-          if (tier === 'executive') setUserLevel('executive')
-          else if (tier === 'pro') setUserLevel('pro')
-          else setUserLevel('basic')
+          // Map old tier names to new ones
+          if (tier === 'basic') tier = 'essentials'
+          if (tier === 'pro') tier = 'momentum'
+
+          console.log('🏷️ Normalized Tier:', tier)
+          setUserLevel(tier as 'essentials' | 'momentum' | 'executive')
         } else {
-          console.log('⚠️ No specific tier found, defaulting to basic')
-          setUserLevel('basic')
+          console.log('⚠️ No specific tier found, defaulting to essentials')
+          setUserLevel('essentials')
         }
 
         // Load user profile
@@ -175,7 +176,7 @@ export default function MainMenu() {
           .from('user_profiles')
           .select('*')
           .eq('user_id', user.id)
-          .single()
+          .maybeSingle()
 
         setUserProfile(profile)
       }
@@ -187,7 +188,7 @@ export default function MainMenu() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { basic: 1, pro: 2, executive: 3 }
+    const levels = { essentials: 1, momentum: 2, executive: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
@@ -231,17 +232,17 @@ export default function MainMenu() {
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'basic') return null
-    if (requiredLevel === 'pro') {
+    if (requiredLevel === 'essentials') return null
+    if (requiredLevel === 'momentum') {
       return canAccess(requiredLevel) ? (
         <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full flex items-center">
           <Star className="h-3 w-3 mr-1" />
-          Pro
+          Momentum
         </span>
       ) : (
         <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full flex items-center">
           <Lock className="h-3 w-3 mr-1" />
-          Pro Required
+          Momentum Required
         </span>
       )
     }
@@ -264,7 +265,7 @@ export default function MainMenu() {
   const handleMenuClick = (item: MenuItem) => {
     if (!canAccess(item.requiredLevel)) {
       // Show upgrade modal
-      alert(`This feature requires ${item.requiredLevel === 'pro' ? 'Pro' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${item.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -272,9 +273,9 @@ export default function MainMenu() {
     navigate(item.route)
   }
 
-  const handleQuickAccess = (route: string, requiredLevel: 'basic' | 'pro' | 'executive') => {
+  const handleQuickAccess = (route: string, requiredLevel: 'essentials' | 'momentum' | 'executive') => {
     if (!canAccess(requiredLevel)) {
-      alert(`This feature requires ${requiredLevel === 'pro' ? 'Pro' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
       return
     }
     navigate(route)
@@ -298,7 +299,7 @@ export default function MainMenu() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-20 w-auto" />
+              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
               <div className="hidden sm:block">
                 {getAccessBadge('executive')}
               </div>
@@ -488,7 +489,7 @@ export default function MainMenu() {
                                 navigate('/upgrade')
                               }}
                             >
-                              Upgrade to {item.requiredLevel === 'pro' ? 'Pro' : 'Executive'}
+                              Upgrade to {item.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'}
                             </button>
                           )}
                         </div>
@@ -506,7 +507,7 @@ export default function MainMenu() {
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Quick Access & Tools</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'basic')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'essentials')}
               className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🎯</div>
@@ -514,7 +515,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'basic')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'essentials')}
               className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🧠</div>
@@ -522,7 +523,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'basic')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'essentials')}
               className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">📊</div>
@@ -530,21 +531,21 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/fast-track/ai-recommendations', 'pro')}
-              className={`p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all ${!canAccess('pro') ? 'opacity-75' : ''}`}
+              onClick={() => handleQuickAccess('/fast-track/ai-recommendations', 'momentum')}
+              className={`p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all ${!canAccess('momentum') ? 'opacity-75' : ''}`}
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
-                🤖 {!canAccess('pro') && <Lock className="h-4 w-4 text-gray-500" />}
+                🤖 {!canAccess('momentum') && <Lock className="h-4 w-4 text-gray-500" />}
               </div>
               <div className="text-sm font-medium text-gray-900">AI Jobs</div>
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/resume/tracking', 'pro')}
-              className={`p-4 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg hover:shadow-md transition-all ${!canAccess('pro') ? 'opacity-75' : ''}`}
+              onClick={() => handleQuickAccess('/resume/tracking', 'momentum')}
+              className={`p-4 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg hover:shadow-md transition-all ${!canAccess('momentum') ? 'opacity-75' : ''}`}
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
-                📋 {!canAccess('pro') && <Lock className="h-4 w-4 text-gray-500" />}
+                📋 {!canAccess('momentum') && <Lock className="h-4 w-4 text-gray-500" />}
               </div>
               <div className="text-sm font-medium text-yellow-900">Tracker</div>
             </button>

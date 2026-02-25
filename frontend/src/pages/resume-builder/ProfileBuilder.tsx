@@ -5,6 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { COUNTRIES, US_STATES } from '../../constants/locations'
 import AvatarUpload from '../../components/common/AvatarUpload'
+import { BackButton } from '../../components/common/BackButton'
+import { Sparkles, Save, Lightbulb, GraduationCap, X, Check, Target } from 'lucide-react'
+import { trackEvent } from '../../lib/analytics'
+import ResumePreview from '../../components/resume/ResumePreview'
 
 const ProfileBuilder: React.FC = () => {
   const { t } = useTranslation()
@@ -41,18 +45,145 @@ const ProfileBuilder: React.FC = () => {
     checkUser()
   }, [])
 
+  const fileInputRef = React.useRef<HTMLInputElement>(null)
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    setGeneratingAI(true)
+    setError(null)
+
+    const formData = new FormData()
+    formData.append('file', file)
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
+      const response = await fetch(`${apiUrl}/api/parse-resume`, {
+        method: 'POST',
+        body: formData
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to parse LinkedIn PDF')
+      }
+
+      const data = await response.json()
+      console.log('✅ Parsed LinkedIn Data:', data)
+
+      // Map parsed data to state
+      if (data.who_you_are) setWhoYouAre(data.who_you_are)
+      if (data.core_skills) setCoreSkills(data.core_skills)
+      if (data.soft_skills) setSoftSkills(data.soft_skills)
+
+      // Fallback: If OpenAI didn't split them but returned a summary
+      if (!data.who_you_are && data.profile_summary) {
+        // Simple heuristic or just dump it in whoYouAre if short
+        if (data.profile_summary.length < 200) {
+          setWhoYouAre(data.profile_summary)
+        } else {
+          // Try to split logic again or just set summary (user can edit)
+          setWhoYouAre(data.profile_summary.substring(0, 300) + '...')
+        }
+      }
+
+      if (data.areas_of_excellence && Array.isArray(data.areas_of_excellence)) {
+        setResume(prev => ({
+          ...prev,
+          areas_of_excellence: data.areas_of_excellence,
+          // Also update contact info if present (only non-null values)
+          ...(data.contact?.full_name ? { full_name: data.contact.full_name } : {}),
+          ...(data.contact?.email ? { email: data.contact.email } : {}),
+          ...(data.contact?.phone ? { phone: data.contact.phone } : {}),
+          ...(data.contact?.linkedin_url ? { linkedin_url: data.contact.linkedin_url } : {}),
+          ...(data.contact?.city ? { location_city: data.contact.city } : {}),
+          ...(data.contact?.country ? { location_country: data.contact.country } : {})
+        }))
+      }
+
+      // ---------------------------------------------------------
+      // NEW: Save Work Experience to DB immediately
+      // ---------------------------------------------------------
+      if (data.experiences && Array.isArray(data.experiences) && resume.id) {
+        console.log('💾 Saving parsed experiences to DB for resume:', resume.id)
+
+        let savedCount = 0
+        for (const exp of data.experiences) {
+          // Insert work experience
+          const { data: newExp, error: expError } = await supabase
+            .from('work_experience')
+            .insert({
+              resume_id: resume.id,
+              company_name: exp.company_name,
+              job_title: exp.job_title,
+              location_city: exp.location_city,
+              location_country: exp.location_country,
+              start_date: exp.start_date, // Ensure format is YYYY-MM
+              end_date: exp.end_date,
+              is_current: exp.is_current,
+              scope_description: exp.scope_description,
+              order_index: savedCount // Simple ordering
+            })
+            .select('id')
+            .single()
+
+          if (expError) {
+            console.error('❌ Error saving experience:', exp.company_name, expError)
+            continue;
+          }
+
+          savedCount++
+
+          // Insert accomplishments if any
+          if (exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0) {
+            const achievements = exp.accomplishments.map((bullet: string, idx: number) => ({
+              work_experience_id: newExp.id,
+              bullet_text: bullet,
+              order_index: idx,
+              is_featured: false
+            }))
+
+            const { error: accError } = await supabase
+              .from('accomplishments')
+              .insert(achievements)
+
+            if (accError) {
+              console.error('❌ Error saving accomplishments for:', exp.company_name, accError)
+            }
+          }
+        }
+        console.log(`✅ Saved ${savedCount} new work experiences`)
+      }
+      // ---------------------------------------------------------
+
+      alert('LinkedIn Profile Imported Successfully! Profile info updated and Work History saved.')
+
+    } catch (err: any) {
+      console.error('Error importing LinkedIn profile:', err)
+      setError(err.message || 'Failed to import profile')
+    } finally {
+      setGeneratingAI(false)
+      // Reset file input
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
+
   const checkUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (user) {
       setUserId(user.id)
-      await loadResume(user.id)
+      await loadResume(user.id, user)
       await loadPARStories(user.id)
     } else {
       setLoading(false)
     }
   }
 
-  const loadResume = async (uid: string) => {
+  const loadResume = async (uid: string, authUser?: any) => {
     console.log('🔍 Loading resume for user:', uid)
 
     if (isInitializing) {
@@ -68,7 +199,7 @@ const ProfileBuilder: React.FC = () => {
         .from('user_profiles')
         .select('*')
         .eq('user_id', uid)
-        .single()
+        .maybeSingle()
 
       // Try to load existing master resume
       console.log('🔍 Querying: user_id =', uid, ', is_master = true')
@@ -93,9 +224,21 @@ const ProfileBuilder: React.FC = () => {
         const updatedResume = { ...data }
         let needsUpdate = false;
 
-        if ((!updatedResume.full_name || updatedResume.full_name === 'Your Name') && userProfile?.full_name) {
-          updatedResume.full_name = userProfile.full_name;
-          needsUpdate = true;
+        // Check if the name looks like an email prefix (no spaces, all lowercase, no caps) 
+        const looksLikeEmailPrefix = (name: string) => !name.includes(' ') && name === name.toLowerCase() && name.length < 30
+        const needsNameUpdate = !updatedResume.full_name
+          || updatedResume.full_name === 'Your Name'
+          || looksLikeEmailPrefix(updatedResume.full_name)
+
+        if (needsNameUpdate) {
+          const bestName = userProfile?.full_name
+            || authUser?.user_metadata?.full_name
+            || authUser?.user_metadata?.name
+            || ''
+          if (bestName && !looksLikeEmailPrefix(bestName)) {
+            updatedResume.full_name = bestName
+            needsUpdate = true
+          }
         }
         if (!updatedResume.phone && userProfile?.phone) {
           updatedResume.phone = userProfile.phone;
@@ -118,11 +261,18 @@ const ProfileBuilder: React.FC = () => {
 
         // Parse profile_summary back into components if it exists
         if (data.profile_summary) {
-          // ... (existing parsing logic)
-          const parts = data.profile_summary.split('. ').filter((s: string) => s.trim()) // Explicit type
-          if (parts.length >= 1) setWhoYouAre(parts[0])
-          if (parts.length >= 2) setCoreSkills(parts[1])
-          if (parts.length >= 3) setSoftSkills(parts.slice(2).join('. ').replace(/\.$/, ''))
+          if (data.profile_summary.includes('\n\n')) {
+            const parts = data.profile_summary.split('\n\n')
+            if (parts.length >= 1) setWhoYouAre(parts[0])
+            if (parts.length >= 2) setCoreSkills(parts[1])
+            if (parts.length >= 3) setSoftSkills(parts.slice(2).join('\n\n'))
+          } else {
+            // Fallback for old data saved with periods
+            const parts = data.profile_summary.split('. ').filter((s: string) => s.trim())
+            if (parts.length >= 1) setWhoYouAre(parts[0])
+            if (parts.length >= 2) setCoreSkills(parts[1])
+            if (parts.length >= 3) setSoftSkills(parts.slice(2).join('. ').replace(/\.$/, ''))
+          }
         }
 
         // Parse US state from location_city if country is USA
@@ -150,17 +300,21 @@ const ProfileBuilder: React.FC = () => {
         }
 
       } else {
-        console.log('📝 Confirmed no resume exists, creating new one FROM PROFILE')
+        // Extract the best available name from auth metadata
+        const authName = authUser?.user_metadata?.full_name
+          || authUser?.user_metadata?.name
+          || authUser?.user_metadata?.preferred_username
+          || ''
 
         // Create a new master resume using PROFILE data
         const { data: newResume, error: createError } = await supabase
           .from('user_resumes')
           .insert({
             user_id: uid,
-            full_name: userProfile?.full_name || 'Your Name',
+            full_name: userProfile?.full_name || authName || '',
             phone: userProfile?.phone || '',
             linkedin_url: userProfile?.linkedin_url || '',
-            location_city: userProfile?.current_location?.split(',')[0] || '', // Basic city extraction
+            location_city: userProfile?.current_location?.split(',')[0] || '',
             is_master: true,
             resume_type: 'chronological'
           })
@@ -291,14 +445,12 @@ const ProfileBuilder: React.FC = () => {
     setError(null)
 
     try {
-      // Combine profile parts into profile_summary
-      // Make sure each part ends without a period, then join with ". "
+      // Make sure each part is trimmed and join with double newlines to preserve formatting
       const parts = [whoYouAre, coreSkills, softSkills]
         .map(s => s.trim())
         .filter(s => s.length > 0)
-        .map(s => s.replace(/\.$/, '')) // Remove trailing period
 
-      const profileSummary = parts.join('. ') + '.'
+      const profileSummary = parts.join('\n\n')
 
       // Format location_city with state if USA
       let formattedCity = resume.location_city
@@ -337,7 +489,37 @@ const ProfileBuilder: React.FC = () => {
         throw updateError
       }
 
+      if (!data || data.length === 0) {
+        throw new Error('Save failed: No records were updated. This is usually caused by a permissions (RLS) issue or a missing resume ID.')
+      }
+
+      // Sync changes back to global user tables
+      try {
+        await supabase.from('users').update({ full_name: resume.full_name }).eq('id', userId);
+
+        await supabase.from('user_profiles').update({
+          full_name: resume.full_name,
+          phone: resume.phone,
+          linkedin_url: resume.linkedin_url,
+          current_location: formattedCity,
+          portfolio_url: resume.portfolio_url
+        }).eq('user_id', userId);
+
+        // Also sync contact profile for consistency
+        await supabase.from('user_contact_profile').update({
+          first_name: resume.full_name?.split(' ')[0] || '',
+          last_name: resume.full_name?.split(' ').slice(1).join(' ') || '',
+          phone: resume.phone || '',
+          linkedin_url: resume.linkedin_url || '',
+          city: formattedCity?.split(',')[0]?.trim() || '',
+          country: resume.location_country || ''
+        }).eq('user_id', userId);
+      } catch (syncErr) {
+        console.warn('⚠️ Non-critical failure syncing to global profile:', syncErr);
+      }
+
       console.log('✅ Profile saved successfully:', data)
+      trackEvent('analytics', 'step_completed', { step_name: 'profile', next_step: 'resume-builder' })
       alert('Profile saved successfully!')
       navigate('/resume-builder')
     } catch (error: any) {
@@ -385,10 +567,10 @@ const ProfileBuilder: React.FC = () => {
             Back to Resume Builder
           </button>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between flex-wrap gap-4">
           <div>
             <div className="text-sm text-gray-500 mb-1">
-              {t('resumeBuilder.steps.capture')} - Step 1
+              {t('resumeBuilder.steps.capture')} - {t('resumeBuilder.steps.step', { number: 1 })}
             </div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
               {t('resumeBuilder.profile.title')}
@@ -397,13 +579,51 @@ const ProfileBuilder: React.FC = () => {
               {t('resumeBuilder.profile.subtitle')}
             </p>
           </div>
-          <button
-            onClick={handleGenerateWithAI}
-            disabled={generatingAI || parStories.length === 0}
-            className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {generatingAI ? t('common.loading') : t('resumeBuilder.profile.generateWithAI')}
-          </button>
+
+          <div className="flex gap-3">
+            <div className="flex gap-2">
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleFileChange}
+                className="hidden"
+                accept=".pdf"
+              />
+              <button
+                onClick={handleImportClick}
+                disabled={generatingAI}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium flex items-center gap-2 disabled:opacity-50 text-sm"
+                title="Import from LinkedIn PDF"
+              >
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+                </svg>
+                {generatingAI ? 'Importing...' : 'Import PDF'}
+              </button>
+
+              <button
+                disabled={true}
+                className="px-4 py-2 bg-gray-100 text-gray-400 rounded-lg cursor-not-allowed font-medium flex items-center gap-2 text-sm border border-gray-200"
+                title="Import from LinkedIn URL (Coming Soon)"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                </svg>
+                Import URL
+              </button>
+
+              <button
+                onClick={handleGenerateWithAI}
+                disabled={generatingAI || parStories.length === 0}
+                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed text-sm flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                {generatingAI ? t('common.loading') : 'AI Auto-Fill'}
+              </button>
+            </div>
+          </div>
         </div>
         {parStories.length === 0 && (
           <div className="mt-4 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded">
@@ -565,7 +785,7 @@ const ProfileBuilder: React.FC = () => {
             value={whoYouAre}
             onChange={(e) => setWhoYouAre(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder={t('resumeBuilder.profile.whoYouArePlaceholder')}
+            placeholder={t('resumeBuilder.placeholders.whoYouAre')}
           />
         </div>
 
@@ -582,7 +802,7 @@ const ProfileBuilder: React.FC = () => {
             value={coreSkills}
             onChange={(e) => setCoreSkills(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder={t('resumeBuilder.profile.coreSkillsPlaceholder')}
+            placeholder={t('resumeBuilder.placeholders.coreSkills')}
           />
         </div>
 
@@ -599,7 +819,7 @@ const ProfileBuilder: React.FC = () => {
             onChange={(e) => setSoftSkills(e.target.value)}
             rows={3}
             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder={t('resumeBuilder.profile.softSkillsPlaceholder')}
+            placeholder={t('resumeBuilder.placeholders.softSkills')}
           />
         </div>
 
@@ -635,7 +855,7 @@ const ProfileBuilder: React.FC = () => {
             onChange={(e) => setAreaInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleAddArea()}
             className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            placeholder="e.g., Project Management, Budget Planning, Team Leadership"
+            placeholder={t('resumeBuilder.placeholders.areasOfExcellence')}
           />
           <button
             onClick={handleAddArea}
@@ -682,6 +902,8 @@ const ProfileBuilder: React.FC = () => {
           {saving ? t('common.saving') : t('common.save')}
         </button>
       </div>
+      {/* Resume Preview Button */}
+      {userId && <ResumePreview userId={userId} />}
     </div>
   )
 }

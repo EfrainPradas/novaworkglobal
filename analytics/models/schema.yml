@@ -1,0 +1,25 @@
+
+version: 2
+
+models:
+  - name: stg_user_skills
+    description: "Lista limpia de todas las habilidades registradas por usuarios."
+    columns:
+      - name: skill_id
+        description: "Clave primaria única."
+        tests:
+          - unique
+          - not_null
+
+      - name: origin_source
+        description: "De dónde vino la habilidad (onboarding, manual, resume)."
+        tests:
+          - accepted_values:
+              values: ['onboarding', 'resume', 'manual']
+
+  - name: top_skills_report
+    description: "Reporte de las 20 habilidades más populares en la plataforma."
+    columns:
+      - name: total_users
+        tests:
+          - not_null

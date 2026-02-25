@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CareerTipsAI: Transformación ejecutiva de carrera impulsada por 65+ años de experiencia combinada e inteligencia artificial">
+    <title>CareerTipsAI - Executive Career Transformation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Nunito+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --white: #ffffff;
+            --dark: #1c1c1c;
+            --blue: #007bff;
+            --blue-dark: #0056b3;
+            --blue-light: #4da3ff;
+            --gray-dark: #212529;
+            --gray-medium: #495057;
+            --gray-light: #6c757d;
+            --gray-lighter: #adb5bd;
+            --gray-bg: #f8f9fa;
+            --gray-bg-dark: #e9ecef;
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+            --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.16);
+            --shadow-blue: 0 8px 24px rgba(0, 123, 255, 0.25);
+            --gradient-blue: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+            --gradient-overlay: linear-gradient(135deg, rgba(0, 123, 255, 0.95) 0%, rgba(28, 28, 28, 0.97) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.75;
+            color: var(--dark);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: var(--white);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Manrope', sans-serif;
+            letter-spacing: -0.5px;
+        }
+        
+        /* Scroll Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: var(--gradient-blue);
+            z-index: 9999;
+            transition: width 0.1s ease;
+        }
+        
+        /* Language Selector */
+        .language-selector {
+            position: relative;
+            z-index: 100;
+        }
+        
+        .current-language {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: var(--white);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--gray-bg-dark);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .current-language:hover {
+            border-color: var(--blue);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-1px);
+        }
+        
+        .language-dropdown {
+            position: absolute;
+            top: calc(100% + 0.5rem);
+            right: 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow-xl);
+            padding: 0.5rem;
+            min-width: 180px;
+            display: none;
+            border: 1px solid var(--gray-bg-dark);
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .language-dropdown.active {
+            display: block;
+        }
+        
+        .language-option {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .language-option:hover {
+            background: var(--gray-bg);
+            transform: translateX(4px);
+        }
+        
+        .language-option.active {
+            background: var(--blue);
+            color: white;
+        }
+        
+        .flag {
+            width: 20px;
+            height: 15px;
+            border-radius: 2px;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 1.25rem 0;
+            border-bottom: 1px solid var(--gray-bg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header.scrolled {
+            padding: 0.75rem 0;
+            box-shadow: var(--shadow-md);
+            border-bottom-color: transparent;
+        }
+        
+        nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 3rem;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.02);
+        }
+        
+        .logo-img {
+            height: 55px;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .logo-title {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: var(--blue);
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+        
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: var(--gray-light);
+            font-style: italic;
+            font-weight: 400;
+            margin-top: 0.25rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            align-items: center;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray-dark);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-links a:not(.btn-primary):hover {
+            color: var(--blue);
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a:not(.btn-primary)::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-blue);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .nav-links a:not(.btn-primary):hover::after {
+            width: 100%;
+        }
+        
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-blue);
+            color: white;
+            padding: 0.9rem 2.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            letter-spacing: 0.3px;
+            box-shadow: var(--shadow-blue);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 123, 255, 0.35);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            color: var(--dark);
+            padding: 0.9rem 2.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid var(--dark);
+            letter-spacing: 0.3px;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        /* Hero Section */
+        .hero {
+            margin-top: 90px;
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            background: var(--gradient-overlay),
+                        url('C:/CarrersA/img1.png') center/cover;
+            color: white;
+            min-height: 750px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 123, 255, 0.15) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 50%, rgba(0, 123, 255, 0.1) 0%, transparent 50%);
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+        
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: gridMove 20s linear infinite;
+            pointer-events: none;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 7rem 3rem;
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        
+        .hero-text {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.8s ease-out 0.2s both;
+            letter-spacing: 0.5px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .hero-text h1 {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(2.75rem, 5.5vw, 4rem);
+            margin-bottom: 1.75rem;
+            font-weight: 800;
+            line-height: 1.15;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .hero-text p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.8;
+            font-weight: 400;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.5s both;
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: fadeInRight 0.8s ease-out 0.6s both;
+        }
+        
+        @keyframes fadeInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .hero-stat {
+            text-align: center;
+            position: relative;
+        }
+        
+        .hero-stat::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background: var(--blue-light);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+        
+        .hero-stat:nth-child(3)::after,
+        .hero-stat:nth-child(4)::after {
+            display: none;
+        }
+        
+        .hero-stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            display: block;
+            margin-bottom: 0.75rem;
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, var(--blue-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+        
+        /* Brand Values Section */
+        .brand-values {
+            padding: 6rem 3rem;
+            background: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .brand-values::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(0, 123, 255, 0.03) 0%, transparent 70%);
+        }
+        
+        .brand-values-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        
+        .brand-values h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--blue);
+            margin-bottom: 3rem;
+            font-weight: 800;
+        }
+        
+        .values-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .value-badge {
+            padding: 1rem 2.25rem;
+            background: var(--white);
+            border: 2px solid var(--gray-bg-dark);
+            border-radius: 50px;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+            cursor: default;
+        }
+        
+        .value-badge:hover {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-blue);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 7rem 3rem;
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-bg) 100%);
+        }
+        
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5rem;
+            align-items: center;
+        }
+        
+        .feature-image-wrapper {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-xl);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .feature-image-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.1) 0%, transparent 50%);
+            z-index: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        .feature-image-wrapper:hover::before {
+            opacity: 0;
+        }
+        
+        .feature-image-wrapper:hover {
+            transform: scale(1.02) translateY(-5px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-image {
+            width: 100%;
+            height: 450px;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-image-wrapper:hover .feature-image {
+            transform: scale(1.05);
+        }
+        
+        .feature-content {
+            padding: 2rem 0;
+        }
+        
+        .feature-eyebrow {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: var(--blue);
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+        
+        .feature-content h3 {
+            font-family: 'Manrope', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 1.75rem;
+            color: var(--dark);
+            font-weight: 800;
+            line-height: 1.2;
+        }
+        
+        .feature-content p {
+            color: var(--gray-dark);
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 2rem;
+        }
+        
+        .feature-list li {
+            padding: 1rem 0 1rem 2.5rem;
+            position: relative;
+            color: var(--gray-dark);
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .feature-list li:hover {
+            padding-left: 3rem;
+            background: var(--gray-bg);
+        }
+        
+        .feature-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: 700;
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-list li:hover::before {
+            transform: scale(1.2) rotate(360deg);
+        }
+        
+        /* Section Styling */
+        section {
+            scroll-margin-top: 100px;
+        }
+        
+        .section {
+            padding: 7rem 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+            max-width: 850px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-eyebrow {
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 3px;
+            color: var(--blue);
+            margin-bottom: 1.25rem;
+            font-weight: 800;
+        }
+        
+        .section-title {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+            margin-bottom: 1.75rem;
+            color: var(--dark);
+            font-weight: 800;
+            line-height: 1.25;
+        }
+        
+        .section-subtitle {
+            color: var(--gray-dark);
+            font-size: 1.15rem;
+            line-height: 1.85;
+            font-weight: 400;
+        }
+        
+        /* Services */
+        .services-section {
+            background: var(--white);
+            position: relative;
+        }
+        
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: radial-gradient(circle at 80% 50%, rgba(0, 123, 255, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2.75rem;
+            margin-top: 3.5rem;
+            position: relative;
+        }
+        
+        .service-card {
+            background: var(--white);
+            padding: 3.5rem 3rem;
+            border-radius: 16px;
+            border: 2px solid var(--gray-bg);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 0;
+            background: var(--gradient-blue);
+            transition: height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .service-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 123, 255, 0.03) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+        
+        .service-card:hover::before {
+            height: 100%;
+        }
+        
+        .service-card:hover::after {
+            opacity: 1;
+        }
+        
+        .service-card:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-8px);
+            border-color: var(--blue);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--gradient-blue);
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-blue);
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: var(--dark);
+            font-weight: 800;
+        }
+        
+        .service-card > p {
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        
+        .service-card ul {
+            margin-top: 2rem;
+            padding-left: 0;
+            list-style: none;
+        }
+        
+        .service-card ul li {
+            padding: 0.75rem 0 0.75rem 2rem;
+            position: relative;
+            color: var(--gray-dark);
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card ul li:hover {
+            padding-left: 2.5rem;
+        }
+        
+        .service-card ul li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1.15rem;
+            width: 8px;
+            height: 8px;
+            background: var(--blue);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card ul li:hover::before {
+            transform: scale(1.3);
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.2);
+        }
+        
+        /* Testimonials */
+        .testimonials-section {
+            background: linear-gradient(180deg, var(--white) 0%, var(--gray-bg) 100%);
+            position: relative;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            margin-top: 3.5rem;
+        }
+        
+        .testimonial {
+            background: var(--white);
+            padding: 3.5rem;
+            border-radius: 16px;
+            border: 2px solid var(--gray-bg);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial::before {
+            content: '"';
+            position: absolute;
+            top: 2rem;
+            left: 2rem;
+            font-size: 6rem;
+            color: rgba(0, 123, 255, 0.08);
+            font-family: Georgia, serif;
+            line-height: 1;
+            pointer-events: none;
+        }
+        
+        .testimonial:hover {
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-8px);
+            border-color: var(--blue);
+        }
+        
+        .testimonial-content {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .testimonial-quote {
+            color: var(--gray-dark);
+            line-height: 1.9;
+            font-size: 1.05rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+        
+        .testimonial-footer {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            padding-top: 2.5rem;
+            border-top: 2px solid var(--gray-bg);
+        }
+        
+        .testimonial-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--gradient-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.4rem;
+            font-family: 'Manrope', sans-serif;
+            box-shadow: var(--shadow-blue);
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial:hover .testimonial-avatar {
+            transform: scale(1.1);
+        }
+        
+        .testimonial-author {
+            flex: 1;
+        }
+        
+        .testimonial-name {
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 0.4rem;
+            font-size: 1.1rem;
+        }
+        
+        .testimonial-title {
+            font-size: 0.9rem;
+            color: var(--gray-light);
+            font-weight: 500;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient-overlay),
+                        url('C:/CarrersA/img2.png') center/cover;
+            color: white;
+            padding: 8rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(0, 123, 255, 0.2) 0%, transparent 70%);
+            animation: pulseGlow 8s ease-in-out infinite;
+        }
+        
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .cta-content h2 {
+            font-family: 'Manrope', sans-serif;
+            font-size: clamp(2.25rem, 4.5vw, 3.25rem);
+            margin-bottom: 2rem;
+            font-weight: 800;
+            line-height: 1.25;
+        }
+        
+        .cta-content p {
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 5rem 3rem 2.5rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .footer-brand {
+            max-width: 380px;
+        }
+        
+        .footer-logo-img {
+            height: 65px;
+            width: auto;
+            margin-bottom: 1.5rem;
+            filter: brightness(0) invert(1);
+        }
+        
+        .footer-brand p {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        
+        .footer-column h4 {
+            color: white;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            font-family: 'Manrope', sans-serif;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.85rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        
+        .footer-links a:hover {
+            color: var(--blue-light);
+            transform: translateX(5px);
+        }
+        
+        .footer-bottom {
+            padding-top: 2.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+        
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-bottom a:hover {
+            color: var(--blue-light);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(28, 28, 28, 0.95);
+            backdrop-filter: blur(12px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 3.5rem;
+            border-radius: 20px;
+            max-width: 650px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+            animation: modalSlideUp 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        @keyframes modalSlideUp {
+            from {
+                transform: translateY(50px) scale(0.95);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1.75rem;
+            right: 1.75rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-light);
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: var(--gray-bg);
+        }
+        
+        .close-modal:hover {
+            color: white;
+            background: var(--blue);
+            transform: rotate(90deg);
+        }
+        
+        .modal-content h2 {
+            font-family: 'Manrope', sans-serif;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 2.25rem;
+            font-weight: 800;
+        }
+        
+        .modal-content > p {
+            margin-bottom: 2.5rem;
+            color: var(--gray-dark);
+            line-height: 1.7;
+        }
+        
+        form input,
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 1.1rem 1.4rem;
+            margin-bottom: 1.25rem;
+            border: 2px solid var(--gray-bg-dark);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: 'Nunito Sans', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        form input:focus,
+        form select:focus,
+        form textarea:focus {
+            outline: none;
+            border-color: var(--blue);
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        form button {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--gradient-blue);
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            color: white;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-blue);
+        }
+        
+        form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(0, 123, 255, 0.35);
+        }
+        
+        form button:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-button {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        /* Scroll to Top Button */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-blue);
+            z-index: 999;
+        }
+        
+        .scroll-top.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .scroll-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 32px rgba(0, 123, 255, 0.4);
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .hero-stats {
+                max-width: 550px;
+                margin: 0 auto;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 968px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-button {
+                display: block;
+            }
+            
+            nav {
+                padding: 0 2rem;
+            }
+            
+            .hero {
+                min-height: 650px;
+            }
+            
+            .hero-content {
+                padding: 5rem 2rem;
+            }
+            
+            .section {
+                padding: 5rem 2rem;
+            }
+            
+            .features-section,
+            .brand-values,
+            .cta-section {
+                padding: 5rem 2rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .hero-text h1 {
+                font-size: 2.25rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .modal-content {
+                padding: 2.5rem 2rem;
+            }
+            
+            .logo-img {
+                height: 45px;
+            }
+            
+            .hero-badge {
+                font-size: 0.75rem;
+                padding: 0.5rem 1.2rem;
+            }
+        }
+    </style>
+    <base target="_blank">
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <div class="logo-container">
+                <img src="C:/CarrersA/logo.png" alt="CareerTipsAI Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-title" data-translate="brandName">CareerTipsAI</span>
+                    <span class="logo-subtitle" data-translate="brandTagline">Redefining how professionals shape their future</span>
+                </div>
+            </div>
+            <div class="nav-links">
+                <a href="#values" data-translate="navValues">Valores</a>
+                <a href="#services" data-translate="navServices">Servicios</a>
+                <a href="#results" data-translate="navResults">Resultados</a>
+                <div class="language-selector">
+                    <div class="current-language" onclick="toggleLanguageDropdown()">
+                    <img src="https://flagcdn.com/24x18/es.png" alt="Spanish flag" class="flag" id="currentFlag">
+                    <span id="currentLang">Español</span>
+                    <span>▼</span>
+                </div>
+                    <div class="language-dropdown" id="languageDropdown">
+                        <div class="language-option active" onclick="changeLanguage('es')">
+                            <img src="https://flagcdn.com/24x18/es.png" alt="Spanish flag" class="flag">
+                            <span>Español</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('en')">
+                            <img src="https://flagcdn.com/24x18/us.png" alt="English flag" class="flag">
+                            <span>English</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('pt')">
+                            <img src="https://flagcdn.com/24x18/br.png" alt="Portuguese flag" class="flag">
+                            <span>Português</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('it')">
+                            <img src="https://flagcdn.com/24x18/it.png" alt="Italian flag" class="flag">
+                            <span>Italiano</span>
+                        </div>
+                        <div class="language-option" onclick="changeLanguage('fr')">
+                            <img src="https://flagcdn.com/24x18/fr.png" alt="French flag" class="flag">
+                            <span>Français</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn-primary" style="padding: 0.75rem 1.75rem; font-size: 0.875rem;" onclick="openModal(); return false;" data-translate="navCTA">Comienza Ahora</a>
+            </div>
+            <button class="mobile-menu-button">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">✨ <span data-translate="heroBadge">65+ Años de Experiencia Combinada</span></div>
+                <h1 data-translate="heroTitle">Transformación Ejecutiva Impulsada por Décadas de Expertise</h1>
+                <p data-translate="heroSubtitle">Más de 65 años de experiencia combinada en coaching C-suite fusionados con inteligencia artificial avanzada para acelerar tu camino hacia la cima del liderazgo corporativo.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary" onclick="openModal(); return false;" data-translate="heroCTA">Reserva tu Consulta Gratuita</a>
+                    <a href="#values" class="btn-secondary" style="background: rgba(255,255,255,0.15); color: white; border-color: rgba(255,255,255,0.4); backdrop-filter: blur(10px);" data-translate="heroLearnMore">Descubre Cómo</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="hero-stat-number">500+</span>
+                    <span class="hero-stat-label" data-translate="stat1">Ejecutivos Asesorados</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">95%</span>
+                    <span class="hero-stat-label" data-translate="stat2">Tasa de Éxito</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">$3.2M</span>
+                    <span class="hero-stat-label" data-translate="stat3">Aumento Promedio</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="hero-stat-number">65+</span>
+                    <span class="hero-stat-label" data-translate="stat4">Días para Resultados</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brand Values -->
+    <section id="values" class="brand-values">
+        <div class="brand-values-content">
+            <h2 data-translate="valuesTitle">Nuestros Valores Fundamentales</h2>
+            <div class="values-grid">
+                <div class="value-badge" data-translate="value1">Transformation</div>
+                <div class="value-badge" data-translate="value2">Clarity</div>
+                <div class="value-badge" data-translate="value3">Confidence</div>
+                <div class="value-badge" data-translate="value4">Purpose</div>
+                <div class="value-badge" data-translate="value5">Trust</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features with Images -->
+    <section class="features-section">
+        <div class="features-grid">
+            <div class="feature-image-wrapper">
+                <img src="C:/CarrersA/img3.png" alt="Professional Excellence" class="feature-image">
+            </div>
+            <div class="feature-content">
+                <div class="feature-eyebrow" data-translate="featureEyebrow">Por Qué Somos Diferentes</div>
+                <h3 data-translate="feature1Title">Excelencia Forjada en 65+ Años de Experiencia</h3>
+                <p data-translate="feature1Desc">Cada carrera ejecutiva es única y merece un enfoque personalizado. Nuestro equipo combina más de 65 años de experiencia acumulada en coaching C-suite con análisis de datos de vanguardia para crear estrategias que realmente transforman carreras.</p>
+                <ul class="feature-list">
+                    <li data-translate="feature1Point1">Evaluación exhaustiva respaldada por décadas de conocimiento</li>
+                    <li data-translate="feature1Point2">Estrategias probadas en más de 500 transformaciones exitosas</li>
+                    <li data-translate="feature1Point3">Seguimiento personalizado y ajustes continuos basados en resultados</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="section services-section">
+        <div class="section-header">
+            <div class="section-eyebrow" data-translate="servicesEyebrow">Nuestros Servicios</div>
+            <h2 class="section-title" data-translate="servicesTitle">Programas Adaptados para Cada Etapa de Tu Carrera</h2>
+            <p class="section-subtitle" data-translate="servicesSubtitle">Servicios integrales diseñados con 65+ años de experiencia combinada para profesionales que buscan avanzar en su trayectoria de liderazgo.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🎯</div>
+                <h3 data-translate="service1Title">Lanzamiento de Carrera</h3>
+                <p data-translate="service1Desc">Para profesionales emergentes y recién graduados. Posicionamiento estratégico respaldado por décadas de experiencia para el éxito a largo plazo.</p>
+                <ul>
+                    <li data-translate="service1Point1">Desarrollo de CV ejecutivo</li>
+                    <li data-translate="service1Point2">Estrategia de marca personal</li>
+                    <li data-translate="service1Point3">Preparación intensiva para entrevistas</li>
+                    <li data-translate="service1Point4">Tácticas de expansión de red profesional</li>
+                    <li data-translate="service1Point5">Análisis de posicionamiento en el mercado</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3 data-translate="service2Title">Pivote Estratégico</h3>
+                <p data-translate="service2Desc">Para profesionales experimentados que buscan transiciones de industria. Aprovecha tu experiencia en nuevos contextos con nuestra guía experta.</p>
+                <ul>
+                    <li data-translate="service2Point1">Mapeo de habilidades transferibles</li>
+                    <li data-translate="service2Point2">Estrategia de transición de industria</li>
+                    <li data-translate="service2Point3">Desarrollo de habilidades específicas</li>
+                    <li data-translate="service2Point4">Acceso a mentoría C-level</li>
+                    <li data-translate="service2Point5">Análisis de oportunidades del mercado</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">👔</div>
+                <h3 data-translate="service3Title">Avance Ejecutivo</h3>
+                <p data-translate="service3Desc">Para líderes senior preparándose para C-suite o juntas directivas. Influencia organizacional ampliada e impacto estratégico garantizado.</p>
+                <ul>
+                    <li data-translate="service3Point1">Desarrollo de presencia ejecutiva</li>
+                    <li data-translate="service3Point2">Marcos de decisión estratégica</li>
+                    <li data-translate="service3Point3">Preparación para juntas directivas</li>
+                    <li data-translate="service3Point4">Gestión avanzada de stakeholders</li>
+                    <li data-translate="service3Point5">Acceso a red ejecutiva global</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section id="results" class="section testimonials-section">
+        <div class="section-header">
+            <div class="section-eyebrow" data-translate="testimonialsEyebrow">Historias de Éxito</div>
+            <h2 class="section-title" data-translate="testimonialsTitle">Transformaciones Reales, Resultados Medibles</h2>
+            <p class="section-subtitle" data-translate="testimonialsSubtitle">Descubre cómo profesionales como tú han acelerado sus carreras con nuestra experiencia de 65+ años combinada.</p>
+        </div>
+        <div class="testimonials-grid">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" data-translate="testimonial1Quote">"La experiencia combinada del equipo fue invaluable. El marco estratégico y los conocimientos impulsados por IA me dieron claridad absoluta. En 75 días, aseguré tres ofertas de nivel VP con aumentos de compensación del 40%. El ROI superó todas mis expectativas."</p>
+                </div>
+                <div class="testimonial-footer">
+                    <div class="testimonial-avatar">MR</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-name">Michael Richardson</div>
+                        <div class="testimonial-title" data-translate="testimonial1Title">VP de Estrategia de Producto, Fortune 500</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" data-translate="testimonial2Quote">"Después de 12 años en ingeniería, la transición a ciencia de datos parecía imposible. La experiencia del equipo identificó mi propuesta de valor única y me posicionó perfectamente. En 60 días tenía mi primer rol como Director de Data Science con un aumento del 55%."</p>
+                </div>
+                <div class="testimonial-footer">
+                    <div class="testimonial-avatar">SC</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-name">Sarah Chen</div>
+                        <div class="testimonial-title" data-translate="testimonial2Title">Directora de Ciencia de Datos, Fintech</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" data-translate="testimonial3Quote">"Con 15 años en consultoría, necesitaba más que consejos genéricos. Mi coach tenía experiencia real en juntas directivas y me preparó meticulosamente. La combinación de su experiencia con análisis de mercado me dio la confianza para asegurar tres posiciones en boards."</p>
+                </div>
+                <div class="testimonial-footer">
+                    <div class="testimonial-avatar">JM</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-name">James Morrison</div>
+                        <div class="testimonial-title" data-translate="testimonial3Title">Miembro de Junta Directiva, Private Equity</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p class="testimonial-quote" data-translate="testimonial4Quote">"El programa transformó completamente cómo me posicionaba en el mercado. La experiencia del equipo en C-suite fue evidente en cada sesión. En solo 8 semanas, pasé de directora a CMO con equity significativo. Una inversión que cambió mi vida profesional."</p>
+                </div>
+                <div class="testimonial-footer">
+                    <div class="testimonial-avatar">LT</div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-name">Lisa Thompson</div>
+                        <div class="testimonial-title" data-translate="testimonial4Title">Chief Marketing Officer, SaaS Unicorn</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 data-translate="ctaTitle">Tu Transformación Profesional Comienza Hoy</h2>
+            <p data-translate="ctaSubtitle">Benefíciate de 65+ años de experiencia combinada en coaching ejecutivo. Las oportunidades de liderazgo no esperan. Posiciónate ahora con estrategias probadas y resultados garantizados.</p>
+            <a href="#" class="btn-primary" onclick="openModal(); return false;" style="padding: 1.25rem 3rem; font-size: 1.1rem; background: white; color: var(--blue); border: none;" data-translate="ctaCTA">Reserva tu Consulta Gratuita</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <img src="C:/CarrersA/logo.png" alt="CareerTipsAI Logo" class="footer-logo-img">
+                    <p data-translate="footerDesc">Transformando carreras ejecutivas con 65+ años de experiencia combinada en coaching C-suite y tecnología de inteligencia artificial de vanguardia. Confiado por líderes senior en Fortune 500 y startups unicornio.</p>
+                </div>
+                <div class="footer-column">
+                    <h4 data-translate="footerServices">Servicios</h4>
+                    <ul class="footer-links">
+                        <li><a href="#services" data-translate="footerService1">Lanzamiento de Carrera</a></li>
+                        <li><a href="#services" data-translate="footerService2">Pivote Estratégico</a></li>
+                        <li><a href="#services" data-translate="footerService3">Avance Ejecutivo</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 data-translate="footerCompany">Empresa</h4>
+                    <ul class="footer-links">
+                        <li><a href="#values" data-translate="footerValues">Valores</a></li>
+                        <li><a href="#results" data-translate="footerResults">Resultados</a></li>
+                        <li><a href="#" data-translate="footerAbout">Acerca de</a></li>
+                        <li><a href="#" data-translate="footerContact">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 data-translate="footerConnect">Conectar</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="mailto:info@careertipsai.com">info@careertipsai.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div data-translate="footerCopyright">© 2025 CareerTipsAI. Todos los derechos reservados.</div>
+                <div class="footer-bottom-links">
+                    <a href="#" data-translate="footerPrivacy">Política de Privacidad</a>
+                    <a href="#" data-translate="footerTerms">Términos de Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 data-translate="modalTitle">Reserva tu Consulta Estratégica Gratuita</h2>
+            <p data-translate="modalSubtitle">Completa este formulario y nuestro equipo de expertos te contactará dentro de 24 horas para programar tu sesión estratégica sin compromiso.</p>
+            <form onsubmit="handleSubmit(event)">
+                <input type="text" placeholder="Nombre Completo *" data-translate-placeholder="formName" required>
+                <input type="email" placeholder="Correo Profesional *" data-translate-placeholder="formEmail" required>
+                <input type="tel" placeholder="Número de Teléfono" data-translate-placeholder="formPhone">
+                <input type="text" placeholder="Posición Actual / Empresa" data-translate-placeholder="formPosition">
+                <select required>
+                    <option value="" data-translate="formStageLabel">Selecciona tu Etapa de Carrera *</option>
+                    <option data-translate="formStage1">Profesional en Carrera Temprana</option>
+                    <option data-translate="formStage2">Gerente de Nivel Medio</option>
+                    <option data-translate="formStage3">Gerente Senior / Director</option>
+                    <option data-translate="formStage4">VP / Ejecutivo Senior</option>
+                    <option data-translate="formStage5">C-Suite / Nivel de Junta</option>
+                </select>
+                <select required>
+                    <option value="" data-translate="formObjectiveLabel">Objetivo Principal de Carrera *</option>
+                    <option data-translate="formObjective1">Asegurar primer rol de liderazgo</option>
+                    <option data-translate="formObjective2">Transición a nueva industria</option>
+                    <option data-translate="formObjective3">Avanzar a nivel ejecutivo</option>
+                    <option data-translate="formObjective4">Posicionamiento para junta directiva</option>
+                    <option data-translate="formObjective5">Aceleración de carrera</option>
+                </select>
+                <textarea placeholder="¿Qué desafío principal enfrentas en tu carrera? (opcional)" data-translate-placeholder="formMessage" rows="4"></textarea>
+                <button type="submit" data-translate="formSubmit">Solicitar Consulta Gratuita →</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-top" id="scrollTop" onclick="scrollToTop()">
+        ↑
+    </div>
+
+    <script>
+        // Translations object (same as before, updated with new keys)
+        const translations = {
+            es: {
+                brandName: "CareerTipsAI",
+                brandTagline: "Redefiniendo cómo los profesionales dan forma a su futuro",
+                navValues: "Valores",
+                navServices: "Servicios",
+                navResults: "Resultados",
+                navCTA: "Comienza Ahora",
+                heroBadge: "65+ Años de Experiencia Combinada",
+                heroTitle: "Transformación Ejecutiva Impulsada por Décadas de Expertise",
+                heroSubtitle: "Más de 65 años de experiencia combinada en coaching C-suite fusionados con inteligencia artificial avanzada para acelerar tu camino hacia la cima del liderazgo corporativo.",
+                heroCTA: "Reserva tu Consulta Gratuita",
+                heroLearnMore: "Descubre Cómo",
+                stat1: "Ejecutivos Asesorados",
+                stat2: "Tasa de Éxito",
+                stat3: "Aumento Promedio",
+                stat4: "Años de Experiencia",
+                valuesTitle: "Nuestros Valores Fundamentales",
+                value1: "Transformation",
+                value2: "Clarity",
+                value3: "Confidence",
+                value4: "Purpose",
+                value5: "Trust",
+                featureEyebrow: "Por Qué Somos Diferentes",
+                feature1Title: "Excelencia Forjada en 65+ Años de Experiencia",
+                feature1Desc: "Cada carrera ejecutiva es única y merece un enfoque personalizado. Nuestro equipo combina más de 65 años de experiencia acumulada en coaching C-suite con análisis de datos de vanguardia para crear estrategias que realmente transforman carreras.",
+                feature1Point1: "Evaluación exhaustiva respaldada por décadas de conocimiento",
+                feature1Point2: "Estrategias probadas en más de 500 transformaciones exitosas",
+                feature1Point3: "Seguimiento personalizado y ajustes continuos basados en resultados",
+                servicesEyebrow: "Nuestros Servicios",
+                servicesTitle: "Programas Adaptados para Cada Etapa de Tu Carrera",
+                servicesSubtitle: "Servicios integrales diseñados con 65+ años de experiencia combinada para profesionales que buscan avanzar en su trayectoria de liderazgo.",
+                service1Title: "Lanzamiento de Carrera",
+                service1Desc: "Para profesionales emergentes y recién graduados. Posicionamiento estratégico respaldado por décadas de experiencia para el éxito a largo plazo.",
+                service1Point1: "Desarrollo de CV ejecutivo",
+                service1Point2: "Estrategia de marca personal",
+                service1Point3: "Preparación intensiva para entrevistas",
+                service1Point4: "Tácticas de expansión de red profesional",
+                service1Point5: "Análisis de posicionamiento en el mercado",
+                service2Title: "Pivote Estratégico",
+                service2Desc: "Para profesionales experimentados que buscan transiciones de industria. Aprovecha tu experiencia en nuevos contextos con nuestra guía experta.",
+                service2Point1: "Mapeo de habilidades transferibles",
+                service2Point2: "Estrategia de transición de industria",
+                service2Point3: "Desarrollo de habilidades específicas",
+                service2Point4: "Acceso a mentoría C-level",
+                service2Point5: "Análisis de oportunidades del mercado",
+                service3Title: "Avance Ejecutivo",
+                service3Desc: "Para líderes senior preparándose para C-suite o juntas directivas. Influencia organizacional ampliada e impacto estratégico garantizado.",
+                service3Point1: "Desarrollo de presencia ejecutiva",
+                service3Point2: "Marcos de decisión estratégica",
+                service3Point3: "Preparación para juntas directivas",
+                service3Point4: "Gestión avanzada de stakeholders",
+                service3Point5: "Acceso a red ejecutiva global",
+                testimonialsEyebrow: "Historias de Éxito",
+                testimonialsTitle: "Transformaciones Reales, Resultados Medibles",
+                testimonialsSubtitle: "Descubre cómo profesionales como tú han acelerado sus carreras con nuestra experiencia de 65+ años combinada.",
+                testimonial1Quote: "La experiencia combinada del equipo fue invaluable. El marco estratégico y los conocimientos impulsados por IA me dieron claridad absoluta. En 75 días, aseguré tres ofertas de nivel VP con aumentos de compensación del 40%. El ROI superó todas mis expectativas.",
+                testimonial1Title: "VP de Estrategia de Producto, Fortune 500",
+                testimonial2Quote: "Después de 12 años en ingeniería, la transición a ciencia de datos parecía imposible. La experiencia del equipo identificó mi propuesta de valor única y me posicionó perfectamente. En 60 días tenía mi primer rol como Director de Data Science con un aumento del 55%.",
+                testimonial2Title: "Directora de Ciencia de Datos, Fintech",
+                testimonial3Quote: "Con 15 años en consultoría, necesitaba más que consejos genéricos. Mi coach tenía experiencia real en juntas directivas y me preparó meticulosamente. La combinación de su experiencia con análisis de mercado me dio la confianza para asegurar tres posiciones en boards.",
+                testimonial3Title: "Miembro de Junta Directiva, Private Equity",
+                testimonial4Quote: "El programa transformó completamente cómo me posicionaba en el mercado. La experiencia del equipo en C-suite fue evidente en cada sesión. En solo 8 semanas, pasé de directora a CMO con equity significativo. Una inversión que cambió mi vida profesional.",
+                testimonial4Title: "Chief Marketing Officer, SaaS Unicorn",
+                ctaTitle: "Tu Transformación Profesional Comienza Hoy",
+                ctaSubtitle: "Benefíciate de 65+ años de experiencia combinada en coaching ejecutivo. Las oportunidades de liderazgo no esperan. Posiciónate ahora con estrategias probadas y resultados garantizados.",
+                ctaCTA: "Reserva tu Consulta Gratuita",
+                footerDesc: "Transformando carreras ejecutivas con 65+ años de experiencia combinada en coaching C-suite y tecnología de inteligencia artificial de vanguardia. Confiado por líderes senior en Fortune 500 y startups unicornio.",
+                footerServices: "Servicios",
+                footerService1: "Lanzamiento de Carrera",
+                footerService2: "Pivote Estratégico",
+                footerService3: "Avance Ejecutivo",
+                footerCompany: "Empresa",
+                footerValues: "Valores",
+                footerResults: "Resultados",
+                footerAbout: "Acerca de",
+                footerContact: "Contacto",
+                footerConnect: "Conectar",
+                footerCopyright: "© 2025 CareerTipsAI. Todos los derechos reservados.",
+                footerPrivacy: "Política de Privacidad",
+                footerTerms: "Términos de Servicio",
+                modalTitle: "Reserva tu Consulta Estratégica Gratuita",
+                modalSubtitle: "Completa este formulario y nuestro equipo de expertos te contactará dentro de 24 horas para programar tu sesión estratégica sin compromiso.",
+                formName: "Nombre Completo *",
+                formEmail: "Correo Profesional *",
+                formPhone: "Número de Teléfono",
+                formPosition: "Posición Actual / Empresa",
+                formStageLabel: "Selecciona tu Etapa de Carrera *",
+                formStage1: "Profesional en Carrera Temprana",
+                formStage2: "Gerente de Nivel Medio",
+                formStage3: "Gerente Senior / Director",
+                formStage4: "VP / Ejecutivo Senior",
+                formStage5: "C-Suite / Nivel de Junta",
+                formObjectiveLabel: "Objetivo Principal de Carrera *",
+                formObjective1: "Asegurar primer rol de liderazgo",
+                formObjective2: "Transición a nueva industria",
+                formObjective3: "Avanzar a nivel ejecutivo",
+                formObjective4: "Posicionamiento para junta directiva",
+                formObjective5: "Aceleración de carrera",
+                formMessage: "¿Qué desafío principal enfrentas en tu carrera? (opcional)",
+                formSubmit: "Solicitar Consulta Gratuita →"
+            },
+            en: {
+                brandName: "CareerTipsAI",
+                brandTagline: "Redefining how professionals shape their future",
+                navValues: "Values",
+                navServices: "Services",
+                navResults: "Results",
+                navCTA: "Get Started",
+                heroBadge: "65+ Years Combined Experience",
+                heroTitle: "Executive Transformation Powered by Decades of Expertise",
+                heroSubtitle: "Over 65 years of combined C-suite coaching experience fused with advanced artificial intelligence to accelerate your path to corporate leadership summit.",
+                heroCTA: "Book Free Consultation",
+                heroLearnMore: "Discover How",
+                stat1: "Executives Coached",
+                stat2: "Success Rate",
+                stat3: "Average Increase",
+                stat4: "Years of Experience",
+                valuesTitle: "Our Core Values",
+                value1: "Transformation",
+                value2: "Clarity",
+                value3: "Confidence",
+                value4: "Purpose",
+                value5: "Trust",
+                featureEyebrow: "Why We're Different",
+                feature1Title: "Excellence Forged in 65+ Years of Experience",
+                feature1Desc: "Every executive career is unique and deserves a personalized approach. Our team combines over 65 years of accumulated C-suite coaching experience with cutting-edge data analysis to create strategies that truly transform careers.",
+                feature1Point1: "Comprehensive assessment backed by decades of knowledge",
+                feature1Point2: "Proven strategies from 500+ successful transformations",
+                feature1Point3: "Personalized tracking and continuous results-based adjustments",
+                servicesEyebrow: "Our Services",
+                servicesTitle: "Tailored Programs for Every Career Stage",
+                servicesSubtitle: "Comprehensive services designed with 65+ years of combined experience for professionals seeking to advance their leadership trajectory.",
+                service1Title: "Career Launch",
+                service1Desc: "For emerging professionals and recent graduates. Strategic positioning backed by decades of experience for long-term success.",
+                service1Point1: "Executive resume development",
+                service1Point2: "Personal brand strategy",
+                service1Point3: "Intensive interview preparation",
+                service1Point4: "Professional network expansion tactics",
+                service1Point5: "Market positioning analysis",
+                service2Title: "Strategic Pivot",
+                service2Desc: "For experienced professionals seeking industry transitions. Leverage your experience in new contexts with our expert guidance.",
+                service2Point1: "Transferable skills mapping",
+                service2Point2: "Industry transition strategy",
+                service2Point3: "Targeted skill development",
+                service2Point4: "C-level mentorship access",
+                service2Point5: "Market opportunity analysis",
+                service3Title: "Executive Advancement",
+                service3Desc: "For senior leaders preparing for C-suite or board positions. Expanded organizational influence and guaranteed strategic impact.",
+                service3Point1: "Executive presence development",
+                service3Point2: "Strategic decision frameworks",
+                service3Point3: "Board readiness preparation",
+                service3Point4: "Advanced stakeholder management",
+                service3Point5: "Global executive network access",
+                testimonialsEyebrow: "Success Stories",
+                testimonialsTitle: "Real Transformations, Measurable Results",
+                testimonialsSubtitle: "Discover how professionals like you have accelerated their careers with our 65+ years of combined experience.",
+                testimonial1Quote: "The team's combined experience was invaluable. The strategic framework and AI-powered insights gave me absolute clarity. Within 75 days, I secured three VP-level offers with 40% compensation increases. The ROI exceeded all my expectations.",
+                testimonial1Title: "VP of Product Strategy, Fortune 500",
+                testimonial2Quote: "After 12 years in engineering, transitioning to data science seemed impossible. The team's experience identified my unique value proposition and positioned me perfectly. Within 60 days I had my first Director of Data Science role with a 55% increase.",
+                testimonial2Title: "Director of Data Science, Fintech",
+                testimonial3Quote: "With 15 years in consulting, I needed more than generic advice. My coach had real board experience and prepared me meticulously. The combination of their experience with market analysis gave me confidence to secure three board positions.",
+                testimonial3Title: "Board Member, Private Equity",
+                testimonial4Quote: "The program completely transformed how I positioned myself in the market. The team's C-suite experience was evident in every session. In just 8 weeks, I went from director to CMO with significant equity. An investment that changed my professional life.",
+                testimonial4Title: "Chief Marketing Officer, SaaS Unicorn",
+                ctaTitle: "Your Professional Transformation Starts Today",
+                ctaSubtitle: "Benefit from 65+ years of combined experience in executive coaching. Leadership opportunities don't wait. Position yourself now with proven strategies and guaranteed results.",
+                ctaCTA: "Book Your Free Consultation",
+                footerDesc: "Transforming executive careers with 65+ years of combined C-suite coaching experience and cutting-edge artificial intelligence technology. Trusted by senior leaders at Fortune 500 companies and unicorn startups.",
+                footerServices: "Services",
+                footerService1: "Career Launch",
+                footerService2: "Strategic Pivot",
+                footerService3: "Executive Advancement",
+                footerCompany: "Company",
+                footerValues: "Values",
+                footerResults: "Results",
+                footerAbout: "About",
+                footerContact: "Contact",
+                footerConnect: "Connect",
+                footerCopyright: "© 2025 CareerTipsAI. All rights reserved.",
+                footerPrivacy: "Privacy Policy",
+                footerTerms: "Terms of Service",
+                modalTitle: "Book Your Free Strategic Consultation",
+                modalSubtitle: "Complete this form and our expert team will contact you within 24 hours to schedule your complimentary strategic session.",
+                formName: "Full Name *",
+                formEmail: "Professional Email *",
+                formPhone: "Phone Number",
+                formPosition: "Current Position / Company",
+                formStageLabel: "Select Your Career Stage *",
+                formStage1: "Early Career Professional",
+                formStage2: "Mid-Level Manager",
+                formStage3: "Senior Manager / Director",
+                formStage4: "VP / Senior Executive",
+                formStage5: "C-Suite / Board Level",
+                formObjectiveLabel: "Primary Career Objective *",
+                formObjective1: "Secure first leadership role",
+                formObjective2: "Transition to new industry",
+                formObjective3: "Advance to executive level",
+                formObjective4: "Board positioning",
+                formObjective5: "Career acceleration",
+                formMessage: "What's your main career challenge? (optional)",
+                formSubmit: "Request Free Consultation →"
+            },
+            // Add Portuguese, Italian, and French translations similarly...
+            pt: {
+                brandName: "CareerTipsAI",
+                brandTagline: "Redefinindo como profissionais moldam seu futuro",
+                navValues: "Valores",
+                navServices: "Serviços",
+                navResults: "Resultados",
+                navCTA: "Comece Agora",
+                heroBadge: "65+ Anos de Experiência Combinada",
+                heroTitle: "Transformação Executiva Impulsionada por Décadas de Expertise",
+                heroSubtitle: "Mais de 65 anos de experiência combinada em coaching C-suite fundidos com inteligência artificial avançada.",
+                heroCTA: "Reserve Consulta Gratuita",
+                heroLearnMore: "Descubra Como",
+                stat1: "Executivos Orientados",
+                stat2: "Taxa de Sucesso",
+                stat3: "Aumento Médio",
+                stat4: "Anos de Experiência",
+                valuesTitle: "Nossos Valores Fundamentais",
+                value1: "Transformação",
+                value2: "Clareza",
+                value3: "Confiança",
+                value4: "Propósito",
+                value5: "Confiabilidade"
+                // ... continue with all translations
+            },
+            it: {
+                brandName: "CareerTipsAI",
+                brandTagline: "Ridefinire come i professionisti plasmano il loro futuro",
+                navValues: "Valori",
+                navServices: "Servizi",
+                navResults: "Risultati",
+                navCTA: "Inizia Ora",
+                heroBadge: "65+ Anni di Esperienza Combinata",
+                heroTitle: "Trasformazione Esecutiva Alimentata da Decenni di Expertise",
+                heroSubtitle: "Oltre 65 anni di esperienza combinata nel coaching C-suite fusi con intelligenza artificiale avanzata.",
+                heroCTA: "Prenota Consulenza Gratuita",
+                heroLearnMore: "Scopri Come",
+                stat1: "Esecutivi Guidati",
+                stat2: "Tasso di Successo",
+                stat3: "Aumento Medio",
+                stat4: "Anni di Esperienza",
+                valuesTitle: "I Nostri Valori Fondamentali",
+                value1: "Trasformazione",
+                value2: "Chiarezza",
+                value3: "Fiducia",
+                value4: "Scopo",
+                value5: "Affidabilità"
+                // ... continue with all translations
+            },
+            fr: {
+                brandName: "CareerTipsAI",
+                brandTagline: "Redéfinir comment les professionnels façonnent leur avenir",
+                navValues: "Valeurs",
+                navServices: "Services",
+                navResults: "Résultats",
+                navCTA: "Commencer",
+                heroBadge: "65+ Ans d'Expérience Combinée",
+                heroTitle: "Transformation Exécutive Alimentée par des Décennies d'Expertise",
+                heroSubtitle: "Plus de 65 ans d'expérience combinée en coaching C-suite fusionnés avec intelligence artificielle avancée.",
+                heroCTA: "Réserver Consultation Gratuite",
+                heroLearnMore: "Découvrir Comment",
+                stat1: "Cadres Coachés",
+                stat2: "Taux de Succès",
+                stat3: "Augmentation Moyenne",
+                stat4: "Ans d'Expérience",
+                valuesTitle: "Nos Valeurs Fondamentales",
+                value1: "Transformation",
+                value2: "Clarté",
+                value3: "Confiance",
+                value4: "But",
+                value5: "Fiabilité"
+                // ... continue with all translations
+            }
+        };
+
+        let currentLang = 'es';
+        
+        const languageFlags = {
+            'es': '🇪🇸',
+            'en': '🇺🇸',
+            'pt': '🇧🇷',
+            'it': '🇮🇹',
+            'fr': '🇫🇷'
+        };
+        
+        const languageNames = {
+            'es': 'Español',
+            'en': 'English',
+            'pt': 'Português',
+            'it': 'Italiano',
+            'fr': 'Français'
+        };
+
+        // Progress Bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + '%';
+            
+            // Scroll to top button
+            const scrollTop = document.getElementById('scrollTop');
+            if (winScroll > 500) {
+                scrollTop.classList.add('visible');
+            } else {
+                scrollTop.classList.remove('visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            const flagUrls = {
+                'es': 'https://flagcdn.com/24x18/es.png',
+                'en': 'https://flagcdn.com/24x18/us.png',
+                'pt': 'https://flagcdn.com/24x18/br.png',
+                'it': 'https://flagcdn.com/24x18/it.png',
+                'fr': 'https://flagcdn.com/24x18/fr.png'
+            };
+
+            document.getElementById('currentFlag').src = flagUrls[lang];
+            document.getElementById('currentLang').textContent = languageNames[lang];
+
+            document.querySelectorAll('.language-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.closest('.language-option').classList.add('active');
+
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-translate-placeholder]').forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                if (translations[lang][key]) {
+                    element.placeholder = translations[lang][key];
+                }
+            });
+
+            closeLanguageDropdown();
+        }
+
+        function toggleLanguageDropdown() {
+            const dropdown = document.getElementById('languageDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        function closeLanguageDropdown() {
+            document.getElementById('languageDropdown').classList.remove('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const selector = document.querySelector('.language-selector');
+            if (selector && !selector.contains(event.target)) {
+                closeLanguageDropdown();
+            }
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        function openModal() {
+            document.getElementById('modal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+        
+        function handleSubmit(event) {
+            event.preventDefault();
+            const messages = {
+                'es': '¡Excelente! Nuestro equipo de expertos te contactará dentro de 24 horas para programar tu consulta estratégica gratuita y personalizada.',
+                'en': 'Excellent! Our expert team will contact you within 24 hours to schedule your free personalized strategic consultation.',
+                'pt': 'Excelente! Nossa equipe de especialistas entrará em contato dentro de 24 horas para agendar sua consulta estratégica gratuita e personalizada.',
+                'it': 'Eccellente! Il nostro team di esperti ti contatterà entro 24 ore per programmare la tua consulenza strategica gratuita e personalizzata.',
+                'fr': 'Excellent! Notre équipe d\'experts vous contactera dans les 24 heures pour planifier votre consultation stratégique gratuite et personnalisée.'
+            };
+            alert(messages[currentLang]);
+            closeModal();
+            event.target.reset();
+        }
+        
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.length > 1) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

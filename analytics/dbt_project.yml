@@ -1,0 +1,38 @@
+
+name: 'novawork_global'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'novawork_global'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:         # directories to be removed by "dbt clean"
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# This is a dictionary mapping the models paths to their configurations.
+# One of the most common configurations is the materialization strategy.
+models:
+  novawork_global:
+    # Configures all models in models/ to run as "view" by default.
+    # Unnecessary if you want the default behavior (view), but useful to know.
+    +materialized: view
+    
+    staging:
+      +materialized: view
+      +schema: staging
+    
+    marts:
+      +materialized: table
+      +schema: analytics

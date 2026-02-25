@@ -6,7 +6,7 @@
 import OpenAI from 'openai'
 
 // Initialize OpenAI client
-const openai = new OpenAI({
+export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || process.env.VITE_OPENAI_API_KEY
 })
 
@@ -101,9 +101,9 @@ function buildSuggestionsPrompt(
   currentInterests
 ) {
   const experienceLevel = yearsExperience < 2 ? 'early career' :
-                         yearsExperience < 5 ? 'mid-level' :
-                         yearsExperience < 10 ? 'experienced' :
-                         'senior/expert'
+    yearsExperience < 5 ? 'mid-level' :
+      yearsExperience < 10 ? 'experienced' :
+        'senior/expert'
 
   let prompt = `I'm a career counselor helping a ${experienceLevel} professional`
 
@@ -387,7 +387,8 @@ export async function generateAccomplishments(data) {
       result = '',
       role_company = '',
       skills = [],
-      competencies = []
+      competencies = [],
+      positioning = null
     } = data
 
     // Build the prompt
@@ -396,7 +397,8 @@ export async function generateAccomplishments(data) {
       result,
       role_company,
       skills,
-      competencies
+      competencies,
+      positioning
     )
 
     // Call OpenAI API
@@ -446,8 +448,8 @@ export async function generateAccomplishments(data) {
 /**
  * Build the prompt for AI accomplishments generation
  */
-function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, competencies) {
-  let prompt = `Generate 3 powerful accomplishment statements based on the following PAR (Problem-Action-Result) story data:\n\n`
+function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, competencies, positioning) {
+  let prompt = `You are an expert executive resume writer. Generate 3 powerful, achievement-based accomplishment statements based on the following PAR (Problem-Action-Result) story and strategic positioning context:\n\n`
 
   prompt += `**Role/Company Context**: ${roleCompany || 'Not specified'}\n`
   prompt += `**Problem/Challenge**: ${challenge || 'Not specified'}\n`
@@ -461,14 +463,27 @@ function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, comp
     prompt += `**Target Competencies**: ${competencies.join(', ')}\n`
   }
 
+  if (positioning) {
+    prompt += `\n**STRATEGIC POSITIONING (Context)**:\n`
+    prompt += `- Target Title: ${positioning.identity_target_title || 'N/A'}\n`
+    if (positioning.trusted_problems) prompt += `- Focus Area (Problems Solved): ${positioning.trusted_problems}\n`
+    if (positioning.strengths?.length) prompt += `- Key Strengths: ${positioning.strengths.join(', ')}\n`
+    if (positioning.impact_types?.length) prompt += `- Primary Impact: ${positioning.impact_types.join(', ')}\n`
+    if (positioning.scale_budget || positioning.scale_team_size) {
+      const scale = [positioning.scale_budget, positioning.scale_team_size].filter(Boolean).join(', ')
+      prompt += `- Operational Scale: ${scale}\n`
+    }
+    if (positioning.differentiator) prompt += `- Unique Differentiator: ${positioning.differentiator}\n`
+  }
+
   prompt += `\nRequirements:
-1. Create exactly 3 accomplishment statements that highlight the impact and results
-2. Each accomplishment should be 1-2 sentences maximum
-3. Include quantifiable metrics (percentages, numbers, timeframes) where possible
-4. Use action verbs and focus on business impact
-5. Incorporate relevant skills and competencies naturally
-6. Make each accomplishment unique and highlight different aspects
-7. Follow the STAR method (Situation, Task, Action, Result) in condensed form
+1. Create exactly 3 accomplishment statements that highlight the impact and results.
+2. Each accomplishment should be 1-2 sentences maximum.
+3. Include quantifiable metrics (percentages, numbers, timeframes) where possible.
+4. Use action verbs and focus on high-level business impact.
+5. EXTREMELY IMPORTANT: Tailor the language and focus of these accomplishments to the "Target Title" and "Focus Area" provided in the Strategic Positioning data.
+6. Make each accomplishment unique and highlight different aspects of the achievement.
+7. Follow the STAR method (Situation, Task, Action, Result) in condensed form.
 
 Format your response as JSON with an "accomplishments" array containing exactly 3 strings.
 

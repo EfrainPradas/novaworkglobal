@@ -7,11 +7,16 @@ import express from 'express'
 import multer from 'multer'
 import pdf from 'pdf-parse'
 import mammoth from 'mammoth'
-import OpenAI from 'openai'
+import { openai } from '../services/openai.js'
 import fs from 'fs'
 import path from 'path'
 
+import { requireAuth } from '../middleware/auth.js'
+
 const router = express.Router()
+
+// 🔒 Security: Require authentication for all resume parsing routes
+router.use(requireAuth)
 
 // Configure multer for file uploads
 const upload = multer({
@@ -32,10 +37,7 @@ const upload = multer({
     }
 })
 
-// Initialize OpenAI
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-})
+// OpenAI client is imported from services/openai.js
 
 /**
  * Extract text from PDF file
@@ -55,34 +57,65 @@ async function extractDOCXText(filePath) {
 }
 
 /**
- * Parse work experience using OpenAI
+ * Parse the COMPLETE resume using OpenAI
+ * Extracts: contact info, profile summary, areas of excellence,
+ * work experience (with ALL accomplishments), education, certifications
  */
-async function parseWorkExperience(resumeText) {
-    const prompt = `You are an expert resume parser. Extract all work experience from the following resume text and return it in a structured JSON format.
+async function parseResume(resumeText) {
+    const prompt = `You are an expert resume parser. Extract ALL content from the following resume and return it in a structured JSON format.
 
-For each job/position, extract:
-- company_name: The company/organization name
-- job_title: The job title/position
-- location_city: City where the job was located (if available)
-- location_country: Country where the job was located (if available)
-- start_date: Start date in YYYY-MM format (e.g., "2020-01")
-- end_date: End date in YYYY-MM format or null if current
-- is_current: Boolean - true if this is their current job
-- scope_description: Brief description of the role/scope (1-2 sentences)
-- accomplishments: Array of bullet points describing achievements/responsibilities
+SECTIONS TO EXTRACT:
 
-IMPORTANT RULES:
-1. Return ONLY valid JSON, no markdown formatting
-2. If a field is not found, use null
-3. Parse dates to YYYY-MM format
-4. Extract ALL accomplishments exactly as they appear in the resume text. Do not summarize, shorten, or filter them.
-5. Capture every single bullet point found for the role.
+1. CONTACT INFO:
+- full_name, email, phone, city, state, country, linkedin_url
+
+2. PROFILE / SUMMARY:
+- profile_summary: The entire professional summary/profile section (or LinkedIn About section).
+- who_you_are: A concise professional headline or introductory sentence (e.g., "Senior Software Engineer with 10+ years of experience..."). If using LinkedIn, use the Headline.
+- core_skills: A comma-separated string of the most critical hard skills found in the profile (e.g., "React, Node.js, AWS").
+- soft_skills: A comma-separated string of soft skills or leadership traits (e.g., "Team Leadership, Communication, Problem Solving").
+
+3. AREAS OF EXCELLENCE / CORE COMPETENCIES:
+- areas_of_excellence: Array of skills, competencies, or areas of expertise listed.
+
+4. WORK EXPERIENCE (for each position):
+- company_name, job_title, location_city, location_country
+- start_date (YYYY-MM), end_date (YYYY-MM or null if current), is_current
+- scope_description: Brief 1-2 sentence description of what the role entailed
+- accomplishments: Array of ALL bullet points / achievements. Extract EVERY SINGLE bullet point exactly as written. Do NOT summarize, shorten, combine, or skip any. If there are 20 bullets, return all 20. If there are 50, return all 50.
+
+5. EDUCATION:
+- Array of: degree, field_of_study, institution, graduation_year
+
+6. CERTIFICATIONS:
+- Array of: name, issuing_organization, year
+
+CRITICAL RULES:
+1. Return ONLY valid JSON. No markdown formatting, no \`\`\` blocks.
+2. If a section is not found, use null or empty array [].
+3. Parse dates to YYYY-MM format.
+4. DO NOT truncate, summarize, or limit the number of accomplishments. Capture them ALL verbatim.
+5. Preserve the original language of the resume (if it's in Spanish, keep it in Spanish).
 
 Resume Text:
 ${resumeText}
 
 Return format:
 {
+  "contact": {
+    "full_name": "string or null",
+    "email": "string or null",
+    "phone": "string or null",
+    "city": "string or null",
+    "state": "string or null",
+    "country": "string or null",
+    "linkedin_url": "string or null"
+  },
+  "profile_summary": "string or null",
+  "who_you_are": "string or null",
+  "core_skills": "string or null",
+  "soft_skills": "string or null",
+  "areas_of_excellence": ["string", ...],
   "experiences": [
     {
       "company_name": "string",
@@ -95,23 +128,38 @@ Return format:
       "scope_description": "string or null",
       "accomplishments": ["string", "string", ...]
     }
+  ],
+  "education": [
+    {
+      "degree": "string",
+      "field_of_study": "string or null",
+      "institution": "string",
+      "graduation_year": "string or null"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "string",
+      "issuing_organization": "string or null",
+      "year": "string or null"
+    }
   ]
 }`
 
     const response = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
+        model: 'gpt-4o',
         messages: [
             {
                 role: 'system',
-                content: 'You are an expert resume parser that extracts work experience data and returns it in structured JSON format. You always return valid JSON without markdown formatting.'
+                content: 'You are an expert resume parser. You extract ALL data from resumes into structured JSON. You NEVER truncate or summarize accomplishments — you capture every single bullet point verbatim. You always return valid JSON without markdown formatting.'
             },
             {
                 role: 'user',
                 content: prompt
             }
         ],
-        temperature: 0.3,
-        max_tokens: 4000
+        temperature: 0.1,
+        max_tokens: 16000
     })
 
     const content = response.choices[0].message.content
@@ -156,10 +204,20 @@ router.post('/parse-resume', upload.single('file'), async (req, res) => {
         console.log(`✅ Extracted ${resumeText.length} characters from resume`)
 
         // Parse with OpenAI
-        console.log('🤖 Parsing with AI...')
-        const parsed = await parseWorkExperience(resumeText)
+        console.log('🤖 Parsing complete resume with AI...')
+        const parsed = await parseResume(resumeText)
 
-        console.log(`✅ Extracted ${parsed.experiences.length} work experiences`)
+        // Detailed logging
+        console.log(`✅ Extracted ${parsed.experiences?.length || 0} work experiences`)
+        if (parsed.experiences) {
+            parsed.experiences.forEach((exp, i) => {
+                console.log(`   📋 ${exp.job_title} at ${exp.company_name}: ${exp.accomplishments?.length || 0} accomplishments`)
+            })
+        }
+        console.log(`✅ Profile summary: ${parsed.profile_summary ? 'Yes' : 'No'}`)
+        console.log(`✅ Areas of excellence: ${parsed.areas_of_excellence?.length || 0}`)
+        console.log(`✅ Education: ${parsed.education?.length || 0}`)
+        console.log(`✅ Certifications: ${parsed.certifications?.length || 0}`)
 
         // Clean up uploaded file
         if (filePath && fs.existsSync(filePath)) {
@@ -182,7 +240,8 @@ router.post('/parse-resume', upload.single('file'), async (req, res) => {
 
         return res.status(500).json({
             error: 'Failed to parse resume',
-            message: error.message
+            message: error.message,
+            details: error.stack?.split('\n').slice(0, 3).join(' | ')
         })
     }
 })

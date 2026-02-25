@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
+import { Play, BookOpen } from 'lucide-react'
 
 export default function CareerVisionDashboard() {
   const navigate = useNavigate()
@@ -96,18 +97,11 @@ export default function CareerVisionDashboard() {
     {
       id: 'skills-values',
       title: 'Skills & Interests',
-      description: 'Identify what you\'re good at and what excites you',
+      description: 'List what you know and what you would do again',
       icon: '🎯',
       completed: sectionsStatus.skillsValues,
-      route: '/career-vision/skills-values'
-    },
-    {
-      id: 'preferences',
-      title: 'Ideal Work Preferences',
-      description: 'Define your must-haves and priorities',
-      icon: '⚙️',
-      completed: sectionsStatus.preferences,
-      route: '/career-vision/preferences'
+      route: '/career-vision/skills-values',
+      videoSrc: '/videos/AI_&_Your_Career_Path-EN.mp4'
     },
     {
       id: 'job-history',
@@ -115,7 +109,17 @@ export default function CareerVisionDashboard() {
       description: 'Reflect on past roles to identify patterns',
       icon: '📋',
       completed: sectionsStatus.jobHistory,
-      route: '/career-vision/job-history'
+      route: '/career-vision/job-history',
+      videoSrc: '/videos/AI_&_Your_Career_Path-EN.mp4'
+    },
+    {
+      id: 'preferences',
+      title: 'Ideal Work Preferences',
+      description: 'Define your must-haves and priorities',
+      icon: '⚙️',
+      completed: sectionsStatus.preferences,
+      route: '/career-vision/preferences',
+      videoSrc: '/videos/AI_&_Your_Career_Path-EN.mp4'
     }
   ]
 
@@ -134,13 +138,31 @@ export default function CareerVisionDashboard() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 transition-colors duration-200">
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            {t('careerVision.dashboard.title', 'Your Career Vision Journey')}
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            {t('careerVision.dashboard.subtitle', 'Complete these sections to discover your ideal career path')}
-          </p>
+        <div className="flex items-start justify-between mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+              {t('careerVision.dashboard.title', 'Your Career Vision Journey')}
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400">
+              {t('careerVision.dashboard.subtitle', 'Complete these sections to discover your ideal career path')}
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            <a
+              href="/videos/AI_&_Your_Career_Path-EN.mp4"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              <Play className="w-4 h-4" /> Watch video
+            </a>
+            <button
+              onClick={() => navigate('/career-vision')}
+              className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+            >
+              <BookOpen className="w-4 h-4" /> Learn more
+            </button>
+          </div>
         </div>
 
         {/* Progress Overview */}
@@ -195,12 +217,34 @@ export default function CareerVisionDashboard() {
                 {section.description}
               </p>
 
-              <div className="flex items-center justify-between mt-auto">
+              <div className="flex items-center gap-2 mb-3">
                 <button className={`px-4 py-2 rounded-lg font-semibold transition-all ${section.completed
                   ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30'
                   : 'bg-primary-600 text-white hover:bg-primary-700'
                   }`}>
                   {section.completed ? 'Review →' : 'Start →'}
+                </button>
+              </div>
+
+              {/* Watch video + Learn more */}
+              <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
+                <a
+                  href={section.videoSrc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(e) => e.stopPropagation()}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                >
+                  <Play className="w-3 h-3" /> Watch video
+                </a>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    navigate(section.route)
+                  }}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                >
+                  <BookOpen className="w-3 h-3" /> Learn more
                 </button>
               </div>
             </div>

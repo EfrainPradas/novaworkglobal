@@ -40,6 +40,9 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
   const [toolInput, setToolInput] = useState('')
   const [usState, setUsState] = useState('')
 
+  const currentYear = new Date().getFullYear()
+  const years = Array.from({ length: currentYear - 1959 }, (_, i) => (currentYear - i).toString())
+
   // Parse US state from location_city on mount if initialData exists
   React.useEffect(() => {
     if (initialData?.location_country === 'USA' && initialData?.location_city) {
@@ -214,29 +217,35 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            {t('resumeBuilder.workExperience.startDate')} * (YYYY or MM/YYYY)
+            {t('resumeBuilder.workExperience.startDate')} * (YYYY)
           </label>
-          <input
-            type="text"
-            value={formData.start_date}
+          <select
+            value={formData.start_date || ''}
             onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="01/2020 or 2020"
-          />
+          >
+            <option value="" disabled>Select Year</option>
+            {years.map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            {t('resumeBuilder.workExperience.endDate')} (YYYY or MM/YYYY)
+            {t('resumeBuilder.workExperience.endDate')} (YYYY)
           </label>
-          <input
-            type="text"
-            value={formData.end_date}
+          <select
+            value={formData.end_date || ''}
             onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
             disabled={formData.is_current}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100"
-            placeholder="12/2023 or 2023"
-          />
+          >
+            <option value="" disabled>Select Year</option>
+            {years.map(year => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
         </div>
 
         <div className="md:col-span-2">

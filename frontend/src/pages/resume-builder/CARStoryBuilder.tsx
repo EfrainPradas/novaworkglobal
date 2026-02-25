@@ -5,6 +5,8 @@ import { CARStoryList } from '../../components/resume-builder/CARStoryList'
 import { BackButton } from '../../components/common/BackButton'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
+import ResumePreview from '../../components/resume/ResumePreview'
+import { trackEvent } from '../../lib/analytics'
 
 const CARStoryBuilder: React.FC = () => {
     const { t } = useTranslation()
@@ -181,7 +183,9 @@ const CARStoryBuilder: React.FC = () => {
             {/* Header */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
                 <div className="flex items-center justify-between mb-4">
-                    <BackButton to="/resume-builder" label="Back to Resume Builder" className="pl-0" />
+                    <div onClick={() => trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'resume-builder' })}>
+                        <BackButton to="/resume-builder" label={t('resumeBuilder.par.backToResumeBuilder')} className="pl-0" />
+                    </div>
                 </div>
                 <div className="flex items-center justify-between">
                     <div>
@@ -194,15 +198,15 @@ const CARStoryBuilder: React.FC = () => {
                         <div className="flex items-center gap-4 mt-4">
                             <div className="flex items-center gap-2">
                                 <span className="w-3 h-3 bg-orange-500 rounded-full"></span>
-                                <span className="text-sm text-gray-600 dark:text-gray-400">Challenge</span>
+                                <span className="text-sm text-gray-600 dark:text-gray-400">{t('resumeBuilder.par.legend.challenge')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                                <span className="text-sm text-gray-600 dark:text-gray-400">Actions</span>
+                                <span className="text-sm text-gray-600 dark:text-gray-400">{t('resumeBuilder.par.legend.actions')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <span className="w-3 h-3 bg-green-500 rounded-full"></span>
-                                <span className="text-sm text-gray-600 dark:text-gray-400">Result</span>
+                                <span className="text-sm text-gray-600 dark:text-gray-400">{t('resumeBuilder.par.legend.result')}</span>
                             </div>
                         </div>
                     </div>
@@ -233,6 +237,8 @@ const CARStoryBuilder: React.FC = () => {
                     loading={loading}
                 />
             )}
+            {/* Resume Preview Button */}
+            {userId && <ResumePreview userId={userId} />}
         </div>
     )
 }

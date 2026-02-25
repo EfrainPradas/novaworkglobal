@@ -1,0 +1,15 @@
+🛠️  Fixing dbt installation...
+Timestamp: Thu Feb  5 19:57:05 MST 2026
+🗑️  Removing existing venv...
+📦 Creating new virtual environment...
+The virtual environment was not created successfully because ensurepip is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
+
+    apt install python3.12-venv
+
+You may need to use sudo with that command.  After installing the python3-venv
+package, recreate your virtual environment.
+
+Failing command: /home/efraiprada/novaworkglobal/analytics/venv/bin/python3
+

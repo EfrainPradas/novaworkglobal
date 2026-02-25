@@ -3,6 +3,8 @@ import { supabase } from '../../lib/supabase'
 import { Target, Calendar, TrendingUp, Award, Plus, X, ChevronRight, AlertCircle, CheckCircle } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+
 interface WeeklyGoal {
   id?: string
   primary_goal: string
@@ -83,7 +85,7 @@ export default function MondayRitual() {
 
   const loadUserStats = async (userId: string) => {
     try {
-      const response = await fetch(`/api/weekly-reinvention/user-stats`, {
+      const response = await fetch(`${API_BASE_URL}/api/weekly-reinvention/user-stats`, {
         headers: {
           'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
         }
@@ -147,7 +149,7 @@ export default function MondayRitual() {
         week_start_date: weekStartDate
       }
 
-      const response = await fetch('/api/weekly-reinvention/monday-ritual/goals', {
+      const response = await fetch(`${API_BASE_URL}/api/weekly-reinvention/monday-ritual/goals`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -284,11 +286,10 @@ export default function MondayRitual() {
 
       {/* Message */}
       {message && (
-        <div className={`p-4 rounded-lg border ${
-          message.type === 'success'
+        <div className={`p-4 rounded-lg border ${message.type === 'success'
             ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-700 dark:text-green-300'
             : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-700 dark:text-red-300'
-        }`}>
+          }`}>
           <div className="flex items-center gap-3">
             {message.type === 'success' ? (
               <CheckCircle className="h-5 w-5" />

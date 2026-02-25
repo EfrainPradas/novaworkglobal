@@ -1,8 +1,11 @@
 import express from 'express'
 import OpenAI from 'openai'
-import { supabase } from '../middleware/auth.js'
+import { requireAuth, supabase } from '../middleware/auth.js'
 
 const router = express.Router()
+
+// 🔒 Security: Require authentication for profile generation
+router.use(requireAuth)
 
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY

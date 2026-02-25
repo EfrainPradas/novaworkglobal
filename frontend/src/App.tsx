@@ -5,6 +5,9 @@ import Landing from './pages/Landing'
 import SignUp from './pages/auth/SignUp'
 import SignIn from './pages/auth/SignIn'
 import AuthCallback from './pages/AuthCallback'
+import NovaNextPage from './pages/programs/NovaNext'
+import NovaRearchitectPage from './pages/programs/NovaRearchitect'
+import NovaAlignPage from './pages/programs/NovaAlign'
 
 // Protected Routes
 import Onboarding from './pages/onboarding/Onboarding'
@@ -26,9 +29,18 @@ import ResumeBuilder from './pages/resume-builder/ResumeBuilder'
 import WorkExperienceBuilder from './pages/resume-builder/WorkExperienceBuilder'
 import CARStoryBuilder from './pages/resume-builder/CARStoryBuilder'
 import ProfileBuilder from './pages/resume-builder/ProfileBuilder'
+import AccomplishmentLibrary from './pages/resume-builder/AccomplishmentLibrary'
 import JDAnalyzer from './pages/resume-builder/JDAnalyzer'
 import ResumeTracking from './pages/resume-builder/ResumeTracking'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
+
+// Resume Builder V2 Routes
+import WorkHistoryIntake from './pages/resume-builder/WorkHistoryIntake'
+import StoryCardsManager from './pages/resume-builder/StoryCardsManager'
+import PositioningQuestionnaire from './pages/resume-builder/PositioningQuestionnaire'
+import ContactInfoPage from './pages/resume-builder/ContactInfoPage'
+import EducationBuilder from './pages/resume-builder/EducationBuilder'
+import AwardsBuilder from './pages/resume-builder/AwardsBuilder'
 
 // Job Search Routes - New Flow
 import PlanYourSearch from './pages/fast-track/PlanYourSearch'
@@ -55,6 +67,9 @@ import MondayRitual from './pages/weekly-reinvention/MondayRitual'
 import FridayRitual from './pages/weekly-reinvention/FridayRitual'
 import ProgressDashboard from './pages/weekly-reinvention/ProgressDashboard'
 
+// Alternative Landing Page (v2)
+import LandingPageV2 from './pages/LandingPageV2'
+
 // Settings
 import DataManagement from './pages/settings/DataManagement'
 
@@ -79,7 +94,11 @@ function App() {
     <Router basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         {/* Public Routes */}
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<LandingPageV2 />} />
+        <Route path="/programs/novanext" element={<NovaNextPage />} />
+        <Route path="/programs/novarearchitect" element={<NovaRearchitectPage />} />
+        <Route path="/programs/novaalign" element={<NovaAlignPage />} />
+        <Route path="/design-v1" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
@@ -87,22 +106,31 @@ function App() {
         {/* Protected Routes */}
         {/* ... Public Routes ... */}
 
-        {/* Basic Protected Routes */}
-        <Route element={<ProtectedRoute requiredLevel="basic" />}>
+        {/* Essentials Protected Routes */}
+        <Route element={<ProtectedRoute requiredLevel="essentials" />}>
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/dashboard" element={<NavigationPrompt />} />
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
 
-          {/* Resume Builder Routes - Level: Basic */}
+          {/* Resume Builder Routes - Level: Essentials */}
           <Route path="/resume-builder" element={<ResumeBuilderMenu />} />
           <Route path="/resume-builder/workflow" element={<ResumeBuilder />} />
           <Route path="/resume/work-experience" element={<WorkExperienceBuilder />} />
           <Route path="/resume/car-stories" element={<CARStoryBuilder />} />
+          <Route path="/resume/accomplishment-library" element={<AccomplishmentLibrary />} />
           <Route path="/resume/profile" element={<ProfileBuilder />} />
           <Route path="/resume/jd-analyzer" element={<JDAnalyzer />} />
           <Route path="/resume/tracking" element={<ResumeTracking />} />
           <Route path="/resume/cover-letter" element={<CoverLetterGenerator />} />
+
+          {/* Resume Builder V2 Routes */}
+          <Route path="/resume/contact-info" element={<ContactInfoPage />} />
+          <Route path="/resume/work-history" element={<WorkHistoryIntake />} />
+          <Route path="/resume/story-cards" element={<StoryCardsManager />} />
+          <Route path="/resume/education" element={<EducationBuilder />} />
+          <Route path="/resume/awards" element={<AwardsBuilder />} />
+          <Route path="/resume/questionnaire" element={<PositioningQuestionnaire />} />
 
           {/* Weekly Reinvention & Settings */}
           <Route path="/weekly-reinvention/monday-ritual" element={<MondayRitual />} />
@@ -111,8 +139,8 @@ function App() {
           <Route path="/settings/data" element={<DataManagement />} />
         </Route>
 
-        {/* Pro Tier Routes */}
-        <Route element={<ProtectedRoute requiredLevel="pro" />}>
+        {/* Momentum Tier Routes */}
+        <Route element={<ProtectedRoute requiredLevel="momentum" />}>
           <Route path="/job-search-hub" element={<JobSearchHub />} />
           <Route path="/job-search/methodology" element={<FastTrackMethodology />} />
           <Route path="/job-search/plan-your-search" element={<PlanYourSearch />} />
@@ -122,10 +150,8 @@ function App() {
           <Route path="/job-search/ai-recommendations" element={<AIRecommendations />} />
           <Route path="/job-search/application-tracker" element={<ResumeTracking />} />
           <Route path="/job-search/social-positioning" element={<PlanYourSearch />} />
-        </Route>
 
-        {/* Executive Tier Routes */}
-        <Route element={<ProtectedRoute requiredLevel="executive" />}>
+          {/* Career Vision - Momentum Tier */}
           <Route path="/career-vision" element={<CareerVisionWelcome />} />
           <Route path="/career-vision/welcome" element={<CareerVisionWelcome />} />
           <Route path="/career-vision/dashboard" element={<CareerVisionDashboard />} />
@@ -133,7 +159,10 @@ function App() {
           <Route path="/career-vision/job-history" element={<JobHistory />} />
           <Route path="/career-vision/preferences" element={<Preferences />} />
           <Route path="/career-vision/summary" element={<CareerVisionSummary />} />
+        </Route>
 
+        {/* Executive Tier Routes - Interview Mastery Only */}
+        <Route element={<ProtectedRoute requiredLevel="executive" />}>
           <Route path="/interview" element={<InterviewMastery />} />
           <Route path="/interview/new" element={<NewInterview />} />
           <Route path="/interview/questions" element={<QuestionBank />} />

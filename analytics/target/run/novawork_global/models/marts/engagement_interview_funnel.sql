@@ -1,0 +1,19 @@
+
+  
+    
+
+  create  table "postgres"."public_analytics"."engagement_interview_funnel__dbt_tmp"
+  
+  
+    as
+  
+  (
+    select
+    funnel_status as status,
+    count(distinct interview_id) as total_interviews,
+    count(distinct user_id) as active_users
+from "postgres"."public_staging"."stg_interviews"
+group by 1
+order by total_interviews desc
+  );
+  

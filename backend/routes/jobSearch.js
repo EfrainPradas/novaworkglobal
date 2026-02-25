@@ -2,7 +2,12 @@ import express from 'express'
 import axios from 'axios'
 import { OpenAI } from 'openai'
 
+import { requireAuth } from '../middleware/auth.js'
+
 const router = express.Router()
+
+// 🔒 Security: Require authentication for all job search routes
+router.use(requireAuth)
 
 // Initialize OpenAI only if API key is available
 let openai = null

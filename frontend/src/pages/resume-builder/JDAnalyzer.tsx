@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   extractKeywordsFromJD,
   analyzeResumeMatch,
@@ -20,11 +20,16 @@ interface JDAnalysis {
   jd_text: string
   extracted_keywords: ExtractedKeyword[]
   match_score?: number
+  extracted_requirements?: {
+    match_score: number
+  }
 }
 
 const JDAnalyzer: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
   const [userId, setUserId] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -151,6 +156,74 @@ const JDAnalyzer: React.FC = () => {
     }
   }
 
+  const checkProfileCompletion = async (): Promise<boolean> => {
+    if (!userId) return false
+
+    try {
+      const { data: profile, error } = await supabase
+        .from('user_profiles')
+        .select('onboarding_completed, full_name, phone, current_location')
+        .eq('user_id', userId)
+        .maybeSingle()
+
+      if (error) throw error
+
+      if (!profile || !profile.onboarding_completed || !profile.full_name || !profile.phone) {
+        if (confirm(t('resumeBuilder.jdAnalyzer.profileIncomplete') || 'Your profile is incomplete. Please complete your profile before exporting your resume.')) {
+          navigate('/resume-builder/profile')
+        }
+        return false
+      }
+
+      return true
+    } catch (error) {
+      console.error('Error checking profile completion:', error)
+      return true // Fallback to allow export if check fails
+    }
+  }
+
+  const fetchLatestUserInfo = async () => {
+    if (!userId) return null
+
+    try {
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('full_name, phone, linkedin_url, current_location')
+        .eq('user_id', userId)
+        .maybeSingle()
+
+      const { data: user } = await supabase
+        .from('users')
+        .select('email')
+        .eq('id', userId)
+        .single()
+
+      if (profile) {
+        // Parse location
+        let city = ''
+        let country = ''
+        if (profile.current_location) {
+          const parts = profile.current_location.split(',').map((s: string) => s.trim())
+          if (parts.length > 0) city = parts[0]
+          if (parts.length > 1) country = parts[parts.length - 1]
+        }
+
+        return {
+          full_name: profile.full_name,
+          email: user?.email,
+          phone: profile.phone,
+          linkedin_url: profile.linkedin_url,
+          location_city: city,
+          location_country: country
+        }
+      }
+      return null
+    } catch (error) {
+      console.error('Error fetching latest user info:', error)
+      return null
+    }
+  }
+
   const loadSavedAnalyses = async (uid: string) => {
     try {
       const { data, error } = await supabase
@@ -233,6 +306,18 @@ const JDAnalyzer: React.FC = () => {
       if (saveError) throw saveError
 
       console.log('✅ Analysis saved successfully')
+
+      // FIX: Update local state with the saved data (including ID)
+      if (data) {
+        setAnalysis({
+          id: data.id,
+          job_title: data.job_title,
+          company_name: data.company_name,
+          jd_text: data.job_description_text,
+          extracted_keywords: data.top_keywords || keywords,
+          match_score: data.extracted_requirements?.match_score || matchScore
+        })
+      }
 
       // Reload saved analyses
       await loadSavedAnalyses(userId)
@@ -531,11 +616,25 @@ const JDAnalyzer: React.FC = () => {
     setShowViewModal(true)
   }
 
-  // OPCIÓN B: Exportar a PDF
-  const handleExportPDF = async (resume: any) => {
+  // OPCIÓN B: Exportar a Word
+  const handleExportWord = async (resume: any) => {
+    const isProfileComplete = await checkProfileCompletion()
+    if (!isProfileComplete) return
+
     try {
-      // If resume doesn't have user_info, load it from user_resumes
-      if (!resume.tailored_bullets?.user_info?.full_name && resumeId) {
+      // Always fetch latest user info from profile to ensure it's up to date
+      const latestUserInfo = await fetchLatestUserInfo()
+
+      const exportData = {
+        ...resume,
+        tailored_bullets: {
+          ...resume.tailored_bullets,
+          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {}
+        }
+      }
+
+      // If still no user info (unlikely with checkProfileCompletion), try to load from user_resumes as fallback
+      if (!exportData.tailored_bullets.user_info.full_name && resumeId) {
         const { data: userInfo } = await supabase
           .from('user_resumes')
           .select('full_name, email, phone, linkedin_url, location_city, location_country')
@@ -543,18 +642,76 @@ const JDAnalyzer: React.FC = () => {
           .single()
 
         if (userInfo) {
-          resume = {
-            ...resume,
-            tailored_bullets: {
-              ...resume.tailored_bullets,
-              user_info: userInfo
-            }
+          exportData.tailored_bullets.user_info = userInfo
+        }
+      }
+
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/jd-analyzer/export`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          resumeData: {
+            user_info: exportData.tailored_bullets.user_info || {},
+            profile_summary: exportData.tailored_profile,
+            areas_of_excellence: exportData.tailored_skills,
+            work_experience: exportData.tailored_bullets.work_experience || [],
+            par_stories: exportData.tailored_bullets.par_stories || []
           }
+        }),
+      });
+
+      if (!response.ok) throw new Error('Failed to generate Word document');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `Tailored_Resume_${resume.job_title}_${resume.company_name}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+    } catch (error: any) {
+      console.error('Error exporting to Word:', error);
+      alert('Failed to export Word: ' + error.message);
+    }
+  }
+
+  // OPCIÓN B: Exportar a PDF (Current implementation improved/kept)
+  const handleExportPDF = async (resume: any) => {
+    const isProfileComplete = await checkProfileCompletion()
+    if (!isProfileComplete) return
+
+    try {
+      // Always fetch latest user info from profile to ensure it's up to date
+      const latestUserInfo = await fetchLatestUserInfo()
+
+      const exportData = {
+        ...resume,
+        tailored_bullets: {
+          ...resume.tailored_bullets,
+          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {}
+        }
+      }
+
+      // If still no user info, try to load from user_resumes as fallback
+      if (!exportData.tailored_bullets.user_info.full_name && resumeId) {
+        const { data: userInfo } = await supabase
+          .from('user_resumes')
+          .select('full_name, email, phone, linkedin_url, location_city, location_country')
+          .eq('id', resumeId)
+          .single()
+
+        if (userInfo) {
+          exportData.tailored_bullets.user_info = userInfo
         }
       }
 
       // Build PAR Stories HTML
-      const parStoriesHTML = (resume.tailored_bullets?.par_stories || []).map((story: any) => {
+      const parStoriesHTML = (exportData.tailored_bullets?.par_stories || []).map((story: any) => {
         const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
         const actionsHTML = actions.map((action: string) => `<li>${action}</li>`).join('')
         return `
@@ -576,7 +733,7 @@ const JDAnalyzer: React.FC = () => {
       }).join('')
 
       // Build Work Experience HTML with dates
-      const workExpHTML = (resume.tailored_bullets?.work_experience || []).map((exp: any) => {
+      const workExpHTML = (exportData.tailored_bullets?.work_experience || []).map((exp: any) => {
         const formatDate = (dateStr: string | undefined) => {
           if (!dateStr) return ''
 
@@ -617,10 +774,10 @@ const JDAnalyzer: React.FC = () => {
       }).join('')
 
       // Build Areas of Excellence HTML (pipe-separated)
-      const skillsText = (resume.tailored_skills || []).join(' | ')
+      const skillsText = (exportData.tailored_skills || []).join(' | ')
 
       // Build User Header HTML
-      const userInfo = resume.tailored_bullets?.user_info || {}
+      const userInfo = exportData.tailored_bullets?.user_info || {}
       const contactParts = []
 
       // Build location string
@@ -692,7 +849,7 @@ const JDAnalyzer: React.FC = () => {
 
   <div class="section">
     <h2>Professional Profile</h2>
-    <p class="profile-text">${resume.tailored_profile || 'N/A'}</p>
+    <p class="profile-text">${exportData.tailored_profile || 'N/A'}</p>
   </div>
 
   <div class="section">
@@ -801,7 +958,11 @@ const JDAnalyzer: React.FC = () => {
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
         <div className="flex items-center justify-between mb-4">
-          <BackButton to="/job-search-hub" label="Back to Job Search" className="pl-0" />
+          <BackButton
+            to={isStandalone ? "/resume-builder" : "/job-search-hub"}
+            label={isStandalone ? "Back to Resume Builder" : "Back to Job Search"}
+            className="pl-0"
+          />
         </div>
         <div>
           <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
@@ -1002,46 +1163,44 @@ const JDAnalyzer: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {console.log(`Total keywords to render: ${analysis.extracted_keywords.length}`) ||
-                      analysis.extracted_keywords.map((kw, idx) => {
-                        console.log(`Keyword ${idx}: "${kw.keyword}" - match: ${kw.currentMatch}`);
-                        return (
-                          <tr key={idx} className="border border-gray-300 dark:border-gray-600">
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 font-medium text-xs">{kw.keyword}</td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                              {kw.currentMatch ? (
-                                <span className="text-green-600 dark:text-green-400 font-bold text-sm">✓</span>
-                              ) : (
-                                <span className="text-red-600 dark:text-red-400 font-bold text-sm">✗</span>
-                              )}
-                            </td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-xs">
-                              {kw.currentMatch ? (
-                                <span className="text-green-700">Found in your resume</span>
-                              ) : (
-                                <div>
-                                  <span className="text-red-700 font-medium">Not found</span>
-                                  {kw.matchReason && (
-                                    <div className="text-gray-600 dark:text-gray-400 italic mt-1" title={kw.matchReason}>
-                                      {kw.matchReason.length > 80 ? `${kw.matchReason.substring(0, 80)}...` : kw.matchReason}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                              {!kw.currentMatch && (
-                                <button
-                                  onClick={() => handleAddKeyword(kw)}
-                                  className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
-                                >
-                                  + Add to Resume
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
+                    {analysis.extracted_keywords.map((kw, idx) => {
+                      return (
+                        <tr key={idx} className="border border-gray-300 dark:border-gray-600">
+                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 font-medium text-xs">{kw.keyword}</td>
+                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
+                            {kw.currentMatch ? (
+                              <span className="text-green-600 dark:text-green-400 font-bold text-sm">✓</span>
+                            ) : (
+                              <span className="text-red-600 dark:text-red-400 font-bold text-sm">✗</span>
+                            )}
+                          </td>
+                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-xs">
+                            {kw.currentMatch ? (
+                              <span className="text-green-700">Found in your resume</span>
+                            ) : (
+                              <div>
+                                <span className="text-red-700 font-medium">Not found</span>
+                                {kw.matchReason && (
+                                  <div className="text-gray-600 dark:text-gray-400 italic mt-1" title={kw.matchReason}>
+                                    {kw.matchReason.length > 80 ? `${kw.matchReason.substring(0, 80)}...` : kw.matchReason}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </td>
+                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
+                            {!kw.currentMatch && (
+                              <button
+                                onClick={() => handleAddKeyword(kw)}
+                                className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
+                              >
+                                + Add to Resume
+                              </button>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -1164,10 +1323,16 @@ const JDAnalyzer: React.FC = () => {
                           👁️ View
                         </button>
                         <button
-                          onClick={() => handleExportPDF(tr)}
-                          className="px-3 py-1 text-xs bg-green-600 text-white rounded hover:bg-green-700 whitespace-nowrap"
+                          onClick={() => handleExportWord(tr)}
+                          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
                         >
-                          📄 Export
+                          📝 Word
+                        </button>
+                        <button
+                          onClick={() => handleExportPDF(tr)}
+                          className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 whitespace-nowrap"
+                        >
+                          📄 PDF
                         </button>
                         {tr.status !== 'sent' && (
                           <button
@@ -1349,10 +1514,16 @@ const JDAnalyzer: React.FC = () => {
                 {/* Action Buttons */}
                 <div className="flex gap-3 pt-4 border-t">
                   <button
-                    onClick={() => handleExportPDF(viewingResume)}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
+                    onClick={() => handleExportWord(viewingResume)}
+                    className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold flex items-center justify-center gap-2"
                   >
-                    📄 Export as PDF
+                    📝 Word
+                  </button>
+                  <button
+                    onClick={() => handleExportPDF(viewingResume)}
+                    className="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold flex items-center justify-center gap-2"
+                  >
+                    📄 PDF
                   </button>
                   {viewingResume.status !== 'sent' && (
                     <button

@@ -10,6 +10,12 @@ import accomplishmentsRoutes from './routes/accomplishments.js'
 import resumeParserRoutes from './routes/resumeParser.js'
 import coverLetterRoutes from './routes/coverLetter.js'
 import profileGeneratorRoutes from './routes/profileGenerator.js'
+import analyticsRoutes from './routes/analytics.js'
+import accomplishmentBankRoutes from './routes/accomplishmentBank.js'
+import processMiningRoutes from './routes/processMining.js'
+import resumeExportRoutes from './routes/resumeExport.js'
+import contactProfileRoutes from './routes/contactProfile.js'
+import positioningQuestionnaireRoutes from './routes/positioningQuestionnaire.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -59,6 +65,23 @@ app.use(cors({
 }))
 app.use(express.json())
 
+// 🛡️ Security: Helmet for HTTP headers
+import helmet from 'helmet'
+app.use(helmet())
+
+// 🚦 Security: Rate Limiting
+import rateLimit from 'express-rate-limit'
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: 'Too many requests from this IP, please try again after 15 minutes'
+})
+
+// Apply rate limiting to all requests
+app.use(limiter)
+
 // Request logging
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`)
@@ -66,6 +89,7 @@ app.use((req, res, next) => {
 })
 
 // Routes
+app.use('/api/resume/export', resumeExportRoutes)
 app.use('/api/jobs', jobSearchRoutes)
 app.use('/api/career-vision', careerVisionRoutes)
 app.use('/api/interviews', interviewRoutes)
@@ -75,6 +99,11 @@ app.use('/api/ai', accomplishmentsRoutes)
 app.use('/api', resumeParserRoutes)
 app.use('/api/cover-letter', coverLetterRoutes)
 app.use('/api', profileGeneratorRoutes)
+app.use('/api/analytics', analyticsRoutes)
+app.use('/api/accomplishment-bank', accomplishmentBankRoutes)
+app.use('/api', contactProfileRoutes)
+app.use('/api/process-mining', processMiningRoutes)
+app.use('/api', positioningQuestionnaireRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

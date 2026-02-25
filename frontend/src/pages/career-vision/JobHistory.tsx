@@ -7,7 +7,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
-import { Plus, Edit2, Trash2, Save, X, Loader2, Sparkles, TrendingUp, TrendingDown } from 'lucide-react'
+import { Plus, Edit2, Trash2, Save, X, Loader2, Sparkles, TrendingUp, TrendingDown, Play, BookOpen } from 'lucide-react'
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 interface JobHistory {
   id?: string
@@ -235,7 +237,7 @@ export default function JobHistory() {
       if (!user) return
 
       // Call AI endpoint
-      const response = await fetch('/api/career-vision/analyze-job-history', {
+      const response = await fetch(`${API_BASE_URL}/api/career-vision/analyze-job-history`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -338,12 +340,35 @@ export default function JobHistory() {
           >
             ← Back to Career Vision
           </button>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-            📋 Job History Analysis
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">
-            Reflect on your last 4 jobs to identify what you loved and what you didn't. Discover patterns in your career satisfaction.
-          </p>
+          <div className="flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
+                  Job History Analysis
+                </h1>
+                <p className="text-gray-600 dark:text-gray-400">
+                  Let AI help you see more clearly what you like or not in a job.
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href="/videos/AI_&_Your_Career_Path-EN.mp4"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
+                <Play className="w-4 h-4" /> Watch video
+              </a>
+              <button
+                onClick={() => navigate('/career-vision/job-history')}
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+              >
+                <BookOpen className="w-4 h-4" /> Learn more
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Jobs Grid */}
@@ -559,10 +584,10 @@ export default function JobHistory() {
                 <div key={step} className="flex items-center flex-1">
                   <div
                     className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${currentStep > index + 1
-                        ? 'bg-green-600 text-white'
-                        : currentStep === index + 1
-                          ? 'bg-primary-600 text-white'
-                          : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                      ? 'bg-green-600 text-white'
+                      : currentStep === index + 1
+                        ? 'bg-primary-600 text-white'
+                        : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                       }`}
                   >
                     {currentStep > index + 1 ? '✓' : index + 1}
