@@ -28,6 +28,7 @@ export default function ResumeBuilderMenu() {
   const [loading, setLoading] = useState(true)
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set())
   const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
 
 
   useEffect(() => {
@@ -274,14 +275,12 @@ export default function ResumeBuilderMenu() {
               >
                 <ArrowRight className="w-4 h-4" /> Start Workflow
               </button>
-              <a
-                href={`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                onClick={() => setIsVideoModalOpen(true)}
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 <Play className="w-4 h-4" /> Watch video
-              </a>
+              </button>
               <button
                 onClick={() => navigate('/resume-builder')}
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
@@ -374,6 +373,48 @@ export default function ResumeBuilderMenu() {
       </div>
 
       <ServiceAddOns />
+
+      {/* Video Modal */}
+      {isVideoModalOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          onClick={() => setIsVideoModalOpen(false)}
+        >
+          {/* Dark Overlay */}
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+          {/* Modal Content */}
+          <div
+            className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setIsVideoModalOpen(false)}
+              className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+              aria-label="Close video"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            {/* Video Player */}
+            <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+              <video
+                src={`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`}
+                className="w-full h-full outline-none"
+                controls
+                controlsList="nodownload"
+                autoPlay
+                playsInline
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

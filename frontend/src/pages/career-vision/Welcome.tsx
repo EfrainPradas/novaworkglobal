@@ -167,7 +167,7 @@ export default function CareerVisionWelcome() {
           {/* Watch Video + Learn More Buttons */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <a
-              href="/videos/AI_&_Your_Career_Path-EN.mp4"
+              href={`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"

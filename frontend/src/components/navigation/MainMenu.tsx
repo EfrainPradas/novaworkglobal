@@ -196,7 +196,7 @@ export default function MainMenu() {
     const videoMap = {
       'career-direction': (
         <VideoLink
-          videoSrc="/videos/AI_&_Your_Career_Path-EN.mp4"
+          videoSrc={`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`}
           title="🎥 Watch"
           description="Career Vision Guide"
           className="text-sm"
@@ -204,7 +204,7 @@ export default function MainMenu() {
       ),
       'resume': (
         <VideoLink
-          videoSrc="/videos/BRE-EN.mp4"
+          videoSrc={`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`}
           title="🎥 Watch"
           description="Build Resume & Execute"
           className="text-sm"
@@ -212,7 +212,7 @@ export default function MainMenu() {
       ),
       'job-search': (
         <VideoLink
-          videoSrc="/videos/IMR-EN.mp4"
+          videoSrc={`${import.meta.env.BASE_URL}videos/IMR-EN.mp4`}
           title="🎥 Watch"
           description="Identify Market & Research"
           className="text-sm"
@@ -220,7 +220,7 @@ export default function MainMenu() {
       ),
       'interview': (
         <VideoLink
-          videoSrc="/videos/Your_Interview_Playbook-EN.mp4"
+          videoSrc={`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`}
           title="🎥 Watch"
           description="Interview Playbook"
           className="text-sm"

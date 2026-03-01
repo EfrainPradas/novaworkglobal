@@ -7,6 +7,7 @@ import { novaNextPlans } from '../../config/landingContent'
 export default function NovaNextPage() {
     const navigate = useNavigate()
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual')
+    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
 
     const calculatePrice = (monthly: number, annual: number) => {
         return billingCycle === 'monthly' ? monthly : Math.round(annual / 12)
@@ -63,17 +64,15 @@ export default function NovaNextPage() {
                                 >
                                     Explore Modules
                                 </button>
-                                <a
-                                    href="/videos/NovaNext™.mp4"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                <button
+                                    onClick={() => setIsVideoModalOpen(true)}
                                     className="flex items-center justify-center gap-2 px-6 py-4 text-primary-600 font-bold text-lg hover:text-primary-700 hover:bg-primary-50 rounded-xl transition-colors w-full sm:w-auto"
                                 >
                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
                                     </svg>
                                     Watch Video
-                                </a>
+                                </button>
                             </div>
                         </motion.div>
                         <motion.div
@@ -305,6 +304,47 @@ export default function NovaNextPage() {
                 </div>
             </section>
 
+            {/* Video Modal */}
+            {isVideoModalOpen && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+                    onClick={() => setIsVideoModalOpen(false)}
+                >
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+                    {/* Modal Content */}
+                    <div
+                        className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => setIsVideoModalOpen(false)}
+                            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                            aria-label="Close video"
+                        >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Video Player */}
+                        <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+                            <video
+                                src={`${import.meta.env.BASE_URL}videos/NovaNext™.mp4`}
+                                className="w-full h-full outline-none"
+                                controls
+                                controlsList="nodownload"
+                                autoPlay
+                                playsInline
+                            >
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </div>
     )

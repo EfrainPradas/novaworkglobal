@@ -354,7 +354,7 @@ export default function JobHistory() {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="/videos/AI_&_Your_Career_Path-EN.mp4"
+                href={`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
