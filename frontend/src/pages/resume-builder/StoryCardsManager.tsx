@@ -436,7 +436,7 @@ export default function StoryCardsManager() {
 
     return (
         <div className="min-h-screen bg-[#F8FAFC] p-4 md:p-8 font-sans">
-            <div className="max-w-6xl mx-auto">
+            <div className="max-w-[1440px] mx-auto">
                 {/* Navigation Header */}
                 <div className="flex items-center justify-between mb-6">
                     <button
@@ -599,7 +599,7 @@ export default function StoryCardsManager() {
                 </div>
 
                 {/* Main Content Area (Cards & Side Panels) */}
-                <div className="flex gap-6 relative">
+                <div className="flex flex-col lg:flex-row gap-8 relative items-start">
                     {/* Story Cards List */}
                     <div className="flex-1 space-y-6 max-w-full min-w-0">
                         {filteredStories.map(story => (
@@ -709,7 +709,7 @@ export default function StoryCardsManager() {
 
                     {/* Sliding Side Panels (Right Column) */}
                     {activePanel && (
-                        <div className="w-[340px] xl:w-[380px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-4 h-[calc(100vh-2rem)] flex flex-col animate-in slide-in-from-right duration-300 z-10">
+                        <div className="w-full lg:w-[380px] xl:w-[420px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-8 h-fit lg:h-[calc(100vh-4rem)] flex flex-col animate-in slide-in-from-right duration-300 z-10">
                             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-white z-10 sticky top-0">
                                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
                                     {activePanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5]" /> Action Verbs</> :
