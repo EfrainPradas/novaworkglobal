@@ -275,7 +275,7 @@ export default function ResumeBuilderMenu() {
                 <ArrowRight className="w-4 h-4" /> Start Workflow
               </button>
               <a
-                href="/videos/AI_&_Your_Career_Path-EN.mp4"
+                href="/videos/Master Your Resume in 6 Steps_720p_caption.mp4"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
