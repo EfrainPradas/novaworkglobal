@@ -804,11 +804,6 @@ export default function StoryCardsManager() {
                                                     </div>
 
                                                     <div className="flex-1 space-y-4 mb-4">
-                                                        {chatHistory.length === 0 && (
-                                                            <div className="bg-[#F9FAFB] p-4 rounded-xl border border-gray-200 text-center">
-                                                                <p className="text-xs text-gray-500 italic">"Group my stories by product management impact" or "Show me my technical achievements"...</p>
-                                                            </div>
-                                                        )}
                                                         {chatHistory.map((msg, i) => (
                                                             <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
                                                                 <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none shadow-sm'}`}>
@@ -841,28 +836,46 @@ export default function StoryCardsManager() {
                                                         )}
                                                     </div>
 
-                                                    <div className="bg-white p-2 rounded-xl border border-gray-300 shadow-sm flex flex-col gap-2 sticky bottom-0">
-                                                        <textarea
-                                                            value={customPrompt}
-                                                            onChange={e => setCustomPrompt(e.target.value)}
-                                                            placeholder="Ask Strategic AI..."
-                                                            className="w-full text-sm px-3 py-2 border-none focus:ring-0 outline-none resize-none"
-                                                            rows={2}
-                                                            onKeyDown={e => {
-                                                                if (e.key === 'Enter' && !e.shiftKey) {
-                                                                    e.preventDefault()
-                                                                    handleAddCustomGroup()
-                                                                }
-                                                            }}
-                                                        />
-                                                        <div className="flex justify-end">
+                                                    <div className="sticky bottom-0 bg-gray-50 pt-2">
+                                                        <div className="mb-2 flex flex-wrap gap-2">
+                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest w-full mb-1">Strategic Tips</span>
                                                             <button
-                                                                onClick={handleAddCustomGroup}
-                                                                disabled={!customPrompt.trim() || isCustomGrouping}
-                                                                className="bg-[#10B981] text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-2 transition-colors"
+                                                                onClick={() => setCustomPrompt("Group by product management impact")}
+                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
                                                             >
-                                                                <Wand2 className="w-3.5 h-3.5" /> Send
+                                                                "Impact in PM"
                                                             </button>
+                                                            <button
+                                                                onClick={() => setCustomPrompt("Show me technical achievements")}
+                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
+                                                            >
+                                                                "Technical feats"
+                                                            </button>
+                                                        </div>
+
+                                                        <div className="bg-white p-2 rounded-xl border border-gray-300 shadow-sm flex flex-col gap-2">
+                                                            <textarea
+                                                                value={customPrompt}
+                                                                onChange={e => setCustomPrompt(e.target.value)}
+                                                                placeholder="Ask Strategic AI..."
+                                                                className="w-full text-sm px-3 py-2 border-none focus:ring-0 outline-none resize-none"
+                                                                rows={2}
+                                                                onKeyDown={e => {
+                                                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                                                        e.preventDefault()
+                                                                        handleAddCustomGroup()
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <div className="flex justify-end">
+                                                                <button
+                                                                    onClick={handleAddCustomGroup}
+                                                                    disabled={!customPrompt.trim() || isCustomGrouping}
+                                                                    className="bg-[#10B981] text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-2 transition-colors"
+                                                                >
+                                                                    <Wand2 className="w-3.5 h-3.5" /> Send
+                                                                </button>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
