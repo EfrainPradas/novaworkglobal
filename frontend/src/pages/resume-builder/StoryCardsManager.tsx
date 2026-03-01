@@ -709,7 +709,7 @@ export default function StoryCardsManager() {
 
                     {/* Sliding Side Panels (Right Column) */}
                     {activePanel && (
-                        <div className="w-full lg:w-[380px] xl:w-[420px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-8 h-fit lg:h-[calc(100vh-4rem)] flex flex-col animate-in slide-in-from-right duration-300 z-10">
+                        <div className="w-full lg:w-[380px] xl:w-[420px] flex-shrink-0 bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden sticky top-8 h-fit flex flex-col animate-in slide-in-from-right duration-300 z-10">
                             <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-white z-10 sticky top-0">
                                 <h3 className="font-bold text-gray-900 flex items-center gap-2">
                                     {activePanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5]" /> Action Verbs</> :
@@ -721,7 +721,7 @@ export default function StoryCardsManager() {
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto p-5 bg-gray-50">
+                            <div className="flex-1 p-5 bg-gray-50">
                                 {activePanel === 'verbs' && (
                                     <div className="space-y-6">
                                         <p className="text-sm text-gray-600">Click a verb to quickly copy it to your clipboard.</p>
@@ -771,7 +771,7 @@ export default function StoryCardsManager() {
                                                 <p className="text-sm text-gray-500 leading-relaxed max-w-[200px] mx-auto">AI is reading your accomplishments to find strategic clusters...</p>
                                             </div>
                                         ) : (
-                                            <div className="space-y-6 flex-1 overflow-y-auto">
+                                            <div className="space-y-6 flex-1">
                                                 {/* AI Groups */}
                                                 <div>
                                                     <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
