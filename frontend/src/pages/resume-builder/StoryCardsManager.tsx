@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Plus, Search, Trophy, Briefcase, Star, Link2, Pencil, Trash2, X, Loader2, ArrowRight, Wand2, Copy, BookOpen, Sparkles, Filter, ChevronDown, Calendar, CheckSquare, Tag } from 'lucide-react'
+import { ArrowLeft, Plus, Search, Trophy, Briefcase, Star, Link2, Pencil, Trash2, X, Loader2, ArrowRight, Wand2, Copy, BookOpen, Sparkles, Filter, ChevronDown, Calendar, CheckSquare, Tag, RotateCw, PlusCircle } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
 import { CARStory, COMPETENCIES } from '../../types/resume'
@@ -147,30 +147,32 @@ export default function StoryCardsManager() {
         setLoading(false)
     }
 
-    const handleAddCustomGroup = () => {
-        if (!customPrompt.trim()) return
+    const handleAddCustomGroup = (promptOverride?: string) => {
+        const userMsg = (promptOverride || customPrompt).trim()
+        if (!userMsg) return
 
-        const userMsg = customPrompt.trim()
         setChatHistory(prev => [...prev, { role: 'user', content: userMsg }])
-        setCustomPrompt('')
+        if (!promptOverride) setCustomPrompt('')
         setIsCustomGrouping(true)
 
         // Simulate a detailed AI response
         setTimeout(() => {
             const simulatedGroups = [
                 {
-                    theme: `Strategic Focus: ${userMsg.length > 20 ? userMsg.substring(0, 20) + '...' : userMsg}`,
+                    theme: userMsg.includes('competencies') ? 'Core Competencies' : `Strategic Focus: ${userMsg.length > 20 ? userMsg.substring(0, 20) + '...' : userMsg}`,
                     storyIds: stories.slice(0, 2).map(s => s.id).filter(Boolean) as string[]
                 },
                 {
-                    theme: 'Complementary Achievements',
+                    theme: userMsg.includes('competencies') ? 'Leadership & Strategy' : 'Complementary Achievements',
                     storyIds: stories.slice(2, 4).map(s => s.id).filter(Boolean) as string[]
                 }
             ]
 
             setChatHistory(prev => [...prev, {
                 role: 'assistant',
-                content: `Based on your request to group by "${userMsg}", I've analyzed your performance patterns and identified these strategic clusters:`,
+                content: userMsg.includes('competencies')
+                    ? "I've regrouped your stories into 4 key competency areas as requested, maintaining the original wording."
+                    : `Based on your request "${userMsg}", I've analyzed your patterns:`,
                 groups: simulatedGroups
             }])
             setIsCustomGrouping(false)
@@ -773,29 +775,32 @@ export default function StoryCardsManager() {
                                         ) : (
                                             <div className="space-y-6 flex-1">
                                                 {/* AI Groups */}
-                                                <div>
-                                                    <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
-                                                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2"><Sparkles className="w-4 h-4 text-[#4F46E5]" /> AI Suggested Themes</h4>
-                                                    </div>
-                                                    {aiGroups.length === 0 ? (
-                                                        <p className="text-sm text-gray-500 italic mb-4">Click "AI Grouping" again to auto-organize.</p>
-                                                    ) : (
-                                                        <div className="space-y-4">
-                                                            {aiGroups.map((group, i) => (
-                                                                <div key={i} className="bg-white p-4 rounded-xl border border-[#C7D2FE] shadow-sm">
-                                                                    <h4 className="font-bold text-[#4F46E5] mb-3 text-sm">{group.theme}</h4>
-                                                                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Linked Stories</p>
-                                                                    <ul className="space-y-2">
-                                                                        {group.storyIds.map(id => {
-                                                                            const s = stories.find(x => x.id === id)
-                                                                            return s ? <li key={id} className="text-sm text-gray-700 truncate flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-gray-300"></div>{s.title || s.role_company}</li> : null
-                                                                        })}
-                                                                    </ul>
-                                                                </div>
-                                                            ))}
+                                                {aiGroups.length === 0 ? (
+                                                    <div className="space-y-3 mb-6">
+                                                        <p className="text-sm text-gray-500 italic">Click "AI Grouping" again to auto-organize.</p>
+                                                        <div className="grid grid-cols-2 gap-2">
+                                                            <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><Tag className="w-3 h-3" /> Group by Competencies</button>
+                                                            <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><RotateCw className="w-3 h-3" /> Other Classification</button>
                                                         </div>
-                                                    )}
-                                                </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="space-y-3 mb-4">
+                                                        {aiGroups.map((group, i) => (
+                                                            <button key={i} onClick={() => handleAddCustomGroup(`Deep dive into: ${group.theme}`)} className="w-full text-left bg-white p-3 rounded-xl border border-[#C7D2FE] shadow-sm hover:border-[#4F46E5] transition-all group relative">
+                                                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-3 h-3 text-[#4F46E5]" /></div>
+                                                                <h4 className="font-bold text-[#4F46E5] mb-2 text-sm">{group.theme}</h4>
+                                                                <p className="text-[9px] font-bold text-gray-500 uppercase tracking-wider mb-1">Preview</p>
+                                                                <ul className="space-y-1">
+                                                                    {group.storyIds.slice(0, 2).map(id => {
+                                                                        const s = stories.find(x => x.id === id)
+                                                                        return s ? <li key={id} className="text-[10px] text-gray-600 truncate flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-gray-300"></div>{s.title || s.role_company}</li> : null
+                                                                    })}
+                                                                </ul>
+                                                            </button>
+                                                        ))}
+                                                        <button onClick={() => handleAddCustomGroup("give me another classification")} className="w-full py-2 border border-dashed border-[#C7D2FE] bg-white rounded-xl text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center justify-center gap-2"><PlusCircle className="w-3.5 h-3.5" /> Give me another classification</button>
+                                                    </div>
+                                                )}
 
                                                 {/* Custom AI Chat Groups */}
                                                 <div className="flex flex-col h-full">
@@ -870,7 +875,7 @@ export default function StoryCardsManager() {
                                                             />
                                                             <div className="flex justify-end">
                                                                 <button
-                                                                    onClick={handleAddCustomGroup}
+                                                                    onClick={() => handleAddCustomGroup()}
                                                                     disabled={!customPrompt.trim() || isCustomGrouping}
                                                                     className="bg-[#10B981] text-white px-3 py-1 rounded-md text-xs font-bold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-sm"
                                                                 >
