@@ -50,13 +50,30 @@ export default function NovaNextPage() {
                             <p className="text-lg text-gray-500 mb-8 leading-relaxed">
                                 Designed for those whose roles were disrupted by AI, automation, or industry decline. Build your resume, clarify your lane, and start moving.
                             </p>
-                            <div className="flex flex-col sm:flex-row gap-4">
+                            <div className="flex flex-col sm:flex-row gap-4 items-center">
                                 <button
                                     onClick={() => document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="px-8 py-4 bg-primary-600 text-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                                    className="px-8 py-4 bg-primary-600 text-white rounded-xl font-bold text-lg hover:bg-primary-700 transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 w-full sm:w-auto text-center"
                                 >
                                     View Pricing
                                 </button>
+                                <button
+                                    onClick={() => document.getElementById('framework')?.scrollIntoView({ behavior: 'smooth' })}
+                                    className="px-8 py-4 bg-white text-gray-900 border border-gray-200 rounded-xl font-bold text-lg hover:bg-gray-50 transition-all shadow-sm hover:shadow-md hover:-translate-y-1 w-full sm:w-auto text-center"
+                                >
+                                    Explore Modules
+                                </button>
+                                <a
+                                    href="/videos/NovaNext™.mp4"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center justify-center gap-2 px-6 py-4 text-primary-600 font-bold text-lg hover:text-primary-700 hover:bg-primary-50 rounded-xl transition-colors w-full sm:w-auto"
+                                >
+                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                                    </svg>
+                                    Watch Video
+                                </a>
                             </div>
                         </motion.div>
                         <motion.div
@@ -77,7 +94,7 @@ export default function NovaNextPage() {
             </section>
 
             {/* The Three-Step Success Framework */}
-            <section className="py-24 px-4 bg-gray-50 border-y border-gray-200">
+            <section id="framework" className="py-24 px-4 bg-gray-50 border-y border-gray-200">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16">
                         <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
