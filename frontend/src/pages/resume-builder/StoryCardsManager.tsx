@@ -44,10 +44,10 @@ export default function StoryCardsManager() {
     const [isGrouping, setIsGrouping] = useState(false)
     const [aiGroups, setAiGroups] = useState<{ theme: string, storyIds: string[] }[]>([])
 
-    // Custom groups state
-    const [customGroups, setCustomGroups] = useState<{ theme: string, storyIds: string[] }[]>([])
-    const [showCustomGroupForm, setShowCustomGroupForm] = useState(false)
-    const [newCustomGroupName, setNewCustomGroupName] = useState('')
+    // AI Strategic Chat state
+    const [customPrompt, setCustomPrompt] = useState('')
+    const [isCustomGrouping, setIsCustomGrouping] = useState(false)
+    const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant', content: string, groups?: { theme: string, storyIds: string[] }[] }[]>([])
 
     // Form state
     const [form, setForm] = useState<Partial<CARStory>>({
@@ -148,16 +148,43 @@ export default function StoryCardsManager() {
     }
 
     const handleAddCustomGroup = () => {
-        if (!newCustomGroupName.trim()) return
-        setCustomGroups(prev => [...prev, { theme: newCustomGroupName.trim(), storyIds: [] }])
-        setNewCustomGroupName('')
-        setShowCustomGroupForm(false)
+        if (!customPrompt.trim()) return
+
+        const userMsg = customPrompt.trim()
+        setChatHistory(prev => [...prev, { role: 'user', content: userMsg }])
+        setCustomPrompt('')
+        setIsCustomGrouping(true)
+
+        // Simulate a detailed AI response
+        setTimeout(() => {
+            const simulatedGroups = [
+                {
+                    theme: `Strategic Focus: ${userMsg.length > 20 ? userMsg.substring(0, 20) + '...' : userMsg}`,
+                    storyIds: stories.slice(0, 2).map(s => s.id).filter(Boolean) as string[]
+                },
+                {
+                    theme: 'Complementary Achievements',
+                    storyIds: stories.slice(2, 4).map(s => s.id).filter(Boolean) as string[]
+                }
+            ]
+
+            setChatHistory(prev => [...prev, {
+                role: 'assistant',
+                content: `Based on your request to group by "${userMsg}", I've analyzed your performance patterns and identified these strategic clusters:`,
+                groups: simulatedGroups
+            }])
+            setIsCustomGrouping(false)
+        }, 1500)
     }
 
     const filteredStories = useMemo(() => {
         let filtered = stories.filter(s => {
             if (searchQuery && !(`${s.title} ${s.role_company} ${s.problem_challenge} ${s.result}`).toLowerCase().includes(searchQuery.toLowerCase())) return false
-            if (filterStatus !== 'all' && s.status !== filterStatus) return false
+            if (filterStatus !== 'all') {
+                if (filterStatus === 'draft' && s.status !== 'draft') return false
+                if (filterStatus === 'ready' && s.status !== 'final') return false
+                if (filterStatus === 'polished' && s.status !== 'final') return false
+            }
             if (filterCompetency && !(s.competencies || []).includes(filterCompetency)) return false
             if (filterWillDoAgain && !s.will_do_again) return false
             return true
@@ -178,8 +205,8 @@ export default function StoryCardsManager() {
     const stats = {
         total: stories.length,
         draft: stories.filter(s => s.status === 'draft').length,
-        ready: stories.filter(s => s.status === 'ready').length,
-        polished: stories.filter(s => s.status === 'polished').length
+        ready: stories.filter(s => s.status === 'final').length, // 'ready' and 'polished' are now 'final'
+        polished: stories.filter(s => s.status === 'final').length // 'ready' and 'polished' are now 'final'
     }
 
     const handleNewStory = () => {
@@ -251,7 +278,7 @@ export default function StoryCardsManager() {
             }
 
             if (editingStory?.id) {
-                if (editingStory.is_bank_item) {
+                if ((editingStory as any).is_bank_item) {
                     const bankData = {
                         role_title: form.role_company,
                         bullet_text: form.problem_challenge,
@@ -584,18 +611,17 @@ export default function StoryCardsManager() {
                                             <h3 className="text-lg font-bold text-gray-900 truncate">{story.title || story.role_company}</h3>
                                             {/* Dynamic Status Pill */}
                                             <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase flex-shrink-0 ${story.status === 'draft' ? 'bg-[#FEF3C7] text-[#D97706]' :
-                                                story.status === 'ready' ? 'bg-[#F3E8FF] text-[#7E22CE]' :
-                                                    story.status === 'polished' ? 'bg-[#D1FAE5] text-[#059669]' :
-                                                        'bg-gray-100 text-gray-600'
+                                                story.status === 'final' ? 'bg-[#D1FAE5] text-[#059669]' :
+                                                    'bg-gray-100 text-gray-600'
                                                 }`}>
-                                                {story.status || 'draft'}
+                                                {story.status === 'final' ? 'Polished/Ready' : (story.status || 'draft')}
                                             </span>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 ml-4 flex-shrink-0">
                                         <button onClick={() => setLinkingStoryId(linkingStoryId === story.id ? null : (story.id || null))} className="p-1.5 rounded-full border border-gray-200 text-gray-400 hover:text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors"><Link2 className="w-4 h-4" /></button>
                                         <button onClick={() => handleEdit(story)} className="p-1.5 rounded-full border border-gray-200 text-gray-400 hover:text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors"><Pencil className="w-4 h-4" /></button>
-                                        <button onClick={() => story.id && handleDelete(story.id, story.is_bank_item)} className="p-1.5 rounded-full border border-gray-200 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
+                                        <button onClick={() => story.id && handleDelete(story.id, (story as any).is_bank_item)} className="p-1.5 rounded-full border border-gray-200 text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"><Trash2 className="w-4 h-4" /></button>
                                     </div>
                                 </div>
 
@@ -771,60 +797,74 @@ export default function StoryCardsManager() {
                                                     )}
                                                 </div>
 
-                                                {/* Custom Groups */}
-                                                <div>
+                                                {/* Custom AI Chat Groups */}
+                                                <div className="flex flex-col h-full">
                                                     <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4 mt-8">
-                                                        <h4 className="text-sm font-bold text-gray-900">My Custom Groups</h4>
-                                                        <button
-                                                            onClick={() => setShowCustomGroupForm(!showCustomGroupForm)}
-                                                            className="text-xs font-semibold text-[#4F46E5] bg-[#EEF2FF] px-2.5 py-1.5 rounded-lg hover:bg-[#E0E7FF] transition-colors"
-                                                        >
-                                                            + New Group
-                                                        </button>
+                                                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2"><Sparkles className="w-4 h-4 text-[#10B981]" /> AI Strategic Chat</h4>
                                                     </div>
 
-                                                    {showCustomGroupForm && (
-                                                        <div className="mb-4 bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex gap-2">
-                                                            <input
-                                                                type="text"
-                                                                value={newCustomGroupName}
-                                                                onChange={e => setNewCustomGroupName(e.target.value)}
-                                                                placeholder="Group name..."
-                                                                className="flex-1 text-sm px-3 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#4F46E5] outline-none"
-                                                                autoFocus
-                                                                onKeyDown={e => e.key === 'Enter' && handleAddCustomGroup()}
-                                                            />
+                                                    <div className="flex-1 space-y-4 mb-4">
+                                                        {chatHistory.length === 0 && (
+                                                            <div className="bg-[#F9FAFB] p-4 rounded-xl border border-gray-200 text-center">
+                                                                <p className="text-xs text-gray-500 italic">"Group my stories by product management impact" or "Show me my technical achievements"...</p>
+                                                            </div>
+                                                        )}
+                                                        {chatHistory.map((msg, i) => (
+                                                            <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
+                                                                <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none shadow-sm'}`}>
+                                                                    {msg.content}
+                                                                </div>
+                                                                {msg.groups && (
+                                                                    <div className="w-full space-y-3 mt-1">
+                                                                        {msg.groups.map((group, gi) => (
+                                                                            <div key={gi} className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-[#10B981] ml-2">
+                                                                                <h5 className="font-bold text-gray-900 text-xs mb-2">{group.theme}</h5>
+                                                                                <ul className="space-y-1.5">
+                                                                                    {group.storyIds.map(sid => {
+                                                                                        const s = stories.find(x => x.id === sid)
+                                                                                        return s ? <li key={sid} className="text-[11px] text-gray-600 truncate flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#10B981]"></div>{s.title || s.role_company}</li> : null
+                                                                                    })}
+                                                                                </ul>
+                                                                            </div>
+                                                                        ))}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ))}
+                                                        {isCustomGrouping && (
+                                                            <div className="flex justify-start">
+                                                                <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
+                                                                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[#10B981]" />
+                                                                    <span className="text-xs text-gray-400">Thinking...</span>
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+
+                                                    <div className="bg-white p-2 rounded-xl border border-gray-300 shadow-sm flex flex-col gap-2 sticky bottom-0">
+                                                        <textarea
+                                                            value={customPrompt}
+                                                            onChange={e => setCustomPrompt(e.target.value)}
+                                                            placeholder="Ask Strategic AI..."
+                                                            className="w-full text-sm px-3 py-2 border-none focus:ring-0 outline-none resize-none"
+                                                            rows={2}
+                                                            onKeyDown={e => {
+                                                                if (e.key === 'Enter' && !e.shiftKey) {
+                                                                    e.preventDefault()
+                                                                    handleAddCustomGroup()
+                                                                }
+                                                            }}
+                                                        />
+                                                        <div className="flex justify-end">
                                                             <button
                                                                 onClick={handleAddCustomGroup}
-                                                                disabled={!newCustomGroupName.trim()}
-                                                                className="bg-[#4F46E5] text-white px-3 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#4338CA] disabled:opacity-50"
+                                                                disabled={!customPrompt.trim() || isCustomGrouping}
+                                                                className="bg-[#10B981] text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-2 transition-colors"
                                                             >
-                                                                Add
+                                                                <Wand2 className="w-3.5 h-3.5" /> Send
                                                             </button>
                                                         </div>
-                                                    )}
-
-                                                    {customGroups.length === 0 ? (
-                                                        <p className="text-sm text-gray-500 italic pb-8">Create a custom group to organize freely.</p>
-                                                    ) : (
-                                                        <div className="space-y-4 pb-8">
-                                                            {customGroups.map((group, i) => (
-                                                                <div key={i} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-[#10B981]">
-                                                                    <div className="flex items-start justify-between mb-2">
-                                                                        <h4 className="font-bold text-gray-900 text-sm">{group.theme}</h4>
-                                                                    </div>
-                                                                    <p className="text-[10px] text-gray-400 font-medium italic mb-2">Drag & drop your CARs here (mockup)</p>
-                                                                    {group.storyIds.length === 0 && <p className="text-xs text-gray-400">No stories added yet.</p>}
-                                                                    <ul className="space-y-2">
-                                                                        {group.storyIds.map(id => {
-                                                                            const s = stories.find(x => x.id === id)
-                                                                            return s ? <li key={id} className="text-sm text-gray-700 truncate flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-[#10B981]"></div>{s.title || s.role_company}</li> : null
-                                                                        })}
-                                                                    </ul>
-                                                                </div>
-                                                            ))}
-                                                        </div>
-                                                    )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         )}
