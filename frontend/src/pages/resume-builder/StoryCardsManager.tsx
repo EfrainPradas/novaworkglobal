@@ -803,21 +803,21 @@ export default function StoryCardsManager() {
                                                         <h4 className="text-sm font-bold text-gray-900 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-[#10B981]" /> AI Strategic Chat</h4>
                                                     </div>
 
-                                                    <div className="flex-1 space-y-3 mb-3">
+                                                    <div className="space-y-2 mb-2">
                                                         {chatHistory.map((msg, i) => (
-                                                            <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
-                                                                <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none shadow-sm'}`}>
+                                                            <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-1.5`}>
+                                                                <div className={`max-w-[90%] px-3 py-1.5 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-100 text-gray-700 rounded-tl-none shadow-sm'}`}>
                                                                     {msg.content}
                                                                 </div>
                                                                 {msg.groups && (
-                                                                    <div className="w-full space-y-3 mt-1">
+                                                                    <div className="w-full space-y-2 mt-1">
                                                                         {msg.groups.map((group, gi) => (
-                                                                            <div key={gi} className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm border-l-4 border-l-[#10B981] ml-2">
-                                                                                <h5 className="font-bold text-gray-900 text-xs mb-2">{group.theme}</h5>
-                                                                                <ul className="space-y-1.5">
+                                                                            <div key={gi} className="bg-white p-2.5 rounded-xl border border-gray-100 shadow-sm border-l-4 border-l-[#10B981] ml-2 font-sans">
+                                                                                <h5 className="font-bold text-gray-900 text-[11px] mb-1.5">{group.theme}</h5>
+                                                                                <ul className="space-y-1">
                                                                                     {group.storyIds.map(sid => {
                                                                                         const s = stories.find(x => x.id === sid)
-                                                                                        return s ? <li key={sid} className="text-[11px] text-gray-600 truncate flex items-center gap-2"><div className="w-1 h-1 rounded-full bg-[#10B981]"></div>{s.title || s.role_company}</li> : null
+                                                                                        return s ? <li key={sid} className="text-[10px] text-gray-600 truncate flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-[#10B981]"></div>{s.title || s.role_company}</li> : null
                                                                                     })}
                                                                                 </ul>
                                                                             </div>
@@ -828,38 +828,39 @@ export default function StoryCardsManager() {
                                                         ))}
                                                         {isCustomGrouping && (
                                                             <div className="flex justify-start">
-                                                                <div className="bg-white border border-gray-200 p-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
-                                                                    <Loader2 className="w-3.5 h-3.5 animate-spin text-[#10B981]" />
-                                                                    <span className="text-xs text-gray-400">Thinking...</span>
+                                                                <div className="bg-white border border-gray-100 p-2 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
+                                                                    <Loader2 className="w-3 h-3 animate-spin text-[#10B981]" />
+                                                                    <span className="text-[11px] text-gray-400">Thinking...</span>
                                                                 </div>
                                                             </div>
                                                         )}
                                                     </div>
 
-                                                    <div className="sticky bottom-0 bg-gray-50 pt-1">
+                                                    <div className="bg-gray-50/50 rounded-xl p-2 border border-blue-50/50 mb-2">
                                                         <div className="mb-1.5 flex flex-wrap gap-1.5">
-                                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest w-full mb-0.5">Strategic Tips</span>
+                                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest w-full">Strategic Tips</span>
                                                             <button
                                                                 onClick={() => setCustomPrompt("Group by product management impact")}
-                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
+                                                                className="text-[10px] bg-white border border-gray-100 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors shadow-sm"
                                                             >
                                                                 "Impact in PM"
                                                             </button>
                                                             <button
                                                                 onClick={() => setCustomPrompt("Show me technical achievements")}
-                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
+                                                                className="text-[10px] bg-white border border-gray-100 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors shadow-sm"
                                                             >
                                                                 "Technical feats"
                                                             </button>
                                                         </div>
 
-                                                        <div className="bg-white p-2 rounded-xl border border-gray-300 shadow-sm flex flex-col gap-2">
+                                                        <div className="bg-white p-1.5 rounded-lg border border-gray-200 shadow-inner flex flex-col gap-1.5">
                                                             <textarea
                                                                 value={customPrompt}
                                                                 onChange={e => setCustomPrompt(e.target.value)}
-                                                                placeholder="Ask Strategic AI..."
-                                                                className="w-full text-sm px-3 py-2 border-none focus:ring-0 outline-none resize-none"
-                                                                rows={2}
+                                                                placeholder="Ask Startegic AI..."
+                                                                className="w-full text-xs px-2 py-1.5 border-none focus:ring-0 outline-none resize-none bg-transparent"
+                                                                rows={1}
+                                                                style={{ minHeight: '40px' }}
                                                                 onKeyDown={e => {
                                                                     if (e.key === 'Enter' && !e.shiftKey) {
                                                                         e.preventDefault()
@@ -871,9 +872,9 @@ export default function StoryCardsManager() {
                                                                 <button
                                                                     onClick={handleAddCustomGroup}
                                                                     disabled={!customPrompt.trim() || isCustomGrouping}
-                                                                    className="bg-[#10B981] text-white px-4 py-1.5 rounded-lg text-sm font-semibold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-2 transition-colors"
+                                                                    className="bg-[#10B981] text-white px-3 py-1 rounded-md text-xs font-bold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-sm"
                                                                 >
-                                                                    <Wand2 className="w-3.5 h-3.5" /> Send
+                                                                    <Wand2 className="w-3 h-3" /> Send
                                                                 </button>
                                                             </div>
                                                         </div>
