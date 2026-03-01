@@ -799,11 +799,11 @@ export default function StoryCardsManager() {
 
                                                 {/* Custom AI Chat Groups */}
                                                 <div className="flex flex-col h-full">
-                                                    <div className="flex items-center justify-between border-b border-gray-200 pb-3 mb-4 mt-8">
-                                                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-2"><Sparkles className="w-4 h-4 text-[#10B981]" /> AI Strategic Chat</h4>
+                                                    <div className="flex items-center justify-between border-b border-gray-100 pb-1.5 mb-2 mt-2">
+                                                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-[#10B981]" /> AI Strategic Chat</h4>
                                                     </div>
 
-                                                    <div className="flex-1 space-y-4 mb-4">
+                                                    <div className="flex-1 space-y-3 mb-3">
                                                         {chatHistory.map((msg, i) => (
                                                             <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
                                                                 <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-200 text-gray-700 rounded-tl-none shadow-sm'}`}>
@@ -836,18 +836,18 @@ export default function StoryCardsManager() {
                                                         )}
                                                     </div>
 
-                                                    <div className="sticky bottom-0 bg-gray-50 pt-2">
-                                                        <div className="mb-2 flex flex-wrap gap-2">
-                                                            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest w-full mb-1">Strategic Tips</span>
+                                                    <div className="sticky bottom-0 bg-gray-50 pt-1">
+                                                        <div className="mb-1.5 flex flex-wrap gap-1.5">
+                                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest w-full mb-0.5">Strategic Tips</span>
                                                             <button
                                                                 onClick={() => setCustomPrompt("Group by product management impact")}
-                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
+                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
                                                             >
                                                                 "Impact in PM"
                                                             </button>
                                                             <button
                                                                 onClick={() => setCustomPrompt("Show me technical achievements")}
-                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-1 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
+                                                                className="text-[10px] bg-white border border-gray-200 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors"
                                                             >
                                                                 "Technical feats"
                                                             </button>
