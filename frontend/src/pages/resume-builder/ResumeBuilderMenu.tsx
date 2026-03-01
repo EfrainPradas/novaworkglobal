@@ -295,7 +295,7 @@ export default function ResumeBuilderMenu() {
         {/* Global Progress Indicator */}
         <div className="flex items-center gap-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600">
           <div className="relative w-16 h-16 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90">
+            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
               <circle
                 cx="32"
                 cy="32"
