@@ -105,9 +105,15 @@ export default function StoryCardsManager() {
                 is_bank_item: true
             }))
 
+            // Map DB field role_title → component field role_company
+            const mappedParStories = (parStories || []).map(p => ({
+                ...p,
+                role_company: p.role_title || p.company_name || p.role_company || ''
+            }))
+
             const uniqueBankStories = mappedBankStories.filter((v, i, a) => a.findIndex(t => (t.problem_challenge === v.problem_challenge)) === i)
 
-            const mergedStories = [...(parStories || []), ...uniqueBankStories].sort((a, b) => {
+            const mergedStories = [...mappedParStories, ...uniqueBankStories].sort((a, b) => {
                 return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
             })
 
@@ -253,22 +259,32 @@ export default function StoryCardsManager() {
     }
 
     const handleSave = async () => {
-        if (!form.role_company?.trim() || !form.problem_challenge?.trim() || !form.result?.trim()) return
+        const isBankEdit = editingStory && (editingStory as any).is_bank_item
+        if (!isBankEdit && (!form.role_company?.trim() || !form.problem_challenge?.trim())) {
+            alert('Please fill in Role & Company and Challenge fields.')
+            return
+        }
         setSaving(true)
 
         try {
             const { data: { user } } = await supabase.auth.getUser()
-            if (!user) return
+            if (!user) {
+                alert('You must be logged in to save.')
+                setSaving(false)
+                return
+            }
 
             const cleanActions = (form.actions || []).filter(a => a.trim())
+
+            // DB columns: role_title, company_name (NOT role_company, NOT title)
             const storyData = {
                 user_id: user.id,
-                title: form.title?.trim() || `${form.role_company} - Accomplishment`,
-                role_company: form.role_company,
+                role_title: form.role_company,
+                company_name: form.role_company,
                 year: form.year,
                 problem_challenge: form.problem_challenge,
                 actions: cleanActions,
-                result: form.result,
+                result: form.result || '',
                 metrics: form.metrics || [],
                 will_do_again: form.will_do_again || false,
                 competencies: form.competencies || [],
@@ -280,47 +296,73 @@ export default function StoryCardsManager() {
             }
 
             if (editingStory?.id) {
-                if ((editingStory as any).is_bank_item) {
+                if (isBankEdit) {
                     const bankData = {
                         role_title: form.role_company,
                         bullet_text: form.problem_challenge,
                         is_starred: form.will_do_again
                     }
-                    const { data } = await supabase
+                    const { data, error } = await supabase
                         .from('accomplishment_bank')
                         .update(bankData)
                         .eq('id', editingStory.id)
                         .select()
                         .single()
 
+                    if (error) {
+                        console.error('Error updating bank item:', error)
+                        alert(`Save failed: ${error.message}`)
+                        setSaving(false)
+                        return
+                    }
                     if (data) {
                         const updated = { ...editingStory, ...form } as CARStory
                         setStories(prev => prev.map(s => s.id === editingStory.id ? updated : s))
                     }
                 } else {
-                    const { data } = await supabase
+                    const { data, error } = await supabase
                         .from('par_stories')
                         .update(storyData)
                         .eq('id', editingStory.id)
                         .select()
                         .single()
 
-                    if (data) setStories(prev => prev.map(s => s.id === editingStory.id ? data : s))
+                    if (error) {
+                        console.error('Error updating story:', error)
+                        alert(`Save failed: ${error.message}`)
+                        setSaving(false)
+                        return
+                    }
+                    if (data) {
+                        // Map DB field names back to component field names
+                        const mapped = { ...data, role_company: data.role_title || data.company_name }
+                        setStories(prev => prev.map(s => s.id === editingStory.id ? mapped : s))
+                    }
                 }
             } else {
-                const { data } = await supabase
+                const { data, error } = await supabase
                     .from('par_stories')
                     .insert(storyData)
                     .select()
                     .single()
 
-                if (data) setStories(prev => [data, ...prev])
+                if (error) {
+                    console.error('Error creating story:', error)
+                    alert(`Save failed: ${error.message}`)
+                    setSaving(false)
+                    return
+                }
+                if (data) {
+                    const mapped = { ...data, role_company: data.role_title || data.company_name }
+                    setStories(prev => [mapped, ...prev])
+                }
             }
 
             setShowForm(false)
             setEditingStory(null)
         } catch (e) {
             console.error('Error saving:', e)
+            alert('An unexpected error occurred while saving.')
         }
         setSaving(false)
     }
