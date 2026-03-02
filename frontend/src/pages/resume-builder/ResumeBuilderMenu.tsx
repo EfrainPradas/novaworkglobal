@@ -194,7 +194,7 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'accomplishments',
-      title: 'Cars and accomplishments',
+      title: 'CAR Stories',
       description: 'Review awards and highlight your key achievements.',
       icon: Trophy,
       route: completedSteps.has('awards') ? '/resume/story-cards?mode=standalone' : '/resume/awards?mode=standalone',
@@ -242,15 +242,17 @@ export default function ResumeBuilderMenu() {
 
 
 
+      {/* Back Button */}
+      <BackButton
+        to="/dashboard"
+        label={t('resumeBuilder.menu.backToDashboard')}
+        variant="light"
+        className="mb-4 pl-0"
+      />
+
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
         <div>
-          <BackButton
-            to="/dashboard"
-            label={t('resumeBuilder.menu.backToDashboard')}
-            variant="light"
-            className="mb-4 pl-0"
-          />
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
