@@ -13,7 +13,8 @@ import {
   Crown,
   Users,
   Play,
-  BookOpen
+  BookOpen,
+  Smartphone
 } from 'lucide-react'
 
 interface ActionItem {
@@ -38,6 +39,8 @@ export default function NavigationPrompt() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [isInstallable, setIsInstallable] = useState(false)
 
   // Default to Basic level until loaded
   const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
@@ -95,7 +98,32 @@ export default function NavigationPrompt() {
 
   useEffect(() => {
     checkUser()
+
+    // Listen for the beforeinstallprompt event for PWA
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault()
+      setDeferredPrompt(e)
+      setIsInstallable(true)
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    }
   }, [])
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt()
+      const { outcome } = await deferredPrompt.userChoice
+      console.log(`User response to the install prompt: ${outcome}`)
+      setDeferredPrompt(null)
+      setIsInstallable(false)
+    } else {
+      alert("Para instalar la app: Abre el menú de opciones de tu navegador Chrome o Safari (los 3 puntitos) y selecciona 'Instalar aplicación' o 'Agregar a la pantalla de inicio'.")
+    }
+  }
 
   const checkUser = async () => {
     try {
@@ -493,7 +521,19 @@ export default function NavigationPrompt() {
 
             {/* Quick Actions */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">{t('dashboard.quickActions')}</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('dashboard.quickActions')}</h3>
+                <button
+                  onClick={handleInstallClick}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${isInstallable
+                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md hover:shadow-lg animate-pulse'
+                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    }`}
+                >
+                  <Smartphone className="w-3.5 h-3.5" />
+                  {isInstallable ? 'Install App' : 'Get App'}
+                </button>
+              </div>
               <div className="space-y-3">
                 <button
                   onClick={() => navigate('/resume/work-experience?openImport=true')}
