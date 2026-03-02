@@ -486,7 +486,7 @@ export default function StoryCardsManager() {
                         onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/awards')}
                         className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors text-sm font-medium"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Awards & Certifications'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('resumeBuilder.par.backToResumeBuilder') || 'Back to Awards & Certifications'}
                     </button>
                 </div>
 
@@ -497,56 +497,56 @@ export default function StoryCardsManager() {
                 <div className="bg-white rounded-2xl p-8 mb-6 shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
                         <div className="inline-flex items-center px-3 py-1 rounded-full border border-gray-200 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-4">
-                            Step 2
+                            {t('resumeBuilder.par.step2', 'Step 2')}
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-6">Accomplishments Bank</h1>
+                        <h1 className="text-3xl font-bold text-gray-900 mb-6">{t('resumeBuilder.menu.accomplishmentLibrary', 'Accomplishments Bank')}</h1>
 
                         <div className="flex gap-3">
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-gray-900">{stats.total}</span> <span className="text-gray-500">Stories</span>
+                                <span className="font-semibold text-gray-900">{stats.total}</span> <span className="text-gray-500">{t('common.stories', 'Stories')}</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-gray-900">{stats.draft}</span> <span className="text-gray-500">Drafts</span>
+                                <span className="font-semibold text-gray-900">{stats.draft}</span> <span className="text-gray-500">{t('common.drafts', 'Drafts')}</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-[#059669]">{stats.polished}</span> <span className="text-gray-500">Polished</span>
+                                <span className="font-semibold text-[#059669]">{stats.polished}</span> <span className="text-gray-500">{t('common.polished', 'Polished')}</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="bg-gray-50 p-5 rounded-2xl border border-gray-100 min-w-[340px]">
                         <div className="flex justify-between items-center mb-2">
-                            <span className="font-semibold text-gray-900 text-sm">Quick Actions</span>
-                            <span className="text-[10px] font-bold text-gray-400 tracking-wider uppercase bg-gray-200 px-2 py-0.5 rounded">Tools</span>
+                            <span className="font-semibold text-gray-900 text-sm">{t('dashboard.quickActions', 'Quick Actions')}</span>
+                            <span className="text-[10px] font-bold text-gray-400 tracking-wider uppercase bg-gray-200 px-2 py-0.5 rounded">{t('dashboard.tools', 'Tools')}</span>
                         </div>
-                        <p className="text-xs text-gray-500 mb-4 leading-relaxed">Keep the writing tools visible and grouped in one focused area.</p>
+                        <p className="text-xs text-gray-500 mb-4 leading-relaxed">{t('resumeBuilder.par.toolsDescription', 'Keep the writing tools visible and grouped in one focused area.')}</p>
 
                         <div className="flex flex-col gap-2">
                             <button
                                 onClick={handleNewStory}
                                 className="w-full py-2.5 bg-[#4F46E5] text-white font-medium rounded-xl hover:bg-[#4338CA] transition-colors flex items-center justify-center gap-2"
                             >
-                                <Plus className="w-4 h-4" /> Create CAR
+                                <Plus className="w-4 h-4" /> {t('resumeBuilder.par.addNew', 'Create CAR')}
                             </button>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setActivePanel(activePanel === 'verbs' ? null : 'verbs')}
                                     className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'verbs' ? 'bg-[#EEF2FF] border-[#C7D2FE] text-[#4F46E5]' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}
                                 >
-                                    <Sparkles className="w-4 h-4 text-gray-400" /> Action Verbs
+                                    <Sparkles className="w-4 h-4 text-gray-400" /> {t('resumeBuilder.par.actionVerbs', 'Action Verbs')}
                                 </button>
                                 <button
                                     onClick={() => setActivePanel(activePanel === 'examples' ? null : 'examples')}
                                     className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'examples' ? 'bg-[#EEF2FF] border-[#C7D2FE] text-[#4F46E5]' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}
                                 >
-                                    <BookOpen className="w-4 h-4 text-gray-400" /> View Examples
+                                    <BookOpen className="w-4 h-4 text-gray-400" /> {t('resumeBuilder.par.viewExamples', 'View Examples')}
                                 </button>
                             </div>
                             <button
                                 onClick={handleAIGrouping}
                                 className={`w-full py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'ai' ? 'bg-[#EEF2FF] border-[#C7D2FE] text-[#4F46E5]' : 'bg-white border-gray-200 text-gray-700 hover:bg-gray-50'}`}
                             >
-                                <Wand2 className="w-4 h-4 text-gray-400" /> AI Grouping
+                                <Wand2 className="w-4 h-4 text-gray-400" /> {t('resumeBuilder.par.aiGrouping', 'AI Grouping')}
                             </button>
                         </div>
                     </div>
@@ -559,7 +559,7 @@ export default function StoryCardsManager() {
                             <Search className="w-4 h-4 text-gray-400 absolute left-2" />
                             <input
                                 type="text"
-                                placeholder="Search accomplishments..."
+                                placeholder={t('resumeBuilder.par.searchPlaceholder', 'Search accomplishments...')}
                                 value={searchQuery}
                                 onChange={e => setSearchQuery(e.target.value)}
                                 className="w-full pl-8 pr-4 py-2 bg-transparent text-sm focus:outline-none placeholder-gray-400"
@@ -573,10 +573,10 @@ export default function StoryCardsManager() {
                                 onChange={e => setFilterStatus(e.target.value as any)}
                                 className="pl-4 pr-8 py-2 bg-transparent text-sm text-gray-600 focus:outline-none appearance-none cursor-pointer hover:bg-gray-50 rounded-full transition-colors border border-gray-200"
                             >
-                                <option value="all">All Status</option>
-                                <option value="draft">Draft</option>
-                                <option value="ready">Ready</option>
-                                <option value="polished">Polished</option>
+                                <option value="all">{t('common.allStatus', 'All Status')}</option>
+                                <option value="draft">{t('common.draft', 'Draft')}</option>
+                                <option value="ready">{t('common.ready', 'Ready')}</option>
+                                <option value="polished">{t('common.polished', 'Polished')}</option>
                             </select>
                             <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
@@ -587,7 +587,7 @@ export default function StoryCardsManager() {
                                 onChange={e => setFilterCompetency(e.target.value)}
                                 className="pl-4 pr-8 py-2 bg-transparent text-sm text-gray-600 focus:outline-none appearance-none cursor-pointer hover:bg-gray-50 rounded-full transition-colors border border-gray-200"
                             >
-                                <option value="">All Competencies</option>
+                                <option value="">{t('common.allCompetencies', 'All Competencies')}</option>
                                 {COMPETENCIES.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
                             <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
@@ -600,7 +600,7 @@ export default function StoryCardsManager() {
                                 : 'text-gray-600 bg-transparent border-gray-200 hover:bg-gray-50'
                                 }`}
                         >
-                            Would do again {filterWillDoAgain && <div className="w-1.5 h-1.5 rounded-full bg-[#D97706] ml-1"></div>}
+                            {t('resumeBuilder.par.wouldDoAgain', 'Would do again')} {filterWillDoAgain && <div className="w-1.5 h-1.5 rounded-full bg-[#D97706] ml-1"></div>}
                         </button>
 
                         <div className="h-6 w-px bg-gray-200 hidden md:block"></div>
@@ -611,18 +611,18 @@ export default function StoryCardsManager() {
                                 onChange={e => setSortOrder(e.target.value as any)}
                                 className="pl-4 pr-8 py-2 bg-transparent text-sm text-gray-600 focus:outline-none appearance-none cursor-pointer hover:bg-gray-50 rounded-full transition-colors border border-gray-200"
                             >
-                                <option value="newest">Newest</option>
-                                <option value="strongest">Strongest Results</option>
-                                <option value="role">By Role</option>
+                                <option value="newest">{t('common.newest', 'Newest')}</option>
+                                <option value="strongest">{t('common.strongestResults', 'Strongest Results')}</option>
+                                <option value="role">{t('common.byRole', 'By Role')}</option>
                             </select>
                             <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
                     </div>
 
                     <div className="flex justify-between items-center mt-3 px-2">
-                        <p className="text-xs text-gray-500 font-medium">{filteredStories.length} accomplishments found</p>
+                        <p className="text-xs text-gray-500 font-medium">{t('resumeBuilder.par.storiesFoundCount', { count: filteredStories.length, defaultValue: `${filteredStories.length} accomplishments found` })}</p>
                         {lastInsertedVerb && (
-                            <p className="text-xs text-gray-500">Last inserted action verb: <span className="font-semibold text-[#4F46E5]">{lastInsertedVerb}</span></p>
+                            <p className="text-xs text-gray-500">{t('resumeBuilder.par.lastInsertedVerb', 'Last inserted action verb:')} <span className="font-semibold text-[#4F46E5]">{lastInsertedVerb}</span></p>
                         )}
                     </div>
                 </div>

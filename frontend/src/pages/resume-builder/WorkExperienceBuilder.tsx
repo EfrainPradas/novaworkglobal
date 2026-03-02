@@ -620,7 +620,7 @@ const WorkExperienceBuilder: React.FC = () => {
               }}
               className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
             >
-              Next: Education
+              {t('resumeBuilder.menu.nextEducation') || 'Next: Education'}
               <ArrowRight className="w-4 h-4" />
             </button>
           )}
@@ -629,19 +629,19 @@ const WorkExperienceBuilder: React.FC = () => {
         {isStandalone && (
           <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
             <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
-              Work Experience
+              {t('resumeBuilder.menu.workExperience')}
             </button>
             <button
               onClick={() => navigate('/resume/education?mode=standalone')}
               className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
             >
-              Education
+              {t('resumeBuilder.menu.education') || 'Education'}
             </button>
             <button
               onClick={() => navigate('/resume/awards?mode=standalone')}
               className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
             >
-              Awards & Certifications
+              {t('resumeBuilder.menu.awardsCertifications') || 'Awards & Certifications'}
             </button>
           </div>
         )}

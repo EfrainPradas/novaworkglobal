@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Check, ArrowLeft, Sparkles, Target, Wrench, Rocket, Map, BookOpen, Clock, Shield } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { novaNextPlans } from '../../config/landingContent'
 
@@ -8,6 +8,10 @@ export default function NovaNextPage() {
     const navigate = useNavigate()
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual')
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     const calculatePrice = (monthly: number, annual: number) => {
         return billingCycle === 'monthly' ? monthly : Math.round(annual / 12)
