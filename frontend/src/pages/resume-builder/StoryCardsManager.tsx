@@ -490,19 +490,8 @@ export default function StoryCardsManager() {
                     </button>
                 </div>
 
-                {isStandalone && (
-                    <div className="flex space-x-6 mb-8 border-b border-gray-200">
-                        <button
-                            onClick={() => navigate('/resume/awards?mode=standalone')}
-                            className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium transition-colors"
-                        >
-                            Awards & Certifications
-                        </button>
-                        <button className="pb-3 border-b-2 border-[#4F46E5] font-semibold text-[#4F46E5]">
-                            CAR Stories
-                        </button>
-                    </div>
-                )}
+
+
 
                 {/* Workspace Header Redesign */}
                 <div className="bg-white rounded-2xl p-8 mb-6 shadow-sm border border-gray-100 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">

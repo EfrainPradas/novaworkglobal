@@ -607,20 +607,6 @@ const WorkExperienceBuilder: React.FC = () => {
       {/* Header */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
 
-        {isStandalone && (
-          <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
-            <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
-              Work Experience
-            </button>
-            <button
-              onClick={() => navigate('/resume/education?mode=standalone')}
-              className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
-            >
-              Education
-            </button>
-          </div>
-        )}
-
         <div className="flex items-center justify-between mb-4">
           <BackButton
             to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
@@ -639,6 +625,27 @@ const WorkExperienceBuilder: React.FC = () => {
             </button>
           )}
         </div>
+
+        {isStandalone && (
+          <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
+            <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
+              Work Experience
+            </button>
+            <button
+              onClick={() => navigate('/resume/education?mode=standalone')}
+              className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+            >
+              Education
+            </button>
+            <button
+              onClick={() => navigate('/resume/awards?mode=standalone')}
+              className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+            >
+              Awards & Certifications
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <div>
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
@@ -748,26 +755,7 @@ const WorkExperienceBuilder: React.FC = () => {
                     <p className="text-gray-700 dark:text-gray-300 mb-4 italic">{exp.scope_description}</p>
                   )}
 
-                  {/* Accomplishment Manager */}
-                  <div className="mt-4">
-                    <AccomplishmentManager
-                      workExperienceId={exp.id!}
-                      accomplishments={exp.accomplishments || []}
-                      carStories={carStories}
-                      onAddAccomplishment={(bullet, carStoryId) =>
-                        handleAddAccomplishment(exp.id!, bullet, carStoryId)
-                      }
-                      onUpdateAccomplishment={(accId, bullet) =>
-                        handleUpdateAccomplishment(exp.id!, accId, bullet)
-                      }
-                      onDeleteAccomplishment={(accId) =>
-                        handleDeleteAccomplishment(exp.id!, accId)
-                      }
-                      onConvertCARStory={(carStoryId) =>
-                        handleConvertCARStory(exp.id!, carStoryId)
-                      }
-                    />
-                  </div>
+
                 </div>
               ))}
             </div>
