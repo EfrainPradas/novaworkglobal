@@ -18,7 +18,8 @@ import {
   Play,
   BarChart3,
   Target,
-  GraduationCap
+  GraduationCap,
+  Smartphone
 } from 'lucide-react'
 
 interface MenuItem {
@@ -38,6 +39,8 @@ export default function MainMenu() {
   const [userProfile, setUserProfile] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set()) // Nothing expanded by default
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null)
+  const [isInstallable, setIsInstallable] = useState(false)
   const navigate = useNavigate()
 
   // Default to Basic level until loaded
@@ -124,6 +127,22 @@ export default function MainMenu() {
 
   useEffect(() => {
     checkUser()
+
+    // Listen for the beforeinstallprompt event for PWA
+    const handleBeforeInstallPrompt = (e: Event) => {
+      // Prevent the mini-infobar from appearing on mobile
+      e.preventDefault()
+      // Stash the event so it can be triggered later.
+      setDeferredPrompt(e)
+      // Update UI notify the user they can install the PWA
+      setIsInstallable(true)
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    }
   }, [])
 
   useEffect(() => {
@@ -137,6 +156,18 @@ export default function MainMenu() {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return
+    // Show the install prompt
+    deferredPrompt.prompt()
+    // Wait for the user to respond to the prompt
+    const { outcome } = await deferredPrompt.userChoice
+    console.log(`User response to the install prompt: ${outcome}`)
+    // We've used the prompt, and can't use it again, throw it away
+    setDeferredPrompt(null)
+    setIsInstallable(false)
+  }
 
   const checkUser = async () => {
     try {
@@ -504,7 +535,18 @@ export default function MainMenu() {
 
         {/* Quick Access */}
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8 border border-gray-200 dark:border-gray-700">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Quick Access & Tools</h3>
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Quick Access & Tools</h3>
+            {isInstallable && (
+              <button
+                onClick={handleInstallClick}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-semibold rounded-lg shadow-md hover:shadow-lg transition-all animate-pulse"
+              >
+                <Smartphone className="h-4 w-4" />
+                Install App
+              </button>
+            )}
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <button
               onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'essentials')}
