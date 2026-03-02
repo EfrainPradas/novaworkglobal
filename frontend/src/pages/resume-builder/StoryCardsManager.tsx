@@ -773,116 +773,113 @@ export default function StoryCardsManager() {
                                                 <p className="text-sm text-gray-500 leading-relaxed max-w-[200px] mx-auto">AI is reading your accomplishments to find strategic clusters...</p>
                                             </div>
                                         ) : (
-                                            <div className="space-y-6 flex-1">
-                                                {/* AI Groups */}
-                                                {aiGroups.length === 0 ? (
-                                                    <div className="space-y-3 mb-6">
-                                                        <p className="text-sm text-gray-500 italic">Click "AI Grouping" again to auto-organize.</p>
-                                                        <div className="grid grid-cols-2 gap-2">
-                                                            <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><Tag className="w-3 h-3" /> Group by Competencies</button>
-                                                            <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><RotateCw className="w-3 h-3" /> Other Classification</button>
+                                            <div className="flex flex-col h-full">
+                                                {/* Quick Action Buttons */}
+                                                <div className="grid grid-cols-2 gap-2 mb-4">
+                                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><Tag className="w-3 h-3" /> By Competencies</button>
+                                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><RotateCw className="w-3 h-3" /> Reclassify</button>
+                                                </div>
+
+                                                {/* Scrollable Chat + Results Area */}
+                                                <div className="flex-1 overflow-y-auto space-y-3 mb-3 max-h-[calc(100vh-320px)] pr-1" style={{ scrollbarWidth: 'thin' }}>
+                                                    {chatHistory.length === 0 && (
+                                                        <div className="text-center py-6 text-gray-400">
+                                                            <Wand2 className="w-6 h-6 mx-auto mb-2 opacity-40" />
+                                                            <p className="text-xs">Click a button above or type a prompt below to group your stories.</p>
                                                         </div>
-                                                    </div>
-                                                ) : (
-                                                    <div className="space-y-3 mb-4">
-                                                        {aiGroups.map((group, i) => (
-                                                            <button key={i} onClick={() => handleAddCustomGroup(`Deep dive into: ${group.theme}`)} className="w-full text-left bg-white p-3 rounded-xl border border-[#C7D2FE] shadow-sm hover:border-[#4F46E5] transition-all group relative">
-                                                                <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity"><ArrowRight className="w-3 h-3 text-[#4F46E5]" /></div>
-                                                                <h4 className="font-bold text-[#4F46E5] mb-2 text-sm">{group.theme}</h4>
-                                                                <p className="text-[9px] font-bold text-gray-500 uppercase tracking-wider mb-1">Preview</p>
-                                                                <ul className="space-y-1">
-                                                                    {group.storyIds.slice(0, 2).map(id => {
-                                                                        const s = stories.find(x => x.id === id)
-                                                                        return s ? <li key={id} className="text-[10px] text-gray-600 truncate flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-gray-300"></div>{s.title || s.role_company}</li> : null
-                                                                    })}
-                                                                </ul>
-                                                            </button>
-                                                        ))}
-                                                        <button onClick={() => handleAddCustomGroup("give me another classification")} className="w-full py-2 border border-dashed border-[#C7D2FE] bg-white rounded-xl text-xs font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center justify-center gap-2"><PlusCircle className="w-3.5 h-3.5" /> Give me another classification</button>
-                                                    </div>
-                                                )}
-
-                                                {/* Custom AI Chat Groups */}
-                                                <div className="flex flex-col h-full">
-                                                    <div className="flex items-center justify-between border-b border-gray-100 pb-1.5 mb-2 mt-2">
-                                                        <h4 className="text-sm font-bold text-gray-900 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5 text-[#10B981]" /> AI Strategic Chat</h4>
-                                                    </div>
-
-                                                    <div className="space-y-2 mb-2">
-                                                        {chatHistory.map((msg, i) => (
-                                                            <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-1.5`}>
-                                                                <div className={`max-w-[90%] px-3 py-1.5 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-100 text-gray-700 rounded-tl-none shadow-sm'}`}>
-                                                                    {msg.content}
-                                                                </div>
-                                                                {msg.groups && (
-                                                                    <div className="w-full space-y-2 mt-1">
-                                                                        {msg.groups.map((group, gi) => (
-                                                                            <div key={gi} className="bg-white p-2.5 rounded-xl border border-gray-100 shadow-sm border-l-4 border-l-[#10B981] ml-2 font-sans">
-                                                                                <h5 className="font-bold text-gray-900 text-[11px] mb-1.5">{group.theme}</h5>
-                                                                                <ul className="space-y-1">
-                                                                                    {group.storyIds.map(sid => {
-                                                                                        const s = stories.find(x => x.id === sid)
-                                                                                        return s ? <li key={sid} className="text-[10px] text-gray-600 truncate flex items-center gap-1.5"><div className="w-1 h-1 rounded-full bg-[#10B981]"></div>{s.title || s.role_company}</li> : null
-                                                                                    })}
-                                                                                </ul>
+                                                    )}
+                                                    {chatHistory.map((msg, i) => (
+                                                        <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-1.5`}>
+                                                            <div className={`max-w-[90%] px-3 py-1.5 rounded-2xl text-xs ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none' : 'bg-white border border-gray-100 text-gray-700 rounded-tl-none shadow-sm'}`}>
+                                                                {msg.content}
+                                                            </div>
+                                                            {msg.groups && (
+                                                                <div className="w-full space-y-3 mt-1">
+                                                                    {msg.groups.map((group, gi) => (
+                                                                        <div key={gi} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                                                                            {/* Group Header */}
+                                                                            <div className="bg-gradient-to-r from-[#EEF2FF] to-[#E0E7FF] px-3 py-2 flex items-center justify-between">
+                                                                                <h5 className="font-bold text-[#4F46E5] text-xs flex items-center gap-1.5">
+                                                                                    <Tag className="w-3 h-3" /> {group.theme}
+                                                                                </h5>
+                                                                                <span className="text-[9px] bg-white/80 text-[#4F46E5] font-bold px-1.5 py-0.5 rounded-full">{group.storyIds.length} stories</span>
                                                                             </div>
-                                                                        ))}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        ))}
-                                                        {isCustomGrouping && (
-                                                            <div className="flex justify-start">
-                                                                <div className="bg-white border border-gray-100 p-2 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
-                                                                    <Loader2 className="w-3 h-3 animate-spin text-[#10B981]" />
-                                                                    <span className="text-[11px] text-gray-400">Thinking...</span>
+                                                                            {/* Full CAR Stories */}
+                                                                            <div className="divide-y divide-gray-100">
+                                                                                {group.storyIds.map(sid => {
+                                                                                    const s = stories.find(x => x.id === sid)
+                                                                                    if (!s) return null
+                                                                                    return (
+                                                                                        <div key={sid} className="px-3 py-2.5">
+                                                                                            <p className="text-[10px] font-bold text-gray-900 mb-1.5 flex items-center gap-1.5">
+                                                                                                <Briefcase className="w-3 h-3 text-gray-400" />
+                                                                                                {s.title || s.role_company}
+                                                                                            </p>
+                                                                                            <div className="space-y-1 ml-4">
+                                                                                                {s.problem_challenge && (
+                                                                                                    <p className="text-[10px] text-gray-600"><span className="font-bold text-gray-500 mr-1">C:</span>{s.problem_challenge.length > 80 ? s.problem_challenge.substring(0, 80) + '...' : s.problem_challenge}</p>
+                                                                                                )}
+                                                                                                {s.actions && s.actions.filter(a => a).length > 0 && (
+                                                                                                    <p className="text-[10px] text-gray-600"><span className="font-bold text-gray-500 mr-1">A:</span>{s.actions.filter(a => a)[0]?.substring(0, 60)}{s.actions.filter(a => a)[0]?.length > 60 ? '...' : ''}</p>
+                                                                                                )}
+                                                                                                {s.result && (
+                                                                                                    <p className="text-[10px] text-[#4F46E5] font-medium"><span className="font-bold mr-1">R:</span>{s.result.length > 80 ? s.result.substring(0, 80) + '...' : s.result}</p>
+                                                                                                )}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )
+                                                                                })}
+                                                                            </div>
+                                                                            {/* Send to Resume */}
+                                                                            <div className="px-3 py-2 bg-gray-50 border-t border-gray-100">
+                                                                                <button className="w-full py-1.5 bg-[#4F46E5] text-white rounded-lg text-[10px] font-bold hover:bg-[#4338CA] transition-colors flex items-center justify-center gap-1.5">
+                                                                                    <ArrowRight className="w-3 h-3" /> Send to Resume
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                    {/* Regenerate button after results */}
+                                                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="w-full py-1.5 border border-dashed border-[#C7D2FE] bg-white rounded-xl text-[10px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center justify-center gap-1.5">
+                                                                        <RotateCw className="w-3 h-3" /> Give me another classification
+                                                                    </button>
                                                                 </div>
-                                                            </div>
-                                                        )}
-                                                    </div>
-
-                                                    <div className="bg-gray-50/50 rounded-xl p-2 border border-blue-50/50 mb-2">
-                                                        <div className="mb-1.5 flex flex-wrap gap-1.5">
-                                                            <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest w-full">Strategic Tips</span>
-                                                            <button
-                                                                onClick={() => setCustomPrompt("Group by product management impact")}
-                                                                className="text-[10px] bg-white border border-gray-100 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors shadow-sm"
-                                                            >
-                                                                "Impact in PM"
-                                                            </button>
-                                                            <button
-                                                                onClick={() => setCustomPrompt("Show me technical achievements")}
-                                                                className="text-[10px] bg-white border border-gray-100 px-2 py-0.5 rounded-lg text-gray-500 hover:border-[#10B981] hover:text-[#10B981] transition-colors shadow-sm"
-                                                            >
-                                                                "Technical feats"
-                                                            </button>
+                                                            )}
                                                         </div>
-
-                                                        <div className="bg-white p-1.5 rounded-lg border border-gray-200 shadow-inner flex flex-col gap-1.5">
-                                                            <textarea
-                                                                value={customPrompt}
-                                                                onChange={e => setCustomPrompt(e.target.value)}
-                                                                placeholder="Ask Startegic AI..."
-                                                                className="w-full text-xs px-2 py-1.5 border-none focus:ring-0 outline-none resize-none bg-transparent"
-                                                                rows={1}
-                                                                style={{ minHeight: '40px' }}
-                                                                onKeyDown={e => {
-                                                                    if (e.key === 'Enter' && !e.shiftKey) {
-                                                                        e.preventDefault()
-                                                                        handleAddCustomGroup()
-                                                                    }
-                                                                }}
-                                                            />
-                                                            <div className="flex justify-end">
-                                                                <button
-                                                                    onClick={() => handleAddCustomGroup()}
-                                                                    disabled={!customPrompt.trim() || isCustomGrouping}
-                                                                    className="bg-[#10B981] text-white px-3 py-1 rounded-md text-xs font-bold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-sm"
-                                                                >
-                                                                    <Wand2 className="w-3 h-3" /> Send
-                                                                </button>
+                                                    ))}
+                                                    {isCustomGrouping && (
+                                                        <div className="flex justify-start">
+                                                            <div className="bg-white border border-gray-100 p-2 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-2">
+                                                                <Loader2 className="w-3 h-3 animate-spin text-[#10B981]" />
+                                                                <span className="text-[11px] text-gray-400">Analyzing your stories...</span>
                                                             </div>
                                                         </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Chat Input */}
+                                                <div className="bg-white p-1.5 rounded-lg border border-gray-200 shadow-sm flex flex-col gap-1.5 mt-auto">
+                                                    <textarea
+                                                        value={customPrompt}
+                                                        onChange={e => setCustomPrompt(e.target.value)}
+                                                        placeholder="Ask Strategic AI..."
+                                                        className="w-full text-xs px-2 py-1.5 border-none focus:ring-0 outline-none resize-none bg-transparent"
+                                                        rows={1}
+                                                        style={{ minHeight: '36px' }}
+                                                        onKeyDown={e => {
+                                                            if (e.key === 'Enter' && !e.shiftKey) {
+                                                                e.preventDefault()
+                                                                handleAddCustomGroup()
+                                                            }
+                                                        }}
+                                                    />
+                                                    <div className="flex justify-end">
+                                                        <button
+                                                            onClick={() => handleAddCustomGroup()}
+                                                            disabled={!customPrompt.trim() || isCustomGrouping}
+                                                            className="bg-[#10B981] text-white px-3 py-1 rounded-md text-xs font-bold hover:bg-[#059669] disabled:opacity-50 flex items-center gap-1.5 transition-all shadow-sm"
+                                                        >
+                                                            <Wand2 className="w-3 h-3" /> Send
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
