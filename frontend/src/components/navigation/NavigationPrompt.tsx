@@ -99,17 +99,30 @@ export default function NavigationPrompt() {
   useEffect(() => {
     checkUser()
 
-    // Listen for the beforeinstallprompt event for PWA
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault()
-      setDeferredPrompt(e)
+    // Check if the event was already captured globally
+    const globalEvent = (window as any).deferredPWAEvent
+    if (globalEvent) {
+      setDeferredPrompt(globalEvent)
       setIsInstallable(true)
     }
 
+    // Listen for the custom event or the native one
+    const handleBeforeInstallPrompt = (e: any) => {
+      // If it's the custom event, the data is on window
+      const event = e.detail ? (window as any).deferredPWAEvent : e
+      if (event) {
+        if (!e.detail) e.preventDefault()
+        setDeferredPrompt(event)
+        setIsInstallable(true)
+      }
+    }
+
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+    window.addEventListener('pwa-installable', handleBeforeInstallPrompt)
 
     return () => {
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+      window.removeEventListener('pwa-installable', handleBeforeInstallPrompt)
     }
   }, [])
 
@@ -526,8 +539,8 @@ export default function NavigationPrompt() {
                 <button
                   onClick={handleInstallClick}
                   className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg transition-all ${isInstallable
-                      ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md hover:shadow-lg animate-pulse'
-                      : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md hover:shadow-lg animate-pulse'
+                    : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                     }`}
                 >
                   <Smartphone className="w-3.5 h-3.5" />

@@ -1,5 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+
+// Global PWA Event Capture - Run this as early as possible
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  (window as any).deferredPWAEvent = e;
+  window.dispatchEvent(new CustomEvent('pwa-installable'));
+});
 import App from './App.tsx'
 import { ThemeProvider } from './contexts/ThemeContext'
 import './i18n/config' // Initialize i18n
