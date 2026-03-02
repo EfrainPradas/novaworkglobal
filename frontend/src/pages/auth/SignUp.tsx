@@ -82,7 +82,7 @@ export default function SignUp() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/novaworkglobal/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/callback`,
           queryParams: {
             access_type: 'offline',
             prompt: 'consent',
@@ -108,7 +108,7 @@ export default function SignUp() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'linkedin_oidc',
         options: {
-          redirectTo: `${window.location.origin}/novaworkglobal/auth/callback`,
+          redirectTo: `${window.location.origin}/auth/callback`,
         },
       })
 
@@ -151,7 +151,7 @@ export default function SignUp() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-24 w-auto" />
+            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto" />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {isTrial ? `Start Your ${trialTier === 'executive' ? 'Executive' : 'Pro'} Trial` : t('auth.signUp.title')}

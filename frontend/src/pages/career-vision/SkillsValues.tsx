@@ -249,7 +249,7 @@ export default function SkillsValues() {
           </button>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   Skills & Interests

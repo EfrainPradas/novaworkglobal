@@ -9,7 +9,7 @@ const programs = [
         title: 'NovaNext™',
         subtitle: 'Career Acceleration',
         description: 'Choose this path if you already know which role you want to pursue next.',
-        image: '/novaworkglobal/images/novanext_v2.jpg',
+        image: '/images/novanext_v2.jpg',
         color: 'bg-primary-600',
         path: '/programs/novanext'
     },
@@ -18,7 +18,7 @@ const programs = [
         title: 'NovaRearchitect™',
         subtitle: 'Complete Reinvention',
         description: 'Choose this path if your current role or industry is no longer viable.',
-        image: '/novaworkglobal/images/novarearchitect_v2.jpg',
+        image: '/images/novarearchitect_v2.jpg',
         color: 'bg-secondary-600',
         path: '/programs/novarearchitect'
     },
@@ -27,7 +27,7 @@ const programs = [
         title: 'NovaAlign™',
         subtitle: 'Leadership Integration',
         description: 'Choose this path if you need clarity before committing to a career direction.',
-        image: '/novaworkglobal/images/novaalign_v2.jpg',
+        image: '/images/novaalign_v2.jpg',
         color: 'bg-accent-600',
         path: '/programs/novalign'
     }

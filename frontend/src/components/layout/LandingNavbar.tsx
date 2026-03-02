@@ -31,7 +31,7 @@ export default function LandingNavbar() {
                                 className="text-gray-600 hover:text-primary-600 transition-colors"
                                 onClick={(e) => {
                                     e.preventDefault()
-                                    const isLandingPage = window.location.pathname === '/' || window.location.pathname === '/novaworkglobal/' || window.location.pathname === '/novaworkglobal';
+                                    const isLandingPage = window.location.pathname === '/' || window.location.pathname === '/' || window.location.pathname === '/novaworkglobal';
 
                                     if (isLandingPage && item.href.startsWith('#')) {
                                         const elementId = item.href.substring(1);

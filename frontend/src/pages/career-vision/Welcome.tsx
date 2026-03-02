@@ -45,7 +45,7 @@ export default function CareerVisionWelcome() {
           {/* Logo */}
           <div className="text-center mb-6">
             <img
-              src="/novaworkglobal/logo.png"
+              src="/logo.png"
               alt="NovaWork Global"
               className="h-28 w-auto mx-auto"
             />

@@ -87,7 +87,7 @@ export default function NovaNextPage() {
                         >
                             <div className="absolute inset-0 bg-gradient-to-tr from-primary-200 to-accent-200 rounded-3xl transform rotate-3 scale-105 opacity-50 blur-lg" />
                             <img
-                                src="/novaworkglobal/images/novanext_v2.jpg"
+                                src="/images/novanext_v2.jpg"
                                 alt="NovaNext Professional"
                                 className="relative rounded-3xl shadow-2xl object-cover w-full aspect-[4/3] border border-gray-100"
                             />

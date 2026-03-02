@@ -299,7 +299,7 @@ export default function MainMenu() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/novaworkglobal/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
               <div className="hidden sm:block">
                 {getAccessBadge('executive')}
               </div>
