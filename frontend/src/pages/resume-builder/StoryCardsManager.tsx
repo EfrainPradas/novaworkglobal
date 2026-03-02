@@ -31,7 +31,7 @@ export default function StoryCardsManager() {
     const [workExperiences, setWorkExperiences] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
-    const [filterStatus, setFilterStatus] = useState<'all' | 'draft' | 'ready' | 'polished'>('all')
+    const [filterStatus, setFilterStatus] = useState<'all' | 'draft' | 'polished'>('all')
     const [filterCompetency, setFilterCompetency] = useState('')
     const [filterWillDoAgain, setFilterWillDoAgain] = useState(false)
     const [showForm, setShowForm] = useState(false)
@@ -105,10 +105,11 @@ export default function StoryCardsManager() {
                 is_bank_item: true
             }))
 
-            // Map DB field role_title → component field role_company
+            // Map DB fields → component fields
             const mappedParStories = (parStories || []).map(p => ({
                 ...p,
-                role_company: p.role_title || p.company_name || p.role_company || ''
+                role_company: p.role_title || p.company_name || p.role_company || '',
+                status: p.status === 'ready' ? 'polished' : (p.status || 'draft') // normalize 'ready' → 'polished'
             }))
 
             const uniqueBankStories = mappedBankStories.filter((v, i, a) => a.findIndex(t => (t.problem_challenge === v.problem_challenge)) === i)
@@ -190,8 +191,7 @@ export default function StoryCardsManager() {
             if (searchQuery && !(`${s.title} ${s.role_company} ${s.problem_challenge} ${s.result}`).toLowerCase().includes(searchQuery.toLowerCase())) return false
             if (filterStatus !== 'all') {
                 if (filterStatus === 'draft' && s.status !== 'draft') return false
-                if (filterStatus === 'ready' && s.status !== 'final') return false
-                if (filterStatus === 'polished' && s.status !== 'final') return false
+                if (filterStatus === 'polished' && s.status !== 'polished') return false
             }
             if (filterCompetency && !(s.competencies || []).includes(filterCompetency)) return false
             if (filterWillDoAgain && !s.will_do_again) return false
@@ -213,8 +213,7 @@ export default function StoryCardsManager() {
     const stats = {
         total: stories.length,
         draft: stories.filter(s => s.status === 'draft').length,
-        ready: stories.filter(s => s.status === 'final').length, // 'ready' and 'polished' are now 'final'
-        polished: stories.filter(s => s.status === 'final').length // 'ready' and 'polished' are now 'final'
+        polished: stories.filter(s => s.status === 'polished').length
     }
 
     const handleNewStory = () => {
@@ -521,9 +520,6 @@ export default function StoryCardsManager() {
                                 <span className="font-semibold text-gray-900">{stats.draft}</span> <span className="text-gray-500">Drafts</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-[#7E22CE]">{stats.ready}</span> <span className="text-gray-500">Ready</span>
-                            </div>
-                            <div className="px-4 py-1.5 rounded-full border border-gray-200 text-sm flex items-center gap-2">
                                 <span className="font-semibold text-[#059669]">{stats.polished}</span> <span className="text-gray-500">Polished</span>
                             </div>
                         </div>
@@ -655,10 +651,10 @@ export default function StoryCardsManager() {
                                             <h3 className="text-lg font-bold text-gray-900 truncate">{story.title || story.role_company}</h3>
                                             {/* Dynamic Status Pill */}
                                             <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase flex-shrink-0 ${story.status === 'draft' ? 'bg-[#FEF3C7] text-[#D97706]' :
-                                                story.status === 'final' ? 'bg-[#D1FAE5] text-[#059669]' :
+                                                story.status === 'polished' ? 'bg-[#D1FAE5] text-[#059669]' :
                                                     'bg-gray-100 text-gray-600'
                                                 }`}>
-                                                {story.status === 'final' ? 'Polished/Ready' : (story.status || 'draft')}
+                                                {story.status === 'polished' ? 'Polished' : (story.status || 'draft')}
                                             </span>
                                         </div>
                                     </div>
@@ -1066,7 +1062,7 @@ export default function StoryCardsManager() {
                                     <div>
                                         <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-3">Status</label>
                                         <div className="grid grid-cols-1 gap-2">
-                                            {['draft', 'ready', 'polished'].map(s => (
+                                            {['draft', 'polished'].map(s => (
                                                 <button
                                                     key={s}
                                                     onClick={() => setForm(prev => ({ ...prev, status: s as any }))}
