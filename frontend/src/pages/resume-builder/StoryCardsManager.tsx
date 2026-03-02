@@ -723,7 +723,7 @@ export default function StoryCardsManager() {
                                 </button>
                             </div>
 
-                            <div className="flex-1 p-5 bg-gray-50">
+                            <div className={`flex-1 p-5 bg-gray-50 ${activePanel === 'verbs' || activePanel === 'examples' ? 'overflow-y-auto' : ''}`} style={activePanel === 'verbs' || activePanel === 'examples' ? { maxHeight: 'calc(100vh - 120px)' } : {}}>
                                 {activePanel === 'verbs' && (
                                     <div className="space-y-6">
                                         <p className="text-sm text-gray-600">Click a verb to quickly copy it to your clipboard.</p>
@@ -779,6 +779,11 @@ export default function StoryCardsManager() {
                                                     <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><Tag className="w-3 h-3" /> By Competencies</button>
                                                     <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-2 border border-[#C7D2FE] bg-white rounded-xl text-[11px] font-bold text-[#4F46E5] hover:bg-[#EEF2FF] transition-colors flex items-center gap-1.5"><RotateCw className="w-3 h-3" /> Reclassify</button>
                                                 </div>
+                                                {chatHistory.length > 0 && (
+                                                    <button onClick={() => setChatHistory([])} className="text-[10px] text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1 mb-2">
+                                                        <X className="w-3 h-3" /> Clear results
+                                                    </button>
+                                                )}
 
                                                 {/* Scrollable Chat + Results Area */}
                                                 <div className="flex-1 overflow-y-auto space-y-3 mb-3 max-h-[calc(100vh-320px)] pr-1" style={{ scrollbarWidth: 'thin' }}>
