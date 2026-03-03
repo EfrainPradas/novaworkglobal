@@ -56,7 +56,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-navy/30',
       modules: ['Career Direction', 'Market Fit'],
       requiredLevel: 'momentum',
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`
+      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`)
     },
     {
       id: 'build-resume',
@@ -68,7 +68,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
       requiredLevel: 'essentials',
-      videoSrc: `${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`
+      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`)
     },
     {
       id: 'job-search-suite',
@@ -80,7 +80,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-teal-500/30',
       modules: ['Application Tracker', 'JD Analysis', 'Interviews'],
       requiredLevel: 'momentum',
-      videoSrc: `${import.meta.env.BASE_URL}videos/IMR-EN.mp4`
+      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/IMR-EN.mp4`)
     },
     {
       id: 'interview-mastery',
@@ -92,7 +92,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-accent-500/30',
       modules: ['Interview Prep', 'Question Bank'],
       requiredLevel: 'executive',
-      videoSrc: `${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`
+      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`)
     },
   ]
 
@@ -341,7 +341,7 @@ export default function NavigationPrompt() {
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`)}
+                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`))}
                     className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
