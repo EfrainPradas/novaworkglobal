@@ -219,7 +219,7 @@ export default function AwardsBuilder() {
                     {!isStandalone && (
                         <button
                             onClick={handleContinue}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
                         >
                             Next: Positioning Questionnaire <ArrowRight className="w-4 h-4" />
                         </button>

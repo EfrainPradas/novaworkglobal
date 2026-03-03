@@ -406,7 +406,7 @@ export default function PositioningQuestionnairePage() {
                             <button
                                 onClick={nextSection}
                                 disabled={saving}
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl text-sm font-bold shadow-md transition-all"
                             >
                                 {t('common.nextSection', 'Next Section')}
                                 <ArrowRight className="w-4 h-4" />
@@ -576,7 +576,7 @@ export default function PositioningQuestionnairePage() {
                         <button
                             onClick={nextSection}
                             disabled={saving}
-                            className="flex items-center gap-2 px-8 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                            className="flex items-center gap-2 px-8 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl text-sm font-bold shadow-lg transition-all"
                         >
                             {t('common.nextSection', 'Next Section')}
                             <ArrowRight className="w-4 h-4" />
