@@ -7,6 +7,7 @@ import PhilosophySection from '../components/landing-v2/PhilosophySection'
 import DifferentiatorSection from '../components/landing/DifferentiatorSection'
 import HowItWorksSection from '../components/HowItWorksSection'
 import ProgramGrid from '../components/landing-v2/ProgramGrid'
+import TestimonialsSection from '../components/landing/TestimonialsSection'
 import LandingPageCTA from '../components/landing/LandingPageCTA'
 
 const howItWorksSteps = [
@@ -49,6 +50,7 @@ export default function LandingPageV2() {
                 <HowItWorksSection steps={howItWorksSteps} />
                 <ProgramGrid />
                 <PhilosophySection />
+                <TestimonialsSection />
                 <LandingPageCTA />
             </main>
             <Footer />

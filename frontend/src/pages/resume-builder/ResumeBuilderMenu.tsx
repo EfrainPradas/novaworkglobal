@@ -255,7 +255,8 @@ export default function ResumeBuilderMenu() {
         <div>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
               <div>
                 <h1 className="text-3xl font-bold mb-1 flex items-center gap-3">
                   <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />

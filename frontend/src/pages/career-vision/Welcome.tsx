@@ -47,7 +47,12 @@ export default function CareerVisionWelcome() {
             <img
               src="/logo.png"
               alt="NovaWork Global"
-              className="h-28 w-auto mx-auto"
+              className="h-28 w-auto mx-auto block dark:hidden"
+            />
+            <img
+              src="/logo-white.png"
+              alt="NovaWork Global"
+              className="h-28 w-auto mx-auto hidden dark:block"
             />
           </div>
 

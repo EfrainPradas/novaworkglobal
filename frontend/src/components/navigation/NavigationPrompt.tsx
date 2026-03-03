@@ -276,7 +276,8 @@ export default function NavigationPrompt() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
               <div className="hidden sm:block">
                 {userLevel === 'essentials' && (
                   <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">

@@ -342,7 +342,8 @@ export default function JobHistory() {
           </button>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   Job History Analysis

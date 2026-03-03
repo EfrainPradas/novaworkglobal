@@ -119,7 +119,8 @@ export default function SignIn() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto" />
+            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto block dark:hidden" />
+            <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {t('auth.signIn.title')}

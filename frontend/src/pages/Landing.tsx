@@ -18,6 +18,7 @@ import {
   addOnsConfig,
   defaultAddOnMode
 } from '../config/landingContent'
+import TestimonialsSection from '../components/landing/TestimonialsSection'
 
 export default function Landing() {
   const navigate = useNavigate()
@@ -80,7 +81,9 @@ export default function Landing() {
       {/* 8. Add-Ons Section */}
       <AddOnSection addOns={addOnsConfig[defaultAddOnMode]} mode={defaultAddOnMode} />
 
-      {/* 9. Final CTA Section */}
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+
       {/* 9. Final CTA Section */}
       <LandingPageCTA onAction={handleStartTrial} />
 

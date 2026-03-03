@@ -284,7 +284,8 @@ export default function Dashboard() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-12 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-12 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="NovaWork Global" className="h-12 w-auto hidden dark:block" />
               <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
                 {tierLabel} Plan
               </span>

@@ -335,7 +335,8 @@ export default function MainMenu() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto" />
+              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
               <div className="hidden sm:block">
                 {getAccessBadge('executive')}
               </div>
@@ -545,8 +546,8 @@ export default function MainMenu() {
             <button
               onClick={handleInstallClick}
               className={`flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-lg transition-all ${isInstallable
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md hover:shadow-lg animate-pulse'
-                  : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md hover:shadow-lg animate-pulse'
+                : 'bg-white border border-gray-300 text-gray-700 hover:bg-gray-50'
                 }`}
             >
               <Smartphone className="h-4 w-4" />

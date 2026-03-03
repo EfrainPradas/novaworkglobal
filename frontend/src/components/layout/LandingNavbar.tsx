@@ -17,7 +17,13 @@ export default function LandingNavbar() {
                         <img
                             src={`${import.meta.env.BASE_URL}logo.png`}
                             alt={headerNav.logo}
-                            className="h-28 w-auto cursor-pointer"
+                            className="h-28 w-auto cursor-pointer block dark:hidden"
+                            onClick={() => navigate('/')}
+                        />
+                        <img
+                            src={`${import.meta.env.BASE_URL}logo-white.png`}
+                            alt={headerNav.logo}
+                            className="h-28 w-auto cursor-pointer hidden dark:block"
                             onClick={() => navigate('/')}
                         />
                     </div>
