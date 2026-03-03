@@ -344,13 +344,13 @@ export default function NavigationPrompt() {
                     onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`)}
                     className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
-                    <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo')}
+                    <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
                   </button>
                   <button
                     onClick={() => navigate('/resume-builder')}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-2 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold rounded-lg transition-colors"
                   >
-                    <BookOpen className="w-3.5 h-3.5" /> {t('dashboard.learnMore')}
+                    <BookOpen className="w-3.5 h-3.5" /> {t('dashboard.learnMore', 'Learn more')}
                   </button>
                 </div>
               </div>
@@ -483,16 +483,16 @@ export default function NavigationPrompt() {
                         }}
                         className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                       >
-                        <Play className="w-3 h-3" /> {t('dashboard.watchVideo')}
+                        <Play className="w-3 h-3" /> {t('dashboard.watchVideo', 'Watch video')}
                       </button>
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
                           if (isAccessible) handleActionClick(action)
                         }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold rounded-lg transition-colors"
                       >
-                        <BookOpen className="w-3 h-3" /> {t('dashboard.learnMore')}
+                        <BookOpen className="w-3 h-3" /> {t('dashboard.learnMore', 'Learn more')}
                       </button>
                     </div>
                   </div>
