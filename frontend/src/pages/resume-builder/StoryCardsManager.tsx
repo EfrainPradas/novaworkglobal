@@ -455,6 +455,18 @@ export default function StoryCardsManager() {
                     >
                         <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('common.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.par.backToResumeBuilder') || 'Back to Accomplishment Bank'}
                     </button>
+                    {!isStandalone && (
+                        <button
+                            onClick={async () => {
+                                await trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'questionnaire' })
+                                navigate('/resume/questionnaire')
+                            }}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                        >
+                            {t('resumeBuilder.menu.nextQuestionnaire') || 'Next: Professional Profile'}
+                            <ArrowRight className="w-4 h-4" />
+                        </button>
+                    )}
                 </div>
 
 
@@ -908,15 +920,16 @@ export default function StoryCardsManager() {
                 </div>
 
                 {/* Fixed Bottom Navigation for Resume Builder Flow */}
-                <div className="mt-8 flex justify-between items-center border-t border-gray-200 dark:border-gray-700 pt-6">
-                    <span className="text-xs text-gray-400">Debug mode: isStandalone={isStandalone ? 'true' : 'false'}</span>
-                    <button
-                        onClick={() => navigate('/resume/questionnaire')}
-                        className="py-3 px-8 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
-                    >
-                        Continue to Next Step <ArrowRight className="w-5 h-5" />
-                    </button>
-                </div>
+                {!isStandalone && (
+                    <div className="mt-8 flex justify-end border-t border-gray-200 dark:border-gray-700 pt-6">
+                        <button
+                            onClick={() => navigate('/resume/questionnaire')}
+                            className="py-3 px-8 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                        >
+                            Continue to Next Step <ArrowRight className="w-5 h-5" />
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* Form Modal Redesign */}
