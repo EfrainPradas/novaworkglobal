@@ -661,7 +661,7 @@ const WorkExperienceBuilder: React.FC = () => {
                 }}
                 className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
               >
-                {t('resumeBuilder.menu.nextEducation') || 'Next: Education'}
+                {t('resumeBuilder.menu.nextEducation', 'Next: Education')}
                 <ArrowRight className="w-4 h-4" />
               </button>
             )}
