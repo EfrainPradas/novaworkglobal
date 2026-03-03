@@ -908,10 +908,10 @@ export default function StoryCardsManager() {
                 </div>
 
                 {/* Fixed Bottom Navigation for Resume Builder Flow */}
-                {isStandalone && (
+                {!isStandalone && (
                     <div className="mt-8 flex justify-end border-t border-gray-200 dark:border-gray-700 pt-6">
                         <button
-                            onClick={() => navigate('/resume/questionnaire?mode=standalone')}
+                            onClick={() => navigate('/resume/questionnaire')}
                             className="py-3 px-8 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
                         >
                             Continue to Next Step <ArrowRight className="w-5 h-5" />
