@@ -2,11 +2,11 @@
     "rewrites": [
         {
             "source": "/api/(.*)",
-            "destination": "https://api.novawork-global.com/api/$1"
+            "destination": "https://3.145.4.238.nip.io/api/$1"
         },
         {
             "source": "/novaworkglobal-api/(.*)",
-            "destination": "https://api.novawork-global.com/$1"
+            "destination": "https://3.145.4.238.nip.io/$1"
         },
         {
             "source": "/(.*)",
