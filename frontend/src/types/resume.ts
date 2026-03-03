@@ -8,8 +8,10 @@ export interface CARStory {
   resume_id?: string | null
 
   // Core CAR Framework (Challenge-Action-Result)
-  role_company: string // "Senior PM at Google"
-  year: string // "2020"
+  role_title?: string
+  company_name?: string
+  start_date?: string
+  end_date?: string
   problem_challenge: string // Keeps DB field name compatibility
   actions: string[] // Array of 2-3 actions
   result: string // Quantified outcome
@@ -265,6 +267,8 @@ export interface AccomplishmentBankItem {
   bullet_text: string
   role_title?: string
   company_name?: string
+  start_date?: string
+  end_date?: string
 
   source: 'manual' | 'imported' | 'car_story' | 'ai_generated'
   original_source_id?: string // Ref to work_experience or par_story

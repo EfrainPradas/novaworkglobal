@@ -138,8 +138,8 @@ export default function EducationBuilder() {
     }
 
     const handleContinue = async () => {
-        await trackEvent('analytics', 'step_completed', { step_name: 'education', next_step: 'awards' })
-        navigate('/resume/awards')
+        await trackEvent('analytics', 'step_completed', { step_name: 'education', next_step: 'accomplishment-library' })
+        navigate('/resume/accomplishment-library')
     }
 
     const inputClass = (field: string) =>
@@ -171,7 +171,7 @@ export default function EducationBuilder() {
                             onClick={handleContinue}
                             className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
                         >
-                            Next: Awards & Certifications <ArrowRight className="w-4 h-4" />
+                            Next: Accomplishment Bank <ArrowRight className="w-4 h-4" />
                         </button>
                     )}
                 </div>

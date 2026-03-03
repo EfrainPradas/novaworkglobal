@@ -13,11 +13,22 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
     const { t } = useTranslation()
     const [isEditing, setIsEditing] = useState(false)
     const [editText, setEditText] = useState(item.bullet_text)
+    const [editRole, setEditRole] = useState(item.role_title || '')
+    const [editCompany, setEditCompany] = useState(item.company_name || '')
+    const [editStart, setEditStart] = useState(item.start_date || '')
+    const [editEnd, setEditEnd] = useState(item.end_date || '')
     const [showMenu, setShowMenu] = useState(false)
 
     const handleSave = async () => {
-        if (editText.trim() !== item.bullet_text) {
-            await onUpdate(item.id!, { bullet_text: editText })
+        const edits: Partial<AccomplishmentBankItem> = {}
+        if (editText.trim() !== item.bullet_text) edits.bullet_text = editText.trim()
+        if (editRole.trim() !== (item.role_title || '')) edits.role_title = editRole.trim()
+        if (editCompany.trim() !== (item.company_name || '')) edits.company_name = editCompany.trim()
+        if (editStart.trim() !== (item.start_date || '')) edits.start_date = editStart.trim()
+        if (editEnd.trim() !== (item.end_date || '')) edits.end_date = editEnd.trim()
+
+        if (Object.keys(edits).length > 0) {
+            await onUpdate(item.id!, edits)
         }
         setIsEditing(false)
     }
@@ -37,7 +48,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
     }
 
     return (
-        <div className={`group relative bg-white border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 bg-amber-50/30' : 'border-gray-200'}`}>
+        <div className={`group relative bg-white dark:bg-gray-800 border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 dark:border-amber-700/50 bg-amber-50/30 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700'}`}>
             <div className="flex justify-between items-start gap-4">
                 <div className="flex-1 space-y-2">
                     {isEditing ? (
@@ -45,13 +56,55 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                             <textarea
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
-                                className="w-full p-2 border rounded-md focus:ring-2 focus:ring-emerald-500 min-h-[80px]"
+                                className="w-full p-2 text-sm text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 focus:border-emerald-500 focus:outline-none focus:ring-0 min-h-[60px] resize-y bg-gray-50/50 dark:bg-gray-900/50"
                                 autoFocus
                             />
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700">
+                                <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">{t('common.role', 'Role')}</label>
+                                    <input
+                                        type="text"
+                                        value={editRole}
+                                        onChange={e => setEditRole(e.target.value)}
+                                        className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        placeholder="e.g. Sales Manager"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">{t('common.company', 'Company')}</label>
+                                    <input
+                                        type="text"
+                                        value={editCompany}
+                                        onChange={e => setEditCompany(e.target.value)}
+                                        className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        placeholder="e.g. Modere"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">{t('common.startDate', 'Start Date')}</label>
+                                    <input
+                                        type="text"
+                                        value={editStart}
+                                        onChange={e => setEditStart(e.target.value)}
+                                        className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        placeholder="e.g. Jan 2020"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">{t('common.endDate', 'End Date')}</label>
+                                    <input
+                                        type="text"
+                                        value={editEnd}
+                                        onChange={e => setEditEnd(e.target.value)}
+                                        className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                                        placeholder="e.g. Present"
+                                    />
+                                </div>
+                            </div>
                             <div className="flex justify-end gap-2">
                                 <button
                                     onClick={() => setIsEditing(false)}
-                                    className="p-1 px-3 text-sm text-gray-600 hover:bg-gray-100 rounded"
+                                    className="p-1 px-3 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
                                 >
                                     {t('common.cancel', 'Cancel')}
                                 </button>
@@ -65,20 +118,27 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                         </div>
                     ) : (
                         <>
-                            <p className="text-gray-800 text-sm leading-relaxed">{item.bullet_text}</p>
+                            <p className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed">{item.bullet_text}</p>
 
                             <div className="flex flex-wrap items-center gap-2 mt-2">
                                 {/* Role/Company Badge */}
                                 {(item.role_title || item.company_name) && (
-                                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+                                    <span className="text-xs font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded">
                                         {[item.role_title, item.company_name].filter(Boolean).join(' • ')}
                                     </span>
                                 )}
 
+                                {/* Dates Badge */}
+                                {(item.start_date || item.end_date) && (
+                                    <span className="text-xs font-medium text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 px-2 py-0.5 rounded">
+                                        {item.start_date || 'Unknown'} - {item.end_date || 'Present'}
+                                    </span>
+                                )}
+
                                 {/* Source Badge */}
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.source === 'ai_generated' ? 'bg-purple-50 text-purple-600 border-purple-100' :
-                                    item.source === 'car_story' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                                        'bg-slate-50 text-slate-500 border-slate-100'
+                                <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.source === 'ai_generated' ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-800/50' :
+                                    item.source === 'car_story' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-800/50' :
+                                        'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-700'
                                     }`}>
                                     {getSourceLabel(item.source)}
                                 </span>
@@ -116,22 +176,22 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                     <div className="relative">
                         <button
                             onClick={() => setShowMenu(!showMenu)}
-                            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-50 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                            className="p-1.5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
                         >
                             <MoreVertical size={16} />
                         </button>
 
                         {showMenu && (
-                            <div className="absolute right-0 mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-100 z-10 py-1">
+                            <div className="absolute right-0 mt-1 w-32 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-100 dark:border-gray-700 z-10 py-1">
                                 <button
                                     onClick={() => { setIsEditing(true); setShowMenu(false) }}
-                                    className="w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
+                                    className="w-full text-left px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                                 >
                                     <Edit2 size={14} /> {t('common.edit', 'Edit')}
                                 </button>
                                 <button
                                     onClick={() => { onDelete(item.id!); setShowMenu(false) }}
-                                    className="w-full text-left px-3 py-2 text-red-600 hover:bg-red-50 flex items-center gap-2"
+                                    className="w-full text-left px-3 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2"
                                 >
                                     <Trash2 size={14} /> {t('common.delete', 'Delete')}
                                 </button>

@@ -328,10 +328,10 @@ export default function PositioningQuestionnairePage() {
 
                 {/* Back Link */}
                 <button
-                    onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/awards')}
+                    onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/story-cards')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Awards & Certifications'}
+                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to CAR Stories'}
                 </button>
 
                 {/* Header */}

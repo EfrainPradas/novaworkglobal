@@ -123,7 +123,15 @@ const WorkExperienceBuilder: React.FC = () => {
 
       if (error) throw error
 
-      setExperiences(data || [])
+      const sortedExperiences = (data || []).sort((a, b) => {
+        if (a.is_current && !b.is_current) return -1
+        if (!a.is_current && b.is_current) return 1
+        const dateA = a.start_date ? new Date(a.start_date).getTime() : 0
+        const dateB = b.start_date ? new Date(b.start_date).getTime() : 0
+        return dateB - dateA
+      })
+
+      setExperiences(sortedExperiences)
     } catch (error) {
       console.error('Error loading experiences:', error)
     }
@@ -181,6 +189,8 @@ const WorkExperienceBuilder: React.FC = () => {
             bullet_text: bullet,
             role_title: exp.job_title,
             company_name: exp.company_name,
+            start_date: exp.start_date,
+            end_date: exp.is_current ? 'Present' : exp.end_date,
             source: 'manual',
             original_source_id: workExpId,
             is_starred: false,
@@ -202,12 +212,26 @@ const WorkExperienceBuilder: React.FC = () => {
     if (!resumeId) return
 
     try {
+      const exp = experiences.find(e => e.id === workExpId)
+      const acc = exp?.accomplishments?.find(a => a.id === accId)
+      const oldBulletText = acc?.bullet_text
+
       const { error } = await supabase
         .from('accomplishments')
         .update({ bullet_text: bullet })
         .eq('id', accId)
 
       if (error) throw error
+
+      if (userId && oldBulletText) {
+        // Sync text update to the accomplishment bank
+        await supabase
+          .from('accomplishment_bank')
+          .update({ bullet_text: bullet })
+          .eq('user_id', userId)
+          .eq('original_source_id', workExpId)
+          .eq('bullet_text', oldBulletText)
+      }
 
       await loadExperiences(resumeId)
     } catch (error) {
@@ -220,12 +244,25 @@ const WorkExperienceBuilder: React.FC = () => {
     if (!resumeId) return
 
     try {
+      const exp = experiences.find(e => e.id === workExpId)
+      const acc = exp?.accomplishments?.find(a => a.id === accId)
+
       const { error } = await supabase
         .from('accomplishments')
         .delete()
         .eq('id', accId)
 
       if (error) throw error
+
+      if (userId && acc?.bullet_text) {
+        // Detach the link in the bank to prevent inconsistent states
+        await supabase
+          .from('accomplishment_bank')
+          .update({ original_source_id: null })
+          .eq('user_id', userId)
+          .eq('original_source_id', workExpId)
+          .eq('bullet_text', acc.bullet_text)
+      }
 
       await loadExperiences(resumeId)
     } catch (error) {
@@ -282,6 +319,8 @@ const WorkExperienceBuilder: React.FC = () => {
             bullet_text: bullet,
             role_title: exp.job_title,
             company_name: exp.company_name,
+            start_date: exp.start_date,
+            end_date: exp.is_current ? 'Present' : exp.end_date,
             source: 'car_story',
             original_source_id: workExpId,
             par_story_id: carStoryId,
@@ -638,10 +677,10 @@ const WorkExperienceBuilder: React.FC = () => {
               {t('resumeBuilder.menu.education') || 'Education'}
             </button>
             <button
-              onClick={() => navigate('/resume/awards?mode=standalone')}
+              onClick={() => navigate('/resume/accomplishment-library?mode=standalone')}
               className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
             >
-              {t('resumeBuilder.menu.awardsCertifications') || 'Awards & Certifications'}
+              Accomplishment Bank
             </button>
           </div>
         )}

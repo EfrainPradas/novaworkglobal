@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, BookOpen, GraduationCap, Award } from 'lucide-react'
+import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, BookOpen, GraduationCap, Award, Star } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
@@ -176,6 +176,19 @@ export default function ResumeBuilderMenu() {
       console.warn('Awards progress check failed:', e)
     }
 
+    try {
+      // Check accomplishment bank
+      const { data: bankData } = await supabase
+        .from('accomplishment_bank')
+        .select('id')
+        .eq('user_id', userId)
+        .limit(1)
+
+      if (bankData && bankData.length > 0) completed.add('accomplishment-bank')
+    } catch (e) {
+      console.warn('Bank progress check failed:', e)
+    }
+
     setCompletedSteps(completed)
   }
 
@@ -193,13 +206,25 @@ export default function ResumeBuilderMenu() {
       borderColor: 'border-emerald-200'
     },
     {
+      id: 'accomplishment-bank',
+      title: 'Accomplishment Bank',
+      description: 'Import and organize accomplishments directly from your resume.',
+      icon: Trophy,
+      route: '/resume/accomplishment-library?mode=standalone',
+      completed: completedSteps.has('accomplishment-bank'),
+      current: (completedSteps.has('work-history') && completedSteps.has('education')) && !completedSteps.has('accomplishment-bank'),
+      color: 'text-amber-600',
+      bgColor: 'bg-amber-50',
+      borderColor: 'border-amber-200'
+    },
+    {
       id: 'accomplishments',
       title: 'CAR Stories',
-      description: 'Review awards and highlight your key achievements.',
-      icon: Trophy,
-      route: completedSteps.has('awards') ? '/resume/story-cards?mode=standalone' : '/resume/awards?mode=standalone',
-      completed: completedSteps.has('awards') && completedSteps.has('story-cards'),
-      current: (completedSteps.has('work-history') && completedSteps.has('education')) && (!completedSteps.has('awards') || !completedSteps.has('story-cards')),
+      description: 'Transform your accomplishments into powerful CAR Stories.',
+      icon: Star,
+      route: '/resume/story-cards?mode=standalone',
+      completed: completedSteps.has('story-cards'),
+      current: completedSteps.has('accomplishment-bank') && !completedSteps.has('story-cards'),
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
       borderColor: 'border-purple-200'
@@ -211,7 +236,7 @@ export default function ResumeBuilderMenu() {
       icon: ClipboardList,
       route: '/resume/questionnaire?mode=standalone',
       completed: completedSteps.has('questionnaire'),
-      current: (completedSteps.has('awards') && completedSteps.has('story-cards')) && !completedSteps.has('questionnaire'),
+      current: completedSteps.has('story-cards') && !completedSteps.has('questionnaire'),
       color: 'text-teal-600',
       bgColor: 'bg-teal-50',
       borderColor: 'border-teal-200'
@@ -238,186 +263,188 @@ export default function ResumeBuilderMenu() {
   const progressPercentage = Math.round((macroStepsCompleted / resumeOptions.length) * 100)
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-10 space-y-10 min-h-screen">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+      <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
 
 
 
-      {/* Back Button */}
-      <BackButton
-        to="/dashboard"
-        label={t('resumeBuilder.menu.backToDashboard')}
-        variant="light"
-        className="mb-4 pl-0"
-      />
+        {/* Back Button */}
+        <BackButton
+          to="/dashboard"
+          label={t('resumeBuilder.menu.backToDashboard')}
+          variant="light"
+          className="mb-4 pl-0"
+        />
 
-      {/* Header Section */}
-      <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
-        <div>
-          <div className="flex items-start justify-between">
-            <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
-              <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
-              <div>
-                <h1 className="text-3xl font-bold mb-1 flex items-center gap-3">
-                  <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                  {t('resumeBuilder.menu.title')}
-                </h1>
-                <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
-                <p className="text-gray-600 dark:text-gray-300 max-w-xl">
-                  Follow the steps to complete an interview magnet resume
-                </p>
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+          <div>
+            <div className="flex items-start justify-between">
+              <div className="flex items-center gap-4">
+                <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
+                <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
+                <div>
+                  <h1 className="text-3xl font-bold mb-1 flex items-center gap-3">
+                    <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+                    {t('resumeBuilder.menu.title')}
+                  </h1>
+                  <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
+                  <p className="text-gray-600 dark:text-gray-300 max-w-xl">
+                    Follow the steps to complete an interview magnet resume
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={async () => {
+                    await trackEvent('analytics', 'step_completed', { step_name: 'funnel-start', next_step: 'contact-details' })
+                    navigate('/resume/contact-info')
+                  }}
+                  className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-blue-500/25"
+                >
+                  <ArrowRight className="w-4 h-4" /> Start Workflow
+                </button>
+                <button
+                  onClick={() => setIsVideoModalOpen(true)}
+                  className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  <Play className="w-4 h-4" /> Watch video
+                </button>
+                <button
+                  onClick={() => navigate('/resume-builder')}
+                  className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                >
+                  <BookOpen className="w-4 h-4" /> Learn more
+                </button>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={async () => {
-                  await trackEvent('analytics', 'step_completed', { step_name: 'funnel-start', next_step: 'contact-details' })
-                  navigate('/resume/contact-info')
-                }}
-                className="flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-bold rounded-xl transition-all shadow-lg shadow-blue-500/25"
-              >
-                <ArrowRight className="w-4 h-4" /> Start Workflow
-              </button>
-              <button
-                onClick={() => setIsVideoModalOpen(true)}
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-              >
-                <Play className="w-4 h-4" /> Watch video
-              </button>
-              <button
-                onClick={() => navigate('/resume-builder')}
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-              >
-                <BookOpen className="w-4 h-4" /> Learn more
-              </button>
+          </div>
+
+          {/* Global Progress Indicator */}
+          <div className="flex items-center gap-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600">
+            <div className="relative w-16 h-16 flex items-center justify-center">
+              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
+                <circle
+                  cx="32"
+                  cy="32"
+                  r="28"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="none"
+                  className="text-gray-200 dark:text-gray-600"
+                />
+                <circle
+                  cx="32"
+                  cy="32"
+                  r="28"
+                  stroke="currentColor"
+                  strokeWidth="6"
+                  fill="none"
+                  strokeDasharray={175}
+                  strokeDashoffset={175 - (175 * progressPercentage) / 100}
+                  className="text-blue-600 dark:text-blue-400 transition-all duration-1000 ease-out"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <span className="absolute text-sm font-bold text-gray-700 dark:text-gray-200">{progressPercentage}%</span>
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-gray-900 dark:text-white">{t('resumeBuilder.menu.yourProgress')}</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">{t('resumeBuilder.menu.stepsCompleted', { completed: macroStepsCompleted, total: resumeOptions.length })}</p>
             </div>
           </div>
         </div>
 
-        {/* Global Progress Indicator */}
-        <div className="flex items-center gap-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600">
-          <div className="relative w-16 h-16 flex items-center justify-center">
-            <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
-              <circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="currentColor"
-                strokeWidth="6"
-                fill="none"
-                className="text-gray-200 dark:text-gray-600"
-              />
-              <circle
-                cx="32"
-                cy="32"
-                r="28"
-                stroke="currentColor"
-                strokeWidth="6"
-                fill="none"
-                strokeDasharray={175}
-                strokeDashoffset={175 - (175 * progressPercentage) / 100}
-                className="text-blue-600 dark:text-blue-400 transition-all duration-1000 ease-out"
-                strokeLinecap="round"
-              />
-            </svg>
-            <span className="absolute text-sm font-bold text-gray-700 dark:text-gray-200">{progressPercentage}%</span>
-          </div>
-          <div className="text-left">
-            <p className="font-semibold text-gray-900 dark:text-white">{t('resumeBuilder.menu.yourProgress')}</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{t('resumeBuilder.menu.stepsCompleted', { completed: macroStepsCompleted, total: resumeOptions.length })}</p>
-          </div>
-        </div>
-      </div>
+        {/* Main Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+          {resumeOptions.map((option) => {
+            const Icon = option.icon
 
-      {/* Main Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-        {resumeOptions.map((option) => {
-          const Icon = option.icon
-
-          return (
-            <div
-              key={option.id}
-              onClick={() => navigate(option.route)}
-              className={`
+            return (
+              <div
+                key={option.id}
+                onClick={() => navigate(option.route)}
+                className={`
                 group relative p-8 rounded-2xl border transition-all duration-300
                 bg-white dark:bg-gray-800 hover:shadow-2xl cursor-pointer hover:-translate-y-1
                 border-gray-200 dark:border-gray-700
                 ${option.current ? `ring-2 ring-offset-2 dark:ring-offset-gray-900 ${option.color.replace('text-', 'ring-')}` : ''}
               `}
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div className={`p-4 rounded-xl ${option.bgColor} dark:bg-gray-700 ${option.color} dark:text-white`}>
-                  <Icon className="w-8 h-8" />
-                </div>
-                {option.completed ? (
-                  <CheckCircle className="w-6 h-6 text-green-500" />
-                ) : (
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <ArrowRight className={`w-6 h-6 ${option.color} dark:text-white`} />
-                  </div>
-                )}
-              </div>
-
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                {option.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-6">
-                {option.description}
-              </p>
-
-              <div className="flex items-center justify-between mt-auto">
-                <span className={`text-sm font-medium ${option.color} dark:text-white`}>
-                  {option.completed ? t('resumeBuilder.menu.editDetails') : t('resumeBuilder.menu.getStarted')}
-                </span>
-              </div>
-            </div>
-          )
-        })}
-      </div>
-
-      <ServiceAddOns />
-
-      {/* Video Modal */}
-      {isVideoModalOpen && (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-          onClick={() => setIsVideoModalOpen(false)}
-        >
-          {/* Dark Overlay */}
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-
-          {/* Modal Content */}
-          <div
-            className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close button */}
-            <button
-              onClick={() => setIsVideoModalOpen(false)}
-              className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
-              aria-label="Close video"
-            >
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            {/* Video Player */}
-            <div className="w-full aspect-video bg-black flex items-center justify-center relative">
-              <video
-                src={`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`}
-                className="w-full h-full outline-none"
-                controls
-                controlsList="nodownload"
-                autoPlay
-                playsInline
               >
-                Your browser does not support the video tag.
-              </video>
+                <div className="flex items-start justify-between mb-4">
+                  <div className={`p-4 rounded-xl ${option.bgColor} dark:bg-gray-700 ${option.color} dark:text-white`}>
+                    <Icon className="w-8 h-8" />
+                  </div>
+                  {option.completed ? (
+                    <CheckCircle className="w-6 h-6 text-green-500" />
+                  ) : (
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ArrowRight className={`w-6 h-6 ${option.color} dark:text-white`} />
+                    </div>
+                  )}
+                </div>
+
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {option.title}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                  {option.description}
+                </p>
+
+                <div className="flex items-center justify-between mt-auto">
+                  <span className={`text-sm font-medium ${option.color} dark:text-white`}>
+                    {option.completed ? t('resumeBuilder.menu.editDetails') : t('resumeBuilder.menu.getStarted')}
+                  </span>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+
+        <ServiceAddOns />
+
+        {/* Video Modal */}
+        {isVideoModalOpen && (
+          <div
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+            onClick={() => setIsVideoModalOpen(false)}
+          >
+            {/* Dark Overlay */}
+            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+            {/* Modal Content */}
+            <div
+              className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <button
+                onClick={() => setIsVideoModalOpen(false)}
+                className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                aria-label="Close video"
+              >
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+
+              {/* Video Player */}
+              <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+                <video
+                  src={`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`}
+                  className="w-full h-full outline-none"
+                  controls
+                  controlsList="nodownload"
+                  autoPlay
+                  playsInline
+                >
+                  Your browser does not support the video tag.
+                </video>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
