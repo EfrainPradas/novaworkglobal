@@ -35,78 +35,84 @@ router.post('/generate-accomplishments', async (req, res) => {
     console.log('🚀 Received request to generate accomplishments')
     console.log('Request body:', JSON.stringify(req.body, null, 2))
 
-    const {
-      challenge,
+    challenge,
       result,
       role_company,
+      role_title,
+      company_name,
       skills,
       competencies
-    } = req.body
+  } = req.body
 
-    // Validate required fields
-    if (!challenge || !result) {
-      return res.status(400).json({
-        error: 'Missing required fields',
-        details: 'Both challenge and result are required'
-      })
-    }
+  // Map new fields to legacy role_company if they exist
+  const mappedRoleCompany = role_title && company_name
+    ? `${role_title} at ${company_name}`
+    : role_company;
 
-    // Validate field lengths
-    if (typeof challenge !== 'string' || challenge.length < 10) {
-      return res.status(400).json({
-        error: 'Invalid challenge field',
-        details: 'Challenge must be at least 10 characters long'
-      })
-    }
-
-    if (typeof result !== 'string' || result.length < 10) {
-      return res.status(400).json({
-        error: 'Invalid result field',
-        details: 'Result must be at least 10 characters long'
-      })
-    }
-
-    // Fetch Positioning Questionnaire for context
-    const { data: questionnaire } = await supabase
-      .from('positioning_questionnaire')
-      .select('*')
-      .eq('user_id', req.user.id)
-      .single()
-
-    // Generate accomplishments using AI
-    const accomplishments = await generateAccomplishments({
-      challenge,
-      result,
-      role_company: role_company || '',
-      skills: Array.isArray(skills) ? skills : [],
-      competencies: Array.isArray(competencies) ? competencies : [],
-      positioning: questionnaire || null
-    })
-
-    console.log('✅ Accomplishments generated successfully')
-
-    // Return the generated accomplishments
-    res.json({
-      success: true,
-      accomplishments,
-      count: accomplishments.length
-    })
-
-  } catch (error) {
-    console.error('❌ Error generating accomplishments:', error)
-
-    // Return appropriate error response
-    res.status(500).json({
-      error: 'Failed to generate accomplishments',
-      details: error.message,
-      // Include fallback accomplishments if available
-      fallback_accomplishments: [
-        "Successfully delivered measurable business impact through strategic execution and problem-solving",
-        "Demonstrated leadership and technical expertise to achieve exceptional project outcomes",
-        "Collaborated effectively with stakeholders to drive positive change and achieve organizational goals"
-      ]
+  // Validate required fields
+  if (!challenge || !result) {
+    return res.status(400).json({
+      error: 'Missing required fields',
+      details: 'Both challenge and result are required'
     })
   }
+
+  // Validate field lengths
+  if (typeof challenge !== 'string' || challenge.length < 10) {
+    return res.status(400).json({
+      error: 'Invalid challenge field',
+      details: 'Challenge must be at least 10 characters long'
+    })
+  }
+
+  if (typeof result !== 'string' || result.length < 10) {
+    return res.status(400).json({
+      error: 'Invalid result field',
+      details: 'Result must be at least 10 characters long'
+    })
+  }
+
+  // Fetch Positioning Questionnaire for context
+  const { data: questionnaire } = await supabase
+    .from('positioning_questionnaire')
+    .select('*')
+    .eq('user_id', req.user.id)
+    .single()
+
+  // Generate accomplishments using AI
+  const accomplishments = await generateAccomplishments({
+    challenge,
+    result,
+    role_company: mappedRoleCompany || '',
+    skills: Array.isArray(skills) ? skills : [],
+    competencies: Array.isArray(competencies) ? competencies : [],
+    positioning: questionnaire || null
+  })
+
+  console.log('✅ Accomplishments generated successfully')
+
+  // Return the generated accomplishments
+  res.json({
+    success: true,
+    accomplishments,
+    count: accomplishments.length
+  })
+
+} catch (error) {
+  console.error('❌ Error generating accomplishments:', error)
+
+  // Return appropriate error response
+  res.status(500).json({
+    error: 'Failed to generate accomplishments',
+    details: error.message,
+    // Include fallback accomplishments if available
+    fallback_accomplishments: [
+      "Successfully delivered measurable business impact through strategic execution and problem-solving",
+      "Demonstrated leadership and technical expertise to achieve exceptional project outcomes",
+      "Collaborated effectively with stakeholders to drive positive change and achieve organizational goals"
+    ]
+  })
+}
 })
 
 /**
