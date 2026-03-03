@@ -642,289 +642,291 @@ const WorkExperienceBuilder: React.FC = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex flex-col items-center">
+      <div className="w-full max-w-6xl mx-auto p-4 md:p-8 space-y-6">
+        {/* Header */}
+        <div className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
 
-        <div className="flex items-center justify-between mb-4">
-          <BackButton
-            to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
-            label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
-            className="text-white hover:text-gray-200"
-          />
-          {!isStandalone && (
-            <button
-              onClick={async () => {
-                await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
-                navigate('/resume/education')
-              }}
-              className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
-            >
-              {t('resumeBuilder.menu.nextEducation') || 'Next: Education'}
-              <ArrowRight className="w-4 h-4" />
-            </button>
+          <div className="flex items-center justify-between mb-4">
+            <BackButton
+              to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
+              label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
+              className="text-white hover:text-gray-200"
+            />
+            {!isStandalone && (
+              <button
+                onClick={async () => {
+                  await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
+                  navigate('/resume/education')
+                }}
+                className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
+              >
+                {t('resumeBuilder.menu.nextEducation') || 'Next: Education'}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {isStandalone && (
+            <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
+              <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
+                {t('resumeBuilder.menu.workExperience')}
+              </button>
+              <button
+                onClick={() => navigate('/resume/education?mode=standalone')}
+                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+              >
+                {t('resumeBuilder.menu.education') || 'Education'}
+              </button>
+              <button
+                onClick={() => navigate('/resume/accomplishment-library?mode=standalone')}
+                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+              >
+                Accomplishment Bank
+              </button>
+            </div>
           )}
+
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-sm text-gray-300 dark:text-gray-400 mb-1">
+                {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
+              </div>
+              <h1 className="text-3xl font-bold text-white mb-2">
+                {t('resumeBuilder.workExperience.title')}
+              </h1>
+              <p className="text-gray-300 mt-2">
+                {t('resumeBuilder.menu.workExperienceDesc')}
+              </p>
+            </div>
+            <div className="flex gap-3">
+              {!showForm && (
+                <>
+                  <button
+                    onClick={() => setShowImportModal(true)}
+                    className="px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    {t('resumeBuilder.workExperience.importFromResume')}
+                  </button>
+                  <button
+                    onClick={handleNewExperience}
+                    className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium"
+                  >
+                    + {t('resumeBuilder.workExperience.addNew')}
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
-        {isStandalone && (
-          <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
-            <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
-              {t('resumeBuilder.menu.workExperience')}
-            </button>
-            <button
-              onClick={() => navigate('/resume/education?mode=standalone')}
-              className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
-            >
-              {t('resumeBuilder.menu.education') || 'Education'}
-            </button>
-            <button
-              onClick={() => navigate('/resume/accomplishment-library?mode=standalone')}
-              className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
-            >
-              Accomplishment Bank
-            </button>
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded">
+            {error}
           </div>
         )}
 
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-sm text-gray-300 dark:text-gray-400 mb-1">
-              {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
-            </div>
-            <h1 className="text-3xl font-bold text-white mb-2">
-              {t('resumeBuilder.workExperience.title')}
-            </h1>
-            <p className="text-gray-300 mt-2">
-              {t('resumeBuilder.menu.workExperienceDesc')}
-            </p>
+        {/* Form or List */}
+        {showForm ? (
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              {editingExperience ? t('common.edit') : t('resumeBuilder.workExperience.addNew')}
+            </h2>
+            <WorkExperienceForm
+              onSubmit={handleSaveExperience}
+              onCancel={handleCancel}
+              initialData={editingExperience}
+            />
           </div>
-          <div className="flex gap-3">
-            {!showForm && (
-              <>
-                <button
-                  onClick={() => setShowImportModal(true)}
-                  className="px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+        ) : (
+          <div className="space-y-4">
+            {experiences.length === 0 ? (
+              <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center transition-colors duration-200">
+                <div className="text-gray-400 dark:text-gray-500 mb-4">
+                  <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  {t('resumeBuilder.workExperience.importFromResume')}
-                </button>
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  {t('resumeBuilder.workExperience.noExperience')}
+                </h3>
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {t('resumeBuilder.workExperience.startAdding')}
+                </p>
                 <button
                   onClick={handleNewExperience}
                   className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium"
                 >
-                  + {t('resumeBuilder.workExperience.addNew')}
+                  {t('resumeBuilder.workExperience.addFirst')}
                 </button>
-              </>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {experiences.map((exp, index) => (
+                  <div key={exp.id} className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <h3 className="text-xl font-bold text-white">{exp.job_title}</h3>
+                        <p className="text-lg text-gray-300">{exp.company_name}</p>
+                        <p className="text-sm text-gray-400 mb-4">
+                          {exp.start_date} - {exp.is_current ? t('common.present') : exp.end_date}
+                          {exp.location_city && ` • ${exp.location_city}`}
+                        </p>
+                      </div>
+                      <div className="flex gap-2 text-sm">
+                        <button
+                          onClick={() => handleEditExperience(exp)}
+                          className="px-3 py-1.5 text-blue-400 hover:text-blue-300 transition"
+                        >
+                          {t('common.edit')}
+                        </button>
+                        <button
+                          onClick={() => handleDeleteExperience(exp.id!)}
+                          className="px-3 py-1.5 text-red-400 hover:text-red-300 transition"
+                        >
+                          {t('common.delete')}
+                        </button>
+                      </div>
+                    </div>
+
+                    {exp.scope_description && (
+                      <p className="text-gray-300 text-sm mb-4 italic">{exp.scope_description}</p>
+                    )}
+
+
+                  </div>
+                ))}
+              </div>
             )}
           </div>
-        </div>
-      </div>
+        )}
 
-      {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
 
-      {/* Form or List */}
-      {showForm ? (
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
-            {editingExperience ? t('common.edit') : t('resumeBuilder.workExperience.addNew')}
-          </h2>
-          <WorkExperienceForm
-            onSubmit={handleSaveExperience}
-            onCancel={handleCancel}
-            initialData={editingExperience}
-          />
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {experiences.length === 0 ? (
-            <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md text-center transition-colors duration-200">
-              <div className="text-gray-400 dark:text-gray-500 mb-4">
-                <svg className="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
+
+        {/* Import from Resume Modal */}
+        {showImportModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full p-8 transition-colors duration-200">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.workExperience.importFromResume')}</h2>
+                <button
+                  onClick={() => {
+                    setShowImportModal(false)
+                    setImportFile(null)
+                  }}
+                  className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                {t('resumeBuilder.workExperience.noExperience')}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {t('resumeBuilder.workExperience.startAdding')}
-              </p>
-              <button
-                onClick={handleNewExperience}
-                className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium"
-              >
-                {t('resumeBuilder.workExperience.addFirst')}
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {experiences.map((exp, index) => (
-                <div key={exp.id} className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
-                  <div className="flex justify-between items-start mb-4">
+
+              <div className="mb-6">
+                <p className="text-gray-600 dark:text-gray-300 mb-4">
+                  {t('resumeBuilder.workExperience.importDescription')}
+                </p>
+
+                {/* File Upload Area */}
+                <div
+                  className={`border-2 border-dashed rounded-lg p-8 text-center transition ${importFile ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-600' : 'border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500 bg-gray-50 dark:bg-gray-700/50'
+                    }`}
+                  onDrop={(e) => {
+                    e.preventDefault()
+                    const file = e.dataTransfer.files[0]
+                    if (file && (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
+                      setImportFile(file)
+                    }
+                  }}
+                  onDragOver={(e) => e.preventDefault()}
+                >
+                  {importFile ? (
                     <div>
-                      <h3 className="text-xl font-bold text-white">{exp.job_title}</h3>
-                      <p className="text-lg text-gray-300">{exp.company_name}</p>
-                      <p className="text-sm text-gray-400 mb-4">
-                        {exp.start_date} - {exp.is_current ? t('common.present') : exp.end_date}
-                        {exp.location_city && ` • ${exp.location_city}`}
+                      <svg className="w-16 h-16 mx-auto text-green-500 dark:text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="text-lg font-semibold text-gray-900 dark:text-white">{importFile.name}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{(importFile.size / 1024 / 1024).toFixed(2)} MB</p>
+                      <button
+                        onClick={() => setImportFile(null)}
+                        className="mt-3 text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium"
+                      >
+                        {t('resumeBuilder.workExperience.removeFile')}
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <svg className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                      <p className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                        {t('resumeBuilder.workExperience.dragDrop')}
                       </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('common.or')}</p>
+                      <label className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 cursor-pointer inline-block font-medium transition">
+                        {t('resumeBuilder.workExperience.browseFiles')}
+                        <input
+                          type="file"
+                          accept=".pdf,.docx"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) setImportFile(file)
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">{t('resumeBuilder.workExperience.supportFormat')}</p>
                     </div>
-                    <div className="flex gap-2 text-sm">
-                      <button
-                        onClick={() => handleEditExperience(exp)}
-                        className="px-3 py-1.5 text-blue-400 hover:text-blue-300 transition"
-                      >
-                        {t('common.edit')}
-                      </button>
-                      <button
-                        onClick={() => handleDeleteExperience(exp.id!)}
-                        className="px-3 py-1.5 text-red-400 hover:text-red-300 transition"
-                      >
-                        {t('common.delete')}
-                      </button>
-                    </div>
-                  </div>
-
-                  {exp.scope_description && (
-                    <p className="text-gray-300 text-sm mb-4 italic">{exp.scope_description}</p>
                   )}
-
-
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      )}
-
-
-
-      {/* Import from Resume Modal */}
-      {showImportModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full p-8 transition-colors duration-200">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.workExperience.importFromResume')}</h2>
-              <button
-                onClick={() => {
-                  setShowImportModal(false)
-                  setImportFile(null)
-                }}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 transition-colors"
-              >
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="mb-6">
-              <p className="text-gray-600 dark:text-gray-300 mb-4">
-                {t('resumeBuilder.workExperience.importDescription')}
-              </p>
-
-              {/* File Upload Area */}
-              <div
-                className={`border-2 border-dashed rounded-lg p-8 text-center transition ${importFile ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-600' : 'border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500 bg-gray-50 dark:bg-gray-700/50'
-                  }`}
-                onDrop={(e) => {
-                  e.preventDefault()
-                  const file = e.dataTransfer.files[0]
-                  if (file && (file.type === 'application/pdf' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')) {
-                    setImportFile(file)
-                  }
-                }}
-                onDragOver={(e) => e.preventDefault()}
-              >
-                {importFile ? (
-                  <div>
-                    <svg className="w-16 h-16 mx-auto text-green-500 dark:text-green-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white">{importFile.name}</p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{(importFile.size / 1024 / 1024).toFixed(2)} MB</p>
-                    <button
-                      onClick={() => setImportFile(null)}
-                      className="mt-3 text-sm text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300 font-medium"
-                    >
-                      {t('resumeBuilder.workExperience.removeFile')}
-                    </button>
-                  </div>
-                ) : (
-                  <div>
-                    <svg className="w-16 h-16 mx-auto text-gray-400 dark:text-gray-500 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                    </svg>
-                    <p className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                      {t('resumeBuilder.workExperience.dragDrop')}
-                    </p>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">{t('common.or')}</p>
-                    <label className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 cursor-pointer inline-block font-medium transition">
-                      {t('resumeBuilder.workExperience.browseFiles')}
-                      <input
-                        type="file"
-                        accept=".pdf,.docx"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0]
-                          if (file) setImportFile(file)
-                        }}
-                        className="hidden"
-                      />
-                    </label>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-4">{t('resumeBuilder.workExperience.supportFormat')}</p>
-                  </div>
-                )}
               </div>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex items-center justify-end gap-3">
-              <button
-                onClick={() => {
-                  setShowImportModal(false)
-                  setImportFile(null)
-                }}
-                className="px-6 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition font-medium"
-              >
-                {t('resumeBuilder.workExperience.cancel')}
-              </button>
-              <button
-                onClick={handleImportFromResume}
-                disabled={!importFile || importing}
-                className={`px-6 py-3 rounded-lg font-medium transition flex items-center gap-2 ${!importFile || importing
-                  ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
-                  : 'bg-primary-600 dark:bg-primary-500 text-white hover:bg-primary-700 dark:hover:bg-primary-600'
-                  }`}
-              >
-                {importing ? (
-                  <>
-                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    {t('resumeBuilder.workExperience.importing')}
-                  </>
-                ) : (
-                  <>
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-                    </svg>
-                    {t('resumeBuilder.workExperience.import')}
-                  </>
-                )}
-              </button>
+              {/* Action Buttons */}
+              <div className="flex items-center justify-end gap-3">
+                <button
+                  onClick={() => {
+                    setShowImportModal(false)
+                    setImportFile(null)
+                  }}
+                  className="px-6 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition font-medium"
+                >
+                  {t('resumeBuilder.workExperience.cancel')}
+                </button>
+                <button
+                  onClick={handleImportFromResume}
+                  disabled={!importFile || importing}
+                  className={`px-6 py-3 rounded-lg font-medium transition flex items-center gap-2 ${!importFile || importing
+                    ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
+                    : 'bg-primary-600 dark:bg-primary-500 text-white hover:bg-primary-700 dark:hover:bg-primary-600'
+                    }`}
+                >
+                  {importing ? (
+                    <>
+                      <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      {t('resumeBuilder.workExperience.importing')}
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                      </svg>
+                      {t('resumeBuilder.workExperience.import')}
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
-      {/* Resume Preview Button */}
-      {userId && <ResumePreview userId={userId} />}
+        )}
+        {/* Resume Preview Button */}
+        {userId && <ResumePreview userId={userId} />}
+      </div>
     </div>
   )
 }
