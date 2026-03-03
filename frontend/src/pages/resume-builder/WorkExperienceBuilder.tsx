@@ -644,12 +644,13 @@ const WorkExperienceBuilder: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
+      <div className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
 
         <div className="flex items-center justify-between mb-4">
           <BackButton
             to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
             label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
+            className="text-white hover:text-gray-200"
           />
           {!isStandalone && (
             <button
@@ -687,13 +688,13 @@ const WorkExperienceBuilder: React.FC = () => {
 
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+            <div className="text-sm text-gray-300 dark:text-gray-400 mb-1">
               {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-3xl font-bold text-white mb-2">
               {t('resumeBuilder.workExperience.title')}
             </h1>
-            <p className="text-gray-600 dark:text-gray-300 mt-2">
+            <p className="text-gray-300 mt-2">
               {t('resumeBuilder.menu.workExperienceDesc')}
             </p>
           </div>
@@ -764,26 +765,26 @@ const WorkExperienceBuilder: React.FC = () => {
           ) : (
             <div className="space-y-4">
               {experiences.map((exp, index) => (
-                <div key={exp.id} className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
+                <div key={exp.id} className="bg-[#1E293B] dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
                   <div className="flex justify-between items-start mb-4">
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.job_title}</h3>
-                      <p className="text-lg text-gray-700 dark:text-gray-300">{exp.company_name}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                      <h3 className="text-xl font-bold text-white">{exp.job_title}</h3>
+                      <p className="text-lg text-gray-300">{exp.company_name}</p>
+                      <p className="text-sm text-gray-400 mb-4">
                         {exp.start_date} - {exp.is_current ? t('common.present') : exp.end_date}
                         {exp.location_city && ` • ${exp.location_city}`}
                       </p>
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 text-sm">
                       <button
                         onClick={() => handleEditExperience(exp)}
-                        className="px-4 py-2 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-gray-700 rounded-lg transition"
+                        className="px-3 py-1.5 text-blue-400 hover:text-blue-300 transition"
                       >
                         {t('common.edit')}
                       </button>
                       <button
                         onClick={() => handleDeleteExperience(exp.id!)}
-                        className="px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition"
+                        className="px-3 py-1.5 text-red-400 hover:text-red-300 transition"
                       >
                         {t('common.delete')}
                       </button>
@@ -791,7 +792,7 @@ const WorkExperienceBuilder: React.FC = () => {
                   </div>
 
                   {exp.scope_description && (
-                    <p className="text-gray-700 dark:text-gray-300 mb-4 italic">{exp.scope_description}</p>
+                    <p className="text-gray-300 text-sm mb-4 italic">{exp.scope_description}</p>
                   )}
 
 
