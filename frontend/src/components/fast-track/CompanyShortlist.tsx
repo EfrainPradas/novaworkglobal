@@ -656,7 +656,11 @@ export default function CompanyShortlist({ onComplete }: Props) {
       key_contacts: '',
       priority_score: 5,
       application_status: 'researching' as const,
-      notes: ''
+      notes: '',
+      follow_up_date: null,
+      criteria_match_count: 0,
+      ai_generated: false,
+      last_ai_refresh_date: null
     })
   }
 

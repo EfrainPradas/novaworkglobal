@@ -5,6 +5,8 @@ import { InterviewPreparation } from '../../types/interview'
 
 interface ResearchData {
   id?: string
+  created_at?: string
+  user_id?: string
   interviewer_name?: string
   interviewer_role?: string
   interviewer_linkedin_url?: string
@@ -149,33 +151,30 @@ export default function ResearchForm() {
           <div className="flex border-b border-gray-200">
             <button
               onClick={() => setActiveTab('interviewer')}
-              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${
-                activeTab === 'interviewer'
+              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'interviewer'
                   ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <div className="text-2xl mb-1">👤</div>
               <div>Interviewer</div>
             </button>
             <button
               onClick={() => setActiveTab('company')}
-              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${
-                activeTab === 'company'
+              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'company'
                   ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <div className="text-2xl mb-1">🏢</div>
               <div>Company</div>
             </button>
             <button
               onClick={() => setActiveTab('industry')}
-              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${
-                activeTab === 'industry'
+              className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'industry'
                   ? 'text-primary-600 border-b-2 border-primary-600 bg-primary-50'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <div className="text-2xl mb-1">📊</div>
               <div>Industry</div>

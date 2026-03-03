@@ -57,8 +57,10 @@ const CARStoryBuilder: React.FC = () => {
                 const { data, error } = await supabase
                     .from('par_stories')
                     .update({
-                        role_company: carStory.role_company,
-                        year: carStory.year,
+                        role_title: carStory.role_title,
+                        company_name: carStory.company_name,
+                        start_date: carStory.start_date,
+                        end_date: carStory.end_date,
                         problem_challenge: carStory.problem_challenge,
                         actions: carStory.actions,
                         result: carStory.result,
@@ -79,8 +81,10 @@ const CARStoryBuilder: React.FC = () => {
                     .from('par_stories')
                     .insert({
                         user_id: userId,
-                        role_company: carStory.role_company,
-                        year: carStory.year,
+                        role_title: carStory.role_title,
+                        company_name: carStory.company_name,
+                        start_date: carStory.start_date,
+                        end_date: carStory.end_date,
                         problem_challenge: carStory.problem_challenge,
                         actions: carStory.actions,
                         result: carStory.result,

@@ -181,7 +181,7 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
                 >
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{story.role_company}</p>
+                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{story.role_title} at {story.company_name}</p>
                       <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
                         {story.problem_challenge}
                       </p>

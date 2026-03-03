@@ -177,8 +177,8 @@ const CARStoryCard: React.FC<CARStoryCardProps> = ({
             {/* Header */}
             <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 dark:text-white">{story.role_company}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{story.year}</p>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">{story.role_title} • {story.company_name}</h3>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{story.start_date} - {story.end_date || 'Present'}</p>
                 </div>
                 <div className="flex gap-2">
                     {story.will_do_again && (

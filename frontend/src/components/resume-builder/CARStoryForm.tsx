@@ -26,8 +26,10 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
     const years = Array.from({ length: 20 }, (_, i) => (currentYear - i).toString())
 
     const [formData, setFormData] = useState<CARStory>(initialData || {
-        role_company: '',
-        year: currentYear.toString(),
+        role_title: '',
+        company_name: '',
+        start_date: '',
+        end_date: '',
         problem_challenge: '',
         actions: ['', '', ''],
         result: '',
@@ -83,9 +85,8 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
         e.preventDefault()
         setError(null)
 
-        // Validation
-        if (!formData.role_company.trim()) {
-            setError(t('resumeBuilder.par.errors.roleRequired'))
+        if (!formData.role_title.trim() || !formData.company_name.trim()) {
+            setError(t('resumeBuilder.par.errors.roleRequired') || 'Role and Company are required')
             return
         }
         if (!formData.problem_challenge.trim()) {
@@ -165,7 +166,8 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 body: JSON.stringify({
                     challenge: formData.problem_challenge,
                     result: formData.result,
-                    role_company: formData.role_company,
+                    role_title: formData.role_title,
+                    company_name: formData.company_name,
                     skills: userSkills,
                     competencies: formData.competencies
                 })
@@ -225,35 +227,57 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                     </div>
                 )}
 
-                {/* Role/Company & Year */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="md:col-span-2">
+                {/* Role/Company & Dates */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            {t('resumeBuilder.par.roleCompany')} *
+                            Role Title *
                         </label>
                         <input
                             type="text"
-                            value={formData.role_company}
-                            onChange={(e) => setFormData({ ...formData, role_company: e.target.value })}
-                            placeholder={t('resumeBuilder.placeholders.roleCompany')}
+                            value={formData.role_title}
+                            onChange={(e) => setFormData({ ...formData, role_title: e.target.value })}
+                            placeholder="e.g. Software Engineer"
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             required
                         />
                     </div>
-
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            {t('resumeBuilder.par.year')} *
+                            Company Name *
                         </label>
-                        <select
-                            value={formData.year}
-                            onChange={(e) => setFormData({ ...formData, year: e.target.value })}
-                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                        >
-                            {years.map(year => (
-                                <option key={year} value={year}>{year}</option>
-                            ))}
-                        </select>
+                        <input
+                            type="text"
+                            value={formData.company_name}
+                            onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
+                            placeholder="e.g. Tech Corp"
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                            required
+                        />
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Start Date *
+                        </label>
+                        <input
+                            type="month"
+                            value={formData.start_date}
+                            onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            End Date *
+                        </label>
+                        <input
+                            type="month"
+                            value={formData.end_date}
+                            onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
+                        />
                     </div>
                 </div>
 
