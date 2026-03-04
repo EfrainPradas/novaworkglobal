@@ -1166,12 +1166,6 @@ const JDAnalyzer: React.FC = () => {
                   Top 15 ATS keywords extracted from the job description
                 </p>
 
-                {/* Debug Info */}
-                <div className="mb-4 p-2 bg-yellow-100 text-xs">
-                  <strong>DEBUG:</strong> Total keywords received: {analysis.extracted_keywords.length} |
-                  Matched: {analysis.extracted_keywords.filter(k => k.currentMatch).length} |
-                  Not matched: {analysis.extracted_keywords.filter(k => !k.currentMatch).length}
-                </div>
 
                 {/* Keywords Table - Simplified */}
                 <div className="overflow-x-auto">
