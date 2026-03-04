@@ -242,7 +242,7 @@ export default function StoryCardsManager() {
     }
 
     const handleDelete = async (id: string, isBankItem?: boolean) => {
-        if (!confirm('Delete this story card?')) return
+        if (!confirm('Delete this CAR?')) return
         try {
             await supabase.from('par_stories').delete().eq('id', id)
             setStories(prev => prev.filter(s => s.id !== id))
@@ -505,7 +505,7 @@ export default function StoryCardsManager() {
                                 onClick={handleNewStory}
                                 className="w-full py-2.5 bg-[#4F46E5] text-white font-medium rounded-xl hover:bg-[#4338CA] transition-colors flex items-center justify-center gap-2"
                             >
-                                <Plus className="w-4 h-4" /> {t('resumeBuilder.par.addNew', 'Add New Story')}
+                                <Plus className="w-4 h-4" /> {t('resumeBuilder.par.addNew', 'Add New CAR')}
                             </button>
                             <div className="flex gap-2">
                                 <button
@@ -640,7 +640,7 @@ export default function StoryCardsManager() {
                                                 setShowAIAccomplishmentExtractor(true)
                                             }}
                                             className="px-3 py-1.5 rounded-lg border border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400 font-semibold hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center gap-1.5 text-xs mr-2"
-                                            title="Generate AI Accomplishments from this story"
+                                            title="Generate AI Accomplishments from this CAR"
                                         >
                                             <Sparkles className="w-3.5 h-3.5" /> Generate
                                         </button>
@@ -942,7 +942,7 @@ export default function StoryCardsManager() {
                                 <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] dark:bg-indigo-900/40 flex items-center justify-center text-[#4F46E5] dark:text-indigo-400">
                                     <Trophy className="w-5 h-5" />
                                 </div>
-                                {editingStory ? 'Edit Story Card' : 'New Story Card'}
+                                {editingStory ? 'Edit CAR' : 'New CAR'}
                             </h2>
                             <button onClick={() => setShowForm(false)} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 rounded-lg transition-colors"><X className="w-6 h-6" /></button>
                         </div>
@@ -957,15 +957,6 @@ export default function StoryCardsManager() {
                                         <h3 className="font-semibold text-gray-900 dark:text-white">Basic Info</h3>
                                     </div>
                                     <div className="grid grid-cols-2 gap-5">
-                                        <div className="col-span-2">
-                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Story Title</label>
-                                            <input
-                                                value={form.title || ''}
-                                                onChange={e => setForm(prev => ({ ...prev, title: e.target.value }))}
-                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow"
-                                                placeholder="e.g., Global Supply Chain Transformation"
-                                            />
-                                        </div>
                                         <div>
                                             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Role <span className="text-red-500">*</span></label>
                                             <input
