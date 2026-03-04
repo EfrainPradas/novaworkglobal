@@ -1228,9 +1228,9 @@ const JDAnalyzer: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex flex-col gap-4 pt-5 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex flex-wrap items-center gap-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="flex flex-wrap items-center gap-6 p-1">
                   <span className="text-sm font-semibold text-gray-900 dark:text-white">Resume Format:</span>
-                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     <input
                       type="radio"
                       name="resumeFormat"
@@ -1241,7 +1241,7 @@ const JDAnalyzer: React.FC = () => {
                     />
                     Chronological (Standard)
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
                     <input
                       type="radio"
                       name="resumeFormat"
