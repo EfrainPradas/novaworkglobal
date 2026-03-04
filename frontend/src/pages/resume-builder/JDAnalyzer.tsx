@@ -1044,7 +1044,7 @@ const JDAnalyzer: React.FC = () => {
                   type="text"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="Senior Product Manager"
                 />
               </div>
@@ -1057,7 +1057,7 @@ const JDAnalyzer: React.FC = () => {
                   type="text"
                   value={companyName}
                   onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
                   placeholder="Google"
                 />
               </div>
@@ -1093,7 +1093,7 @@ const JDAnalyzer: React.FC = () => {
                   value={jdText}
                   onChange={(e) => setJdText(e.target.value)}
                   rows={12}
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm"
+                  className="w-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm"
                   placeholder="Paste the complete job description here..."
                 />
                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
@@ -1603,7 +1603,7 @@ const JDAnalyzer: React.FC = () => {
                       type="text"
                       value={viewingResume.job_title}
                       disabled
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-100"
                     />
                   </div>
 
@@ -1616,7 +1616,7 @@ const JDAnalyzer: React.FC = () => {
                       value={sendToCompany}
                       onChange={(e) => setSendToCompany(e.target.value)}
                       placeholder="e.g., John Doe - john@company.com"
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
                     />
                   </div>
 
@@ -1627,7 +1627,7 @@ const JDAnalyzer: React.FC = () => {
                     <select
                       value={sendMethod}
                       onChange={(e) => setSendMethod(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                      className="w-full px-3 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
                     >
                       <option value="email">Email</option>
                       <option value="portal">Company Portal</option>
