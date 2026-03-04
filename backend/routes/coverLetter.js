@@ -5,6 +5,7 @@
 
 import express from 'express'
 import OpenAI from 'openai'
+import { Document, Paragraph, TextRun, Packer, AlignmentType, HeadingLevel } from 'docx'
 import { requireAuth, supabase, supabaseAdmin } from '../middleware/auth.js'
 
 // Initialize OpenAI client
@@ -199,6 +200,52 @@ router.post('/save', requireAuth, async (req, res) => {
 
         res.json({ success: true, coverLetter: data })
     } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
+})
+
+/**
+ * POST /api/cover-letter/export/word
+ * Export generated cover letter to Microsoft Word format
+ */
+router.post('/export/word', requireAuth, async (req, res) => {
+    try {
+        const { coverLetterText, jobTitle, companyName } = req.body
+
+        if (!coverLetterText) {
+            return res.status(400).json({ error: 'Cover letter text is required' })
+        }
+
+        // Split text into paragraphs based on double newlines
+        const paragraphs = coverLetterText.split(/\n\s*\n/).map(paragraph => {
+            return new Paragraph({
+                spacing: { after: 200 },
+                children: [
+                    new TextRun({
+                        text: paragraph.trim(),
+                        font: 'Georgia',
+                        size: 22 // 11pt
+                    })
+                ]
+            })
+        })
+
+        const doc = new Document({
+            sections: [{
+                properties: {},
+                children: paragraphs
+            }]
+        })
+
+        const buffer = await Packer.toBuffer(doc)
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        const filename = `Cover_Letter_${(companyName || 'Company').replace(/\s+/g, '_')}_${(jobTitle || 'Role').replace(/\s+/g, '_')}.docx`
+        res.setHeader('Content-Disposition', `attachment; filename=${filename}`)
+
+        res.send(buffer)
+    } catch (error) {
+        console.error('Error generating docx:', error)
         res.status(500).json({ error: error.message })
     }
 })

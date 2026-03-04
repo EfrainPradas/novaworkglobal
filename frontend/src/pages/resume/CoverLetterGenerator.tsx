@@ -177,6 +177,41 @@ export default function CoverLetterGenerator() {
         URL.revokeObjectURL(url)
     }
 
+    const downloadAsWord = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/api/cover-letter/export/word`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
+                },
+                body: JSON.stringify({
+                    coverLetterText: coverLetter,
+                    jobTitle,
+                    companyName
+                })
+            })
+
+            if (!response.ok) {
+                const errData = await response.json().catch(() => ({}))
+                throw new Error(errData.error || 'Failed to download Word document')
+            }
+
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+            const a = document.createElement('a')
+            a.href = url
+            a.download = `Cover_Letter_${companyName?.replace(/\s+/g, '_') || 'Company'}_${jobTitle?.replace(/\s+/g, '_') || 'Role'}.docx`
+            document.body.appendChild(a)
+            a.click()
+            document.body.removeChild(a)
+            window.URL.revokeObjectURL(url)
+        } catch (error) {
+            console.error('Error downloading Word doc:', error)
+            alert('Unable to download Word document at this time.')
+        }
+    }
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-slate-900 transition-colors duration-200">
             <div className="max-w-6xl mx-auto px-4 py-8">
@@ -389,7 +424,14 @@ export default function CoverLetterGenerator() {
                                         className="flex-1 py-3 px-4 border-2 border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
                                     >
                                         <Download className="w-5 h-5" />
-                                        Download
+                                        .TXT
+                                    </button>
+                                    <button
+                                        onClick={downloadAsWord}
+                                        className="flex-1 py-3 px-4 border-2 border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
+                                    >
+                                        <FileText className="w-5 h-5" />
+                                        .DOCX
                                     </button>
                                     <button
                                         onClick={saveCoverLetter}
