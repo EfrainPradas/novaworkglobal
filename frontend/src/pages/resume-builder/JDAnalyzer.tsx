@@ -1421,14 +1421,14 @@ const JDAnalyzer: React.FC = () => {
                 </button>
               </div>
 
-              <div className="p-8 space-y-8 bg-white" style={{ fontFamily: 'Georgia, serif' }}>
+              <div className="p-8 space-y-8 bg-white dark:bg-gray-800" style={{ fontFamily: 'Georgia, serif' }}>
                 {/* Header with User Info */}
                 {(viewingResume.tailored_bullets?.user_info?.full_name || userId) && (
-                  <div className="text-center border-b-2 border-gray-300 pb-6 mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  <div className="text-center border-b-2 border-gray-300 dark:border-gray-600 pb-6 mb-6">
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                       {viewingResume.tailored_bullets.user_info.full_name || 'Your Name'}
                     </h1>
-                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-700">
+                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-700 dark:text-gray-300">
                       {(viewingResume.tailored_bullets.user_info.location_city || viewingResume.tailored_bullets.user_info.location_country) && (
                         <span>
                           {[viewingResume.tailored_bullets.user_info.location_city, viewingResume.tailored_bullets.user_info.location_country].filter(Boolean).join(', ')}
@@ -1453,20 +1453,20 @@ const JDAnalyzer: React.FC = () => {
 
                 {/* Professional Profile */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 pb-2 border-b-2 border-primary-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
                     Professional Profile
                   </h3>
-                  <p className="text-gray-800 leading-relaxed text-justify">
+                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
                     {viewingResume.tailored_profile || 'N/A'}
                   </p>
                 </div>
 
                 {/* Areas of Excellence */}
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3 pb-2 border-b-2 border-primary-600">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
                     Areas of Excellence
                   </h3>
-                  <p className="text-gray-800 leading-relaxed">
+                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
                     {(viewingResume.tailored_skills || []).join(' | ')}
                   </p>
                 </div>
@@ -1474,7 +1474,7 @@ const JDAnalyzer: React.FC = () => {
                 {/* Key Accomplishments (PAR Stories) */}
                 {viewingResume.tailored_bullets?.par_stories && viewingResume.tailored_bullets.par_stories.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 pb-2 border-b-2 border-primary-600">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
                       Key Accomplishments
                     </h3>
                     <div className="space-y-5">
@@ -1482,23 +1482,23 @@ const JDAnalyzer: React.FC = () => {
                         const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
                         return (
                           <div key={idx} className="space-y-2">
-                            <p className="text-gray-800 leading-relaxed">
-                              <span className="font-semibold text-gray-900">Problem/Challenge: </span>
+                            <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
+                              <span className="font-semibold text-gray-900 dark:text-white">Problem/Challenge: </span>
                               {story.problem_challenge}
                             </p>
                             <div className="pl-4">
-                              <p className="font-semibold text-gray-900 mb-1">Actions:</p>
+                              <p className="font-semibold text-gray-900 dark:text-white mb-1">Actions:</p>
                               <ul className="list-none space-y-1">
                                 {actions.map((action: string, aidx: number) => (
-                                  <li key={aidx} className="text-gray-800 leading-relaxed flex">
+                                  <li key={aidx} className="text-gray-800 dark:text-gray-200 leading-relaxed flex">
                                     <span className="mr-2">•</span>
                                     <span>{action}</span>
                                   </li>
                                 ))}
                               </ul>
                             </div>
-                            <p className="text-gray-800 leading-relaxed">
-                              <span className="font-semibold text-gray-900">Results: </span>
+                            <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
+                              <span className="font-semibold text-gray-900 dark:text-white">Results: </span>
                               {story.result}
                             </p>
                           </div>
@@ -1511,7 +1511,7 @@ const JDAnalyzer: React.FC = () => {
                 {/* Work Experience */}
                 {viewingResume.tailored_bullets?.work_experience && viewingResume.tailored_bullets.work_experience.length > 0 && (
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 pb-2 border-b-2 border-primary-600">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
                       Work Experience
                     </h3>
                     <div className="space-y-5">
@@ -1542,18 +1542,18 @@ const JDAnalyzer: React.FC = () => {
                         return (
                           <div key={idx} className={isFunctional ? "mb-6" : ""}>
                             <div className="flex items-start justify-between mb-1">
-                              <h4 className="font-bold text-gray-900 text-lg">
+                              <h4 className="font-bold text-gray-900 dark:text-white text-lg">
                                 {exp.job_title}
                               </h4>
                               {dateRange && (
-                                <span className="text-sm text-gray-600 font-semibold whitespace-nowrap ml-4">
+                                <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold whitespace-nowrap ml-4">
                                   {dateRange}
                                 </span>
                               )}
                             </div>
-                            <p className="text-gray-700 font-semibold mb-2">{exp.company_name}</p>
+                            <p className="text-gray-700 dark:text-gray-300 font-semibold mb-2">{exp.company_name}</p>
                             {!isFunctional && (
-                              <p className="text-gray-800 leading-relaxed text-justify">
+                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
                                 {exp.scope_description}
                               </p>
                             )}
