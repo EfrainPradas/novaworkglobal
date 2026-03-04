@@ -269,7 +269,7 @@ router.post('/export', async (req, res) => {
       return res.status(400).json({ error: 'Missing resume data' });
     }
 
-    const { user_info, profile_summary, areas_of_excellence, work_experience = [], par_stories = [], format_type = 'chronological' } = resumeData;
+    const { user_info, profile_summary, areas_of_excellence, work_experience = [], par_stories = [] } = resumeData;
 
     const doc = new Document({
       sections: [{
@@ -374,7 +374,7 @@ router.post('/export', async (req, res) => {
           }),
           ...(work_experience || []).flatMap(exp => {
             const dateRange = (exp.start_date || '') + ' - ' + (exp.is_current ? 'Present' : (exp.end_date || ''));
-            const paragraphs = [
+            return [
               new Paragraph({
                 spacing: { before: 200 },
                 children: [
@@ -385,25 +385,13 @@ router.post('/export', async (req, res) => {
               }),
               new Paragraph({
                 children: [new TextRun({ text: exp.company_name || 'Generic Company', bold: true, color: '333333', size: 22, font: 'Georgia' })]
+              }),
+              new Paragraph({
+                spacing: { after: 200 },
+                children: [new TextRun({ text: exp.scope_description || '', size: 22, font: 'Georgia' })],
+                alignment: AlignmentType.JUSTIFIED
               })
             ];
-
-            if (format_type !== 'functional' && exp.scope_description) {
-              paragraphs.push(
-                new Paragraph({
-                  spacing: { after: 200 },
-                  children: [new TextRun({ text: exp.scope_description || '', size: 22, font: 'Georgia' })],
-                  alignment: AlignmentType.JUSTIFIED
-                })
-              );
-            } else {
-              paragraphs[paragraphs.length - 1] = new Paragraph({
-                spacing: { after: 200 },
-                children: [new TextRun({ text: exp.company_name || 'Generic Company', bold: true, color: '333333', size: 22, font: 'Georgia' })]
-              });
-            }
-
-            return paragraphs;
           })
         ]
       }]
