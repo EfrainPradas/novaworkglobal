@@ -47,6 +47,7 @@ const JDAnalyzer: React.FC = () => {
   const [showSendModal, setShowSendModal] = useState(false)
   const [sendToCompany, setSendToCompany] = useState('')
   const [sendMethod, setSendMethod] = useState('email')
+  const [resumeFormat, setResumeFormat] = useState<'chronological' | 'functional'>('chronological')
 
   useEffect(() => {
     checkUser()
@@ -533,7 +534,8 @@ const JDAnalyzer: React.FC = () => {
           tailored_bullets: {
             par_stories: resumeData.par_stories || [],
             work_experience: resumeData.work_experience || [],
-            user_info: resumeData.user_info || {}
+            user_info: resumeData.user_info || {},
+            format_type: resumeFormat
           },
           match_score: analysis.match_score || 0,
           status: 'draft'
@@ -657,7 +659,8 @@ const JDAnalyzer: React.FC = () => {
             profile_summary: exportData.tailored_profile,
             areas_of_excellence: exportData.tailored_skills,
             work_experience: exportData.tailored_bullets.work_experience || [],
-            par_stories: exportData.tailored_bullets.par_stories || []
+            par_stories: exportData.tailored_bullets.par_stories || [],
+            format_type: exportData.tailored_bullets.format_type || 'chronological'
           }
         }),
       });
@@ -754,6 +757,24 @@ const JDAnalyzer: React.FC = () => {
         const startYear = formatDate(exp.start_date)
         const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
         const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
+
+        const formatType = exportData.tailored_bullets.format_type || 'chronological'
+
+        if (formatType === 'functional') {
+          return `
+            <div style="margin-bottom: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
+                <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">
+                  ${exp.job_title}
+                </h4>
+                ${dateRange ? `<span style="font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; margin-left: 10px;">${dateRange}</span>` : ''}
+              </div>
+              <p style="font-weight: 600; margin-bottom: 5px; color: #333;">
+                ${exp.company_name}
+              </p>
+            </div>
+            `
+        }
 
         return `
         <div style="margin-bottom: 25px;">
@@ -1206,20 +1227,48 @@ const JDAnalyzer: React.FC = () => {
               </div>
 
               {/* Action Buttons */}
-              <div className="flex gap-3 pt-4 border-t">
-                <button
-                  onClick={handleGenerateTailoredResume}
-                  disabled={generating}
-                  className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {generating ? '⏳ Generating...' : '📄 Generate Tailored Resume'}
-                </button>
-                <button
-                  onClick={handleEditResumeManually}
-                  className="flex-1 px-6 py-3 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 font-medium"
-                >
-                  ✏️ Edit Resume to Match (Manually)
-                </button>
+              <div className="flex flex-col gap-4 pt-5 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex flex-wrap items-center gap-4 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <span className="text-sm font-semibold text-gray-900 dark:text-white">Resume Format:</span>
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    <input
+                      type="radio"
+                      name="resumeFormat"
+                      value="chronological"
+                      checked={resumeFormat === 'chronological'}
+                      onChange={() => setResumeFormat('chronological')}
+                      className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                    />
+                    Chronological (Standard)
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-200 cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                    <input
+                      type="radio"
+                      name="resumeFormat"
+                      value="functional"
+                      checked={resumeFormat === 'functional'}
+                      onChange={() => setResumeFormat('functional')}
+                      className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                    />
+                    Functional (Skills First)
+                  </label>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={handleGenerateTailoredResume}
+                    disabled={generating}
+                    className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-colors"
+                  >
+                    {generating ? '⏳ Generating...' : '📄 Generate Tailored Resume'}
+                  </button>
+                  <button
+                    onClick={handleEditResumeManually}
+                    className="flex-1 px-6 py-3 border-2 border-primary-600 text-primary-600 dark:text-primary-400 dark:border-primary-500 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 font-medium transition-colors"
+                  >
+                    ✏️ Edit Resume to Match (Manually)
+                  </button>
+                </div>
               </div>
 
               {/* Cover Letter Action */}
@@ -1488,8 +1537,10 @@ const JDAnalyzer: React.FC = () => {
                         const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
                         const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
 
+                        const isFunctional = viewingResume.tailored_bullets?.format_type === 'functional'
+
                         return (
-                          <div key={idx}>
+                          <div key={idx} className={isFunctional ? "mb-6" : ""}>
                             <div className="flex items-start justify-between mb-1">
                               <h4 className="font-bold text-gray-900 text-lg">
                                 {exp.job_title}
@@ -1501,9 +1552,11 @@ const JDAnalyzer: React.FC = () => {
                               )}
                             </div>
                             <p className="text-gray-700 font-semibold mb-2">{exp.company_name}</p>
-                            <p className="text-gray-800 leading-relaxed text-justify">
-                              {exp.scope_description}
-                            </p>
+                            {!isFunctional && (
+                              <p className="text-gray-800 leading-relaxed text-justify">
+                                {exp.scope_description}
+                              </p>
+                            )}
                           </div>
                         )
                       })}
