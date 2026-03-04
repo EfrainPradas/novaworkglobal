@@ -975,304 +975,151 @@ const JDAnalyzer: React.FC = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-        <div className="flex items-center justify-between mb-4">
-          <BackButton
-            to={isStandalone ? "/resume-builder" : "/job-search-hub"}
-            label={isStandalone ? "Back to Resume Builder" : "Back to Job Search"}
-            className="pl-0"
-          />
-        </div>
-        <div>
-          <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-            {t('resumeBuilder.steps.target')} - Step 3
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200 py-8">
+      <div className="max-w-7xl mx-auto p-6 space-y-6">
+        {/* Header */}
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+          <div className="flex items-center justify-between mb-4">
+            <BackButton
+              to={isStandalone ? "/resume-builder" : "/job-search-hub"}
+              label={isStandalone ? "Back to Resume Builder" : "Back to Job Search"}
+              className="pl-0"
+            />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Job Description Analyzer
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Extract top keywords from a job description and map them to your resume for ATS optimization
-          </p>
-        </div>
-      </div>
-
-      {/* Resume Tracker Quick Access */}
-      {tailoredResumes.length > 0 && (
-        <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-lg p-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
-                📊 Resume Tracker
-              </h3>
-              <p className="text-sm text-gray-700 dark:text-gray-300">
-                You have <strong>{tailoredResumes.length}</strong> tailored resume{tailoredResumes.length !== 1 ? 's' : ''}.{' '}
-                <strong>{tailoredResumes.filter(tr => tr.status === 'sent').length}</strong> sent,{' '}
-                <strong>{tailoredResumes.filter(tr => tr.status === 'draft').length}</strong> draft.
-              </p>
+          <div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {t('resumeBuilder.steps.target')} - Step 3
             </div>
-            <button
-              onClick={() => navigate('/resume-builder/tracking')}
-              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold transition-colors whitespace-nowrap"
-            >
-              View Full Tracker →
-            </button>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+              Job Description Analyzer
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              Extract top keywords from a job description and map them to your resume for ATS optimization
+            </p>
           </div>
         </div>
-      )}
 
-      {error && (
-        <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded">
-          {error}
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column: Input */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* JD Input Form */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Job Description Input</h2>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Job Title *
-              </label>
-              <input
-                type="text"
-                value={jobTitle}
-                onChange={(e) => setJobTitle(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="Senior Product Manager"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Company Name
-              </label>
-              <input
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
-                placeholder="Google"
-              />
-            </div>
-
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                  Job Description * (paste full text)
-                </label>
-                <button
-                  onClick={async () => {
-                    try {
-                      const text = await navigator.clipboard.readText()
-                      if (text) {
-                        setJdText(text)
-                      } else {
-                        alert('Clipboard is empty')
-                      }
-                    } catch (error) {
-                      alert('Unable to access clipboard. Please paste manually using Ctrl+V')
-                    }
-                  }}
-                  className="flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 transition-all text-sm font-medium"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                  </svg>
-                  Paste from Clipboard
-                </button>
+        {/* Resume Tracker Quick Access */}
+        {tailoredResumes.length > 0 && (
+          <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/20 dark:to-blue-900/20 border-2 border-green-200 dark:border-green-800 rounded-lg p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">
+                  📊 Resume Tracker
+                </h3>
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  You have <strong>{tailoredResumes.length}</strong> tailored resume{tailoredResumes.length !== 1 ? 's' : ''}.{' '}
+                  <strong>{tailoredResumes.filter(tr => tr.status === 'sent').length}</strong> sent,{' '}
+                  <strong>{tailoredResumes.filter(tr => tr.status === 'draft').length}</strong> draft.
+                </p>
               </div>
-              <textarea
-                value={jdText}
-                onChange={(e) => setJdText(e.target.value)}
-                rows={12}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm"
-                placeholder="Paste the complete job description here..."
-              />
-              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                {jdText.length} characters • {jdText.split(/\s+/).filter(w => w).length} words
-              </p>
-            </div>
-
-            <div className="flex gap-3">
               <button
-                onClick={handleAnalyze}
-                disabled={analyzing || !jdText.trim()}
-                className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium"
+                onClick={() => navigate('/resume-builder/tracking')}
+                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold transition-colors whitespace-nowrap"
               >
-                {analyzing ? (
-                  <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Analyzing...
-                  </span>
-                ) : (
-                  '🔍 Analyze JD & Extract Keywords'
-                )}
+                View Full Tracker →
               </button>
-
-              <button
-                onClick={() => navigate('/resume/cover-letter', {
-                  state: {
-                    jobTitle,
-                    companyName,
-                    jobDescription: jdText
-                  }
-                })}
-                disabled={!jdText.trim() || !jobTitle.trim()}
-                title="Generate Cover Letter directly"
-                className="px-4 py-3 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg hover:bg-orange-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
-              >
-                ✉️
-              </button>
-
-              {analysis && (
-                <button
-                  onClick={handleReset}
-                  className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700"
-                >
-                  Reset
-                </button>
-              )}
             </div>
           </div>
+        )}
 
-          {/* Analysis Results */}
-          {analysis && (
+        {error && (
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded">
+            {error}
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column: Input */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* JD Input Form */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Keyword Analysis</h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-gray-600 dark:text-gray-400">Match Score:</span>
-                  <span className={`text-2xl font-bold ${(analysis.match_score || 0) >= 70 ? 'text-green-600 dark:text-green-400' :
-                    (analysis.match_score || 0) >= 50 ? 'text-yellow-600 dark:text-yellow-400' :
-                      'text-red-600 dark:text-red-400'
-                    }`}>
-                    {analysis.match_score}%
-                  </span>
-                </div>
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Job Description Input</h2>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Job Title *
+                </label>
+                <input
+                  type="text"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  placeholder="Senior Product Manager"
+                />
               </div>
 
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Top 15 ATS keywords extracted from the job description
-              </p>
-
-              {/* Debug Info */}
-              <div className="mb-4 p-2 bg-yellow-100 text-xs">
-                <strong>DEBUG:</strong> Total keywords received: {analysis.extracted_keywords.length} |
-                Matched: {analysis.extracted_keywords.filter(k => k.currentMatch).length} |
-                Not matched: {analysis.extracted_keywords.filter(k => !k.currentMatch).length}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                  Company Name
+                </label>
+                <input
+                  type="text"
+                  value={companyName}
+                  onChange={(e) => setCompanyName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                  placeholder="Google"
+                />
               </div>
 
-              {/* Keywords Table - Simplified */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm table-fixed border-collapse border border-gray-300 dark:border-gray-600">
-                  <thead className="bg-gray-50 dark:bg-gray-700">
-                    <tr>
-                      <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Keyword</th>
-                      <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Match</th>
-                      <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Explanation</th>
-                      <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {analysis.extracted_keywords.map((kw, idx) => {
-                      return (
-                        <tr key={idx} className="border border-gray-300 dark:border-gray-600">
-                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 font-medium text-xs">{kw.keyword}</td>
-                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                            {kw.currentMatch ? (
-                              <span className="text-green-600 dark:text-green-400 font-bold text-sm">✓</span>
-                            ) : (
-                              <span className="text-red-600 dark:text-red-400 font-bold text-sm">✗</span>
-                            )}
-                          </td>
-                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-xs">
-                            {kw.currentMatch ? (
-                              <span className="text-green-700">Found in your resume</span>
-                            ) : (
-                              <div>
-                                <span className="text-red-700 font-medium">Not found</span>
-                                {kw.matchReason && (
-                                  <div className="text-gray-600 dark:text-gray-400 italic mt-1" title={kw.matchReason}>
-                                    {kw.matchReason.length > 80 ? `${kw.matchReason.substring(0, 80)}...` : kw.matchReason}
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </td>
-                          <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                            {!kw.currentMatch && (
-                              <button
-                                onClick={() => handleAddKeyword(kw)}
-                                className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
-                              >
-                                + Add to Resume
-                              </button>
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-col gap-4 pt-5 border-t border-gray-200 dark:border-gray-700">
-                <div className="flex flex-wrap items-center gap-6 p-1">
-                  <span className="text-sm font-semibold text-gray-900 dark:text-white">Resume Format:</span>
-                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    <input
-                      type="radio"
-                      name="resumeFormat"
-                      value="chronological"
-                      checked={resumeFormat === 'chronological'}
-                      onChange={() => setResumeFormat('chronological')}
-                      className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
-                    />
-                    Chronological (Standard)
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Job Description * (paste full text)
                   </label>
-                  <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
-                    <input
-                      type="radio"
-                      name="resumeFormat"
-                      value="functional"
-                      checked={resumeFormat === 'functional'}
-                      onChange={() => setResumeFormat('functional')}
-                      className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
-                    />
-                    Functional (Skills First)
-                  </label>
-                </div>
-
-                <div className="flex gap-3">
                   <button
-                    onClick={handleGenerateTailoredResume}
-                    disabled={generating}
-                    className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-colors"
+                    onClick={async () => {
+                      try {
+                        const text = await navigator.clipboard.readText()
+                        if (text) {
+                          setJdText(text)
+                        } else {
+                          alert('Clipboard is empty')
+                        }
+                      } catch (error) {
+                        alert('Unable to access clipboard. Please paste manually using Ctrl+V')
+                      }
+                    }}
+                    className="flex items-center gap-2 px-3 py-1 bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 transition-all text-sm font-medium"
                   >
-                    {generating ? '⏳ Generating...' : '📄 Generate Tailored Resume'}
-                  </button>
-                  <button
-                    onClick={handleEditResumeManually}
-                    className="flex-1 px-6 py-3 border-2 border-primary-600 text-primary-600 dark:text-primary-400 dark:border-primary-500 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-700 font-medium transition-colors"
-                  >
-                    ✏️ Edit Resume to Match (Manually)
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Paste from Clipboard
                   </button>
                 </div>
+                <textarea
+                  value={jdText}
+                  onChange={(e) => setJdText(e.target.value)}
+                  rows={12}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 font-mono text-sm"
+                  placeholder="Paste the complete job description here..."
+                />
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {jdText.length} characters • {jdText.split(/\s+/).filter(w => w).length} words
+                </p>
               </div>
 
-              {/* Cover Letter Action */}
-              <div className="pt-4 border-t">
+              <div className="flex gap-3">
+                <button
+                  onClick={handleAnalyze}
+                  disabled={analyzing || !jdText.trim()}
+                  className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium"
+                >
+                  {analyzing ? (
+                    <span className="flex items-center justify-center gap-2">
+                      <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Analyzing...
+                    </span>
+                  ) : (
+                    '🔍 Analyze JD & Extract Keywords'
+                  )}
+                </button>
+
                 <button
                   onClick={() => navigate('/resume/cover-letter', {
                     state: {
@@ -1281,401 +1128,550 @@ const JDAnalyzer: React.FC = () => {
                       jobDescription: jdText
                     }
                   })}
-                  className="w-full px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium flex items-center justify-center gap-2"
+                  disabled={!jdText.trim() || !jobTitle.trim()}
+                  title="Generate Cover Letter directly"
+                  className="px-4 py-3 bg-orange-100 text-orange-700 border border-orange-200 rounded-lg hover:bg-orange-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
                 >
-                  <span>✉️</span> Generate Cover Letter for this Role
+                  ✉️
                 </button>
+
+                {analysis && (
+                  <button
+                    onClick={handleReset}
+                    className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-700"
+                  >
+                    Reset
+                  </button>
+                )}
               </div>
             </div>
-          )}
-        </div>
 
-        {/* Right Column: Saved Analyses & Tailored Resumes */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* Recent Analyses */}
-          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">📋 Recent Analyses</h3>
+            {/* Analysis Results */}
+            {analysis && (
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">Keyword Analysis</h2>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm text-gray-600 dark:text-gray-400">Match Score:</span>
+                    <span className={`text-2xl font-bold ${(analysis.match_score || 0) >= 70 ? 'text-green-600 dark:text-green-400' :
+                      (analysis.match_score || 0) >= 50 ? 'text-yellow-600 dark:text-yellow-400' :
+                        'text-red-600 dark:text-red-400'
+                      }`}>
+                      {analysis.match_score}%
+                    </span>
+                  </div>
+                </div>
 
-            {savedAnalyses.length === 0 ? (
-              <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
-                No saved analyses yet. Analyze a job description to get started.
-              </p>
-            ) : (
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {savedAnalyses.map((sa) => (
+                <p className="text-sm text-gray-600 dark:text-gray-400">
+                  Top 15 ATS keywords extracted from the job description
+                </p>
+
+                {/* Debug Info */}
+                <div className="mb-4 p-2 bg-yellow-100 text-xs">
+                  <strong>DEBUG:</strong> Total keywords received: {analysis.extracted_keywords.length} |
+                  Matched: {analysis.extracted_keywords.filter(k => k.currentMatch).length} |
+                  Not matched: {analysis.extracted_keywords.filter(k => !k.currentMatch).length}
+                </div>
+
+                {/* Keywords Table - Simplified */}
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm table-fixed border-collapse border border-gray-300 dark:border-gray-600">
+                    <thead className="bg-gray-50 dark:bg-gray-700">
+                      <tr>
+                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Keyword</th>
+                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Match</th>
+                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Explanation</th>
+                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {analysis.extracted_keywords.map((kw, idx) => {
+                        return (
+                          <tr key={idx} className="border border-gray-300 dark:border-gray-600">
+                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 font-medium text-xs">{kw.keyword}</td>
+                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
+                              {kw.currentMatch ? (
+                                <span className="text-green-600 dark:text-green-400 font-bold text-sm">✓</span>
+                              ) : (
+                                <span className="text-red-600 dark:text-red-400 font-bold text-sm">✗</span>
+                              )}
+                            </td>
+                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-xs">
+                              {kw.currentMatch ? (
+                                <span className="text-green-700">Found in your resume</span>
+                              ) : (
+                                <div>
+                                  <span className="text-red-700 font-medium">Not found</span>
+                                  {kw.matchReason && (
+                                    <div className="text-gray-600 dark:text-gray-400 italic mt-1" title={kw.matchReason}>
+                                      {kw.matchReason.length > 80 ? `${kw.matchReason.substring(0, 80)}...` : kw.matchReason}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </td>
+                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
+                              {!kw.currentMatch && (
+                                <button
+                                  onClick={() => handleAddKeyword(kw)}
+                                  className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
+                                >
+                                  + Add to Resume
+                                </button>
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex flex-col gap-4 pt-5 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex flex-wrap items-center gap-6 p-1">
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">Resume Format:</span>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="resumeFormat"
+                        value="chronological"
+                        checked={resumeFormat === 'chronological'}
+                        onChange={() => setResumeFormat('chronological')}
+                        className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                      />
+                      Chronological (Standard)
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="resumeFormat"
+                        value="functional"
+                        checked={resumeFormat === 'functional'}
+                        onChange={() => setResumeFormat('functional')}
+                        className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                      />
+                      Functional (Skills First)
+                    </label>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      onClick={handleGenerateTailoredResume}
+                      disabled={generating}
+                      className="w-full px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed shadow-sm transition-colors"
+                    >
+                      {generating ? '⏳ Generating...' : '📄 Generate Tailored Resume'}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Cover Letter Action */}
+                <div className="pt-4 border-t">
                   <button
-                    key={sa.id}
-                    onClick={() => handleLoadAnalysis(sa)}
-                    className="w-full text-left p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary-400 hover:bg-primary-50 transition"
+                    onClick={() => navigate('/resume/cover-letter', {
+                      state: {
+                        jobTitle,
+                        companyName,
+                        jobDescription: jdText
+                      }
+                    })}
+                    className="w-full px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 font-medium flex items-center justify-center gap-2"
                   >
-                    <div className="font-medium text-gray-900 dark:text-white text-sm">{sa.job_title || 'Untitled Position'}</div>
-                    {sa.company_name && (
-                      <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{sa.company_name}</div>
-                    )}
-                    <div className="flex items-center justify-between mt-2">
-                      <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {new Date(sa.created_at).toLocaleDateString()}
-                      </span>
-                      {sa.extracted_requirements?.match_score && (
-                        <span className={`text-xs font-semibold ${sa.extracted_requirements.match_score >= 70 ? 'text-green-600 dark:text-green-400' :
-                          sa.extracted_requirements.match_score >= 50 ? 'text-yellow-600 dark:text-yellow-400' :
-                            'text-red-600 dark:text-red-400'
-                          }`}>
-                          {sa.extracted_requirements.match_score}% match
-                        </span>
-                      )}
-                    </div>
+                    <span>✉️</span> Generate Cover Letter for this Role
                   </button>
-                ))}
+                </div>
               </div>
             )}
           </div>
 
-          {/* Tailored Resumes Section */}
-          {tailoredResumes.length > 0 && (
-            <div id="tailored-resumes-section" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">📄 Tailored Resumes</h3>
-              <div className="space-y-3 max-h-96 overflow-y-auto">
-                {tailoredResumes.map((tr) => (
-                  <div
-                    key={tr.id}
-                    className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900 dark:text-white text-sm">{tr.job_title || 'Untitled Position'}</div>
-                        {tr.company_name && (
-                          <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{tr.company_name}</div>
-                        )}
-                        <div className="flex items-center gap-2 mt-2">
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {new Date(tr.created_at).toLocaleString()}
-                          </span>
-                          <span className={`text-xs px-2 py-0.5 rounded ${tr.status === 'sent' ? 'bg-green-100 text-green-700' :
-                            tr.status === 'draft' ? 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-gray-700 dark:text-gray-300' :
-                              'bg-blue-100 text-blue-700'
+          {/* Right Column: Saved Analyses & Tailored Resumes */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Recent Analyses */}
+            <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">📋 Recent Analyses</h3>
+
+              {savedAnalyses.length === 0 ? (
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center py-8">
+                  No saved analyses yet. Analyze a job description to get started.
+                </p>
+              ) : (
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {savedAnalyses.map((sa) => (
+                    <button
+                      key={sa.id}
+                      onClick={() => handleLoadAnalysis(sa)}
+                      className="w-full text-left p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-primary-400 hover:bg-primary-50 transition"
+                    >
+                      <div className="font-medium text-gray-900 dark:text-white text-sm">{sa.job_title || 'Untitled Position'}</div>
+                      {sa.company_name && (
+                        <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{sa.company_name}</div>
+                      )}
+                      <div className="flex items-center justify-between mt-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {new Date(sa.created_at).toLocaleDateString()}
+                        </span>
+                        {sa.extracted_requirements?.match_score && (
+                          <span className={`text-xs font-semibold ${sa.extracted_requirements.match_score >= 70 ? 'text-green-600 dark:text-green-400' :
+                            sa.extracted_requirements.match_score >= 50 ? 'text-yellow-600 dark:text-yellow-400' :
+                              'text-red-600 dark:text-red-400'
                             }`}>
-                            {tr.status}
+                            {sa.extracted_requirements.match_score}% match
                           </span>
-                        </div>
-                        {tr.sent_to_company && tr.sent_at && (
-                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                            ✉️ Sent to {tr.sent_to_company} on {new Date(tr.sent_at).toLocaleDateString()}
-                          </div>
                         )}
                       </div>
-                      <div className="flex flex-col gap-2 ml-2">
-                        <button
-                          onClick={() => handleViewResume(tr)}
-                          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
-                        >
-                          👁️ View
-                        </button>
-                        <button
-                          onClick={() => handleExportWord(tr)}
-                          className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
-                        >
-                          📝 Word
-                        </button>
-                        <button
-                          onClick={() => handleExportPDF(tr)}
-                          className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 whitespace-nowrap"
-                        >
-                          📄 PDF
-                        </button>
-                        {tr.status !== 'sent' && (
-                          <button
-                            onClick={() => handleMarkAsSent(tr)}
-                            className="px-3 py-1 text-xs bg-primary-600 text-white rounded hover:bg-primary-700 whitespace-nowrap"
-                          >
-                            ✉️ Mark Sent
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
 
-      {/* Modal: Ver Resume (Opción A) */}
-      {
-        showViewModal && viewingResume && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <div className="sticky top-0 bg-white dark:bg-gray-800 border-b px-6 py-4 flex items-center justify-between">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-                  {viewingResume.job_title} - {viewingResume.company_name}
-                </h2>
-                <button
-                  onClick={() => {
-                    setShowViewModal(false)
-                    setViewingResume(null)
-                  }}
-                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300 text-2xl"
-                >
-                  ×
-                </button>
-              </div>
-
-              <div className="p-8 space-y-8 bg-white dark:bg-gray-800" style={{ fontFamily: 'Georgia, serif' }}>
-                {/* Header with User Info */}
-                {(viewingResume.tailored_bullets?.user_info?.full_name || userId) && (
-                  <div className="text-center border-b-2 border-gray-300 dark:border-gray-600 pb-6 mb-6">
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                      {viewingResume.tailored_bullets.user_info.full_name || 'Your Name'}
-                    </h1>
-                    <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-700 dark:text-gray-300">
-                      {(viewingResume.tailored_bullets.user_info.location_city || viewingResume.tailored_bullets.user_info.location_country) && (
-                        <span>
-                          {[viewingResume.tailored_bullets.user_info.location_city, viewingResume.tailored_bullets.user_info.location_country].filter(Boolean).join(', ')}
-                        </span>
-                      )}
-                      {viewingResume.tailored_bullets.user_info.phone && (
-                        <span>{viewingResume.tailored_bullets.user_info.phone}</span>
-                      )}
-                      {viewingResume.tailored_bullets.user_info.email && (
-                        <span>{viewingResume.tailored_bullets.user_info.email}</span>
-                      )}
-                      {viewingResume.tailored_bullets.user_info.linkedin_url && (
-                        <span>
-                          <a href={viewingResume.tailored_bullets.user_info.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
-                            LinkedIn
-                          </a>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Professional Profile */}
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                    Professional Profile
-                  </h3>
-                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
-                    {viewingResume.tailored_profile || 'N/A'}
-                  </p>
-                </div>
-
-                {/* Areas of Excellence */}
-                <div>
-                  <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                    Areas of Excellence
-                  </h3>
-                  <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                    {(viewingResume.tailored_skills || []).join(' | ')}
-                  </p>
-                </div>
-
-                {/* Key Accomplishments (PAR Stories) */}
-                {viewingResume.tailored_bullets?.par_stories && viewingResume.tailored_bullets.par_stories.length > 0 && (
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                      Key Accomplishments
-                    </h3>
-                    <div className="space-y-5">
-                      {viewingResume.tailored_bullets.par_stories.map((story: any, idx: number) => {
-                        const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
-                        return (
-                          <div key={idx} className="space-y-2">
-                            <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                              <span className="font-semibold text-gray-900 dark:text-white">Problem/Challenge: </span>
-                              {story.problem_challenge}
-                            </p>
-                            <div className="pl-4">
-                              <p className="font-semibold text-gray-900 dark:text-white mb-1">Actions:</p>
-                              <ul className="list-none space-y-1">
-                                {actions.map((action: string, aidx: number) => (
-                                  <li key={aidx} className="text-gray-800 dark:text-gray-200 leading-relaxed flex">
-                                    <span className="mr-2">•</span>
-                                    <span>{action}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                              <span className="font-semibold text-gray-900 dark:text-white">Results: </span>
-                              {story.result}
-                            </p>
+            {/* Tailored Resumes Section */}
+            {tailoredResumes.length > 0 && (
+              <div id="tailored-resumes-section" className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">📄 Tailored Resumes</h3>
+                <div className="space-y-3 max-h-96 overflow-y-auto">
+                  {tailoredResumes.map((tr) => (
+                    <div
+                      key={tr.id}
+                      className="p-4 border border-gray-200 dark:border-gray-700 rounded-lg"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="font-medium text-gray-900 dark:text-white text-sm">{tr.job_title || 'Untitled Position'}</div>
+                          {tr.company_name && (
+                            <div className="text-xs text-gray-600 dark:text-gray-400 mt-1">{tr.company_name}</div>
+                          )}
+                          <div className="flex items-center gap-2 mt-2">
+                            <span className="text-xs text-gray-500 dark:text-gray-400">
+                              {new Date(tr.created_at).toLocaleString()}
+                            </span>
+                            <span className={`text-xs px-2 py-0.5 rounded ${tr.status === 'sent' ? 'bg-green-100 text-green-700' :
+                              tr.status === 'draft' ? 'bg-gray-100 dark:bg-gray-700 dark:text-gray-300 text-gray-700 dark:text-gray-300' :
+                                'bg-blue-100 text-blue-700'
+                              }`}>
+                              {tr.status}
+                            </span>
                           </div>
-                        )
-                      })}
+                          {tr.sent_to_company && tr.sent_at && (
+                            <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                              ✉️ Sent to {tr.sent_to_company} on {new Date(tr.sent_at).toLocaleDateString()}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex flex-col gap-2 ml-2">
+                          <button
+                            onClick={() => handleViewResume(tr)}
+                            className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+                          >
+                            👁️ View
+                          </button>
+                          <button
+                            onClick={() => handleExportWord(tr)}
+                            className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
+                          >
+                            📝 Word
+                          </button>
+                          <button
+                            onClick={() => handleExportPDF(tr)}
+                            className="px-3 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-700 whitespace-nowrap"
+                          >
+                            📄 PDF
+                          </button>
+                          {tr.status !== 'sent' && (
+                            <button
+                              onClick={() => handleMarkAsSent(tr)}
+                              className="px-3 py-1 text-xs bg-primary-600 text-white rounded hover:bg-primary-700 whitespace-nowrap"
+                            >
+                              ✉️ Mark Sent
+                            </button>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
-                {/* Work Experience */}
-                {viewingResume.tailored_bullets?.work_experience && viewingResume.tailored_bullets.work_experience.length > 0 && (
+        {/* Modal: Ver Resume (Opción A) */}
+        {
+          showViewModal && viewingResume && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="sticky top-0 bg-white dark:bg-gray-800 border-b px-6 py-4 flex items-center justify-between">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {viewingResume.job_title} - {viewingResume.company_name}
+                  </h2>
+                  <button
+                    onClick={() => {
+                      setShowViewModal(false)
+                      setViewingResume(null)
+                    }}
+                    className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:text-gray-300 text-2xl"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                <div className="p-8 space-y-8 bg-white dark:bg-gray-800" style={{ fontFamily: 'Georgia, serif' }}>
+                  {/* Header with User Info */}
+                  {(viewingResume.tailored_bullets?.user_info?.full_name || userId) && (
+                    <div className="text-center border-b-2 border-gray-300 dark:border-gray-600 pb-6 mb-6">
+                      <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+                        {viewingResume.tailored_bullets.user_info.full_name || 'Your Name'}
+                      </h1>
+                      <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-sm text-gray-700 dark:text-gray-300">
+                        {(viewingResume.tailored_bullets.user_info.location_city || viewingResume.tailored_bullets.user_info.location_country) && (
+                          <span>
+                            {[viewingResume.tailored_bullets.user_info.location_city, viewingResume.tailored_bullets.user_info.location_country].filter(Boolean).join(', ')}
+                          </span>
+                        )}
+                        {viewingResume.tailored_bullets.user_info.phone && (
+                          <span>{viewingResume.tailored_bullets.user_info.phone}</span>
+                        )}
+                        {viewingResume.tailored_bullets.user_info.email && (
+                          <span>{viewingResume.tailored_bullets.user_info.email}</span>
+                        )}
+                        {viewingResume.tailored_bullets.user_info.linkedin_url && (
+                          <span>
+                            <a href={viewingResume.tailored_bullets.user_info.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
+                              LinkedIn
+                            </a>
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Professional Profile */}
                   <div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                      Work Experience
+                      Professional Profile
                     </h3>
-                    <div className="space-y-5">
-                      {viewingResume.tailored_bullets.work_experience.map((exp: any, idx: number) => {
-                        const formatDate = (dateStr: string | undefined) => {
-                          if (!dateStr) return ''
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                      {viewingResume.tailored_profile || 'N/A'}
+                    </p>
+                  </div>
 
-                          // Handle "YYYY" format (e.g., "2020")
-                          if (/^\d{4}$/.test(dateStr)) {
+                  {/* Areas of Excellence */}
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                      Areas of Excellence
+                    </h3>
+                    <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
+                      {(viewingResume.tailored_skills || []).join(' | ')}
+                    </p>
+                  </div>
+
+                  {/* Key Accomplishments (PAR Stories) */}
+                  {viewingResume.tailored_bullets?.par_stories && viewingResume.tailored_bullets.par_stories.length > 0 && (
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                        Key Accomplishments
+                      </h3>
+                      <div className="space-y-5">
+                        {viewingResume.tailored_bullets.par_stories.map((story: any, idx: number) => {
+                          const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
+                          return (
+                            <div key={idx} className="space-y-2">
+                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
+                                <span className="font-semibold text-gray-900 dark:text-white">Problem/Challenge: </span>
+                                {story.problem_challenge}
+                              </p>
+                              <div className="pl-4">
+                                <p className="font-semibold text-gray-900 dark:text-white mb-1">Actions:</p>
+                                <ul className="list-none space-y-1">
+                                  {actions.map((action: string, aidx: number) => (
+                                    <li key={aidx} className="text-gray-800 dark:text-gray-200 leading-relaxed flex">
+                                      <span className="mr-2">•</span>
+                                      <span>{action}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
+                                <span className="font-semibold text-gray-900 dark:text-white">Results: </span>
+                                {story.result}
+                              </p>
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Work Experience */}
+                  {viewingResume.tailored_bullets?.work_experience && viewingResume.tailored_bullets.work_experience.length > 0 && (
+                    <div>
+                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                        Work Experience
+                      </h3>
+                      <div className="space-y-5">
+                        {viewingResume.tailored_bullets.work_experience.map((exp: any, idx: number) => {
+                          const formatDate = (dateStr: string | undefined) => {
+                            if (!dateStr) return ''
+
+                            // Handle "YYYY" format (e.g., "2020")
+                            if (/^\d{4}$/.test(dateStr)) {
+                              return dateStr
+                            }
+
+                            // Handle "MM/YYYY" format (e.g., "01/2020")
+                            if (/^\d{2}\/\d{4}$/.test(dateStr)) {
+                              return dateStr.split('/')[1]  // Extract year part
+                            }
+
+                            // Handle other potential formats or return as-is
                             return dateStr
                           }
 
-                          // Handle "MM/YYYY" format (e.g., "01/2020")
-                          if (/^\d{2}\/\d{4}$/.test(dateStr)) {
-                            return dateStr.split('/')[1]  // Extract year part
-                          }
+                          const startYear = formatDate(exp.start_date)
+                          const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
+                          const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
 
-                          // Handle other potential formats or return as-is
-                          return dateStr
-                        }
+                          const isFunctional = viewingResume.tailored_bullets?.format_type === 'functional'
 
-                        const startYear = formatDate(exp.start_date)
-                        const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
-                        const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
-
-                        const isFunctional = viewingResume.tailored_bullets?.format_type === 'functional'
-
-                        return (
-                          <div key={idx} className={isFunctional ? "mb-6" : ""}>
-                            <div className="flex items-start justify-between mb-1">
-                              <h4 className="font-bold text-gray-900 dark:text-white text-lg">
-                                {exp.job_title}
-                              </h4>
-                              {dateRange && (
-                                <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold whitespace-nowrap ml-4">
-                                  {dateRange}
-                                </span>
+                          return (
+                            <div key={idx} className={isFunctional ? "mb-6" : ""}>
+                              <div className="flex items-start justify-between mb-1">
+                                <h4 className="font-bold text-gray-900 dark:text-white text-lg">
+                                  {exp.job_title}
+                                </h4>
+                                {dateRange && (
+                                  <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold whitespace-nowrap ml-4">
+                                    {dateRange}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-gray-700 dark:text-gray-300 font-semibold mb-2">{exp.company_name}</p>
+                              {!isFunctional && (
+                                <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                                  {exp.scope_description}
+                                </p>
                               )}
                             </div>
-                            <p className="text-gray-700 dark:text-gray-300 font-semibold mb-2">{exp.company_name}</p>
-                            {!isFunctional && (
-                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
-                                {exp.scope_description}
-                              </p>
-                            )}
-                          </div>
-                        )
-                      })}
+                          )
+                        })}
+                      </div>
                     </div>
-                  </div>
-                )}
-
-                {/* Action Buttons */}
-                <div className="flex gap-3 pt-4 border-t">
-                  <button
-                    onClick={() => handleExportWord(viewingResume)}
-                    className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold flex items-center justify-center gap-2"
-                  >
-                    📝 Word
-                  </button>
-                  <button
-                    onClick={() => handleExportPDF(viewingResume)}
-                    className="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold flex items-center justify-center gap-2"
-                  >
-                    📄 PDF
-                  </button>
-                  {viewingResume.status !== 'sent' && (
-                    <button
-                      onClick={() => {
-                        setShowViewModal(false)
-                        handleMarkAsSent(viewingResume)
-                      }}
-                      className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold"
-                    >
-                      ✉️ Mark as Sent
-                    </button>
                   )}
+
+                  {/* Action Buttons */}
+                  <div className="flex gap-3 pt-4 border-t">
+                    <button
+                      onClick={() => handleExportWord(viewingResume)}
+                      className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold flex items-center justify-center gap-2"
+                    >
+                      📝 Word
+                    </button>
+                    <button
+                      onClick={() => handleExportPDF(viewingResume)}
+                      className="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold flex items-center justify-center gap-2"
+                    >
+                      📄 PDF
+                    </button>
+                    {viewingResume.status !== 'sent' && (
+                      <button
+                        onClick={() => {
+                          setShowViewModal(false)
+                          handleMarkAsSent(viewingResume)
+                        }}
+                        className="flex-1 px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold"
+                      >
+                        ✉️ Mark as Sent
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )
-      }
+          )
+        }
 
-      {/* Modal: Marcar como Enviado (Opción C) */}
-      {
-        showSendModal && viewingResume && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
-              <div className="px-6 py-4 border-b">
-                <h2 className="text-xl font-bold text-gray-900 dark:text-white">Mark Resume as Sent</h2>
-              </div>
-
-              <div className="p-6 space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Job Title
-                  </label>
-                  <input
-                    type="text"
-                    value={viewingResume.job_title}
-                    disabled
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700"
-                  />
+        {/* Modal: Marcar como Enviado (Opción C) */}
+        {
+          showSendModal && viewingResume && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
+                <div className="px-6 py-4 border-b">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">Mark Resume as Sent</h2>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Sent To (Name/Email) *
-                  </label>
-                  <input
-                    type="text"
-                    value={sendToCompany}
-                    onChange={(e) => setSendToCompany(e.target.value)}
-                    placeholder="e.g., John Doe - john@company.com"
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
-                  />
+                <div className="p-6 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Job Title
+                    </label>
+                    <input
+                      type="text"
+                      value={viewingResume.job_title}
+                      disabled
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Sent To (Name/Email) *
+                    </label>
+                    <input
+                      type="text"
+                      value={sendToCompany}
+                      onChange={(e) => setSendToCompany(e.target.value)}
+                      placeholder="e.g., John Doe - john@company.com"
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Send Method
+                    </label>
+                    <select
+                      value={sendMethod}
+                      onChange={(e) => setSendMethod(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                    >
+                      <option value="email">Email</option>
+                      <option value="portal">Company Portal</option>
+                      <option value="linkedin">LinkedIn</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+
+                  <div className="text-sm text-gray-600 dark:text-gray-400 bg-blue-50 p-3 rounded">
+                    <strong>Note:</strong> The current date and time will be recorded as the send date.
+                  </div>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Send Method
-                  </label>
-                  <select
-                    value={sendMethod}
-                    onChange={(e) => setSendMethod(e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500"
+                <div className="px-6 py-4 border-t flex gap-3">
+                  <button
+                    onClick={() => {
+                      setShowSendModal(false)
+                      setSendToCompany('')
+                      setViewingResume(null)
+                    }}
+                    className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-700"
                   >
-                    <option value="email">Email</option>
-                    <option value="portal">Company Portal</option>
-                    <option value="linkedin">LinkedIn</option>
-                    <option value="other">Other</option>
-                  </select>
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleConfirmSent}
+                    className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+                  >
+                    ✉️ Confirm Sent
+                  </button>
                 </div>
-
-                <div className="text-sm text-gray-600 dark:text-gray-400 bg-blue-50 p-3 rounded">
-                  <strong>Note:</strong> The current date and time will be recorded as the send date.
-                </div>
-              </div>
-
-              <div className="px-6 py-4 border-t flex gap-3">
-                <button
-                  onClick={() => {
-                    setShowSendModal(false)
-                    setSendToCompany('')
-                    setViewingResume(null)
-                  }}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:bg-gray-700"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleConfirmSent}
-                  className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
-                >
-                  ✉️ Confirm Sent
-                </button>
               </div>
             </div>
-          </div>
-        )
-      }
-    </div >
+          )
+        }
+      </div>
+    </div>
   )
 }
 
-export default JDAnalyzer
+export default JDAnalyzer;
