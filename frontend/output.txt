@@ -1,0 +1,30 @@
+Querying database as Admin (bypassing RLS)...
+Total par_stories in DB: 4
+Stories count by user_id: { 'c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c': 4 }
+Stories for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c: 4
+[
+  {
+    id: '06bdc8e4-1d9c-4c98-bc4d-3dcf77f0a424',
+    user_id: 'c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c',
+    status: 'ready',
+    role_title: 'Global Sales Analyst at Modere'
+  },
+  {
+    id: '42e1bf3a-1d77-4493-999c-c9462dd65fe6',
+    user_id: 'c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c',
+    status: 'ready',
+    role_title: 'Data Analyst, Modere (Springville, UT)'
+  },
+  {
+    id: '8538cdac-90b7-49d2-a2ef-55368900d0a8',
+    user_id: 'c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c',
+    status: 'ready',
+    role_title: 'Reporting Analyst / Data Analyst at Entrata (SaaS)'
+  },
+  {
+    id: '44a80af0-9b33-4874-b7cc-aafff5d4e707',
+    user_id: 'c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c',
+    status: 'draft',
+    role_title: 'Data Analyst'
+  }
+]
