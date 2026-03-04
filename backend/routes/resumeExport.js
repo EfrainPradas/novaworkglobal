@@ -366,7 +366,7 @@ router.get('/:userId/docx', async (req, res) => {
         const filename = (resume.full_name || 'Resume').replace(/[^a-z0-9]/gi, '_').toLowerCase();
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        res.setHeader('Content-Disposition', `attachment; filename=${filename}_resume.docx`);
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}_resume.docx"`);
         res.send(buffer);
 
     } catch (error) {

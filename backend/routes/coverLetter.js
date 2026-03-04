@@ -241,7 +241,7 @@ router.post('/export/word', requireAuth, async (req, res) => {
 
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
         const filename = `Cover_Letter_${(companyName || 'Company').replace(/\s+/g, '_')}_${(jobTitle || 'Role').replace(/\s+/g, '_')}.docx`
-        res.setHeader('Content-Disposition', `attachment; filename=${filename}`)
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`)
 
         res.send(buffer)
     } catch (error) {
