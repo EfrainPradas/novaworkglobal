@@ -21,7 +21,7 @@ const EXAMPLES = [
     { role: 'Product Manager', text: 'Spearheaded the launch of a new mobile app feature by conducting user research, defining requirements, and collaborating with cross-functional teams, resulting in a 25% increase in daily active users and $1.2M in new annual recurring revenue.' }
 ]
 
-export default function StoryCardsManager() {
+export default function StoryCardsManager({ isNested = false }: { isNested?: boolean }) {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
@@ -445,29 +445,31 @@ export default function StoryCardsManager() {
     }
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-gray-900 p-4 md:p-8 font-sans">
+        <div className={`${isNested ? 'pb-8 md:pb-16 px-4 md:px-8' : 'min-h-screen p-4 md:p-8'} bg-transparent font-sans`}>
             <div className="max-w-[1440px] mx-auto">
                 {/* Navigation Header */}
-                <div className="flex items-center justify-between mb-6">
-                    <button
-                        onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/accomplishment-library')}
-                        className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors text-sm font-medium"
-                    >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('common.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.par.backToResumeBuilder') || 'Back to Accomplishment Bank'}
-                    </button>
-                    {!isStandalone && (
+                {!isNested && (
+                    <div className="flex items-center justify-between mb-6">
                         <button
-                            onClick={async () => {
-                                await trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'questionnaire' })
-                                navigate('/resume/questionnaire')
-                            }}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/accomplishment-library')}
+                            className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors text-sm font-medium"
                         >
-                            {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
-                            <ArrowRight className="w-4 h-4" />
+                            <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('common.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.par.backToResumeBuilder') || 'Back to Accomplishment Bank'}
                         </button>
-                    )}
-                </div>
+                        {!isStandalone && (
+                            <button
+                                onClick={async () => {
+                                    await trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'questionnaire' })
+                                    navigate('/resume/questionnaire')
+                                }}
+                                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            >
+                                {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
+                )}
 
 
 

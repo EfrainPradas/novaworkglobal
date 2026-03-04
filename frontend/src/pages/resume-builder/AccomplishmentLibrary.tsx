@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import ResumePreview from '../../components/resume/ResumePreview'
 import { trackEvent } from '../../lib/analytics'
 
-export default function AccomplishmentLibrary() {
+export default function AccomplishmentLibrary({ isNested = false }: { isNested?: boolean }) {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
@@ -252,27 +252,29 @@ export default function AccomplishmentLibrary() {
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+            <div className={`${isNested ? 'pb-8 md:pb-16' : 'min-h-screen py-8'} bg-transparent px-4 sm:px-6 lg:px-8`}>
                 <div className="max-w-5xl mx-auto space-y-6">
 
                     {/* Header */}
-                    <div className="flex items-center justify-between mb-2">
-                        <button
-                            onClick={() => navigate('/resume-builder')}
-                            className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
-                        >
-                            <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
-                        </button>
-
-                        {!isStandalone && (
+                    {!isNested && (
+                        <div className="flex items-center justify-between mb-2">
                             <button
-                                onClick={handleContinue}
-                                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                onClick={() => navigate('/resume-builder')}
+                                className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
                             >
-                                Next: CAR Stories <ArrowRight className="w-4 h-4" />
+                                <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
                             </button>
-                        )}
-                    </div>
+
+                            {!isStandalone && (
+                                <button
+                                    onClick={handleContinue}
+                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                >
+                                    Next: CARs <ArrowRight className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+                    )}
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="space-y-1">

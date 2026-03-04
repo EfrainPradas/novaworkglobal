@@ -30,6 +30,7 @@ import WorkExperienceBuilder from './pages/resume-builder/WorkExperienceBuilder'
 import CARStoryBuilder from './pages/resume-builder/CARStoryBuilder'
 import ProfileBuilder from './pages/resume-builder/ProfileBuilder'
 import AccomplishmentLibrary from './pages/resume-builder/AccomplishmentLibrary'
+import AccomplishmentsHub from './pages/resume-builder/AccomplishmentsHub'
 import JDAnalyzer from './pages/resume-builder/JDAnalyzer'
 import ResumeTracking from './pages/resume-builder/ResumeTracking'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
@@ -119,6 +120,7 @@ function App() {
           <Route path="/resume/work-experience" element={<WorkExperienceBuilder />} />
           <Route path="/resume/car-stories" element={<CARStoryBuilder />} />
           <Route path="/resume/accomplishment-library" element={<AccomplishmentLibrary />} />
+          <Route path="/resume/accomplishments-hub" element={<AccomplishmentsHub />} />
           <Route path="/resume/profile" element={<ProfileBuilder />} />
           <Route path="/resume/jd-analyzer" element={<JDAnalyzer />} />
           <Route path="/resume/tracking" element={<ResumeTracking />} />

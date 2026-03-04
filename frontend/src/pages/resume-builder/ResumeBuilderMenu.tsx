@@ -206,28 +206,16 @@ export default function ResumeBuilderMenu() {
       borderColor: 'border-emerald-200'
     },
     {
-      id: 'accomplishment-bank',
-      title: 'Accomplishment Bank',
-      description: 'Import and organize accomplishments directly from your resume.',
+      id: 'accomplishments-hub',
+      title: 'Accomplishment Bank & CARs',
+      description: 'Import, manage, and transform your accomplishments into powerful CARs.',
       icon: Trophy,
-      route: '/resume/accomplishment-library?mode=standalone',
-      completed: completedSteps.has('accomplishment-bank'),
-      current: (completedSteps.has('work-history') && completedSteps.has('education')) && !completedSteps.has('accomplishment-bank'),
+      route: '/resume/accomplishments-hub?mode=standalone',
+      completed: completedSteps.has('accomplishment-bank') && completedSteps.has('story-cards'),
+      current: (completedSteps.has('work-history') && completedSteps.has('education')) && (!completedSteps.has('accomplishment-bank') || !completedSteps.has('story-cards')),
       color: 'text-amber-600',
       bgColor: 'bg-amber-50',
       borderColor: 'border-amber-200'
-    },
-    {
-      id: 'accomplishments',
-      title: 'CAR Stories',
-      description: 'Transform your accomplishments into powerful CAR Stories.',
-      icon: Star,
-      route: '/resume/story-cards?mode=standalone',
-      completed: completedSteps.has('story-cards'),
-      current: completedSteps.has('accomplishment-bank') && !completedSteps.has('story-cards'),
-      color: 'text-purple-600',
-      bgColor: 'bg-purple-50',
-      borderColor: 'border-purple-200'
     },
     {
       id: 'professional-profile',
