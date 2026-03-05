@@ -74,6 +74,9 @@ import LandingPageV2 from './pages/LandingPageV2'
 // Settings
 import DataManagement from './pages/settings/DataManagement'
 
+// Admin & System
+import TranslationEditor from './pages/admin/TranslationEditor'
+
 // 404 Component
 function NotFound() {
   return (
@@ -180,6 +183,9 @@ function App() {
         <Route path="/weekly-reinvention/monday-ritual" element={<MondayRitual />} />
         <Route path="/weekly-reinvention/friday-ritual" element={<FridayRitual />} />
         <Route path="/weekly-reinvention/progress" element={<ProgressDashboard />} />
+
+        {/* Hidden Admin Routes */}
+        <Route path="/admin/translations" element={<TranslationEditor />} />
 
         {/* Legacy Routes - Redirect to new structure */}
         <Route path="/resume-builder/car-stories" element={<CARStoryBuilder />} />

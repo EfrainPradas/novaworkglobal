@@ -55,7 +55,10 @@
     "subtitle": "Claridad. Dirección. Impulso.",
     "description": "NovaWork Global ayuda a profesionales a navegar el cambio de carrera con un sistema probado que combina la experiencia humana práctica en coaching de carrera con herramientas inteligentes de IA, para que avances con confianza y claridad.",
     "ctaStart": "Comienza tu Viaje",
-    "ctaExplore": "Explorar Programas"
+    "ctaExplore": "Explorar Programas",
+    "hero": {
+      "ctaExplore": "Explorar Programs"
+    }
   },
   "trust": {
     "title": "Con la Confianza de Profesionales en Todo el Mundo",
@@ -127,7 +130,7 @@
   },
   "cta": {
     "title": "¿Listo para Empezar tu Próximo Capítulo Profesional?",
-    "subtitle": "Únete a miles de profesionales que han transformado sus carreras con NovaWork Global",
+    "subtitle": "Únete a los miles de profesionales que han transformado sus carreras con NovaWork Global",
     "button": "Encuentra tu Camino →"
   },
   "footer": {

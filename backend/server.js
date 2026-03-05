@@ -16,6 +16,7 @@ import processMiningRoutes from './routes/processMining.js'
 import resumeExportRoutes from './routes/resumeExport.js'
 import contactProfileRoutes from './routes/contactProfile.js'
 import positioningQuestionnaireRoutes from './routes/positioningQuestionnaire.js'
+import translationsRoutes from './routes/translations.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -96,13 +97,18 @@ app.use('/api/interviews', interviewRoutes)
 app.use('/api/weekly-reinvention', weeklyReinventionRoutes)
 app.use('/api/jd-analyzer', jdAnalyzerRoutes)
 app.use('/api/ai', accomplishmentsRoutes)
-app.use('/api', resumeParserRoutes)
 app.use('/api/cover-letter', coverLetterRoutes)
-app.use('/api', profileGeneratorRoutes)
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/accomplishment-bank', accomplishmentBankRoutes)
-app.use('/api', contactProfileRoutes)
 app.use('/api/process-mining', processMiningRoutes)
+
+// Admin / Unauthenticated tools (mount before generic /api)
+app.use('/api/translations', translationsRoutes)
+
+// Generically mounted routes (these often contain internal requireAuth that intercepts all /api/* requests)
+app.use('/api', resumeParserRoutes)
+app.use('/api', profileGeneratorRoutes)
+app.use('/api', contactProfileRoutes)
 app.use('/api', positioningQuestionnaireRoutes)
 
 // Health check endpoint
