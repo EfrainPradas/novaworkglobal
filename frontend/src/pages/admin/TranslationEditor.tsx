@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Save, AlertCircle, RefreshCw, Languages, Search, ChevronRight } from 'lucide-react'
+import { Save, AlertCircle, RefreshCw, Languages, Search, ChevronRight, Download } from 'lucide-react'
 
 // Adjust this URL for dev/prod accordingly
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 const SUPPORTED_LANGS = ['en', 'es', 'fr', 'it', 'pt']
+const LANG_LABELS: Record<string, string> = { en: 'English', es: 'Spanish', fr: 'French', it: 'Italian', pt: 'Portuguese' }
 
 export default function TranslationEditor() {
     const [screens, setScreens] = useState<Record<string, Record<string, Record<string, string>>>>({})
@@ -99,6 +100,26 @@ export default function TranslationEditor() {
                             <h1 className="text-3xl font-bold">i18n Translation Editor</h1>
                             <p className="text-gray-500 dark:text-gray-400">Directly modify locale JSON files by screen.</p>
                         </div>
+                        <button
+                            onClick={async () => {
+                                for (const lang of SUPPORTED_LANGS) {
+                                    try {
+                                        const res = await fetch(`${API_BASE_URL}/api/translations/download/${lang}`)
+                                        const blob = await res.blob()
+                                        const url = URL.createObjectURL(blob)
+                                        const a = document.createElement('a')
+                                        a.href = url
+                                        a.download = `${lang}.json`
+                                        a.click()
+                                        URL.revokeObjectURL(url)
+                                    } catch (err) { console.error(err) }
+                                }
+                            }}
+                            className="ml-auto px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center gap-2 text-sm font-medium transition-colors"
+                        >
+                            <Download className="w-4 h-4" />
+                            Download All JSONs
+                        </button>
                     </div>
                 </div>
 
