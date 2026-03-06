@@ -644,6 +644,16 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                     .eq('user_id', clientId)
                     .order('created_at', { ascending: false })
                 setModuleData(data)
+            } else if (moduleTitle === 'Professional Profile') {
+                const { data } = await supabase
+                    .from('generated_professional_profile')
+                    .select('*')
+                    .eq('user_id', clientId)
+                    .order('version', { ascending: false })
+                    .limit(1)
+                    .maybeSingle()
+
+                setModuleData(data)
             }
         } catch (err) {
             console.error('Error loading module details:', err)
@@ -1447,10 +1457,99 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                             )
                                         })()}
 
-                                        {expandedModule === 'Professional Profile' && (
-                                            <div style={{ textAlign: 'center', padding: '20px 0' }}>
-                                                <div style={{ fontSize: 24, marginBottom: 10 }}>📋</div>
-                                                <p style={{ color: '#64748b' }}>Complete questionnaire and generated profile view is integrated into individual module details.</p>
+                                        {expandedModule === 'Professional Profile' && moduleData && (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+                                                {/* Identity Sentence */}
+                                                {(moduleData.output_identity_sentence || moduleData.output_blended_value_sentence) && (
+                                                    <div style={{ background: '#f8fafc', padding: 20, borderRadius: 12, border: '1px solid #e2e8f0' }}>
+                                                        {moduleData.output_identity_sentence && (
+                                                            <div style={{ marginBottom: moduleData.output_blended_value_sentence ? 16 : 0 }}>
+                                                                <div style={{ fontSize: 11, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>Identity Sentence</div>
+                                                                <div style={{ fontSize: 16, color: '#0f172a', fontWeight: 600, lineHeight: 1.5 }}>
+                                                                    "{moduleData.output_identity_sentence}"
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                        {moduleData.output_blended_value_sentence && (
+                                                            <div>
+                                                                <div style={{ fontSize: 11, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>Blended Value Sentence</div>
+                                                                <div style={{ fontSize: 14, color: '#334155', fontWeight: 500, lineHeight: 1.5 }}>
+                                                                    {moduleData.output_blended_value_sentence}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                {/* Competency Paragraph & Areas of Excellence */}
+                                                <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 2fr) minmax(0, 1fr)', gap: 24 }}>
+                                                    {moduleData.output_competency_paragraph && (
+                                                        <div>
+                                                            <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginBottom: 10 }}>Competency Paragraph</div>
+                                                            <div style={{ fontSize: 13, color: '#475569', lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>
+                                                                {moduleData.output_competency_paragraph}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {moduleData.output_areas_of_excellence && (
+                                                        <div>
+                                                            <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginBottom: 10 }}>Areas of Excellence (ATS)</div>
+                                                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                                {moduleData.output_areas_of_excellence.split('|').map((area: string, i: number) => {
+                                                                    const trimmed = area.trim()
+                                                                    if (!trimmed) return null
+                                                                    return (
+                                                                        <span key={i} style={{ background: '#e0e7ff', color: '#4f46e5', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600 }}>
+                                                                            {trimmed}
+                                                                        </span>
+                                                                    )
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Skills Section */}
+                                                {moduleData.output_skills_section && (
+                                                    <div>
+                                                        <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', marginBottom: 12, borderBottom: '1px solid #e2e8f0', paddingBottom: 8 }}>Skills & Tools</div>
+                                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 20 }}>
+                                                            {moduleData.output_skills_section.tools_platforms && moduleData.output_skills_section.tools_platforms.length > 0 && (
+                                                                <div>
+                                                                    <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 8 }}>Tools & Platforms</div>
+                                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                                        {moduleData.output_skills_section.tools_platforms.map((skill: string, i: number) => (
+                                                                            <span key={i} style={{ background: '#f1f5f9', color: '#475569', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600 }}>{skill}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {moduleData.output_skills_section.methodologies && moduleData.output_skills_section.methodologies.length > 0 && (
+                                                                <div>
+                                                                    <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 8 }}>Methodologies</div>
+                                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                                        {moduleData.output_skills_section.methodologies.map((skill: string, i: number) => (
+                                                                            <span key={i} style={{ background: '#f1f5f9', color: '#475569', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600 }}>{skill}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                            {moduleData.output_skills_section.languages && moduleData.output_skills_section.languages.length > 0 && (
+                                                                <div>
+                                                                    <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 8 }}>Languages</div>
+                                                                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                                        {moduleData.output_skills_section.languages.map((skill: string, i: number) => (
+                                                                            <span key={i} style={{ background: '#f1f5f9', color: '#475569', padding: '4px 10px', borderRadius: 6, fontSize: 12, fontWeight: 600 }}>{skill}</span>
+                                                                        ))}
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
+
                                             </div>
                                         )}
                                     </div>
