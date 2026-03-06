@@ -13,6 +13,12 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MiB
         cleanupOutdatedCaches: true,
+        runtimeCaching: [
+          {
+            urlPattern: /\.(?:mp4|webm)$/i,
+            handler: 'NetworkOnly',
+          }
+        ]
       },
       devOptions: {
         enabled: true
