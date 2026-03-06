@@ -228,7 +228,7 @@ export default function Dashboard() {
       locked: !canAccess('momentum'),
       started: careerVisionStatus.started,
       completed: careerVisionStatus.completed,
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`)
+      videoSrc: '/videos/AI_and_Your_Career_Path-EN.mp4'
     },
     {
       id: 'resume-builder',
@@ -241,7 +241,7 @@ export default function Dashboard() {
       locked: false,
       started: hasProfile || workExperienceCount > 0,
       completed: hasProfile && workExperienceCount > 0 && parStoriesCount > 0,
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Master Your Resume in 6 Steps_720p_caption.mp4`)
+      videoSrc: '/videos/Master_Your_Resume_in_6_Steps.mp4'
     },
     {
       id: 'job-search',
@@ -254,7 +254,7 @@ export default function Dashboard() {
       locked: !canAccess('momentum'),
       started: tailoredResumesCount > 0,
       completed: sentResumesCount > 0,
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/IMR-EN.mp4`)
+      videoSrc: '/videos/IMR-EN.mp4'
     },
     {
       id: 'interview',
@@ -267,7 +267,7 @@ export default function Dashboard() {
       locked: !canAccess('executive'),
       started: false,
       completed: false,
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`)
+      videoSrc: '/videos/Your_Interview_Playbook-EN.mp4'
     }
   ]
 
