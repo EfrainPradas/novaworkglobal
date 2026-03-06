@@ -37,7 +37,7 @@ export default function PhoenixLoader({ message, size = 'md' }: PhoenixLoaderPro
                         playsInline
                         className="w-full h-full object-contain"
                     >
-                        <source src="/videos/NovaWorkGlobal Flying.mp4" type="video/mp4" />
+                        <source src="/videos/novaworkglobal-flying.mp4" type="video/mp4" />
                     </video>
                 </div>
             </div>

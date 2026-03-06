@@ -47,7 +47,7 @@ export default function SplashScreen({ onFinished }: SplashScreenProps) {
                     playsInline
                     className="w-64 h-64 object-contain"
                 >
-                    <source src="/videos/NovaWorkGlobal Flying.mp4" type="video/mp4" />
+                    <source src="/videos/novaworkglobal-flying.mp4" type="video/mp4" />
                 </video>
             </div>
         </div>
