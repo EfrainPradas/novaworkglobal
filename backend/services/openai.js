@@ -467,8 +467,29 @@ function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, comp
     prompt += `\n**STRATEGIC POSITIONING (Context)**:\n`
     prompt += `- Target Title: ${positioning.identity_target_title || 'N/A'}\n`
     if (positioning.trusted_problems) prompt += `- Focus Area (Problems Solved): ${positioning.trusted_problems}\n`
-    if (positioning.strengths?.length) prompt += `- Key Strengths: ${positioning.strengths.join(', ')}\n`
-    if (positioning.impact_types?.length) prompt += `- Primary Impact: ${positioning.impact_types.join(', ')}\n`
+    if (Array.isArray(positioning.strengths) && positioning.strengths.length > 0) {
+      prompt += `- Key Strengths: ${positioning.strengths.join(', ')}\n`
+    } else if (typeof positioning.strengths === 'string' && positioning.strengths.length > 0) {
+      try {
+        const parsed = JSON.parse(positioning.strengths);
+        if (Array.isArray(parsed)) prompt += `- Key Strengths: ${parsed.join(', ')}\n`;
+        else prompt += `- Key Strengths: ${positioning.strengths}\n`;
+      } catch (e) {
+        prompt += `- Key Strengths: ${positioning.strengths}\n`;
+      }
+    }
+
+    if (Array.isArray(positioning.impact_types) && positioning.impact_types.length > 0) {
+      prompt += `- Primary Impact: ${positioning.impact_types.join(', ')}\n`
+    } else if (typeof positioning.impact_types === 'string' && positioning.impact_types.length > 0) {
+      try {
+        const parsed = JSON.parse(positioning.impact_types);
+        if (Array.isArray(parsed)) prompt += `- Primary Impact: ${parsed.join(', ')}\n`;
+        else prompt += `- Primary Impact: ${positioning.impact_types}\n`;
+      } catch (e) {
+        prompt += `- Primary Impact: ${positioning.impact_types}\n`;
+      }
+    }
     if (positioning.scale_budget || positioning.scale_team_size) {
       const scale = [positioning.scale_budget, positioning.scale_team_size].filter(Boolean).join(', ')
       prompt += `- Operational Scale: ${scale}\n`
