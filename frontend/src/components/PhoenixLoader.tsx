@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { Loader2 } from 'lucide-react'
 
 interface PhoenixLoaderProps {
     /** Optional message to display below the video */
@@ -14,31 +14,22 @@ const sizeClasses = {
 }
 
 export default function PhoenixLoader({ message, size = 'md' }: PhoenixLoaderProps) {
-    const videoRef = useRef<HTMLVideoElement>(null)
-
-    useEffect(() => {
-        // Ensure the video loops
-        const video = videoRef.current
-        if (video) {
-            video.play().catch(() => { })
-        }
-    }, [])
-
     return (
         <div className="flex flex-col items-center justify-center gap-4 py-8">
             <div className="relative">
-                {/* Black circle background to match the video */}
-                <div className={`${sizeClasses[size]} rounded-full bg-black flex items-center justify-center overflow-hidden`}>
-                    <video
-                        ref={videoRef}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
-                        className="w-full h-full object-contain"
-                    >
-                        <source src="/videos/novaworkglobal-flying.mp4?v=final" type="video/mp4" />
-                    </video>
+                <div className={`${sizeClasses[size]} rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center overflow-hidden relative shadow-inner`}>
+                    {/* Pulsing background */}
+                    <div className="absolute inset-0 bg-indigo-500/10 animate-pulse rounded-full" />
+
+                    {/* Spinning ring */}
+                    <Loader2 className="absolute inset-0 w-full h-full text-indigo-400/50 animate-spin-slow object-cover p-1" strokeWidth={1} />
+
+                    {/* Static Branding Logo inside */}
+                    <img
+                        src="/NovaWork Global Icon.png"
+                        alt="NovaWork Global"
+                        className="w-1/2 h-1/2 object-contain relative z-10"
+                    />
                 </div>
             </div>
             {message && (
