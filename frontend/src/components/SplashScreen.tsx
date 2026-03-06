@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
-import phoenixVideo from '../assets/videos/novaworkglobal-flying.mp4'
 
 interface SplashScreenProps {
     onFinished: () => void
@@ -49,7 +48,7 @@ export default function SplashScreen({ onFinished }: SplashScreenProps) {
                     playsInline
                     className="w-64 h-64 object-contain"
                 >
-                    <source src={phoenixVideo} type="video/mp4" />
+                    <source src="/videos/novaworkglobal-flying.mp4?v=3" type="video/mp4" />
                 </video>
             </div>
         </div>

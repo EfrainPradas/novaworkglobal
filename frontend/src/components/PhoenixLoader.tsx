@@ -1,5 +1,4 @@
 import { useRef, useEffect } from 'react'
-import phoenixVideo from '../assets/videos/novaworkglobal-flying.mp4'
 
 interface PhoenixLoaderProps {
     /** Optional message to display below the video */
@@ -38,7 +37,7 @@ export default function PhoenixLoader({ message, size = 'md' }: PhoenixLoaderPro
                         playsInline
                         className="w-full h-full object-contain"
                     >
-                        <source src={phoenixVideo} type="video/mp4" />
+                        <source src="/videos/novaworkglobal-flying.mp4?v=3" type="video/mp4" />
                     </video>
                 </div>
             </div>
