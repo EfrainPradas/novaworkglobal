@@ -79,14 +79,23 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
                 const apiUrl = import.meta.env.VITE_API_URL || ''
                 const { data: { session } } = await supabase.auth.getSession()
 
-                const response = await fetch(`${apiUrl}/api/ai/generate-accomplishments`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${session?.access_token}`
-                    },
-                    body: JSON.stringify(payload)
-                })
+                const controller = new AbortController()
+                const timeoutId = setTimeout(() => controller.abort(), 45000)
+
+                let response;
+                try {
+                    response = await fetch(`${apiUrl}/api/ai/generate-accomplishments`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${session?.access_token}`
+                        },
+                        body: JSON.stringify(payload),
+                        signal: controller.signal
+                    })
+                } finally {
+                    clearTimeout(timeoutId)
+                }
 
                 if (!response.ok) {
                     throw new Error(`Failed to generate bullets for: ${story.title || 'Untitled'}`)

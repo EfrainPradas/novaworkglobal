@@ -13,7 +13,12 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MiB
         cleanupOutdatedCaches: true,
+        navigateFallbackDenylist: [/^\/api/, /^\/novaworkglobal-api/],
         runtimeCaching: [
+          {
+            urlPattern: /\/api\//,
+            handler: 'NetworkOnly',
+          },
           {
             urlPattern: /\.(?:mp4|webm)$/i,
             handler: 'NetworkOnly',
