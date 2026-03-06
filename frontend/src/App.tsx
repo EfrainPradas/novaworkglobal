@@ -77,6 +77,10 @@ import DataManagement from './pages/settings/DataManagement'
 // Admin & System
 import TranslationEditor from './pages/admin/TranslationEditor'
 
+// Coach
+import CoachRoute from './components/auth/CoachRoute'
+import CoachDashboard from './pages/coach/CoachDashboard'
+
 // 404 Component
 function NotFound() {
   return (
@@ -183,6 +187,11 @@ function App() {
         <Route path="/weekly-reinvention/monday-ritual" element={<MondayRitual />} />
         <Route path="/weekly-reinvention/friday-ritual" element={<FridayRitual />} />
         <Route path="/weekly-reinvention/progress" element={<ProgressDashboard />} />
+
+        {/* Coach-Only Routes */}
+        <Route element={<CoachRoute />}>
+          <Route path="/coach" element={<CoachDashboard />} />
+        </Route>
 
         {/* Hidden Admin Routes */}
         <Route path="/admin/translations" element={<TranslationEditor />} />

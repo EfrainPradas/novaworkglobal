@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { User, Settings, LogOut, Moon, Sun, ChevronDown, Copy, UserCircle, Globe } from 'lucide-react'
+import { User, Settings, LogOut, Moon, Sun, ChevronDown, Copy, UserCircle, Globe, TrendingUp } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { supabase } from '../../lib/supabase'
 import i18n from '../../i18n/config'
@@ -16,9 +16,28 @@ interface UserMenuProps {
 export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }: UserMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [isCoach, setIsCoach] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const { theme, toggleTheme } = useTheme()
+
+  // Check if user is a coach
+  useEffect(() => {
+    const checkCoachStatus = async () => {
+      if (!user?.id) return
+      try {
+        const { data } = await supabase
+          .from('users')
+          .select('is_coach')
+          .eq('id', user.id)
+          .single()
+        setIsCoach(data?.is_coach === true)
+      } catch (err) {
+        console.error('Error checking coach status:', err)
+      }
+    }
+    checkCoachStatus()
+  }, [user?.id])
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -152,6 +171,27 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   </div>
                 </div>
               </div>
+
+              {/* Coach Dashboard Access — Only visible to coaches */}
+              {isCoach && (
+                <div className="border-b border-gray-200 dark:border-gray-700">
+                  <button
+                    onClick={() => {
+                      navigate('/coach')
+                      setIsOpen(false)
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 text-amber-700 dark:text-amber-400 hover:from-amber-100 hover:to-orange-100 dark:hover:from-amber-900/30 dark:hover:to-orange-900/30 transition-all"
+                  >
+                    <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                      <TrendingUp className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <div className="text-left">
+                      <span className="block">Coach Dashboard</span>
+                      <span className="text-xs text-amber-600/70 dark:text-amber-400/70 font-normal">Manage your clients</span>
+                    </div>
+                  </button>
+                </div>
+              )}
 
               {/* Menu Items */}
               <div className="py-2">

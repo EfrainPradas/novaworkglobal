@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { PositioningQuestionnaire as QuestionnaireType, GeneratedProfessionalProfile } from '../../types/resume'
 import GeneratedProfileView from '../../components/resume-builder/GeneratedProfileView'
 import { trackEvent } from '../../lib/analytics'
+import PhoenixLoader from '../../components/PhoenixLoader'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
@@ -257,6 +258,14 @@ export default function PositioningQuestionnairePage() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
                 <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+            </div>
+        )
+    }
+
+    if (generating) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+                <PhoenixLoader size="lg" message="Generating your Professional Profile..." />
             </div>
         )
     }

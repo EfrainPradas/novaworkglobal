@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { ArrowLeft, Plus, Search, Trophy, Briefcase, Star, Link2, Pencil, Trash2, X, Loader2, ArrowRight, Wand2, Copy, BookOpen, Sparkles, Filter, ChevronDown, Calendar, CheckSquare, Tag, RotateCw, PlusCircle } from 'lucide-react'
+import { AIAccomplishmentExtractor } from '../../components/resume-builder/AIAccomplishmentExtractor'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
 import { CARStory, COMPETENCIES } from '../../types/resume'
 import { useTranslation } from 'react-i18next'
-import { AIAccomplishmentExtractor } from '../../components/resume-builder/AIAccomplishmentExtractor'
 
 const ACTION_VERBS = {
     'Leadership & Management': ['Directed', 'Executed', 'Guided', 'Managed', 'Orchestrated', 'Spearheaded'],
@@ -45,6 +45,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     const [isGrouping, setIsGrouping] = useState(false)
     const [aiGroups, setAiGroups] = useState<{ theme: string, storyIds: string[] }[]>([])
     const [showAIAccomplishmentExtractor, setShowAIAccomplishmentExtractor] = useState(false)
+    const [extractorStories, setExtractorStories] = useState<CARStory[]>([])
 
     // AI Strategic Chat state
     const [customPrompt, setCustomPrompt] = useState('')
@@ -124,7 +125,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 for (const resume of resumes) {
                     const { data: weData } = await supabase
                         .from('work_experience')
-                        .select('id, job_title, company_name')
+                        .select('id, job_title, company_name, start_date, end_date')
                         .eq('resume_id', resume.id)
                         .order('start_date', { ascending: false })
 
@@ -135,7 +136,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
             if (allWorkExps.length === 0) {
                 const { data: legacyWE } = await supabase
                     .from('work_experience')
-                    .select('id, job_title, company_name')
+                    .select('id, job_title, company_name, start_date, end_date')
                     .eq('resume_id', user.id)
                     .order('start_date', { ascending: false })
 
@@ -638,7 +639,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     <div className="flex items-center gap-1.5 ml-4 flex-shrink-0">
                                         <button
                                             onClick={() => {
-                                                setStories([story]) // Pass just this story to the generator temporarily or handle selection properly
+                                                setExtractorStories([story])
                                                 setShowAIAccomplishmentExtractor(true)
                                             }}
                                             className="px-3 py-1.5 rounded-lg border border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400 font-semibold hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center gap-1.5 text-xs mr-2"
@@ -952,13 +953,58 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                         {/* Modal Body */}
                         <div className="p-6 gap-6 grid grid-cols-1 lg:grid-cols-3">
                             <div className="lg:col-span-2 space-y-6">
-                                {/* 1. Basic Info */}
+                                {/* 1. Basic Info — Work Experience Dropdown */}
                                 <div className="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm space-y-5">
                                     <div className="flex items-center gap-3 border-b border-gray-100 dark:border-gray-700 pb-3 mb-2">
                                         <span className="flex items-center justify-center w-6 h-6 rounded-lg bg-gray-100 dark:bg-gray-700 text-xs font-bold text-gray-600 dark:text-gray-300">1</span>
-                                        <h3 className="font-semibold text-gray-900 dark:text-white">Basic Info</h3>
+                                        <h3 className="font-semibold text-gray-900 dark:text-white">Role & Company</h3>
                                     </div>
-                                    <div className="grid grid-cols-2 gap-5">
+
+                                    {/* Dropdown from Work Experience */}
+                                    {workExperiences.length > 0 && (
+                                        <div>
+                                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Select from your Work Experience</label>
+                                            <select
+                                                value={workExperiences.find(we =>
+                                                    we.job_title === form.role_title &&
+                                                    we.company_name === form.company_name
+                                                )?.id || ''}
+                                                onChange={e => {
+                                                    const we = workExperiences.find(w => w.id === e.target.value)
+                                                    if (we) {
+                                                        const fmtDate = (d: string | null) => {
+                                                            if (!d) return ''
+                                                            try {
+                                                                const dt = new Date(d)
+                                                                return dt.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+                                                            } catch { return d }
+                                                        }
+                                                        setForm(prev => ({
+                                                            ...prev,
+                                                            role_title: we.job_title || '',
+                                                            company_name: we.company_name || '',
+                                                            start_date: fmtDate(we.start_date),
+                                                            end_date: we.end_date ? fmtDate(we.end_date) : 'Present'
+                                                        }))
+                                                    } else {
+                                                        // "Custom" selected — clear fields
+                                                        setForm(prev => ({ ...prev, role_title: '', company_name: '', start_date: '', end_date: '' }))
+                                                    }
+                                                }}
+                                                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow text-sm cursor-pointer"
+                                            >
+                                                <option value="">— Select a role or enter manually —</option>
+                                                {workExperiences.map(we => (
+                                                    <option key={we.id} value={we.id}>
+                                                        {we.job_title} at {we.company_name} ({we.start_date ? new Date(we.start_date).getFullYear() : '?'} – {we.end_date ? new Date(we.end_date).getFullYear() : 'Present'})
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
+
+                                    {/* Auto-filled or manual fields (always visible for override) */}
+                                    <div className="grid grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Role <span className="text-red-500">*</span></label>
                                             <input
@@ -1154,11 +1200,12 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 </div>
             )}
 
+
             {/* AI Extractor Modal */}
             <AIAccomplishmentExtractor
                 isOpen={showAIAccomplishmentExtractor}
                 onClose={() => setShowAIAccomplishmentExtractor(false)}
-                stories={stories}
+                stories={extractorStories}
                 onSuccess={() => {
                     if (window.confirm("Accomplishments saved! Would you like to go to your Accomplishment Bank now?")) {
                         navigate('/resume/accomplishment-library')
