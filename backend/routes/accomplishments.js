@@ -78,7 +78,7 @@ router.post('/generate-accomplishments', async (req, res) => {
       .from('positioning_questionnaire')
       .select('*')
       .eq('user_id', req.user.id)
-      .single()
+      .maybeSingle()
 
     // Generate accomplishments using AI
     const accomplishments = await generateAccomplishments({
