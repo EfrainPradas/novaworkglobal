@@ -35,7 +35,7 @@ export default function SplashScreen({ onFinished }: SplashScreenProps) {
 
                     {/* Static Branding Logo inside */}
                     <img
-                        src="/NovaWork Global Icon.png"
+                        src="/pwa-192x192.png"
                         alt="NovaWork Global"
                         className="w-1/2 h-1/2 object-contain relative z-10"
                     />
