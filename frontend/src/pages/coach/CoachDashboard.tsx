@@ -10,24 +10,30 @@ import {
     BarChart3,
     Users,
     MessageSquare,
-    AlertCircle,
-    CheckCircle2,
+    FileText,
     Clock,
-    ChevronRight,
+    CheckCircle2,
+    AlertCircle,
+    X,
+    CheckSquare,
     Search,
-    Plus,
-    Filter,
-    ArrowLeft,
     TrendingUp,
+    Play,
+    CalendarPlus,
     Briefcase,
-    GraduationCap,
     Award,
+    ExternalLink,
+    Mail,
     Sparkles,
+    ChevronRight,
+    Menu,
+    FileCheck,
+    Check,
     ShieldCheck,
-    Navigation,
-    MoreVertical,
-    FileText
+    Download,
+    Navigation
 } from 'lucide-react'
+import { downloadICS, CalendarEvent } from '../../utils/calendar'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
@@ -1851,6 +1857,26 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
         return true
     })
 
+    const handleAddToCalendar = (session: Session) => {
+        const startDate = new Date(session.scheduled_at)
+        const duration = session.duration_minutes || 60
+        const endDate = new Date(startDate.getTime() + duration * 60000)
+
+        const event: CalendarEvent = {
+            title: `Coaching Session with ${session.client_name}`,
+            description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
+            startTime: startDate,
+            endTime: endDate,
+            location: 'NovaWork Platform / Video Call',
+            organizer: {
+                name: 'NovaWork Global',
+                email: 'support@novaworkglobal.com' // Placeholder email
+            }
+        }
+
+        downloadICS(event, `coaching-session-${session.client_id}.ics`)
+    }
+
     return (
         <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', overflow: 'hidden', boxShadow: '0 2px 12px #0000000a' }}>
             <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f4f8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1895,6 +1921,18 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                                             <Sparkles size={12} /> {s.duration_minutes} min
                                         </div>
                                     </div>
+
+                                    {/* Action Buttons for Upcoming */}
+                                    {filter === 'upcoming' && (
+                                        <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #f0f4f8', display: 'flex', gap: 8 }}>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); handleAddToCalendar(s) }}
+                                                style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#0ea5e9', background: '#eff6ff', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                            >
+                                                <CalendarPlus size={14} /> Add to Calendar
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         ))}
