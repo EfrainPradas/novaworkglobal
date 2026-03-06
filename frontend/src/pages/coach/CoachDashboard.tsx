@@ -2037,18 +2037,24 @@ export default function CoachDashboard() {
                         .select('*', { count: 'exact', head: true })
                         .eq('user_id', rel.client_id)
 
-                    const { data: prof } = await supabase
-                        .from('user_profiles')
-                        .select('career_vision_statement, has_completed_questionnaire')
+                    const { data: visionProfile } = await supabase
+                        .from('career_vision_profiles')
+                        .select('career_vision_statement')
                         .eq('user_id', rel.client_id)
-                        .single()
+                        .maybeSingle()
+
+                    const { data: questProfile } = await supabase
+                        .from('positioning_questionnaire')
+                        .select('id')
+                        .eq('user_id', rel.client_id)
+                        .maybeSingle()
 
                     // Calculate Platform Progress Score (0-100)
                     const platformScore = Math.min(100, Math.round(
-                        (prof?.career_vision_statement ? 20 : 0) +
+                        (visionProfile?.career_vision_statement ? 20 : 0) +
                         (workCount && workCount > 0 ? 20 : 0) +
                         (carCount && carCount >= 3 ? 20 : carCount ? 10 : 0) +
-                        (prof?.has_completed_questionnaire ? 20 : 0) +
+                        (questProfile ? 20 : 0) +
                         (appsCount && appsCount > 0 ? 20 : 0)
                     ))
 
