@@ -5,7 +5,6 @@ import {
 import { supabase } from '../../lib/supabase'
 import { CARStory } from '../../types/resume'
 import { trackEvent } from '../../lib/analytics'
-import PhoenixLoader from '../PhoenixLoader'
 
 interface Props {
     isOpen: boolean
@@ -234,7 +233,10 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
                     {/* Generating */}
                     {step === 'generating' && !error && (
                         <div className="flex flex-col items-center justify-center py-12 space-y-6">
-                            <PhoenixLoader size="lg" message={`Polishing accomplishments...`} />
+                            <div className="flex flex-col items-center gap-3">
+                                <Loader2 className="w-16 h-16 text-indigo-600 animate-spin" />
+                                <span className="text-indigo-900 font-semibold mt-2">Polishing accomplishments...</span>
+                            </div>
 
                             <p className="text-gray-500 dark:text-gray-400 text-sm text-center">
                                 Analyzing your CAR {stories.length === 1 ? 'story' : 'stories'} to generate professional resume-ready bullets.
