@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-5a5d9309'], (function (workbox) { 'use strict';
+define(['./workbox-38bb0eb2'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -79,11 +79,14 @@ define(['./workbox-5a5d9309'], (function (workbox) { 'use strict';
    */
   workbox.precacheAndRoute([{
     "url": "index.html",
-    "revision": "0.mu0vog3bao"
+    "revision": "0.v62ed5g4efg"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
-    allowlist: [/^\/$/]
+    allowlist: [/^\/$/],
+    denylist: [/^\/api/, /^\/novaworkglobal-api/]
   }));
+  workbox.registerRoute(/\/api\//, new workbox.NetworkOnly(), 'GET');
+  workbox.registerRoute(/\.(?:mp4|webm)$/i, new workbox.NetworkOnly(), 'GET');
 
 }));

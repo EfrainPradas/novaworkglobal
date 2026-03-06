@@ -84,6 +84,31 @@ CREATE POLICY "Coaches can view assigned client tailored resumes"
   ON tailored_resumes FOR SELECT
   USING (is_coach_of(user_id));
 
+-- ── user_skills ────────────────────────────────────────────────
+CREATE POLICY "Coaches can view assigned client skills"
+  ON user_skills FOR SELECT
+  USING (is_coach_of(user_id));
+
+-- ── user_interests ─────────────────────────────────────────────
+CREATE POLICY "Coaches can view assigned client interests"
+  ON user_interests FOR SELECT
+  USING (is_coach_of(user_id));
+
+-- ── ideal_work_preferences ─────────────────────────────────────
+CREATE POLICY "Coaches can view assigned client work preferences"
+  ON ideal_work_preferences FOR SELECT
+  USING (is_coach_of(user_id));
+
+-- ── career_vision_profiles ─────────────────────────────────────
+CREATE POLICY "Coaches can view assigned client vision profiles"
+  ON career_vision_profiles FOR SELECT
+  USING (is_coach_of(user_id));
+
+-- ── job_history_analysis ───────────────────────────────────────
+CREATE POLICY "Coaches can view assigned client job history analysis"
+  ON job_history_analysis FOR SELECT
+  USING (is_coach_of(user_id));
+
 -- ── users (coaches need basic info from user table) ────────────
 CREATE POLICY "Coaches can view assigned client user info"
   ON users FOR SELECT

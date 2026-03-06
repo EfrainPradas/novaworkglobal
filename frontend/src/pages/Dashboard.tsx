@@ -329,28 +329,30 @@ export default function Dashboard() {
           </div>
 
           {/* Stats sidebar */}
-          <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
-            <div className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-4">Your stats this week</div>
-            {/* Profile Completeness */}
-            <div className="text-center mb-4">
-              <div className="text-4xl font-bold text-gray-900 dark:text-white">{resumeScore}%</div>
-              <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Profile completeness</div>
-              <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[180px] mx-auto">
-                <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${resumeScore}%` }} />
-              </div>
-            </div>
-            <div className="space-y-3 pt-2 border-t border-gray-100 dark:border-gray-700">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <FileText className="w-4 h-4 text-gray-400" /> Applications tracked
+          <div className="space-y-6">
+            <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 shadow-sm">
+              <div className="text-sm font-semibold text-gray-700 dark:text-gray-200 mb-4">Your stats this week</div>
+              {/* Profile Completeness */}
+              <div className="text-center mb-4">
+                <div className="text-4xl font-bold text-gray-900 dark:text-white">{resumeScore}%</div>
+                <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">Profile completeness</div>
+                <div className="h-2 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden max-w-[180px] mx-auto">
+                  <div className="h-full bg-blue-600 rounded-full transition-all" style={{ width: `${resumeScore}%` }} />
                 </div>
-                <span className="font-bold text-gray-900 dark:text-white">{tailoredResumesCount}</span>
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
-                  <Users className="w-4 h-4 text-gray-400" /> Interviews scheduled
+              <div className="space-y-3 pt-2 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                    <FileText className="w-4 h-4 text-gray-400" /> Applications tracked
+                  </div>
+                  <span className="font-bold text-gray-900 dark:text-white">{tailoredResumesCount}</span>
                 </div>
-                <span className="font-bold text-gray-900 dark:text-white">{sentResumesCount}</span>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                    <Users className="w-4 h-4 text-gray-400" /> Interviews scheduled
+                  </div>
+                  <span className="font-bold text-gray-900 dark:text-white">{sentResumesCount}</span>
+                </div>
               </div>
             </div>
           </div>

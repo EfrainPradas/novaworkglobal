@@ -2,6 +2,32 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
+import {
+    LayoutDashboard,
+    Target,
+    Calendar,
+    BookOpen,
+    BarChart3,
+    Users,
+    MessageSquare,
+    AlertCircle,
+    CheckCircle2,
+    Clock,
+    ChevronRight,
+    Search,
+    Plus,
+    Filter,
+    ArrowLeft,
+    TrendingUp,
+    Briefcase,
+    GraduationCap,
+    Award,
+    Sparkles,
+    ShieldCheck,
+    Navigation,
+    MoreVertical,
+    FileText
+} from 'lucide-react'
 
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
@@ -30,6 +56,9 @@ interface CoachStats {
     activeGoals: number
     unreadMessages: number
     placementRate: number
+    totalApps: number
+    totalRejections: number
+    totalResumes: number
 }
 
 interface PipelineItem {
@@ -89,14 +118,18 @@ const ProgressRing = ({ value, size = 56, stroke = 5, color = "#0ea5e9" }: { val
     )
 }
 
-const MoodBar = ({ value }: { value: number }) => {
-    const color = value >= 7 ? "#22c55e" : value >= 5 ? "#f59e0b" : "#ef4444"
+const AppStats = ({ apps, rejections }: { apps: number; rejections: number }) => {
     return (
-        <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ flex: 1, height: 6, background: "#e2e8f0", borderRadius: 99, overflow: "hidden" }}>
-                <div style={{ width: `${value * 10}%`, height: "100%", background: color, borderRadius: 99, transition: "width 0.6s ease" }} />
+        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 2 }}>Apps</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#0ea5e9" }}>{apps}</div>
             </div>
-            <span style={{ fontSize: 11, fontWeight: 700, color, minWidth: 16 }}>{value}</span>
+            <div style={{ width: 1, height: 20, background: "#e2e8f0" }} />
+            <div style={{ textAlign: "center" }}>
+                <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 2 }}>Rej.</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#ef4444" }}>{rejections}</div>
+            </div>
         </div>
     )
 }
@@ -121,6 +154,59 @@ function getInitials(name: string | null | undefined, email?: string): string {
     return '?'
 }
 
+function ProgressTooltip({ children }: { children: React.ReactNode }) {
+    const [visible, setVisible] = useState(false)
+    return (
+        <div
+            style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}
+            onMouseEnter={() => setVisible(true)}
+            onMouseLeave={() => setVisible(false)}
+        >
+            {children}
+            {visible && (
+                <div style={{
+                    position: 'absolute',
+                    bottom: '100%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    marginBottom: 12,
+                    padding: '12px 16px',
+                    background: 'rgba(15, 23, 42, 0.98)',
+                    backdropFilter: 'blur(10px)',
+                    color: '#fff',
+                    borderRadius: 12,
+                    fontSize: 11,
+                    width: 200,
+                    zIndex: 2000,
+                    boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.4)',
+                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    pointerEvents: 'none',
+                    textAlign: 'left'
+                }}>
+                    <div style={{ fontWeight: 800, marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 6, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>NovaWork Progress Metric</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>🧭 Career Vision</span> <span>20%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>💼 Work Experience</span> <span>20%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>🏆 3+ CAR Stories</span> <span>20%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>📋 Questionnaire</span> <span>20%</span></div>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>✅ 1+ Applications</span> <span>20%</span></div>
+                    </div>
+                    {/* Arrow */}
+                    <div style={{
+                        position: 'absolute',
+                        top: '100%',
+                        left: '50%',
+                        transform: 'translateX(-50%)',
+                        borderWidth: '6px 6px 0 6px',
+                        borderStyle: 'solid',
+                        borderColor: 'rgba(15, 23, 42, 0.98) transparent transparent transparent'
+                    }} />
+                </div>
+            )}
+        </div>
+    )
+}
+
 function formatSalary(min: number | null, max: number | null): string {
     if (min && max) return `$${Math.round(min / 1000)}k-$${Math.round(max / 1000)}k`
     if (min) return `$${Math.round(min / 1000)}k+`
@@ -140,7 +226,7 @@ function OverviewView({
     setView, setSelectedClient
 }: {
     stats: CoachStats
-    clients: (ClientRelation & { progress?: number; mood?: number; phase?: string; lastActivity?: string; alert?: string | null; goal?: string })[]
+    clients: (ClientRelation & { progress?: number; apps?: number; rejections?: number; resumes?: number; alert?: string | null })[]
     sessions: Session[]
     pipelineItems: PipelineItem[]
     setView: (v: string) => void
@@ -163,14 +249,14 @@ function OverviewView({
             {/* KPI Strip */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginBottom: 28 }}>
                 {[
-                    { label: "Active Clients", value: String(stats.activeClients), sub: `${stats.totalClients} total`, icon: "👥", accent: "#0ea5e9" },
-                    { label: "Placement Rate", value: `${stats.placementRate}%`, sub: "All-time average", icon: "🎯", accent: "#22c55e" },
-                    { label: "Upcoming Sessions", value: String(stats.upcomingSessions), sub: "Next 7 days", icon: "📅", accent: "#8b5cf6" },
-                    { label: "Unread Messages", value: String(stats.unreadMessages), sub: `${stats.pendingCommitments} pending tasks`, icon: "💬", accent: "#f59e0b" },
+                    { label: "Active Clients", value: String(stats.activeClients), sub: `${stats.totalClients} total`, icon: <Users size={22} />, accent: "#0ea5e9" },
+                    { label: "Total Applications", value: String(stats.totalApps), sub: `${stats.totalRejections} rejections`, icon: <Target size={22} />, accent: "#22c55e" },
+                    { label: "Tailored Resumes", value: String(stats.totalResumes), sub: "Across all clients", icon: <FileText size={22} />, accent: "#8b5cf6" },
+                    { label: "Upcoming Sessions", value: String(stats.upcomingSessions), sub: "Next 7 days", icon: <Calendar size={22} />, accent: "#f59e0b" },
                 ].map(k => (
                     <div key={k.label} style={{ background: "#fff", borderRadius: 14, padding: "18px 20px", border: "1.5px solid #e8edf2", boxShadow: "0 2px 8px #0000000a" }}>
                         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 10 }}>
-                            <span style={{ fontSize: 22 }}>{k.icon}</span>
+                            <span style={{ color: k.accent }}>{k.icon}</span>
                             <span style={{ fontSize: 26, fontWeight: 900, color: "#0f172a" }}>{k.value}</span>
                         </div>
                         <div style={{ fontSize: 12, fontWeight: 700, color: "#64748b", marginBottom: 3 }}>{k.label}</div>
@@ -220,14 +306,13 @@ function OverviewView({
                                         {c.alert && <div style={{ fontSize: 10, color: "#ef4444", fontWeight: 700, marginTop: 2 }}>⚠ {c.alert}</div>}
                                     </div>
                                     <div style={{ textAlign: "center", minWidth: 60 }}>
-                                        <div style={{ position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
-                                            <ProgressRing value={c.progress || 0} color={(c.progress || 0) > 70 ? "#22c55e" : (c.progress || 0) > 40 ? "#0ea5e9" : "#f59e0b"} />
+                                        <ProgressTooltip>
+                                            <ProgressRing value={c.progress || 0} size={48} stroke={4} color={(c.progress || 0) > 70 ? "#22c55e" : (c.progress || 0) > 0 ? "#0ea5e9" : "#e2e8f0"} />
                                             <span style={{ position: "absolute", fontSize: 11, fontWeight: 800, color: "#0f172a" }}>{c.progress || 0}%</span>
-                                        </div>
+                                        </ProgressTooltip>
                                     </div>
                                     <div style={{ minWidth: 100 }}>
-                                        <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 4 }}>Wellbeing</div>
-                                        <MoodBar value={c.mood || 5} />
+                                        <AppStats apps={c.apps || 0} rejections={c.rejections || 0} />
                                     </div>
                                     <div style={{ textAlign: "right" }}>
                                         <Badge
@@ -236,7 +321,7 @@ function OverviewView({
                                         >
                                             {c.status}
                                         </Badge>
-                                        <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>{c.lastActivity || `Session ${c.sessions_completed}/${c.sessions_planned || '—'}`}</div>
+                                        <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 4 }}>Session {c.sessions_completed}/{c.sessions_planned || '—'}</div>
                                     </div>
                                 </div>
                             ))
@@ -324,8 +409,10 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
     const [clientSessions, setClientSessions] = useState<any[]>([])
     const [notes, setNotes] = useState<any[]>([])
     const [noteText, setNoteText] = useState("")
-    const [wellbeing, setWellbeing] = useState<any[]>([])
     const [platformProgress, setPlatformProgress] = useState<PlatformProgress | null>(null)
+    const [expandedModule, setExpandedModule] = useState<string | null>(null)
+    const [moduleData, setModuleData] = useState<any>(null)
+    const [loadingModule, setLoadingModule] = useState(false)
 
     const client = relation.client
     const color = avatarColors[0]
@@ -359,15 +446,6 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
             .eq('coach_client_id', relation.id)
             .order('created_at', { ascending: false })
         if (notesData) setNotes(notesData)
-
-        // Load wellbeing checkins
-        const { data: wellbeingData } = await supabase
-            .from('client_wellbeing_checkins')
-            .select('*')
-            .eq('coach_client_id', relation.id)
-            .order('checkin_date', { ascending: true })
-            .limit(6)
-        if (wellbeingData) setWellbeing(wellbeingData)
     }
 
     // ── Load client's NovaWork platform progress (the 4 module cards) ──
@@ -383,22 +461,25 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
 
         try {
             // Work Experience
-            const { data: resumes } = await supabase.from('user_resumes').select('id, profile_summary, areas_of_excellence').eq('user_id', clientId)
+            const { data: resumes } = await supabase.from('user_resumes').select('id, profile_summary, areas_of_excellence, is_master').eq('user_id', clientId).order('is_master', { ascending: false }).order('created_at', { ascending: false })
+
             if (resumes && resumes.length > 0) {
+                // Check for profile completeness (summary/excellence)
                 const profileResume = resumes.find((r: any) => r.profile_summary && r.profile_summary.length > 10 && r.areas_of_excellence && r.areas_of_excellence.length > 0)
                 if (profileResume) progress.hasProfile = true
 
-                let totalWorkExp = 0
-                for (const resume of resumes) {
-                    const { count } = await supabase.from('work_experience').select('*', { count: 'exact', head: true }).eq('resume_id', resume.id)
-                    totalWorkExp += count || 0
-                }
-                if (totalWorkExp === 0) {
+                // Target the primary resume for work experience count
+                const masterResume = resumes.find(r => r.is_master) || resumes[0]
+                const { count } = await supabase.from('work_experience').select('*', { count: 'exact', head: true }).eq('resume_id', masterResume.id)
+                progress.workExpCount = count || 0
+
+                // Legacy fallback if no work exp found on resume
+                if (progress.workExpCount === 0) {
                     const { count: legacyCount } = await supabase.from('work_experience').select('*', { count: 'exact', head: true }).eq('resume_id', clientId)
-                    totalWorkExp += legacyCount || 0
+                    progress.workExpCount = legacyCount || 0
                 }
-                progress.workExpCount = totalWorkExp
-                progress.hasWorkExperience = totalWorkExp > 0
+
+                progress.hasWorkExperience = progress.workExpCount > 0
             }
 
             // Education
@@ -465,6 +546,112 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
         }
     }
 
+    const loadModuleDetails = async (moduleTitle: string) => {
+        if (expandedModule === moduleTitle) {
+            setExpandedModule(null)
+            return
+        }
+
+        setLoadingModule(true)
+        setExpandedModule(moduleTitle)
+        setModuleData(null)
+
+        const clientId = relation.client_id
+        try {
+            if (moduleTitle === 'Career Vision') {
+                // career_vision_profiles stores: skills_knowledge, core_values, interests, career_vision_statement
+                const { data: visionProfile } = await supabase.from('career_vision_profiles')
+                    .select('career_vision_statement, skills_knowledge, core_values, interests, job_history_insights')
+                    .eq('user_id', clientId)
+                    .maybeSingle()
+                const { data: skillsData } = await supabase.from('user_skills').select('skill_name').eq('user_id', clientId)
+                const { data: interestsData } = await supabase.from('user_interests').select('interest_name').eq('user_id', clientId)
+                const { data: jobHistory } = await supabase.from('job_history_analysis').select('*').eq('user_id', clientId).order('job_order', { ascending: true })
+                const { data: preferences } = await supabase.from('ideal_work_preferences').select('*').eq('user_id', clientId).maybeSingle()
+
+                // Skills can come from career_vision_profiles.skills_knowledge OR user_skills table
+                const profileSkills: string[] = visionProfile?.skills_knowledge || []
+                const tableSkills: string[] = skillsData?.map((s: any) => s.skill_name) || []
+                const skills = profileSkills.length > 0 ? profileSkills : tableSkills
+
+                // Interests can come from career_vision_profiles.interests OR user_interests table
+                const profileInterests: string[] = visionProfile?.interests || []
+                const tableInterests: string[] = interestsData?.map((i: any) => i.interest_name) || []
+                const interests = profileInterests.length > 0 ? profileInterests : tableInterests
+
+                // Calculate Sweet Spot (Overlapping words > 3 chars)
+                const skillWords = skills.flatMap((s: string) => s.toLowerCase().split(/\s+/).filter((w: string) => w.length > 3))
+                const interestWords = interests.flatMap((i: string) => i.toLowerCase().split(/\s+/).filter((w: string) => w.length > 3))
+                const sweetSpot = [...new Set(skillWords.filter((w: string) => interestWords.includes(w)))]
+
+                setModuleData({
+                    career_vision_statement: visionProfile?.career_vision_statement,
+                    short_term_goals: null,
+                    long_term_goals: null,
+                    skills,
+                    interests,
+                    sweetSpot,
+                    jobHistory: jobHistory || [],
+                    jobHistoryInsights: {
+                        satisfiers: visionProfile?.job_history_insights?.satisfiers,
+                        dissatisfiers: visionProfile?.job_history_insights?.dissatisfiers,
+                        patterns: visionProfile?.job_history_insights?.patterns
+                    },
+                    preferences: preferences || null
+                })
+            } else if (moduleTitle === 'Work Experience & Education') {
+                // Fetch only the master resume
+                const { data: resumes } = await supabase.from('user_resumes')
+                    .select('id')
+                    .eq('user_id', clientId)
+                    .eq('is_master', true)
+                    .limit(1)
+
+                let allWork = []
+                if (resumes && resumes.length > 0) {
+                    const { data } = await supabase.from('work_experience').select('*').eq('resume_id', resumes[0].id)
+                    if (data) allWork = data
+                } else {
+                    // Fallback 1: search by clientId directly (legacy)
+                    const { data: fallbackWork } = await supabase.from('work_experience').select('*').eq('resume_id', clientId)
+                    if (fallbackWork && fallbackWork.length > 0) {
+                        allWork = fallbackWork
+                    } else {
+                        // Fallback 2: get the single most recent resume
+                        const { data: recentResume } = await supabase.from('user_resumes')
+                            .select('id')
+                            .eq('user_id', clientId)
+                            .order('created_at', { ascending: false })
+                            .limit(1)
+                            .maybeSingle()
+
+                        if (recentResume) {
+                            const { data } = await supabase.from('work_experience').select('*').eq('resume_id', recentResume.id)
+                            if (data) allWork = data
+                        }
+                    }
+                }
+                const { data: edu } = await supabase.from('education').select('*').eq('user_id', clientId)
+                setModuleData({ work: allWork, education: edu })
+            } else if (moduleTitle === 'Accomplishment Bank & CARs') {
+                const { data: cars } = await supabase.from('par_stories').select('*').eq('user_id', clientId)
+                const { data: bank } = await supabase.from('accomplishment_bank').select('*').eq('user_id', clientId)
+                setModuleData({ cars, bank })
+            } else if (moduleTitle === 'Finalize & Adapt') {
+                const { data } = await supabase
+                    .from('tailored_resumes')
+                    .select('*, job_description_analysis(job_description_text)')
+                    .eq('user_id', clientId)
+                    .order('created_at', { ascending: false })
+                setModuleData(data)
+            }
+        } catch (err) {
+            console.error('Error loading module details:', err)
+        } finally {
+            setLoadingModule(false)
+        }
+    }
+
     const tabs = [
         { id: "overview", label: "Overview" },
         { id: "platform", label: "Platform Progress" },
@@ -489,13 +676,13 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                         </div>
                     </div>
                     <div style={{ textAlign: "center" }}>
-                        <div style={{ position: "relative", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+                        <ProgressTooltip>
                             <ProgressRing value={relation.progress || 0} size={80} stroke={7} color={(relation.progress || 0) > 70 ? "#22c55e" : "#0ea5e9"} />
                             <div style={{ position: "absolute", textAlign: "center" }}>
                                 <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>{relation.progress || 0}%</div>
                                 <div style={{ fontSize: 9, color: "#94a3b8" }}>progress</div>
                             </div>
-                        </div>
+                        </ProgressTooltip>
                     </div>
                 </div>
             </div>
@@ -510,25 +697,77 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
             {/* Overview Tab */}
             {tab === "overview" && (
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
-                    {/* Wellbeing */}
-                    <div style={{ background: "#fff", borderRadius: 14, border: "1.5px solid #e8edf2", padding: "20px 22px" }}>
-                        <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a", marginBottom: 4 }}>🧘 Emotional Wellbeing</div>
-                        <div style={{ fontSize: 11, color: "#94a3b8", marginBottom: 16 }}>Last check-ins</div>
-                        {wellbeing.length > 0 ? (
-                            <div style={{ display: "flex", alignItems: "flex-end", gap: 10, height: 90, marginBottom: 8 }}>
-                                {wellbeing.map((w, i) => {
-                                    const v = w.overall_mood || 5
-                                    return (
-                                        <div key={i} style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                                            <div style={{ fontSize: 10, fontWeight: 700, color: v >= 7 ? "#22c55e" : v >= 5 ? "#f59e0b" : "#ef4444" }}>{v}</div>
-                                            <div style={{ width: "100%", height: `${v * 9}px`, borderRadius: "6px 6px 0 0", background: v >= 7 ? "#22c55e" : v >= 5 ? "#f59e0b" : "#ef4444", opacity: i === wellbeing.length - 1 ? 1 : 0.5 }} />
-                                        </div>
-                                    )
-                                })}
+                    {/* Application & Platform Activity Summary */}
+                    <div style={{ background: "#fff", borderRadius: 14, border: "1.5px solid #e8edf2", padding: "20px 22px", gridColumn: "span 2" }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                            <div>
+                                <div style={{ fontSize: 16, fontWeight: 800, color: "#0f172a", marginBottom: 2 }}>📈 Client Activity Overview</div>
+                                <div style={{ fontSize: 12, color: "#64748b" }}>Pipeline and platform completion</div>
                             </div>
-                        ) : (
-                            <div style={{ padding: "24px 0", textAlign: "center", fontSize: 12, color: "#94a3b8" }}>No check-ins yet</div>
-                        )}
+                        </div>
+
+                        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12 }}>
+
+                            {/* App Pipeline */}
+                            <div style={{ background: "#f8fafc", borderRadius: 12, padding: 14, border: '1px solid #e2e8f0' }}>
+                                <div style={{ fontSize: 10, fontWeight: 800, color: "#64748b", textTransform: "uppercase", marginBottom: 8 }}>Job Applications</div>
+                                <div style={{ display: "flex", gap: 8 }}>
+                                    <div style={{ flex: 1, background: "#f0f9ff", borderRadius: 8, padding: '10px 8px', textAlign: "center" }}>
+                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#0ea5e9", lineHeight: 1 }}>{(relation as any).apps || 0}</div>
+                                        <div style={{ fontSize: 9, fontWeight: 700, color: "#0369a1", textTransform: "uppercase", marginTop: 4 }}>Total Apps</div>
+                                    </div>
+                                    <div style={{ flex: 1, background: "#fef2f2", borderRadius: 8, padding: '10px 8px', textAlign: "center" }}>
+                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#ef4444", lineHeight: 1 }}>{(relation as any).rejections || 0}</div>
+                                        <div style={{ fontSize: 9, fontWeight: 700, color: "#991b1b", textTransform: "uppercase", marginTop: 4 }}>Rejections</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Resumes */}
+                            <div style={{ background: "#f8fafc", borderRadius: 12, padding: 14, border: '1px solid #e2e8f0' }}>
+                                <div style={{ fontSize: 10, fontWeight: 800, color: "#64748b", textTransform: "uppercase", marginBottom: 8 }}>Resume Builder</div>
+                                <div style={{ display: "flex", alignItems: 'center', gap: 12 }}>
+                                    <div style={{ background: "#e0e7ff", color: "#4f46e5", height: 42, width: 42, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>
+                                        📄
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", lineHeight: 1 }}>{platformProgress?.tailoredResumesCount || 0}</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", marginTop: 2 }}>Tailored Resumes</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Achievements */}
+                            <div style={{ background: "#f8fafc", borderRadius: 12, padding: 14, border: '1px solid #e2e8f0' }}>
+                                <div style={{ fontSize: 10, fontWeight: 800, color: "#64748b", textTransform: "uppercase", marginBottom: 8 }}>Accomplishments</div>
+                                <div style={{ display: "flex", alignItems: 'center', gap: 12 }}>
+                                    <div style={{ background: "#dcfce7", color: "#16a34a", height: 42, width: 42, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>
+                                        🏆
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#0f172a", lineHeight: 1 }}>{platformProgress?.parStoriesCount || 0}</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, color: "#64748b", marginTop: 2 }}>CAR Stories</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Career Vision Status */}
+                            <div style={{ background: "#f8fafc", borderRadius: 12, padding: 14, border: '1px solid #e2e8f0' }}>
+                                <div style={{ fontSize: 10, fontWeight: 800, color: "#64748b", textTransform: "uppercase", marginBottom: 8 }}>Foundation</div>
+                                <div style={{ display: "flex", alignItems: 'center', gap: 12 }}>
+                                    <div style={{ background: platformProgress?.careerVisionCompleted ? "#dcfce7" : platformProgress?.careerVisionStarted ? "#fef3c7" : "#f1f5f9", color: platformProgress?.careerVisionCompleted ? "#16a34a" : platformProgress?.careerVisionStarted ? "#d97706" : "#94a3b8", height: 42, width: 42, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>
+                                        👁️
+                                    </div>
+                                    <div>
+                                        <div style={{ fontSize: 13, fontWeight: 800, color: "#0f172a", lineHeight: 1.2 }}>Career Vision</div>
+                                        <div style={{ fontSize: 11, fontWeight: 600, color: platformProgress?.careerVisionCompleted ? "#16a34a" : platformProgress?.careerVisionStarted ? "#d97706" : "#64748b", marginTop: 4 }}>
+                                            {platformProgress?.careerVisionCompleted ? 'Completed' : platformProgress?.careerVisionStarted ? 'In Progress' : 'Not Started'}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
                     {/* Active Goal */}
@@ -567,7 +806,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                 </div>
             )}
 
-            {/* Platform Progress Tab — The 4 NovaWork module cards */}
+            {/* Platform Progress Tab */}
             {tab === "platform" && platformProgress && (() => {
                 const pp = platformProgress
                 const resumeScore = Math.min(100, Math.round(
@@ -618,44 +857,608 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
 
                 return (
                     <div>
-                        {/* Resume Score Card */}
-                        <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e3a5f)', borderRadius: 16, padding: '24px 28px', marginBottom: 20, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <div>
-                                <div style={{ fontSize: 12, color: '#93c5fd', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>NovaWork Platform Progress</div>
-                                <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>{client?.full_name || 'Client'}</div>
-                                <div style={{ fontSize: 13, color: '#7dd3fc' }}>{completedModules} of {moduleCards.length} modules completed</div>
-                            </div>
-                            <div style={{ textAlign: 'center' }}>
-                                <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                                    <ProgressRing value={resumeScore} size={90} stroke={8} color={resumeScore > 70 ? '#22c55e' : resumeScore > 40 ? '#0ea5e9' : '#f59e0b'} />
-                                    <div style={{ position: 'absolute', textAlign: 'center' }}>
-                                        <div style={{ fontSize: 22, fontWeight: 900 }}>{resumeScore}%</div>
-                                        <div style={{ fontSize: 9, color: '#93c5fd' }}>resume score</div>
+                        {!expandedModule ? (
+                            <>
+                                {/* Resume Score Card */}
+                                <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e3a5f)', borderRadius: 16, padding: '24px 28px', marginBottom: 20, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <div>
+                                        <div style={{ fontSize: 12, color: '#93c5fd', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>NovaWork Platform Progress</div>
+                                        <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>{client?.full_name || 'Client'}</div>
+                                        <div style={{ fontSize: 13, color: '#7dd3fc' }}>{completedModules} of {moduleCards.length} modules completed</div>
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+                                            <ProgressRing value={resumeScore} size={90} stroke={8} color={resumeScore > 70 ? '#22c55e' : resumeScore > 40 ? '#0ea5e9' : '#f59e0b'} />
+                                            <div style={{ position: 'absolute', textAlign: 'center' }}>
+                                                <div style={{ fontSize: 22, fontWeight: 900 }}>{resumeScore}%</div>
+                                                <div style={{ fontSize: 9, color: '#93c5fd' }}>resume score</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        {/* Module Cards Grid */}
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                            {moduleCards.map(m => (
-                                <div key={m.title} style={{ background: '#fff', borderRadius: 14, border: `1.5px solid ${m.completed ? m.color + '44' : '#e8edf2'}`, padding: '20px 22px', position: 'relative', overflow: 'hidden' }}>
-                                    {m.completed && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: m.color }} />}
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
-                                        <div style={{ width: 42, height: 42, borderRadius: 12, background: m.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>{m.icon}</div>
-                                        {m.completed ? (
-                                            <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#dcfce7', border: '2px solid #22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#22c55e' }}>✓</div>
-                                        ) : m.started ? (
-                                            <Badge color={m.color} bg={m.bg}>In Progress</Badge>
-                                        ) : (
-                                            <Badge color="#94a3b8" bg="#f1f5f9">Not Started</Badge>
+                                {/* Module Cards Grid */}
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                                    {moduleCards.map(m => (
+                                        <div
+                                            key={m.title}
+                                            onClick={() => loadModuleDetails(m.title)}
+                                            style={{
+                                                background: '#fff',
+                                                borderRadius: 14,
+                                                border: `1.5px solid ${expandedModule === m.title ? m.color : m.completed ? m.color + '44' : '#e8edf2'}`,
+                                                padding: '20px 22px',
+                                                position: 'relative',
+                                                overflow: 'hidden',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s',
+                                                transform: expandedModule === m.title ? 'scale(1.02)' : 'none',
+                                                boxShadow: expandedModule === m.title ? `0 10px 20px ${m.color}20` : 'none'
+                                            }}
+                                        >
+                                            {m.completed && <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: m.color }} />}
+                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+                                                <div style={{ width: 42, height: 42, borderRadius: 12, background: m.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20 }}>{m.icon}</div>
+                                                {m.completed ? (
+                                                    <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#dcfce7', border: '2px solid #22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, color: '#22c55e' }}>✓</div>
+                                                ) : m.started ? (
+                                                    <Badge color={m.color} bg={m.bg}>In Progress</Badge>
+                                                ) : (
+                                                    <Badge color="#94a3b8" bg="#f1f5f9">Not Started</Badge>
+                                                )}
+                                            </div>
+                                            <div style={{ fontSize: 15, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>{m.title}</div>
+                                            <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>{m.details}</div>
+                                            <div style={{ marginTop: 10, fontSize: 10, fontWeight: 700, color: m.color, textTransform: 'uppercase' }}>
+                                                {expandedModule === m.title ? 'Hide Details ↑' : 'View Details →'}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </>
+                        ) : (
+                            /* Module Detail Drill-down takeover */
+                            <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e2e8f0', padding: 24, animation: 'fadeIn 0.3s ease-out' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingBottom: 16, borderBottom: '1px solid #f1f5f9' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                                        <button
+                                            onClick={() => setExpandedModule(null)}
+                                            style={{
+                                                background: '#f1f5f9',
+                                                border: 'none',
+                                                color: '#64748b',
+                                                cursor: 'pointer',
+                                                width: 32,
+                                                height: 32,
+                                                borderRadius: '50%',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                justifyContent: 'center',
+                                                fontSize: 16,
+                                                fontWeight: 800,
+                                                transition: 'all 0.2s'
+                                            }}
+                                            onMouseOver={(e) => e.currentTarget.style.background = '#e2e8f0'}
+                                            onMouseOut={(e) => e.currentTarget.style.background = '#f1f5f9'}
+                                        >
+                                            ←
+                                        </button>
+                                        <h3 style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', margin: 0 }}>
+                                            {moduleCards.find(m => m.title === expandedModule)?.icon} {expandedModule} Details
+                                        </h3>
+                                    </div>
+                                    <button
+                                        onClick={() => setExpandedModule(null)}
+                                        style={{
+                                            background: '#fff',
+                                            border: '1.5px solid #e2e8f0',
+                                            padding: '8px 16px',
+                                            borderRadius: 10,
+                                            color: '#64748b',
+                                            fontWeight: 700,
+                                            fontSize: 12,
+                                            cursor: 'pointer'
+                                        }}
+                                    >
+                                        Back to Overview
+                                    </button>
+                                </div>
+
+                                {loadingModule ? (
+                                    <div style={{ padding: '40px 0', textAlign: 'center', color: '#94a3b8' }}>Loading component details...</div>
+                                ) : moduleData ? (
+                                    <div style={{ fontSize: 13, color: '#334155' }}>
+                                        {expandedModule === 'Career Vision' && (
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+                                                {/* Section 1: Vision & Goals */}
+                                                <div style={{ background: '#f8fafc', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
+                                                    <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                        <span style={{ fontSize: 18 }}>🧭</span> Vision & Career Goals
+                                                    </h4>
+
+                                                    {/* Sweet Spot Insight Section */}
+                                                    {moduleData.sweetSpot?.length > 0 && (
+                                                        <div style={{ marginBottom: 20, background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)', padding: 16, borderRadius: 12, color: '#fff', boxShadow: '0 4px 12px rgba(79, 70, 229, 0.2)' }}>
+                                                            <div style={{ fontSize: 11, fontWeight: 700, opacity: 0.9, textTransform: 'uppercase', marginBottom: 8, letterSpacing: '0.5px', display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                                <span style={{ fontSize: 14 }}>✨</span> Professional Sweet Spot
+                                                            </div>
+                                                            <div style={{ fontSize: 13, lineHeight: 1.5, fontWeight: 500 }}>
+                                                                {client?.full_name?.split(' ')[0] || 'Client'}'s career thrives at the intersection of <strong>{moduleData.sweetSpot.slice(0, 3).join(', ')}</strong>.
+                                                                This alignment drives both technical excellence and personal fulfillment.
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    <div style={{ marginBottom: 16 }}>
+                                                        <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 6, letterSpacing: '0.5px' }}>Vision Statement</div>
+                                                        <div style={{ fontSize: 14, lineHeight: 1.6, color: '#334155', background: '#fff', padding: 14, borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                                                            {moduleData.career_vision_statement || "No vision statement written yet."}
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                                        <div>
+                                                            <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>Short-term Goals</div>
+                                                            <div style={{ fontSize: 12, color: '#475569', background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                                                                {moduleData.short_term_goals || "None defined."}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>Long-term Goals</div>
+                                                            <div style={{ fontSize: 12, color: '#475569', background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #e2e8f0' }}>
+                                                                {moduleData.long_term_goals || "None defined."}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Section 2: Skills & Interests */}
+                                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                                    <div style={{ background: '#f0f9ff', padding: 16, borderRadius: 14, border: '1px solid #bae6fd' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#0369a1', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                            <span>💪</span> Key Skills
+                                                        </h4>
+                                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                            {moduleData.skills?.length > 0 ? moduleData.skills.map((s: string) => (
+                                                                <span key={s} style={{ background: '#fff', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, color: '#0ea5e9', border: '1px solid #0ea5e930', boxShadow: '0 1px 2px #00000005' }}>{s}</span>
+                                                            )) : <span style={{ fontSize: 12, color: '#94a3b8' }}>No skills listed.</span>}
+                                                        </div>
+                                                    </div>
+                                                    <div style={{ background: '#f0fdf4', padding: 16, borderRadius: 14, border: '1px solid #bbf7d0' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#15803d', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                            <span>❤️</span> Interests
+                                                        </h4>
+                                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+                                                            {moduleData.interests?.length > 0 ? moduleData.interests.map((i: string) => (
+                                                                <span key={i} style={{ background: '#fff', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, color: '#22c55e', border: '1px solid #22c55e30', boxShadow: '0 1px 2px #00000005' }}>{i}</span>
+                                                            )) : <span style={{ fontSize: 12, color: '#94a3b8' }}>No interests listed.</span>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                {/* Section 3: Job History AI Insights */}
+                                                {moduleData.jobHistoryInsights && (
+                                                    <div style={{ background: '#f5f3ff', padding: 20, borderRadius: 14, border: '1px solid #ddd6fe' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#6d28d9', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                            <span style={{ fontSize: 18 }}>✨</span> Job History AI Analysis
+                                                        </h4>
+                                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                                                            <div style={{ background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #ddd6fe30' }}>
+                                                                <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                                                                    <span style={{ color: '#22c55e' }}>↑</span> Satisfiers
+                                                                </div>
+                                                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                                                    {moduleData.jobHistoryInsights.satisfiers?.slice(0, 3).map((s: string, idx: number) => (
+                                                                        <div key={idx} style={{ fontSize: 12, color: '#4c1d95', display: 'flex', gap: 6 }}>
+                                                                            <span style={{ color: '#ddd6fe' }}>•</span> {s}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                            <div style={{ background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #ddd6fe30' }}>
+                                                                <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
+                                                                    <span style={{ color: '#ef4444' }}>↓</span> Dissatisfiers
+                                                                </div>
+                                                                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                                                    {moduleData.jobHistoryInsights.dissatisfiers?.slice(0, 3).map((d: string, idx: number) => (
+                                                                        <div key={idx} style={{ fontSize: 12, color: '#4c1d95', display: 'flex', gap: 6 }}>
+                                                                            <span style={{ color: '#ddd6fe' }}>•</span> {d}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div style={{ fontSize: 13, color: '#4c1d95', background: 'linear-gradient(to right, #fff, #f5f3ff)', padding: 14, borderRadius: 10, border: '1px solid #ddd6fe', lineHeight: 1.5 }}>
+                                                            <strong style={{ color: '#7c3aed' }}>Summary Pattern:</strong> {moduleData.jobHistoryInsights.patterns}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {/* Section 4: Work Preferences */}
+                                                {moduleData.preferences && (
+                                                    <div style={{ background: '#fff7ed', padding: 20, borderRadius: 14, border: '1px solid #ffedd5' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#c2410c', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                            <span style={{ fontSize: 18 }}>⚙️</span> Work Preferences
+                                                        </h4>
+                                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 12 }}>
+                                                            {Object.entries(moduleData.preferences)
+                                                                .filter(([k, v]) => k.includes('_weight') && (v === 'M' || parseInt(v as string) >= 8))
+                                                                .sort((a, b) => {
+                                                                    if (a[1] === 'M') return -1;
+                                                                    if (b[1] === 'M') return 1;
+                                                                    return parseInt(b[1] as string) - parseInt(a[1] as string);
+                                                                })
+                                                                .slice(0, 6)
+                                                                .map(([k, v]) => {
+                                                                    const category = k.replace('_weight', '');
+                                                                    const label = category.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                                    const pref = (moduleData.preferences as any)[`${category}_preference`];
+                                                                    return (
+                                                                        <div key={k} style={{ background: '#fff', padding: 14, borderRadius: 12, border: '1px solid #fed7aa60' }}>
+                                                                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6, borderBottom: '1px solid #fff7ed', paddingBottom: 4 }}>
+                                                                                <span style={{ fontSize: 11, fontWeight: 800, color: '#9a3412' }}>{label}</span>
+                                                                                <span style={{ fontSize: 10, fontWeight: 900, background: v === 'M' ? '#fee2e2' : '#ffedd5', color: v === 'M' ? '#ef4444' : '#f59e0b', padding: '2px 6px', borderRadius: 6 }}>{v === 'M' ? 'MUST' : (v as React.ReactNode)}</span>
+                                                                            </div>
+                                                                            <div style={{ fontSize: 12, color: '#7c2d12', opacity: 0.8, lineHeight: 1.4, height: '2.8em', overflow: 'hidden', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as any }}>{(pref as string) || "No details."}</div>
+                                                                        </div>
+                                                                    );
+                                                                })
+                                                            }
+                                                        </div>
+                                                        {Object.entries(moduleData.preferences).filter(([k, v]) => k.includes('_weight') && (v === 'M' || parseInt(v as string) >= 8)).length === 0 && (
+                                                            <div style={{ textAlign: 'center', padding: '10px 0', color: '#9a3412', opacity: 0.5, fontSize: 12 }}>No high-priority preferences set.</div>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {expandedModule === 'Work Experience & Education' && (
+                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}>
+                                                {/* Work Experience Section */}
+                                                <div style={{ background: '#fff', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
+                                                    <h4 style={{ fontWeight: 800, marginBottom: 16, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                        <span style={{ fontSize: 18 }}>💼</span> Work Experience ({moduleData.work?.length || 0})
+                                                    </h4>
+                                                    {moduleData.work?.length > 0 ? (
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                                            {moduleData.work.map((w: any, i: number) => (
+                                                                <div key={i} style={{ padding: 14, border: '1px solid #f1f5f9', background: '#f8fafc', borderRadius: 12, transition: 'all 0.2s' }}>
+                                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                                                                        <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 14 }}>{w.job_title}</div>
+                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#64748b', background: '#fff', padding: '2px 8px', borderRadius: 6, border: '1px solid #e2e8f0' }}>Role {(moduleData.work.length - i)}</div>
+                                                                    </div>
+                                                                    <div style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>{w.company_name}</div>
+                                                                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>{w.start_date || w.duration} - {w.end_date || 'Present'}</div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div style={{ textAlign: 'center', padding: '24px 0', background: '#f8fafc', borderRadius: 12, border: '1px dashed #e2e8f0' }}>
+                                                            <div style={{ fontSize: 24, marginBottom: 8, opacity: 0.5 }}>📂</div>
+                                                            <p style={{ color: '#94a3b8', fontSize: 12 }}>No work experience entries found.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Education Section */}
+                                                <div style={{ background: '#fff', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
+                                                    <h4 style={{ fontWeight: 800, marginBottom: 16, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                        <span style={{ fontSize: 18 }}>🎓</span> Education ({moduleData.education?.length || 0})
+                                                    </h4>
+                                                    {moduleData.education?.length > 0 ? (
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                                                            {moduleData.education.map((e: any, i: number) => (
+                                                                <div key={i} style={{ padding: 14, border: '1px solid #f1f5f9', background: '#f8fafc', borderRadius: 12 }}>
+                                                                    <div style={{ fontWeight: 700, color: '#0f172a', fontSize: 14 }}>{e.degree}</div>
+                                                                    <div style={{ fontSize: 12, color: '#475569', fontWeight: 600 }}>{e.institution}</div>
+                                                                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>Class of {e.year}</div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    ) : (
+                                                        <div style={{ textAlign: 'center', padding: '24px 0', background: '#f8fafc', borderRadius: 12, border: '1px dashed #e2e8f0' }}>
+                                                            <div style={{ fontSize: 24, marginBottom: 8, opacity: 0.5 }}>📚</div>
+                                                            <p style={{ color: '#94a3b8', fontSize: 12 }}>No education entries found.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        )}
+
+                                        {expandedModule === 'Accomplishment Bank & CARs' && (() => {
+                                            const cars = moduleData.cars || []
+                                            const bullets = moduleData.bank || []
+                                            // Distribute bank bullets evenly across stories
+                                            const bulletsPerStory = cars.length > 0 ? Math.ceil(bullets.length / cars.length) : bullets.length
+                                            return (
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                                    <div style={{ background: '#fff', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 16, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                            <span style={{ fontSize: 18 }}>✨</span> CAR Stories ({cars.length})
+                                                            <span style={{ marginLeft: 'auto', fontSize: 11, fontWeight: 600, color: '#94a3b8' }}>
+                                                                🏛️ {bullets.length} Accomplishments
+                                                            </span>
+                                                        </h4>
+                                                        {cars.length > 0 ? (
+                                                            <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                                                                {cars.map((c: any, i: number) => {
+                                                                    const storyBullets = bullets.slice(i * bulletsPerStory, (i + 1) * bulletsPerStory)
+                                                                    return (
+                                                                        <div key={i} style={{ borderRadius: 14, border: '1px solid #e8f4ff', overflow: 'hidden' }}>
+                                                                            {/* Story Header */}
+                                                                            <div style={{ background: 'linear-gradient(135deg, #f0f7ff, #f8faff)', padding: '14px 18px', borderBottom: '1px solid #e8f4ff' }}>
+                                                                                <div style={{ fontWeight: 800, fontSize: 14, color: '#0f172a', marginBottom: 2 }}>
+                                                                                    {c.role_title ? `${c.role_title}${c.company_name ? ` @ ${c.company_name}` : ''}` : (c.role_company || `Story ${i + 1}`)}
+                                                                                </div>
+                                                                                <div style={{ display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
+                                                                                    {c.problem_challenge && <Badge color="#f59e0b" bg="#fef3c7">Challenge ✓</Badge>}
+                                                                                    {(c.actions?.length > 0 || c.action) && <Badge color="#3b82f6" bg="#dbeafe">Action ✓</Badge>}
+                                                                                    {c.result && <Badge color="#10b981" bg="#d1fae5">Result ✓</Badge>}
+                                                                                </div>
+                                                                            </div>
+                                                                            {/* C/A/R Detail */}
+                                                                            <div style={{ padding: '14px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                                                                                {c.problem_challenge && (
+                                                                                    <div>
+                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#f59e0b', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>Challenge</div>
+                                                                                        <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.6 }}>{c.problem_challenge}</div>
+                                                                                    </div>
+                                                                                )}
+                                                                                {(c.actions?.filter((a: string) => a)?.length > 0) && (
+                                                                                    <div>
+                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#3b82f6', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>Action</div>
+                                                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                                                                                            {c.actions.filter((a: string) => a).map((act: string, ai: number) => (
+                                                                                                <div key={ai} style={{ fontSize: 12, color: '#475569', lineHeight: 1.6, display: 'flex', gap: 6 }}>
+                                                                                                    <span style={{ color: '#3b82f6', fontWeight: 700 }}>•</span><span>{act}</span>
+                                                                                                </div>
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )}
+                                                                                {c.result && (
+                                                                                    <div>
+                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#10b981', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>Result</div>
+                                                                                        <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.6 }}>{c.result}</div>
+                                                                                    </div>
+                                                                                )}
+                                                                                {/* Accomplishment bullets for this story slot */}
+                                                                                {storyBullets.length > 0 && (
+                                                                                    <div style={{ marginTop: 6, paddingTop: 12, borderTop: '1px dashed #e2e8f0' }}>
+                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 8, letterSpacing: '0.5px' }}>Accomplishment Bullets</div>
+                                                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                                                                            {storyBullets.map((b: any, bi: number) => (
+                                                                                                <div key={bi} style={{ fontSize: 12, color: '#334155', lineHeight: 1.5, display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                                                                                                    <span style={{ color: '#10b981', fontWeight: 700, flexShrink: 0 }}>•</span>
+                                                                                                    <span>{b.bullet_text || b.text}</span>
+                                                                                                </div>
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                                {/* Remaining bullets not assigned to any story */}
+                                                                {bullets.length > cars.length * bulletsPerStory && (
+                                                                    <div style={{ padding: 16, background: '#faf5ff', borderRadius: 14, border: '1px solid #ede9fe' }}>
+                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 8 }}>Additional Accomplishments</div>
+                                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                                                                            {bullets.slice(cars.length * bulletsPerStory).map((b: any, bi: number) => (
+                                                                                <div key={bi} style={{ fontSize: 12, color: '#334155', lineHeight: 1.5, display: 'flex', gap: 8 }}>
+                                                                                    <span style={{ color: '#10b981', fontWeight: 700 }}>•</span>
+                                                                                    <span>{b.bullet_text || b.text}</span>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        ) : (
+                                                            <div style={{ textAlign: 'center', padding: '24px 0', background: '#f8fafc', borderRadius: 12, border: '1px dashed #e2e8f0' }}>
+                                                                <p style={{ color: '#94a3b8', fontSize: 12 }}>No CAR stories created yet.</p>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )
+                                        })()}
+
+                                        {expandedModule === 'Finalize & Adapt' && (() => {
+                                            const resumes = Array.isArray(moduleData) ? moduleData : []
+                                            const statusColors: Record<string, { color: string, bg: string }> = {
+                                                found: { color: '#64748b', bg: '#f1f5f9' },
+                                                tailoring: { color: '#7c3aed', bg: '#f5f3ff' },
+                                                applied: { color: '#0ea5e9', bg: '#e0f2fe' },
+                                                followed_up: { color: '#f59e0b', bg: '#fef3c7' },
+                                                interviewing: { color: '#8b5cf6', bg: '#ede9fe' },
+                                                offer: { color: '#10b981', bg: '#d1fae5' },
+                                                rejected: { color: '#ef4444', bg: '#fee2e2' },
+                                                draft: { color: '#94a3b8', bg: '#f8fafc' },
+                                            }
+                                            return (
+                                                <div style={{ background: '#fff', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
+                                                    <h4 style={{ fontWeight: 800, marginBottom: 16, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
+                                                        <span style={{ fontSize: 18 }}>📄</span> Tailored Resumes ({resumes.length})
+                                                    </h4>
+                                                    {resumes.length > 0 ? (
+                                                        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                                                            {resumes.map((r: any, i: number) => {
+                                                                const appStatus = r.application_status || r.status || 'found'
+                                                                const sc = statusColors[appStatus] || statusColors.found
+                                                                const matchColor = r.match_score > 80 ? '#22c55e' : r.match_score > 60 ? '#f59e0b' : '#ef4444'
+                                                                return (
+                                                                    <div key={i} style={{ borderRadius: 14, border: '1px solid #e8edf5', overflow: 'hidden' }}>
+                                                                        {/* Header row */}
+                                                                        <div style={{ background: 'linear-gradient(135deg, #f8faff, #f0f4ff)', padding: '14px 18px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid #e8edf5' }}>
+                                                                            <div>
+                                                                                <div style={{ fontWeight: 800, fontSize: 14, color: '#0f172a', marginBottom: 2 }}>{r.job_title || 'Untitled Position'}</div>
+                                                                                <div style={{ fontSize: 12, color: '#64748b', fontWeight: 600 }}>{r.company_name || r.sent_to_company || '—'}</div>
+                                                                            </div>
+                                                                            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                                                                                {/* Application Status Badge */}
+                                                                                <span style={{ fontSize: 10, fontWeight: 700, color: sc.color, background: sc.bg, padding: '3px 10px', borderRadius: 20, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                                                    {appStatus.replace('_', ' ')}
+                                                                                </span>
+                                                                                {/* Match Score */}
+                                                                                {r.match_score > 0 && (
+                                                                                    <div style={{ textAlign: 'center' }}>
+                                                                                        <div style={{ fontSize: 20, fontWeight: 900, color: matchColor, lineHeight: 1 }}>{r.match_score}%</div>
+                                                                                        <div style={{ fontSize: 8, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 700 }}>match</div>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        </div>
+                                                                        {/* Detail rows */}
+                                                                        <div style={{ padding: '12px 18px', display: 'flex', flexWrap: 'wrap', gap: 16 }}>
+                                                                            {r.created_at && (
+                                                                                <div style={{ minWidth: 120 }}>
+                                                                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 2 }}>Created</div>
+                                                                                    <div style={{ fontSize: 12, color: '#334155' }}>{new Date(r.created_at).toLocaleDateString()}</div>
+                                                                                </div>
+                                                                            )}
+                                                                            {r.sent_at && (
+                                                                                <div style={{ minWidth: 120 }}>
+                                                                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 2 }}>Applied</div>
+                                                                                    <div style={{ fontSize: 12, color: '#334155' }}>{new Date(r.sent_at).toLocaleDateString()}</div>
+                                                                                </div>
+                                                                            )}
+                                                                            {r.interview_date && (
+                                                                                <div style={{ minWidth: 120 }}>
+                                                                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 2 }}>Interview</div>
+                                                                                    <div style={{ fontSize: 12, color: '#7c3aed', fontWeight: 600 }}>{new Date(r.interview_date).toLocaleDateString()}</div>
+                                                                                </div>
+                                                                            )}
+                                                                            {r.recruiter_contact && (
+                                                                                <div style={{ minWidth: 160 }}>
+                                                                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 2 }}>Recruiter</div>
+                                                                                    <div style={{ fontSize: 12, color: '#334155' }}>{r.recruiter_contact}</div>
+                                                                                </div>
+                                                                            )}
+                                                                            {r.last_status_update && (
+                                                                                <div style={{ minWidth: 120 }}>
+                                                                                    <div style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 2 }}>Last Update</div>
+                                                                                    <div style={{ fontSize: 12, color: '#334155' }}>{new Date(r.last_status_update).toLocaleDateString()}</div>
+                                                                                </div>
+                                                                            )}
+                                                                        </div>
+                                                                        {/* Notes */}
+                                                                        {r.notes && (
+                                                                            <div style={{ padding: '0 18px 12px', borderTop: '1px dashed #e8edf5' }}>
+                                                                                <div style={{ fontSize: 9, fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', marginBottom: 4, marginTop: 10 }}>Notes</div>
+                                                                                <div style={{ fontSize: 12, color: '#475569', lineHeight: 1.6, fontStyle: 'italic' }}>{r.notes}</div>
+                                                                            </div>
+                                                                        )}
+                                                                        {/* Content Toggle (JD & Resume) */}
+                                                                        {(r.job_description_analysis?.job_description_text || r.tailored_profile || r.tailored_skills?.length > 0 || r.tailored_bullets?.work_experience?.length > 0) && (
+                                                                            <details style={{ padding: '12px 18px', borderTop: '1px solid #e8edf5', background: '#f8fafc' }} className="group">
+                                                                                <summary style={{ fontSize: 12, fontWeight: 700, color: '#4f46e5', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6, listStyle: 'none' }}>
+                                                                                    <svg className="w-4 h-4 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m6 9 6 6 6-6" /></svg>
+                                                                                    View Application Content
+                                                                                </summary>
+                                                                                <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 16 }}>
+                                                                                    {r.job_description_analysis?.job_description_text && (
+                                                                                        <div>
+                                                                                            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>Job Description</div>
+                                                                                            <div style={{ fontSize: 11, color: '#475569', background: '#fff', padding: 12, borderRadius: 8, border: '1px solid #e2e8f0', whiteSpace: 'pre-wrap', maxHeight: 300, overflowY: 'auto' }}>
+                                                                                                {r.job_description_analysis.job_description_text}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )}
+
+                                                                                    {(r.tailored_profile || r.tailored_skills?.length > 0 || r.tailored_bullets?.work_experience?.length > 0) && (
+                                                                                        <div>
+                                                                                            <div style={{ fontSize: 10, fontWeight: 800, color: '#64748b', textTransform: 'uppercase', marginBottom: 6 }}>Tailored Resume Content</div>
+                                                                                            <div style={{ fontSize: 11, color: '#0f172a', background: '#fff', padding: 18, borderRadius: 8, border: '1px solid #e2e8f0', maxHeight: 400, overflowY: 'auto' }}>
+
+                                                                                                {/* Profile Summary */}
+                                                                                                {r.tailored_profile && (
+                                                                                                    <div style={{ marginBottom: 16 }}>
+                                                                                                        <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid #e2e8f0', paddingBottom: 4, marginBottom: 8 }}>Professional Profile</div>
+                                                                                                        <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{r.tailored_profile}</div>
+                                                                                                    </div>
+                                                                                                )}
+
+                                                                                                {/* Skills */}
+                                                                                                {r.tailored_skills && r.tailored_skills.length > 0 && (
+                                                                                                    <div style={{ marginBottom: 16 }}>
+                                                                                                        <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid #e2e8f0', paddingBottom: 4, marginBottom: 8 }}>Areas of Excellence</div>
+                                                                                                        <div style={{ lineHeight: 1.5 }}>{r.tailored_skills.join(' • ')}</div>
+                                                                                                    </div>
+                                                                                                )}
+
+                                                                                                {/* Work Experience */}
+                                                                                                {r.tailored_bullets?.work_experience && r.tailored_bullets.work_experience.length > 0 && (
+                                                                                                    <div style={{ marginBottom: 16 }}>
+                                                                                                        <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid #e2e8f0', paddingBottom: 4, marginBottom: 8 }}>Work Experience</div>
+                                                                                                        {r.tailored_bullets.work_experience.map((exp: any, idx: number) => (
+                                                                                                            <div key={idx} style={{ marginBottom: 12 }}>
+                                                                                                                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700 }}>
+                                                                                                                    <span>{exp.job_title}</span>
+                                                                                                                    <span style={{ fontSize: 10, color: '#64748b' }}>
+                                                                                                                        {exp.start_date || ''} - {exp.is_current ? 'Present' : (exp.end_date || '')}
+                                                                                                                    </span>
+                                                                                                                </div>
+                                                                                                                <div style={{ fontWeight: 600, color: '#475569', marginBottom: 4 }}>{exp.company_name}</div>
+                                                                                                                <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.5 }}>{exp.scope_description}</div>
+                                                                                                            </div>
+                                                                                                        ))}
+                                                                                                    </div>
+                                                                                                )}
+
+                                                                                                {/* PAR Stories inside tailored_bullets */}
+                                                                                                {r.tailored_bullets?.par_stories && r.tailored_bullets.par_stories.length > 0 && (
+                                                                                                    <div style={{ marginBottom: 16 }}>
+                                                                                                        <div style={{ fontWeight: 800, fontSize: 12, borderBottom: '1px solid #e2e8f0', paddingBottom: 4, marginBottom: 8 }}>Key Accomplishments</div>
+                                                                                                        {r.tailored_bullets.par_stories.map((story: any, idx: number) => (
+                                                                                                            <div key={idx} style={{ marginBottom: 12, paddingLeft: 12, borderLeft: '2px solid #e2e8f0' }}>
+                                                                                                                <div style={{ marginBottom: 4 }}><strong>Challenge:</strong> {story.problem_challenge}</div>
+                                                                                                                <div style={{ marginBottom: 4 }}>
+                                                                                                                    <strong>Actions:</strong>
+                                                                                                                    <ul style={{ margin: '4px 0 4px 20px', padding: 0 }}>
+                                                                                                                        {(Array.isArray(story.actions) ? story.actions : [story.actions]).map((act: string, aIdx: number) => (
+                                                                                                                            <li key={aIdx}>{act}</li>
+                                                                                                                        ))}
+                                                                                                                    </ul>
+                                                                                                                </div>
+                                                                                                                <div><strong>Result:</strong> {story.result}</div>
+                                                                                                            </div>
+                                                                                                        ))}
+                                                                                                    </div>
+                                                                                                )}
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                            </details>
+                                                                        )}
+                                                                    </div>
+                                                                )
+                                                            })}
+                                                        </div>
+                                                    ) : (
+                                                        <div style={{ textAlign: 'center', padding: '24px 0', background: '#f8fafc', borderRadius: 12, border: '1px dashed #e2e8f0' }}>
+                                                            <p style={{ color: '#94a3b8', fontSize: 12 }}>No tailored resumes generated.</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )
+                                        })()}
+
+                                        {expandedModule === 'Professional Profile' && (
+                                            <div style={{ textAlign: 'center', padding: '20px 0' }}>
+                                                <div style={{ fontSize: 24, marginBottom: 10 }}>📋</div>
+                                                <p style={{ color: '#64748b' }}>Complete questionnaire and generated profile view is integrated into individual module details.</p>
+                                            </div>
                                         )}
                                     </div>
-                                    <div style={{ fontSize: 15, fontWeight: 800, color: '#0f172a', marginBottom: 4 }}>{m.title}</div>
-                                    <div style={{ fontSize: 12, color: '#64748b', lineHeight: 1.5 }}>{m.details}</div>
-                                </div>
-                            ))}
-                        </div>
+                                ) : (
+                                    <div style={{ padding: '40px 0', textAlign: 'center', color: '#94a3b8' }}>No detailed data found for this module.</div>
+                                )}
+                            </div>
+                        )}
                     </div>
                 )
             })()}
@@ -800,8 +1603,6 @@ function PipelineView({ items }: { items: PipelineItem[] }) {
     )
 }
 
-// ─── MAIN COACH DASHBOARD ───────────────────────────────────────────────────
-
 // ─── ADD CLIENT MODAL ────────────────────────────────────────────────────────
 
 function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClose: () => void; onAdded: () => void }) {
@@ -939,6 +1740,125 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
     )
 }
 
+// ─── SESSIONS VIEW ──────────────────────────────────────────────────────────
+
+function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessions: Session[]; loadData: () => void }) {
+    const [filter, setFilter] = useState('upcoming')
+
+    const filtered = sessions.filter(s => {
+        const isPast = new Date(s.scheduled_at) < new Date()
+        if (filter === 'upcoming') return !isPast && (s.status === 'scheduled' || s.status === 'in_progress')
+        if (filter === 'past') return isPast || s.status === 'completed' || s.status === 'no_show'
+        return true
+    })
+
+    return (
+        <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', overflow: 'hidden', boxShadow: '0 2px 12px #0000000a' }}>
+            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f4f8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div>
+                    <h2 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: 0 }}>Session Management</h2>
+                    <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0 0' }}>Schedule and track coaching calls with your clients</p>
+                </div>
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={() => setFilter('upcoming')} style={{ padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, border: '1px solid #e2e8f0', background: filter === 'upcoming' ? '#0f172a' : '#fff', color: filter === 'upcoming' ? '#fff' : '#64748b', cursor: 'pointer' }}>Upcoming</button>
+                    <button onClick={() => setFilter('past')} style={{ padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, border: '1px solid #e2e8f0', background: filter === 'past' ? '#0f172a' : '#fff', color: filter === 'past' ? '#fff' : '#64748b', cursor: 'pointer' }}>History</button>
+                </div>
+            </div>
+            <div style={{ padding: '12px' }}>
+                {filtered.length === 0 ? (
+                    <div style={{ padding: '60px 20px', textAlign: 'center' }}>
+                        <Calendar size={48} color="#cbd5e1" style={{ marginBottom: 16 }} />
+                        <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a' }}>No sessions found</div>
+                        <p style={{ fontSize: 12, color: '#94a3b8' }}>{filter === 'upcoming' ? "You don't have any sessions scheduled for the coming days." : "No past session history found."}</p>
+                    </div>
+                ) : (
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 12 }}>
+                        {filtered.map(s => (
+                            <div key={s.id} style={{ border: '1.5px solid #f0f4f8', borderRadius: 12, padding: '16px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0ea5e9' }}>
+                                    <Calendar size={22} />
+                                </div>
+                                <div style={{ flex: 1 }}>
+                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                        <div>
+                                            <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a' }}>{s.client_name}</div>
+                                            <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{s.session_type}</div>
+                                        </div>
+                                        <Badge color={s.status === 'scheduled' ? '#0ea5e9' : s.status === 'completed' ? '#22c55e' : '#64748b'}>
+                                            {s.status}
+                                        </Badge>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
+                                            <Clock size={12} /> {formatDate(s.scheduled_at)}
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
+                                            <Sparkles size={12} /> {s.duration_minutes} min
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+        </div>
+    )
+}
+
+// ─── RESOURCES VIEW ─────────────────────────────────────────────────────────
+
+function ResourcesView({ coachId }: { coachId: string }) {
+    return (
+        <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '60px 40px', textAlign: 'center' }}>
+            <BookOpen size={64} color="#6366f1" style={{ marginBottom: 20, margin: '0 auto' }} />
+            <h2 style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', marginBottom: 8 }}>Coach Resource Library</h2>
+            <p style={{ fontSize: 14, color: '#64748b', maxWidth: 450, margin: '0 auto 24px' }}>
+                Store and share guides, templates, and videos with your clients. This section is currently being integrated with Supabase Storage.
+            </p>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
+                <button style={{ padding: '10px 20px', borderRadius: 10, background: '#0f172a', color: '#fff', border: 'none', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>+ Add Resource</button>
+                <button style={{ padding: '10px 20px', borderRadius: 10, background: '#fff', color: '#0f172a', border: '1.5px solid #e2e8f0', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Browse Community</button>
+            </div>
+        </div>
+    )
+}
+
+// ─── ANALYTICS VIEW ─────────────────────────────────────────────────────────
+
+function AnalyticsView({ stats }: { stats: CoachStats }) {
+    return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+                <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
+                    <div style={{ color: '#22c55e', marginBottom: 12 }}><TrendingUp size={24} /></div>
+                    <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{stats.placementRate}%</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 4 }}>Success Rate</div>
+                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Clients successfully placed in new roles</div>
+                </div>
+                <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
+                    <div style={{ color: '#0ea5e9', marginBottom: 12 }}><Clock size={24} /></div>
+                    <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{stats.totalClients * 4.2}h</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 4 }}>Total Coaching Time</div>
+                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Estimated hours spent in direct coaching</div>
+                </div>
+                <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
+                    <div style={{ color: '#8b5cf6', marginBottom: 12 }}><Briefcase size={24} /></div>
+                    <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{stats.totalClients}</div>
+                    <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 4 }}>Impacted Careers</div>
+                    <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Total unique clients coached to date</div>
+                </div>
+            </div>
+
+            <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '32px', textAlign: 'center' }}>
+                <BarChart3 size={48} color="#94a3b8" style={{ marginBottom: 16, margin: '0 auto' }} />
+                <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', marginBottom: 8 }}>Engagement Analytics</h3>
+                <p style={{ fontSize: 13, color: '#64748b' }}>Advanced charting showing client engagement trends and session distribution will appear here.</p>
+            </div>
+        </div>
+    )
+}
+
 // ─── MAIN COACH DASHBOARD ───────────────────────────────────────────────────
 
 export default function CoachDashboard() {
@@ -950,7 +1870,10 @@ export default function CoachDashboard() {
     const [sessions, setSessions] = useState<Session[]>([])
     const [pipelineItems, setPipelineItems] = useState<PipelineItem[]>([])
     const [selectedClient, setSelectedClient] = useState<any>(null)
-    const [stats, setStats] = useState<CoachStats>({ totalClients: 0, activeClients: 0, upcomingSessions: 0, pendingCommitments: 0, activeGoals: 0, unreadMessages: 0, placementRate: 0 })
+    const [stats, setStats] = useState<CoachStats>({
+        totalClients: 0, activeClients: 0, upcomingSessions: 0, pendingCommitments: 0,
+        activeGoals: 0, unreadMessages: 0, placementRate: 0, totalApps: 0, totalRejections: 0, totalResumes: 0
+    })
     const [loading, setLoading] = useState(true)
     const [showAddClient, setShowAddClient] = useState(false)
 
@@ -982,7 +1905,73 @@ export default function CoachDashboard() {
                 .order('created_at', { ascending: false })
 
             if (clientRelations) {
-                setClients(clientRelations)
+                // Fetch extra details for each client
+                const enhancedClients = await Promise.all(clientRelations.map(async (rel) => {
+                    // Get Applications count from tailored_resumes (synced with Job Tracker)
+                    const { count: appsCount } = await supabase
+                        .from('tailored_resumes')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', rel.client_id)
+                        .neq('application_status', 'draft')
+
+                    // Get Rejections count from tailored_resumes
+                    const { count: rejCount } = await supabase
+                        .from('tailored_resumes')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', rel.client_id)
+                        .eq('application_status', 'rejected')
+
+                    // Get Resumes count
+                    const { count: resCount } = await supabase
+                        .from('user_resumes')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', rel.client_id)
+
+                    // Get other platform progress components
+                    const { count: workCount } = await supabase
+                        .from('work_experience')
+                        .select('*', { count: 'exact', head: true })
+                        .in('resume_id', (await supabase.from('user_resumes').select('id').eq('user_id', rel.client_id)).data?.map(r => r.id) || [])
+
+                    const { count: carCount } = await supabase
+                        .from('par_stories')
+                        .select('*', { count: 'exact', head: true })
+                        .eq('user_id', rel.client_id)
+
+                    const { data: prof } = await supabase
+                        .from('user_profiles')
+                        .select('career_vision_statement, has_completed_questionnaire')
+                        .eq('user_id', rel.client_id)
+                        .single()
+
+                    // Calculate Platform Progress Score (0-100)
+                    const platformScore = Math.min(100, Math.round(
+                        (prof?.career_vision_statement ? 20 : 0) +
+                        (workCount && workCount > 0 ? 20 : 0) +
+                        (carCount && carCount >= 3 ? 20 : carCount ? 10 : 0) +
+                        (prof?.has_completed_questionnaire ? 20 : 0) +
+                        (appsCount && appsCount > 0 ? 20 : 0)
+                    ))
+
+                    // Get alerts
+                    const { data: noteAlert } = await supabase
+                        .from('coaching_notes')
+                        .select('content')
+                        .eq('coach_client_id', rel.id)
+                        .eq('is_flagged', true)
+                        .limit(1)
+
+                    return {
+                        ...rel,
+                        apps: appsCount || 0,
+                        rejections: rejCount || 0,
+                        resumes: resCount || 0,
+                        progress: platformScore,
+                        alert: noteAlert?.[0]?.content || null
+                    }
+                }))
+
+                setClients(enhancedClients)
 
                 const activeClients = clientRelations.filter(c => c.status === 'active')
                 const completedClients = clientRelations.filter(c => c.status === 'completed')
@@ -992,13 +1981,9 @@ export default function CoachDashboard() {
                     .from('coaching_sessions')
                     .select('*')
                     .eq('coach_id', authUser.id)
-                    .eq('status', 'scheduled')
-                    .gte('scheduled_at', new Date().toISOString())
                     .order('scheduled_at', { ascending: true })
-                    .limit(10)
 
                 if (sessionsData) {
-                    // Map client names to sessions
                     const mapped = sessionsData.map(s => {
                         const rel = clientRelations.find(r => r.client_id === s.client_id)
                         return { ...s, client_name: rel?.client?.full_name || rel?.client?.email || 'Client' }
@@ -1047,14 +2032,21 @@ export default function CoachDashboard() {
                     ? Math.round((completedClients.length / clientRelations.length) * 100)
                     : 0
 
+                const totalApps = enhancedClients.reduce((acc, c) => acc + (c.apps || 0), 0)
+                const totalRejections = enhancedClients.reduce((acc, c) => acc + (c.rejections || 0), 0)
+                const totalResumes = enhancedClients.reduce((acc, c) => acc + (c.resumes || 0), 0)
+
                 setStats({
                     totalClients: clientRelations.length,
                     activeClients: activeClients.length,
-                    upcomingSessions: sessionsData?.length || 0,
+                    upcomingSessions: sessionsData?.filter(s => s.status === 'scheduled').length || 0,
                     pendingCommitments: pendingCount || 0,
                     activeGoals: goalsCount || 0,
                     unreadMessages: msgCount || 0,
                     placementRate,
+                    totalApps,
+                    totalRejections,
+                    totalResumes,
                 })
             }
         } catch (error) {
@@ -1067,17 +2059,17 @@ export default function CoachDashboard() {
     if (loading) {
         return (
             <div style={{ display: "flex", height: "100vh", alignItems: "center", justifyContent: "center", background: "#f0f4f8" }}>
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
             </div>
         )
     }
 
     const navItems = [
-        { id: "overview", icon: "⚡", label: "Dashboard" },
-        { id: "pipeline", icon: "🎯", label: "Pipeline" },
-        { id: "sessions", icon: "📅", label: "Sessions" },
-        { id: "resources", icon: "📚", label: "Resources" },
-        { id: "analytics", icon: "📊", label: "Analytics" },
+        { id: "overview", icon: <LayoutDashboard size={18} />, label: "Dashboard" },
+        { id: "pipeline", icon: <Navigation size={18} />, label: "Pipeline" },
+        { id: "sessions", icon: <Calendar size={18} />, label: "Sessions" },
+        { id: "resources", icon: <BookOpen size={18} />, label: "Resources" },
+        { id: "analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
     ]
 
     const alertCount = clients.filter(c => c.alert).length
@@ -1162,7 +2154,7 @@ export default function CoachDashboard() {
                         <button onClick={() => setShowAddClient(true)} style={{ background: "#0f172a", color: "#fff", border: "none", padding: "9px 16px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>+ New Client</button>
                         {stats.unreadMessages > 0 && (
                             <div style={{ position: "relative" }}>
-                                <button style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "8px 12px", cursor: "pointer", fontSize: 16 }}>🔔</button>
+                                <button style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "8px 12px", cursor: "pointer", fontSize: 16 }}><AlertCircle size={18} /></button>
                                 <div style={{ position: "absolute", top: -4, right: -4, width: 16, height: 16, borderRadius: "50%", background: "#ef4444", color: "#fff", fontSize: 9, fontWeight: 900, display: "flex", alignItems: "center", justifyContent: "center" }}>{stats.unreadMessages}</div>
                             </div>
                         )}
@@ -1186,15 +2178,15 @@ export default function CoachDashboard() {
                         <ClientView relation={selectedClient} onBack={() => setView("overview")} />
                     )}
                     {view === "pipeline" && <PipelineView items={pipelineItems} />}
-                    {["sessions", "resources", "analytics"].includes(view) && (
-                        <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", padding: "60px 40px", textAlign: "center" as const }}>
-                            <div style={{ fontSize: 48, marginBottom: 12 }}>{view === "sessions" ? "📅" : view === "resources" ? "📚" : "📊"}</div>
-                            <div style={{ fontSize: 20, fontWeight: 800, color: "#0f172a", marginBottom: 8 }}>
-                                {view === "sessions" ? "Session Management" : view === "resources" ? "Resource Library" : "Coach Analytics"}
-                            </div>
-                            <div style={{ fontSize: 14, color: "#94a3b8" }}>This section is under construction. Click <strong>"Dashboard"</strong> or <strong>"Pipeline"</strong> to see the full experience.</div>
-                        </div>
+                    {view === "sessions" && (
+                        <SessionsView
+                            coachId={user?.id}
+                            sessions={sessions}
+                            loadData={loadCoachData}
+                        />
                     )}
+                    {view === "resources" && <ResourcesView coachId={user?.id} />}
+                    {view === "analytics" && <AnalyticsView stats={stats} />}
                 </div>
             </div>
 
