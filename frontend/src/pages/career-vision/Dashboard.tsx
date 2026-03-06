@@ -101,7 +101,7 @@ export default function CareerVisionDashboard() {
       icon: '🎯',
       completed: sectionsStatus.skillsValues,
       route: '/career-vision/skills-values',
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`
+      videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     },
     {
       id: 'job-history',
@@ -110,7 +110,7 @@ export default function CareerVisionDashboard() {
       icon: '📋',
       completed: sectionsStatus.jobHistory,
       route: '/career-vision/job-history',
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`
+      videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     },
     {
       id: 'preferences',
@@ -119,7 +119,7 @@ export default function CareerVisionDashboard() {
       icon: '⚙️',
       completed: sectionsStatus.preferences,
       route: '/career-vision/preferences',
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`
+      videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     }
   ]
 
@@ -149,7 +149,7 @@ export default function CareerVisionDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <a
-              href={`${import.meta.env.BASE_URL}videos/AI_&_Your_Career_Path-EN.mp4`}
+              href={`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
