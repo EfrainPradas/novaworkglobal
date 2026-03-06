@@ -125,33 +125,33 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
       {/* Company Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             {t('resumeBuilder.workExperience.company')} *
           </label>
           <input
             type="text"
             value={formData.company_name}
             onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="Google, Microsoft, etc."
           />
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             {t('resumeBuilder.workExperience.companyDesc')}
           </label>
           <input
             type="text"
             value={formData.company_description}
             onChange={(e) => setFormData({ ...formData, company_description: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder={t('resumeBuilder.workExperience.companyDescPlaceholder')}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
           <select
             value={formData.location_country}
             onChange={(e) => {
@@ -161,7 +161,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
                 setUsState('')
               }
             }}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
           >
             {COUNTRIES.map((country) => (
               <option key={country.value} value={country.value}>
@@ -173,11 +173,11 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
         {formData.location_country === 'USA' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State</label>
             <select
               value={usState}
               onChange={(e) => setUsState(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             >
               {US_STATES.map((state) => (
                 <option key={state.value} value={state.value}>
@@ -189,12 +189,12 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         )}
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">City</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
           <input
             type="text"
             value={formData.location_city ? formData.location_city.split(',')[0].trim() : ''}
             onChange={(e) => setFormData({ ...formData, location_city: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder={formData.location_country === 'USA' ? 'San Francisco' : 'Enter city name'}
           />
         </div>
@@ -203,26 +203,26 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
       {/* Role Info */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             {t('resumeBuilder.workExperience.jobTitle')} *
           </label>
           <input
             type="text"
             value={formData.job_title}
             onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="Senior Product Manager"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             {t('resumeBuilder.workExperience.startDate')} * (YYYY)
           </label>
           <select
             value={formData.start_date || ''}
             onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
           >
             <option value="" disabled>Select Year</option>
             {years.map(year => (
@@ -232,14 +232,14 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
             {t('resumeBuilder.workExperience.endDate')} (YYYY)
           </label>
           <select
             value={formData.end_date || ''}
             onChange={(e) => setFormData({ ...formData, end_date: e.target.value })}
             disabled={formData.is_current}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100 dark:disabled:bg-slate-700"
           >
             <option value="" disabled>Select Year</option>
             {years.map(year => (
@@ -260,45 +260,45 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
               })}
               className="w-4 h-4 text-primary-600"
             />
-            <span className="text-sm text-gray-700">{t('resumeBuilder.workExperience.current')}</span>
+            <span className="text-sm text-gray-700 dark:text-gray-300">{t('resumeBuilder.workExperience.current')}</span>
           </label>
         </div>
       </div>
 
       {/* Scope */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
           {t('resumeBuilder.workExperience.scope')}
         </label>
-        <p className="text-xs text-gray-500 mb-2">{t('resumeBuilder.workExperience.scopeHelp')}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{t('resumeBuilder.workExperience.scopeHelp')}</p>
         <textarea
           value={formData.scope_description}
           onChange={(e) => setFormData({ ...formData, scope_description: e.target.value })}
           rows={3}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+          className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
           placeholder={t('resumeBuilder.workExperience.scopePlaceholder')}
         />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Budget</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget</label>
           <input
             type="text"
             value={formData.budget}
             onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="$5M, €2M, etc."
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Headcount</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Headcount</label>
           <input
             type="text"
             value={formData.headcount}
             onChange={(e) => setFormData({ ...formData, headcount: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="12, 50+, etc."
           />
         </div>
@@ -306,20 +306,20 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
       {/* Geographies */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Geographies</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Geographies</label>
         <div className="flex gap-2 mb-2">
           <input
             type="text"
             value={geoInput}
             onChange={(e) => setGeoInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addItem('geo'))}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="LATAM, EMEA, North America, etc."
           />
           <button
             type="button"
             onClick={() => addItem('geo')}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            className="px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600"
           >
             Add
           </button>
@@ -338,20 +338,20 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
       {/* Tools/Systems */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">{t('resumeBuilder.workExperience.tools')}</label>
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.tools')}</label>
         <div className="flex gap-2 mb-2">
           <input
             type="text"
             value={toolInput}
             onChange={(e) => setToolInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addItem('tool'))}
-            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500"
+            className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
             placeholder="Salesforce, Jira, SQL, etc."
           />
           <button
             type="button"
             onClick={() => addItem('tool')}
-            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200"
+            className="px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600"
           >
             Add
           </button>
@@ -373,7 +373,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         <button
           type="button"
           onClick={onCancel}
-          className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+          className="px-6 py-3 border border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-slate-800"
         >
           {t('common.cancel')}
         </button>
