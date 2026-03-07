@@ -331,24 +331,26 @@ export default function NavigationPrompt() {
 
             {/* Recommended Next Step Card */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 mb-8 relative overflow-hidden">
-              <div className="flex justify-between items-start mb-6">
-                <span className="text-xs font-bold tracking-wider text-gray-400 uppercase">{t('dashboard.recommendedNext')}</span>
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col xl:flex-row justify-between xl:items-start mb-6 gap-4">
+                <span className="text-xs font-bold tracking-wider text-gray-400 uppercase shrink-0">
+                  {t('dashboard.recommendedNext')}
+                </span>
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full xl:w-auto">
                   <button
                     onClick={() => navigate('/resume-builder')}
-                    className="bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                    className="flex-1 sm:flex-none justify-center bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
                   >
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`))}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
                   </button>
                   <button
                     onClick={() => navigate('/resume-builder')}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <BookOpen className="w-3.5 h-3.5" /> {t('dashboard.learnMore', 'Learn more')}
                   </button>
