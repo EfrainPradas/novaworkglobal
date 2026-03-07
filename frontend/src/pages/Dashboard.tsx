@@ -395,21 +395,21 @@ export default function Dashboard() {
                 <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-3">{card.description}</p>
 
                 {/* Footer: action + video/learn buttons */}
-                <div className="flex items-center justify-between mb-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-3">
                   {card.locked ? (
-                    <span className="flex items-center gap-1.5 text-sm text-amber-600 font-medium">
+                    <span className="flex items-center justify-center sm:justify-start gap-1.5 text-sm text-amber-600 font-medium">
                       Upgrade to {card.tier}
                       <Lock className="w-3.5 h-3.5 ml-1 text-gray-400" />
                     </span>
                   ) : card.started ? (
-                    <span className="text-sm font-semibold text-blue-600">Continue</span>
+                    <span className="text-sm font-semibold text-blue-600 text-center sm:text-left w-full sm:w-auto">Continue</span>
                   ) : (
-                    <span className="text-sm text-gray-500">Preview</span>
+                    <span className="text-sm text-gray-500 text-center sm:text-left w-full sm:w-auto">Preview</span>
                   )}
 
                   {/* Progress indicator for Resume Builder */}
                   {card.id === 'resume-builder' && !card.locked && (
-                    <div className="h-1.5 w-16 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-1.5 w-full sm:w-16 bg-gray-100 dark:bg-gray-700 rounded-full overflow-hidden mt-2 sm:mt-0">
                       <div
                         className="h-full bg-blue-600 rounded-full"
                         style={{ width: `${(completedCount / totalSteps) * 100}%` }}
@@ -419,13 +419,13 @@ export default function Dashboard() {
                 </div>
 
                 {/* Watch video + Learn more */}
-                <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-gray-700">
+                <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
                   <button
                     onClick={(e) => {
                       e.stopPropagation()
                       setActiveVideoSrc(card.videoSrc)
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3 h-3" /> Watch video
                   </button>
@@ -434,7 +434,7 @@ export default function Dashboard() {
                       e.stopPropagation()
                       if (!card.locked) navigate(card.route)
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <BookOpen className="w-3 h-3" /> Learn more
                   </button>
