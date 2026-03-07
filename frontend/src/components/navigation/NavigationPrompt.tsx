@@ -550,6 +550,19 @@ export default function NavigationPrompt() {
               </div>
               <div className="space-y-3">
                 <button
+                  onClick={() => navigate('/coaching')}
+                  className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg group-hover:bg-indigo-100 transition-colors">
+                      <Users className="w-4 h-4" />
+                    </div>
+                    <span className="font-medium text-gray-700">My Coaches / Book Session</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                </button>
+
+                <button
                   onClick={() => navigate('/resume/work-experience?openImport=true')}
                   className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
                 >

@@ -419,6 +419,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
     const [expandedModule, setExpandedModule] = useState<string | null>(null)
     const [moduleData, setModuleData] = useState<any>(null)
     const [loadingModule, setLoadingModule] = useState(false)
+    const [sessionActionLoading, setSessionActionLoading] = useState<string | null>(null)
 
     const client = relation.client
     const color = avatarColors[0]
@@ -1606,27 +1607,64 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
             {/* Sessions Tab */}
             {tab === "sessions" && (
                 <div style={{ background: "#fff", borderRadius: 14, border: "1.5px solid #e8edf2", padding: "22px" }}>
-                    <div style={{ fontSize: 15, fontWeight: 800, color: "#0f172a", marginBottom: 18 }}>Session History</div>
+                    <div style={{ fontSize: 15, fontWeight: 800, color: "#0f172a", marginBottom: 18 }}>Session Requests</div>
                     {clientSessions.length === 0 ? (
                         <div style={{ padding: "40px 0", textAlign: "center", fontSize: 12, color: "#94a3b8" }}>No sessions recorded yet</div>
                     ) : (
-                        clientSessions.map((s, i) => (
-                            <div key={s.id} style={{ display: "flex", gap: 16, padding: "14px 0", borderBottom: i < clientSessions.length - 1 ? "1px solid #f8fafc" : "none", alignItems: "flex-start" }}>
-                                <div style={{ width: 40, height: 40, borderRadius: 10, background: s.status === "scheduled" ? "#eff6ff" : "#f0fdf4", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
-                                    {s.status === "scheduled" ? "📅" : "✅"}
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ display: "flex", justifyContent: "space-between" }}>
-                                        <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>{s.session_type || 'Session'}</div>
-                                        <Badge color={s.status === "scheduled" ? "#0ea5e9" : "#22c55e"} bg={s.status === "scheduled" ? "#e0f2fe" : "#dcfce7"}>
-                                            {s.status}
-                                        </Badge>
+                        clientSessions.map((s, i) => {
+                            const isPending = s.status === 'pending'
+                            const isConfirmed = s.status === 'confirmed' || s.status === 'scheduled'
+                            const isCompleted = s.status === 'completed'
+                            const isDeclined = s.status === 'declined' || s.status === 'cancelled'
+                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#0ea5e9' : isCompleted ? '#22c55e' : '#ef4444'
+                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#e0f2fe' : isCompleted ? '#dcfce7' : '#fee2e2'
+                            return (
+                                <div key={s.id} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < clientSessions.length - 1 ? "1px solid #f1f5f9" : "none", alignItems: "flex-start" }}>
+                                    <div style={{ width: 40, height: 40, borderRadius: 10, background: isPending ? '#fef9c3' : isConfirmed ? '#eff6ff' : isCompleted ? '#f0fdf4' : '#fff1f2', display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
+                                        {isPending ? "⏳" : isConfirmed ? "📅" : isCompleted ? "✅" : "❌"}
                                     </div>
-                                    <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>{formatDate(s.scheduled_at)} · {s.duration_minutes} min</div>
-                                    {s.session_notes && <div style={{ fontSize: 12, color: "#374151", marginTop: 6, fontStyle: "italic" }}>"{s.session_notes}"</div>}
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                                            <div>
+                                                <div style={{ fontSize: 13, fontWeight: 700, color: "#0f172a" }}>{s.session_type || 'Session'}</div>
+                                                <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 2 }}>
+                                                    {new Date(s.scheduled_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })} · {s.duration_minutes} min
+                                                </div>
+                                            </div>
+                                            <Badge color={statusColor} bg={statusBg}>{s.status}</Badge>
+                                        </div>
+                                        {isPending && (
+                                            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                                                <button
+                                                    disabled={sessionActionLoading === s.id}
+                                                    onClick={async () => {
+                                                        setSessionActionLoading(s.id)
+                                                        const { error } = await supabase.from('coaching_sessions').update({ status: 'confirmed' }).eq('id', s.id)
+                                                        if (!error) await loadClientData()
+                                                        setSessionActionLoading(null)
+                                                    }}
+                                                    style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 18px', borderRadius: 8, border: 'none', background: '#22c55e', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', opacity: sessionActionLoading === s.id ? 0.6 : 1 }}
+                                                >
+                                                    <Check size={14} /> Accept
+                                                </button>
+                                                <button
+                                                    disabled={sessionActionLoading === s.id}
+                                                    onClick={async () => {
+                                                        setSessionActionLoading(s.id)
+                                                        const { error } = await supabase.from('coaching_sessions').update({ status: 'declined' }).eq('id', s.id)
+                                                        if (!error) await loadClientData()
+                                                        setSessionActionLoading(null)
+                                                    }}
+                                                    style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 18px', borderRadius: 8, border: 'none', background: '#ef4444', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', opacity: sessionActionLoading === s.id ? 0.6 : 1 }}
+                                                >
+                                                    <X size={14} /> Decline
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))
+                            )
+                        })
                     )}
                 </div>
             )}
@@ -1852,8 +1890,8 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
 
     const filtered = sessions.filter(s => {
         const isPast = new Date(s.scheduled_at) < new Date()
-        if (filter === 'upcoming') return !isPast && (s.status === 'scheduled' || s.status === 'in_progress')
-        if (filter === 'past') return isPast || s.status === 'completed' || s.status === 'no_show'
+        if (filter === 'upcoming') return !isPast && (s.status === 'scheduled' || s.status === 'confirmed' || s.status === 'pending' || s.status === 'in_progress')
+        if (filter === 'past') return isPast || s.status === 'completed' || s.status === 'no_show' || s.status === 'declined' || s.status === 'cancelled'
         return true
     })
 
@@ -1885,6 +1923,38 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                     <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0 0' }}>Schedule and track coaching calls with your clients</p>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={async () => {
+                        try {
+                            const { data: { session } } = await supabase.auth.getSession()
+                            if (!session) return alert('Not logged in')
+
+                            // Find a valid coach_client_id
+                            const { data: clients } = await supabase.from('coach_clients').select('id, client_id').limit(1)
+                            if (!clients || clients.length === 0) return alert('You must have at least one client to test this.')
+
+                            const futureDate = new Date()
+                            futureDate.setDate(futureDate.getDate() + 2)
+                            futureDate.setHours(14, 0, 0, 0)
+
+                            const res = await supabase.from('coaching_sessions').insert([{
+                                coach_client_id: clients[0].id,
+                                coach_id: session.user.id,
+                                client_id: clients[0].client_id, // ensure client_id matches the relation
+                                session_type: 'Career Vision Review',
+                                scheduled_at: futureDate.toISOString(),
+                                duration_minutes: 60,
+                                status: 'scheduled'
+                            }])
+
+                            if (res.error) throw res.error;
+
+                            alert('Test session created! Please refresh the page.')
+                            loadData()
+                        } catch (err) {
+                            console.error(err)
+                            alert('Failed to create test session')
+                        }
+                    }} style={{ padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, border: '1px solid #10b981', background: '#10b981', color: '#fff', cursor: 'pointer' }}>+ Add Test Session</button>
                     <button onClick={() => setFilter('upcoming')} style={{ padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, border: '1px solid #e2e8f0', background: filter === 'upcoming' ? '#0f172a' : '#fff', color: filter === 'upcoming' ? '#fff' : '#64748b', cursor: 'pointer' }}>Upcoming</button>
                     <button onClick={() => setFilter('past')} style={{ padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, border: '1px solid #e2e8f0', background: filter === 'past' ? '#0f172a' : '#fff', color: filter === 'past' ? '#fff' : '#64748b', cursor: 'pointer' }}>History</button>
                 </div>
@@ -1898,44 +1968,74 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                     </div>
                 ) : (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 12 }}>
-                        {filtered.map(s => (
-                            <div key={s.id} style={{ border: '1.5px solid #f0f4f8', borderRadius: 12, padding: '16px', display: 'flex', gap: 16, alignItems: 'flex-start' }}>
-                                <div style={{ width: 44, height: 44, borderRadius: 10, background: '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#0ea5e9' }}>
-                                    <Calendar size={22} />
-                                </div>
-                                <div style={{ flex: 1 }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                        <div>
-                                            <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a' }}>{s.client_name}</div>
-                                            <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{s.session_type}</div>
-                                        </div>
-                                        <Badge color={s.status === 'scheduled' ? '#0ea5e9' : s.status === 'completed' ? '#22c55e' : '#64748b'}>
-                                            {s.status}
-                                        </Badge>
+                        {filtered.map(s => {
+                            const isPending = s.status === 'pending'
+                            const isConfirmed = s.status === 'confirmed' || s.status === 'scheduled'
+                            const isDeclined = s.status === 'declined' || s.status === 'cancelled'
+                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#0ea5e9' : s.status === 'completed' ? '#22c55e' : '#ef4444'
+                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#e0f2fe' : s.status === 'completed' ? '#dcfce7' : '#fee2e2'
+                            return (
+                                <div key={s.id} style={{ border: `1.5px solid ${isPending ? '#fde68a' : '#f0f4f8'}`, borderRadius: 12, padding: '16px', display: 'flex', gap: 16, alignItems: 'flex-start', background: isPending ? '#fffbeb' : '#fff' }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: 10, background: isPending ? '#fef9c3' : '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isPending ? '#f59e0b' : '#0ea5e9', fontSize: 20 }}>
+                                        {isPending ? '⏳' : isDeclined ? '❌' : <Calendar size={22} />}
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
-                                            <Clock size={12} /> {formatDate(s.scheduled_at)}
+                                    <div style={{ flex: 1 }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                            <div>
+                                                <div style={{ fontSize: 14, fontWeight: 800, color: '#0f172a' }}>{s.client_name}</div>
+                                                <div style={{ fontSize: 11, color: '#64748b', marginTop: 2 }}>{s.session_type}</div>
+                                            </div>
+                                            <Badge color={statusColor} bg={statusBg}>{s.status}</Badge>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
-                                            <Sparkles size={12} /> {s.duration_minutes} min
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
+                                                <Clock size={12} /> {formatDate(s.scheduled_at)}
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 11, color: '#64748b' }}>
+                                                <Sparkles size={12} /> {s.duration_minutes} min
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    {/* Action Buttons for Upcoming */}
-                                    {filter === 'upcoming' && (
-                                        <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #f0f4f8', display: 'flex', gap: 8 }}>
-                                            <button
-                                                onClick={(e) => { e.stopPropagation(); handleAddToCalendar(s) }}
-                                                style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#0ea5e9', background: '#eff6ff', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
-                                            >
-                                                <CalendarPlus size={14} /> Add to Calendar
-                                            </button>
-                                        </div>
-                                    )}
+                                        {/* Action Buttons for Upcoming */}
+                                        {filter === 'upcoming' && (
+                                            <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #f0f4f8', display: 'flex', gap: 8 }}>
+                                                {isPending ? (
+                                                    <>
+                                                        <button
+                                                            onClick={async (e) => {
+                                                                e.stopPropagation()
+                                                                const { error } = await supabase.from('coaching_sessions').update({ status: 'confirmed' }).eq('id', s.id)
+                                                                if (!error) loadData()
+                                                            }}
+                                                            style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#fff', background: '#22c55e', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                                        >
+                                                            <Check size={14} /> Accept
+                                                        </button>
+                                                        <button
+                                                            onClick={async (e) => {
+                                                                e.stopPropagation()
+                                                                const { error } = await supabase.from('coaching_sessions').update({ status: 'declined' }).eq('id', s.id)
+                                                                if (!error) loadData()
+                                                            }}
+                                                            style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#fff', background: '#ef4444', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                                        >
+                                                            <X size={14} /> Decline
+                                                        </button>
+                                                    </>
+                                                ) : isConfirmed ? (
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); handleAddToCalendar(s) }}
+                                                        style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#0ea5e9', background: '#eff6ff', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                                    >
+                                                        <CalendarPlus size={14} /> Add to Calendar
+                                                    </button>
+                                                ) : null}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            )
+                        })}
                     </div>
                 )}
             </div>

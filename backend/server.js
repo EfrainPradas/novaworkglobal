@@ -17,6 +17,7 @@ import resumeExportRoutes from './routes/resumeExport.js'
 import contactProfileRoutes from './routes/contactProfile.js'
 import positioningQuestionnaireRoutes from './routes/positioningQuestionnaire.js'
 import translationsRoutes from './routes/translations.js'
+import coachingRoutes from './routes/coaching.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -110,6 +111,8 @@ app.use('/api', resumeParserRoutes)
 app.use('/api', profileGeneratorRoutes)
 app.use('/api', contactProfileRoutes)
 app.use('/api', positioningQuestionnaireRoutes)
+
+app.use('/api/coaching', coachingRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

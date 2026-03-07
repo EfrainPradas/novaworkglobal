@@ -80,6 +80,7 @@ import TranslationEditor from './pages/admin/TranslationEditor'
 // Coach
 import CoachRoute from './components/auth/CoachRoute'
 import CoachDashboard from './pages/coach/CoachDashboard'
+import ClientCoaching from './pages/coach/ClientCoaching'
 
 // 404 Component
 function NotFound() {
@@ -146,6 +147,7 @@ function App() {
           <Route path="/weekly-reinvention/friday-ritual" element={<FridayRitual />} />
           <Route path="/weekly-reinvention/progress" element={<ProgressDashboard />} />
           <Route path="/settings/data" element={<DataManagement />} />
+          <Route path="/coaching" element={<ClientCoaching />} />
         </Route>
 
         {/* Momentum Tier Routes */}

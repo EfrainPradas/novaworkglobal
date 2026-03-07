@@ -554,7 +554,7 @@ export default function MainMenu() {
               {isInstallable ? 'Install App' : 'Get Mobile App'}
             </button>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 xl:grid-cols-5 gap-4">
             <button
               onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'essentials')}
               className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-lg hover:shadow-md transition-all"
@@ -580,13 +580,13 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/fast-track/ai-recommendations', 'momentum')}
-              className={`p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all ${!canAccess('momentum') ? 'opacity-75' : ''}`}
+              onClick={() => handleQuickAccess('/coaching', 'essentials')}
+              className="p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
-                🤖 {!canAccess('momentum') && <Lock className="h-4 w-4 text-gray-500" />}
+                🤝
               </div>
-              <div className="text-sm font-medium text-gray-900">AI Jobs</div>
+              <div className="text-sm font-medium text-gray-900">My Coaches</div>
             </button>
 
             <button
