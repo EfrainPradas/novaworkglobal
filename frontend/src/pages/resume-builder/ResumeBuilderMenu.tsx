@@ -265,24 +265,24 @@ export default function ResumeBuilderMenu() {
         />
 
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
-          <div>
-            <div className="flex items-start justify-between">
-              <div className="flex items-center gap-4">
+        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+          <div className="w-full">
+            <div className="flex flex-col md:flex-row items-start justify-between gap-6 w-full">
+              <div className="flex items-start gap-4">
                 <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
                 <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
                 <div>
-                  <h1 className="text-3xl font-bold mb-1 flex items-center gap-3">
-                    <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400" />
-                    {t('resumeBuilder.menu.title')}
+                  <h1 className="text-2xl sm:text-3xl font-bold mb-1 flex items-center gap-3">
+                    <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 shrink-0" />
+                    <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
                   <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
-                  <p className="text-gray-600 dark:text-gray-300 max-w-xl">
+                  <p className="text-gray-600 dark:text-gray-300 max-w-xl mt-2">
                     Follow the steps to complete an interview magnet resume
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full md:w-auto">
                 <button
                   onClick={async () => {
                     await trackEvent('analytics', 'step_completed', { step_name: 'funnel-start', next_step: 'contact-details' })

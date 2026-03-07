@@ -668,26 +668,26 @@ const WorkExperienceBuilder: React.FC = () => {
           </div>
 
           {isStandalone && (
-            <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700">
-              <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
+            <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
+              <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
                 {t('resumeBuilder.menu.workExperience')}
               </button>
               <button
                 onClick={() => navigate('/resume/education?mode=standalone')}
-                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
               >
                 {t('resumeBuilder.menu.education') || 'Education'}
               </button>
               <button
                 onClick={() => navigate('/resume/accomplishment-library?mode=standalone')}
-                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
+                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
               >
                 Accomplishment Bank
               </button>
             </div>
           )}
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
             <div>
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                 {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
@@ -699,21 +699,21 @@ const WorkExperienceBuilder: React.FC = () => {
                 {t('resumeBuilder.menu.workExperienceDesc')}
               </p>
             </div>
-            <div className="flex gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
               {!showForm && (
                 <>
                   <button
                     onClick={() => setShowImportModal(true)}
-                    className="px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center justify-center gap-2"
                   >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                    {t('resumeBuilder.workExperience.importFromResume')}
+                    <span>{t('resumeBuilder.workExperience.importFromResume')}</span>
                   </button>
                   <button
                     onClick={handleNewExperience}
-                    className="px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium"
+                    className="w-full sm:w-auto px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium text-center"
                   >
                     + {t('resumeBuilder.workExperience.addNew')}
                   </button>

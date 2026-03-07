@@ -1,26 +1,32 @@
 
-> careertipsai-backend@1.0.0 start
-> node server.js
+> careertipsai-backend@1.0.0 dev
+> nodemon server.js
 
+[33m[nodemon] 3.1.11[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: js,mjs,cjs,json[39m
+[32m[nodemon] starting `node server.js`[39m
 ⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
 ✅ Loaded environment from .env
-node:events:495
-      throw er; // Unhandled 'error' event
-      ^
 
-Error: listen EADDRINUSE: address already in use 0.0.0.0:5001
-    at Server.setupListenHandle [as _listen2] (node:net:1811:16)
-    at listenInCluster (node:net:1859:12)
-    at doListen (node:net:2008:7)
-    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
-Emitted 'error' event on Server instance at:
-    at emitErrorNT (node:net:1838:8)
-    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
-  code: 'EADDRINUSE',
-  errno: -98,
-  syscall: 'listen',
-  address: '0.0.0.0',
-  port: 5001
-}
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
 
-Node.js v18.19.1
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
