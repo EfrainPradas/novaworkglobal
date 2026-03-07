@@ -299,7 +299,7 @@ export default function ResumeBuilderMenu() {
                   <Play className="w-4 h-4" /> Watch video
                 </button>
                 <button
-                  onClick={() => navigate('/resume-builder')}
+                  onClick={() => navigate('/resume-builder/learn-more')}
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <BookOpen className="w-4 h-4" /> Learn more

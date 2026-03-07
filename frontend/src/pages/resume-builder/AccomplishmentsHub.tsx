@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { ArrowLeft, ArrowRight, Trophy, Star } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Trophy, Star, BookOpen } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { trackEvent } from '../../lib/analytics'
@@ -43,15 +43,24 @@ export default function AccomplishmentsHub() {
                         <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
                     </button>
 
-                    {!isStandalone && (
+                    <div className="flex items-center gap-2">
                         <button
-                            onClick={handleContinue}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            onClick={() => navigate('/resume/accomplishment-bank-learn-more')}
+                            className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition-colors"
                         >
-                            {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
-                            <ArrowRight className="w-4 h-4" />
+                            <BookOpen className="w-4 h-4" /> Learn More
                         </button>
-                    )}
+
+                        {!isStandalone && (
+                            <button
+                                onClick={handleContinue}
+                                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            >
+                                {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        )}
+                    </div>
                 </div>
 
                 {/* Tabs Header */}
@@ -59,8 +68,8 @@ export default function AccomplishmentsHub() {
                     <button
                         onClick={() => setActiveTab('bank')}
                         className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'bank'
-                                ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                            ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                             }`}
                     >
                         <Trophy className="w-4 h-4" />
@@ -69,8 +78,8 @@ export default function AccomplishmentsHub() {
                     <button
                         onClick={() => setActiveTab('cars')}
                         className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'cars'
-                                ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
-                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                            ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                             }`}
                     >
                         <Star className="w-4 h-4" />
