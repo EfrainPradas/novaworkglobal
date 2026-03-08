@@ -41,32 +41,39 @@ router.get('/:userId/docx', async (req, res) => {
         }
 
         // 1. Fetch all data
+        console.log(`📄 Starting DOCX export for user ${userId}`);
+
         const { data: userProfile } = await supabase
             .from('user_profiles')
             .select('*')
             .eq('user_id', userId)
-            .single();
+            .maybeSingle();
 
         const { data: user } = await supabase
             .from('users')
             .select('full_name, email, phone, linkedin_url')
             .eq('id', userId)
-            .single();
+            .maybeSingle();
 
-        let { data: resume } = await supabase
+        let { data: resume, error: resumeError } = await supabase
             .from('user_resumes')
             .select('*')
             .eq('user_id', userId)
             .eq('is_master', true)
-            .single();
+            .maybeSingle();
+
+        if (resumeError) {
+            console.error('❌ Error fetching master resume:', resumeError);
+        }
 
         if (!resume) {
+            console.log(`⚠️ No master resume found for user ${userId}, trying fallback`);
             const { data: anyResume } = await supabase
                 .from('user_resumes')
                 .select('*')
                 .eq('user_id', userId)
                 .limit(1)
-                .maybeSingle(); // Use maybeSingle to avoid 406 error
+                .maybeSingle();
             resume = anyResume;
         }
 
@@ -74,17 +81,19 @@ router.get('/:userId/docx', async (req, res) => {
         if (!resume) {
             console.log(`⚠️ No resume found for user ${userId}, using profile data as fallback`);
             resume = {
-                id: null, // No ID to link work experience to
+                id: null,
                 full_name: userProfile?.full_name || user?.full_name || 'Your Name',
-                email: user?.email,
-                phone: userProfile?.phone || user?.phone,
-                linkedin_url: userProfile?.linkedin_url || user?.linkedin_url,
+                email: user?.email || '',
+                phone: userProfile?.phone || user?.phone || '',
+                linkedin_url: userProfile?.linkedin_url || user?.linkedin_url || '',
                 location_city: userProfile?.current_location || '',
                 location_country: '',
                 profile_summary: userProfile?.bio || '',
                 areas_of_excellence: userProfile?.skills || []
             };
         }
+
+        console.log(`✅ Resume data loaded (ID: ${resume.id || 'placeholder'})`);
 
         // Work Experience
         let workExperience = [];
@@ -111,8 +120,10 @@ router.get('/:userId/docx', async (req, res) => {
             .eq('user_id', userId)
             .order('issue_date', { ascending: false });
 
+        console.log(`📊 Export stats: ${workExperience.length} work, ${education?.length || 0} edu, ${certifications?.length || 0} certs`);
 
         // 2. Generate DOCX
+        console.log('🏗️ Creating docx document structure...');
         const doc = new Document({
             sections: [{
                 children: [
@@ -121,7 +132,7 @@ router.get('/:userId/docx', async (req, res) => {
                         alignment: AlignmentType.CENTER,
                         children: [
                             new TextRun({
-                                text: (resume.full_name || user?.full_name || userProfile?.full_name || 'Your Name').toUpperCase(),
+                                text: String(resume.full_name || user?.full_name || userProfile?.full_name || 'Your Name').toUpperCase(),
                                 bold: true,
                                 size: 32, // 16pt
                                 font: 'Calibri'
@@ -134,10 +145,10 @@ router.get('/:userId/docx', async (req, res) => {
                         children: [
                             new TextRun({
                                 text: [
-                                    resume.location_city ? `${resume.location_city}, ${resume.location_country || ''}` : null,
-                                    resume.phone || user?.phone,
-                                    resume.email || user?.email,
-                                    resume.linkedin_url || user?.linkedin_url
+                                    resume.location_city ? `${resume.location_city}${resume.location_country ? `, ${resume.location_country}` : ''}` : null,
+                                    resume.phone || user?.phone || '',
+                                    resume.email || user?.email || '',
+                                    resume.linkedin_url || user?.linkedin_url || ''
                                 ].filter(Boolean).join(' | '),
                                 size: 22, // 11pt
                                 font: 'Calibri'
@@ -156,7 +167,7 @@ router.get('/:userId/docx', async (req, res) => {
                     }),
                     new Paragraph({
                         children: [new TextRun({
-                            text: resume.profile_summary || '[Professional Summary goes here. Describe your career overview and key achievements.]',
+                            text: String(resume.profile_summary || '[Professional Summary goes here.]'),
                             size: 22,
                             font: 'Calibri',
                             italics: !resume.profile_summary
@@ -175,9 +186,9 @@ router.get('/:userId/docx', async (req, res) => {
                     new Paragraph({
                         children: [
                             new TextRun({
-                                text: (resume.areas_of_excellence && resume.areas_of_excellence.length > 0)
+                                text: (resume.areas_of_excellence && Array.isArray(resume.areas_of_excellence) && resume.areas_of_excellence.length > 0)
                                     ? resume.areas_of_excellence.join(' • ')
-                                    : '[Core Competency 1] • [Core Competency 2] • [Core Competency 3] • [Skill 4] • [Skill 5]',
+                                    : '[Skills & Competencies]',
                                 size: 22,
                                 font: 'Calibri',
                                 italics: !(resume.areas_of_excellence && resume.areas_of_excellence.length > 0)
@@ -203,7 +214,7 @@ router.get('/:userId/docx', async (req, res) => {
                                 // Company Row
                                 new Paragraph({
                                     children: [
-                                        new TextRun({ text: exp.company_name, bold: true, size: 22, font: 'Calibri' }),
+                                        new TextRun({ text: String(exp.company_name || ''), bold: true, size: 22, font: 'Calibri' }),
                                         new TextRun({ text: `  |  ${exp.location_city || ''}`, size: 22, font: 'Calibri' }),
                                         new TextRun({
                                             text: `\t${dateRange}`,
@@ -218,22 +229,22 @@ router.get('/:userId/docx', async (req, res) => {
                                 // Job Title
                                 new Paragraph({
                                     children: [
-                                        new TextRun({ text: exp.job_title, italics: true, bold: true, size: 22, font: 'Calibri' })
+                                        new TextRun({ text: String(exp.job_title || ''), italics: true, bold: true, size: 22, font: 'Calibri' })
                                     ],
                                     spacing: { after: 100 }
                                 }),
                                 // Scope
                                 ...(exp.scope_description ? [
                                     new Paragraph({
-                                        children: [new TextRun({ text: exp.scope_description, size: 22, font: 'Calibri' })],
+                                        children: [new TextRun({ text: String(exp.scope_description), size: 22, font: 'Calibri' })],
                                         spacing: { after: 100 }
                                     })
                                 ] : []),
                                 // Accomplishments
-                                ...(exp.accomplishments && exp.accomplishments.length > 0 ?
-                                    exp.accomplishments.sort((a, b) => a.order_index - b.order_index).map(acc =>
+                                ...(exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0 ?
+                                    exp.accomplishments.sort((a, b) => (a.order_index || 0) - (b.order_index || 0)).map(acc =>
                                         new Paragraph({
-                                            children: [new TextRun({ text: acc.bullet_text, size: 22, font: 'Calibri' })],
+                                            children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
                                             bullet: { level: 0 },
                                             spacing: { after: 50 },
                                             alignment: AlignmentType.JUSTIFIED
@@ -242,41 +253,8 @@ router.get('/:userId/docx', async (req, res) => {
                                 ),
                                 new Paragraph({ text: "", spacing: { after: 200 } })
                             ]
-                        }) : [
-                            // Placeholder for Experience
-                            new Paragraph({
-                                children: [
-                                    new TextRun({ text: 'Company Name', bold: true, size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({ text: '  |  City, State', size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({
-                                        text: `\tMM/YYYY – Present`,
-                                        bold: true,
-                                        size: 22,
-                                        font: 'Calibri',
-                                        italics: true
-                                    })
-                                ],
-                                tabStops: [{ type: 'right', position: 9000 }],
-                                spacing: { before: 100 }
-                            }),
-                            new Paragraph({
-                                children: [new TextRun({ text: 'Job Title', italics: true, bold: true, size: 22, font: 'Calibri' })],
-                                spacing: { after: 100 }
-                            }),
-                            new Paragraph({
-                                children: [new TextRun({ text: '[Description of your role and responsibilities]', size: 22, font: 'Calibri', italics: true })],
-                                bullet: { level: 0 },
-                                spacing: { after: 50 }
-                            }),
-                            new Paragraph({
-                                children: [new TextRun({ text: '[Key Achievement or Impact 1]', size: 22, font: 'Calibri', italics: true })],
-                                bullet: { level: 0 },
-                                spacing: { after: 50 }
-                            }),
-                            new Paragraph({ text: "", spacing: { after: 200 } })
-                        ]
+                        }) : []
                     ),
-
 
                     // --- EDUCATION ---
                     new Paragraph({
@@ -290,39 +268,21 @@ router.get('/:userId/docx', async (req, res) => {
                         education.flatMap(edu => [
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: edu.institution, bold: true, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: String(edu.institution || ''), bold: true, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: `\t${edu.location_city || ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                             }),
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: `${edu.degree} in ${edu.field_of_study}`, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: `${edu.degree || ''} in ${edu.field_of_study || ''}`, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: `\t${edu.graduation_year || ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                                 spacing: { after: 200 }
                             })
-                        ]) : [
-                            // Placeholder for Education
-                            new Paragraph({
-                                children: [
-                                    new TextRun({ text: 'University Name', bold: true, size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({ text: `\tCity, State`, size: 22, font: 'Calibri', italics: true })
-                                ],
-                                tabStops: [{ type: 'right', position: 9000 }],
-                            }),
-                            new Paragraph({
-                                children: [
-                                    new TextRun({ text: `Bachelor of Science in [Major]`, size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({ text: `\tYYYY`, size: 22, font: 'Calibri', italics: true })
-                                ],
-                                tabStops: [{ type: 'right', position: 9000 }],
-                                spacing: { after: 200 }
-                            })
-                        ]
+                        ]) : []
                     ),
-
 
                     // --- CERTIFICATIONS ---
                     new Paragraph({
@@ -336,42 +296,42 @@ router.get('/:userId/docx', async (req, res) => {
                         certifications.map(cert =>
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: cert.name, bold: true, size: 22, font: 'Calibri' }),
-                                    new TextRun({ text: ` — ${cert.issuing_organization}`, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: String(cert.name || ''), bold: true, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: ` — ${cert.issuing_organization || ''}`, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: `\t${cert.year || cert.issue_date || ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                                 spacing: { after: 100 }
                             })
-                        ) : [
-                            // Placeholder for Certifications
-                            new Paragraph({
-                                children: [
-                                    new TextRun({ text: '[Certification Name]', bold: true, size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({ text: ` — [Issuing Organization]`, size: 22, font: 'Calibri', italics: true }),
-                                    new TextRun({ text: `\tYYYY`, size: 22, font: 'Calibri', italics: true })
-                                ],
-                                tabStops: [{ type: 'right', position: 9000 }],
-                                spacing: { after: 100 }
-                            })
-                        ]
+                        ) : []
                     )
-
                 ]
             }]
         });
 
+        console.log('📦 Packing document into buffer...');
         const buffer = await Packer.toBuffer(doc);
+        console.log(`✅ Buffer generated (${buffer.length} bytes)`);
 
-        const filename = (resume.full_name || 'Resume').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        // Generate a user-friendly filename: Full Name - Resume - Date
+        const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+        const safeName = (resume.full_name || user?.full_name || 'Resume')
+            .replace(/[^a-z0-9]/gi, '_')
+            .split('_')
+            .filter(Boolean)
+            .join(' ');
 
+        const filename = `${safeName} - Resume - ${date}.docx`;
+
+        console.log(`📡 Sending file: ${filename}`);
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-        res.setHeader('Content-Disposition', `attachment; filename="${filename}_resume.docx"`);
+        res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(filename)}"`);
         res.send(buffer);
+        console.log('✨ Request completed successfully');
 
     } catch (error) {
-        console.error('Error handling DOCX export:', error);
-        res.status(500).json({ error: 'Failed to generate DOCX' });
+        console.error('❌ Error handling DOCX export:', error);
+        res.status(500).json({ error: 'Failed to generate DOCX', details: error.message });
     }
 });
 

@@ -61,6 +61,7 @@ router.post('/generate-profile', async (req, res) => {
         INSTRUCTIONS:
         Generate a structured professional profile in JSON format with 3 distinct parts.
         - Tone: Professional, confident, results-oriented.
+        - CRITICAL TONE RULE: Write strictly in the implied third-person objective tone (e.g. "Accomplished executive with..." NOT "I am an accomplished executive..."). ABSOLUTELY DO NOT use personal pronouns like "I", "me", "my", "we", "he", "him", "she", or "her".
         - Avoid generic buzzwords. Be specific about value/impact.
         - "whoYouAre": 1 sentence. Start with a strong professional title (infer it) and years of experience (state 'Experienced' if unknown).
         - "coreSkills": 1-2 sentences focusing on hard skills and technical expertise.

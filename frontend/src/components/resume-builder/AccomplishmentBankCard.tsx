@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { AccomplishmentBankItem } from '../../types/resume'
-import { Star, MoreVertical, Edit2, Trash2, Check, X, Tag } from 'lucide-react'
+import { Star, MoreVertical, Edit2, Trash2, Check, X, Tag, GripVertical } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 
 interface AccomplishmentBankCardProps {
     item: AccomplishmentBankItem
@@ -18,6 +20,15 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
     const [editStart, setEditStart] = useState(item.start_date || '')
     const [editEnd, setEditEnd] = useState(item.end_date || '')
     const [showMenu, setShowMenu] = useState(false)
+
+    const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id! })
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+        zIndex: isDragging ? 50 : 'auto',
+        opacity: isDragging ? 0.5 : 1,
+    }
 
     const handleSave = async () => {
         const edits: Partial<AccomplishmentBankItem> = {}
@@ -48,8 +59,24 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
     }
 
     return (
-        <div className={`group relative bg-white dark:bg-gray-800 border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 dark:border-amber-700/50 bg-amber-50/30 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700'}`}>
+        <div
+            ref={setNodeRef}
+            style={style}
+            className={`group relative bg-white dark:bg-gray-800 border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 dark:border-amber-700/50 bg-amber-50/30 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700'} ${isDragging ? 'shadow-xl border-emerald-500' : ''}`}
+        >
             <div className="flex justify-between items-start gap-4">
+                {/* Drag Handle */}
+                {!isEditing && (
+                    <div
+                        {...attributes}
+                        {...listeners}
+                        className="mt-1 cursor-grab text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400 opacity-50 hover:opacity-100 flex-shrink-0 active:cursor-grabbing"
+                        title="Drag to reorder"
+                    >
+                        <GripVertical size={18} />
+                    </div>
+                )}
+
                 <div className="flex-1 space-y-2">
                     {isEditing ? (
                         <div className="space-y-2">

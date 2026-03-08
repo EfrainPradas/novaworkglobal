@@ -59,6 +59,16 @@ export default function ResumeBuilderLearnMore() {
                     </div>
                 </section>
 
+                {/* ── VISUAL OVERVIEW ── */}
+                <section className="mx-auto max-w-6xl overflow-hidden rounded-[2.5rem] border border-blue-100 dark:border-white/10 bg-white dark:bg-[#081229] shadow-2xl relative group">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 dark:from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <img
+                        src="/images/resume-builder-infographic.png"
+                        alt={t('resumeBuilderLearnMore.infographicAlt', 'The Architecture of an Accomplishment-Based Resume')}
+                        className="w-full h-auto object-contain"
+                    />
+                </section>
+
                 {/* ── BLACK HOLE + WHAT IT'S NOT ── */}
                 <div className="grid gap-6 md:grid-cols-[1.3fr_0.7fr]">
                     {/* Dark card */}

@@ -12,6 +12,7 @@ interface Education {
     graduation_year: number | null
     gpa: string
     honors: string
+    location: string
 }
 
 const DEGREE_TYPES = ['Associate', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Diploma', 'Other']
@@ -22,7 +23,8 @@ const emptyEntry: Education = {
     field_of_study: '',
     graduation_year: null,
     gpa: '',
-    honors: ''
+    honors: '',
+    location: ''
 }
 
 export default function EducationBuilder() {
@@ -65,7 +67,8 @@ export default function EducationBuilder() {
                     field_of_study: d.field_of_study || '',
                     graduation_year: d.graduation_year || null,
                     gpa: d.gpa?.toString() || '',
-                    honors: d.honors || ''
+                    honors: d.honors || '',
+                    location: d.location || ''
                 })))
             }
         } catch (e) {
@@ -79,7 +82,6 @@ export default function EducationBuilder() {
         if (!form.institution_name?.trim()) newErrors.institution_name = 'Required'
         if (!form.degree_type?.trim()) newErrors.degree_type = 'Required'
         if (!form.field_of_study?.trim()) newErrors.field_of_study = 'Required'
-        if (!form.graduation_year) newErrors.graduation_year = 'Required'
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
@@ -95,7 +97,8 @@ export default function EducationBuilder() {
             field_of_study: form.field_of_study.trim(),
             graduation_year: form.graduation_year,
             gpa: form.gpa ? parseFloat(form.gpa) : null,
-            honors: form.honors.trim() || null
+            honors: form.honors.trim() || null,
+            location: form.location.trim() || null
         }
 
         try {
@@ -184,8 +187,14 @@ export default function EducationBuilder() {
                         >
                             Work Experience
                         </button>
-                        <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400">
+                        <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
                             Education
+                        </button>
+                        <button
+                            onClick={() => navigate('/resume/awards?mode=standalone')}
+                            className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
+                        >
+                            Awards & Certifications
                         </button>
                     </div>
                 )}
@@ -220,6 +229,7 @@ export default function EducationBuilder() {
                                         </div>
                                         <p className="text-gray-600 dark:text-gray-400 ml-7">
                                             {entry.institution_name}
+                                            {entry.location ? ` • ${entry.location}` : ''}
                                             {entry.graduation_year ? ` • ${entry.graduation_year}` : ''}
                                         </p>
                                         {(entry.gpa || entry.honors) && (
@@ -267,19 +277,34 @@ export default function EducationBuilder() {
                         </div>
 
                         <div className="space-y-4">
-                            {/* Institution */}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Institution Name <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    value={form.institution_name}
-                                    onChange={e => setForm(p => ({ ...p, institution_name: e.target.value }))}
-                                    className={inputClass('institution_name')}
-                                    placeholder="Harvard University"
-                                />
-                                {errors.institution_name && <p className="text-red-500 text-xs mt-1">{errors.institution_name}</p>}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {/* Institution */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Institution Name <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={form.institution_name}
+                                        onChange={e => setForm(p => ({ ...p, institution_name: e.target.value }))}
+                                        className={inputClass('institution_name')}
+                                        placeholder="Harvard University"
+                                    />
+                                    {errors.institution_name && <p className="text-red-500 text-xs mt-1">{errors.institution_name}</p>}
+                                </div>
+                                {/* Location */}
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                                        Location
+                                    </label>
+                                    <input
+                                        type="text"
+                                        value={form.location}
+                                        onChange={e => setForm(p => ({ ...p, location: e.target.value }))}
+                                        className={inputClass('location')}
+                                        placeholder="Cambridge, MA"
+                                    />
+                                </div>
                             </div>
 
                             {/* Degree Type + Field of Study */}
@@ -317,14 +342,14 @@ export default function EducationBuilder() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Graduation Year (YYYY) <span className="text-red-500">*</span>
+                                        Graduation Year (YYYY)
                                     </label>
                                     <select
                                         value={form.graduation_year || ''}
                                         onChange={e => setForm(p => ({ ...p, graduation_year: e.target.value ? parseInt(e.target.value) : null }))}
                                         className={inputClass('graduation_year')}
                                     >
-                                        <option value="" disabled>Select Year</option>
+                                        <option value="">Select Year (Optional)</option>
                                         {years.map(year => (
                                             <option key={year} value={year}>{year}</option>
                                         ))}

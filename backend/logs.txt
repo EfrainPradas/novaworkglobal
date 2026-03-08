@@ -30,3 +30,1041 @@
    - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
 
 
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+2026-03-08T19:16:59.527Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:17:00.348Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:17:00.578Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:17:01.314Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:19:27.022Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:19:40.121Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:19:52.754Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:20:05.932Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:20:19.503Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:20:33.785Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:20:34.351Z - POST /api/positioning-questionnaire/generate-profile
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Professional profile v14 generated for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:20:51.865Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:20:52.329Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:20:52.516Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:20:53.012Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:24:31.275Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:24:32.387Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:24:32.568Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:24:33.339Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+2026-03-08T19:27:25.642Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:27:26.146Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:27:26.338Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:27:26.852Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:27:30.884Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:27:36.154Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:27:38.662Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:27:41.473Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:30:47.296Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:30:47.996Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:30:48.183Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:30:49.592Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:41:24.774Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:41:25.632Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:41:25.941Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:41:26.979Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:41:52.810Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:41:58.727Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:42:11.921Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:13.039Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:13.298Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:14.282Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:26.999Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:42:28.723Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:42:30.221Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:42:32.118Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:42:38.410Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:39.431Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:39.789Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:40.559Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:57.943Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:58.740Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:59.051Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:42:59.635Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:45:00.897Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:02.811Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:03.912Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:05.285Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:07.634Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:09.715Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:11.258Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:12.676Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:14.476Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:16.024Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:17.772Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:19.796Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:45:20.382Z - POST /api/positioning-questionnaire/generate-profile
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Professional profile v15 generated for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T19:47:54.364Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:47:55.742Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:47:55.902Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:47:57.036Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T19:56:39.485Z - POST /api/ai/generate-accomplishments
+✅ Authenticated user: efrain.pradas@gmail.com
+🚀 Received request to generate accomplishments
+Request body: {
+  "challenge": "Optimized SQL performance across reporting pipelines by refactoring queries, improving joins/filters, tuning indexes, and reducing redundant transformations, boosting overall reporting efficiency by 35% and shortening refresh cycles for business-critical dashboards.",
+  "result": "Boosted overall reporting efficiency by 35% and shortened refresh cycles for business-critical dashboards, enabling faster access to more reliable insights for business users.",
+  "role_title": "Data Analyst",
+  "company_name": "Data Analyst",
+  "skills": [
+    "sql"
+  ],
+  "competencies": []
+}
+🤖 Generating AI accomplishments...
+Input data: {
+  "challenge": "Optimized SQL performance across reporting pipelines by refactoring queries, improving joins/filters, tuning indexes, and reducing redundant transformations, boosting overall reporting efficiency by 35% and shortening refresh cycles for business-critical dashboards.",
+  "result": "Boosted overall reporting efficiency by 35% and shortened refresh cycles for business-critical dashboards, enabling faster access to more reliable insights for business users.",
+  "role_company": "Data Analyst at Data Analyst",
+  "skills": [
+    "sql"
+  ],
+  "competencies": [],
+  "positioning": null
+}
+✅ AI Response received
+Raw response: {
+  "accomplishments": [
+    "Refactored SQL queries and optimized indexing strategies, resulting in a 35% increase in reporting efficiency and significantly shortening dashboard refresh cycles for critical business insights.",
+    "Enhanced data processing pipelines by streamlining joins and filters, which led to faster access to reliable insights and improved decision-making capabilities for business users.",
+    "Decreased refresh times for key dashboards by implementing advanced query tuning techniques, enabling stakeholders to access real-time data and drive strategic initiatives more effectively."
+  ]
+}
+✅ Accomplishments generated: [
+  'Refactored SQL queries and optimized indexing strategies, resulting in a 35% increase in reporting efficiency and significantly shortening dashboard refresh cycles for critical business insights.',
+  'Enhanced data processing pipelines by streamlining joins and filters, which led to faster access to reliable insights and improved decision-making capabilities for business users.',
+  'Decreased refresh times for key dashboards by implementing advanced query tuning techniques, enabling stakeholders to access real-time data and drive strategic initiatives more effectively.'
+]
+✅ Accomplishments generated successfully
+2026-03-08T20:05:50.639Z - POST /api/coaching/sessions
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+Error sending email to efrain.pradas@gmail.com:  Error: Missing credentials for "LOGIN"
+    at SMTPConnection._formatError (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:912:19)
+    at SMTPConnection.login (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:549:38)
+    at /home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-transport/index.js:278:32
+    at SMTPConnection.<anonymous> (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:227:17)
+    at Object.onceWrapper (node:events:631:28)
+    at SMTPConnection.emit (node:events:517:28)
+    at SMTPConnection._actionEHLO (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:1503:14)
+    at SMTPConnection._processResponse (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:1098:20)
+    at SMTPConnection._onData (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:872:14)
+    at SMTPConnection._onSocketData (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:196:44)
+    at TLSSocket.emit (node:events:517:28)
+    at addChunk (node:internal/streams/readable:368:12)
+    at readableAddChunk (node:internal/streams/readable:341:9)
+    at Readable.push (node:internal/streams/readable:278:10)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:190:23) {
+  code: 'EAUTH',
+  command: 'API'
+}
+Error sending email to awoodw@gmail.com:  Error: Missing credentials for "LOGIN"
+    at SMTPConnection._formatError (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:912:19)
+    at SMTPConnection.login (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:549:38)
+    at /home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-transport/index.js:278:32
+    at SMTPConnection.<anonymous> (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:227:17)
+    at Object.onceWrapper (node:events:631:28)
+    at SMTPConnection.emit (node:events:517:28)
+    at SMTPConnection._actionEHLO (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:1503:14)
+    at SMTPConnection._processResponse (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:1098:20)
+    at SMTPConnection._onData (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:872:14)
+    at SMTPConnection._onSocketData (/home/efraiprada/novaworkglobal/backend/node_modules/nodemailer/lib/smtp-connection/index.js:196:44)
+    at TLSSocket.emit (node:events:517:28)
+    at addChunk (node:internal/streams/readable:368:12)
+    at readableAddChunk (node:internal/streams/readable:341:9)
+    at Readable.push (node:internal/streams/readable:278:10)
+    at TLSWrap.onStreamRead (node:internal/stream_base_commons:190:23) {
+  code: 'EAUTH',
+  command: 'API'
+}
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+2026-03-08T20:42:28.242Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T20:42:29.231Z - GET /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T20:42:29.714Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T20:42:30.356Z - GET /api/positioning-questionnaire/generated-profiles
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+2026-03-08T20:42:33.786Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T20:42:34.815Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T20:42:35.912Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T20:42:38.487Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+2026-03-08T20:42:40.559Z - PUT /api/positioning-questionnaire
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Questionnaire saved for user c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+node:internal/process/esm_loader:40
+      internalBinding('errors').triggerUncaughtException(
+                                ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'uuid' imported from /home/efraiprada/novaworkglobal/backend/routes/workExperience.js
+Did you mean to import uuid/dist/index.js?
+    at new NodeError (node:internal/errors:405:5)
+    at packageResolve (node:internal/modules/esm/resolve:916:9)
+    at moduleResolve (node:internal/modules/esm/resolve:973:20)
+    at defaultResolve (node:internal/modules/esm/resolve:1193:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:403:12)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:372:25)
+    at ModuleLoader.getModuleJob (node:internal/modules/esm/loader:249:38)
+    at ModuleWrap.<anonymous> (node:internal/modules/esm/module_job:76:39)
+    at link (node:internal/modules/esm/module_job:75:36) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v18.19.1
+[31m[nodemon] app crashed - waiting for file changes before starting...[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+2026-03-08T21:04:25.284Z - POST /api/work-experience/generate-scope
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+2026-03-08T21:18:53.010Z - POST /api/work-experience/generate-scope
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+✅ Authenticated user: efrain.pradas@gmail.com
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.
+[32m[nodemon] restarting due to changes...[39m
+[32m[nodemon] starting `node server.js`[39m
+⚠️  Node.js 18 and below are deprecated and will no longer be supported in future versions of @supabase/supabase-js. Please upgrade to Node.js 20 or later. For more information, visit: https://github.com/orgs/supabase/discussions/37217
+✅ Loaded environment from .env
+
+🚀 CareerTipsAI Backend Server running on port 5001
+📍 Frontend URL: undefined
+🔧 Environment: development
+
+✅ API endpoints available at http://localhost:5001/api
+   - GET  /api/health - Health check
+   - POST /api/jobs/search - Job search
+   - POST /api/jd-analyzer/analyze - Job Description Analyzer
+   - GET  /api/jd-analyzer/health - JD Analyzer health check
+   - GET  /api/career-vision/profile - Career Vision profile
+   - POST /api/career-vision/profile - Save Career Vision profile
+   - GET  /api/career-vision/status - Career Vision status
+   - GET  /api/interviews - Interview preparations
+   - GET  /api/interviews/questions/all - Question bank
+   - GET  /api/interviews/my-answers - My prepared answers
+   - POST /api/ai/generate-accomplishments - AI accomplishments generator
+   - GET  /api/ai/health - AI services health check
+   - POST /api/parse-resume - Upload and parse resume (PDF/DOCX)
+
+
+❌ Office 365 SMTP Connection Error:  Missing credentials for "LOGIN"
+Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.

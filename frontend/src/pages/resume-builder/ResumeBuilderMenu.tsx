@@ -207,8 +207,8 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'accomplishments-hub',
-      title: 'Accomplishment Bank & CARs',
-      description: 'Import, manage, and transform your accomplishments into powerful CARs.',
+      title: 'Accomplishment Bank',
+      description: 'Highlight your key accomplishments.',
       icon: Trophy,
       route: '/resume/accomplishments-hub?mode=standalone',
       completed: completedSteps.has('accomplishment-bank') && completedSteps.has('story-cards'),
@@ -220,7 +220,7 @@ export default function ResumeBuilderMenu() {
     {
       id: 'professional-profile',
       title: 'Professional Profile',
-      description: 'Define your strategic identity and target market.',
+      description: 'Introduce and postion yourself.',
       icon: ClipboardList,
       route: '/resume/questionnaire?mode=standalone',
       completed: completedSteps.has('questionnaire'),
@@ -231,10 +231,10 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'finalize',
-      title: 'Finalize and adapt',
-      description: 'Review, tailor to a job, export.',
+      title: 'Choose you Resume',
+      description: 'Chronological or Functional',
       icon: CheckSquare,
-      route: '/resume/jd-analyzer?mode=standalone',
+      route: '/resume/type-selection?mode=standalone',
       completed: completedSteps.has('finalize'),
       current: completedSteps.has('questionnaire') && !completedSteps.has('finalize'),
       color: 'text-blue-600',

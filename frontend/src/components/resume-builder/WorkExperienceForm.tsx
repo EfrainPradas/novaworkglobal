@@ -35,6 +35,85 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
     order_index: initialData?.order_index || 0
   })
 
+  // --- LOCAL AI QUESTIONNAIRE STATE ---
+  const [showAiBuilder, setShowAiBuilder] = useState(false)
+  const [generatingScope, setGeneratingScope] = useState(false)
+  const [aiForm, setAiForm] = useState({
+    core_mandate_verb: '',
+    core_mandate_objective: '',
+    core_mandate_trigger: '',
+    core_mandate_success: '',
+    fin_annual_spend: '',
+    fin_revenue_impact: '',
+    fin_pl_ownership: '',
+    geo_scope: '',
+    geo_countries_count: '',
+    geo_business_units: '',
+    lead_direct_reports: '',
+    lead_total_team: '',
+    lead_stakeholders: [] as string[],
+    ecosystem_count: '',
+    ecosystem_names: '',
+    ecosystem_categories: '',
+    ecosystem_brands: '',
+    ecosystem_technologies: '',
+    complexity_factors: [] as string[]
+  })
+
+  const COMPLEXITY_FACTORS = [
+    'Matrix organization', 'Highly regulated', 'Transformation mandate',
+    'M&A integration', 'High-growth scaling', 'Turnaround / crisis',
+    'Digital modernization', 'Global standardization'
+  ]
+
+  const STAKEHOLDERS = [
+    'Director', 'VP', 'C-Suite', 'Board', 'Cross-functional leadership'
+  ]
+
+  const VERBS = [
+    'Led', 'Transformed', 'Built', 'Established', 'Centralized', 'Scaled',
+    'Optimized', 'Modernized', 'Integrated', 'Drove', 'Repositioned',
+    'Stabilized', 'Launched', 'Architected', 'Oversaw'
+  ]
+
+  const handleAiUpdate = (field: string, value: any) => {
+    setAiForm(prev => ({ ...prev, [field]: value }))
+  }
+
+  const toggleAiArray = (field: 'lead_stakeholders' | 'complexity_factors', item: string) => {
+    setAiForm(prev => ({
+      ...prev,
+      [field]: prev[field].includes(item)
+        ? prev[field].filter(i => i !== item)
+        : [...prev[field], item]
+    }))
+  }
+
+  const handleGenerateScope = async () => {
+    setGeneratingScope(true)
+    setError(null)
+    try {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/work-experience/generate-scope`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${(await import('../../lib/supabase').then(m => m.supabase.auth.getSession())).data.session?.access_token}`
+        },
+        body: JSON.stringify({ aiForm, jobTitle: formData.job_title })
+      })
+      if (!resp.ok) throw new Error('Failed to generate scope')
+      const result = await resp.json()
+      setFormData(prev => ({ ...prev, scope_description: result.text }))
+      setShowAiBuilder(false) // collapse on success
+    } catch (e: any) {
+      console.error(e)
+      setError('AI generation failed: ' + e.message)
+    } finally {
+      setGeneratingScope(false)
+    }
+  }
+  // ------------------------------------
+
   const [geoInput, setGeoInput] = useState('')
   const [vendorInput, setVendorInput] = useState('')
   const [toolInput, setToolInput] = useState('')
@@ -268,17 +347,120 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
       {/* Scope */}
       <div>
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          {t('resumeBuilder.workExperience.scope')}
+          Scope
         </label>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{t('resumeBuilder.workExperience.scopeHelp')}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">High-level summary of your role. Metrics should go in accomplishments.</p>
         <textarea
           value={formData.scope_description}
           onChange={(e) => setFormData({ ...formData, scope_description: e.target.value })}
           rows={3}
           className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-          placeholder={t('resumeBuilder.workExperience.scopePlaceholder')}
+          placeholder="e.g. Designed and implemented analytics-driven workflows..."
         />
+        <button
+          type="button"
+          onClick={() => setShowAiBuilder(!showAiBuilder)}
+          className="mt-2 text-sm text-primary-600 hover:text-primary-700 flex items-center gap-1 font-medium"
+        >
+          {showAiBuilder ? 'Hide Scope Builder' : '✨ Build Scope with AI Questionnaire'}
+        </button>
       </div>
+
+      {showAiBuilder && (
+        <div className="bg-gray-50 dark:bg-slate-800/50 p-6 rounded-xl border border-gray-200 dark:border-slate-700 space-y-6">
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-slate-700 pb-2">Scope & Mandate Questionnaire</h4>
+          <p className="text-sm text-gray-500">Fill out as much as you can. Our AI will draft a concise 3-line scope summary for you based on this specific role.</p>
+
+          {/* Section 1 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">1. Core Mandate</h5>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Primary Action Verb</label>
+              <select value={aiForm.core_mandate_verb} onChange={e => handleAiUpdate('core_mandate_verb', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                <option value="">Select a verb...</option>
+                {VERBS.map(v => <option key={v} value={v}>{v}</option>)}
+              </select>
+            </div>
+            <input placeholder="Objective of the role?" value={aiForm.core_mandate_objective} onChange={e => handleAiUpdate('core_mandate_objective', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Trigger for role creation/continuation?" value={aiForm.core_mandate_trigger} onChange={e => handleAiUpdate('core_mandate_trigger', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Definition of success (Outcomes)?" value={aiForm.core_mandate_success} onChange={e => handleAiUpdate('core_mandate_success', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+          </div>
+
+          {/* Section 2 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">2. Financial Scope</h5>
+            <div className="grid grid-cols-2 gap-2">
+              <input placeholder="Annual budget managed (e.g. $5M)" value={aiForm.fin_annual_spend} onChange={e => handleAiUpdate('fin_annual_spend', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder="Revenue impact" value={aiForm.fin_revenue_impact} onChange={e => handleAiUpdate('fin_revenue_impact', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            </div>
+            <select value={aiForm.fin_pl_ownership} onChange={e => handleAiUpdate('fin_pl_ownership', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+              <option value="">P&L Ownership?</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+              <option value="Partial">Partial</option>
+            </select>
+          </div>
+
+          {/* Section 3 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">3. Geographic Scope</h5>
+            <select value={aiForm.geo_scope} onChange={e => handleAiUpdate('geo_scope', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+              <option value="">Geographic Scope...</option>
+              <option value="Local">Local</option>
+              <option value="Regional">Regional</option>
+              <option value="Global">Global</option>
+            </select>
+            <div className="grid grid-cols-2 gap-2">
+              <input placeholder="Number of countries" value={aiForm.geo_countries_count} onChange={e => handleAiUpdate('geo_countries_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder="Number of BUs supported" value={aiForm.geo_business_units} onChange={e => handleAiUpdate('geo_business_units', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            </div>
+          </div>
+
+          {/* Section 4 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">4. Leadership Scope</h5>
+            <div className="grid grid-cols-2 gap-2">
+              <input placeholder="Direct reports (number)" value={aiForm.lead_direct_reports} onChange={e => handleAiUpdate('lead_direct_reports', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder="Total team size" value={aiForm.lead_total_team} onChange={e => handleAiUpdate('lead_total_team', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            </div>
+            <p className="text-xs text-gray-500">Stakeholders engaged:</p>
+            <div className="flex flex-wrap gap-2">
+              {STAKEHOLDERS.map(s => (
+                <button type="button" key={s} onClick={() => toggleAiArray('lead_stakeholders', s)} className={`px-2 py-1 text-xs rounded border ${aiForm.lead_stakeholders.includes(s) ? 'bg-primary-50 border-primary-500 text-primary-700' : 'bg-white border-gray-300 dark:bg-slate-800 dark:border-slate-600'}`}>{s}</button>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 5 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">5. Ecosystem Complexity</h5>
+            <input placeholder="Number of brands/clients/vendors" value={aiForm.ecosystem_count} onChange={e => handleAiUpdate('ecosystem_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Most important brands/clients" value={aiForm.ecosystem_names} onChange={e => handleAiUpdate('ecosystem_names', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Categories / product lines" value={aiForm.ecosystem_categories} onChange={e => handleAiUpdate('ecosystem_categories', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Managed brands names (if relevant)" value={aiForm.ecosystem_brands} onChange={e => handleAiUpdate('ecosystem_brands', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder="Managed tech / methodologies" value={aiForm.ecosystem_technologies} onChange={e => handleAiUpdate('ecosystem_technologies', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+          </div>
+
+          {/* Section 6 */}
+          <div className="space-y-3">
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">6. Complexity Factors</h5>
+            <div className="flex flex-wrap gap-2">
+              {COMPLEXITY_FACTORS.map(c => (
+                <button type="button" key={c} onClick={() => toggleAiArray('complexity_factors', c)} className={`px-2 py-1 text-xs rounded border ${aiForm.complexity_factors.includes(c) ? 'bg-primary-50 border-primary-500 text-primary-700' : 'bg-white border-gray-300 dark:bg-slate-800 dark:border-slate-600'}`}>{c}</button>
+              ))}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGenerateScope}
+            disabled={generatingScope}
+            className="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg text-sm shadow-sm hover:opacity-90 disabled:opacity-50"
+          >
+            {generatingScope ? 'Generating...' : '✨ Generate Scope with AI'}
+          </button>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>

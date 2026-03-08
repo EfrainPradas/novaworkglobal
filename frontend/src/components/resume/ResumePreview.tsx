@@ -42,7 +42,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
             // Try master first
             let { data: masterResume } = await supabase
                 .from('user_resumes')
-                .select('id, profile_summary, areas_of_excellence, full_name, email, phone, linkedin_url, location_city, location_country, portfolio_url')
+                .select('id, profile_summary, areas_of_excellence, full_name, email, phone, linkedin_url, location_city, location_country, portfolio_url, resume_type')
                 .eq('user_id', userId)
                 .eq('is_master', true)
                 .maybeSingle()
@@ -51,7 +51,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
             if (!masterResume) {
                 const { data: anyResume } = await supabase
                     .from('user_resumes')
-                    .select('id, profile_summary, areas_of_excellence, full_name, email, phone, linkedin_url, location_city, location_country, portfolio_url')
+                    .select('id, profile_summary, areas_of_excellence, full_name, email, phone, linkedin_url, location_city, location_country, portfolio_url, resume_type')
                     .eq('user_id', userId)
                     .limit(1)
                     .maybeSingle()
@@ -88,7 +88,8 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                 },
                 summary: masterResume?.profile_summary,
                 skills: masterResume?.areas_of_excellence || [],
-                work_experience: workExperience
+                work_experience: workExperience,
+                resume_type: masterResume?.resume_type || 'chronological'
             })
 
         } catch (error) {
@@ -231,7 +232,9 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                                     {/* Work Experience */}
                                     {resumeData.work_experience && resumeData.work_experience.length > 0 && (
                                         <div className="mb-6">
-                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">Professional Experience</h2>
+                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">
+                                                {resumeData.resume_type === 'functional' ? 'Professional Capabilities' : 'Professional Experience'}
+                                            </h2>
                                             <div className="space-y-6">
                                                 {resumeData.work_experience.map((exp: any) => (
                                                     <div key={exp.id}>

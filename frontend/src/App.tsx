@@ -33,8 +33,9 @@ import AccomplishmentLibrary from './pages/resume-builder/AccomplishmentLibrary'
 import AccomplishmentsHub from './pages/resume-builder/AccomplishmentsHub'
 import AccomplishmentBankLearnMore from './pages/resume-builder/AccomplishmentBankLearnMore'
 import ResumeBuilderLearnMore from './pages/resume-builder/ResumeBuilderLearnMore'
-import JDAnalyzer from './pages/resume-builder/JDAnalyzer'
+import ResumeTypeSelection from './pages/resume-builder/ResumeTypeSelection'
 import ResumeTracking from './pages/resume-builder/ResumeTracking'
+import ResumeFinalPreview from './pages/resume-builder/ResumeFinalPreview'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
 
 // Resume Builder V2 Routes
@@ -134,7 +135,8 @@ function App() {
           <Route path="/resume/accomplishment-bank-learn-more" element={<AccomplishmentBankLearnMore />} />
           <Route path="/resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
           <Route path="/resume/profile" element={<ProfileBuilder />} />
-          <Route path="/resume/jd-analyzer" element={<JDAnalyzer />} />
+          <Route path="/resume/type-selection" element={<ResumeTypeSelection />} />
+          <Route path="/resume/final-preview" element={<ResumeFinalPreview />} />
           <Route path="/resume/tracking" element={<ResumeTracking />} />
           <Route path="/resume/cover-letter" element={<CoverLetterGenerator />} />
 
@@ -206,7 +208,7 @@ function App() {
         <Route path="/resume-builder/car-stories" element={<CARStoryBuilder />} />
         <Route path="/resume-builder/profile" element={<ProfileBuilder />} />
         <Route path="/resume-builder/work-experience" element={<WorkExperienceBuilder />} />
-        <Route path="/resume-builder/jd-analyzer" element={<JDAnalyzer />} />
+
         <Route path="/resume-builder/tracking" element={<ResumeTracking />} />
         <Route path="/fast-track/plan-your-search" element={<PlanYourSearch />} />
         <Route path="/fast-track/apply-smart-online" element={<OnlineJobApplications />} />

@@ -1,6 +1,7 @@
 import express from 'express';
 import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
+import { sendBookingNotification } from '../services/emailService.js';
 
 dotenv.config();
 
@@ -73,6 +74,40 @@ router.post('/sessions', async (req, res) => {
         if (sessionError) {
             console.error("Error inserting session:", sessionError);
             return res.status(500).json({ error: sessionError.message });
+        }
+
+        // 3. Send out Email Notifications to Coach and Client
+        try {
+            // Fetch names
+            const { data: profiles } = await supabase
+                .from('user_profiles')
+                .select('user_id, full_name')
+                .in('user_id', [client_id, coach_id]);
+
+            const clientProfile = profiles?.find(p => p.user_id === client_id) || {};
+            const coachProfile = profiles?.find(p => p.user_id === coach_id) || {};
+
+            // Fetch emails securely
+            const { data: clientAuth } = await supabase.auth.admin.getUserById(client_id);
+            const { data: coachAuth } = await supabase.auth.admin.getUserById(coach_id);
+
+            const clientData = {
+                full_name: clientProfile.full_name || 'Client',
+                email: clientAuth?.user?.email
+            };
+
+            const coachData = {
+                full_name: coachProfile.full_name || 'Coach',
+                email: coachAuth?.user?.email
+            };
+
+            // Non-blocking trigger
+            sendBookingNotification(clientData, coachData, session).catch(err => {
+                console.error("Non-fatal error: Failed to send booking notification emails", err);
+            });
+
+        } catch (emailErr) {
+            console.error("Error triggering emails (non-fatal):", emailErr);
         }
 
         res.status(200).json({ message: 'Session booked successfully', session });

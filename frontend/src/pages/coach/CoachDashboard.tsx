@@ -640,7 +640,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                 }
                 const { data: edu } = await supabase.from('education').select('*').eq('user_id', clientId)
                 setModuleData({ work: allWork, education: edu })
-            } else if (moduleTitle === 'Accomplishment Bank & CARs') {
+            } else if (moduleTitle === 'Accomplishment Bank') {
                 const { data: cars } = await supabase.from('par_stories').select('*').eq('user_id', clientId)
                 const { data: bank } = await supabase.from('accomplishment_bank').select('*').eq('user_id', clientId)
                 setModuleData({ cars, bank })

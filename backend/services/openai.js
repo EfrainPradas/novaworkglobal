@@ -503,8 +503,9 @@ function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, comp
 3. Include quantifiable metrics (percentages, numbers, timeframes) where possible.
 4. Use action verbs and focus on high-level business impact.
 5. EXTREMELY IMPORTANT: Tailor the language and focus of these accomplishments to the "Target Title" and "Focus Area" provided in the Strategic Positioning data.
-6. Make each accomplishment unique and highlight different aspects of the achievement.
-7. Follow the STAR method (Situation, Task, Action, Result) in condensed form.
+6. CRITICAL TONE RULE: Write strictly in the implied third-person objective tone (e.g. "Led a team..." NOT "I led a team..."). ABSOLUTELY DO NOT use personal pronouns like "I", "me", "my", "we", "he", "him", "she", or "her".
+7. Make each accomplishment unique and highlight different aspects of the achievement.
+8. Follow the STAR method (Situation, Task, Action, Result) in condensed form.
 
 Format your response as JSON with an "accomplishments" array containing exactly 3 strings.
 

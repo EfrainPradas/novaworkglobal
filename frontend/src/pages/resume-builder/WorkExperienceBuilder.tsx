@@ -679,10 +679,10 @@ const WorkExperienceBuilder: React.FC = () => {
                 {t('resumeBuilder.menu.education') || 'Education'}
               </button>
               <button
-                onClick={() => navigate('/resume/accomplishment-library?mode=standalone')}
+                onClick={() => navigate('/resume/awards?mode=standalone')}
                 className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
               >
-                Accomplishment Bank
+                {t('resumeBuilder.menu.awardsAndCerts', 'Awards & Certifications')}
               </button>
             </div>
           )}

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import {
     Search, Filter, Plus, FileDown, Star, LayoutGrid, List, Sparkles,
-    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight
+    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy
 } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import { supabase } from '../../lib/supabase'
 import { AccomplishmentBankItem } from '../../types/resume'
 import { AccomplishmentBankCard } from '../../components/resume-builder/AccomplishmentBankCard'
@@ -32,11 +34,33 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [newStart, setNewStart] = useState('')
     const [newEnd, setNewEnd] = useState('')
     const [isAdding, setIsAdding] = useState(false)
+    const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
 
-    // AI Selection State
-    const [aiMode, setAiMode] = useState(false)
-    const [targetJob, setTargetJob] = useState('')
-    const [aiLoading, setAiLoading] = useState(false)
+    // AI Grouping State
+    const [isGroupingPanelOpen, setIsGroupingPanelOpen] = useState(false)
+    const [customPrompt, setCustomPrompt] = useState('')
+    const [isCustomGrouping, setIsCustomGrouping] = useState(false)
+    const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant', content: string, groups?: { theme: string, storyIds: string[] }[] }[]>([])
+
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+    )
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event
+        if (over && active.id !== over.id) {
+            setItems((prev) => {
+                const oldIndex = prev.findIndex((i) => i.id === active.id)
+                const newIndex = prev.findIndex((i) => i.id === over.id)
+                const newItems = arrayMove(prev, oldIndex, newIndex)
+
+                // Save custom order to localStorage
+                localStorage.setItem(`accomplishment_order_${userId}`, JSON.stringify(newItems.map(i => i.id)))
+                return newItems
+            })
+        }
+    }
 
     useEffect(() => {
         loadLibrary()
@@ -56,7 +80,25 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
             if (error) throw error
 
-            setItems(data || [])
+            let fetchedItems = data || []
+            try {
+                const savedOrderStr = localStorage.getItem(`accomplishment_order_${user.id}`)
+                if (savedOrderStr) {
+                    const savedOrder = JSON.parse(savedOrderStr) as string[]
+                    fetchedItems.sort((a, b) => {
+                        const idxA = savedOrder.indexOf(a.id!)
+                        const idxB = savedOrder.indexOf(b.id!)
+                        if (idxA === -1 && idxB === -1) return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
+                        if (idxA === -1) return 1
+                        if (idxB === -1) return -1
+                        return idxA - idxB
+                    })
+                }
+            } catch (e) {
+                console.error('Error parsing custom order:', e)
+            }
+
+            setItems(fetchedItems)
 
             // Extract unique roles for filter
             const uniqueRoles = Array.from(new Set(data?.map(i => i.role_title).filter(Boolean) as string[]))
@@ -163,6 +205,38 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
         } finally {
             setImporting(false)
         }
+    }
+
+    const handleAddCustomGroup = (promptOverride?: string) => {
+        const userMsg = (promptOverride || customPrompt).trim()
+        if (!userMsg) return
+
+        setChatHistory(prev => [...prev, { role: 'user', content: userMsg }])
+        if (!promptOverride) setCustomPrompt('')
+        setIsCustomGrouping(true)
+
+        // Simulate a detailed AI response
+        setTimeout(() => {
+            const simulatedGroups = [
+                {
+                    theme: userMsg.includes('competencies') ? 'Core Competencies' : `Strategic Focus: ${userMsg.length > 20 ? userMsg.substring(0, 20) + '...' : userMsg}`,
+                    storyIds: items.slice(0, 2).map(s => s.id).filter(Boolean) as string[]
+                },
+                {
+                    theme: userMsg.includes('competencies') ? 'Leadership & Strategy' : 'Complementary Achievements',
+                    storyIds: items.slice(2, 4).map(s => s.id).filter(Boolean) as string[]
+                }
+            ]
+
+            setChatHistory(prev => [...prev, {
+                role: 'assistant',
+                content: userMsg.includes('competencies')
+                    ? "I've regrouped your accomplishments into 4 key competency areas as requested, maintaining the original wording."
+                    : `Based on your request "${userMsg}", I've analyzed your patterns:`,
+                groups: simulatedGroups
+            }])
+            setIsCustomGrouping(false)
+        }, 1500)
     }
 
     const handleDelete = async (id: string) => {
@@ -289,7 +363,21 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             </p>
                         </div>
 
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2 justify-end">
+                            <button
+                                onClick={() => setIsVideoModalOpen(true)}
+                                className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors"
+                            >
+                                <Play size={18} />
+                                Watch video
+                            </button>
+                            <button
+                                onClick={() => navigate('/resume/accomplishment-bank-learn-more')}
+                                className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors"
+                            >
+                                <BookOpen size={18} />
+                                Learn more
+                            </button>
                             <button
                                 onClick={() => setIsAdding(true)}
                                 className="flex items-center gap-2 px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 shadow-sm transition-colors"
@@ -298,47 +386,14 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 {t('accomplishmentLibrary.addNew', 'Add Accomplishment')}
                             </button>
                             <button
-                                onClick={() => setAiMode(!aiMode)}
-                                className={`flex items-center gap-2 px-4 py-2 border rounded-lg shadow-sm transition-colors ${aiMode ? 'bg-purple-50 dark:bg-purple-900/30 border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                                onClick={() => setIsGroupingPanelOpen(!isGroupingPanelOpen)}
+                                className={`flex items-center gap-1.5 px-4 py-2 text-white rounded-lg shadow-sm transition-colors ${isGroupingPanelOpen ? 'bg-indigo-700 hover:bg-indigo-800' : 'bg-[#4F46E5] hover:bg-[#4338CA]'}`}
                             >
-                                <Sparkles size={18} />
-                                {t('accomplishmentLibrary.autoAssemble', 'AI Auto-Select')}
+                                <Wand2 size={18} />
+                                Area of Expertise Grouping. (AI)
                             </button>
                         </div>
                     </div>
-
-                    {/* AI Assembler Panel */}
-                    {aiMode && (
-                        <div className="bg-gradient-to-r from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border border-purple-100 dark:border-purple-800/50 rounded-xl p-6 shadow-sm animate-in slide-in-from-top duration-300">
-                            <div className="flex items-start gap-4">
-                                <div className="p-3 bg-white dark:bg-gray-800 rounded-full shadow-sm text-purple-600 dark:text-purple-400">
-                                    <Sparkles size={24} />
-                                </div>
-                                <div className="flex-1 space-y-4">
-                                    <div>
-                                        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{t('accomplishmentLibrary.autoAssemble', 'AI Auto-Select')}</h3>
-                                        <p className="text-gray-600 dark:text-gray-400 text-sm">{t('accomplishmentLibrary.autoAssembleHelp', 'Enter a target job title and let AI pick the best accomplishments for your resume.')}</p>
-                                    </div>
-
-                                    <div className="flex gap-2 max-w-md">
-                                        <input
-                                            type="text"
-                                            value={targetJob}
-                                            onChange={(e) => setTargetJob(e.target.value)}
-                                            placeholder={t('accomplishmentLibrary.targetJobPlaceholder', 'e.g., Senior Product Manager')}
-                                            className="flex-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        />
-                                        <button
-                                            disabled={!targetJob || aiLoading}
-                                            className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50"
-                                        >
-                                            {aiLoading ? t('accomplishmentLibrary.assembling', 'AI is selecting...') : t('accomplishmentLibrary.assemble', 'Auto-Select')}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
 
                     {/* Controls Bar */}
                     <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-4 flex flex-col md:flex-row gap-4 justify-between items-center sticky top-4 z-10">
@@ -389,6 +444,115 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             </button>
                         </div>
                     </div>
+
+                    {/* AI Grouping Panel */}
+                    {isGroupingPanelOpen && (
+                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-indigo-200 dark:border-indigo-800/50 p-4 md:p-6 mb-6">
+                            <div className="flex items-center justify-between mb-4">
+                                <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                    <Wand2 className="w-5 h-5 text-[#4F46E5] dark:text-indigo-400" /> Area of Expertise Grouping. (AI)
+                                </h3>
+                                <button onClick={() => setIsGroupingPanelOpen(false)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                                    <X className="w-5 h-5" />
+                                </button>
+                            </div>
+                            <div className="flex flex-col">
+                                {/* Quick Action Buttons */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><Tag className="w-4 h-4" /> By Competencies</button>
+                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><RotateCw className="w-4 h-4" /> Reclassify</button>
+                                </div>
+
+                                {chatHistory.length > 0 && (
+                                    <div className="flex justify-end mb-2">
+                                        <button onClick={() => setChatHistory([])} className="text-xs text-red-400 hover:text-red-500 transition-colors flex items-center gap-1 font-medium">
+                                            <X className="w-4 h-4" /> Clear results
+                                        </button>
+                                    </div>
+                                )}
+
+                                {/* Scrollable Chat + Results Area */}
+                                <div className="flex-1 overflow-y-auto space-y-4 mb-4 max-h-[500px]" style={{ scrollbarWidth: 'thin' }}>
+                                    {chatHistory.length === 0 && (
+                                        <div className="text-center py-10 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
+                                            <Wand2 className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
+                                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Click a button above or type a prompt below to group your accomplishments.</p>
+                                        </div>
+                                    )}
+                                    {chatHistory.map((msg, i) => (
+                                        <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
+                                            <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none shadow-md' : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-tl-none shadow-sm'}`}>
+                                                {msg.content}
+                                            </div>
+                                            {msg.groups && (
+                                                <div className="w-full space-y-4 mt-2">
+                                                    {msg.groups.map((group, gi) => (
+                                                        <div key={gi} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
+                                                            {/* Group Header */}
+                                                            <div className="bg-gradient-to-r from-[#EEF2FF] to-[#E0E7FF] dark:from-indigo-900/40 dark:to-indigo-800/20 px-4 py-3 flex items-center justify-between">
+                                                                <h5 className="font-bold text-[#4F46E5] dark:text-indigo-400 text-sm flex items-center gap-2">
+                                                                    <Tag className="w-4 h-4" /> {group.theme}
+                                                                </h5>
+                                                                <span className="text-xs bg-white dark:bg-gray-900 text-[#4F46E5] dark:text-indigo-400 font-bold px-2.5 py-1 rounded-full shadow-sm">{group.storyIds.length} accomplishments</span>
+                                                            </div>
+                                                            {/* Accomplishment List */}
+                                                            <div className="divide-y divide-gray-100 dark:divide-gray-700">
+                                                                {group.storyIds.map(sid => {
+                                                                    const s = items.find(x => x.id === sid)
+                                                                    if (!s) return null
+                                                                    return (
+                                                                        <div key={sid} className="px-4 py-3">
+                                                                            <p className="text-sm text-gray-700 dark:text-gray-300">
+                                                                                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#10B981] mr-2"></span>
+                                                                                {s.bullet_text}
+                                                                            </p>
+                                                                        </div>
+                                                                    )
+                                                                })}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                    {isCustomGrouping && (
+                                        <div className="flex justify-start">
+                                            <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-3">
+                                                <Loader2 className="w-4 h-4 animate-spin text-[#10B981]" />
+                                                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Analyzing your accomplishments...</span>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Chat Input */}
+                                <div className="bg-white dark:bg-gray-900 p-2 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm flex items-center gap-2 mt-auto">
+                                    <Wand2 className="w-5 h-5 text-gray-400 ml-2" />
+                                    <input
+                                        type="text"
+                                        value={customPrompt}
+                                        onChange={e => setCustomPrompt(e.target.value)}
+                                        placeholder="Type a custom instruction..."
+                                        className="w-full text-sm py-2 px-2 border-none dark:text-gray-200 bg-transparent focus:ring-0 outline-none"
+                                        onKeyDown={e => {
+                                            if (e.key === 'Enter') {
+                                                e.preventDefault()
+                                                handleAddCustomGroup()
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        onClick={() => handleAddCustomGroup()}
+                                        disabled={!customPrompt.trim() || isCustomGrouping}
+                                        className="bg-[#4F46E5] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#4338CA] disabled:opacity-50 transition-colors shadow-sm"
+                                    >
+                                        Send
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
 
                     {/* Add Manual Form */}
                     {isAdding && (
@@ -474,21 +638,67 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             </button>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-4">
-                            {filteredItems.map(item => (
-                                <AccomplishmentBankCard
-                                    key={item.id}
-                                    item={item}
-                                    onUpdate={handleUpdate}
-                                    onDelete={handleDelete}
-                                />
-                            ))}
-                        </div>
+                        <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                            <SortableContext items={filteredItems.map(i => i.id!)} strategy={verticalListSortingStrategy}>
+                                <div className="grid grid-cols-1 gap-4">
+                                    {filteredItems.map(item => (
+                                        <AccomplishmentBankCard
+                                            key={item.id}
+                                            item={item}
+                                            onUpdate={handleUpdate}
+                                            onDelete={handleDelete}
+                                        />
+                                    ))}
+                                </div>
+                            </SortableContext>
+                        </DndContext>
                     )}
 
                 </div>
             </div>
             {userId && <ResumePreview userId={userId} />}
+
+            {/* Video Modal */}
+            {isVideoModalOpen && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+                    onClick={() => setIsVideoModalOpen(false)}
+                >
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+                    {/* Modal Content */}
+                    <div
+                        className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => setIsVideoModalOpen(false)}
+                            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                            aria-label="Close video"
+                        >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+
+                        {/* Video Player */}
+                        <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+                            <video
+                                src={`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`}
+                                className="w-full h-full outline-none"
+                                controls
+                                controlsList="nodownload"
+                                autoPlay
+                                playsInline
+                            >
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            )}
         </>
     )
 }

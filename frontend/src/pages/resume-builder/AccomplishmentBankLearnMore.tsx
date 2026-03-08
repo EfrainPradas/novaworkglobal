@@ -97,6 +97,16 @@ export default function AccomplishmentBankLearnMore() {
                     </div>
                 </section>
 
+                {/* === VISUAL OVERVIEW === */}
+                <section className="mt-16 overflow-hidden rounded-[2.5rem] border border-cyan-400/20 bg-white dark:bg-[#0B1120] shadow-2xl relative group">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <img
+                        src="/images/accomplishment-bank-framework.png"
+                        alt={t('accomplishmentBankLearnMore.infographicAlt', 'Accomplishment Bank Framework Overview')}
+                        className="w-full h-auto object-contain"
+                    />
+                </section>
+
                 {/* === WHAT IT IS === */}
                 <section className="mt-16 grid gap-8 md:grid-cols-[1.1fr_0.9fr]">
                     <div>
@@ -144,7 +154,7 @@ export default function AccomplishmentBankLearnMore() {
                     </div>
                     <div className="grid gap-6 md:grid-cols-2">
                         {/* Upload path */}
-                        <div className="rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gradient-to-br dark:from-white/[0.05] dark:to-white/[0.02] p-7 shadow-sm">
+                        <div className="rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-slate-900/40 p-7 shadow-sm hover:border-cyan-400/40 transition">
                             <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 dark:bg-cyan-400/10">
                                 <Upload className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                             </div>
@@ -159,7 +169,7 @@ export default function AccomplishmentBankLearnMore() {
                             </button>
                         </div>
                         {/* CAR path */}
-                        <div className="rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-gradient-to-br dark:from-white/[0.05] dark:to-white/[0.02] p-7 shadow-sm">
+                        <div className="rounded-3xl border border-gray-200 dark:border-white/10 bg-white dark:bg-slate-900/40 p-7 shadow-sm hover:border-cyan-400/40 transition">
                             <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 dark:bg-cyan-400/10">
                                 <FileText className="w-5 h-5 text-cyan-600 dark:text-cyan-400" />
                             </div>

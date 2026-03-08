@@ -226,6 +226,26 @@ export default function AwardsBuilder() {
                     )}
                 </div>
 
+                {isStandalone && (
+                    <div className="flex space-x-6 mb-8 border-b border-gray-200 dark:border-gray-700">
+                        <button
+                            onClick={() => navigate('/resume/work-experience?mode=standalone')}
+                            className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
+                        >
+                            Work Experience
+                        </button>
+                        <button
+                            onClick={() => navigate('/resume/education?mode=standalone')}
+                            className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
+                        >
+                            Education
+                        </button>
+                        <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
+                            Awards & Certifications
+                        </button>
+                    </div>
+                )}
+
                 {/* ═══ TWO-COLUMN LAYOUT ═══ */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
