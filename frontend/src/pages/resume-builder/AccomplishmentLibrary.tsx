@@ -207,36 +207,51 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
         }
     }
 
-    const handleAddCustomGroup = (promptOverride?: string) => {
+    const handleAddCustomGroup = async (promptOverride?: string) => {
         const userMsg = (promptOverride || customPrompt).trim()
-        if (!userMsg) return
+        if (!userMsg || items.length === 0) return
 
         setChatHistory(prev => [...prev, { role: 'user', content: userMsg }])
         if (!promptOverride) setCustomPrompt('')
         setIsCustomGrouping(true)
 
-        // Simulate a detailed AI response
-        setTimeout(() => {
-            const simulatedGroups = [
-                {
-                    theme: userMsg.includes('competencies') ? 'Core Competencies' : `Strategic Focus: ${userMsg.length > 20 ? userMsg.substring(0, 20) + '...' : userMsg}`,
-                    storyIds: items.slice(0, 2).map(s => s.id).filter(Boolean) as string[]
-                },
-                {
-                    theme: userMsg.includes('competencies') ? 'Leadership & Strategy' : 'Complementary Achievements',
-                    storyIds: items.slice(2, 4).map(s => s.id).filter(Boolean) as string[]
-                }
-            ]
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+            const token = session?.access_token
 
+            const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/ai/group-accomplishments`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    accomplishments: items.map(i => ({ id: i.id, text: i.bullet_text })),
+                    prompt: userMsg
+                })
+            })
+
+            if (!response.ok) throw new Error('Failed to group accomplishments')
+
+            const data = await response.json()
+            if (data.success) {
+                setChatHistory(prev => [...prev, {
+                    role: 'assistant',
+                    content: userMsg.includes('competencies')
+                        ? "I've regrouped your accomplishments into key competency areas based on your request, maintaining the original wording."
+                        : `I've analyzed your patterns based on "${userMsg}":`,
+                    groups: data.groups
+                }])
+            }
+        } catch (error) {
+            console.error('Grouping error:', error)
             setChatHistory(prev => [...prev, {
                 role: 'assistant',
-                content: userMsg.includes('competencies')
-                    ? "I've regrouped your accomplishments into 4 key competency areas as requested, maintaining the original wording."
-                    : `Based on your request "${userMsg}", I've analyzed your patterns:`,
-                groups: simulatedGroups
+                content: "I'm sorry, I encountered an error while trying to group your accomplishments. Please try again later."
             }])
+        } finally {
             setIsCustomGrouping(false)
-        }, 1500)
+        }
     }
 
     const handleDelete = async (id: string) => {

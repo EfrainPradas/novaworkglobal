@@ -117,6 +117,29 @@ router.post('/generate-accomplishments', async (req, res) => {
 })
 
 /**
+ * POST /api/ai/group-accomplishments
+ * Group accomplishments into categories based on a user prompt
+ */
+router.post('/group-accomplishments', async (req, res) => {
+  try {
+    const { accomplishments, prompt } = req.body;
+
+    if (!Array.isArray(accomplishments) || accomplishments.length === 0) {
+      return res.status(400).json({ error: 'Accomplishments array is required' });
+    }
+
+    const { groupAccomplishments } = await import('../services/openai.js');
+    const groups = await groupAccomplishments(accomplishments, prompt);
+
+    res.json({ success: true, groups });
+
+  } catch (error) {
+    console.error('❌ Error in /group-accomplishments:', error);
+    res.status(500).json({ error: 'Failed to group accomplishments', details: error.message });
+  }
+})
+
+/**
  * GET /api/ai/health
  * Health check for AI services
  */

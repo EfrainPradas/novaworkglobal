@@ -522,6 +522,55 @@ Example format:
 }
 
 /**
+ * Group accomplishments into themes/competencies using AI
+ * @param {Array} accomplishments - Array of {id, text} objects
+ * @param {string} prompt - User grouping instruction
+ * @returns {Promise<Array>} Array of {theme, storyIds} objects
+ */
+export async function groupAccomplishments(accomplishments, prompt = "group these accomplishments by key competencies") {
+  try {
+    console.log(`🤖 Grouping ${accomplishments.length} accomplishments...`);
+
+    const accomplishmentsText = accomplishments.map((acc, i) => `${i + 1}. [ID:${acc.id}] ${acc.text}`).join('\n');
+
+    const sysPrompt = `You are an expert career coach. Group the provided accomplishments into meaningful categories/themes based on the user's request.
+    
+    RULES:
+    1. Include ALL accomplishments provided in the groupings.
+    2. Create clear, professional theme names (e.g., "Leadership & Management", "Technical Excellence").
+    3. Return valid JSON only.
+    4. Each group should contain the IDs of the accomplishments that belong to it.
+    5. Maintain the exact wording of accomplishments.
+    
+    FORMAT:
+    {
+      "groups": [
+        { "theme": "Theme Name", "storyIds": ["id1", "id2"] },
+        ...
+      ]
+    }`;
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: sysPrompt },
+        { role: 'user', content: `Instruction: ${prompt}\n\nAccomplishments:\n${accomplishmentsText}` }
+      ],
+      temperature: 0.3,
+      response_format: { type: 'json_object' }
+    });
+
+    const content = JSON.parse(response.choices[0].message.content);
+    console.log('✅ Accomplishments grouped successfully');
+    return content.groups || [];
+
+  } catch (error) {
+    console.error('❌ Error grouping accomplishments:', error);
+    throw error;
+  }
+}
+
+/**
  * Get fallback accomplishments when AI fails
  */
 function getFallbackAccomplishments(result, roleCompany) {
