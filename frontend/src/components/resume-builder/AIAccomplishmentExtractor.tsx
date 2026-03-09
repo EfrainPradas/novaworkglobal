@@ -79,7 +79,7 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
                 // In production, we need the deployment-specific API prefix if VITE_API_URL is missing
                 const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
                     ? '/novaworkglobal-api'
-                    : '/api'
+                    : ''
                 const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
                 const { data: { session } } = await supabase.auth.getSession()
 

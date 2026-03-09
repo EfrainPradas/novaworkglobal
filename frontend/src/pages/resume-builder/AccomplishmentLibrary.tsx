@@ -222,7 +222,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
             // In production, we need the deployment-specific API prefix if VITE_API_URL is missing
             const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
                 ? '/novaworkglobal-api'
-                : '/api'
+                : ''
             const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
 
             const response = await fetch(`${apiUrl}/api/ai/group-accomplishments`, {
