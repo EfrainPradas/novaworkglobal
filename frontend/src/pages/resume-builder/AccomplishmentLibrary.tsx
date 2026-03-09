@@ -218,8 +218,9 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
         try {
             const { data: { session } } = await supabase.auth.getSession()
             const token = session?.access_token
+            const apiUrl = import.meta.env.VITE_API_URL || ''
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/ai/group-accomplishments`, {
+            const response = await fetch(`${apiUrl}/api/ai/group-accomplishments`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

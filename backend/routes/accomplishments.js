@@ -4,7 +4,7 @@
  */
 
 import express from 'express'
-import { generateAccomplishments } from '../services/openai.js'
+import { generateAccomplishments, groupAccomplishments } from '../services/openai.js'
 import { requireAuth, supabase, supabaseAdmin } from '../middleware/auth.js'
 import OpenAI from 'openai'
 
@@ -128,7 +128,6 @@ router.post('/group-accomplishments', async (req, res) => {
       return res.status(400).json({ error: 'Accomplishments array is required' });
     }
 
-    const { groupAccomplishments } = await import('../services/openai.js');
     const groups = await groupAccomplishments(accomplishments, prompt);
 
     res.json({ success: true, groups });

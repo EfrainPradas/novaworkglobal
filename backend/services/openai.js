@@ -596,5 +596,6 @@ export default {
   generateCareerVisionSuggestions,
   generateCareerVisionStatement,
   analyzeJobHistory,
-  generateAccomplishments
+  generateAccomplishments,
+  groupAccomplishments
 }
