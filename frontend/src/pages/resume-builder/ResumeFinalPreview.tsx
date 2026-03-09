@@ -113,7 +113,13 @@ export default function ResumeFinalPreview() {
             const token = session?.access_token;
             if (!token) return;
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL || '/api'}/resume/export/${userId}/docx`, {
+            // In production, we need the deployment-specific API prefix if VITE_API_URL is missing
+            const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
+                ? '/novaworkglobal-api'
+                : '/api'
+            const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+
+            const response = await fetch(`${apiUrl}/resume/export/${userId}/docx`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 

@@ -1,7 +1,11 @@
 // Note: We now use the backend API for all OpenAI operations
 // This is more secure and avoids CORS issues
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || ''
+// In production, we need the deployment-specific API prefix if VITE_API_URL is missing
+const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
+  ? '/novaworkglobal-api'
+  : '/api'
+const API_BASE_URL = import.meta.env.VITE_API_URL || fallbackApi
 
 export interface ExtractedKeyword {
   keyword: string
