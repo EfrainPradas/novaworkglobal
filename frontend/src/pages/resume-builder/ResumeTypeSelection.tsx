@@ -45,7 +45,7 @@ export default function ResumeTypeSelection() {
 
                 <div className="mb-10 text-center">
                     <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white md:text-5xl">
-                        Choose Your Resume Protocol
+                        Choose Your Resume
                     </h1>
                     <p className="mt-4 text-base text-slate-600 dark:text-slate-400 md:text-lg max-w-2xl mx-auto">
                         Select the structural format that best highlights your professional narrative and aligns with your target role.

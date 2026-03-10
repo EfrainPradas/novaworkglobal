@@ -205,7 +205,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">The CAR Framework</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div>
-                        <span className="font-bold text-orange-600 dark:text-orange-400">Challenge:</span>
+                        <span className="font-bold text-orange-600 dark:text-orange-400">Context/Challenge:</span>
                         <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">What specific context, problem, or situation did you face?</p>
                     </div>
                     <div>
@@ -284,7 +284,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 {/* Challenge */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        {t('resumeBuilder.par.problem')} *
+                        Context/Challenge *
                     </label>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                         {t('resumeBuilder.par.problemHelp')}
@@ -526,7 +526,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                         disabled={loading}
                         className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50"
                     >
-                        {loading ? t('common.saving') : t('common.save')}
+                        {loading ? t('common.saving') : 'Save CAR'}
                     </button>
                 </div>
             </div>

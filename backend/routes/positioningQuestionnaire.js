@@ -174,6 +174,8 @@ ${storySummaries || 'No story cards available'}
 ${workSummaries || 'No work experience available'}
 
 === INSTRUCTIONS ===
+CRITICAL TONE RULE: Write strictly in the telegraphic, implied third-person objective tone. ABSOLUTELY DO NOT use any personal pronouns in any language (e.g., "I", "me", "my", "we", "us", "he", "him", "his", "she", "her", "they", "Yo", "El", "Ella"). Start sentences directly with job titles, strong action verbs, or noun phrases (e.g., "Marketing Director with...", "Expert at building...", "Skilled at leading...").
+
 Generate a structured professional profile in JSON format with exactly these 5 keys:
 
 1. "identity_sentence": One powerful sentence following the template:
@@ -191,6 +193,7 @@ Generate a structured professional profile in JSON format with exactly these 5 k
    - Reference the complexity_moment and scale data
    - Mention stakeholder_exposure if relevant
    - Sound executive, results-oriented, and ATS-friendly
+   - Strict adherence to the no-pronoun rule. Never start a sentence with a pronoun.
    - Avoid generic buzzwords. Be specific about impact.
 
 4. "areas_of_excellence": A pipe-separated string of 12-18 ATS keywords:

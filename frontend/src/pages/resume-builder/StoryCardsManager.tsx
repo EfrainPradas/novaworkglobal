@@ -32,7 +32,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     const [workExperiences, setWorkExperiences] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
-    const [filterStatus, setFilterStatus] = useState<'all' | 'draft' | 'polished'>('all')
+    const [filterStatus, setFilterStatus] = useState<'all' | 'draft' | 'completed'>('all')
     const [filterCompetency, setFilterCompetency] = useState('')
     const [filterWillDoAgain, setFilterWillDoAgain] = useState(false)
     const [showForm, setShowForm] = useState(false)
@@ -103,7 +103,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     ...p,
                     role_title: roleTitle,
                     start_date: startDate,
-                    status: p.status === 'ready' ? 'polished' : (p.status || 'draft') // normalize 'ready' → 'polished'
+                    status: p.status === 'ready' || p.status === 'polished' || p.status === 'completed' ? 'completed' : (p.status || 'draft')
                 }
             })
 
@@ -202,7 +202,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
             if (searchQuery && !(`${s.title} ${s.role_title} ${s.company_name} ${s.problem_challenge} ${s.result}`).toLowerCase().includes(searchQuery.toLowerCase())) return false
             if (filterStatus !== 'all') {
                 if (filterStatus === 'draft' && s.status !== 'draft') return false
-                if (filterStatus === 'polished' && s.status !== 'polished') return false
+                if (filterStatus === 'completed' && s.status !== 'completed') return false
             }
             if (filterCompetency && !(s.competencies || []).includes(filterCompetency)) return false
             if (filterWillDoAgain && !s.will_do_again) return false
@@ -224,7 +224,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     const stats = {
         total: stories.length,
         draft: stories.filter(s => s.status === 'draft').length,
-        polished: stories.filter(s => s.status === 'polished').length
+        completed: stories.filter(s => s.status === 'completed').length
     }
 
     const handleNewStory = () => {
@@ -493,7 +493,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                 <span className="font-semibold text-gray-900 dark:text-white">{stats.draft}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.drafts', 'Drafts')}</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-[#059669] dark:text-[#10b981]">{stats.polished}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.polished', 'Polished')}</span>
+                                <span className="font-semibold text-[#059669] dark:text-[#10b981]">{stats.completed}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.completed', 'Completed')}</span>
                             </div>
                         </div>
                     </div>
@@ -553,8 +553,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                             >
                                 <option value="all">{t('common.allStatus', 'All Status')}</option>
                                 <option value="draft">{t('common.draft', 'Draft')}</option>
-                                <option value="ready">{t('common.ready', 'Ready')}</option>
-                                <option value="polished">{t('common.polished', 'Polished')}</option>
+                                <option value="completed">{t('common.completed', 'Completed')}</option>
                             </select>
                             <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                         </div>
@@ -625,10 +624,10 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">{story.title || `${story.role_title} at ${story.company_name}`}</h3>
                                             {/* Dynamic Status Pill */}
                                             <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase flex-shrink-0 ${story.status === 'draft' ? 'bg-[#FEF3C7] dark:bg-amber-900/30 text-[#D97706] dark:text-amber-500' :
-                                                story.status === 'polished' ? 'bg-[#D1FAE5] dark:bg-emerald-900/30 text-[#059669] dark:text-emerald-500' :
+                                                story.status === 'completed' ? 'bg-[#D1FAE5] dark:bg-emerald-900/30 text-[#059669] dark:text-emerald-500' :
                                                     'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                                                 }`}>
-                                                {story.status === 'polished' ? 'Polished' : (story.status || 'draft')}
+                                                {story.status === 'completed' ? 'Completed' : (story.status || 'draft')}
                                             </span>
                                         </div>
                                     </div>
@@ -679,9 +678,9 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 flex flex-col min-h-[160px]">
                                         <div className="flex items-center gap-2 mb-3 text-gray-400 font-semibold tracking-wider text-[11px] uppercase">
                                             <span className="w-5 h-5 flex items-center justify-center rounded bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-xs">C</span>
-                                            Challenge
+                                            Context/Challenge
                                         </div>
-                                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-y-auto">{story.problem_challenge || <span className="text-gray-300 dark:text-gray-600 italic">No challenge defined...</span>}</p>
+                                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed overflow-y-auto">{story.problem_challenge || <span className="text-gray-300 dark:text-gray-600 italic">No context/challenge defined...</span>}</p>
                                     </div>
 
                                     {/* Action Block */}
@@ -959,7 +958,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
                                     <div>
                                         <label className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                                            <span className="w-6 h-6 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs text-gray-600 dark:text-gray-300">C</span> Challenge <span className="text-red-500">*</span>
+                                            <span className="w-6 h-6 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center text-xs text-gray-600 dark:text-gray-300">C</span> Context/Challenge <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
                                             value={form.problem_challenge || ''}
@@ -1016,7 +1015,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     <div>
                                         <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-3">Status</label>
                                         <div className="grid grid-cols-1 gap-2">
-                                            {['draft', 'polished'].map(s => (
+                                            {['draft', 'completed'].map(s => (
                                                 <button
                                                     key={s}
                                                     onClick={() => setForm(prev => ({ ...prev, status: s as any }))}
@@ -1093,7 +1092,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                 disabled={saving}
                                 className="px-8 py-3 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors disabled:opacity-50 shadow-lg shadow-indigo-500/25 flex items-center gap-2"
                             >
-                                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : editingStory ? 'Update Story' : 'Save Story'}
+                                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : editingStory ? 'Update CAR' : 'Save CAR'}
                             </button>
                         </div>
                     </div>

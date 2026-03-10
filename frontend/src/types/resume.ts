@@ -28,7 +28,7 @@ export interface CARStory {
   // V2 fields
   title?: string
   source_type?: 'manual' | 'imported'
-  status?: 'draft' | 'polished'
+  status?: 'draft' | 'completed'
   skills_tags?: string[]
   linked_work_experience_ids?: string[]
 

@@ -6,8 +6,9 @@ import { trackEvent } from '../../lib/analytics'
 
 import AccomplishmentLibrary from './AccomplishmentLibrary'
 import StoryCardsManager from './StoryCardsManager'
+import SavedAccomplishmentGroups from './SavedAccomplishmentGroups'
 
-type TabType = 'bank' | 'cars'
+type TabType = 'bank' | 'cars' | 'groups'
 
 export default function AccomplishmentsHub() {
     const { t } = useTranslation()
@@ -85,6 +86,16 @@ export default function AccomplishmentsHub() {
                         <Star className="w-4 h-4" />
                         {t('resumeBuilder.menu.carStories', 'CARs')}
                     </button>
+                    <button
+                        onClick={() => setActiveTab('groups')}
+                        className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'groups'
+                            ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                            : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                            }`}
+                    >
+                        <BookOpen className="w-4 h-4" />
+                        Saved Groups
+                    </button>
                 </div>
             </div>
 
@@ -92,6 +103,8 @@ export default function AccomplishmentsHub() {
             <div className="flex-1 w-full flex flex-col mt-4">
                 {activeTab === 'bank' ? (
                     <AccomplishmentLibrary isNested={true} />
+                ) : activeTab === 'groups' ? (
+                    <SavedAccomplishmentGroups isNested={true} />
                 ) : (
                     <StoryCardsManager isNested={true} />
                 )}

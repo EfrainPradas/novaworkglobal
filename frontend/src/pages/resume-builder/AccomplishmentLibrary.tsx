@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
     Search, Filter, Plus, FileDown, Star, LayoutGrid, List, Sparkles,
-    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy
+    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy, FolderOpen
 } from 'lucide-react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
@@ -41,6 +41,12 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [customPrompt, setCustomPrompt] = useState('')
     const [isCustomGrouping, setIsCustomGrouping] = useState(false)
     const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant', content: string, groups?: { theme: string, storyIds: string[] }[] }[]>([])
+
+    // Save Group Modal State
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
+    const [saveGroupName, setSaveGroupName] = useState('')
+    const [groupToSave, setGroupToSave] = useState<{ theme: string, storyIds: string[] }[] | null>(null)
+    const [isSavingGroup, setIsSavingGroup] = useState(false)
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -257,6 +263,60 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
             }])
         } finally {
             setIsCustomGrouping(false)
+        }
+    }
+
+    const openSaveModal = (groups: { theme: string, storyIds: string[] }[]) => {
+        setGroupToSave(groups)
+        setSaveGroupName('')
+        setIsSaveModalOpen(true)
+    }
+
+    const handleSaveGroup = async () => {
+        if (!groupToSave || !saveGroupName.trim()) return
+
+        try {
+            setIsSavingGroup(true)
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            // Map the layout IDs entirely into snapshot format
+            const snapshotData = groupToSave.map(group => ({
+                theme: group.theme,
+                storyIds: group.storyIds,
+                accomplishments: group.storyIds.map(id => {
+                    const acc = items.find(i => i.id === id)
+                    return {
+                        id: acc?.id,
+                        text: acc?.bullet_text || ''
+                    }
+                }).filter(a => a.text) // Remove completely unbound items implicitly
+            }))
+
+            const { error } = await supabase
+                .from('saved_accomplishment_groups')
+                .insert({
+                    user_id: user.id,
+                    name: saveGroupName.trim(),
+                    grouped_data: snapshotData
+                })
+
+            if (error) throw error
+
+            trackEvent('audit', 'accomplishment_group_saved', { num_categories: snapshotData.length })
+
+            setIsSaveModalOpen(false)
+            setSaveGroupName('')
+            setGroupToSave(null)
+
+            // Show brief UI feedback (could also be toast in future)
+            alert('Group saved successfully. You can find it in the "Saved Groups" tab.')
+
+        } catch (error) {
+            console.error('Save Group Error:', error)
+            alert('There was an error saving the group. Ensure you created the database table.')
+        } finally {
+            setIsSavingGroup(false)
         }
     }
 
@@ -533,6 +593,14 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                             </div>
                                                         </div>
                                                     ))}
+                                                    <div className="flex justify-end pt-2">
+                                                        <button
+                                                            onClick={() => openSaveModal(msg.groups!)}
+                                                            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-bold rounded-lg border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors shadow-sm text-sm"
+                                                        >
+                                                            <FolderOpen size={16} /> Save This Group
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>
@@ -716,6 +784,74 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             >
                                 Your browser does not support the video tag.
                             </video>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Save Group Modal */}
+            {isSaveModalOpen && (
+                <div className="fixed inset-0 z-[150] flex items-center justify-center p-4 sm:p-6 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+                    <div
+                        className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
+                            <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                                <FolderOpen className="w-5 h-5 text-indigo-500" /> Save Accomplishment Group
+                            </h3>
+                            <button
+                                onClick={() => setIsSaveModalOpen(false)}
+                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                            >
+                                <X size={20} />
+                            </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-6">
+                            <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
+                                Group Name
+                            </label>
+                            <input
+                                type="text"
+                                value={saveGroupName}
+                                onChange={(e) => setSaveGroupName(e.target.value)}
+                                placeholder="e.g. Executive Summary Format"
+                                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
+                                autoFocus
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && saveGroupName.trim() && !isSavingGroup) {
+                                        handleSaveGroup()
+                                    }
+                                }}
+                            />
+                            <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
+                                This will save a snapshot of the {groupToSave?.length || 0} categories and their accomplishments exactly as generated, so you can review them later.
+                            </p>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="px-6 py-4 bg-gray-50 dark:bg-gray-900/50 border-t border-gray-100 dark:border-gray-700/50 flex justify-end gap-3">
+                            <button
+                                onClick={() => setIsSaveModalOpen(false)}
+                                disabled={isSavingGroup}
+                                className="px-5 py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors disabled:opacity-50"
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                onClick={handleSaveGroup}
+                                disabled={!saveGroupName.trim() || isSavingGroup}
+                                className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {isSavingGroup ? (
+                                    <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
+                                ) : (
+                                    'Save Group'
+                                )}
+                            </button>
                         </div>
                     </div>
                 </div>
