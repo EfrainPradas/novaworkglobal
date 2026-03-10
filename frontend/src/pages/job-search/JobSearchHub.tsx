@@ -3,12 +3,13 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import VisualGuide from '../../components/common/VisualGuide'
-import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe } from 'lucide-react'
+import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe, X, Play } from 'lucide-react'
 import AIJobSearch from '../../components/job-search/AIJobSearch'
 
 export default function JobSearchHub() {
     const navigate = useNavigate()
     const [showGuide, setShowGuide] = useState(false)
+    const [showVideoModal, setShowVideoModal] = useState(false)
 
     /*
     useEffect(() => {
@@ -116,19 +117,25 @@ export default function JobSearchHub() {
                             Your command center for landing the job. Plan, track, analyze, and prepare.
                         </p>
                         <div
-                            onClick={() => navigate('/job-search/methodology')}
+                            onClick={() => navigate('/job-search/learn-more')}
                             className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
                         >
-                            <span className="font-bold">Understand the Fast-Track System:</span>
+                            <span className="font-bold">Understand the Strategic Framework:</span>
                             <span>Success, getting called 75% faster than most</span>
                             <ArrowRight className="w-4 h-4 ml-1" />
                         </div>
                     </div>
                     <div className="flex gap-3">
-                        <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
-                            ▶ Watch video
+                        <button
+                            onClick={() => setShowVideoModal(true)}
+                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2"
+                        >
+                            <Play fill="currentColor" className="w-4 h-4" /> Watch video
                         </button>
-                        <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
+                        <button
+                            onClick={() => navigate('/job-search/learn-more')}
+                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                        >
                             Learn more
                         </button>
                     </div>
@@ -217,6 +224,48 @@ export default function JobSearchHub() {
                     }
                 ]}
             />
+
+            {/* Video Modal - Unified Frame */}
+            {showVideoModal && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+                    onClick={() => setShowVideoModal(false)}
+                >
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+                    {/* Modal Content */}
+                    <div
+                        className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10 animate-in zoom-in-95 duration-300"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Close button */}
+                        <button
+                            onClick={() => setShowVideoModal(false)}
+                            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                            aria-label="Close video"
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+
+                        {/* Video Player */}
+                        <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+                            <video
+                                src={`/videos/The_Job_Search_&_Application_Suite.mp4`.startsWith('/') && !`/videos/The_Job_Search_&_Application_Suite.mp4`.startsWith(import.meta.env.BASE_URL)
+                                    ? `${import.meta.env.BASE_URL}${`/videos/The_Job_Search_&_Application_Suite.mp4`.slice(1)}`
+                                    : `/videos/The_Job_Search_&_Application_Suite.mp4`}
+                                className="w-full h-full outline-none"
+                                controls
+                                controlsList="nodownload"
+                                autoPlay
+                                playsInline
+                            >
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

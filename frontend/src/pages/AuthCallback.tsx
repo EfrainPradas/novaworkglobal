@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
+import posthog from 'posthog-js'
 
 export default function AuthCallback() {
   const navigate = useNavigate()
@@ -36,6 +37,13 @@ export default function AuthCallback() {
         console.log('✅ Authentication successful!')
         console.log('User:', session.user)
         console.log('Provider:', session.user.app_metadata.provider)
+
+        if (posthog.__loaded) {
+          posthog.identify(session.user.id, {
+            email: session.user.email,
+            name: session.user.user_metadata?.full_name || session.user.email
+          });
+        }
 
         setStatus('success')
         setMessage(t('auth.callback.successMessage'))

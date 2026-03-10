@@ -12,6 +12,15 @@ import { ThemeProvider } from './contexts/ThemeContext'
 import './i18n/config' // Initialize i18n
 import './index.css'
 import { registerSW } from 'virtual:pwa-register'
+import posthog from 'posthog-js'
+
+if (import.meta.env.VITE_POSTHOG_KEY && import.meta.env.VITE_POSTHOG_KEY !== 'phc_placeholder_key_replace_me') {
+  posthog.init(import.meta.env.VITE_POSTHOG_KEY, {
+    api_host: import.meta.env.VITE_POSTHOG_HOST || 'https://us.i.posthog.com',
+    persistence: 'localStorage',
+    autocapture: true,
+  })
+}
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import posthog from 'posthog-js'
 
 const SESSION_TIMEOUT_MS = 30 * 60 * 1000 // 30 minutes in milliseconds
 const DEDUP_MS = 2000 // 2 seconds to avoid React Strict Mode double-firing
@@ -69,6 +70,15 @@ export const trackEvent = async (
                 localStorage.setItem('rb_session_id', currentSessionId)
             }
             localStorage.setItem('rb_session_last_active', Date.now().toString())
+        }
+
+        if (posthog.__loaded) {
+            posthog.capture(eventName, {
+                category,
+                entityType,
+                entityId,
+                ...properties
+            });
         }
 
         // Fire and forget (don't await in UI components to avoid blocking)

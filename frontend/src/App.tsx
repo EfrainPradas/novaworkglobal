@@ -53,6 +53,7 @@ import HeadhunterSearch from './pages/job-search/HeadhunterSearch'
 import NetworkingStrategy from './pages/job-search/NetworkingStrategy'
 import AIRecommendations from './pages/fast-track/AIRecommendations'
 import JobSearchHub from './pages/job-search/JobSearchHub'
+import StrategicJobSearchLearnMore from './pages/job-search/StrategicJobSearchLearnMore'
 import FastTrackMethodology from './pages/fast-track/FastTrackMethodology'
 
 // Interview Mastery System Routes
@@ -159,6 +160,7 @@ function App() {
         {/* Momentum Tier Routes */}
         <Route element={<ProtectedRoute requiredLevel="momentum" />}>
           <Route path="/job-search-hub" element={<JobSearchHub />} />
+          <Route path="/job-search/learn-more" element={<StrategicJobSearchLearnMore />} />
           <Route path="/job-search/methodology" element={<FastTrackMethodology />} />
           <Route path="/job-search/plan-your-search" element={<PlanYourSearch />} />
           <Route path="/job-search/online-applications" element={<OnlineJobApplications />} />
