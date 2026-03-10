@@ -106,12 +106,42 @@ router.get('/:userId/docx', async (req, res) => {
             workExperience = work || [];
         }
 
+        // Accomps for Functional Resume
+        let functionalGroupData = [];
+        if (resume.resume_type === 'functional') {
+            const { groupId } = req.query;
+            if (groupId) {
+                const { data: groupReq } = await supabase
+                    .from('saved_accomplishment_groups')
+                    .select('grouped_data')
+                    .eq('id', groupId)
+                    .eq('user_id', userId)
+                    .maybeSingle();
+                if (groupReq && groupReq.grouped_data) {
+                    functionalGroupData = groupReq.grouped_data;
+                }
+            } else {
+                console.log(`⚠️ No groupId provided for user ${userId} functional resume`);
+            }
+        }
+
         // Education
         const { data: education } = await supabase
             .from('education')
             .select('*')
-            .eq('user_id', userId)
+            .eq('resume_id', resume.id || null) // Use resume_id first
             .order('start_date', { ascending: false });
+
+        // If no education under resume, fallback to user_id
+        let finalEducation = education || [];
+        if (finalEducation.length === 0) {
+            const { data: eduFallback } = await supabase
+                .from('education')
+                .select('*')
+                .eq('user_id', userId)
+                .order('start_date', { ascending: false });
+            finalEducation = eduFallback || [];
+        }
 
         // Certifications
         const { data: certifications } = await supabase
@@ -132,7 +162,9 @@ router.get('/:userId/docx', async (req, res) => {
                         alignment: AlignmentType.CENTER,
                         children: [
                             new TextRun({
-                                text: String(resume.full_name || user?.full_name || userProfile?.full_name || 'Your Name').toUpperCase(),
+                                text: String(resume.full_name || user?.full_name || userProfile?.full_name || 'Your Name')
+                                    .toLowerCase()
+                                    .replace(/\b\w/g, c => c.toUpperCase()),
                                 bold: true,
                                 size: 32, // 16pt
                                 font: 'Calibri'
@@ -198,10 +230,47 @@ router.get('/:userId/docx', async (req, res) => {
                         spacing: { after: 300 }
                     }),
 
+                    // --- FUNCTIONAL: SELECTED ACCOMPLISHMENTS ---
+                    ...(resume.resume_type === 'functional' && functionalGroupData.length > 0 ? [
+                        new Paragraph({
+                            heading: HeadingLevel.HEADING_2,
+                            children: [new TextRun({ text: 'SELECTED ACCOMPLISHMENTS', bold: true, size: 24, font: 'Calibri' })],
+                            spacing: { before: 0, after: 200 },
+                            border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
+                        }),
+                        ...functionalGroupData.flatMap(group => {
+                            const rawHeading = String(group.theme || group.groupName || 'Accomplishments').replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, "");
+                            const headingContent = rawHeading.trim() ? rawHeading : 'Accomplishments';
+
+                            return [
+                                new Paragraph({
+                                    children: [new TextRun({ text: headingContent, bold: true, size: 22, color: "000000", font: 'Calibri' })],
+                                    spacing: { before: 100, after: 100 }
+                                }),
+                                ...(group.accomplishments || []).map(acc => {
+                                    let rawText = typeof acc === 'object' && acc !== null ? acc.text : String(acc || '');
+                                    const sanitizedText = String(rawText).replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, "");
+                                    const bulletText = sanitizedText.trim() ? sanitizedText : ' ';
+
+                                    return new Paragraph({
+                                        children: [new TextRun({ text: bulletText, size: 22, font: 'Calibri' })],
+                                        bullet: { level: 0 },
+                                        spacing: { after: 50 },
+                                        alignment: AlignmentType.JUSTIFIED
+                                    });
+                                })
+                            ];
+                        }),
+                        new Paragraph({ text: "", spacing: { after: 200 } })
+                    ] : []),
+
                     // --- PROFESSIONAL EXPERIENCE ---
                     new Paragraph({
                         heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({ text: 'PROFESSIONAL EXPERIENCE', bold: true, size: 24, font: 'Calibri' })],
+                        children: [new TextRun({
+                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'PROFESSIONAL EXPERIENCE',
+                            bold: true, size: 24, font: 'Calibri'
+                        })],
                         spacing: { before: 0, after: 200 },
                         border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
                     }),
@@ -240,8 +309,8 @@ router.get('/:userId/docx', async (req, res) => {
                                         spacing: { after: 100 }
                                     })
                                 ] : []),
-                                // Accomplishments
-                                ...(exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0 ?
+                                // Accomplishments (Only for Chronological)
+                                ...(resume.resume_type !== 'functional' && exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0 ?
                                     exp.accomplishments.sort((a, b) => (a.order_index || 0) - (b.order_index || 0)).map(acc =>
                                         new Paragraph({
                                             children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
@@ -264,8 +333,8 @@ router.get('/:userId/docx', async (req, res) => {
                         border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
                     }),
 
-                    ...(education && education.length > 0 ?
-                        education.flatMap(edu => [
+                    ...(finalEducation && finalEducation.length > 0 ?
+                        finalEducation.flatMap(edu => [
                             new Paragraph({
                                 children: [
                                     new TextRun({ text: String(edu.institution || ''), bold: true, size: 22, font: 'Calibri' }),
@@ -275,7 +344,7 @@ router.get('/:userId/docx', async (req, res) => {
                             }),
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: `${edu.degree || ''} in ${edu.field_of_study || ''}`, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: `${edu.degree || ''} ${edu.field_of_study ? `in ${edu.field_of_study}` : ''}`, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: `\t${edu.graduation_year || ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Eye, Download, Printer, CheckCircle, ArrowLeft } from 'lucide-react'
+import { Download, Printer, CheckCircle, Pencil, Save, X, Loader2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
@@ -11,6 +11,11 @@ export default function ResumeFinalPreview() {
     const [userId, setUserId] = useState<string | null>(null)
     const [loading, setLoading] = useState(true)
     const [resumeData, setResumeData] = useState<any>(null)
+    const [isEditingSummary, setIsEditingSummary] = useState(false)
+    const [editSummaryText, setEditSummaryText] = useState('')
+    const [savingSummary, setSavingSummary] = useState(false)
+    const [savedGroups, setSavedGroups] = useState<any[]>([])
+    const [selectedGroupId, setSelectedGroupId] = useState<string>('')
 
     useEffect(() => {
         const checkUser = async () => {
@@ -61,6 +66,9 @@ export default function ResumeFinalPreview() {
             }
 
             let workExperience: any[] = []
+            let education: any[] = []
+            let standaloneAccomplishments: any[] = []
+
             if (masterResume) {
                 const { data: work } = await supabase
                     .from('work_experience')
@@ -69,6 +77,28 @@ export default function ResumeFinalPreview() {
                     .order('start_date', { ascending: false })
 
                 workExperience = work || []
+
+                const { data: edu } = await supabase
+                    .from('education')
+                    .select('*')
+                    .eq('resume_id', masterResume.id)
+                    .order('order_index', { ascending: true })
+
+                education = edu || []
+
+                // For functional resumes, we fetching saved groups instead of just starred items
+                if (masterResume.resume_type === 'functional') {
+                    const { data: groups } = await supabase
+                        .from('saved_accomplishment_groups')
+                        .select('*')
+                        .eq('user_id', uid)
+                        .order('created_at', { ascending: false })
+
+                    if (groups && groups.length > 0) {
+                        setSavedGroups(groups)
+                        setSelectedGroupId(groups[0].id)
+                    }
+                }
             }
 
             setResumeData({
@@ -87,8 +117,11 @@ export default function ResumeFinalPreview() {
                 summary: masterResume?.profile_summary,
                 skills: masterResume?.areas_of_excellence || [],
                 work_experience: workExperience,
-                resume_type: masterResume?.resume_type || 'chronological'
+                education: education,
+                resume_type: masterResume?.resume_type || 'chronological',
+                master_resume_id: masterResume?.id // For saving edits
             })
+            setEditSummaryText(masterResume?.profile_summary || '')
         } catch (error) {
             console.error('Error loading resume preview:', error)
         }
@@ -106,6 +139,27 @@ export default function ResumeFinalPreview() {
         }
     }
 
+    const handleSaveSummary = async () => {
+        if (!userId || !resumeData?.master_resume_id) return
+        setSavingSummary(true)
+        try {
+            const { error } = await supabase
+                .from('user_resumes')
+                .update({ profile_summary: editSummaryText })
+                .eq('id', resumeData.master_resume_id)
+
+            if (error) throw error
+
+            setResumeData({ ...resumeData, summary: editSummaryText })
+            setIsEditingSummary(false)
+        } catch (error) {
+            console.error('Error saving summary:', error)
+            alert('Failed to save summary.')
+        } finally {
+            setSavingSummary(false)
+        }
+    }
+
     const handleExport = async () => {
         if (!userId || !resumeData) return
         try {
@@ -116,10 +170,15 @@ export default function ResumeFinalPreview() {
             // In production, we need the deployment-specific API prefix if VITE_API_URL is missing
             const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
                 ? '/novaworkglobal-api'
-                : ''
+                : '/api'
             const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
 
-            const response = await fetch(`${apiUrl}/resume/export/${userId}/docx`, {
+            let exportUrl = `${apiUrl}/resume/export/${userId}/docx`
+            if (resumeData.resume_type === 'functional' && selectedGroupId) {
+                exportUrl += `?groupId=${selectedGroupId}`
+            }
+
+            const response = await fetch(exportUrl, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
 
@@ -169,6 +228,10 @@ export default function ResumeFinalPreview() {
         </div>
     )
 
+    // Get the currently selected group data for Functional layout
+    const selectedGroup = savedGroups.find(g => g.id === selectedGroupId)
+    const groupedDataForFunctional = selectedGroup?.grouped_data || []
+
     return (
         <div className="min-h-screen bg-gray-50 dark:bg-slate-950 p-6 md:p-10">
             <div className="max-w-5xl mx-auto space-y-8">
@@ -210,7 +273,9 @@ export default function ResumeFinalPreview() {
                         <div className="max-w-[21cm] mx-auto bg-white p-[1cm] min-h-[29.7cm] text-gray-900 font-serif border border-gray-100 shadow-inner">
                             {/* Standard Chronological View (or default) */}
                             <div className="text-center border-b-2 border-gray-300 pb-6 mb-6">
-                                <h1 className="text-3xl font-bold uppercase tracking-wider mb-2">{resumeData.contact.full_name}</h1>
+                                <h1 className="text-3xl font-bold tracking-wider mb-2">
+                                    {(resumeData.contact.full_name || '').toLowerCase().replace(/\b\w/g, c => c.toUpperCase())}
+                                </h1>
                                 <div className="text-sm flex justify-center gap-3 text-gray-600 flex-wrap">
                                     {resumeData.contact.location && <span>{resumeData.contact.location}</span>}
                                     {resumeData.contact.phone && <span>• {resumeData.contact.phone}</span>}
@@ -219,13 +284,55 @@ export default function ResumeFinalPreview() {
                                 </div>
                             </div>
 
-                            {/* Summary */}
-                            {resumeData.summary && (
-                                <div className="mb-6">
-                                    <h2 className="text-lg font-bold border-b border-gray-300 mb-3 uppercase tracking-wide text-gray-800">Professional Summary</h2>
-                                    <p className="text-sm leading-relaxed text-justify">{resumeData.summary}</p>
-                                </div>
-                            )}
+                            {/* Summary / Professional Profile */}
+                            <div className="mb-6 group relative">
+                                <h2 className="text-lg font-bold border-b border-gray-300 mb-3 uppercase tracking-wide text-gray-800 flex items-center justify-between">
+                                    <span>Professional Profile</span>
+                                    {!isEditingSummary && (
+                                        <button
+                                            onClick={() => setIsEditingSummary(true)}
+                                            className="opacity-0 group-hover:opacity-100 p-1 text-gray-400 hover:text-blue-600 transition-opacity no-print"
+                                            title="Edit Profile"
+                                        >
+                                            <Pencil className="w-4 h-4" />
+                                        </button>
+                                    )}
+                                </h2>
+
+                                {isEditingSummary ? (
+                                    <div className="no-print bg-slate-50 p-3 rounded-xl border border-blue-200">
+                                        <textarea
+                                            value={editSummaryText}
+                                            onChange={(e) => setEditSummaryText(e.target.value)}
+                                            className="w-full h-32 p-3 text-sm leading-relaxed border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-y"
+                                            placeholder="Write your professional summary here..."
+                                        />
+                                        <div className="flex justify-end gap-2 mt-3">
+                                            <button
+                                                onClick={() => {
+                                                    setEditSummaryText(resumeData.summary || '')
+                                                    setIsEditingSummary(false)
+                                                }}
+                                                className="px-3 py-1.5 text-slate-600 hover:bg-slate-200 rounded-md text-sm font-medium transition-colors"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                                onClick={handleSaveSummary}
+                                                disabled={savingSummary}
+                                                className="px-4 py-1.5 bg-blue-600 text-white hover:bg-blue-700 rounded-md text-sm font-medium transition-colors flex items-center gap-2"
+                                            >
+                                                {savingSummary ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                                                Save
+                                            </button>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    resumeData.summary && (
+                                        <p className="text-sm leading-relaxed text-justify">{resumeData.summary}</p>
+                                    )
+                                )}
+                            </div>
 
                             {/* Skills (Areas of Excellence) */}
                             {resumeData.skills && resumeData.skills.length > 0 && (
@@ -235,11 +342,54 @@ export default function ResumeFinalPreview() {
                                 </div>
                             )}
 
-                            {/* Experience */}
-                            {resumeData.work_experience && resumeData.work_experience.length > 0 && (
+                            {/* Functional Layout: Selected Accomplishments from Saved Groups */}
+                            {resumeData.resume_type === 'functional' && (
                                 <div className="mb-6">
                                     <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">
-                                        {resumeData.resume_type === 'functional' ? 'Professional Capabilities' : 'Professional Experience'}
+                                        Selected Accomplishments
+                                    </h2>
+
+                                    {savedGroups.length > 0 && (
+                                        <div className="mb-4 bg-blue-50/50 p-4 border border-blue-100 rounded-lg max-w-sm rounded-[0.5rem]">
+                                            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Select Saved Group</label>
+                                            <select
+                                                value={selectedGroupId}
+                                                onChange={(e) => setSelectedGroupId(e.target.value)}
+                                                className="w-full text-sm border-gray-200 rounded-md focus:ring-blue-500 focus:border-blue-500 bg-white"
+                                            >
+                                                {savedGroups.map(g => (
+                                                    <option key={g.id} value={g.id}>{g.name}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    )}
+
+                                    {groupedDataForFunctional.length === 0 && savedGroups.length === 0 && (
+                                        <p className="text-sm text-slate-500 italic">No saved accomplishment groups found. Please use the AI in the Accomplishment Hub to generate and save a group first.</p>
+                                    )}
+
+                                    <div className="space-y-4">
+                                        {groupedDataForFunctional.map((group: any, idx: number) => (
+                                            <div key={idx}>
+                                                <h3 className="text-sm font-semibold text-slate-800 mb-1">{group.theme}</h3>
+                                                <ul className="list-disc pl-5 space-y-1">
+                                                    {group.accomplishments?.map((acc: any, i: number) => (
+                                                        <li key={i} className="text-sm leading-snug pl-1 marker:text-gray-400">
+                                                            {typeof acc === 'object' ? acc.text : acc}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Chronological Layout: Work Experience */}
+                            {resumeData.resume_type === 'chronological' && resumeData.work_experience && resumeData.work_experience.length > 0 && (
+                                <div className="mb-6">
+                                    <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">
+                                        Professional Experience
                                     </h2>
                                     <div className="space-y-6">
                                         {resumeData.work_experience.map((exp: any) => (
@@ -264,6 +414,28 @@ export default function ResumeFinalPreview() {
                                                         ))}
                                                     </ul>
                                                 )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Education (Both Formats) */}
+                            {resumeData.education && resumeData.education.length > 0 && (
+                                <div className="mb-6">
+                                    <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">
+                                        Education
+                                    </h2>
+                                    <div className="space-y-4">
+                                        {resumeData.education.map((edu: any) => (
+                                            <div key={edu.id} className="flex justify-between items-baseline">
+                                                <div>
+                                                    <div className="font-bold text-gray-900 text-sm">{edu.degree_title}</div>
+                                                    <div className="text-sm text-gray-700">{edu.institution}{edu.location ? `, ${edu.location}` : ''}</div>
+                                                </div>
+                                                <div className="text-sm text-gray-600 font-medium whitespace-nowrap">
+                                                    {edu.graduation_year}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
