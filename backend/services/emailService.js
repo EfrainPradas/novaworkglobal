@@ -21,14 +21,18 @@ const transporter = nodemailer.createTransport({
 /**
  * Verify the connection configuration immediately so we know if Office 365 auth failed.
  */
-transporter.verify(function (error, success) {
-    if (error) {
-        console.error("❌ Office 365 SMTP Connection Error: ", error.message);
-        console.error("Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.");
-    } else {
-        console.log("✅ Office 365 SMTP Server is ready to take our messages");
-    }
-});
+if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    transporter.verify(function (error, success) {
+        if (error) {
+            console.error("❌ Office 365 SMTP Connection Error: ", error.message);
+            console.error("Make sure EMAIL_USER and EMAIL_PASS are correct App Passwords.");
+        } else {
+            console.log("✅ Office 365 SMTP Server is ready to take our messages");
+        }
+    });
+} else {
+    console.warn("⚠️ Email credentials not provided. Email features will be disabled.");
+}
 
 /**
  * Sends a booking notification email to the Coach and/or Client.
