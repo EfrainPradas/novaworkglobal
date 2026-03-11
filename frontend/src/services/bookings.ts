@@ -2,14 +2,10 @@ import { supabase } from '@/lib/supabase'
 import { createBookingAcceptedNotifications } from './notifications'
 
 export const acceptBooking = async (bookingId: string) => {
-    // 1. Fetch the booking with coach and client profiles joined
+    // 1. Fetch the booking alone
     const { data: booking, error: fetchError } = await supabase
         .from('coaching_sessions')
-        .select(`
-            *,
-            coach:profiles!coaching_sessions_coach_id_fkey(id, full_name, first_name, last_name, timezone),
-            client:profiles!coaching_sessions_client_id_fkey(id, full_name, first_name, last_name, timezone)
-        `)
+        .select('*')
         .eq('id', bookingId)
         .single();
 
@@ -18,13 +14,22 @@ export const acceptBooking = async (bookingId: string) => {
         throw new Error("Could not fetch the booking details.");
     }
 
-    // Since Supabase might return arrays for joins depending on the relation, we will extract them
-    // Assuming single relations because of foreign keys.
-    const coachProfile = Array.isArray(booking.coach) ? booking.coach[0] : booking.coach;
-    const clientProfile = Array.isArray(booking.client) ? booking.client[0] : booking.client;
+    // 1.5 Fetch coach and client details directly from the users table 
+    // using maybeSingle() to avoid 406 Not Acceptable errors if missing.
+    const { data: coachProfile } = await supabase
+        .from('users')
+        .select('id, full_name')
+        .eq('id', booking.coach_id)
+        .maybeSingle();
+
+    const { data: clientProfile } = await supabase
+        .from('users')
+        .select('id, full_name')
+        .eq('id', booking.client_id)
+        .maybeSingle();
 
     if (!coachProfile || !clientProfile) {
-        throw new Error("Missing coach or client profile data to generate notifications.");
+        console.warn("Could not find full profiles for coach or client. Proceeding carefully.");
     }
 
     // 2. Update the booking status to "confirmed" (business logic equates this to accepted)
@@ -39,7 +44,12 @@ export const acceptBooking = async (bookingId: string) => {
 
     // 3. Generate notifications and Calendar links
     try {
-        await createBookingAcceptedNotifications(booking, coachProfile, clientProfile);
+        // Provide fallback identities if users table lookup was incomplete
+        await createBookingAcceptedNotifications(
+            booking, 
+            coachProfile || { id: booking.coach_id, full_name: 'Coach' }, 
+            clientProfile || { id: booking.client_id, full_name: 'Client' }
+        );
     } catch (notifError) {
         console.error("Booking accepted, but failed to create notifications:", notifError);
         // We don't necessarily throw here if we don't want to roll back the acceptance, 
