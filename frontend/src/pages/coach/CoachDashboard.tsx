@@ -2462,6 +2462,7 @@ export default function CoachDashboard() {
                     </div>
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
                         <button onClick={() => setShowAddClient(true)} style={{ background: "#0f172a", color: "#fff", border: "none", padding: "9px 16px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>+ New Client</button>
+                        {user && <NotificationBell userId={user.id} />}
                         {stats.unreadMessages > 0 && (
                             <div style={{ position: "relative" }}>
                                 <button style={{ background: "#f8fafc", border: "1px solid #e2e8f0", borderRadius: 10, padding: "8px 12px", cursor: "pointer", fontSize: 16 }}><AlertCircle size={18} /></button>
