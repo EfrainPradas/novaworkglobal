@@ -705,7 +705,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
         { id: "overview", label: "Overview" },
         { id: "platform", label: "Platform Progress" },
         { id: "goals", label: "Goals" },
-        { id: "sessions", label: "Sessions" },
+        { id: "sessions", label: "Appointments" },
         { id: "notes", label: "Notes" },
     ]
 
