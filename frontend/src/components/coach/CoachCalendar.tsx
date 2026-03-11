@@ -31,27 +31,48 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     const loadEvents = async () => {
         setLoading(true)
         try {
-            const { data, error } = await supabase
+            // Fetch sessions
+            const { data: sessionsData, error: sessionsError } = await supabase
                 .from('coaching_sessions')
-                .select('*, client:profiles!coaching_sessions_client_id_fkey(full_name)')
+                .select('*')
                 .eq('coach_id', coachId)
 
-            if (error) throw error
+            if (sessionsError) throw sessionsError
 
-            if (data) {
-                const mappedEvents = data.map(session => {
+            if (sessionsData && sessionsData.length > 0) {
+                // Manually fetch client profiles to avoid foreign key ambiguity errors
+                const clientIds = [...new Set(sessionsData.map(s => s.client_id).filter(Boolean))]
+                
+                let profilesData: any[] = []
+                if (clientIds.length > 0) {
+                    const { data: pData } = await supabase
+                        .from('profiles')
+                        .select('id, full_name')
+                        .in('id', clientIds)
+                    if (pData) profilesData = pData
+                }
+
+                const mappedEvents = sessionsData.map(session => {
                     const startDate = new Date(session.scheduled_at)
-                    const endDate = new Date(startDate.getTime() + session.duration_minutes * 60000)
+                    const duration = session.duration_minutes || 60
+                    const endDate = new Date(startDate.getTime() + duration * 60000)
+                    
+                    const clientProfile = profilesData.find(p => p.id === session.client_id)
 
                     return {
                         id: session.id,
-                        title: `${session.client?.full_name || 'Client'} - ${session.session_type}`,
+                        title: `${clientProfile?.full_name || 'Client'} - ${session.session_type}`,
                         start: startDate,
                         end: endDate,
-                        resource: session
+                        resource: {
+                            ...session,
+                            client: clientProfile
+                        }
                     }
                 })
                 setEvents(mappedEvents)
+            } else {
+                setEvents([])
             }
         } catch (err) {
             console.error('Error fetching calendar events:', err)
@@ -143,6 +164,28 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
 
     return (
         <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", padding: "24px", boxShadow: "0 2px 12px #0000000a", height: "calc(100vh - 120px)", display: "flex", flexDirection: "column" }}>
+            <style>
+                {`
+                .rbc-calendar { color: #334155; font-family: inherit; }
+                .rbc-header { padding: 8px 0; font-weight: 800; color: #475569; text-transform: uppercase; font-size: 11px; border-bottom: 2px solid #e2e8f0; }
+                .rbc-header + .rbc-header { border-left: 1px solid #e2e8f0; }
+                .rbc-date-cell { font-weight: 700; color: #64748b; padding: 4px 8px; font-size: 12px; }
+                .rbc-today { background-color: #f0f9ff !important; }
+                .rbc-off-range-bg { background-color: #f8fafc; }
+                .rbc-month-view, .rbc-time-view { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #fff; }
+                .rbc-day-bg { border-left: 1px solid #e2e8f0; }
+                .rbc-month-row { border-top: 1px solid #e2e8f0; }
+                .rbc-time-header.rbc-overflowing { border-right: none; }
+                .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; }
+                .rbc-event { padding: 0 !important; background: transparent !important; }
+                .rbc-event-content { height: 100%; }
+                /* Fix month view row height so it spans properly */
+                .rbc-month-row { min-height: 100px; }
+                /* Ensure label is visible */
+                .rbc-button-link { color: inherit; font-weight: bold; }
+                .rbc-now { color: #0ea5e9; }
+                `}
+            </style>
             <Calendar
                 localizer={localizer}
                 events={events}
