@@ -648,7 +648,7 @@ const JDAnalyzer: React.FC = () => {
         }
       }
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/jd-analyzer/export`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/jd-analyzer/export`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

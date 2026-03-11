@@ -93,7 +93,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
     setGeneratingScope(true)
     setError(null)
     try {
-      const resp = await fetch(`${import.meta.env.VITE_API_URL}/api/work-experience/generate-scope`, {
+      const resp = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/work-experience/generate-scope`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

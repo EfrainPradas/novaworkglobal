@@ -211,7 +211,7 @@ export default function ClientCoaching() {
             // Get the current user's session token for the backend auth middleware
             const { data: { session } } = await supabase.auth.getSession()
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/coaching/sessions`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/coaching/sessions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ export default function ClientCoaching() {
         try {
             const { data: { session } } = await supabase.auth.getSession()
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/coaching/sessions/${sessionId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL || ''}/api/coaching/sessions/${sessionId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
