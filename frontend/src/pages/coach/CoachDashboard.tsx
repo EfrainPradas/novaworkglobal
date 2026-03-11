@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
 import NotificationBell from '../../components/common/NotificationBell'
+import CoachCalendar from '../../components/coach/CoachCalendar'
 import {
     LayoutDashboard,
     Target,
@@ -21,6 +22,7 @@ import {
     TrendingUp,
     Play,
     CalendarPlus,
+    CalendarDays,
     Briefcase,
     Award,
     ExternalLink,
@@ -2377,6 +2379,7 @@ export default function CoachDashboard() {
     const navItems = [
         { id: "overview", icon: <LayoutDashboard size={18} />, label: "Dashboard" },
         { id: "pipeline", icon: <Navigation size={18} />, label: "Pipeline" },
+        { id: "calendar", icon: <CalendarDays size={18} />, label: "Calendar" },
         { id: "sessions", icon: <Calendar size={18} />, label: "Sessions" },
         { id: "resources", icon: <BookOpen size={18} />, label: "Resources" },
         { id: "analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
@@ -2453,6 +2456,7 @@ export default function CoachDashboard() {
                         <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>
                             {view === "overview" && "Coach Dashboard"}
                             {view === "pipeline" && "Opportunities Pipeline"}
+                            {view === "calendar" && "Coach Calendar"}
                             {view === "client" && (selectedClient?.client?.full_name || "Client")}
                             {view === "sessions" && "Session Management"}
                             {view === "resources" && "Resource Library"}
@@ -2489,6 +2493,7 @@ export default function CoachDashboard() {
                         <ClientView relation={selectedClient} onBack={() => setView("overview")} />
                     )}
                     {view === "pipeline" && <PipelineView items={pipelineItems} />}
+                    {view === "calendar" && <CoachCalendar coachId={user?.id || ''} />}
                     {view === "sessions" && (
                         <SessionsView
                             coachId={user?.id}

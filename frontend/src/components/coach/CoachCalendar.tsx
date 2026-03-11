@@ -1,0 +1,190 @@
+import { useState, useEffect } from "react"
+import { Calendar, momentLocalizer, Views } from "react-big-calendar"
+import moment from "moment"
+import { supabase } from "../../lib/supabase"
+import "react-big-calendar/lib/css/react-big-calendar.css"
+import { Calendar as CalendarIcon, Clock, User } from "lucide-react"
+
+// Set up the localizer for react-big-calendar
+const localizer = momentLocalizer(moment)
+
+const Badge = ({ children, color = "#0ea5e9", bg = "#e0f2fe" }: { children: React.ReactNode; color?: string; bg?: string }) => (
+    <span style={{ padding: "4px 8px", borderRadius: 6, fontSize: 10, fontWeight: 700, color, background: bg, display: "inline-block" }}>
+        {children}
+    </span>
+)
+
+interface CoachCalendarProps {
+    coachId: string
+}
+
+export default function CoachCalendar({ coachId }: CoachCalendarProps) {
+    const [events, setEvents] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
+    const [view, setView] = useState<any>(Views.WEEK)
+    const [date, setDate] = useState(new Date())
+
+    useEffect(() => {
+        loadEvents()
+    }, [coachId])
+
+    const loadEvents = async () => {
+        setLoading(true)
+        try {
+            const { data, error } = await supabase
+                .from('coaching_sessions')
+                .select('*, client:profiles!coaching_sessions_client_id_fkey(full_name)')
+                .eq('coach_id', coachId)
+
+            if (error) throw error
+
+            if (data) {
+                const mappedEvents = data.map(session => {
+                    const startDate = new Date(session.scheduled_at)
+                    const endDate = new Date(startDate.getTime() + session.duration_minutes * 60000)
+
+                    return {
+                        id: session.id,
+                        title: `${session.client?.full_name || 'Client'} - ${session.session_type}`,
+                        start: startDate,
+                        end: endDate,
+                        resource: session
+                    }
+                })
+                setEvents(mappedEvents)
+            }
+        } catch (err) {
+            console.error('Error fetching calendar events:', err)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    // Custom Event Component for styling
+    const CustomEvent = ({ event }: any) => {
+        const session = event.resource
+        let statusColor = "#64748b"
+        let statusBg = "#f1f5f9"
+        if (session.status === 'confirmed') { statusColor = "#22c55e"; statusBg = "#dcfce7" }
+        if (session.status === 'scheduled') { statusColor = "#0ea5e9"; statusBg = "#e0f2fe" }
+        if (session.status === 'pending') { statusColor = "#f59e0b"; statusBg = "#fef3c7" }
+        if (session.status === 'completed') { statusColor = "#8b5cf6"; statusBg = "#ede9fe" }
+        if (session.status === 'cancelled' || session.status === 'declined') { statusColor = "#ef4444"; statusBg = "#fee2e2" }
+
+        return (
+            <div style={{ padding: "2px 4px", fontSize: 11, lineHeight: 1.2 }}>
+                <div style={{ fontWeight: 700, marginBottom: 2, display: "flex", alignItems: "center", gap: 4 }}>
+                    <User size={10} /> {session.client?.full_name || 'Client'}
+                </div>
+                <div style={{ fontSize: 10, opacity: 0.9, marginBottom: 4 }}>
+                    {session.session_type}
+                </div>
+                <Badge color={statusColor} bg={statusBg}>{session.status}</Badge>
+            </div>
+        )
+    }
+
+    // Custom Toolbar Component for styling
+    const CustomToolbar = (toolbar: any) => {
+        const goToBack = () => { toolbar.onNavigate('PREV') }
+        const goToNext = () => { toolbar.onNavigate('NEXT') }
+        const goToCurrent = () => { toolbar.onNavigate('TODAY') }
+
+        const label = () => {
+            const date = moment(toolbar.date)
+            if (toolbar.view === 'month') return date.format('MMMM YYYY')
+            if (toolbar.view === 'week') return `Week of ${date.startOf('week').format('MMMM D, YYYY')}`
+            if (toolbar.view === 'day') return date.format('dddd, MMMM D, YYYY')
+            return date.format('MMMM YYYY')
+        }
+
+        return (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: "0 10px" }}>
+                <div style={{ display: 'flex', gap: 8 }}>
+                    <button onClick={goToCurrent} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#475569" }}>Today</button>
+                    <div style={{ display: "flex", background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+                        <button onClick={goToBack} style={{ padding: "8px 12px", border: "none", borderRight: "1px solid #e2e8f0", background: "none", cursor: "pointer", color: "#475569" }}>←</button>
+                        <button onClick={goToNext} style={{ padding: "8px 12px", border: "none", background: "none", cursor: "pointer", color: "#475569" }}>→</button>
+                    </div>
+                </div>
+
+                <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>
+                    {label()}
+                </div>
+
+                <div style={{ display: 'flex', background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", overflow: "hidden" }}>
+                    {['month', 'week', 'day'].map((v) => (
+                        <button
+                            key={v}
+                            onClick={() => toolbar.onView(v)}
+                            style={{
+                                padding: "8px 16px",
+                                border: "none",
+                                borderRight: v !== 'day' ? "1px solid #e2e8f0" : "none",
+                                background: toolbar.view === v ? "#0f172a" : "none",
+                                color: toolbar.view === v ? "#fff" : "#475569",
+                                cursor: "pointer",
+                                fontSize: 13,
+                                fontWeight: toolbar.view === v ? 700 : 600,
+                                textTransform: 'capitalize'
+                            }}
+                        >
+                            {v}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
+    if (loading) {
+        return <div style={{ padding: 40, textAlign: "center", color: "#64748b" }}>Loading calendar...</div>
+    }
+
+    return (
+        <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", padding: "24px", boxShadow: "0 2px 12px #0000000a", height: "calc(100vh - 120px)", display: "flex", flexDirection: "column" }}>
+            <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                view={view}
+                onView={setView}
+                date={date}
+                onNavigate={setDate}
+                views={['month', 'week', 'day']}
+                components={{
+                    event: CustomEvent,
+                    toolbar: CustomToolbar
+                }}
+                eventPropGetter={(event) => {
+                    let bg = "#38bdf8"
+                    let border = "#0284c7"
+                    
+                    if (event.resource.status === 'confirmed') { bg = "#22c55e"; border = "#16a34a" }
+                    else if (event.resource.status === 'pending') { bg = "#f59e0b"; border = "#d97706" }
+                    else if (event.resource.status === 'completed') { bg = "#8b5cf6"; border = "#7c3aed" }
+                    
+                    return {
+                        style: {
+                            backgroundColor: bg,
+                            borderColor: border,
+                            borderWidth: 1,
+                            borderStyle: "solid",
+                            color: "#fff",
+                            borderRadius: 6,
+                            opacity: 0.95
+                        }
+                    }
+                }}
+                style={{ flex: 1 }}
+            />
+            {events.length === 0 && (
+                <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", color: "#94a3b8", background: "#ffffffee", padding: "20px 40px", borderRadius: 16, border: "1px dashed #cbd5e1", zIndex: 10 }}>
+                    <div style={{ fontSize: 24, marginBottom: 8 }}>📅</div>
+                    <div style={{ fontWeight: 700 }}>No sessions scheduled</div>
+                </div>
+            )}
+        </div>
+    )
+}
