@@ -212,12 +212,14 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                     toolbar: CustomToolbar
                 }}
                 eventPropGetter={(event) => {
+                    const isPast = event.end < new Date()
                     let bg = "#38bdf8"
                     let border = "#0284c7"
                     
                     if (event.resource.status === 'confirmed') { bg = "#22c55e"; border = "#16a34a" }
                     else if (event.resource.status === 'pending') { bg = "#f59e0b"; border = "#d97706" }
                     else if (event.resource.status === 'completed') { bg = "#8b5cf6"; border = "#7c3aed" }
+                    else if (event.resource.status === 'cancelled' || event.resource.status === 'declined') { bg = "#ef4444"; border = "#b91c1c" }
                     
                     return {
                         style: {
@@ -227,7 +229,9 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                             borderStyle: "solid",
                             color: "#fff",
                             borderRadius: 6,
-                            opacity: 0.95
+                            opacity: isPast ? 0.35 : 0.95,
+                            filter: isPast ? "grayscale(40%)" : "none",
+                            pointerEvents: "auto"
                         }
                     }
                 }}
