@@ -9,7 +9,7 @@ import { Calendar as CalendarIcon, Clock, User } from "lucide-react"
 const localizer = momentLocalizer(moment)
 
 const Badge = ({ children, color = "#0ea5e9", bg = "#e0f2fe" }: { children: React.ReactNode; color?: string; bg?: string }) => (
-    <span style={{ padding: "4px 8px", borderRadius: 6, fontSize: 10, fontWeight: 700, color, background: bg, display: "inline-block" }}>
+    <span style={{ padding: "4px 10px", borderRadius: 8, fontSize: 11, fontWeight: 800, color, background: bg, display: "inline-block" }}>
         {children}
     </span>
 )
@@ -92,14 +92,14 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
         if (session.status === 'cancelled' || session.status === 'declined') { statusColor = "#ef4444"; statusBg = "#fee2e2" }
 
         return (
-            <div style={{ fontSize: 11, color: "#fff", textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
-                <div style={{ fontWeight: 900, marginBottom: 1, display: "flex", alignItems: "center", gap: 3, fontSize: 13 }}>
-                    <User size={12} style={{ flexShrink: 0 }} /> 
+            <div style={{ fontSize: 12, color: "#fff", textShadow: "0 1px 3px rgba(0,0,0,0.4)" }}>
+                <div style={{ fontWeight: 900, marginBottom: 4, display: "flex", alignItems: "center", gap: 6, fontSize: 15 }}>
+                    <User size={16} style={{ flexShrink: 0 }} /> 
                     <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                         {session.client_name}
                     </span>
                 </div>
-                <div style={{ fontSize: 10, opacity: 0.9, marginBottom: 3, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                <div style={{ fontSize: 12, opacity: 0.95, marginBottom: 6, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                     {session.session_type}
                 </div>
                 <Badge color={statusColor} bg={statusBg}>{session.status}</Badge>
@@ -178,7 +178,8 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-day-bg { border-left: 1px solid #e2e8f0; }
                 .rbc-month-row { border-top: 1px solid #e2e8f0; }
                 .rbc-time-header.rbc-overflowing { border-right: none; }
-                .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; }
+                .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; min-height: 50px; } /* Increased from default to stretch the grid */
+                .rbc-time-slot { border-top: 1px solid #f1f5f9; }
                 .rbc-event { padding: 4px !important; }
                 .rbc-event-content { height: 100%; overflow: hidden; }
                 .rbc-event-label { display: none !important; } /* Hide default time label to favor our custom one */
@@ -200,6 +201,8 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 date={date}
                 onNavigate={setDate}
                 views={['month', 'week', 'day']}
+                step={30}
+                timeslots={2}
                 components={{
                     event: CustomEvent,
                     toolbar: CustomToolbar
