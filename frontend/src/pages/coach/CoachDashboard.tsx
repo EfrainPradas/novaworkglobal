@@ -423,6 +423,27 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
     const [moduleData, setModuleData] = useState<any>(null)
     const [loadingModule, setLoadingModule] = useState(false)
     const [sessionActionLoading, setSessionActionLoading] = useState<string | null>(null)
+    const [clientCalendarAdded, setClientCalendarAdded] = useState<Record<string, boolean>>({})
+
+    useEffect(() => {
+        const saved = localStorage.getItem('nova_coach_calendar_added');
+        if (saved) setClientCalendarAdded(JSON.parse(saved));
+    }, [])
+
+    const handleClientAddToCalendar = (session: any) => {
+        const newAdded = { ...clientCalendarAdded, [session.id]: true }
+        setClientCalendarAdded(newAdded)
+        localStorage.setItem('nova_coach_calendar_added', JSON.stringify(newAdded))
+
+        const url = generateGoogleCalendarLink({
+            title: `Coaching Session with ${relation.client?.full_name || 'Client'}`,
+            startDate: session.scheduled_at,
+            durationMinutes: session.duration_minutes || 60,
+            description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
+            location: session.meeting_link || 'Online'
+        })
+        window.open(url, '_blank', 'noopener,noreferrer')
+    }
 
     const client = relation.client
     const color = avatarColors[0]
@@ -1636,7 +1657,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                             </div>
                                             <Badge color={statusColor} bg={statusBg}>{s.status}</Badge>
                                         </div>
-                                        {isPending && (
+                                        {isPending ? (
                                             <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                                                 <button
                                                     disabled={sessionActionLoading === s.id}
@@ -1668,7 +1689,22 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                     <X size={14} /> Decline
                                                 </button>
                                             </div>
-                                        )}
+                                        ) : isConfirmed ? (
+                                            <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                                                <button
+                                                    onClick={(e) => { e.stopPropagation(); handleClientAddToCalendar(s) }}
+                                                    style={{ 
+                                                        padding: '7px 18px', borderRadius: 8, fontSize: 12, fontWeight: 700, 
+                                                        color: clientCalendarAdded[s.id] ? '#166534' : '#0ea5e9', 
+                                                        background: clientCalendarAdded[s.id] ? '#dcfce7' : '#eff6ff', 
+                                                        border: clientCalendarAdded[s.id] ? '1px solid #bbf7d0' : 'none', 
+                                                        cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
+                                                    }}
+                                                >
+                                                    {clientCalendarAdded[s.id] ? '✅ Added to Calendar' : <><CalendarPlus size={14} /> Add to Calendar</>}
+                                                </button>
+                                            </div>
+                                        ) : null}
                                     </div>
                                 </div>
                             )
