@@ -31,11 +31,13 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     const loadEvents = async () => {
         setLoading(true)
         try {
-            // 1. Fetch client relations to get profiles (proven logic from CoachDashboard)
-            const { data: relations } = await supabase
-                .from('client_coach_relations')
-                .select('*, client:profiles!client_coach_relations_client_id_fkey(*)')
+            // 1. Fetch coach-client relations (correct table: coach_clients)
+            const { data: relations, error: relError } = await supabase
+                .from('coach_clients')
+                .select('*, client:client_id (id, full_name, email)')
                 .eq('coach_id', coachId)
+
+            if (relError) console.error('Error fetching relations:', relError)
 
             // 2. Fetch sessions
             const { data: sessionsData, error: sessionsError } = await supabase
@@ -45,18 +47,18 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
 
             if (sessionsError) throw sessionsError
 
-            if (sessionsData && relations) {
+            // Map sessions regardless of whether relations were found
+            if (sessionsData) {
                 const mappedEvents = sessionsData.map(session => {
                     const startDate = new Date(session.scheduled_at)
                     const duration = session.duration_minutes || 60
                     const endDate = new Date(startDate.getTime() + duration * 60000)
                     
                     // Match with relations
-                    const rel = relations.find(r => r.client_id === session.client_id)
+                    const rel = relations?.find(r => r.client_id === session.client_id)
                     const clientProfile = rel?.client as any
                     
                     const clientName = clientProfile?.full_name || 
-                                     (clientProfile?.first_name ? `${clientProfile.first_name} ${clientProfile.last_name || ''}` : '') || 
                                      clientProfile?.email || 
                                      'Client'
 
@@ -72,6 +74,8 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                     }
                 })
                 setEvents(mappedEvents)
+            } else {
+                setEvents([])
             }
         } catch (err) {
             console.error('Error fetching calendar events:', err)
@@ -178,9 +182,9 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-day-bg { border-left: 1px solid #e2e8f0; }
                 .rbc-month-row { border-top: 1px solid #e2e8f0; }
                 .rbc-time-header.rbc-overflowing { border-right: none; }
-                .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; min-height: 50px; } /* Increased from default to stretch the grid */
-                .rbc-time-slot { border-top: 1px solid #f1f5f9; }
-                .rbc-event { padding: 4px !important; }
+                .rbc-timeslot-group { border-bottom: 2px solid #e2e8f0 !important; min-height: 80px !important; } /* Even taller to be sure */
+                .rbc-time-slot { border-top: 1px solid #f1f5f9; min-height: 40px !important; }
+                .rbc-event { padding: 4px !important; min-height: 30px !important; }
                 .rbc-event-content { height: 100%; overflow: hidden; }
                 .rbc-event-label { display: none !important; } /* Hide default time label to favor our custom one */
                 /* Fix month view row height so it spans properly */
