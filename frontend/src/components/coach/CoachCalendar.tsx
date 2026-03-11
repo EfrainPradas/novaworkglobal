@@ -31,24 +31,33 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     const loadEvents = async () => {
         setLoading(true)
         try {
-            // Use the established relation to get client names in one go
+            // 1. Fetch client relations to get profiles (proven logic from CoachDashboard)
+            const { data: relations } = await supabase
+                .from('client_coach_relations')
+                .select('*, client:profiles!client_coach_relations_client_id_fkey(*)')
+                .eq('coach_id', coachId)
+
+            // 2. Fetch sessions
             const { data: sessionsData, error: sessionsError } = await supabase
                 .from('coaching_sessions')
-                .select('*, client:profiles!coaching_sessions_client_id_fkey(id, full_name, first_name, last_name, email)')
+                .select('*')
                 .eq('coach_id', coachId)
 
             if (sessionsError) throw sessionsError
 
-            if (sessionsData) {
+            if (sessionsData && relations) {
                 const mappedEvents = sessionsData.map(session => {
                     const startDate = new Date(session.scheduled_at)
                     const duration = session.duration_minutes || 60
                     const endDate = new Date(startDate.getTime() + duration * 60000)
                     
-                    const client = session.client as any
-                    const clientName = client?.full_name || 
-                                     (client?.first_name ? `${client.first_name} ${client.last_name || ''}` : '') || 
-                                     client?.email || 
+                    // Match with relations
+                    const rel = relations.find(r => r.client_id === session.client_id)
+                    const clientProfile = rel?.client as any
+                    
+                    const clientName = clientProfile?.full_name || 
+                                     (clientProfile?.first_name ? `${clientProfile.first_name} ${clientProfile.last_name || ''}` : '') || 
+                                     clientProfile?.email || 
                                      'Client'
 
                     return {
@@ -72,7 +81,7 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     }
 
     // Custom Event Component for styling
-    const CustomEvent = ({ event, view }: any) => {
+    const CustomEvent = ({ event }: any) => {
         const session = event.resource
         let statusColor = "#64748b"
         let statusBg = "#f1f5f9"
@@ -83,14 +92,14 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
         if (session.status === 'cancelled' || session.status === 'declined') { statusColor = "#ef4444"; statusBg = "#fee2e2" }
 
         return (
-            <div style={{ fontSize: 11, lineHeight: 1.2, color: "#fff", textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}>
-                <div style={{ fontWeight: 900, marginBottom: 2, display: "flex", alignItems: "flex-start", gap: 4, fontSize: 12 }}>
-                    <User size={14} style={{ marginTop: 0, flexShrink: 0 }} /> 
-                    <span style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+            <div style={{ fontSize: 11, color: "#fff", textShadow: "0 1px 2px rgba(0,0,0,0.3)" }}>
+                <div style={{ fontWeight: 900, marginBottom: 1, display: "flex", alignItems: "center", gap: 3, fontSize: 13 }}>
+                    <User size={12} style={{ flexShrink: 0 }} /> 
+                    <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                         {session.client_name}
                     </span>
                 </div>
-                <div style={{ fontSize: 10, opacity: 0.95, marginBottom: 4, fontWeight: 600 }}>
+                <div style={{ fontSize: 10, opacity: 0.9, marginBottom: 3, fontWeight: 700, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                     {session.session_type}
                 </div>
                 <Badge color={statusColor} bg={statusBg}>{session.status}</Badge>
