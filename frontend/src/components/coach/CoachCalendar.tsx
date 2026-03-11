@@ -31,48 +31,38 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     const loadEvents = async () => {
         setLoading(true)
         try {
-            // Fetch sessions
+            // Use the established relation to get client names in one go
             const { data: sessionsData, error: sessionsError } = await supabase
                 .from('coaching_sessions')
-                .select('*')
+                .select('*, client:profiles!coaching_sessions_client_id_fkey(id, full_name, first_name, last_name, email)')
                 .eq('coach_id', coachId)
 
             if (sessionsError) throw sessionsError
 
-            if (sessionsData && sessionsData.length > 0) {
-                // Manually fetch client profiles to avoid foreign key ambiguity errors
-                const clientIds = [...new Set(sessionsData.map(s => s.client_id).filter(Boolean))]
-                
-                let profilesData: any[] = []
-                if (clientIds.length > 0) {
-                    const { data: pData } = await supabase
-                        .from('profiles')
-                        .select('id, full_name')
-                        .in('id', clientIds)
-                    if (pData) profilesData = pData
-                }
-
+            if (sessionsData) {
                 const mappedEvents = sessionsData.map(session => {
                     const startDate = new Date(session.scheduled_at)
                     const duration = session.duration_minutes || 60
                     const endDate = new Date(startDate.getTime() + duration * 60000)
                     
-                    const clientProfile = profilesData.find(p => p.id === session.client_id)
+                    const client = session.client as any
+                    const clientName = client?.full_name || 
+                                     (client?.first_name ? `${client.first_name} ${client.last_name || ''}` : '') || 
+                                     client?.email || 
+                                     'Client'
 
                     return {
                         id: session.id,
-                        title: `${clientProfile?.full_name || 'Client'} - ${session.session_type}`,
+                        title: `${clientName} - ${session.session_type}`,
                         start: startDate,
                         end: endDate,
                         resource: {
                             ...session,
-                            client: clientProfile
+                            client_name: clientName
                         }
                     }
                 })
                 setEvents(mappedEvents)
-            } else {
-                setEvents([])
             }
         } catch (err) {
             console.error('Error fetching calendar events:', err)
@@ -82,7 +72,7 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     }
 
     // Custom Event Component for styling
-    const CustomEvent = ({ event }: any) => {
+    const CustomEvent = ({ event, view }: any) => {
         const session = event.resource
         let statusColor = "#64748b"
         let statusBg = "#f1f5f9"
@@ -93,11 +83,14 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
         if (session.status === 'cancelled' || session.status === 'declined') { statusColor = "#ef4444"; statusBg = "#fee2e2" }
 
         return (
-            <div style={{ padding: "2px 4px", fontSize: 11, lineHeight: 1.2 }}>
-                <div style={{ fontWeight: 700, marginBottom: 2, display: "flex", alignItems: "center", gap: 4 }}>
-                    <User size={10} /> {session.client?.full_name || 'Client'}
+            <div style={{ fontSize: 11, lineHeight: 1.2, color: "#fff", textShadow: "0 1px 2px rgba(0,0,0,0.2)" }}>
+                <div style={{ fontWeight: 900, marginBottom: 2, display: "flex", alignItems: "flex-start", gap: 4, fontSize: 12 }}>
+                    <User size={14} style={{ marginTop: 0, flexShrink: 0 }} /> 
+                    <span style={{ display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
+                        {session.client_name}
+                    </span>
                 </div>
-                <div style={{ fontSize: 10, opacity: 0.9, marginBottom: 4 }}>
+                <div style={{ fontSize: 10, opacity: 0.95, marginBottom: 4, fontWeight: 600 }}>
                     {session.session_type}
                 </div>
                 <Badge color={statusColor} bg={statusBg}>{session.status}</Badge>
@@ -177,13 +170,15 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-month-row { border-top: 1px solid #e2e8f0; }
                 .rbc-time-header.rbc-overflowing { border-right: none; }
                 .rbc-timeslot-group { border-bottom: 1px solid #e2e8f0; }
-                .rbc-event { padding: 0 !important; background: transparent !important; }
-                .rbc-event-content { height: 100%; }
+                .rbc-event { padding: 4px !important; }
+                .rbc-event-content { height: 100%; overflow: hidden; }
+                .rbc-event-label { display: none !important; } /* Hide default time label to favor our custom one */
                 /* Fix month view row height so it spans properly */
                 .rbc-month-row { min-height: 100px; }
                 /* Ensure label is visible */
                 .rbc-button-link { color: inherit; font-weight: bold; }
-                .rbc-now { color: #0ea5e9; }
+                .rbc-now { color: #0ea5e9; font-weight: 900; }
+                .rbc-current-time-indicator { background-color: #0ea5e9; }
                 `}
             </style>
             <Calendar
