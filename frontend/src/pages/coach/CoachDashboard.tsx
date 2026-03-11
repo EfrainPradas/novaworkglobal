@@ -342,24 +342,32 @@ function OverviewView({
                 <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                     {/* Upcoming Sessions */}
                     <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", overflow: "hidden", boxShadow: "0 2px 12px #0000000a" }}>
-                        <div style={{ padding: "16px 18px", borderBottom: "1px solid #f0f4f8" }}>
+                        <div style={{ padding: "16px 18px", borderBottom: "1px solid #f0f4f8", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>📅 Upcoming Sessions</div>
+                            <button onClick={() => setView("sessions")} style={{ fontSize: 11, color: "#0ea5e9", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>View all →</button>
                         </div>
                         <div style={{ padding: "8px 0" }}>
-                            {sessions.length === 0 ? (
-                                <div style={{ padding: "20px 18px", textAlign: "center", fontSize: 12, color: "#94a3b8" }}>No upcoming sessions</div>
-                            ) : (
-                                sessions.slice(0, 4).map(s => (
-                                    <div key={s.id} style={{ padding: "10px 18px", display: "flex", gap: 12, alignItems: "flex-start" }}>
-                                        <div style={{ width: 36, height: 36, borderRadius: 10, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>📋</div>
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ fontSize: 12, fontWeight: 700, color: "#0f172a" }}>{s.client_name || 'Client'}</div>
-                                            <div style={{ fontSize: 11, color: "#64748b" }}>{s.session_type} · {s.duration_minutes} min</div>
-                                            <div style={{ fontSize: 10, color: "#0ea5e9", fontWeight: 600, marginTop: 2 }}>{formatDate(s.scheduled_at)}</div>
+                            {(() => {
+                                const upcomingList = sessions.filter(s => {
+                                    const isFuture = new Date(s.scheduled_at) > new Date();
+                                    return isFuture && (s.status === 'scheduled' || s.status === 'confirmed' || s.status === 'pending');
+                                });
+
+                                return upcomingList.length === 0 ? (
+                                    <div style={{ padding: "20px 18px", textAlign: "center", fontSize: 12, color: "#94a3b8" }}>No upcoming sessions</div>
+                                ) : (
+                                    upcomingList.slice(0, 4).map(s => (
+                                        <div key={s.id} style={{ padding: "10px 18px", display: "flex", gap: 12, alignItems: "flex-start" }}>
+                                            <div style={{ width: 36, height: 36, borderRadius: 10, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>📋</div>
+                                            <div style={{ flex: 1 }}>
+                                                <div style={{ fontSize: 12, fontWeight: 700, color: "#0f172a" }}>{s.client_name || 'Client'}</div>
+                                                <div style={{ fontSize: 11, color: "#64748b" }}>{s.session_type} · {s.duration_minutes} min</div>
+                                                <div style={{ fontSize: 10, color: "#0ea5e9", fontWeight: 600, marginTop: 2 }}>{formatDate(s.scheduled_at)}</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))
-                            )}
+                                    ))
+                                );
+                            })()}
                         </div>
                     </div>
 
@@ -2338,7 +2346,10 @@ export default function CoachDashboard() {
                 setStats({
                     totalClients: clientRelations.length,
                     activeClients: activeClients.length,
-                    upcomingSessions: sessionsData?.filter(s => s.status === 'scheduled').length || 0,
+                    upcomingSessions: sessionsData?.filter(s => {
+                        const isFuture = new Date(s.scheduled_at) > new Date();
+                        return isFuture && (s.status === 'scheduled' || s.status === 'confirmed' || s.status === 'pending');
+                    }).length || 0,
                     pendingCommitments: pendingCount || 0,
                     activeGoals: goalsCount || 0,
                     unreadMessages: msgCount || 0,
