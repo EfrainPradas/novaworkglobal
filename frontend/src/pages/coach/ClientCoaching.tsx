@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
+import NotificationBell from '../../components/common/NotificationBell'
 import {
     Calendar,
     Clock,
@@ -14,7 +15,7 @@ import {
     AlertCircle,
     Star, Video, Loader2, ArrowRight, Calendar as CalendarIcon
 } from 'lucide-react'
-import { downloadICS, CalendarEvent } from '../../utils/calendar'
+import { downloadICS, CalendarEvent, generateGoogleCalendarLink } from '../../utils/calendar'
 
 interface CoachProfile {
     id: string
@@ -320,9 +321,12 @@ export default function ClientCoaching() {
                         <div style={{ width: 1, height: 24, background: '#e2e8f0' }} />
                         <h1 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: 0 }}>My Coaches</h1>
                     </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+                    {userAuth && <NotificationBell userId={userAuth.id} />}
                     {userAuth && <UserMenu user={userAuth} userProfile={userProfile} />}
                 </div>
-            </header>
+            </div>
+        </header>
 
             <main style={{ maxWidth: 1200, margin: '0 auto', padding: '40px 24px' }}>
 
@@ -453,15 +457,14 @@ export default function ClientCoaching() {
                                                         <div style={{ display: 'flex', gap: 12 }}>
                                                             <button
                                                                 onClick={() => {
-                                                                    const startDate = new Date(session.scheduled_at)
-                                                                    const endDate = new Date(startDate.getTime() + (session.duration_minutes || 60) * 60000)
-                                                                    const params = new URLSearchParams({
-                                                                        action: 'TEMPLATE',
-                                                                        text: `Coaching Session with ${session.coach_user?.full_name || 'Coach'} – ${session.session_type}`,
-                                                                        dates: `${startDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z/${endDate.toISOString().replace(/[-:]/g, '').split('.')[0]}Z`,
-                                                                        details: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}`,
-                                                                    })
-                                                                    window.open(`https://calendar.google.com/calendar/render?${params.toString()}`, '_blank')
+                                                                    const url = generateGoogleCalendarLink({
+                                                                        title: `Coaching Session with ${session.coach_user?.full_name || 'Coach'} – ${session.session_type}`,
+                                                                        startDate: session.scheduled_at,
+                                                                        durationMinutes: session.duration_minutes || 60,
+                                                                        description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}`,
+                                                                        location: session.meeting_link || 'Online'
+                                                                    });
+                                                                    window.open(url, '_blank', 'noopener,noreferrer');
                                                                 }}
                                                                 style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#fff', background: '#4285F4', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                                                             >

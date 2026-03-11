@@ -82,3 +82,50 @@ export function downloadICS(event: CalendarEvent, filename: string = 'event.ics'
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
 }
+
+// --- Google Calendar Link Generation ---
+
+export interface GoogleCalendarDetails {
+    title: string;
+    startDate: string; // ISO string
+    durationMinutes: number;
+    description?: string;
+    location?: string;
+}
+
+/**
+ * Converts an ISO Date string to the format required by Google Calendar (YYYYMMDDTHHmmssZ)
+ */
+const formatGoogleCalendarDate = (date: Date): string => {
+    return date.toISOString().replace(/-|:|\.\d\d\d/g, '');
+};
+
+/**
+ * Generates a standard Google Calendar Template URL
+ * Example: https://calendar.google.com/calendar/render?action=TEMPLATE&text=...
+ */
+export const generateGoogleCalendarLink = (details: GoogleCalendarDetails): string => {
+    const start = new Date(details.startDate);
+    // Calculate end time based on duration (default 60 mins if not provided, though our interface requires it)
+    const duration = details.durationMinutes || 60;
+    const end = new Date(start.getTime() + duration * 60000);
+
+    const startFormatted = formatGoogleCalendarDate(start);
+    const endFormatted = formatGoogleCalendarDate(end);
+
+    const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: details.title,
+        dates: `${startFormatted}/${endFormatted}`,
+    });
+
+    if (details.description) {
+        params.append('details', details.description);
+    }
+
+    if (details.location) {
+        params.append('location', details.location);
+    }
+
+    return `https://calendar.google.com/calendar/render?${params.toString()}`;
+};

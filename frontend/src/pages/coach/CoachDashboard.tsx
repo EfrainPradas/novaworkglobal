@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
+import NotificationBell from '../../components/common/NotificationBell'
 import {
     LayoutDashboard,
     Target,
@@ -33,8 +34,8 @@ import {
     Download,
     Navigation
 } from 'lucide-react'
-import { downloadICS, CalendarEvent } from '../../utils/calendar'
-
+import { GoogleCalendarDetails, generateGoogleCalendarLink } from '../../utils/calendar'
+import { acceptBooking } from '../../services/bookings'
 // ─── TYPES ──────────────────────────────────────────────────────────────────
 
 interface ClientRelation {
@@ -88,6 +89,8 @@ interface Session {
     status: string
     client_id: string
     client_name?: string
+    meeting_link?: string
+    notes?: string
 }
 
 // ─── STAGE CONFIG ───────────────────────────────────────────────────────────
@@ -1639,8 +1642,13 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                     disabled={sessionActionLoading === s.id}
                                                     onClick={async () => {
                                                         setSessionActionLoading(s.id)
-                                                        const { error } = await supabase.from('coaching_sessions').update({ status: 'confirmed' }).eq('id', s.id)
-                                                        if (!error) await loadClientData()
+                                                        try {
+                                                            await acceptBooking(s.id)
+                                                            await loadClientData()
+                                                        } catch (err) {
+                                                            console.error("Accept failed", err)
+                                                            alert("Failed to accept booking")
+                                                        }
                                                         setSessionActionLoading(null)
                                                     }}
                                                     style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '7px 18px', borderRadius: 8, border: 'none', background: '#22c55e', color: '#fff', fontSize: 12, fontWeight: 700, cursor: 'pointer', opacity: sessionActionLoading === s.id ? 0.6 : 1 }}
@@ -1896,23 +1904,14 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
     })
 
     const handleAddToCalendar = (session: Session) => {
-        const startDate = new Date(session.scheduled_at)
-        const duration = session.duration_minutes || 60
-        const endDate = new Date(startDate.getTime() + duration * 60000)
-
-        const event: CalendarEvent = {
+        const url = generateGoogleCalendarLink({
             title: `Coaching Session with ${session.client_name}`,
+            startDate: session.scheduled_at,
+            durationMinutes: session.duration_minutes || 60,
             description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
-            startTime: startDate,
-            endTime: endDate,
-            location: 'NovaWork Platform / Video Call',
-            organizer: {
-                name: 'NovaWork Global',
-                email: 'support@novaworkglobal.com' // Placeholder email
-            }
-        }
-
-        downloadICS(event, `coaching-session-${session.client_id}.ics`)
+            location: session.meeting_link || 'Online'
+        })
+        window.open(url, '_blank', 'noopener,noreferrer')
     }
 
     return (
@@ -2004,8 +2003,13 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                                                         <button
                                                             onClick={async (e) => {
                                                                 e.stopPropagation()
-                                                                const { error } = await supabase.from('coaching_sessions').update({ status: 'confirmed' }).eq('id', s.id)
-                                                                if (!error) loadData()
+                                                                try {
+                                                                    await acceptBooking(s.id)
+                                                                    loadData()
+                                                                } catch (err) {
+                                                                    console.error("Accept error:", err)
+                                                                    alert("Failed to accept booking")
+                                                                }
                                                             }}
                                                             style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#fff', background: '#22c55e', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                                                         >

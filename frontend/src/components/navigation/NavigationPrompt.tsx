@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../common/UserMenu'
+import NotificationBell from '../common/NotificationBell'
 import {
   FileText,
   Target,
@@ -299,8 +300,12 @@ export default function NavigationPrompt() {
               </div>
             </div>
             {user && (
-              <UserMenu user={user} userProfile={userProfile} sizeClass="w-28 h-28 text-3xl" />
-            )}
+            <div>
+              <div className="flex items-center gap-4 justify-center mt-2">
+                {user && <NotificationBell userId={user.id} />}
+                <UserMenu user={user} userProfile={userProfile} sizeClass="w-28 h-28 text-3xl" />
+              </div>
+            </div>)}
           </div>
         </div>
       </header>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
+import NotificationBell from '../components/common/NotificationBell'
 import { FileText, Upload, Search, ArrowRight, Lock, Briefcase, Target, Users, Award, Play, BookOpen } from 'lucide-react'
 
 export default function Dashboard() {
@@ -290,7 +291,10 @@ export default function Dashboard() {
                 {tierLabel} Plan
               </span>
             </div>
-            <UserMenu user={user} userProfile={userProfile} />
+            <div className="flex items-center gap-4">
+              {user && <NotificationBell userId={user.id} />}
+              <UserMenu user={user} userProfile={userProfile} />
+            </div>
           </div>
         </div>
       </header>

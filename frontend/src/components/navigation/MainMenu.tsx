@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../common/UserMenu'
+import NotificationBell from '../common/NotificationBell'
 import VideoLink from '../common/VideoLink'
 import {
   Briefcase,
@@ -343,7 +344,10 @@ export default function MainMenu() {
             </div>
 
             {user && (
-              <UserMenu user={user} userProfile={userProfile} />
+              <div className="hidden md:flex items-center gap-4 border-l border-gray-200 dark:border-gray-700 pl-6 ml-2">
+                {user && <NotificationBell userId={user.id} />}
+                <UserMenu user={user} userProfile={userProfile} />
+              </div>
             )}
           </div>
         </div>
