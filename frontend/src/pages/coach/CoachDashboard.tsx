@@ -1895,6 +1895,12 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
 
 function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessions: Session[]; loadData: () => void }) {
     const [filter, setFilter] = useState('upcoming')
+    const [calendarAdded, setCalendarAdded] = useState<Record<string, boolean>>({})
+
+    useEffect(() => {
+        const saved = localStorage.getItem('nova_coach_calendar_added');
+        if (saved) setCalendarAdded(JSON.parse(saved));
+    }, [])
 
     const filtered = sessions.filter(s => {
         const isPast = new Date(s.scheduled_at) < new Date()
@@ -1904,6 +1910,10 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
     })
 
     const handleAddToCalendar = (session: Session) => {
+        const newAdded = { ...calendarAdded, [session.id]: true }
+        setCalendarAdded(newAdded)
+        localStorage.setItem('nova_coach_calendar_added', JSON.stringify(newAdded))
+
         const url = generateGoogleCalendarLink({
             title: `Coaching Session with ${session.client_name}`,
             startDate: session.scheduled_at,
@@ -2029,9 +2039,15 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                                                 ) : isConfirmed ? (
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); handleAddToCalendar(s) }}
-                                                        style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#0ea5e9', background: '#eff6ff', border: '1px solid #bae6fd', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                                        style={{ 
+                                                            flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, 
+                                                            color: calendarAdded[s.id] ? '#166534' : '#0ea5e9', 
+                                                            background: calendarAdded[s.id] ? '#dcfce7' : '#eff6ff', 
+                                                            border: calendarAdded[s.id] ? '1px solid #bbf7d0' : '1px solid #bae6fd', 
+                                                            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
+                                                        }}
                                                     >
-                                                        <CalendarPlus size={14} /> Add to Calendar
+                                                        {calendarAdded[s.id] ? '✅ Added to Calendar' : <><CalendarPlus size={14} /> Add to Calendar</>}
                                                     </button>
                                                 ) : null}
                                             </div>

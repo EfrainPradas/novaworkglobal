@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
@@ -91,6 +91,18 @@ export default function ClientCoaching() {
     const navigate = useNavigate()
     const [userAuth, setUserAuth] = useState<any>(null)
     const [userProfile, setUserProfile] = useState<any>(null)
+    const [calendarAdded, setCalendarAdded] = useState<Record<string, boolean>>({})
+
+    useEffect(() => {
+        const saved = localStorage.getItem('nova_calendar_added');
+        if (saved) setCalendarAdded(JSON.parse(saved));
+    }, [])
+
+    const markCalendarAdded = (sessionId: string) => {
+        const newAdded = { ...calendarAdded, [sessionId]: true }
+        setCalendarAdded(newAdded)
+        localStorage.setItem('nova_calendar_added', JSON.stringify(newAdded))
+    }
     const [loading, setLoading] = useState(true)
 
     const [assignedCoaches, setAssignedCoaches] = useState<ListedCoach[]>([])
@@ -434,6 +446,9 @@ export default function ClientCoaching() {
                                                     {isPending && (
                                                         <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#b45309', padding: '3px 8px', borderRadius: 6 }}>⏳ Pending</span>
                                                     )}
+                                                    {isConfirmed && (
+                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#166534', padding: '3px 8px', borderRadius: 6 }}>✅ Confirmed</span>
+                                                    )}
                                                     {isDeclined && (
                                                         <span style={{ fontSize: 11, fontWeight: 700, background: '#fee2e2', color: '#ef4444', padding: '3px 8px', borderRadius: 6 }}>❌ Declined</span>
                                                     )}
@@ -457,6 +472,7 @@ export default function ClientCoaching() {
                                                         <div style={{ display: 'flex', gap: 12 }}>
                                                             <button
                                                                 onClick={() => {
+                                                                    markCalendarAdded(session.id)
                                                                     const url = generateGoogleCalendarLink({
                                                                         title: `Coaching Session with ${session.coach_user?.full_name || 'Coach'} – ${session.session_type}`,
                                                                         startDate: session.scheduled_at,
@@ -466,9 +482,15 @@ export default function ClientCoaching() {
                                                                     });
                                                                     window.open(url, '_blank', 'noopener,noreferrer');
                                                                 }}
-                                                                style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#fff', background: '#4285F4', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+                                                                style={{ 
+                                                                    flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, 
+                                                                    color: calendarAdded[session.id] ? '#166534' : '#fff', 
+                                                                    background: calendarAdded[session.id] ? '#dcfce7' : '#4285F4', 
+                                                                    border: calendarAdded[session.id] ? '1px solid #bbf7d0' : 'none', 
+                                                                    cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
+                                                                }}
                                                             >
-                                                                📅 Add to Google Calendar
+                                                                {calendarAdded[session.id] ? '✅ Added to Calendar' : '📅 Add to Google Calendar'}
                                                             </button>
                                                             <button
                                                                 onClick={() => handleCancelSession(session.id)}
