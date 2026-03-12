@@ -472,6 +472,17 @@ export default function Dashboard() {
                 </div>
                 <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-amber-500 transition-colors" />
               </button>
+
+              <button
+                onClick={() => navigate('/shared-resources')}
+                className="w-full flex items-center justify-between px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left group"
+              >
+                <div className="flex items-center gap-3">
+                  <BookOpen className="w-4 h-4 text-teal-500 group-hover:text-teal-600 transition-colors" />
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">Shared Resources</span>
+                </div>
+                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-teal-600 transition-colors" />
+              </button>
             </div>
           </div>
 

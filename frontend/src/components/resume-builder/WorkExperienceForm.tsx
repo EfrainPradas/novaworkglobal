@@ -113,10 +113,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
     }
   }
   // ------------------------------------
-
-  const [geoInput, setGeoInput] = useState('')
-  const [vendorInput, setVendorInput] = useState('')
-  const [toolInput, setToolInput] = useState('')
+  
   const [usState, setUsState] = useState('')
 
   const currentYear = new Date().getFullYear()
@@ -169,28 +166,6 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
     } finally {
       setSaving(false)
     }
-  }
-
-  const addItem = (type: 'geo' | 'vendor' | 'tool') => {
-    const input = type === 'geo' ? geoInput : type === 'vendor' ? vendorInput : toolInput
-    if (!input.trim()) return
-
-    const field = type === 'geo' ? 'geographies' : type === 'vendor' ? 'vendors' : 'tools_systems'
-    const current = formData[field] || []
-
-    if (!current.includes(input.trim())) {
-      setFormData({ ...formData, [field]: [...current, input.trim()] })
-    }
-
-    if (type === 'geo') setGeoInput('')
-    else if (type === 'vendor') setVendorInput('')
-    else setToolInput('')
-  }
-
-  const removeItem = (type: 'geo' | 'vendor' | 'tool', item: string) => {
-    const field = type === 'geo' ? 'geographies' : type === 'vendor' ? 'vendors' : 'tools_systems'
-    const current = formData[field] || []
-    setFormData({ ...formData, [field]: current.filter(i => i !== item) })
   }
 
   return (
@@ -360,7 +335,11 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         <button
           type="button"
           onClick={() => setShowAiBuilder(!showAiBuilder)}
-          className="mt-2 text-sm text-primary-600 hover:text-primary-700 flex items-center gap-1 font-medium"
+          className={`mt-4 w-full sm:w-auto px-6 py-3 font-semibold rounded-xl text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${
+            showAiBuilder 
+              ? 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600' 
+              : 'bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:opacity-90 hover:shadow-md'
+          }`}
         >
           {showAiBuilder ? 'Hide Scope Builder' : '✨ Build Scope with AI Questionnaire'}
         </button>
@@ -462,93 +441,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         </div>
       )}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget</label>
-          <input
-            type="text"
-            value={formData.budget}
-            onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="$5M, €2M, etc."
-          />
-        </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Headcount</label>
-          <input
-            type="text"
-            value={formData.headcount}
-            onChange={(e) => setFormData({ ...formData, headcount: e.target.value })}
-            className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="12, 50+, etc."
-          />
-        </div>
-      </div>
-
-      {/* Geographies */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Geographies</label>
-        <div className="flex gap-2 mb-2">
-          <input
-            type="text"
-            value={geoInput}
-            onChange={(e) => setGeoInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addItem('geo'))}
-            className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="LATAM, EMEA, North America, etc."
-          />
-          <button
-            type="button"
-            onClick={() => addItem('geo')}
-            className="px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600"
-          >
-            Add
-          </button>
-        </div>
-        {formData.geographies && formData.geographies.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {formData.geographies.map((geo, i) => (
-              <span key={i} className="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm">
-                {geo}
-                <button type="button" onClick={() => removeItem('geo', geo)}>×</button>
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Tools/Systems */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.tools')}</label>
-        <div className="flex gap-2 mb-2">
-          <input
-            type="text"
-            value={toolInput}
-            onChange={(e) => setToolInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addItem('tool'))}
-            className="flex-1 px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="Salesforce, Jira, SQL, etc."
-          />
-          <button
-            type="button"
-            onClick={() => addItem('tool')}
-            className="px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600"
-          >
-            Add
-          </button>
-        </div>
-        {formData.tools_systems && formData.tools_systems.length > 0 && (
-          <div className="flex flex-wrap gap-2">
-            {formData.tools_systems.map((tool, i) => (
-              <span key={i} className="inline-flex items-center gap-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm">
-                {tool}
-                <button type="button" onClick={() => removeItem('tool', tool)}>×</button>
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
 
       {/* Actions */}
       <div className="flex justify-between pt-4 border-t">

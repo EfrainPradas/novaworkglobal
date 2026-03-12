@@ -594,6 +594,16 @@ export default function MainMenu() {
             </button>
 
             <button
+              onClick={() => handleQuickAccess('/shared-resources', 'essentials')}
+              className="p-4 bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-200 rounded-lg hover:shadow-md transition-all"
+            >
+              <div className="text-2xl mb-2 flex items-center justify-center gap-2">
+                📚
+              </div>
+              <div className="text-sm font-medium text-teal-900">Resources</div>
+            </button>
+
+            <button
               onClick={() => handleQuickAccess('/resume/tracking', 'momentum')}
               className={`p-4 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg hover:shadow-md transition-all ${!canAccess('momentum') ? 'opacity-75' : ''}`}
             >

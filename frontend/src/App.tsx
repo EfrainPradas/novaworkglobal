@@ -14,6 +14,7 @@ import Onboarding from './pages/onboarding/Onboarding'
 import NavigationPrompt from './components/navigation/NavigationPrompt'
 import MainMenu from './pages/MainMenu'
 import ProtectedRoute from './components/auth/ProtectedRoute'
+import ClientSharedResources from './pages/client/ClientSharedResources'
 
 // Career Vision Routes
 import CareerVisionWelcome from './pages/career-vision/Welcome'
@@ -85,6 +86,7 @@ import TranslationEditor from './pages/admin/TranslationEditor'
 import CoachRoute from './components/auth/CoachRoute'
 import CoachDashboard from './pages/coach/CoachDashboard'
 import ClientCoaching from './pages/coach/ClientCoaching'
+import CoachResources from './pages/coach/CoachResources'
 
 // 404 Component
 function NotFound() {
@@ -125,6 +127,7 @@ function App() {
           <Route path="/dashboard" element={<NavigationPrompt />} />
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
+          <Route path="/shared-resources" element={<ClientSharedResources />} />
 
           {/* Resume Builder Routes - Level: Essentials */}
           <Route path="/resume-builder" element={<ResumeBuilderMenu />} />
@@ -201,6 +204,7 @@ function App() {
         {/* Coach-Only Routes */}
         <Route element={<CoachRoute />}>
           <Route path="/coach" element={<CoachDashboard />} />
+          <Route path="/coach/resources" element={<CoachResources />} />
         </Route>
 
         {/* Hidden Admin Routes */}

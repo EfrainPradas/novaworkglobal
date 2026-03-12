@@ -2112,16 +2112,16 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
 // ─── RESOURCES VIEW ─────────────────────────────────────────────────────────
 
 function ResourcesView({ coachId }: { coachId: string }) {
+    const navigate = useNavigate();
     return (
         <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '60px 40px', textAlign: 'center' }}>
             <BookOpen size={64} color="#6366f1" style={{ marginBottom: 20, margin: '0 auto' }} />
             <h2 style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', marginBottom: 8 }}>Coach Resource Library</h2>
             <p style={{ fontSize: 14, color: '#64748b', maxWidth: 450, margin: '0 auto 24px' }}>
-                Store and share guides, templates, and videos with your clients. This section is currently being integrated with Supabase Storage.
+                Store and share guides, templates, and videos with your clients.
             </p>
             <div style={{ display: 'flex', justifyContent: 'center', gap: 12 }}>
-                <button style={{ padding: '10px 20px', borderRadius: 10, background: '#0f172a', color: '#fff', border: 'none', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>+ Add Resource</button>
-                <button style={{ padding: '10px 20px', borderRadius: 10, background: '#fff', color: '#0f172a', border: '1.5px solid #e2e8f0', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Browse Community</button>
+                <button onClick={() => navigate('/coach/resources')} style={{ padding: '10px 20px', borderRadius: 10, background: '#0f172a', color: '#fff', border: 'none', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Open Resource Library</button>
             </div>
         </div>
     )

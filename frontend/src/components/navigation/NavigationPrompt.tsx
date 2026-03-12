@@ -594,6 +594,19 @@ export default function NavigationPrompt() {
                   </div>
                   <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
                 </button>
+
+                <button
+                  onClick={() => navigate('/shared-resources')}
+                  className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-teal-50 text-teal-600 rounded-lg group-hover:bg-teal-100 transition-colors">
+                      <BookOpen className="w-4 h-4" />
+                    </div>
+                    <span className="font-medium text-gray-700">Shared Resources</span>
+                  </div>
+                  <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-gray-600" />
+                </button>
               </div>
             </div>
 
