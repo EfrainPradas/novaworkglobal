@@ -53,10 +53,17 @@ Complexity Factors:
 ${(aiForm.complexity_factors || []).join(', ') || 'None specified'}
 
 === INSTRUCTIONS ===
-- Do NOT use bullet points. Make it a single cohesive paragraph (3-4 lines).
-- Start with the Primary Action Verb.
-- Weave the financial size, team size, geography, and complexity seamlessly.
-- CRITICAL: Write in the implied first-person objective tone (no pronouns). ABSOLUTELY DO NOT use "I", "me", "my", "we", "he", "him", "she", or "her". For example, write "Managed a team..." instead of "I managed a team..." or "He managed a team...".
+- Generate ONE Position Purpose sentence.
+- Must start with the selected action verb (${aiForm.core_mandate_verb || 'Not specified'}).
+- Must clearly explain why the role exists.
+- Must include financial scope (if provided).
+- Must include geographic scope.
+- Must include team size and vendor portfolio size.
+- Must reflect complexity if applicable.
+- Must NOT list tasks.
+- Must NOT exceed 60 words.
+- Tone: strategic, executive, concise.
+- CRITICAL: Write in the implied first-person objective tone (no pronouns). ABSOLUTELY DO NOT use "I", "me", "my", "we", "he", "him", "she", or "her".
 - Output ONLY the text of the statement, nothing else. No intro, no quotes.
 `
 
