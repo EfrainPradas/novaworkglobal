@@ -2141,7 +2141,7 @@ function AnalyticsView({ stats }: { stats: CoachStats }) {
                 </div>
                 <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
                     <div style={{ color: '#0ea5e9', marginBottom: 12 }}><Clock size={24} /></div>
-                    <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{stats.totalClients * 4.2}h</div>
+                    <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{Number((stats.totalClients * 4.2).toFixed(1))}h</div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 4 }}>Total Coaching Time</div>
                     <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Estimated hours spent in direct coaching</div>
                 </div>
