@@ -9,11 +9,28 @@
             "destination": "https://3.145.4.238.nip.io/novaworkglobal-api/$1"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!videos/).*)",
             "destination": "/index.html"
         }
     ],
     "headers": [
+        {
+            "source": "/videos/(.*)",
+            "headers": [
+                {
+                    "key": "Content-Type",
+                    "value": "video/mp4"
+                },
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                },
+                {
+                    "key": "Accept-Ranges",
+                    "value": "bytes"
+                }
+            ]
+        },
         {
             "source": "/(.*)",
             "headers": [
