@@ -39,6 +39,7 @@ export default function AwardsBuilder() {
 
     const currentYear = new Date().getFullYear()
     const years = Array.from({ length: currentYear - 1959 }, (_, i) => (currentYear - i).toString())
+    const expirationYears = Array.from({ length: 2050 - currentYear + 1 }, (_, i) => (currentYear + i).toString())
 
     // Normalize a date value to a 4-digit year string
     const toYear = (val: string | null | undefined): string => {
@@ -384,7 +385,7 @@ export default function AwardsBuilder() {
                                                 className={inputClass('expiration_date')}
                                             >
                                                 <option value="">Select Year</option>
-                                                {years.map(year => (
+                                                {expirationYears.map(year => (
                                                     <option key={year} value={year}>{year}</option>
                                                 ))}
                                             </select>
