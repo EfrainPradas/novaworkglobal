@@ -467,9 +467,6 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
                         <div className="flex gap-3">
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-gray-900 dark:text-white">{stats.total}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.stories', 'Stories')}</span>
-                            </div>
-                            <div className="px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm flex items-center gap-2">
                                 <span className="font-semibold text-gray-900 dark:text-white">{stats.draft}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.drafts', 'Drafts')}</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm flex items-center gap-2">
