@@ -128,31 +128,10 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 }
 
                 mergedStories.forEach(story => {
-                    const storyWords = getWords(`${story.title || ''} ${story.role_title || ''} ${story.company_name || ''}`)
-
-                    const linked = userAccomplishments.filter(a => {
-                        // 1. Explicit connection rules (AI generated directly on the CAR)
-                        if (a.par_story_id === story.id) return true;
-
-                        // 2. Fuzzy matching for other accomplishments
-                        // Don't mix up generated accomplishments from another explicit CAR
-                        if (a.source === 'ai_generated' && a.par_story_id !== story.id) {
-                            return false;
-                        }
-
-                        const accWords = getWords(`${a.role_title || ''} ${a.company_name || ''}`)
-
-                        if (accWords.length === 0 || storyWords.length === 0) return false;
-
-                        let intersection = 0;
-                        for (const w of accWords) {
-                            if (storyWords.includes(w)) intersection++;
-                        }
-
-                        // If at least 50% of the keywords overlap, consider it a match
-                        const matchRatio = intersection / Math.min(accWords.length, storyWords.length)
-                        return matchRatio >= 0.5;
-                    })
+                    // Only show AI-generated accomplishments explicitly linked to this CAR
+                    const linked = userAccomplishments.filter(a =>
+                        a.source === 'ai_generated' && a.par_story_id === story.id
+                    )
 
                     // Deduplicate
                     const uniqueLinked = Array.from(new Map(linked.map(item => [item.id, item])).values())
