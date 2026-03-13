@@ -102,7 +102,24 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
                 }
 
                 if (!response.ok) {
-                    throw new Error(`Failed to generate bullets for: ${story.title || 'Untitled'}`)
+                    const errBody = await response.json().catch(() => null)
+                    console.error('Backend error details:', errBody)
+                    
+                    // Use fallback accomplishments if backend returned them
+                    if (errBody?.fallback_accomplishments?.length > 0) {
+                        const fallbackOpts = errBody.fallback_accomplishments.map((text: string, idx: number) => ({
+                            id: `${story.id}-fallback-${idx}`,
+                            text
+                        }))
+                        results.push({
+                            ...story,
+                            generatedOptions: fallbackOpts,
+                            selectedOptionIds: [fallbackOpts[0]?.id]
+                        })
+                        continue
+                    }
+                    
+                    throw new Error(`Server error ${response.status}: ${errBody?.details || errBody?.error || 'Unknown error'} (Story: ${story.title || 'Untitled'})`)
                 }
 
                 const data = await response.json()

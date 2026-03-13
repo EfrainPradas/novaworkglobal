@@ -27,7 +27,7 @@ export default defineConfig({
         ]
       },
       devOptions: {
-        enabled: true
+        enabled: false  // Disabled: service worker intercepts /api proxy calls in dev mode
       },
       manifest: {
         name: 'NovaWork Global',
