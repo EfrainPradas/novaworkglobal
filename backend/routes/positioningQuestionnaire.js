@@ -173,9 +173,14 @@ ${storySummaries || 'No story cards available'}
 === RECENT WORK EXPERIENCE ===
 ${workSummaries || 'No work experience available'}
 
-=== INSTRUCTIONS ===
-CRITICAL TONE RULE: Write strictly in the telegraphic, implied third-person objective tone. ABSOLUTELY DO NOT use any personal pronouns in any language (e.g., "I", "me", "my", "we", "us", "he", "him", "his", "she", "her", "they", "Yo", "El", "Ella"). Start sentences directly with job titles, strong action verbs, or noun phrases (e.g., "Marketing Director with...", "Expert at building...", "Skilled at leading...").
+=== LANGUAGE & TONE RULES (MANDATORY) ===
+ZERO FIRST-PERSON PRONOUNS. This is an absolute rule with no exceptions.
+- BANNED words in ALL sections: I, me, my, mine, myself, we, us, our, ours, ourselves, he, him, his, she, her, hers, they, them, their, theirs, Yo, me, mi, mis, él, ella, nosotros, nosotras, nuestro
+- Every sentence must begin with a title, noun, adjective, or strong verb.
+- Write in "telegraphic" executive style: "Skilled at...", "Proven track record in...", "Expert in combining...", "[Title] with X+ years..."
+- NEVER start any sentence with a pronoun word. Review your output before returning.
 
+=== OUTPUT INSTRUCTIONS ===
 Generate a structured professional profile in JSON format with exactly these 5 keys:
 
 1. "identity_sentence": One powerful sentence following the template:
@@ -193,7 +198,7 @@ Generate a structured professional profile in JSON format with exactly these 5 k
    - Reference the complexity_moment and scale data
    - Mention stakeholder_exposure if relevant
    - Sound executive, results-oriented, and ATS-friendly
-   - Strict adherence to the no-pronoun rule. Never start a sentence with a pronoun.
+   - ZERO personal pronouns — not a single one. Start each sentence with a skill, adjective, or noun.
    - Avoid generic buzzwords. Be specific about impact.
 
 4. "areas_of_excellence": A pipe-separated string of 12-18 ATS keywords:
@@ -213,7 +218,7 @@ RETURN ONLY VALID JSON. No markdown, no code fences.`
         const completion = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [
-                { role: 'system', content: 'You are an expert executive resume writer. Output only valid JSON.' },
+                { role: 'system', content: 'You are an expert executive resume writer. You write ONLY in telegraphic third-person professional style — absolutely NO personal pronouns (I, me, my, we, us, he, she, they, etc.) in any language. Output only valid JSON.' },
                 { role: 'user', content: prompt }
             ],
             response_format: { type: "json_object" },
