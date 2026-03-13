@@ -114,12 +114,14 @@ export default function AwardsBuilder() {
         setSaving(true)
 
         const table = formType === 'cert' ? 'certifications' : 'awards'
+        const toDate = (year: string | null | undefined) => year ? `${year}-01-01` : null
+
         const payload = {
             user_id: userId,
             certification_name: form.certification_name.trim(),
             issuing_organization: form.issuing_organization.trim(),
-            issue_date: form.issue_date || null,
-            expiration_date: form.expiration_date || null,
+            issue_date: toDate(form.issue_date),
+            expiration_date: toDate(form.expiration_date),
             credential_id: form.credential_id.trim() || null,
             credential_url: form.credential_url.trim() || null
         }
