@@ -45,12 +45,6 @@ export default function AccomplishmentsHub() {
                     </button>
 
                     <div className="flex items-center gap-2">
-                        <button
-                            onClick={() => navigate('/resume/accomplishment-bank-learn-more')}
-                            className="flex items-center gap-1.5 px-4 py-2.5 bg-slate-700 hover:bg-slate-600 text-white text-sm font-semibold rounded-lg transition-colors"
-                        >
-                            <BookOpen className="w-4 h-4" /> Learn More
-                        </button>
 
                         {!isStandalone && (
                             <button
