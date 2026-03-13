@@ -348,7 +348,7 @@ export default function NavigationPrompt() {
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`))}
+                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/The_Job_Search_&_Application_Suite.mp4`))}
                     className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
