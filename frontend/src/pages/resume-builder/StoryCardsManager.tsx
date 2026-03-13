@@ -831,58 +831,59 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                         >
                             Continue to Next Step <ArrowRight className="w-5 h-5" />
                         </button>
-                        {/* In-Modal Action Verbs / Examples Float Panel */}
-                        {modalPanel && (
-                            <div className="fixed inset-0 z-[200] flex items-start justify-end pointer-events-none p-4 pt-24">
-                                <div className="pointer-events-auto w-[360px] max-h-[70vh] flex flex-col bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-in slide-in-from-right duration-200">
-                                    <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0">
-                                        <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm">
-                                            {modalPanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5]" /> Action Verbs</> : <><BookOpen className="w-4 h-4 text-[#4F46E5]" /> Verified Examples</>}
-                                        </h3>
-                                        <button onClick={() => setModalPanel(null)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
-                                            <X className="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                    <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800/50">
-                                        {modalPanel === 'verbs' && (
-                                            <div className="space-y-5">
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Click a verb to copy it to your clipboard.</p>
-                                                {Object.entries(ACTION_VERBS).map(([category, verbs]) => (
-                                                    <div key={category}>
-                                                        <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{category}</h4>
-                                                        <div className="flex flex-wrap gap-1.5">
-                                                            {verbs.map(verb => (
-                                                                <button key={verb} onClick={() => copyToClipboard(verb, verb)}
-                                                                    className="px-2.5 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-700 dark:text-gray-300 hover:border-[#4F46E5] hover:text-[#4F46E5] transition-colors shadow-sm">
-                                                                    {verb}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                        {modalPanel === 'examples' && (
-                                            <div className="space-y-3">
-                                                <p className="text-xs text-gray-500 dark:text-gray-400">Strong CAR examples with quantified metrics.</p>
-                                                {EXAMPLES.map((ex, i) => (
-                                                    <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
-                                                        <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
-                                                        <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
-                                                        <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
-                                                            <Copy className="w-3.5 h-3.5" />
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
                     </div>
                 )}
             </div>
+
+            {/* Action Verbs / Examples Float Panel — always available, outside any mode gate */}
+            {modalPanel && (
+                <div className="fixed inset-0 z-[200] flex items-start justify-end pointer-events-none p-4 pt-24">
+                    <div className="pointer-events-auto w-[360px] max-h-[70vh] flex flex-col bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-in slide-in-from-right duration-200">
+                        <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0">
+                            <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm">
+                                {modalPanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5]" /> Action Verbs</> : <><BookOpen className="w-4 h-4 text-[#4F46E5]" /> Verified Examples</>}
+                            </h3>
+                            <button onClick={() => setModalPanel(null)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
+                                <X className="w-4 h-4" />
+                            </button>
+                        </div>
+                        <div className="flex-1 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800/50">
+                            {modalPanel === 'verbs' && (
+                                <div className="space-y-5">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Click a verb to copy it to your clipboard.</p>
+                                    {Object.entries(ACTION_VERBS).map(([category, verbs]) => (
+                                        <div key={category}>
+                                            <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">{category}</h4>
+                                            <div className="flex flex-wrap gap-1.5">
+                                                {verbs.map(verb => (
+                                                    <button key={verb} onClick={() => copyToClipboard(verb, verb)}
+                                                        className="px-2.5 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-700 dark:text-gray-300 hover:border-[#4F46E5] hover:text-[#4F46E5] transition-colors shadow-sm">
+                                                        {verb}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            {modalPanel === 'examples' && (
+                                <div className="space-y-3">
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">Strong CAR examples with quantified metrics.</p>
+                                    {EXAMPLES.map((ex, i) => (
+                                        <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
+                                            <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
+                                            <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
+                                            <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <Copy className="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
 
             {/* Form Modal Redesign */}
             {showForm && (
