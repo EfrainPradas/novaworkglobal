@@ -89,6 +89,7 @@ export default function ResumeFinalPreview() {
             // 5. Build combined profile paragraph
             let combinedProfile = ''
             let areasOfExcellence: string[] = []
+            let skillsSection: { tools_platforms?: string[], methodologies?: string[], languages?: string[] } = {}
 
             if (generatedProfile) {
                 const parts = [
@@ -103,6 +104,12 @@ export default function ResumeFinalPreview() {
                     areasOfExcellence = rawAreas.split('|').map((s: string) => s.trim()).filter(Boolean)
                 } else if (Array.isArray(rawAreas)) {
                     areasOfExcellence = rawAreas
+                }
+
+                // Extract skills section (tools, methodologies, languages)
+                const rawSkills = generatedProfile.output_skills_section
+                if (rawSkills) {
+                    skillsSection = typeof rawSkills === 'string' ? JSON.parse(rawSkills) : rawSkills
                 }
             } else if (masterResume?.profile_summary) {
                 combinedProfile = masterResume.profile_summary
@@ -124,6 +131,7 @@ export default function ResumeFinalPreview() {
                 },
                 summary: combinedProfile,
                 areas_of_excellence: areasOfExcellence,
+                skills_section: skillsSection,
                 work_experience: workExperience,
                 education: education,
                 certifications: certifications,
@@ -313,13 +321,36 @@ export default function ResumeFinalPreview() {
                                 </div>
                             )}
 
-                            {/* AREAS OF EXCELLENCE — smaller subtitle, separate paragraph */}
-                            {resumeData.areas_of_excellence?.length > 0 && (
+                            {/* AREAS OF EXCELLENCE — smaller subtitle + skills breakdown */}
+                            {(resumeData.areas_of_excellence?.length > 0 || resumeData.skills_section) && (
                                 <div style={{ marginBottom: '8px' }}>
                                     <div style={subSectionTitle}>Areas of Excellence</div>
-                                    <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: 0 }}>
-                                        {resumeData.areas_of_excellence.join(' | ')}
-                                    </p>
+                                    {resumeData.areas_of_excellence?.length > 0 && (
+                                        <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: '0 0 4px' }}>
+                                            {resumeData.areas_of_excellence.join(' | ')}
+                                        </p>
+                                    )}
+                                    {/* Tools & Platforms */}
+                                    {resumeData.skills_section?.tools_platforms?.length > 0 && (
+                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
+                                            <strong>Tools & Platforms: </strong>
+                                            {resumeData.skills_section.tools_platforms.join(' | ')}
+                                        </p>
+                                    )}
+                                    {/* Methodologies */}
+                                    {resumeData.skills_section?.methodologies?.length > 0 && (
+                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
+                                            <strong>Methodologies: </strong>
+                                            {resumeData.skills_section.methodologies.join(' | ')}
+                                        </p>
+                                    )}
+                                    {/* Languages */}
+                                    {resumeData.skills_section?.languages?.length > 0 && (
+                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
+                                            <strong>Languages: </strong>
+                                            {resumeData.skills_section.languages.join(' | ')}
+                                        </p>
+                                    )}
                                 </div>
                             )}
 
