@@ -452,13 +452,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 <Play size={18} />
                                 Watch video
                             </button>
-                            <button
-                                onClick={() => navigate('/resume/accomplishment-bank-learn-more')}
-                                className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors"
-                            >
-                                <BookOpen size={18} />
-                                Learn more
-                            </button>
+
                             <button
                                 onClick={() => setIsAdding(true)}
                                 className="flex items-center gap-2 px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 shadow-sm transition-colors"
