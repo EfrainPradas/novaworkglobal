@@ -426,12 +426,23 @@ export async function generateAccomplishments(data) {
     // Parse the JSON response
     const parsed = JSON.parse(content)
 
-    // Validate and structure response
-    const accomplishments = Array.isArray(parsed.accomplishments)
+    // Validate and structure response - normalize to array of strings
+    let raw = Array.isArray(parsed.accomplishments)
       ? parsed.accomplishments
       : Array.isArray(parsed.accomplishment)
         ? parsed.accomplishment
-        : []
+        : Array.isArray(parsed.bullets)
+          ? parsed.bullets
+          : []
+
+    // Normalize: if items are objects, extract the string value
+    const accomplishments = raw.map(item => {
+      if (typeof item === 'string') return item
+      if (typeof item === 'object' && item !== null) {
+        return item.statement || item.text || item.bullet || item.accomplishment || JSON.stringify(item)
+      }
+      return String(item)
+    }).filter(Boolean)
 
     console.log('✅ Accomplishments generated:', accomplishments)
     return accomplishments
