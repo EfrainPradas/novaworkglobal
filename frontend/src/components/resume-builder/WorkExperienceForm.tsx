@@ -115,6 +115,9 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
   // ------------------------------------
   
   const [usState, setUsState] = useState('')
+  const [scopeMode, setScopeMode] = useState<'ai' | 'manual' | null>(
+    initialData?.scope_description ? 'manual' : null
+  )
 
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: currentYear - 1959 }, (_, i) => (currentYear - i).toString())
@@ -320,29 +323,59 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
       </div>
 
       {/* Scope */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-          Scope
-        </label>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">High-level summary of your role. Metrics should go in accomplishments.</p>
-        <textarea
-          value={formData.scope_description}
-          onChange={(e) => setFormData({ ...formData, scope_description: e.target.value })}
-          rows={3}
-          className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-          placeholder="e.g. Designed and implemented analytics-driven workflows..."
-        />
-        <button
-          type="button"
-          onClick={() => setShowAiBuilder(!showAiBuilder)}
-          className={`mt-4 w-full sm:w-auto px-6 py-3 font-semibold rounded-xl text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${
-            showAiBuilder 
-              ? 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600' 
-              : 'bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:opacity-90 hover:shadow-md'
-          }`}
-        >
-          {showAiBuilder ? 'Hide Scope Builder' : '✨ Build Scope with AI Questionnaire'}
-        </button>
+      <div className="space-y-3">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Scope</label>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Choose how you want to define your role scope.</p>
+        </div>
+
+        {/* Scope Mode Buttons */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <button
+            type="button"
+            onClick={() => { setShowAiBuilder(!showAiBuilder); setScopeMode('ai') }}
+            className={`flex-1 px-5 py-3 font-semibold rounded-xl text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${
+              scopeMode === 'ai'
+                ? 'bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:opacity-90 hover:shadow-md'
+                : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
+            }`}
+          >
+            ✨ Build Scope with AI Questionnaire
+          </button>
+          <button
+            type="button"
+            onClick={() => { setScopeMode(scopeMode === 'manual' ? null : 'manual'); setShowAiBuilder(false) }}
+            className={`flex-1 px-5 py-3 font-semibold rounded-xl text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${
+              scopeMode === 'manual'
+                ? 'bg-blue-600 text-white hover:bg-blue-700'
+                : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
+            }`}
+          >
+            ✏️ Fill Manually
+          </button>
+        </div>
+
+        {/* Manual textarea - only shows when manual is selected */}
+        {scopeMode === 'manual' && (
+          <div className="mt-2">
+            <textarea
+              value={formData.scope_description}
+              onChange={(e) => setFormData({ ...formData, scope_description: e.target.value })}
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
+              placeholder="e.g. Designed and implemented analytics-driven workflows..."
+              autoFocus
+            />
+          </div>
+        )}
+
+        {/* If AI generated a scope, show it as a preview */}
+        {scopeMode === 'ai' && formData.scope_description && !showAiBuilder && (
+          <div className="mt-2 p-3 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-lg text-sm text-teal-900 dark:text-teal-200">
+            <p className="font-medium mb-1 text-xs text-teal-600 dark:text-teal-400 uppercase tracking-wide">Generated Scope</p>
+            {formData.scope_description}
+          </div>
+        )}
       </div>
 
       {showAiBuilder && (
