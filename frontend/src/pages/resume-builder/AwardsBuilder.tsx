@@ -40,6 +40,14 @@ export default function AwardsBuilder() {
     const currentYear = new Date().getFullYear()
     const years = Array.from({ length: currentYear - 1959 }, (_, i) => (currentYear - i).toString())
 
+    // Normalize a date value to a 4-digit year string
+    const toYear = (val: string | null | undefined): string => {
+        if (!val) return ''
+        // If it looks like YYYY-MM-DD, extract just the year
+        const match = String(val).match(/^(\d{4})/)
+        return match ? match[1] : String(val)
+    }
+
     useEffect(() => {
         loadData()
     }, [])
@@ -62,8 +70,8 @@ export default function AwardsBuilder() {
                     id: d.id,
                     certification_name: d.certification_name || d.name || '',
                     issuing_organization: d.issuing_organization || '',
-                    issue_date: d.issue_date || d.year || '',
-                    expiration_date: d.expiration_date || '',
+                    issue_date: toYear(d.issue_date || d.year),
+                    expiration_date: toYear(d.expiration_date),
                     credential_id: d.credential_id || '',
                     credential_url: d.credential_url || ''
                 })))
@@ -81,8 +89,8 @@ export default function AwardsBuilder() {
                     id: d.id,
                     certification_name: d.certification_name || d.name || '',
                     issuing_organization: d.issuing_organization || '',
-                    issue_date: d.issue_date || '',
-                    expiration_date: d.expiration_date || '',
+                    issue_date: toYear(d.issue_date),
+                    expiration_date: toYear(d.expiration_date),
                     credential_id: d.credential_id || '',
                     credential_url: d.credential_url || ''
                 })))
@@ -179,6 +187,7 @@ export default function AwardsBuilder() {
                     <p className="text-gray-600 dark:text-gray-400 ml-7">
                         {entry.issuing_organization}
                         {entry.issue_date ? ` • ${entry.issue_date}` : ''}
+                        {entry.expiration_date ? ` – ${entry.expiration_date}` : ''}
                     </p>
                     {entry.credential_url && (
                         <a
