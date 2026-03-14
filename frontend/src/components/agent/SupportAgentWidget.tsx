@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { MessageCircle, X, Minimize2 } from 'lucide-react'
+import { X, Minimize2, Sparkles } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import AgentMessage from './AgentMessage'
 import AgentQuickActions from './AgentQuickActions'
@@ -11,11 +11,11 @@ interface Message {
 }
 
 const QUICK_ACTIONS = [
-  { label: '¿Por dónde empiezo?', message: 'Where do I start? I am new here.' },
-  { label: '¿Qué hago después?', message: 'What should I do next?' },
-  { label: 'Revisar mis CARs', message: 'Please review my CAR stories and give me feedback.' },
-  { label: 'Ayuda con el resume', message: 'Help me with my resume.' },
-  { label: 'Mejor historia para entrevista', message: 'Which of my stories is best for an interview?' },
+  { label: 'Where do I start?',         message: 'Where do I start? I am new here.' },
+  { label: 'What should I do next?',    message: 'What should I do next?' },
+  { label: 'Review my CARs',            message: 'Please review my CAR stories and give me feedback.' },
+  { label: 'Help with my resume',       message: 'Help me with my resume.' },
+  { label: 'Best story for interview',  message: 'Which of my stories is best for an interview?' },
 ]
 
 export default function SupportAgentWidget() {
@@ -28,10 +28,9 @@ export default function SupportAgentWidget() {
 
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      // Send a welcome message
       setMessages([{
         role: 'assistant',
-        content: '👋 ¡Hola! Soy tu Super Agente de Soporte. Puedo ayudarte con tu resume, historias CAR, preparación para entrevistas, y mucho más.\n\n¿En qué te puedo ayudar hoy?'
+        content: "👋 Hi! I'm Bruno, your career coaching assistant. I can help you with your resume, CAR stories, interview prep, and more.\n\nHow can I help you today?"
       }])
     }
   }, [isOpen])
@@ -49,7 +48,6 @@ export default function SupportAgentWidget() {
     setInput('')
     setLoading(true)
 
-    // Optimistically add streaming assistant message
     setMessages(prev => [...prev, { role: 'assistant', content: '' }])
 
     try {
@@ -110,10 +108,10 @@ export default function SupportAgentWidget() {
         }
       }
     } catch (err) {
-      console.error('[SupportAgent] Error:', err)
+      console.error('[Bruno] Error:', err)
       setMessages(prev => [
         ...prev.slice(0, -1),
-        { role: 'assistant', content: 'Lo siento, ocurrió un error. Por favor intenta de nuevo.' }
+        { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }
       ])
     } finally {
       setLoading(false)
@@ -134,10 +132,10 @@ export default function SupportAgentWidget() {
         <button
           onClick={() => setIsOpen(true)}
           className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-gradient-to-br from-blue-600 to-violet-600 text-white rounded-full shadow-2xl hover:shadow-blue-500/30 hover:scale-110 transition-all duration-200 flex items-center justify-center"
-          title="Super Support Agent"
-          aria-label="Open Support Agent"
+          title="Bruno — Career Assistant"
+          aria-label="Open Bruno Assistant"
         >
-          <MessageCircle className="w-6 h-6" />
+          <Sparkles className="w-6 h-6" />
         </button>
       )}
 
@@ -148,11 +146,11 @@ export default function SupportAgentWidget() {
           <div className="flex items-center justify-between px-4 py-3 bg-gradient-to-r from-blue-600 to-violet-600 text-white">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-                <MessageCircle className="w-4 h-4" />
+                <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-sm font-semibold">Super Agent</div>
-                <div className="text-xs opacity-75">NovaWork Global</div>
+                <div className="text-sm font-semibold">Bruno</div>
+                <div className="text-xs opacity-75">Career Assistant · NovaWork Global</div>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -192,7 +190,7 @@ export default function SupportAgentWidget() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Escribe tu pregunta..."
+                placeholder="Ask Bruno anything..."
                 rows={1}
                 disabled={loading}
                 className="flex-1 resize-none px-3 py-2 text-sm border border-slate-300 dark:border-slate-600 rounded-xl bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none disabled:opacity-50"
