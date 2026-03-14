@@ -15,6 +15,7 @@ import NavigationPrompt from './components/navigation/NavigationPrompt'
 import MainMenu from './pages/MainMenu'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
+import SupportAgentWidget from './components/agent/SupportAgentWidget'
 
 // Career Vision Routes
 import CareerVisionWelcome from './pages/career-vision/Welcome'
@@ -226,6 +227,7 @@ function App() {
         {/* 404 - Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
+      <SupportAgentWidget />
     </Router>
   )
 }
