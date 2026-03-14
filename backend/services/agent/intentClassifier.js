@@ -48,6 +48,29 @@ const INTENT_PATTERNS = [
   // Escalation
   { intent: 'escalation_needed',      patterns: ['talk to a human', 'speak to support', 'contact support', 'real person', 'escalate'] },
   { intent: 'possible_bug',           patterns: ['bug', 'not working', 'error', 'broken', 'something wrong', 'data is missing', 'disappeared'] },
+
+  // Profile content retrieval (triggers actual DB row fetches)
+  { intent: 'career_vision_content',  patterns: [
+      'career vision', 'my vision', 'vision de carrera', 'mi vision',
+      'describe my vision', 'what is my vision', 'show my vision',
+      'my career statement', 'career goals', 'my goals', 'mis metas'
+    ]
+  },
+  { intent: 'positioning_content',    patterns: [
+      'my positioning', 'mi posicionamiento', 'my target role',
+      'differentiator', 'diferenciador', 'core mandate',
+      'trusted problems', 'identity sentence'
+    ]
+  },
+  { intent: 'professional_profile_content', patterns: [
+      'professional profile', 'my profile', 'mi perfil',
+      'blended value', 'competency paragraph',
+      'areas of excellence', 'describe my profile', 'show my profile'
+    ]
+  },
+  { intent: 'my_values',  patterns: ['my values', 'mis valores', 'core values', 'what do i value'] },
+  { intent: 'my_strengths', patterns: ['my strengths', 'mis fortalezas', 'what am i good at', 'my competencies'] },
+  { intent: 'my_skills',  patterns: ['my skills', 'mis habilidades', 'my technical skills', 'skills and tools'] },
 ];
 
 /**

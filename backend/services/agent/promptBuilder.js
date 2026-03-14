@@ -95,13 +95,84 @@ RESPONSE STYLE: Warm, professional, direct. Be the supportive-but-honest expert 
  * @returns {string}
  */
 export function buildContentSection(context) {
-  if (!context.car_stories?.length && !context.accomplishments?.length) {
-    return '';
+  const hasProfileContent = context.career_vision || context.positioning
+    || context.professional_profile || context.onboarding;
+  const hasReviewContent = context.car_stories?.length || context.accomplishments?.length;
+  const hasOtherContent = context.coach_client_summary || context.support_signals?.length;
+
+  if (!hasProfileContent && !hasReviewContent && !hasOtherContent) return '';
+
+  let content = '\nRETRIEVED CONTENT (use ONLY this data — do not invent or fill in blanks):\n';
+
+  // --- Career Vision Profile ---
+  if (context.career_vision) {
+    const cv = context.career_vision;
+    content += `
+CAREER VISION PROFILE (from database):
+Career Vision Statement: ${cv.career_vision_statement || 'NOT SET'}
+Core Values: ${cv.core_values || 'NOT SET'}
+Skills & Knowledge: ${cv.skills_knowledge || 'NOT SET'}
+Interests: ${cv.interests || 'NOT SET'}
+Job History Insights: ${cv.job_history_insights || 'NOT SET'}
+---`;
   }
 
-  let content = '\nRETRIEVED CONTENT (use only this data for review):\n';
+  // --- Positioning Questionnaire ---
+  if (context.positioning) {
+    const pq = context.positioning;
+    const arr = (v) => Array.isArray(v) ? v.join(', ') : (v || 'N/A');
+    content += `
+POSITIONING QUESTIONNAIRE (from database):
+Current Title: ${pq.identity_current_title || 'N/A'}
+Target Title: ${pq.identity_target_title || 'N/A'}
+One-Phrase Identity: ${pq.identity_one_phrase || 'N/A'}
+Years Experience: ${pq.years_experience_bucket || 'N/A'}
+Industries: ${arr(pq.industries)}
+Functions: ${arr(pq.functions)}
+Trusted Problems Solved: ${arr(pq.trusted_problems)}
+Strengths: ${arr(pq.strengths)}
+Differentiator: ${pq.differentiator || 'N/A'}
+Colleagues Describe Me As: ${pq.colleagues_describe || 'N/A'}
+Technical Skills & Tools: ${pq.technical_skills_tools || 'N/A'}
+Certifications: ${pq.certifications_advanced_training || 'N/A'}
+Methodologies: ${arr(pq.methodologies)}
+Languages Spoken: ${arr(pq.languages_spoken)}
+Core Mandate: ${[pq.core_mandate_verb, pq.core_mandate_objective].filter(Boolean).join(' ') || 'N/A'}
+Team Size: ${pq.lead_direct_reports || 'N/A'} direct / ${pq.lead_total_team || 'N/A'} total
+Revenue Impact: ${pq.fin_revenue_impact || 'N/A'} | Annual Spend: ${pq.fin_annual_spend || 'N/A'}
+---`;
+  }
 
-  if (context.car_stories?.length > 0) {
+  // --- Generated Professional Profile ---
+  if (context.professional_profile) {
+    const pp = context.professional_profile;
+    content += `
+AI-GENERATED PROFESSIONAL PROFILE (version ${pp.version || 'N/A'}):
+Identity Sentence: ${pp.output_identity_sentence || 'NOT GENERATED'}
+Blended Value Sentence: ${pp.output_blended_value_sentence || 'NOT GENERATED'}
+Competency Paragraph: ${pp.output_competency_paragraph || 'NOT GENERATED'}
+Areas of Excellence: ${pp.output_areas_of_excellence || 'NOT GENERATED'}
+Skills Section: ${pp.output_skills_section || 'NOT GENERATED'}
+---`;
+  }
+
+  // --- Onboarding Responses ---
+  if (context.onboarding) {
+    const ob = context.onboarding;
+    const arr = (v) => Array.isArray(v) ? v.join(', ') : (v || 'N/A');
+    content += `
+ONBOARDING RESPONSES (from database):
+Current Situation: ${ob.current_situation || 'N/A'}
+Top Priority: ${ob.top_priority || 'N/A'}
+Target Job Title: ${ob.target_job_title || 'N/A'}
+Skills: ${arr(ob.skills)}
+Interests: ${arr(ob.interests)}
+Values: ${arr(ob.values)}
+Values Reasoning: ${ob.values_reasoning || 'N/A'}
+---`;
+  }
+
+  if (hasReviewContent) {
     content += `\nCAR STORIES (${context.car_stories.length} retrieved):\n`;
     context.car_stories.forEach((story, i) => {
       content += `
