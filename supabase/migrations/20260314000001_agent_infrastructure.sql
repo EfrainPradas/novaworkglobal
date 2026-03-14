@@ -1,4 +1,4 @@
--- ============================================================
+ñ-- ============================================================
 -- Super Support Agent — Database Infrastructure
 -- Migration: agent infrastructure
 -- ============================================================
@@ -168,6 +168,7 @@ $$;
 -- 5. RPC: get_car_stories_for_review
 -- Fetches actual CAR story content for agent review
 -- ============================================================
+DROP FUNCTION IF EXISTS get_car_stories_for_review(UUID, INT);
 CREATE OR REPLACE FUNCTION get_car_stories_for_review(
   p_user_id UUID,
   p_limit INT DEFAULT 5
@@ -183,7 +184,7 @@ RETURNS TABLE(
   skills_tags TEXT[],
   competencies TEXT[],
   status TEXT,
-  year INT,
+  year TEXT,
   created_at TIMESTAMPTZ
 )
 LANGUAGE sql
@@ -212,6 +213,7 @@ $$;
 -- 6. RPC: get_accomplishments_for_review
 -- Fetches actual accomplishment bank entries for review
 -- ============================================================
+DROP FUNCTION IF EXISTS get_accomplishments_for_review(UUID, INT);
 CREATE OR REPLACE FUNCTION get_accomplishments_for_review(
   p_user_id UUID,
   p_limit INT DEFAULT 5
@@ -356,6 +358,7 @@ $$;
 -- 9. RPC: get_support_signals
 -- Fetches recent event signal diagnostics
 -- ============================================================
+DROP FUNCTION IF EXISTS get_support_signals(UUID, INT);
 CREATE OR REPLACE FUNCTION get_support_signals(
   p_user_id UUID,
   p_days INT DEFAULT 7
