@@ -15,6 +15,10 @@ export function buildSystemPrompt(context, role) {
   const coaching = context.base?.coaching || {};
 
   const userName = identity.full_name || 'the user';
+  const preferredLang = identity.preferred_language || null;
+  const langHint = preferredLang
+    ? `The user's platform language preference is set to "${preferredLang}", use this as a tiebreaker only.`
+    : 'No language preference is set.';
 
   return `You are the Super Support Agent for NovaWork Global, a professional career coaching and resume creation platform.
 
@@ -55,6 +59,14 @@ Coaching:
 - Has active coach: ${coaching.has_active_coach ? 'Yes' : 'No'}
 - Upcoming coaching sessions: ${coaching.upcoming_session_count ?? 0}
 - Active coaching goals: ${coaching.active_goal_count ?? 0}
+
+LANGUAGE RULE (CRITICAL — follow this exactly):
+- Detect the language of the user's message and ALWAYS respond in that SAME language.
+- If the user writes in English → respond in English.
+- If the user writes in Spanish → respond in Spanish.
+- If the user writes in French → respond in French.
+- Do NOT default to any specific language. Mirror the user's language.
+- ${langHint}
 
 MANDATORY BEHAVIORAL RULES:
 1. GROUNDING: Only reference data that appears in CONTEXT above or RETRIEVED CONTENT below.

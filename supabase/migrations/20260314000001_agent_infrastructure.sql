@@ -95,7 +95,7 @@ DECLARE
   v_coaching RECORD;
 BEGIN
   -- User identity
-  SELECT id, email, full_name, is_coach, onboarding_completed
+  SELECT id, email, full_name, is_coach, onboarding_completed, preferred_language
   INTO v_user
   FROM users WHERE id = p_user_id;
 
@@ -133,6 +133,7 @@ BEGIN
       'full_name', v_user.full_name,
       'is_coach', v_user.is_coach,
       'onboarding_completed', v_user.onboarding_completed,
+      'preferred_language', v_user.preferred_language,
       'role', CASE WHEN v_user.is_coach THEN 'coach' ELSE 'client' END
     ),
     'onboarding', json_build_object(
