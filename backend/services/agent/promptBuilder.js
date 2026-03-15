@@ -94,6 +94,15 @@ RESPONSE STYLE: Warm, professional, direct. Be the supportive-but-honest expert 
  * @param {object} context
  * @returns {string}
  */
+// Helper: safely render a value that might be a string, array, or JSON object
+function safe(val) {
+  if (val === null || val === undefined) return 'N/A';
+  if (typeof val === 'string') return val || 'N/A';
+  if (Array.isArray(val)) return val.length ? val.join(', ') : 'N/A';
+  if (typeof val === 'object') return JSON.stringify(val, null, 2);
+  return String(val);
+}
+
 export function buildContentSection(context) {
   const hasProfileContent = context.career_vision || context.positioning
     || context.professional_profile || context.onboarding;
@@ -103,43 +112,43 @@ export function buildContentSection(context) {
   if (!hasProfileContent && !hasReviewContent && !hasOtherContent) return '';
 
   let content = '\nRETRIEVED CONTENT (use ONLY this data — do not invent or fill in blanks):\n';
+  content += 'IMPORTANT: Present ALL available data to the user. Even if some fields are empty, describe what IS available in detail.\n';
 
   // --- Career Vision Profile ---
   if (context.career_vision) {
     const cv = context.career_vision;
     content += `
 CAREER VISION PROFILE (from database):
-Career Vision Statement: ${cv.career_vision_statement || 'NOT SET'}
-Core Values: ${cv.core_values || 'NOT SET'}
-Skills & Knowledge: ${cv.skills_knowledge || 'NOT SET'}
-Interests: ${cv.interests || 'NOT SET'}
-Job History Insights: ${cv.job_history_insights || 'NOT SET'}
+Career Vision Statement: ${safe(cv.career_vision_statement)}
+Core Values: ${safe(cv.core_values)}
+Skills & Knowledge: ${safe(cv.skills_knowledge)}
+Interests: ${safe(cv.interests)}
+Job History Insights: ${safe(cv.job_history_insights)}
 ---`;
   }
 
   // --- Positioning Questionnaire ---
   if (context.positioning) {
     const pq = context.positioning;
-    const arr = (v) => Array.isArray(v) ? v.join(', ') : (v || 'N/A');
     content += `
 POSITIONING QUESTIONNAIRE (from database):
-Current Title: ${pq.identity_current_title || 'N/A'}
-Target Title: ${pq.identity_target_title || 'N/A'}
-One-Phrase Identity: ${pq.identity_one_phrase || 'N/A'}
-Years Experience: ${pq.years_experience_bucket || 'N/A'}
-Industries: ${arr(pq.industries)}
-Functions: ${arr(pq.functions)}
-Trusted Problems Solved: ${arr(pq.trusted_problems)}
-Strengths: ${arr(pq.strengths)}
-Differentiator: ${pq.differentiator || 'N/A'}
-Colleagues Describe Me As: ${pq.colleagues_describe || 'N/A'}
-Technical Skills & Tools: ${pq.technical_skills_tools || 'N/A'}
-Certifications: ${pq.certifications_advanced_training || 'N/A'}
-Methodologies: ${arr(pq.methodologies)}
-Languages Spoken: ${arr(pq.languages_spoken)}
+Current Title: ${safe(pq.identity_current_title)}
+Target Title: ${safe(pq.identity_target_title)}
+One-Phrase Identity: ${safe(pq.identity_one_phrase)}
+Years Experience: ${safe(pq.years_experience_bucket)}
+Industries: ${safe(pq.industries)}
+Functions: ${safe(pq.functions)}
+Trusted Problems Solved: ${safe(pq.trusted_problems)}
+Strengths: ${safe(pq.strengths)}
+Differentiator: ${safe(pq.differentiator)}
+Colleagues Describe Me As: ${safe(pq.colleagues_describe)}
+Technical Skills & Tools: ${safe(pq.technical_skills_tools)}
+Certifications: ${safe(pq.certifications_advanced_training)}
+Methodologies: ${safe(pq.methodologies)}
+Languages Spoken: ${safe(pq.languages_spoken)}
 Core Mandate: ${[pq.core_mandate_verb, pq.core_mandate_objective].filter(Boolean).join(' ') || 'N/A'}
-Team Size: ${pq.lead_direct_reports || 'N/A'} direct / ${pq.lead_total_team || 'N/A'} total
-Revenue Impact: ${pq.fin_revenue_impact || 'N/A'} | Annual Spend: ${pq.fin_annual_spend || 'N/A'}
+Team Size: ${safe(pq.lead_direct_reports)} direct / ${safe(pq.lead_total_team)} total
+Revenue Impact: ${safe(pq.fin_revenue_impact)} | Annual Spend: ${safe(pq.fin_annual_spend)}
 ---`;
   }
 
@@ -147,28 +156,27 @@ Revenue Impact: ${pq.fin_revenue_impact || 'N/A'} | Annual Spend: ${pq.fin_annua
   if (context.professional_profile) {
     const pp = context.professional_profile;
     content += `
-AI-GENERATED PROFESSIONAL PROFILE (version ${pp.version || 'N/A'}):
-Identity Sentence: ${pp.output_identity_sentence || 'NOT GENERATED'}
-Blended Value Sentence: ${pp.output_blended_value_sentence || 'NOT GENERATED'}
-Competency Paragraph: ${pp.output_competency_paragraph || 'NOT GENERATED'}
-Areas of Excellence: ${pp.output_areas_of_excellence || 'NOT GENERATED'}
-Skills Section: ${pp.output_skills_section || 'NOT GENERATED'}
+AI-GENERATED PROFESSIONAL PROFILE (version ${safe(pp.version)}):
+Identity Sentence: ${safe(pp.output_identity_sentence)}
+Blended Value Sentence: ${safe(pp.output_blended_value_sentence)}
+Competency Paragraph: ${safe(pp.output_competency_paragraph)}
+Areas of Excellence: ${safe(pp.output_areas_of_excellence)}
+Skills Section: ${safe(pp.output_skills_section)}
 ---`;
   }
 
   // --- Onboarding Responses ---
   if (context.onboarding) {
     const ob = context.onboarding;
-    const arr = (v) => Array.isArray(v) ? v.join(', ') : (v || 'N/A');
     content += `
 ONBOARDING RESPONSES (from database):
-Current Situation: ${ob.current_situation || 'N/A'}
-Top Priority: ${ob.top_priority || 'N/A'}
-Target Job Title: ${ob.target_job_title || 'N/A'}
-Skills: ${arr(ob.skills)}
-Interests: ${arr(ob.interests)}
-Values: ${arr(ob.values)}
-Values Reasoning: ${ob.values_reasoning || 'N/A'}
+Current Situation: ${safe(ob.current_situation)}
+Top Priority: ${safe(ob.top_priority)}
+Target Job Title: ${safe(ob.target_job_title)}
+Skills: ${safe(ob.skills)}
+Interests: ${safe(ob.interests)}
+Values: ${safe(ob.values)}
+Values Reasoning: ${safe(ob.values_reasoning)}
 ---`;
   }
 

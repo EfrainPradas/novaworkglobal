@@ -61,6 +61,7 @@ router.post('/chat', async (req, res) => {
 
     // 3. Classify intent
     const intent = classifyIntent(message);
+    console.log(`[Bruno] Intent: ${intent} | Msg: "${message.substring(0, 60)}"`);
 
     // 4. Assemble minimum required context
     const { context, tablesAccessed, rowsRetrieved } = await assembleContext(
@@ -73,6 +74,7 @@ router.post('/chat', async (req, res) => {
     const fullSystemPrompt = contentSection
       ? `${systemPrompt}\n${contentSection}`
       : systemPrompt;
+    console.log(`[Bruno] Context: ${Object.keys(context).join(',')} | Rows: ${rowsRetrieved} | Prompt: ${fullSystemPrompt.length} chars | Content: ${contentSection.length} chars`);
 
     // 6. Build conversation messages
     const messages = [
