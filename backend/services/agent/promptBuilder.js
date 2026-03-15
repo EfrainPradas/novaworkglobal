@@ -112,6 +112,8 @@ export function buildContentSection(context) {
   if (!hasProfileContent && !hasReviewContent && !hasOtherContent) return '';
 
   let content = '\nRETRIEVED CONTENT (use ONLY this data — do not invent or fill in blanks):\n';
+  content += 'GUIDANCE ON CAREER VISION: The "Career Vision" is a synthesis of Skills, Interests, Positioning, and the Professional Profile.\n';
+  content += 'If a specific "Career Vision Statement" is missing (N/A) but the Positioning Questionnaire and Professional Profile are complete, do NOT report the vision as "missing". Instead, synthesize the vision from the available identity, target titles, and value sentences.\n';
   content += 'IMPORTANT: Present ALL available data to the user. Even if some fields are empty, describe what IS available in detail.\n';
 
   // --- Career Vision Profile ---
