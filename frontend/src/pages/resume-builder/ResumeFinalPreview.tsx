@@ -39,13 +39,25 @@ export default function ResumeFinalPreview() {
             const { data: user } = await supabase
                 .from('users').select('full_name, email, phone, linkedin_url').eq('id', uid).single()
 
-            // 2. Master resume
-            let { data: masterResume } = await supabase
-                .from('user_resumes').select('*').eq('user_id', uid).eq('is_master', true).maybeSingle()
+            // 2. Master resume — ALWAYS take the LATEST one to ensure consistency with the builder
+            const { data: masterResumes } = await supabase
+                .from('user_resumes')
+                .select('*')
+                .eq('user_id', uid)
+                .eq('is_master', true)
+                .order('created_at', { ascending: false })
+                .limit(1)
+            
+            let masterResume = masterResumes?.[0]
+
             if (!masterResume) {
-                const { data: anyResume } = await supabase
-                    .from('user_resumes').select('*').eq('user_id', uid).limit(1).maybeSingle()
-                masterResume = anyResume
+                const { data: anyResumes } = await supabase
+                    .from('user_resumes')
+                    .select('*')
+                    .eq('user_id', uid)
+                    .order('created_at', { ascending: false })
+                    .limit(1)
+                masterResume = anyResumes?.[0]
             }
 
             // 3. Generated professional profile (latest)
@@ -86,7 +98,13 @@ export default function ResumeFinalPreview() {
                 .order('issue_date', { ascending: false })
             const certifications = certs || []
 
-            // 5. Build combined profile paragraph
+            // 5. Awards
+            const { data: awards } = await supabase
+                .from('awards').select('*').eq('user_id', uid)
+                .order('issue_date', { ascending: false })
+            const finalAwards = awards || []
+
+            // 6. Build combined profile paragraph
             let combinedProfile = ''
             let areasOfExcellence: string[] = []
             let skillsSection: { tools_platforms?: string[], methodologies?: string[], languages?: string[] } = {}
@@ -135,6 +153,7 @@ export default function ResumeFinalPreview() {
                 work_experience: workExperience,
                 education: education,
                 certifications: certifications,
+                awards: finalAwards,
                 resume_type: masterResume?.resume_type || 'chronological',
                 master_resume_id: masterResume?.id
             })
@@ -321,36 +340,18 @@ export default function ResumeFinalPreview() {
                                 </div>
                             )}
 
-                            {/* AREAS OF EXCELLENCE — smaller subtitle + skills breakdown */}
+                            {/* AREAS OF EXCELLENCE — merged list to save space */}
                             {(resumeData.areas_of_excellence?.length > 0 || resumeData.skills_section) && (
                                 <div style={{ marginBottom: '8px' }}>
                                     <div style={subSectionTitle}>Areas of Excellence</div>
-                                    {resumeData.areas_of_excellence?.length > 0 && (
-                                        <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: '0 0 4px' }}>
-                                            {resumeData.areas_of_excellence.join(' | ')}
-                                        </p>
-                                    )}
-                                    {/* Tools & Platforms */}
-                                    {resumeData.skills_section?.tools_platforms?.length > 0 && (
-                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
-                                            <strong>Tools & Platforms: </strong>
-                                            {resumeData.skills_section.tools_platforms.join(' | ')}
-                                        </p>
-                                    )}
-                                    {/* Methodologies */}
-                                    {resumeData.skills_section?.methodologies?.length > 0 && (
-                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
-                                            <strong>Methodologies: </strong>
-                                            {resumeData.skills_section.methodologies.join(' | ')}
-                                        </p>
-                                    )}
-                                    {/* Languages */}
-                                    {resumeData.skills_section?.languages?.length > 0 && (
-                                        <p style={{ fontSize: '9.5pt', margin: '2px 0' }}>
-                                            <strong>Languages: </strong>
-                                            {resumeData.skills_section.languages.join(' | ')}
-                                        </p>
-                                    )}
+                                    <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: '0' }}>
+                                        {[
+                                            ...(resumeData.areas_of_excellence || []),
+                                            resumeData.skills_section?.tools_platforms?.length > 0 ? `Tools & Platforms: ${resumeData.skills_section.tools_platforms.join(' | ')}` : null,
+                                            resumeData.skills_section?.methodologies?.length > 0 ? `Methodologies: ${resumeData.skills_section.methodologies.join(' | ')}` : null,
+                                            resumeData.skills_section?.languages?.length > 0 ? `Languages: ${resumeData.skills_section.languages.join(' | ')}` : null,
+                                        ].filter(Boolean).join(' | ')}
+                                    </p>
                                 </div>
                             )}
 
@@ -386,37 +387,90 @@ export default function ResumeFinalPreview() {
                                 </div>
                             )}
 
-                            {/* PROFESSIONAL EXPERIENCE — no divider lines, job title UPPERCASE + underlined */}
+                            {/* WORK EXPERIENCE — Grouped by Company */}
                             {resumeData.resume_type === 'chronological' && resumeData.work_experience?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Professional Experience</div>
+                                    <div style={sectionTitle}>Work Experience</div>
                                     <div>
-                                        {resumeData.work_experience.map((exp: any) => (
-                                            <div key={exp.id} style={{ marginBottom: '10px' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                                                    <span style={{ fontWeight: 'bold', fontSize: '10.5pt' }}>{exp.company_name}</span>
-                                                    <span style={{ fontSize: '9.5pt', color: '#444' }}>
-                                                        {exp.location_city ? `${exp.location_city}  ` : ''}{formatDate(exp.start_date, false)} – {formatDate(exp.end_date, exp.is_current)}
-                                                    </span>
+                                        {(() => {
+                                            const grouped = resumeData.work_experience.reduce((acc: any[], exp: any) => {
+                                                const companyLower = exp.company_name.trim().toLowerCase();
+                                                const existing = acc.find(item => item.company_name.trim().toLowerCase() === companyLower);
+                                                
+                                                if (existing) {
+                                                    existing.positions.push(exp);
+                                                    // Update overall date range
+                                                    if (new Date(exp.start_date) < new Date(existing.minStart)) {
+                                                        existing.minStart = exp.start_date;
+                                                    }
+                                                    if (exp.is_current) {
+                                                        existing.maxEnd = 'Present';
+                                                        existing.isCurrent = true;
+                                                    } else if (existing.maxEnd !== 'Present') {
+                                                        const currentMax = new Date(existing.maxEnd);
+                                                        const entryEnd = new Date(exp.end_date);
+                                                        if (entryEnd > currentMax) existing.maxEnd = exp.end_date;
+                                                    }
+                                                } else {
+                                                    acc.push({
+                                                        company_name: exp.company_name,
+                                                        location_city: exp.location_city,
+                                                        minStart: exp.start_date,
+                                                        maxEnd: exp.is_current ? 'Present' : exp.end_date,
+                                                        isCurrent: exp.is_current,
+                                                        positions: [exp]
+                                                    });
+                                                }
+                                                return acc;
+                                            }, []);
+
+                                            return grouped.map((group: any, gIdx: number) => (
+                                                <div key={gIdx} style={{ marginBottom: '12px' }}>
+                                                    {/* Company Header: Company .. Location [Overall Dates] */}
+                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                                                        <span style={{ fontWeight: 'bold', fontSize: '10.5pt' }}>
+                                                            {group.company_name}{group.location_city ? `.. ${group.location_city}` : ''}
+                                                        </span>
+                                                        <span style={{ fontSize: '9.5pt', fontWeight: 'bold', color: '#111' }}>
+                                                            {formatDate(group.minStart, false)} – {group.maxEnd === 'Present' ? 'Present' : formatDate(group.maxEnd, false)}
+                                                        </span>
+                                                    </div>
+
+                                                    {/* Positions under this company */}
+                                                    {group.positions.sort((a: any, b: any) => {
+                                                        if (a.is_current && !b.is_current) return -1;
+                                                        if (!a.is_current && b.is_current) return 1;
+                                                        return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+                                                    }).map((pos: any, pIdx: number) => (
+                                                        <div key={pos.id} style={{ marginTop: group.positions.length > 1 ? '4px' : '0px' }}>
+                                                            {/* Job Position - UPPERCASE, bold, underlined */}
+                                                            <div style={{ fontWeight: 'bold', fontSize: '10pt', textDecoration: 'underline', textTransform: 'uppercase', letterSpacing: '0.02em', marginBottom: '2px', marginTop: '1px' }}>
+                                                                {pos.job_title}
+                                                                {group.positions.length > 1 && (
+                                                                    <span style={{ textDecoration: 'none', fontWeight: 'normal', fontSize: '9pt', color: '#666', marginLeft: '8px', textTransform: 'none' }}>
+                                                                        ({formatDate(pos.start_date, false)} – {formatDate(pos.end_date, pos.is_current)})
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                            {/* Scope */}
+                                                            {pos.scope_description && (
+                                                                <p style={{ fontSize: '9.5pt', color: '#333', margin: '2px 0 3px', textAlign: 'justify' }}>{pos.scope_description}</p>
+                                                            )}
+                                                            {/* Accomplishments */}
+                                                            {pos.accomplishments?.length > 0 && (
+                                                                <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
+                                                                    {[...pos.accomplishments].sort((a: any, b: any) => a.order_index - b.order_index).map((acc: any) => (
+                                                                        <li key={acc.id} style={{ fontSize: '9.5pt', lineHeight: '1.35', marginBottom: '1px' }}>
+                                                                            {acc.bullet_text}
+                                                                        </li>
+                                                                    ))}
+                                                                </ul>
+                                                            )}
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                                {/* Job title: UPPERCASE, underlined, NOT italic */}
-                                                <div style={{ fontWeight: '600', fontSize: '10pt', textDecoration: 'underline', textTransform: 'uppercase', letterSpacing: '0.02em', marginBottom: '3px', marginTop: '1px' }}>
-                                                    {exp.job_title}
-                                                </div>
-                                                {exp.scope_description && (
-                                                    <p style={{ fontSize: '9.5pt', color: '#555', margin: '2px 0 3px', textAlign: 'justify' }}>{exp.scope_description}</p>
-                                                )}
-                                                {exp.accomplishments?.length > 0 && (
-                                                    <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
-                                                        {[...exp.accomplishments].sort((a: any, b: any) => a.order_index - b.order_index).map((acc: any) => (
-                                                            <li key={acc.id} style={{ fontSize: '9.5pt', lineHeight: '1.35', marginBottom: '1px' }}>
-                                                                {acc.bullet_text}
-                                                            </li>
-                                                        ))}
-                                                    </ul>
-                                                )}
-                                            </div>
-                                        ))}
+                                            ));
+                                        })()}
                                     </div>
                                 </div>
                             )}
@@ -457,6 +511,28 @@ export default function ResumeFinalPreview() {
                                                 <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
                                                     {cert.issue_date ? new Date(cert.issue_date).getFullYear() : ''}
                                                     {cert.expiration_date ? ` – ${new Date(cert.expiration_date).getFullYear()}` : ''}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* AWARDS — no divider */}
+                            {resumeData.awards?.length > 0 && (
+                                <div style={{ marginBottom: '8px' }}>
+                                    <div style={sectionTitle}>Awards</div>
+                                    <div>
+                                        {resumeData.awards.map((award: any) => (
+                                            <div key={award.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
+                                                <div>
+                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>{award.certification_name}</span>
+                                                    {award.issuing_organization && (
+                                                        <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>• {award.issuing_organization}</span>
+                                                    )}
+                                                </div>
+                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
+                                                    {award.issue_date ? new Date(award.issue_date).getFullYear() : ''}
                                                 </span>
                                             </div>
                                         ))}

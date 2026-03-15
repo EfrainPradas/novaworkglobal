@@ -1,7 +1,9 @@
-import { motion } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowUpRight, Play, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import heroLoop2 from '../../assets/hero-loop-2.webp'
 
 const programs = [
     {
@@ -36,14 +38,33 @@ const programs = [
 export default function ProgramGrid() {
     const navigate = useNavigate()
     const { t } = useTranslation()
+    const [showVideoModal, setShowVideoModal] = useState(false)
 
     return (
         <section id="programs" className="py-32 bg-white">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-20">
-                    <div>
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">{t('programs.title')}</h2>
-                        <p className="text-xl text-gray-500 max-w-xl">
+                    <div className="max-w-xl">
+                        <div className="flex flex-wrap items-center gap-4 mb-6">
+                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                                {t('programs.title')}
+                            </h2>
+                            
+                            {/* Play Video Button - Compact and Premium */}
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setShowVideoModal(true)}
+                                className="group flex items-center gap-2 px-3 py-1.5 bg-white text-primary-600 rounded-full shadow-md hover:shadow-lg transition-all border border-primary-100 font-semibold"
+                            >
+                                <div className="w-7 h-7 bg-primary-600 rounded-full flex items-center justify-center text-white group-hover:bg-primary-700 transition-colors shadow-sm">
+                                    <Play className="w-3 h-3 fill-current ml-0.5" />
+                                </div>
+                                <span className="text-sm">{t('programs.watchVideo')}</span>
+                            </motion.button>
+                        </div>
+                        
+                        <p className="text-xl text-gray-500">
                             {t('programs.description')}
                         </p>
                     </div>
@@ -95,6 +116,41 @@ export default function ProgramGrid() {
                     ))}
                 </div>
             </div>
+
+            {/* Video Modal Overlay */}
+            <AnimatePresence>
+                {showVideoModal && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-8 backdrop-blur-sm"
+                        onClick={() => setShowVideoModal(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.9, opacity: 0 }}
+                            className="relative w-full max-w-5xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl"
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setShowVideoModal(false)}
+                                className="absolute top-4 right-4 z-10 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
+                            >
+                                <X className="w-6 h-6" />
+                            </button>
+                            <video
+                                src="/videos/Landing_Page_novawork.mp4"
+                                autoPlay
+                                controls
+                                poster={heroLoop2}
+                                className="w-full h-full object-contain"
+                            />
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </section>
     )
 }

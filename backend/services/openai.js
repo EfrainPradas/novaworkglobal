@@ -603,10 +603,63 @@ function getFallbackAccomplishments(result, roleCompany) {
   return fallbacks
 }
 
+/**
+ * Get personalized CAR examples based on user professional background
+ */
+export async function getPersonalizedCARExamples(roles, background = {}) {
+  try {
+    console.log('🤖 Generating personalized CAR examples for roles:', roles)
+
+    const prompt = `You are an expert executive coach. Generate 5 high-quality CAR (Challenge-Action-Result) examples tailored specifically for someone with the following professional background:
+
+PROFESSIONAL CONTEXT:
+${roles.length > 0 ? `- Recent/Target Roles: ${roles.join(', ')}` : ''}
+${background.target_title ? `- Target Job: ${background.target_title}` : ''}
+${background.industries ? `- Industries: ${background.industries}` : ''}
+
+REQUIREMENTS:
+1. Generate EXACTLY 5 examples.
+2. Each example must follow the professional PAR/CAR structure.
+3. Use high-impact action verbs.
+4. Include quantified metrics (percentages, millions, time saved) in every result.
+5. Ensure the tone is executive and professional.
+6. The examples should be relevant to the roles mentioned above.
+
+Format your response as a JSON object with an "examples" array. Each item should have "role" (the job title) and "text" (the complete CAR statement).
+
+Example format:
+{
+  "examples": [
+    { "role": "Senior Data Analyst", "text": "Optimized SQL performance..." },
+    ...
+  ]
+}`
+
+    const response = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are a professional resume writer and career coach.' },
+        { role: 'user', content: prompt }
+      ],
+      temperature: 0.7,
+      max_tokens: 1200,
+      response_format: { type: 'json_object' }
+    })
+
+    const parsed = JSON.parse(response.choices[0].message.content)
+    return parsed.examples || []
+
+  } catch (error) {
+    console.error('❌ Error generating personalized examples:', error)
+    return []
+  }
+}
+
 export default {
   generateCareerVisionSuggestions,
   generateCareerVisionStatement,
   analyzeJobHistory,
   generateAccomplishments,
-  groupAccomplishments
+  groupAccomplishments,
+  getPersonalizedCARExamples
 }

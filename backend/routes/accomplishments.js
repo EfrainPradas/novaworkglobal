@@ -117,6 +117,47 @@ router.post('/generate-accomplishments', async (req, res) => {
 })
 
 /**
+ * POST /api/ai/personalized-examples
+ * Fetch personalized CAR examples based on user professional context
+ */
+router.post('/personalized-examples', async (req, res) => {
+  try {
+    const userId = req.user.id
+    console.log(`🤖 Fetching personalized examples for user: ${userId}`)
+
+    // 1. Fetch Context
+    const [parStories, workExp, positioning] = await Promise.all([
+      supabase.from('par_stories').select('role_title').eq('user_id', userId).limit(5),
+      supabase.from('work_experience').select('job_title').eq('user_id', userId).order('start_date', { ascending: false }).limit(3),
+      supabase.from('positioning_questionnaire').select('identity_target_title, industries').eq('user_id', userId).maybeSingle()
+    ])
+
+    // 2. Extract Roles
+    const roles = new Set()
+    if (parStories.data) parStories.data.forEach(s => s.role_title && roles.add(s.role_title))
+    if (workExp.data) workExp.data.forEach(w => w.job_title && roles.add(w.job_title))
+    
+    const background = {
+      target_title: positioning.data?.identity_target_title,
+      industries: positioning.data?.industries
+    }
+
+    // 3. Generate Examples
+    const { getPersonalizedCARExamples } = await import('../services/openai.js')
+    const examples = await getPersonalizedCARExamples(Array.from(roles), background)
+
+    res.json({
+      success: true,
+      examples
+    })
+
+  } catch (error) {
+    console.error('❌ Error in /personalized-examples:', error)
+    res.status(500).json({ error: 'Failed to fetch personalized examples', details: error.message })
+  }
+})
+
+/**
  * POST /api/ai/group-accomplishments
  * Group accomplishments into categories based on a user prompt
  */

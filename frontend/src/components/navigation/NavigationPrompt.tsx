@@ -69,7 +69,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
       requiredLevel: 'essentials',
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`)
+      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4`)
     },
     {
       id: 'job-search-suite',
@@ -282,19 +282,19 @@ export default function NavigationPrompt() {
               <div className="hidden sm:block">
                 {userLevel === 'essentials' && (
                   <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
-                    Essentials Plan
+                    {t('dashboard.essentialsPlan', 'Essentials Plan')}
                   </span>
                 )}
                 {userLevel === 'momentum' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 ring-1 ring-emerald-500/20">
                     <Star className="w-3.5 h-3.5" />
-                    Momentum Member
+                    {t('dashboard.momentumMember', 'Momentum Member')}
                   </div>
                 )}
                 {userLevel === 'executive' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 ring-1 ring-amber-500/20">
                     <Crown className="w-3.5 h-3.5" />
-                    Executive Member
+                    {t('dashboard.executiveMember', 'Executive Member')}
                   </div>
                 )}
               </div>
@@ -348,7 +348,7 @@ export default function NavigationPrompt() {
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/The_Job_Search_&_Application_Suite.mp4`))}
+                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4`))}
                     className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}

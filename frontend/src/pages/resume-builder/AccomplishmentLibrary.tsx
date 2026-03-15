@@ -413,21 +413,33 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                     {/* Header */}
                     {!isNested && (
                         <div className="flex items-center justify-between mb-2">
-                            <button
-                                onClick={() => navigate('/resume-builder')}
-                                className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
-                            >
-                                <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
-                            </button>
+                            <>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => navigate('/resume-builder')}
+                                        className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
+                                    >
+                                        <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
+                                    </button>
+                                    
+                                    <button
+                                        onClick={() => setIsVideoModalOpen(true)}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors text-xs font-semibold"
+                                    >
+                                        <Play size={14} />
+                                        {t('common.watchVideo', 'Watch video')}
+                                    </button>
+                                </div>
 
-                            {!isStandalone && (
-                                <button
-                                    onClick={handleContinue}
-                                    className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
-                                >
-                                    Next: CARs <ArrowRight className="w-4 h-4" />
-                                </button>
-                            )}
+                                {!isStandalone && (
+                                    <button
+                                        onClick={handleContinue}
+                                        className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                    >
+                                        Next: CARs <ArrowRight className="w-4 h-4" />
+                                    </button>
+                                )}
+                            </>
                         </div>
                     )}
 
@@ -445,13 +457,6 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         </div>
 
                         <div className="flex flex-wrap gap-2 justify-end">
-                            <button
-                                onClick={() => setIsVideoModalOpen(true)}
-                                className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors"
-                            >
-                                <Play size={18} />
-                                Watch video
-                            </button>
 
                             <button
                                 onClick={() => setIsAdding(true)}
@@ -769,7 +774,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         {/* Video Player */}
                         <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                             <video
-                                src={`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`}
+                                src={encodeURI(`${import.meta.env.BASE_URL}videos/NovaWork_Accomplishment_Bank.mp4`)}
                                 className="w-full h-full outline-none"
                                 controls
                                 controlsList="nodownload"

@@ -150,7 +150,14 @@ router.get('/:userId/docx', async (req, res) => {
             .eq('user_id', userId)
             .order('issue_date', { ascending: false });
 
-        console.log(`📊 Export stats: ${workExperience.length} work, ${education?.length || 0} edu, ${certifications?.length || 0} certs`);
+        // Awards
+        const { data: awards } = await supabase
+            .from('awards')
+            .select('*')
+            .eq('user_id', userId)
+            .order('issue_date', { ascending: false });
+
+        console.log(`📊 Export stats: ${workExperience.length} work, ${finalEducation?.length || 0} edu, ${certifications?.length || 0} certs, ${awards?.length || 0} awards`);
 
         // 2. Generate DOCX
         console.log('🏗️ Creating docx document structure...');
@@ -215,20 +222,53 @@ router.get('/:userId/docx', async (req, res) => {
                         spacing: { before: 0, after: 100 },
                         border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
                     }),
-                    new Paragraph({
-                        children: [
-                            new TextRun({
-                                text: (resume.areas_of_excellence && Array.isArray(resume.areas_of_excellence) && resume.areas_of_excellence.length > 0)
-                                    ? resume.areas_of_excellence.join(' • ')
-                                    : '[Skills & Competencies]',
-                                size: 22,
-                                font: 'Calibri',
-                                italics: !(resume.areas_of_excellence && resume.areas_of_excellence.length > 0)
-                            })
-                        ],
-                        alignment: AlignmentType.CENTER,
-                        spacing: { after: 300 }
-                    }),
+                    await (async () => {
+                        // Fetch latest generated profile for skills section
+                        const { data: genProfiles } = await supabase
+                            .from('generated_professional_profile')
+                            .select('output_skills_section')
+                            .eq('user_id', userId)
+                            .order('version', { ascending: false })
+                            .limit(1);
+                        
+                        const genProfile = genProfiles?.[0];
+                        let combinedSkills = [...(resume.areas_of_excellence || [])];
+                        
+                        if (genProfile && genProfile.output_skills_section) {
+                            try {
+                                const skills = typeof genProfile.output_skills_section === 'string' 
+                                    ? JSON.parse(genProfile.output_skills_section) 
+                                    : genProfile.output_skills_section;
+                                
+                                if (skills.tools_platforms?.length > 0) {
+                                    combinedSkills.push(`Tools & Platforms: ${skills.tools_platforms.join(' | ')}`);
+                                }
+                                if (skills.methodologies?.length > 0) {
+                                    combinedSkills.push(`Methodologies: ${skills.methodologies.join(' | ')}`);
+                                }
+                                if (skills.languages?.length > 0) {
+                                    combinedSkills.push(`Languages: ${skills.languages.join(' | ')}`);
+                                }
+                            } catch (e) {
+                                console.error('Error parsing skills for export:', e);
+                            }
+                        }
+
+                        return new Paragraph({
+                            children: [
+                                new TextRun({
+                                    text: combinedSkills.length > 0
+                                        ? combinedSkills.join(' | ')
+                                        : '[Skills & Competencies]',
+                                    size: 22,
+                                    font: 'Calibri',
+                                    italics: combinedSkills.length === 0
+                                })
+                            ],
+                            alignment: AlignmentType.CENTER,
+                            spacing: { after: 300 }
+                        });
+                    })(),
 
                     // --- FUNCTIONAL: SELECTED ACCOMPLISHMENTS ---
                     ...(resume.resume_type === 'functional' && functionalGroupData.length > 0 ? [
@@ -264,11 +304,22 @@ router.get('/:userId/docx', async (req, res) => {
                         new Paragraph({ text: "", spacing: { after: 200 } })
                     ] : []),
 
-                    // --- PROFESSIONAL EXPERIENCE ---
+                    // --- WORK EXPERIENCE ---
                     new Paragraph({
                         heading: HeadingLevel.HEADING_2,
                         children: [new TextRun({
-                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'PROFESSIONAL EXPERIENCE',
+                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
+                            bold: true, size: 24, font: 'Calibri'
+                        })],
+                        spacing: { before: 0, after: 200 },
+                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
+                    }),
+
+                    // --- WORK EXPERIENCE ---
+                    new Paragraph({
+                        heading: HeadingLevel.HEADING_2,
+                        children: [new TextRun({
+                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
                             bold: true, size: 24, font: 'Calibri'
                         })],
                         spacing: { before: 0, after: 200 },
@@ -276,53 +327,107 @@ router.get('/:userId/docx', async (req, res) => {
                     }),
 
                     ...(workExperience && workExperience.length > 0 ?
-                        workExperience.flatMap(exp => {
-                            const dateRange = `${formatDate(exp.start_date)} – ${exp.is_current ? 'Present' : formatDate(exp.end_date)}`;
+                        (() => {
+                            // Group by company
+                            const grouped = workExperience.reduce((acc, exp) => {
+                                const companyLower = (exp.company_name || '').trim().toLowerCase();
+                                const existing = acc.find(item => (item.company_name || '').trim().toLowerCase() === companyLower);
+                                
+                                if (existing) {
+                                    existing.positions.push(exp);
+                                    if (new Date(exp.start_date) < new Date(existing.minStart)) {
+                                        existing.minStart = exp.start_date;
+                                    }
+                                    if (exp.is_current) {
+                                        existing.maxEnd = 'Present';
+                                    } else if (existing.maxEnd !== 'Present') {
+                                        const currentMax = new Date(existing.maxEnd);
+                                        const entryEnd = new Date(exp.end_date);
+                                        if (entryEnd > currentMax) existing.maxEnd = exp.end_date;
+                                    }
+                                } else {
+                                    acc.push({
+                                        company_name: exp.company_name,
+                                        location_city: exp.location_city,
+                                        minStart: exp.start_date,
+                                        maxEnd: exp.is_current ? 'Present' : exp.end_date,
+                                        positions: [exp]
+                                    });
+                                }
+                                return acc;
+                            }, []);
 
-                            return [
-                                // Company Row
-                                new Paragraph({
-                                    children: [
-                                        new TextRun({ text: String(exp.company_name || ''), bold: true, size: 22, font: 'Calibri' }),
-                                        new TextRun({ text: `  |  ${exp.location_city || ''}`, size: 22, font: 'Calibri' }),
-                                        new TextRun({
-                                            text: `\t${dateRange}`,
-                                            bold: true,
-                                            size: 22,
-                                            font: 'Calibri'
-                                        })
-                                    ],
-                                    tabStops: [{ type: 'right', position: 9000 }],
-                                    spacing: { before: 100 }
-                                }),
-                                // Job Title
-                                new Paragraph({
-                                    children: [
-                                        new TextRun({ text: String(exp.job_title || ''), italics: true, bold: true, size: 22, font: 'Calibri' })
-                                    ],
-                                    spacing: { after: 100 }
-                                }),
-                                // Scope
-                                ...(exp.scope_description ? [
+                            return grouped.flatMap(group => {
+                                const overallDates = `${formatDate(group.minStart)} – ${group.maxEnd === 'Present' ? 'Present' : formatDate(group.maxEnd)}`;
+                                
+                                return [
+                                    // Company Header
                                     new Paragraph({
-                                        children: [new TextRun({ text: String(exp.scope_description), size: 22, font: 'Calibri' })],
-                                        spacing: { after: 100 }
-                                    })
-                                ] : []),
-                                // Accomplishments (Only for Chronological)
-                                ...(resume.resume_type !== 'functional' && exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0 ?
-                                    exp.accomplishments.sort((a, b) => (a.order_index || 0) - (b.order_index || 0)).map(acc =>
+                                        children: [
+                                            new TextRun({ text: String(group.company_name || ''), bold: true, size: 22, font: 'Calibri' }),
+                                            new TextRun({ text: `${group.location_city ? ` .. ${group.location_city}` : ''}`, size: 22, font: 'Calibri' }),
+                                            new TextRun({
+                                                text: `\t${overallDates}`,
+                                                bold: true,
+                                                size: 22,
+                                                font: 'Calibri'
+                                            })
+                                        ],
+                                        tabStops: [{ type: 'right', position: 9000 }],
+                                        spacing: { before: 100 }
+                                    }),
+                                    
+                                    // Positions
+                                    ...group.positions.sort((a, b) => {
+                                        if (a.is_current && !b.is_current) return -1;
+                                        if (!a.is_current && b.is_current) return 1;
+                                        return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+                                    }).flatMap(pos => [
+                                        // Job Title
                                         new Paragraph({
-                                            children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
-                                            bullet: { level: 0 },
-                                            spacing: { after: 50 },
-                                            alignment: AlignmentType.JUSTIFIED
-                                        })
-                                    ) : []
-                                ),
-                                new Paragraph({ text: "", spacing: { after: 200 } })
-                            ]
-                        }) : []
+                                            children: [
+                                                new TextRun({ 
+                                                    text: String(pos.job_title || ''), 
+                                                    bold: true, 
+                                                    underline: { color: "000000", style: BorderStyle.SINGLE }, 
+                                                    size: 22, 
+                                                    font: 'Calibri' 
+                                                }),
+                                                ...(group.positions.length > 1 ? [
+                                                    new TextRun({ 
+                                                        text: ` (${formatDate(pos.start_date)} – ${pos.is_current ? 'Present' : formatDate(pos.end_date)})`,
+                                                        size: 20, 
+                                                        font: 'Calibri',
+                                                        color: "666666"
+                                                    })
+                                                ] : [])
+                                            ],
+                                            spacing: { after: 50, before: 50 }
+                                        }),
+                                        // Scope
+                                        ...(pos.scope_description ? [
+                                            new Paragraph({
+                                                children: [new TextRun({ text: String(pos.scope_description), size: 22, font: 'Calibri' })],
+                                                spacing: { after: 100 },
+                                                alignment: AlignmentType.JUSTIFIED
+                                            })
+                                        ] : []),
+                                        // Accomplishments
+                                        ...(resume.resume_type !== 'functional' && pos.accomplishments && Array.isArray(pos.accomplishments) && pos.accomplishments.length > 0 ?
+                                            pos.accomplishments.sort((a, b) => (a.order_index || 0) - (b.order_index || 0)).map(acc =>
+                                                new Paragraph({
+                                                    children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
+                                                    bullet: { level: 0 },
+                                                    spacing: { after: 30 },
+                                                    alignment: AlignmentType.JUSTIFIED
+                                                })
+                                            ) : []
+                                        )
+                                    ]),
+                                    new Paragraph({ text: "", spacing: { after: 200 } })
+                                ];
+                            });
+                        })() : []
                     ),
 
                     // --- EDUCATION ---
@@ -368,6 +473,28 @@ router.get('/:userId/docx', async (req, res) => {
                                     new TextRun({ text: String(cert.name || ''), bold: true, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: ` — ${cert.issuing_organization || ''}`, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: `\t${cert.year || cert.issue_date || ''}`, size: 22, font: 'Calibri' })
+                                ],
+                                tabStops: [{ type: 'right', position: 9000 }],
+                                spacing: { after: 100 }
+                            })
+                        ) : []
+                    ),
+
+                    // --- AWARDS ---
+                    new Paragraph({
+                        heading: HeadingLevel.HEADING_2,
+                        children: [new TextRun({ text: 'AWARDS', bold: true, size: 24, font: 'Calibri' })],
+                        spacing: { before: 100, after: 200 },
+                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
+                    }),
+
+                    ...(awards && awards.length > 0 ?
+                        awards.map(award =>
+                            new Paragraph({
+                                children: [
+                                    new TextRun({ text: String(award.certification_name || award.name || ''), bold: true, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: ` — ${award.issuing_organization || ''}`, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: `\t${award.issue_date ? new Date(award.issue_date).getFullYear() : ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                                 spacing: { after: 100 }

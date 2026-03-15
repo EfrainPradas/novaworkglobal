@@ -419,7 +419,7 @@ export default function ResumeBuilderMenu() {
               {/* Video Player */}
               <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                 <video
-                  src={`${import.meta.env.BASE_URL}videos/The_Job_Search_&_Application_Suite.mp4`}
+                  src={encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4`)}
                   className="w-full h-full outline-none"
                   controls
                   controlsList="nodownload"

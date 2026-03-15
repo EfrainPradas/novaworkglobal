@@ -47,6 +47,49 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     const [showAIAccomplishmentExtractor, setShowAIAccomplishmentExtractor] = useState(false)
     const [extractorStories, setExtractorStories] = useState<CARStory[]>([])
 
+    // Personalized Examples state
+    const [personalizedExamples, setPersonalizedExamples] = useState<{ role: string, text: string }[]>([])
+    const [isFetchingExamples, setIsFetchingExamples] = useState(false)
+
+    const fetchPersonalizedExamples = async () => {
+        if (personalizedExamples.length > 0 || isFetchingExamples) return
+        setIsFetchingExamples(true)
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (!session) return
+
+            const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
+                ? '/novaworkglobal-api'
+                : ''
+            const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+
+            const response = await fetch(`${apiUrl}/api/ai/personalized-examples`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session.access_token}`
+                }
+            })
+
+            if (response.ok) {
+                const data = await response.json()
+                if (data.success) {
+                    setPersonalizedExamples(data.examples)
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching personalized examples:', error)
+        } finally {
+            setIsFetchingExamples(false)
+        }
+    }
+
+    useEffect(() => {
+        if (activePanel === 'examples' || modalPanel === 'examples') {
+            fetchPersonalizedExamples()
+        }
+    }, [activePanel, modalPanel])
+
     // AI Strategic Chat state
 
 
@@ -777,19 +820,41 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
                                 {activePanel === 'examples' && (
                                     <div className="space-y-4">
-                                        <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">Strong examples formatted correctly with quantified metrics.</p>
-                                        {EXAMPLES.map((ex, i) => (
-                                            <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
-                                                <span className="inline-block px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[10px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
-                                                <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{ex.text}</p>
-                                                <button
-                                                    onClick={() => copyToClipboard(ex.text)}
-                                                    className="absolute top-4 right-4 text-gray-400 hover:text-[#4F46E5] dark:hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity"
-                                                >
-                                                    <Copy className="w-4 h-4" />
-                                                </button>
-                                            </div>
-                                        ))}
+                                        <div className="flex items-center justify-between mb-4">
+                                            <p className="text-sm text-gray-600 dark:text-gray-400">Strong examples formatted correctly with quantified metrics.</p>
+                                            {isFetchingExamples && <Loader2 className="w-4 h-4 text-[#4F46E5] animate-spin" />}
+                                        </div>
+
+                                        {personalizedExamples.length > 0 ? (
+                                            personalizedExamples.map((ex, i) => (
+                                                <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-[#C7D2FE] dark:border-indigo-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                                    <div className="flex items-center justify-between mb-2">
+                                                        <span className="inline-block px-2.5 py-1 bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400 text-[10px] uppercase tracking-wider font-bold rounded">Personalized: {ex.role}</span>
+                                                        <Sparkles className="w-3 h-3 text-amber-500" />
+                                                    </div>
+                                                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{ex.text}</p>
+                                                    <button
+                                                        onClick={() => copyToClipboard(ex.text)}
+                                                        className="absolute top-4 right-4 text-gray-400 hover:text-[#4F46E5] dark:hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    >
+                                                        <Copy className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            ))
+                                        ) : !isFetchingExamples && (
+                                            EXAMPLES.map((ex, i) => (
+                                                <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
+                                                    <span className="inline-block px-2.5 py-1 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[10px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
+                                                    <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{ex.text}</p>
+                                                    <button
+                                                        onClick={() => copyToClipboard(ex.text)}
+                                                        className="absolute top-4 right-4 text-gray-400 hover:text-[#4F46E5] dark:hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                    >
+                                                        <Copy className="w-4 h-4" />
+                                                    </button>
+                                                </div>
+                                            ))
+                                        )}
                                     </div>
                                 )}
 
@@ -844,16 +909,35 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                             )}
                             {modalPanel === 'examples' && (
                                 <div className="space-y-3">
-                                    <p className="text-xs text-gray-500 dark:text-gray-400">Strong CAR examples with quantified metrics.</p>
-                                    {EXAMPLES.map((ex, i) => (
-                                        <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
-                                            <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
-                                            <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
-                                            <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <Copy className="w-3.5 h-3.5" />
-                                            </button>
-                                        </div>
-                                    ))}
+                                    <div className="flex items-center justify-between mb-1">
+                                        <p className="text-xs text-gray-500 dark:text-gray-400">Strong CAR examples with quantified metrics.</p>
+                                        {isFetchingExamples && <Loader2 className="w-3 h-3 text-[#4F46E5] animate-spin" />}
+                                    </div>
+
+                                    {personalizedExamples.length > 0 ? (
+                                        personalizedExamples.map((ex, i) => (
+                                            <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-[#C7D2FE] dark:border-indigo-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-1 duration-200">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <span className="inline-block px-2 py-0.5 bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400 text-[9px] uppercase tracking-wider font-bold rounded">Tailored: {ex.role}</span>
+                                                    <Sparkles className="w-2.5 h-2.5 text-amber-500" />
+                                                </div>
+                                                <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
+                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <Copy className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        ))
+                                    ) : !isFetchingExamples && (
+                                        EXAMPLES.map((ex, i) => (
+                                            <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
+                                                <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
+                                                <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
+                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <Copy className="w-3.5 h-3.5" />
+                                                </button>
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
                             )}
                         </div>

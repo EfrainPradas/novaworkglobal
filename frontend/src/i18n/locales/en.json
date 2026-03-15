@@ -37,7 +37,8 @@
     "allCompetencies": "All Competencies",
     "newest": "Newest",
     "strongestResults": "Strongest Results",
-    "byRole": "By Role"
+    "byRole": "By Role",
+    "watchVideo": "Watch video"
   },
   "nav": {
     "signIn": "Sign In",
@@ -107,6 +108,7 @@
     "description": "Select the trajectory that aligns with your professional moment.",
     "compare": "Compare all programs",
     "viewProgram": "View Program",
+    "watchVideo": "Watch Video",
     "cards": {
       "novanext": {
         "title": "NovaNext™",
@@ -425,7 +427,10 @@
   "dashboard": {
     "welcomeBack": "Welcome back,",
     "whatToAchieve": "What do you want to achieve today?",
-    "pickFocus": "Pick a focus — we'll guide you step-by-step with the fastest path to results.",
+    "pickFocus": "Pick a focus, we'll guide you step-by-step with the fastest path to results.",
+    "executiveMember": "Executive Member",
+    "momentumMember": "Momentum Member",
+    "essentialsPlan": "Essentials Plan",
     "recommendedNext": "Recommended Next Step",
     "continue": "Continue",
     "start": "Start",

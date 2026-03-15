@@ -71,8 +71,6 @@ export default function HeroModern() {
                                 alt="Executive Strategy Animation"
                                 className="w-full h-full object-contain bg-white"
                             />
-
-
                         </div>
 
                         {/* Decorative Grid */}

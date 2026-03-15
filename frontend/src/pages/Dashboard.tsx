@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
 import NotificationBell from '../components/common/NotificationBell'
 import { FileText, Upload, Search, ArrowRight, Lock, Briefcase, Target, Users, Award, Play, BookOpen } from 'lucide-react'
 
 export default function Dashboard() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
@@ -242,7 +244,7 @@ export default function Dashboard() {
       locked: false,
       started: hasProfile || workExperienceCount > 0,
       completed: hasProfile && workExperienceCount > 0 && parStoriesCount > 0,
-      videoSrc: '/videos/Master_Your_Resume_in_6_Steps.mp4'
+      videoSrc: '/videos/Resume General.mp4'
     },
     {
       id: 'job-search',
@@ -288,7 +290,10 @@ export default function Dashboard() {
               <img src="/logo.png" alt="NovaWork Global" className="h-12 w-auto block dark:hidden" />
               <img src="/logo-white.png" alt="NovaWork Global" className="h-12 w-auto hidden dark:block" />
               <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600">
-                {tierLabel} Plan
+                {userLevel === 'executive' && <Award className="w-3 h-3 text-amber-500" />}
+                {userLevel === 'executive' ? t('dashboard.executiveMember', 'Executive Member') : 
+                 userLevel === 'momentum' ? t('dashboard.momentumMember', 'Momentum Member') : 
+                 t('dashboard.essentialsPlan', 'Essentials Plan')}
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -431,7 +436,7 @@ export default function Dashboard() {
                     }}
                     className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
-                    <Play className="w-3 h-3" /> Watch video
+                    <Play className="w-3 h-3" /> {t('dashboard.watchVideo', 'Watch video')}
                   </button>
                   <button
                     onClick={(e) => {
