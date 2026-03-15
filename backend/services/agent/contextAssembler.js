@@ -63,7 +63,7 @@ export async function assembleContext(userId, role, intent, extras = {}) {
   // === PROFILE CONTENT FETCH ===
   // For profile-related intents, fetch actual row content (not just boolean signals)
   if (PROFILE_CONTENT_INTENTS.has(intent)) {
-    const [cvResult, pqResult, ppResult, obResult] = await Promise.all([
+    const [cvResult, pqResult, ppResult, obResult, skillsResult, interestsResult, prefsResult] = await Promise.all([
       // Career Vision Profile
       supabase
         .from('career_vision_profiles')
@@ -98,12 +98,34 @@ export async function assembleContext(userId, role, intent, extras = {}) {
         .eq('user_id', userId)
         .limit(1)
         .maybeSingle(),
+
+      // User Skills (Sweet Spot page)
+      supabase
+        .from('user_skills')
+        .select('skill_name')
+        .eq('user_id', userId),
+
+      // User Interests (Sweet Spot page)
+      supabase
+        .from('user_interests')
+        .select('interest_name')
+        .eq('user_id', userId),
+
+      // Ideal Work Preferences
+      supabase
+        .from('ideal_work_preferences')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle(),
     ]);
 
     if (cvResult.data)  { context.career_vision       = cvResult.data;  tablesAccessed.push('career_vision_profiles'); }
     if (pqResult.data)  { context.positioning          = pqResult.data;  tablesAccessed.push('positioning_questionnaire'); }
     if (ppResult.data)  { context.professional_profile = ppResult.data;  tablesAccessed.push('generated_professional_profile'); }
     if (obResult.data)  { context.onboarding           = obResult.data;  tablesAccessed.push('onboarding_responses'); }
+    if (skillsResult.data?.length)    { context.user_skills    = skillsResult.data.map(r => r.skill_name);       tablesAccessed.push('user_skills'); }
+    if (interestsResult.data?.length) { context.user_interests = interestsResult.data.map(r => r.interest_name); tablesAccessed.push('user_interests'); }
+    if (prefsResult.data)             { context.work_preferences = prefsResult.data;                             tablesAccessed.push('ideal_work_preferences'); }
   }
 
   // Content review: fetch actual CAR/accomplishment records

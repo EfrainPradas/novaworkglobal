@@ -105,27 +105,59 @@ function safe(val) {
 
 export function buildContentSection(context) {
   const hasProfileContent = context.career_vision || context.positioning
-    || context.professional_profile || context.onboarding;
+    || context.professional_profile || context.onboarding
+    || context.user_skills || context.user_interests || context.work_preferences;
   const hasReviewContent = context.car_stories?.length || context.accomplishments?.length;
   const hasOtherContent = context.coach_client_summary || context.support_signals?.length;
 
   if (!hasProfileContent && !hasReviewContent && !hasOtherContent) return '';
 
   let content = '\nRETRIEVED CONTENT (use ONLY this data — do not invent or fill in blanks):\n';
-  content += 'GUIDANCE ON CAREER VISION: The "Career Vision" is a synthesis of Skills, Interests, Positioning, and the Professional Profile.\n';
-  content += 'If a specific "Career Vision Statement" is missing (N/A) but the Positioning Questionnaire and Professional Profile are complete, do NOT report the vision as "missing". Instead, synthesize the vision from the available identity, target titles, and value sentences.\n';
-  content += 'IMPORTANT: Present ALL available data to the user. Even if some fields are empty, describe what IS available in detail.\n';
+  content += 'GUIDANCE ON CAREER VISION: The user\'s "Career Vision" = their Sweet Spot (skills + interests) + Positioning + Professional Profile + Work Preferences.\n';
+  content += 'The career_vision_profiles table may have empty fields — that is NORMAL. The user\'s actual skills are in USER SKILLS, interests in USER INTERESTS, and preferences in IDEAL WORK PREFERENCES below.\n';
+  content += 'Do NOT report skills, interests, or values as "missing" if they appear in ANY section below. Present data from ALL sections.\n';
 
   // --- Career Vision Profile ---
   if (context.career_vision) {
     const cv = context.career_vision;
     content += `
-CAREER VISION PROFILE (from database):
-Career Vision Statement: ${safe(cv.career_vision_statement)}
-Core Values: ${safe(cv.core_values)}
-Skills & Knowledge: ${safe(cv.skills_knowledge)}
-Interests: ${safe(cv.interests)}
+CAREER VISION PROFILE (from legacy table — may be empty, check other sections):
 Job History Insights: ${safe(cv.job_history_insights)}
+---`;
+  }
+
+  // --- User Skills (Sweet Spot page — THIS is the real skills data) ---
+  if (context.user_skills?.length) {
+    content += `
+USER SKILLS (from Sweet Spot — ${context.user_skills.length} skills):
+${context.user_skills.join(', ')}
+---`;
+  }
+
+  // --- User Interests (Sweet Spot page — THIS is the real interests data) ---
+  if (context.user_interests?.length) {
+    content += `
+USER INTERESTS (from Sweet Spot — ${context.user_interests.length} interests):
+${context.user_interests.join(', ')}
+---`;
+  }
+
+  // --- Ideal Work Preferences ---
+  if (context.work_preferences) {
+    const wp = context.work_preferences;
+    content += `
+IDEAL WORK PREFERENCES:
+Industry: ${safe(wp.industry_preference)} (priority ${wp.industry_weight || 'N/A'})
+Location: ${safe(wp.geographic_preference)} (priority ${wp.geographic_weight || 'N/A'})
+Compensation: ${safe(wp.compensation_preference)} (priority ${wp.compensation_weight || 'N/A'})
+Benefits: ${safe(wp.benefits_preference)} (priority ${wp.benefits_weight || 'N/A'})
+Company Profile: ${safe(wp.company_profile_preference)} (priority ${wp.company_profile_weight || 'N/A'})
+Position Goals: ${safe(wp.position_goals_preference)} (priority ${wp.position_goals_weight || 'N/A'})
+Promotion Basis: ${safe(wp.promotion_basis_preference)} (priority ${wp.promotion_basis_weight || 'N/A'})
+Company Culture: ${safe(wp.company_culture_preference)} (priority ${wp.company_culture_weight || 'N/A'})
+Lifestyle: ${safe(wp.lifestyle_preference)} (priority ${wp.lifestyle_weight || 'N/A'})
+Boss Type: ${safe(wp.boss_type_preference)} (priority ${wp.boss_type_weight || 'N/A'})
+Must-Haves: ${safe(wp.must_haves)}
 ---`;
   }
 
