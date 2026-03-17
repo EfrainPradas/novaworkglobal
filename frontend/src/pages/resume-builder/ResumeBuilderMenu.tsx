@@ -219,7 +219,7 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'professional-profile',
-      title: 'Professional Profile',
+      title: 'Professional Summary',
       description: 'Introduce and postion yourself.',
       icon: ClipboardList,
       route: '/resume/questionnaire?mode=standalone',
@@ -277,9 +277,11 @@ export default function ResumeBuilderMenu() {
                     <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
                   <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
-                  <p className="text-gray-600 dark:text-gray-300 max-w-xl mt-2">
-                    Follow the steps to complete an interview magnet resume
-                  </p>
+                  <div className="mt-4 bg-blue-50/50 dark:bg-blue-900/20 px-4 py-3 rounded-xl border-l-4 border-blue-500 dark:border-blue-400 max-w-2xl shadow-sm">
+                    <p className="text-blue-900 dark:text-blue-100 font-medium text-sm sm:text-base leading-relaxed flex items-start gap-2">
+                       Welcome to our four-step resume builder! This tool is designed to help you craft a standout resume with ease.
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full md:w-auto">
@@ -353,7 +355,7 @@ export default function ResumeBuilderMenu() {
                 key={option.id}
                 onClick={() => navigate(option.route)}
                 className={`
-                group relative p-8 rounded-2xl border transition-all duration-300
+                group/card relative p-8 rounded-2xl border transition-all duration-300
                 bg-white dark:bg-gray-800 hover:shadow-2xl cursor-pointer hover:-translate-y-1
                 border-gray-200 dark:border-gray-700
                 ${option.current ? `ring-2 ring-offset-2 dark:ring-offset-gray-900 ${option.color.replace('text-', 'ring-')}` : ''}
@@ -366,16 +368,52 @@ export default function ResumeBuilderMenu() {
                   {option.completed ? (
                     <CheckCircle className="w-6 h-6 text-green-500" />
                   ) : (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="opacity-0 group-hover/card:opacity-100 transition-opacity">
                       <ArrowRight className={`w-6 h-6 ${option.color} dark:text-white`} />
                     </div>
                   )}
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                  {option.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+                <div className="flex items-center gap-2 mb-2">
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-white group-hover/card:text-blue-600 dark:group-hover/card:text-blue-400 transition-colors">
+                    {option.title}
+                  </h3>
+                  
+                  {/* Tooltip Content Elements - Triggered by card hover */}
+                  {option.id === 'work-and-education' && (
+                     <div className="absolute z-50 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100 bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 md:w-80 lg:w-96 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm p-4 rounded-xl shadow-2xl transition-all duration-300 pointer-events-none">
+                       <p className="font-bold text-base mb-2">Step 1: Work Experience Outline</p>
+                       <p className="text-sm leading-relaxed">In the first part, you'll outline your work experience. This is where you list the companies and roles you've held, along with the key details like the company name, position, years, and locations. Follow the steps carefully to ensure you capture all the essential information.</p>
+                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-900 dark:bg-white rotate-45"></div>
+                     </div>
+                  )}
+
+                  {option.id === 'accomplishments-hub' && (
+                     <div className="absolute z-50 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100 bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 md:w-80 lg:w-96 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm p-4 rounded-xl shadow-2xl transition-all duration-300 pointer-events-none">
+                       <p className="font-bold text-base mb-2">Step 2: Accomplishment Bank</p>
+                       <p className="text-sm leading-relaxed">Next, you'll move on to the Accomplishment Bank, where you'll gather all the major achievements from your career. You can populate this section in two ways: either by uploading accomplishments from an older resume or by building them through our CAR system (Context/Challenge + Actions + Results). Once you've compiled your accomplishments, you can organize them either chronologically or by competencies. This serves as a lifetime repository of your achievements, making it easy to reference and update as your career evolves.</p>
+                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-900 dark:bg-white rotate-45"></div>
+                     </div>
+                  )}
+
+                  {option.id === 'professional-profile' && (
+                     <div className="absolute z-50 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100 bottom-full left-1/2 -translate-x-1/2 mb-4 w-72 md:w-80 lg:w-96 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm p-4 rounded-xl shadow-2xl transition-all duration-300 pointer-events-none">
+                       <p className="font-bold text-base mb-2">Step 3: Professional Profile</p>
+                       <p className="text-sm leading-relaxed">After compiling your accomplishments, you'll move on to building your Professional Profile. This is where you create the reader's first impression of who you are, essentially a positioning paragraph that includes the main ATS keywords and showcases your professional identity. You can create it by writing it yourself, following video instructions, or using the AI questionnaire for guidance.</p>
+                       <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-4 bg-gray-900 dark:bg-white rotate-45"></div>
+                     </div>
+                  )}
+
+                  {option.id === 'finalize' && (
+                     <div className="absolute z-50 invisible group-hover/card:visible opacity-0 group-hover/card:opacity-100 bottom-full right-0 md:left-1/2 md:-translate-x-1/2 mb-4 w-72 md:w-80 lg:w-96 bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm p-4 rounded-xl shadow-2xl transition-all duration-300 pointer-events-none origin-bottom-right md:origin-center">
+                       <p className="font-bold text-base mb-2">Step 4: Resume Format Selection</p>
+                       <p className="text-sm leading-relaxed">With these three parts completed, you'll be able to choose whether you want to create a draft of your chronological resume, functional resume, or both. Each format serves a different purpose. A chronological resume is ideal if you're continuing in a similar career path, while a functional résumé is great for career changers, versatile careers, project-based work, or international moves. Having both versions can be a valuable asset in your job search strategy.</p>
+                       <div className="absolute -bottom-2 right-6 md:left-1/2 md:-translate-x-1/2 w-4 h-4 bg-gray-900 dark:bg-white rotate-45"></div>
+                     </div>
+                  )}
+                </div>
+                
+                <p className="text-gray-600 dark:text-gray-300 mb-6 relative z-10">
                   {option.description}
                 </p>
 
