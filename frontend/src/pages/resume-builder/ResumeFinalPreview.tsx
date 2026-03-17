@@ -412,6 +412,36 @@ export default function ResumeFinalPreview() {
                                 </div>
                             )}
 
+                            {/* FUNCTIONAL: Work History */}
+                            {resumeData.resume_type === 'functional' && resumeData.work_experience?.length > 0 && (
+                                <div style={{ marginBottom: '8px' }}>
+                                    <div style={sectionTitle}>Work History</div>
+                                    <div>
+                                        {resumeData.work_experience
+                                            .sort((a: any, b: any) => {
+                                                if (a.is_current && !b.is_current) return -1;
+                                                if (!a.is_current && b.is_current) return 1;
+                                                return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
+                                            })
+                                            .map((exp: any, i: number) => (
+                                            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
+                                                <div>
+                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>
+                                                        {exp.job_title}
+                                                    </span>
+                                                    <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>
+                                                        {exp.company_name}{exp.location_city ? `, ${exp.location_city}` : ''}
+                                                    </span>
+                                                </div>
+                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
+                                                    {formatDate(exp.start_date, false)} – {formatDate(exp.end_date, exp.is_current)}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+
                             {/* WORK EXPERIENCE — Grouped by Company */}
                             {resumeData.resume_type === 'chronological' && resumeData.work_experience?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
