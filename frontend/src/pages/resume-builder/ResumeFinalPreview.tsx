@@ -78,8 +78,16 @@ export default function ResumeFinalPreview() {
 
                 const { data: edu } = await supabase
                     .from('education').select('*')
-                    .eq('resume_id', masterResume.id).order('order_index', { ascending: true })
-                education = edu || []
+                    .eq('resume_id', masterResume.id).order('graduation_year', { ascending: false })
+                
+                if (edu && edu.length > 0) {
+                    education = edu
+                } else {
+                    const { data: eduFallback } = await supabase
+                        .from('education').select('*')
+                        .eq('user_id', uid).order('graduation_year', { ascending: false })
+                    education = eduFallback || []
+                }
 
                 if (masterResume.resume_type === 'functional') {
                     const { data: groups } = await supabase
@@ -109,7 +117,14 @@ export default function ResumeFinalPreview() {
             let areasOfExcellence: string[] = []
             let skillsSection: { tools_platforms?: string[], methodologies?: string[], languages?: string[] } = {}
 
-            if (generatedProfile) {
+            // Determine if the user manually edited their resume profile AFTER the AI generated it
+            const generatedTime = generatedProfile?.created_at ? new Date(generatedProfile.created_at).getTime() : 0;
+            const resumeUpdateTime = masterResume?.updated_at ? new Date(masterResume.updated_at).getTime() : 
+                                    (masterResume?.created_at ? new Date(masterResume.created_at).getTime() : 0);
+            
+            const userEditIsNewer = !!masterResume?.profile_summary && (resumeUpdateTime > generatedTime);
+
+            if (generatedProfile && !userEditIsNewer) {
                 const parts = [
                     generatedProfile.output_identity_sentence,
                     generatedProfile.output_blended_value_sentence,
@@ -199,8 +214,18 @@ export default function ResumeFinalPreview() {
             const fallbackApi = window.location.pathname.startsWith('/novaworkglobal') ? '/novaworkglobal-api' : ''
             const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
             let exportUrl = `${apiUrl}/api/resume/export/${userId}/docx`
-            if (resumeData.resume_type === 'functional' && selectedGroupId) exportUrl += `?groupId=${selectedGroupId}`
-            const response = await fetch(exportUrl, { headers: { 'Authorization': `Bearer ${token}` } })
+            const response = await fetch(exportUrl, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    resumeData: resumeData,
+                    groupId: selectedGroupId,
+                    functionalGroups: groupedDataForFunctional
+                })
+            })
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Export failed' }))
                 throw new Error(errorData.error || 'Export failed')
@@ -241,7 +266,7 @@ export default function ResumeFinalPreview() {
         fontFamily: "'Times New Roman', Times, serif",
         fontSize: '10.5pt',
         lineHeight: '1.35',
-        color: '#111',
+        color: '#000000',
         backgroundColor: '#fff',
         maxWidth: '21cm',
         margin: '0 auto',
@@ -262,7 +287,7 @@ export default function ResumeFinalPreview() {
         letterSpacing: '0.06em',
         marginBottom: '4px',
         marginTop: '8px',
-        color: '#333',
+        color: '#000000',
     }
 
     return (
@@ -302,7 +327,7 @@ export default function ResumeFinalPreview() {
                                 <div style={{ fontSize: '18pt', fontWeight: 'bold', letterSpacing: '0.04em', marginBottom: '3px' }}>
                                     {(resumeData.contact.full_name || '').toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase())}
                                 </div>
-                                <div style={{ fontSize: '9.5pt', color: '#444', display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                                <div style={{ fontSize: '9.5pt', color: '#111', display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
                                     {resumeData.contact.location && <span>{resumeData.contact.location}</span>}
                                     {resumeData.contact.phone && <span>• {resumeData.contact.phone}</span>}
                                     {resumeData.contact.email && <span>• {resumeData.contact.email}</span>}
@@ -313,7 +338,7 @@ export default function ResumeFinalPreview() {
                             {/* PROFESSIONAL PROFILE — 3 sentences in one paragraph */}
                             {resumeData.summary && (
                                 <div style={{ marginBottom: '8px' }} className="group relative">
-                                    <div style={sectionTitle}>Professional Profile</div>
+                                    <div style={sectionTitle}>Professional Summary</div>
                                     {isEditingSummary ? (
                                         <div className="no-print bg-slate-50 p-3 rounded-xl border border-blue-200">
                                             <textarea
@@ -483,12 +508,19 @@ export default function ResumeFinalPreview() {
                                         {resumeData.education.map((edu: any) => (
                                             <div key={edu.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
                                                 <div>
-                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>{edu.degree_title}</span>
-                                                    <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>
-                                                        {edu.institution}{edu.location ? `, ${edu.location}` : ''}
+                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>
+                                                        {edu.degree_title || edu.degree_type || edu.degree || 'Degree'}
                                                     </span>
+                                                    <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>
+                                                        {edu.institution || edu.institution_name}{edu.location ? `, ${edu.location}` : ''}
+                                                    </span>
+                                                    {edu.field_of_study && (
+                                                        <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>
+                                                            in {edu.field_of_study}
+                                                        </span>
+                                                    )}
                                                 </div>
-                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>{edu.graduation_year}</span>
+                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>{edu.graduation_year || edu.year}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -499,22 +531,22 @@ export default function ResumeFinalPreview() {
                             {resumeData.certifications?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
                                     <div style={sectionTitle}>Certifications</div>
-                                    <div>
+                                    <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
                                         {resumeData.certifications.map((cert: any) => (
-                                            <div key={cert.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
-                                                <div>
-                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>{cert.certification_name}</span>
+                                            <li key={cert.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
+                                                <div style={{ fontSize: '9.5pt' }}>
+                                                    <span style={{ fontWeight: 'bold' }}>{cert.certification_name}</span>
                                                     {cert.issuing_organization && (
-                                                        <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>• {cert.issuing_organization}</span>
+                                                        <span style={{ color: '#444', marginLeft: '4px' }}>• {cert.issuing_organization}</span>
                                                     )}
                                                 </div>
-                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
+                                                <span style={{ fontSize: '9pt', color: '#444', whiteSpace: 'nowrap' }}>
                                                     {cert.issue_date ? new Date(cert.issue_date).getFullYear() : ''}
                                                     {cert.expiration_date ? ` – ${new Date(cert.expiration_date).getFullYear()}` : ''}
                                                 </span>
-                                            </div>
+                                            </li>
                                         ))}
-                                    </div>
+                                    </ul>
                                 </div>
                             )}
 
@@ -522,21 +554,21 @@ export default function ResumeFinalPreview() {
                             {resumeData.awards?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
                                     <div style={sectionTitle}>Awards</div>
-                                    <div>
+                                    <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
                                         {resumeData.awards.map((award: any) => (
-                                            <div key={award.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
-                                                <div>
-                                                    <span style={{ fontWeight: 'bold', fontSize: '10pt' }}>{award.certification_name}</span>
+                                            <li key={award.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
+                                                <div style={{ fontSize: '9.5pt' }}>
+                                                    <span style={{ fontWeight: 'bold' }}>{award.certification_name || award.name}</span>
                                                     {award.issuing_organization && (
-                                                        <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>• {award.issuing_organization}</span>
+                                                        <span style={{ color: '#444', marginLeft: '4px' }}>• {award.issuing_organization}</span>
                                                     )}
                                                 </div>
-                                                <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
+                                                <span style={{ fontSize: '9pt', color: '#444', whiteSpace: 'nowrap' }}>
                                                     {award.issue_date ? new Date(award.issue_date).getFullYear() : ''}
                                                 </span>
-                                            </div>
+                                            </li>
                                         ))}
-                                    </div>
+                                    </ul>
                                 </div>
                             )}
 

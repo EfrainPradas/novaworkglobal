@@ -30,134 +30,47 @@ const formatDate = (dateString) => {
     }
 };
 
-router.get('/:userId/docx', async (req, res) => {
+router.post('/:userId/docx', async (req, res) => {
     try {
         const { userId } = req.params;
+        const { resumeData, groupId, functionalGroups } = req.body;
 
         // Security check: Ensure authenticated user allows accessing this data
-        // For now, allow users to export only their own resume
-        if (req.user.id !== userId) {
+        if (!req.user || req.user.id !== userId) {
             return res.status(403).json({ error: 'Unauthorized to export this resume' });
         }
 
-        // 1. Fetch all data
-        console.log(`📄 Starting DOCX export for user ${userId}`);
-
-        const { data: userProfile } = await supabase
-            .from('user_profiles')
-            .select('*')
-            .eq('user_id', userId)
-            .maybeSingle();
-
-        const { data: user } = await supabase
-            .from('users')
-            .select('full_name, email, phone, linkedin_url')
-            .eq('id', userId)
-            .maybeSingle();
-
-        let { data: resume, error: resumeError } = await supabase
-            .from('user_resumes')
-            .select('*')
-            .eq('user_id', userId)
-            .eq('is_master', true)
-            .maybeSingle();
-
-        if (resumeError) {
-            console.error('❌ Error fetching master resume:', resumeError);
+        if (!resumeData) {
+            return res.status(400).json({ error: 'Missing resumeData payload' });
         }
 
-        if (!resume) {
-            console.log(`⚠️ No master resume found for user ${userId}, trying fallback`);
-            const { data: anyResume } = await supabase
-                .from('user_resumes')
-                .select('*')
-                .eq('user_id', userId)
-                .limit(1)
-                .maybeSingle();
-            resume = anyResume;
-        }
+        console.log(`\n\n🟢🟢🟢 [NEW POST DOCX ENDPOINT HIT] User ID: ${userId} 🟢🟢🟢\n\n`);
+        console.log(`📄 Starting direct JSON-based DOCX export for user ${userId}`);
 
-        // If still no resume, create a placeholder object from user profile data
-        if (!resume) {
-            console.log(`⚠️ No resume found for user ${userId}, using profile data as fallback`);
-            resume = {
-                id: null,
-                full_name: userProfile?.full_name || user?.full_name || 'Your Name',
-                email: user?.email || '',
-                phone: userProfile?.phone || user?.phone || '',
-                linkedin_url: userProfile?.linkedin_url || user?.linkedin_url || '',
-                location_city: userProfile?.current_location || '',
-                location_country: '',
-                profile_summary: userProfile?.bio || '',
-                areas_of_excellence: userProfile?.skills || []
-            };
-        }
+        // 1. Map frontend data to the expected DOCX variables
+        let resume = {
+            id: resumeData.id || null,
+            full_name: resumeData.contact?.full_name || 'Your Name',
+            email: resumeData.contact?.email || '',
+            phone: resumeData.contact?.phone || '',
+            linkedin_url: resumeData.contact?.linkedin_url || '',
+            location_city: resumeData.contact?.location || '',
+            profile_summary: resumeData.summary || '',
+            resume_type: resumeData.resume_type || 'chronological',
+            areas_of_excellence: resumeData.areas_of_excellence || []
+        };
 
-        console.log(`✅ Resume data loaded (ID: ${resume.id || 'placeholder'})`);
+        let workExperience = resumeData.work_experience || [];
+        
+        // Frontend sends education, certifications, awards directly
+        let finalEducation = resumeData.education || [];
+        let certifications = resumeData.certifications || [];
+        let awards = resumeData.awards || [];
 
-        // Work Experience
-        let workExperience = [];
-        if (resume.id) {
-            const { data: work } = await supabase
-                .from('work_experience')
-                .select('*, accomplishments(*)')
-                .eq('resume_id', resume.id)
-                .order('start_date', { ascending: false });
-            workExperience = work || [];
-        }
+        // For Functional Resume, frontend passes functionalGroups
+        let functionalGroupData = functionalGroups || [];
 
-        // Accomps for Functional Resume
-        let functionalGroupData = [];
-        if (resume.resume_type === 'functional') {
-            const { groupId } = req.query;
-            if (groupId) {
-                const { data: groupReq } = await supabase
-                    .from('saved_accomplishment_groups')
-                    .select('grouped_data')
-                    .eq('id', groupId)
-                    .eq('user_id', userId)
-                    .maybeSingle();
-                if (groupReq && groupReq.grouped_data) {
-                    functionalGroupData = groupReq.grouped_data;
-                }
-            } else {
-                console.log(`⚠️ No groupId provided for user ${userId} functional resume`);
-            }
-        }
-
-        // Education
-        const { data: education } = await supabase
-            .from('education')
-            .select('*')
-            .eq('resume_id', resume.id || null) // Use resume_id first
-            .order('start_date', { ascending: false });
-
-        // If no education under resume, fallback to user_id
-        let finalEducation = education || [];
-        if (finalEducation.length === 0) {
-            const { data: eduFallback } = await supabase
-                .from('education')
-                .select('*')
-                .eq('user_id', userId)
-                .order('start_date', { ascending: false });
-            finalEducation = eduFallback || [];
-        }
-
-        // Certifications
-        const { data: certifications } = await supabase
-            .from('certifications')
-            .select('*')
-            .eq('user_id', userId)
-            .order('issue_date', { ascending: false });
-
-        // Awards
-        const { data: awards } = await supabase
-            .from('awards')
-            .select('*')
-            .eq('user_id', userId)
-            .order('issue_date', { ascending: false });
-
-        console.log(`📊 Export stats: ${workExperience.length} work, ${finalEducation?.length || 0} edu, ${certifications?.length || 0} certs, ${awards?.length || 0} awards`);
+        console.log(`📊 Export stats: ${workExperience.length} work, ${finalEducation.length} edu, ${certifications.length} certs, ${awards.length} awards`);
 
         // 2. Generate DOCX
         console.log('🏗️ Creating docx document structure...');
@@ -169,7 +82,7 @@ router.get('/:userId/docx', async (req, res) => {
                         alignment: AlignmentType.CENTER,
                         children: [
                             new TextRun({
-                                text: String(resume.full_name || user?.full_name || userProfile?.full_name || 'Your Name')
+                                text: String(resume.full_name || 'Your Name')
                                     .toLowerCase()
                                     .replace(/\b\w/g, c => c.toUpperCase()),
                                 bold: true,
@@ -185,24 +98,21 @@ router.get('/:userId/docx', async (req, res) => {
                             new TextRun({
                                 text: [
                                     resume.location_city ? `${resume.location_city}${resume.location_country ? `, ${resume.location_country}` : ''}` : null,
-                                    resume.phone || user?.phone || '',
-                                    resume.email || user?.email || '',
-                                    resume.linkedin_url || user?.linkedin_url || ''
+                                    resume.phone || '',
+                                    resume.email || '',
+                                    resume.linkedin_url || ''
                                 ].filter(Boolean).join(' | '),
                                 size: 22, // 11pt
                                 font: 'Calibri'
                             })
                         ],
-                        spacing: { after: 300 },
-                        border: { bottom: { color: "000000", space: 10, style: BorderStyle.SINGLE, size: 6 } }
+                        spacing: { after: 300 }
                     }),
 
                     // --- PROFESSIONAL SUMMARY ---
                     new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
                         children: [new TextRun({ text: 'PROFESSIONAL SUMMARY', bold: true, size: 24, font: 'Calibri' })],
-                        spacing: { before: 200, after: 100 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
+                        spacing: { before: 200, after: 100 }
                     }),
                     new Paragraph({
                         children: [new TextRun({
@@ -217,10 +127,8 @@ router.get('/:userId/docx', async (req, res) => {
 
                     // --- AREAS OF EXCELLENCE ---
                     new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
                         children: [new TextRun({ text: 'AREAS OF EXCELLENCE', bold: true, size: 24, font: 'Calibri' })],
-                        spacing: { before: 0, after: 100 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
+                        spacing: { before: 0, after: 100 }
                     }),
                     await (async () => {
                         // Fetch latest generated profile for skills section
@@ -273,11 +181,9 @@ router.get('/:userId/docx', async (req, res) => {
                     // --- FUNCTIONAL: SELECTED ACCOMPLISHMENTS ---
                     ...(resume.resume_type === 'functional' && functionalGroupData.length > 0 ? [
                         new Paragraph({
-                            heading: HeadingLevel.HEADING_2,
-                            children: [new TextRun({ text: 'SELECTED ACCOMPLISHMENTS', bold: true, size: 24, font: 'Calibri' })],
-                            spacing: { before: 0, after: 200 },
-                            border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                        }),
+                        children: [new TextRun({ text: 'SELECTED ACCOMPLISHMENTS', bold: true, size: 24, font: 'Calibri' })],
+                        spacing: { before: 0, after: 200 }
+                    }),
                         ...functionalGroupData.flatMap(group => {
                             const rawHeading = String(group.theme || group.groupName || 'Accomplishments').replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F]/g, "");
                             const headingContent = rawHeading.trim() ? rawHeading : 'Accomplishments';
@@ -305,26 +211,15 @@ router.get('/:userId/docx', async (req, res) => {
                     ] : []),
 
                     // --- WORK EXPERIENCE ---
-                    new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({
-                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
-                            bold: true, size: 24, font: 'Calibri'
-                        })],
-                        spacing: { before: 0, after: 200 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                    }),
-
-                    // --- WORK EXPERIENCE ---
-                    new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({
-                            text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
-                            bold: true, size: 24, font: 'Calibri'
-                        })],
-                        spacing: { before: 0, after: 200 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                    }),
+                    ...(workExperience && workExperience.length > 0 ? [
+                        new Paragraph({
+                            children: [new TextRun({
+                                text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
+                                bold: true, size: 24, font: 'Calibri'
+                            })],
+                            spacing: { before: 0, after: 200 }
+                        })
+                    ] : []),
 
                     ...(workExperience && workExperience.length > 0 ?
                         (() => {
@@ -431,26 +326,38 @@ router.get('/:userId/docx', async (req, res) => {
                     ),
 
                     // --- EDUCATION ---
-                    new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({ text: 'EDUCATION', bold: true, size: 24, font: 'Calibri' })],
-                        spacing: { before: 100, after: 200 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                    }),
+                    ...(finalEducation && finalEducation.length > 0 ? [
+                        new Paragraph({
+                            children: [new TextRun({ text: 'EDUCATION', bold: true, size: 24, font: 'Calibri' })],
+                            spacing: { before: 100, after: 200 }
+                        })
+                    ] : []),
 
                     ...(finalEducation && finalEducation.length > 0 ?
                         finalEducation.flatMap(edu => [
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: String(edu.institution || ''), bold: true, size: 22, font: 'Calibri' }),
-                                    new TextRun({ text: `\t${edu.location_city || ''}`, size: 22, font: 'Calibri' })
+                                    new TextRun({ 
+                                        text: String(edu.institution || edu.institution_name || ''), 
+                                        bold: true, size: 22, font: 'Calibri' 
+                                    }),
+                                    new TextRun({ 
+                                        text: `\t${edu.location_city || edu.location || ''}`, 
+                                        size: 22, font: 'Calibri' 
+                                    })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                             }),
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: `${edu.degree || ''} ${edu.field_of_study ? `in ${edu.field_of_study}` : ''}`, size: 22, font: 'Calibri' }),
-                                    new TextRun({ text: `\t${edu.graduation_year || ''}`, size: 22, font: 'Calibri' })
+                                    new TextRun({ 
+                                        text: `${edu.degree_title || edu.degree_type || edu.degree || ''} ${edu.field_of_study ? `in ${edu.field_of_study}` : ''}`, 
+                                        size: 22, font: 'Calibri' 
+                                    }),
+                                    new TextRun({ 
+                                        text: `\t${edu.graduation_year || edu.year || ''}`, 
+                                        size: 22, font: 'Calibri' 
+                                    })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                                 spacing: { after: 200 }
@@ -459,20 +366,20 @@ router.get('/:userId/docx', async (req, res) => {
                     ),
 
                     // --- CERTIFICATIONS ---
-                    new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({ text: 'CERTIFICATIONS', bold: true, size: 24, font: 'Calibri' })],
-                        spacing: { before: 100, after: 200 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                    }),
+                    ...(certifications && certifications.length > 0 ? [
+                        new Paragraph({
+                            children: [new TextRun({ text: 'CERTIFICATIONS', bold: true, size: 24, font: 'Calibri' })],
+                            spacing: { before: 100, after: 200 }
+                        })
+                    ] : []),
 
                     ...(certifications && certifications.length > 0 ?
                         certifications.map(cert =>
                             new Paragraph({
                                 children: [
-                                    new TextRun({ text: String(cert.name || ''), bold: true, size: 22, font: 'Calibri' }),
+                                    new TextRun({ text: String(cert.certification_name || cert.name || ''), bold: true, size: 22, font: 'Calibri' }),
                                     new TextRun({ text: ` — ${cert.issuing_organization || ''}`, size: 22, font: 'Calibri' }),
-                                    new TextRun({ text: `\t${cert.year || cert.issue_date || ''}`, size: 22, font: 'Calibri' })
+                                    new TextRun({ text: `\t${cert.issue_date || cert.year || ''}`, size: 22, font: 'Calibri' })
                                 ],
                                 tabStops: [{ type: 'right', position: 9000 }],
                                 spacing: { after: 100 }
@@ -481,12 +388,12 @@ router.get('/:userId/docx', async (req, res) => {
                     ),
 
                     // --- AWARDS ---
-                    new Paragraph({
-                        heading: HeadingLevel.HEADING_2,
-                        children: [new TextRun({ text: 'AWARDS', bold: true, size: 24, font: 'Calibri' })],
-                        spacing: { before: 100, after: 200 },
-                        border: { bottom: { color: "000000", space: 1, style: BorderStyle.SINGLE, size: 6 } }
-                    }),
+                    ...(awards && awards.length > 0 ? [
+                        new Paragraph({
+                            children: [new TextRun({ text: 'AWARDS', bold: true, size: 24, font: 'Calibri' })],
+                            spacing: { before: 100, after: 200 }
+                        })
+                    ] : []),
 
                     ...(awards && awards.length > 0 ?
                         awards.map(award =>
@@ -511,7 +418,7 @@ router.get('/:userId/docx', async (req, res) => {
 
         // Generate a user-friendly filename: Full Name - Resume - Date
         const date = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        const safeName = (resume.full_name || user?.full_name || 'Resume')
+        const safeName = (resume.full_name || 'Resume')
             .replace(/[^a-z0-9]/gi, '_')
             .split('_')
             .filter(Boolean)
@@ -520,6 +427,9 @@ router.get('/:userId/docx', async (req, res) => {
         const filename = `${safeName} - Resume - ${date}.docx`;
 
         console.log(`📡 Sending file: ${filename}`);
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
         res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(filename)}"`);
         res.send(buffer);
@@ -527,6 +437,7 @@ router.get('/:userId/docx', async (req, res) => {
 
     } catch (error) {
         console.error('❌ Error handling DOCX export:', error);
+        import('fs').then(fs => fs.writeFileSync('docx_error.txt', error.stack || String(error)));
         res.status(500).json({ error: 'Failed to generate DOCX', details: error.message });
     }
 });
