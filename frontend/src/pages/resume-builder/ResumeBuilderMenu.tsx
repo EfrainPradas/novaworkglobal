@@ -446,7 +446,7 @@ export default function ResumeBuilderMenu() {
               {/* Video Player */}
               <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                 <video
-                  src={encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4`)}
+                  src={encodeURI(`${import.meta.env.BASE_URL}videos/The_NovaWork_Blueprint__resume_builder.mp4`)}
                   className="w-full h-full outline-none"
                   controls
                   controlsList="nodownload"
