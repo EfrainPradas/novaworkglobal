@@ -53,7 +53,7 @@ router.post('/:userId/docx', async (req, res) => {
             full_name: resumeData.contact?.full_name || 'Your Name',
             email: resumeData.contact?.email || '',
             phone: resumeData.contact?.phone || '',
-            linkedin_url: resumeData.contact?.linkedin_url || '',
+            linkedin_url: resumeData.contact?.linkedin_url || resumeData.contact?.linkedin || '',
             location_city: resumeData.contact?.location || '',
             profile_summary: resumeData.summary || '',
             resume_type: resumeData.resume_type || 'chronological',
