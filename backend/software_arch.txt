@@ -1,0 +1,62 @@
+Found jobs with Software:
+[
+  {
+    "id": "c5206061-ac7b-4b17-953f-67f0ce19d9aa",
+    "resume_id": "7e4c6854-1b72-4f08-9404-e691e92052b7",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "555a56a8-c4d7-4c7a-9895-7d4a04c6fe93",
+    "resume_id": "37040f87-696e-447b-b0a9-1fecb3625df4",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "3231f6a8-8a31-42b6-aa31-6b8225baa21a",
+    "resume_id": "c657e11e-b6a1-4c53-a161-7e0088976b29",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "357580d6-c720-4902-a691-61212cc3fe82",
+    "resume_id": "85577ddc-a2ff-40b9-b041-f87c7f99cdd3",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "3de20bb0-388a-411b-84cf-f5f4b0f39a89",
+    "resume_id": "14f7b617-bf30-4ca4-a956-16ccee267888",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "61b1f792-1939-49a1-990c-9028a91df25d",
+    "resume_id": "24f0ed52-ccf5-460e-a72b-aaa31c6e96bd",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "a5268561-fbac-472f-991f-86fae46cc353",
+    "resume_id": "7674d888-0611-4b45-a72d-78df6e79c461",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "d888abeb-c862-4fba-a173-055aa66fb817",
+    "resume_id": "f9726b03-4d32-4909-8af4-9036105377e5",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "6e442cb9-0831-4c3c-bc6c-26aaa13d5d4b",
+    "resume_id": "60304fa2-7637-48ae-a7fb-9ece53cbaf1d",
+    "job_title": "Software Architecture and Full Stack Director"
+  },
+  {
+    "id": "01ddaa64-b26c-4ab0-8611-18d1c0cd68f2",
+    "resume_id": "d150006f-6ed1-4bd1-a3e6-ebdbfcb107ef",
+    "job_title": "Software Architecture and Full Stack Director"
+  }
+]
+
+Associated resume:
+{
+  "id": "7e4c6854-1b72-4f08-9404-e691e92052b7",
+  "user_id": "c1f53ebc-b8d1-42f1-8ed1-fd44e5ed4f4c",
+  "profile_summary": "Senior Data Analyst with extensive experience in business intelligence, data visualization, and ETL processes. Improved SQL query performance by 40% and successfully mentored junior analysts, increasing overall team efficiency. Highly proficient in Power BI and SQL, excels in collaborative environments, delivering actionable insights for strategic decision-making. Natural leader and team player, highly committed and knowable. SQL (PostgreSQL), Python (pandas/automation), ETL/ELT (Pentaho), Power BI dashboarding, Data modeling & KPI standardization. I translate business questions into clear reporting requirements and measurable KPIs, collaborating closely with stakeholders across Sales, Finance, and Operations. I’m detail-oriented with strong data validation habits, ensuring accuracy and consistency before publishing insights. I communicate complex findings in a simple, executive-friendly way and prioritize high-impact work in fast-changing environments. I take ownership end-to-end—from requirements to delivery—and continuously improve processes to reduce manual effort.",
+  "created_at": "2026-02-24T13:56:45.249349+00:00",
+  "is_master": true
+}

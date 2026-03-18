@@ -17,6 +17,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   const [isOpen, setIsOpen] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [isCoach, setIsCoach] = useState(false)
+  const [imgError, setImgError] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const { theme, toggleTheme } = useTheme()
@@ -123,6 +124,10 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   // Get user avatar URL if available
   const avatarUrl = user?.user_metadata?.avatar_url
 
+  useEffect(() => {
+    setImgError(false)
+  }, [avatarUrl])
+
   return (
     <div className="relative" ref={menuRef}>
       {/* User Avatar Button */}
@@ -132,8 +137,14 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
       >
         {/* Avatar */}
         <div className={`${sizeClass} rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold text-sm overflow-hidden`}>
-          {avatarUrl ? (
-            <img src={avatarUrl} alt="User avatar" className="w-full h-full object-cover" />
+          {avatarUrl && !imgError ? (
+            <img 
+              src={avatarUrl} 
+              alt="User avatar" 
+              className="w-full h-full object-cover" 
+              referrerPolicy="no-referrer"
+              onError={() => setImgError(true)} 
+            />
           ) : (
             getUserInitials()
           )}
@@ -155,8 +166,14 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
               <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white font-semibold overflow-hidden">
-                    {avatarUrl ? (
-                      <img src={avatarUrl} alt="User avatar" className="w-full h-full object-cover" />
+                    {avatarUrl && !imgError ? (
+                      <img 
+                        src={avatarUrl} 
+                        alt="User avatar" 
+                        className="w-full h-full object-cover" 
+                        referrerPolicy="no-referrer"
+                        onError={() => setImgError(true)} 
+                      />
                     ) : (
                       <span className="text-lg">{getUserInitials()}</span>
                     )}

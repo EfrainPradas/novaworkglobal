@@ -110,6 +110,7 @@ export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate 
               src={avatarUrl}
               alt="Profile"
               className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
             />
           ) : (
             <span>{getInitials()}</span>

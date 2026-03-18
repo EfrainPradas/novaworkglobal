@@ -1,0 +1,15 @@
+Latest AI Profile:
+{
+  "id": "7acbb66c-1cc0-4303-83d7-763b18ee43f1",
+  "version": 15,
+  "created_at": "2026-03-08T19:45:25.914884+00:00",
+  "output_identity_sentence": "Business Process Mining professional with 10+ years of experience in Tech and Finance operating across Fortune 500 and Consulting environments."
+}
+
+Latest Master Resume:
+{
+  "id": "4ffb74fa-633b-4b3c-82e1-7e246921a06b",
+  "created_at": "2026-03-05T15:29:51.108942+00:00",
+  "updated_at": "2026-03-17T04:29:36.599534+00:00",
+  "profile_summary": "Senior Data Analyst with strong experience in business intelligence, data modeling, ETL, and business process optimization within SaaS and commercial environments. Proven track record improving SQL and data pipeline performance by up to 40%, delivering executive-ready Power BI dashboards, and enabling data-driven decision-making across revenue, operations, and leadership teams. Adept at translating complex business processes into scalable analytics solutions, identifying bottlenecks, and driving measurable operational improvement."
+}

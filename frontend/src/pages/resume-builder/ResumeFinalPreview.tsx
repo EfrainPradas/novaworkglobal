@@ -155,6 +155,7 @@ export default function ResumeFinalPreview() {
                     email: masterResume?.email || user?.email,
                     phone: masterResume?.phone || user?.phone || profile?.phone,
                     linkedin: masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url,
+                    linkedin_url: masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url,
                     location: masterResume?.location_city
                         ? (masterResume.location_country === 'USA' || !masterResume.location_country
                             ? masterResume.location_city
