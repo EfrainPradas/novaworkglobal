@@ -332,6 +332,15 @@ export default function Dashboard() {
                 >
                   Continue <ArrowRight className="w-5 h-5" />
                 </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setActiveVideoSrc(`/videos/Resume General.mp4?t=${Date.now()}`)
+                  }}
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition-all shadow-md shadow-teal-500/20"
+                >
+                  <Play className="w-5 h-5" /> Ver Video
+                </button>
               </div>
 
             </div>
