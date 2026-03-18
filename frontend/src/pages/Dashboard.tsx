@@ -244,7 +244,7 @@ export default function Dashboard() {
       locked: false,
       started: hasProfile || workExperienceCount > 0,
       completed: hasProfile && workExperienceCount > 0 && parStoriesCount > 0,
-      videoSrc: '/videos/Resume General.mp4'
+      videoSrc: '/videos/The_NovaWork_Blueprint__resume_builder.mp4'
     },
     {
       id: 'job-search',
