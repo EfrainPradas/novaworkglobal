@@ -109,69 +109,95 @@ export const TourProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const rect = element.getBoundingClientRect();
       const pos = step.position || 'bottom';
       const offset = step.offset || { x: 0, y: 0 };
-      const padding = 16;
+      const padding = 12; // Reduced padding
       
-      const tooltipWidth = window.innerWidth < 768 ? 288 : 320; // Matches w-72 and w-80
-      const tooltipHeight = 250; // Estimation for safety
+      const tooltipWidth = window.innerWidth < 768 ? 288 : 320;
+      const tooltipHeight = 220; // Slightly lower estimation
+
+      // Calculate available space in each direction
+      const spaceTop = rect.top;
+      const spaceBottom = window.innerHeight - rect.bottom;
+      const spaceLeft = rect.left;
+      const spaceRight = window.innerWidth - rect.right;
 
       let top = 0;
       let left = 0;
       let finalPosition = pos;
 
-      // Vertical calculations
-      if (pos === 'top') {
-        top = rect.top - padding;
-        if (top - tooltipHeight < 0) {
-          // Flip to bottom if no space at top
-          top = rect.bottom + padding;
-          finalPosition = 'bottom';
-        }
-      } else if (pos === 'bottom') {
-        top = rect.bottom + padding;
-        if (top + tooltipHeight > window.innerHeight) {
-          // Flip to top if no space at bottom
+      // Smart flip: If requested position doesn't fit, find the best alternative
+      if (pos === 'top' && spaceTop < tooltipHeight + padding) {
+        if (spaceBottom > tooltipHeight + padding) finalPosition = 'bottom';
+        else if (spaceRight > tooltipWidth + padding) finalPosition = 'right';
+        else if (spaceLeft > tooltipWidth + padding) finalPosition = 'left';
+        else finalPosition = 'center';
+      } else if (pos === 'bottom' && spaceBottom < tooltipHeight + padding) {
+        if (spaceTop > tooltipHeight + padding) finalPosition = 'top';
+        else if (spaceRight > tooltipWidth + padding) finalPosition = 'right';
+        else if (spaceLeft > tooltipWidth + padding) finalPosition = 'left';
+        else finalPosition = 'center';
+      } else if (pos === 'left' && spaceLeft < tooltipWidth + padding) {
+        if (spaceRight > tooltipWidth + padding) finalPosition = 'right';
+        else if (spaceBottom > tooltipHeight + padding) finalPosition = 'bottom';
+        else if (spaceTop > tooltipHeight + padding) finalPosition = 'top';
+        else finalPosition = 'center';
+      } else if (pos === 'right' && spaceRight < tooltipWidth + padding) {
+        if (spaceLeft > tooltipWidth + padding) finalPosition = 'left';
+        else if (spaceBottom > tooltipHeight + padding) finalPosition = 'bottom';
+        else if (spaceTop > tooltipHeight + padding) finalPosition = 'top';
+        else finalPosition = 'center';
+      }
+
+      // Final coordinate calculations based on finalPosition
+      switch (finalPosition) {
+        case 'top':
           top = rect.top - padding;
-          finalPosition = 'top';
-        }
-      } else {
-        top = rect.top + rect.height / 2;
-      }
-
-      // Horizontal calculations
-      if (pos === 'left') {
-        left = rect.left - padding;
-        if (left - tooltipWidth < 0) {
-          left = rect.right + padding;
-          finalPosition = 'right';
-        }
-      } else if (pos === 'right') {
-        left = rect.right + padding;
-        if (left + tooltipWidth > window.innerWidth) {
+          left = rect.left + rect.width / 2;
+          break;
+        case 'bottom':
+          top = rect.bottom + padding;
+          left = rect.left + rect.width / 2;
+          break;
+        case 'left':
+          top = rect.top + rect.height / 2;
           left = rect.left - padding;
-          finalPosition = 'left';
-        }
-      } else {
-        left = rect.left + rect.width / 2;
+          break;
+        case 'right':
+          top = rect.top + rect.height / 2;
+          left = rect.right + padding;
+          break;
+        case 'center':
+          top = window.innerHeight / 2;
+          left = window.innerWidth / 2;
+          break;
       }
 
-      // Safety check for horizontal overflow (centering)
+      // Horizontal safety adjustments for top/bottom
       if (finalPosition === 'top' || finalPosition === 'bottom') {
         const minLeft = tooltipWidth / 2 + padding;
         const maxLeft = window.innerWidth - (tooltipWidth / 2 + padding);
         left = Math.max(minLeft, Math.min(left, maxLeft));
+      }
+      
+      // Vertical safety adjustments for left/right
+      if (finalPosition === 'left' || finalPosition === 'right') {
+        const minTop = padding;
+        const maxTop = window.innerHeight - (tooltipHeight);
+        top = Math.max(minTop, Math.min(top, maxTop));
       }
 
       setTooltipPosition(finalPosition);
       setTooltipStyle({
         top: `${top}px`,
         left: `${left}px`,
-        transform: finalPosition === 'top' ? `translate(-50%, -100%) translate(${offset.x}px, ${offset.y}px)` :
+        transform: finalPosition === 'center' ? 'translate(-50%, -50%)' :
+                   finalPosition === 'top' ? `translate(-50%, -100%) translate(${offset.x}px, ${offset.y}px)` :
                    finalPosition === 'bottom' ? `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px)` :
                    finalPosition === 'left' ? `translate(-100%, -50%) translate(${offset.x}px, ${offset.y}px)` :
                    `translate(0, -50%) translate(${offset.x}px, ${offset.y}px)`
       });
-    }, 300); // 300ms delay to allow smooth scroll to finish
+    }, 400); // 400ms to be even safer with smooth scroll
   }, [isOpen, currentStep, steps]);
+
 
   useEffect(() => {
     updateTooltipPosition();
