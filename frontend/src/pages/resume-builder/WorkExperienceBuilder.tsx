@@ -755,20 +755,19 @@ const WorkExperienceBuilder: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mt-2">
                 {t('resumeBuilder.menu.workExperienceDesc')}
               </p>
-              <div className="flex items-center gap-3 mt-2">
+              <div className="flex items-center gap-3 mt-3">
                 <button
                   onClick={() => setVideoModal({ url: '/videos/Proposito_del_cargo.mp4', title: 'Job Purpose' })}
-                  className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors border border-teal-200 dark:border-teal-700"
                 >
-                  <Play className="w-3 h-3" />
+                  <Play className="w-3 h-3" fill="currentColor" />
                   <span>Job Purpose</span>
                 </button>
-                <span className="text-gray-300 dark:text-gray-600">·</span>
                 <button
                   onClick={() => setVideoModal({ url: '/videos/Work_Experience_Section.mp4', title: 'Work Experience' })}
-                  className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors border border-blue-200 dark:border-blue-700"
                 >
-                  <Play className="w-3 h-3" />
+                  <Play className="w-3 h-3" fill="currentColor" />
                   <span>Work Experience</span>
                 </button>
               </div>
