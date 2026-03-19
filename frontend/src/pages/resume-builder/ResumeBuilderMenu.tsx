@@ -313,7 +313,6 @@ export default function ResumeBuilderMenu() {
 
 
 
-        {/* Top Navigation & Help */}
         <div className="flex items-center justify-between mb-4">
           <BackButton
             to="/dashboard"
@@ -321,14 +320,8 @@ export default function ResumeBuilderMenu() {
             variant="light"
             className="pl-0"
           />
-          <button
-            onClick={handleStartTour}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-900 bg-white dark:bg-gray-800 font-medium text-sm shadow-sm"
-          >
-            <HelpCircle className="w-4 h-4" />
-            Help
-          </button>
         </div>
+
 
 
         {/* Header Section */}

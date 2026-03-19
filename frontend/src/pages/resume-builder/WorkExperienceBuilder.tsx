@@ -795,13 +795,7 @@ const WorkExperienceBuilder: React.FC = () => {
               />
             </div>
             <div className="flex items-center gap-4">
-              <button
-                onClick={handleStartTour}
-                className="flex items-center gap-1.5 text-gray-500 hover:text-primary-600 dark:text-gray-400 dark:hover:text-primary-400 transition-colors px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 font-medium text-xs"
-              >
-                <HelpCircle className="w-4 h-4" />
-                Help
-              </button>
+
               {!isStandalone && (
                 <button
                   onClick={async () => {
