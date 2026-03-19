@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, BookOpen, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info, HelpCircle } from 'lucide-react'
+import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, BookOpen, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
-import { useTour } from '../../hooks/useTour'
-import { TourStep } from '../../components/common/GuidedTour/types'
-
 import { BackButton } from '../../components/common/BackButton'
 import ServiceAddOns from '../../components/services/ServiceAddOns'
 import { trackEvent } from '../../lib/analytics'
@@ -27,8 +24,6 @@ interface ResumeOption {
 
 export default function ResumeBuilderMenu() {
   const { t } = useTranslation()
-  const { startTour, hasSeenTour, markTourSeen } = useTour()
-
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -41,52 +36,6 @@ export default function ResumeBuilderMenu() {
   useEffect(() => {
     checkUser()
   }, [])
-
-  // Guided Tour logic
-  useEffect(() => {
-    const tourId = 'resume-builder-menu-tour'
-    if (user && !loading) {
-      const isSeen = hasSeenTour(tourId)
-      if (!isSeen) {
-        const timer = setTimeout(() => {
-          handleStartTour()
-          markTourSeen(tourId)
-        }, 1000)
-        return () => clearTimeout(timer)
-      }
-    }
-  }, [user, loading, hasSeenTour, markTourSeen])
-
-  const handleStartTour = () => {
-    const steps: TourStep[] = [
-      {
-        selector: '#work-and-education-card',
-        title: 'Work Experience and Education',
-        content: "In the first part, you'll outline your work experience. List companies, roles, and dates to capture your essential career history.",
-        position: 'bottom'
-      },
-      {
-        selector: '#accomplishments-hub-card',
-        title: 'Accomplishment Bank',
-        content: "Gather all major achievements here. Populate them manually, via CAR stories, or by uploading an old resume. This becomes your lifetime achievement repository.",
-        position: 'bottom'
-      },
-      {
-        selector: '#professional-profile-card',
-        title: 'Professional Summary',
-        content: "Create a powerful first impression. Build a positioning paragraph with ATS keywords to showcase your professional identity.",
-        position: 'top'
-      },
-      {
-        selector: '#finalize-card',
-        title: 'Choose your Resume',
-        content: "Once parts are complete, pick your format. Choose Chronological for career continuity or Functional for versatility.",
-        position: 'top'
-      }
-    ]
-    startTour(steps)
-  }
-
 
   const checkUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -313,28 +262,16 @@ export default function ResumeBuilderMenu() {
 
 
 
-        {/* Top Navigation & Help */}
-        <div className="flex items-center justify-between mb-4">
-          <BackButton
-            to="/dashboard"
-            label={t('resumeBuilder.menu.backToDashboard')}
-            variant="light"
-            className="pl-0"
-          />
-          <button
-            onClick={handleStartTour}
-            className="flex items-center gap-1.5 px-3 py-1.5 text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-blue-400 transition-colors rounded-lg border border-gray-200 dark:border-gray-700 hover:border-blue-200 dark:hover:border-blue-900 bg-white dark:bg-gray-800 font-medium text-sm shadow-sm"
-          >
-            <HelpCircle className="w-4 h-4" />
-            Help
-          </button>
-        </div>
-
+        {/* Back Button */}
+        <BackButton
+          to="/dashboard"
+          label={t('resumeBuilder.menu.backToDashboard')}
+          variant="light"
+          className="mb-4 pl-0"
+        />
 
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
-
-
           <div className="w-full">
             <div className="flex flex-col md:flex-row items-start justify-between gap-6 w-full">
               <div className="flex items-start gap-4">
@@ -370,7 +307,6 @@ export default function ResumeBuilderMenu() {
                 >
                   <BookOpen className="w-4 h-4" /> Learn more
                 </button>
-
               </div>
             </div>
           </div>
@@ -419,9 +355,7 @@ export default function ResumeBuilderMenu() {
             return (
               <div
                 key={option.id}
-                id={`${option.id}-card`}
                 className={`
-
                 group relative p-8 rounded-2xl border transition-all duration-300
                 bg-white dark:bg-gray-800 hover:shadow-2xl cursor-pointer hover:-translate-y-1
                 border-gray-200 dark:border-gray-700
