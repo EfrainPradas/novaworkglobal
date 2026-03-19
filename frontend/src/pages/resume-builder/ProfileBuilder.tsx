@@ -63,10 +63,14 @@ const ProfileBuilder: React.FC = () => {
 
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001'
-      const response = await fetch(`${apiUrl}/api/parse-resume`, {
-        method: 'POST',
-        body: formData
-      })
+    const { data: { session } } = await supabase.auth.getSession()
+    const response = await fetch(`${apiUrl}/api/parse-resume`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${session?.access_token}`
+      },
+      body: formData
+    })
 
       if (!response.ok) {
         throw new Error('Failed to parse LinkedIn PDF')
