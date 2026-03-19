@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Play, X } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
@@ -24,6 +24,7 @@ const WorkExperienceBuilder: React.FC = () => {
   const [showForm, setShowForm] = useState(false)
   const [editingExperience, setEditingExperience] = useState<WorkExperience | undefined>()
   const [showImportModal, setShowImportModal] = useState(false)
+  const [videoModal, setVideoModal] = useState<{ url: string; title: string } | null>(null)
   const [importing, setImporting] = useState(false)
   const [importFile, setImportFile] = useState<File | null>(null)
 
@@ -698,6 +699,23 @@ const WorkExperienceBuilder: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mt-2">
                 {t('resumeBuilder.menu.workExperienceDesc')}
               </p>
+              <div className="flex items-center gap-3 mt-2">
+                <button
+                  onClick={() => setVideoModal({ url: '/videos/Proposito_del_cargo.mp4', title: 'Job Purpose' })}
+                  className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                >
+                  <Play className="w-3 h-3" />
+                  <span>Job Purpose</span>
+                </button>
+                <span className="text-gray-300 dark:text-gray-600">·</span>
+                <button
+                  onClick={() => setVideoModal({ url: '/videos/Work_Experience_Section.mp4', title: 'Work Experience' })}
+                  className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500 hover:text-primary-500 dark:hover:text-primary-400 transition-colors"
+                >
+                  <Play className="w-3 h-3" />
+                  <span>Work Experience</span>
+                </button>
+              </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-4 md:mt-0">
               {!showForm && (
@@ -924,6 +942,21 @@ const WorkExperienceBuilder: React.FC = () => {
             </div>
           </div>
         )}
+        {/* Video Modal */}
+        {videoModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4" onClick={() => setVideoModal(null)}>
+            <div className="bg-black rounded-xl overflow-hidden max-w-3xl w-full shadow-2xl" onClick={e => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-4 py-3 bg-gray-900">
+                <span className="text-white text-sm font-medium">{videoModal.title}</span>
+                <button onClick={() => setVideoModal(null)} className="text-gray-400 hover:text-white transition-colors">
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+              <video src={videoModal.url} controls autoPlay className="w-full" />
+            </div>
+          </div>
+        )}
+
         {/* Resume Preview Button */}
         {userId && <ResumePreview userId={userId} />}
       </div>
