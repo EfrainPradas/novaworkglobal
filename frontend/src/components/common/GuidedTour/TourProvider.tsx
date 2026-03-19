@@ -94,73 +94,95 @@ export const TourProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [userId]);
 
   // Update tooltip position based on the current step target
-  useEffect(() => {
+  const updateTooltipPosition = useCallback(() => {
     if (!isOpen || !steps[currentStep]) return;
 
-    const timer = setTimeout(() => {
-      const step = steps[currentStep];
-      const element = document.querySelector(step.selector);
-      if (!element) return;
+    const step = steps[currentStep];
+    const element = document.querySelector(step.selector);
+    if (!element) return;
 
+    // Scroll element into view if needed
+    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Wait for scroll to finish
+    setTimeout(() => {
       const rect = element.getBoundingClientRect();
       const pos = step.position || 'bottom';
-      setTooltipPosition(pos);
-
       const offset = step.offset || { x: 0, y: 0 };
-      const padding = 12;
+      const padding = 16;
+      
+      const tooltipWidth = window.innerWidth < 768 ? 288 : 320; // Matches w-72 and w-80
+      const tooltipHeight = 250; // Estimation for safety
 
       let top = 0;
       let left = 0;
+      let finalPosition = pos;
 
-      switch (pos) {
-        case 'top':
-          top = rect.top - padding;
-          left = rect.left + rect.width / 2;
-          setTooltipStyle({
-            top: `${top}px`,
-            left: `${left}px`,
-            transform: `translate(-50%, -100%) translate(${offset.x}px, ${offset.y}px)`
-          });
-          break;
-        case 'bottom':
+      // Vertical calculations
+      if (pos === 'top') {
+        top = rect.top - padding;
+        if (top - tooltipHeight < 0) {
+          // Flip to bottom if no space at top
           top = rect.bottom + padding;
-          left = rect.left + rect.width / 2;
-          setTooltipStyle({
-            top: `${top}px`,
-            left: `${left}px`,
-            transform: `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px)`
-          });
-          break;
-        case 'left':
-          top = rect.top + rect.height / 2;
-          left = rect.left - padding;
-          setTooltipStyle({
-            top: `${top}px`,
-            left: `${left}px`,
-            transform: `translate(-100%, -50%) translate(${offset.x}px, ${offset.y}px)`
-          });
-          break;
-        case 'right':
-          top = rect.top + rect.height / 2;
-          left = rect.right + padding;
-          setTooltipStyle({
-            top: `${top}px`,
-            left: `${left}px`,
-            transform: `translate(0, -50%) translate(${offset.x}px, ${offset.y}px)`
-          });
-          break;
-        case 'center':
-          setTooltipStyle({
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)'
-          });
-          break;
+          finalPosition = 'bottom';
+        }
+      } else if (pos === 'bottom') {
+        top = rect.bottom + padding;
+        if (top + tooltipHeight > window.innerHeight) {
+          // Flip to top if no space at bottom
+          top = rect.top - padding;
+          finalPosition = 'top';
+        }
+      } else {
+        top = rect.top + rect.height / 2;
       }
-    }, 100);
 
-    return () => clearTimeout(timer);
+      // Horizontal calculations
+      if (pos === 'left') {
+        left = rect.left - padding;
+        if (left - tooltipWidth < 0) {
+          left = rect.right + padding;
+          finalPosition = 'right';
+        }
+      } else if (pos === 'right') {
+        left = rect.right + padding;
+        if (left + tooltipWidth > window.innerWidth) {
+          left = rect.left - padding;
+          finalPosition = 'left';
+        }
+      } else {
+        left = rect.left + rect.width / 2;
+      }
+
+      // Safety check for horizontal overflow (centering)
+      if (finalPosition === 'top' || finalPosition === 'bottom') {
+        const minLeft = tooltipWidth / 2 + padding;
+        const maxLeft = window.innerWidth - (tooltipWidth / 2 + padding);
+        left = Math.max(minLeft, Math.min(left, maxLeft));
+      }
+
+      setTooltipPosition(finalPosition);
+      setTooltipStyle({
+        top: `${top}px`,
+        left: `${left}px`,
+        transform: finalPosition === 'top' ? `translate(-50%, -100%) translate(${offset.x}px, ${offset.y}px)` :
+                   finalPosition === 'bottom' ? `translate(-50%, 0) translate(${offset.x}px, ${offset.y}px)` :
+                   finalPosition === 'left' ? `translate(-100%, -50%) translate(${offset.x}px, ${offset.y}px)` :
+                   `translate(0, -50%) translate(${offset.x}px, ${offset.y}px)`
+      });
+    }, 300); // 300ms delay to allow smooth scroll to finish
   }, [isOpen, currentStep, steps]);
+
+  useEffect(() => {
+    updateTooltipPosition();
+    window.addEventListener('resize', updateTooltipPosition);
+    window.addEventListener('scroll', updateTooltipPosition, true);
+    return () => {
+      window.removeEventListener('resize', updateTooltipPosition);
+      window.removeEventListener('scroll', updateTooltipPosition, true);
+    };
+  }, [updateTooltipPosition]);
+
 
   const contextValue = useMemo(() => ({
     currentStep,

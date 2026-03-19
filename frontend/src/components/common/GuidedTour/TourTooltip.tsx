@@ -42,13 +42,14 @@ const TourTooltip: React.FC<TourTooltipProps> = ({
         </button>
       </div>
 
-      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
+      <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 leading-tight">
         {step.title}
       </h3>
       
-      <div className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+      <div className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed max-h-[150px] overflow-y-auto pr-1 custom-scrollbar">
         {step.content}
       </div>
+
 
       <div className="flex items-center justify-between mt-auto">
         <button
