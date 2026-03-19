@@ -9,6 +9,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
 });
 import App from './App.tsx'
 import { ThemeProvider } from './contexts/ThemeContext'
+import { TourProvider } from './components/common/GuidedTour'
 import './i18n/config' // Initialize i18n
 import './index.css'
 import { registerSW } from 'virtual:pwa-register'
@@ -25,7 +26,9 @@ if (import.meta.env.VITE_POSTHOG_KEY && import.meta.env.VITE_POSTHOG_KEY !== 'ph
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <TourProvider>
+        <App />
+      </TourProvider>
     </ThemeProvider>
   </React.StrictMode>,
 )
