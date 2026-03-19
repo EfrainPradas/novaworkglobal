@@ -7,17 +7,13 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
-import { ArrowRight, Play, X, HelpCircle } from 'lucide-react'
+import { ArrowRight, Play, X } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
-import { useTour } from '../../hooks/useTour'
-import { TourStep } from '../../components/common/GuidedTour/types'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 const WorkExperienceBuilder: React.FC = () => {
   const { t } = useTranslation()
-  const { startTour, hasSeenTour, markTourSeen } = useTour()
-
   const [userId, setUserId] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -43,84 +39,6 @@ const WorkExperienceBuilder: React.FC = () => {
     }
     checkUser()
   }, [searchParams])
-
-  // Guided Tour logic
-  useEffect(() => {
-    const tourId = 'work-experience-tour'
-    if (userId && !loading && experiences.length >= 0) {
-      const isSeen = hasSeenTour(tourId)
-      if (!isSeen) {
-        // Short delay to ensure elements are rendered
-        const timer = setTimeout(() => {
-          handleStartTour()
-          markTourSeen(tourId)
-        }, 1000)
-        return () => clearTimeout(timer)
-      }
-    }
-  }, [userId, loading, hasSeenTour, markTourSeen])
-
-  const handleStartTour = () => {
-    const steps: TourStep[] = [
-      {
-        selector: '#back-dashboard',
-        title: 'Back to Dashboard',
-        content: 'Easily return to your main dashboard at any time to see your overall progress.',
-        position: 'bottom'
-      },
-      {
-        selector: '#resume-tabs',
-        title: 'Navigation Tabs',
-        content: 'Switch between major sections of your resume like Education and Awards & Certifications.',
-        position: 'bottom'
-      },
-      {
-        selector: '#work-exp-header',
-        title: 'Work Experience Section',
-        content: 'This is where you build your career history. Each role you add helps tell your professional story.',
-        position: 'bottom'
-      },
-      {
-        selector: '#job-purpose-chips',
-        title: 'Guided Resources',
-        content: 'Watch these short videos to understand how to craft a compelling Job Purpose and Work Experience section.',
-        position: 'bottom'
-      },
-      {
-        selector: '#import-resume-btn',
-        title: 'Import from Resume',
-        content: 'Already have a resume? Upload it here to automatically populate your work history using AI.',
-        position: 'bottom'
-      },
-      {
-        selector: '#add-new-exp-btn',
-        title: 'Manual Entry',
-        content: 'Prefer to start fresh? Use this button to manually add a new professional experience.',
-        position: 'left'
-      },
-      {
-        selector: '#resume-preview-btn',
-        title: 'Live Preview',
-        content: 'At any point, click here to see a live preview of your resume. You can also print or export it to Word from here.',
-        position: 'right',
-        offset: { x: 20, y: 0 }
-      }
-    ]
-
-
-    // If there are experiences, add a step for them
-    if (experiences.length > 0) {
-      steps.push({
-        selector: '.experience-card:first-child',
-        title: 'Manage Your History',
-        content: 'View, edit, or delete your saved work experiences here. Each card shows a snapshot of your role.',
-        position: 'top'
-      })
-    }
-
-    startTour(steps)
-  }
-
 
   const checkUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -787,34 +705,27 @@ const WorkExperienceBuilder: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md transition-colors duration-200">
 
           <div className="flex items-center justify-between mb-4">
-            <div id="back-dashboard">
-              <BackButton
-                to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
-                label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
-                className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
-              />
-            </div>
-            <div className="flex items-center gap-4">
-
-              {!isStandalone && (
-                <button
-                  onClick={async () => {
-                    await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
-                    navigate('/resume/education')
-                  }}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
-                >
-                  {t('resumeBuilder.menu.nextEducation', 'Next: Education')}
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-
+            <BackButton
+              to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
+              label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
+              className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+            />
+            {!isStandalone && (
+              <button
+                onClick={async () => {
+                  await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
+                  navigate('/resume/education')
+                }}
+                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+              >
+                {t('resumeBuilder.menu.nextEducation', 'Next: Education')}
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           {isStandalone && (
-            <div id="resume-tabs" className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
-
+            <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
               <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
                 {t('resumeBuilder.menu.workExperience')}
               </button>
@@ -838,15 +749,13 @@ const WorkExperienceBuilder: React.FC = () => {
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                 {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
               </div>
-              <h1 id="work-exp-header" className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 {t('resumeBuilder.workExperience.title')}
               </h1>
               <p className="text-gray-600 dark:text-gray-300 mt-2">
                 {t('resumeBuilder.menu.workExperienceDesc')}
               </p>
-              <div id="job-purpose-chips" className="flex items-center gap-3 mt-3">
-
+              <div className="flex items-center gap-3 mt-3">
                 <button
                   onClick={() => setVideoModal({ url: '/videos/Proposito_del_cargo.mp4', title: 'Job Purpose' })}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors border border-teal-200 dark:border-teal-700"
@@ -867,22 +776,18 @@ const WorkExperienceBuilder: React.FC = () => {
               {!showForm && (
                 <>
                   <button
-                    id="import-resume-btn"
                     onClick={() => setShowImportModal(true)}
-                    className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-gray-800 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center justify-center gap-2"
                   >
-
                     <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
                     <span>{t('resumeBuilder.workExperience.importFromResume')}</span>
                   </button>
                   <button
-                    id="add-new-exp-btn"
                     onClick={handleNewExperience}
                     className="w-full sm:w-auto px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium text-center"
                   >
-
                     + {t('resumeBuilder.workExperience.addNew')}
                   </button>
                 </>
@@ -934,8 +839,7 @@ const WorkExperienceBuilder: React.FC = () => {
             ) : (
               <div className="space-y-4">
                 {experiences.map((exp, index) => (
-                  <div key={exp.id} className="experience-card bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md transition-colors duration-200">
-
+                  <div key={exp.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md transition-colors duration-200">
                     <div className="flex justify-between items-start mb-4">
                       <div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white">{exp.job_title}</h3>
