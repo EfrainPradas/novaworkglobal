@@ -453,26 +453,43 @@ const WorkExperienceBuilder: React.FC = () => {
 
     setImporting(true)
     try {
+      // Upload to Supabase Storage first
+      const ext = importFile.name.split('.').pop()
+      const filePath = `${userId}/${Date.now()}_resume.${ext}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('resumes')
+        .upload(filePath, importFile)
+
+      if (uploadError) {
+        console.error('Storage upload error:', uploadError)
+      }
+
       // Create FormData for file upload
       const formData = new FormData()
       formData.append('file', importFile)
       formData.append('user_id', userId!)
 
       // Call backend API to parse resume with AI
+      const { data: { session } } = await supabase.auth.getSession()
       const response = await fetch(`${API_BASE_URL}/api/parse-resume`, {
         method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session?.access_token}`
+        },
         body: formData
       })
 
       if (!response.ok) throw new Error('Failed to parse resume')
 
       const parsed = await response.json()
-      const { experiences: parsedExperiences, profile_summary, areas_of_excellence, contact } = parsed
+      const { experiences: parsedExperiences, profile_summary, areas_of_excellence, contact, education, certifications } = parsed
 
       // Update the master resume with profile data if available
       const resumeUpdate: Record<string, any> = {}
       if (profile_summary) resumeUpdate.profile_summary = profile_summary
       if (areas_of_excellence?.length) resumeUpdate.areas_of_excellence = areas_of_excellence
+      if (filePath) resumeUpdate.file_url = filePath
       if (contact) {
         if (contact.full_name) resumeUpdate.full_name = contact.full_name
         if (contact.email) resumeUpdate.email = contact.email
@@ -572,6 +589,45 @@ const WorkExperienceBuilder: React.FC = () => {
         if (newBankItems.length > 0) {
           await supabase.from('accomplishment_bank').insert(newBankItems)
           console.log(`✅ Auto-imported ${newBankItems.length} items to bank`)
+        }
+      }
+
+      // Save education
+      if (education && education.length > 0 && userId) {
+        try {
+          const educationData = education.map((edu: any) => ({
+            resume_id: resumeId,
+            user_id: userId,
+            institution: edu.institution || 'Unknown Institution',
+            institution_name: edu.institution || 'Unknown Institution',
+            degree_title: edu.degree_title || edu.degree || 'Unknown Degree',
+            field_of_study: edu.field_of_study,
+            graduation_year: edu.graduation_year?.toString(),
+            degree: edu.degree || 'Unknown Degree'
+          }))
+          await supabase.from('education').insert(educationData)
+          console.log(`✅ Imported ${educationData.length} education entries`)
+        } catch (err) {
+          console.error('Error importing education:', err)
+        }
+      }
+
+      // Save certifications
+      if (certifications && certifications.length > 0 && userId) {
+        try {
+          const certificationsData = certifications.map((cert: any) => ({
+            resume_id: resumeId,
+            user_id: userId,
+            certification_name: cert.certification_name || cert.name || 'Unknown Certification',
+            issuing_organization: cert.issuing_organization || 'Unknown Organization',
+            issue_date: cert.year || cert.issue_date,
+            name: cert.name || cert.certification_name || 'Unknown Certification',
+            year: cert.year || cert.issue_date
+          }))
+          await supabase.from('certifications').insert(certificationsData)
+          console.log(`✅ Imported ${certificationsData.length} certifications`)
+        } catch (err) {
+          console.error('Error importing certifications:', err)
         }
       }
 
