@@ -537,5 +537,63 @@
     "ctaText": "Avec la bonne mentalité, vous pouvez maintenant structurer un CV ciblé, crédible et centré sur ce qui compte le plus pour les recruteurs : des preuves de performance.",
     "ctaContinue": "Continuer vers le Constructeur",
     "footerNote": "NovaWork Global - Méthode de CV Orienté Réalisations"
+  },
+  "tour": {
+    "resumeBuilderMenu": {
+      "title": "Tour du Constructeur de CV",
+      "skip": "Passer le tour",
+      "back": "Retour",
+      "next": "Suivant",
+      "done": "Terminé",
+      "steps": {
+        "1": {
+          "title": "Expérience Professionnelle",
+          "content": "Dans la première partie, vous allez décrire votre expérience professionnelle. C'est ici que vous listez les entreprises et postes que vous avez occupés, avec les détails clés comme le nom de l'entreprise, le poste, les années et les localisations."
+        },
+        "2": {
+          "title": "Banque de Réalisations",
+          "content": "Dans la Banque de Réalisations, vous allez rassembler toutes les grandes réalisations de votre carrière. Construisez-les avec le système CAR (Contexte + Actions + Résultat) ou importez depuis un CV existant."
+        },
+        "3": {
+          "title": "Profil Professionnel",
+          "content": "Créez la première impression du lecteur avec un paragraphe de positionnement incluant des mots-clés ATS. Créez-le vous-même, suivez les instructions vidéo, ou utilisez notre questionnaire IA."
+        },
+        "4": {
+          "title": "Sélection du Format",
+          "content": "Choisissez entre un CV chronologique (idéal pour des parcours similaires) ou un CV fonctionnel (idéal pour les reconversions ou le travail par projets)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Tour d'Expérience Professionnelle",
+      "backDashboard": {
+        "title": "Retour au Tableau de Bord",
+        "content": "Retournez à votre tableau de bord principal pour accéder à d'autres sections ou voir votre progression globale."
+      },
+      "navTabs": {
+        "title": "Sections du CV",
+        "content": "Naviguez entre les différentes sections de votre CV en utilisant ces onglets."
+      },
+      "sectionTitle": {
+        "title": "Constructeur d'Expérience",
+        "content": "C'est ici que vous construisez votre historique de carrière. Ajoutez chaque poste que vous avez occupé pour créer une chronologie professionnelle complète."
+      },
+      "videoChips": {
+        "title": "Vidéos Contextuelles",
+        "content": "Regardez de courtes vidéos pour comprendre les concepts clés. \"Objectif du Poste\" explique comment définir l'impact de votre rôle."
+      },
+      "importResume": {
+        "title": "Importer depuis CV",
+        "content": "Vous avez un CV existant ? Importez-le pour remplir automatiquement votre historique professionnel."
+      },
+      "addExperience": {
+        "title": "Ajouter une Expérience",
+        "content": "Ajoutez manuellement votre historique professionnel ici. Capturez l'entreprise, votre poste, les dates et les réalisations clés."
+      },
+      "experienceList": {
+        "title": "Cartes d'Expérience",
+        "content": "Chaque carte représente un poste dans votre carrière. Cliquez sur Modifier pour changer ou Supprimer pour retirer."
+      }
+    }
   }
 }

@@ -1,5 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
+// Guided Tour
+import { GuidedTourProvider } from './components/guided-tour'
+import { GuidedTour } from './components/guided-tour'
+
 // Public Routes
 import Landing from './pages/Landing'
 import SignUp from './pages/auth/SignUp'
@@ -107,8 +111,10 @@ function NotFound() {
 
 function App() {
   return (
-    <Router basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <Routes>
+    <GuidedTourProvider>
+      <GuidedTour />
+      <Router basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPageV2 />} />
         <Route path="/programs/novanext" element={<NovaNextPage />} />
@@ -229,6 +235,7 @@ function App() {
       </Routes>
       <SupportAgentWidget />
     </Router>
+    </GuidedTourProvider>
   )
 }
 

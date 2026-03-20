@@ -537,5 +537,63 @@
     "ctaText": "Com a mentalidade certa, você agora pode estruturar um currículo focado, credível e construído em torno do que as equipes de contratação mais valorizam: evidência de desempenho.",
     "ctaContinue": "Continuar para o Construtor",
     "footerNote": "NovaWork Global - Método de Currículo Baseado em Conquistas"
+  },
+  "tour": {
+    "resumeBuilderMenu": {
+      "title": "Tour do Construtor de Currículo",
+      "skip": "Pular tour",
+      "back": "Voltar",
+      "next": "Próximo",
+      "done": "Feito",
+      "steps": {
+        "1": {
+          "title": "Experiência Profissional",
+          "content": "Na primeira parte, você vai delinear sua experiência profissional. Aqui é onde você lista as empresas e cargos que ocupou, junto com os detalhes principais como nome da empresa, posição, anos e localizações."
+        },
+        "2": {
+          "title": "Banco de Conquistas",
+          "content": "No Banco de Conquistas, você vai reunir todas as principais conquistas da sua carreira. Construa-as através do sistema CAR (Contexto + Ações + Resultado) ou importe de um currículo existente."
+        },
+        "3": {
+          "title": "Perfil Profissional",
+          "content": "Construa a primeira impressão do leitor com um parágrafo de posicionamento que inclua palavras-chave ATS. Crie você mesmo, siga instruções em vídeo, ou use nosso questionário de IA."
+        },
+        "4": {
+          "title": "Seleção de Formato",
+          "content": "Escolha entre um currículo cronológico (ideal para trajetórias semelhantes) ou um currículo funcional (ótimo para quem muda de carreira ou trabalha com projetos)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Tour de Experiência Profissional",
+      "backDashboard": {
+        "title": "Voltar ao Painel",
+        "content": "Volte ao seu painel principal para acessar outras seções ou ver seu progresso geral."
+      },
+      "navTabs": {
+        "title": "Seções do Currículo",
+        "content": "Navegue entre as diferentes seções do seu currículo usando estas abas."
+      },
+      "sectionTitle": {
+        "title": "Construtor de Experiência",
+        "content": "Aqui é onde você constrói seu histórico de carreira. Adicione cada cargo que ocupou para criar uma linha do tempo profissional completa."
+      },
+      "videoChips": {
+        "title": "Vídeos Contextuais",
+        "content": "Assista vídeos curtos para entender conceitos-chave. \"Propósito do Cargo\" explica como definir o impacto do seu cargo."
+      },
+      "importResume": {
+        "title": "Importar de Currículo",
+        "content": "Tem um currículo existente? Importe-o para preencher automaticamente seu histórico profissional."
+      },
+      "addExperience": {
+        "title": "Adicionar Experiência",
+        "content": "Adicione manualmente seu histórico profissional aqui. Capture a empresa, seu cargo, datas e conquistas principais."
+      },
+      "experienceList": {
+        "title": "Cartões de Experiência",
+        "content": "Cada cartão representa um cargo na sua carreira. Clique em Editar para modificar ou Excluir para remover."
+      }
+    }
   }
 }

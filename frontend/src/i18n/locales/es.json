@@ -583,5 +583,63 @@
     "ctaText": "Con la mentalidad correcta, ahora puedes estructurar un CV enfocado, creíble y construido alrededor de lo que más importa a los equipos de contratación: evidencia de desempeño.",
     "ctaContinue": "Continuar al Constructor",
     "footerNote": "NovaWork Global - Método de CV Basado en Logros"
+  },
+  "tour": {
+    "resumeBuilderMenu": {
+      "title": "Tour del Constructor de CV",
+      "skip": "Saltar tour",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "done": "Hecho",
+      "steps": {
+        "1": {
+          "title": "Experiencia Laboral",
+          "content": "En la primera parte, outline tu experiencia laboral. Aquí es donde listes las empresas y puestos que has tenido, junto con los detalles clave como el nombre de la empresa, cargo, años y ubicaciones."
+        },
+        "2": {
+          "title": "Banco de Logros",
+          "content": "En el Banco de Logros, recopilarás todos los logros principales de tu carrera. Construyelos a través del sistema CAR (Contexto + Acciones + Resultado) o importa desde un CV existente."
+        },
+        "3": {
+          "title": "Perfil Profesional",
+          "content": "Construye la primera impresión del lector con un párrafo de posicionamiento que incluya palabras clave ATS. Créalo tú mismo, sigue las instrucciones del video, o usa nuestro cuestionario de IA."
+        },
+        "4": {
+          "title": "Selección de Formato",
+          "content": "Elige entre un CV cronológico (ideal para trayectorias similares) o un CV funcional (ideal para quienes cambian de carrera o tienen trabajo basado en proyectos)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Tour de Experiencia Laboral",
+      "backDashboard": {
+        "title": "Volver al Panel",
+        "content": "Regresa a tu panel principal para acceder a otras secciones o ver tu progreso general."
+      },
+      "navTabs": {
+        "title": "Secciones del CV",
+        "content": "Navega entre las diferentes secciones de tu CV usando estas pestañas."
+      },
+      "sectionTitle": {
+        "title": "Constructor de Experiencia",
+        "content": "Aquí es donde construyes tu historial de carrera. Agrega cada puesto que has tenido para crear una línea de tiempo laboral completa."
+      },
+      "videoChips": {
+        "title": "Videos Contextuales",
+        "content": "Mira videos cortos para entender conceptos clave. \"Propósito del Cargo\" explica cómo definir el impacto de tu rol."
+      },
+      "importResume": {
+        "title": "Importar desde CV",
+        "content": "¿Tienes un CV existente? Impórtalo para poblar automáticamente tu historial laboral."
+      },
+      "addExperience": {
+        "title": "Agregar Experiencia",
+        "content": "Agrega manualmente tu historial laboral aquí. Captura la empresa, tu cargo, fechas y logros clave."
+      },
+      "experienceList": {
+        "title": "Tarjetas de Experiencia",
+        "content": "Cada tarjeta representa un puesto en tu carrera. Haz clic en Editar para modificar o Eliminar para quitar."
+      }
+    }
   }
 }

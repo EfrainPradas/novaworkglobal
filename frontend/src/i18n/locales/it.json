@@ -537,5 +537,63 @@
     "ctaText": "Con la mentalità giusta, puoi ora strutturare un CV mirato, credibile e costruito attorno a ciò che conta di più per i team di assunzione: prove di performance.",
     "ctaContinue": "Continua al Costruttore",
     "footerNote": "NovaWork Global - Metodo CV Basato sui Risultati"
+  },
+  "tour": {
+    "resumeBuilderMenu": {
+      "title": "Tour del Costruttore di CV",
+      "skip": "Salta tour",
+      "back": "Indietro",
+      "next": "Avanti",
+      "done": "Fatto",
+      "steps": {
+        "1": {
+          "title": "Esperienza Lavorativa",
+          "content": "Nella prima parte, descriverai la tua esperienza lavorativa. Qui elenchi le aziende e i ruoli che hai ricoperto, insieme ai dettagli chiave come il nome dell'azienda, la posizione, gli anni e le sedi."
+        },
+        "2": {
+          "title": "Banca dei Risultati",
+          "content": "Nella Banca dei Risultati, raccoglierai tutti i principali risultati della tua carriera. Costruiscili attraverso il sistema CAR (Contesto + Azioni + Risultato) o importa da un CV esistente."
+        },
+        "3": {
+          "title": "Profilo Professionale",
+          "content": "Crea la prima impressione del lettore con un paragrafo di posizionamento che includa parole chiave ATS. Crealo tu stesso, segui le istruzioni video, o usa il nostro questionario IA."
+        },
+        "4": {
+          "title": "Selezione del Formato",
+          "content": "Scegli tra un CV cronologico (ideale per percorsi simili) o un CV funzionale (ottimo per chi cambia carriera o lavora su progetti)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Tour Esperienza Lavorativa",
+      "backDashboard": {
+        "title": "Torna alla Dashboard",
+        "content": "Torna alla tua dashboard principale per accedere ad altre sezioni o vedere il tuo progresso complessivo."
+      },
+      "navTabs": {
+        "title": "Sezioni del CV",
+        "content": "Naviga tra le diverse sezioni del tuo CV usando queste schede."
+      },
+      "sectionTitle": {
+        "title": "Costruttore di Esperienza",
+        "content": "Qui costruisci la tua storia professionale. Aggiungi ogni ruolo che hai ricoperto per creare una timeline lavorativa completa."
+      },
+      "videoChips": {
+        "title": "Video Contestuali",
+        "content": "Guarda brevi video per capire i concetti chiave. \"Scopo del Ruolo\" spiega come definire l'impatto del tuo ruolo."
+      },
+      "importResume": {
+        "title": "Importa da CV",
+        "content": "Hai un CV esistente? Importalo per popolare automaticamente la tua storia lavorativa."
+      },
+      "addExperience": {
+        "title": "Aggiungi Esperienza",
+        "content": "Aggiungi manualmente la tua storia lavorativa qui. Inserisci l'azienda, il tuo ruolo, le date e i risultati chiave."
+      },
+      "experienceList": {
+        "title": "Schede di Esperienza",
+        "content": "Ogni scheda rappresenta un ruolo nella tua carriera. Clicca su Modifica per modificare o Elimina per rimuovere."
+      }
+    }
   }
 }

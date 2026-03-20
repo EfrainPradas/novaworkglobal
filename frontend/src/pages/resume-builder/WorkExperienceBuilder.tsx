@@ -9,6 +9,8 @@ import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
 import { ArrowRight, Play, X } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
+import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
+import { workExperienceTourConfig } from '../../config/tours/workExperienceTour'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
@@ -27,10 +29,12 @@ const WorkExperienceBuilder: React.FC = () => {
   const [videoModal, setVideoModal] = useState<{ url: string; title: string } | null>(null)
   const [importing, setImporting] = useState(false)
   const [importFile, setImportFile] = useState<File | null>(null)
+  const [tourStarted, setTourStarted] = useState(false)
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const isStandalone = searchParams.get('mode') === 'standalone'
+  const { startTour, hasCompletedTour } = useGuidedTour()
 
   useEffect(() => {
     // Check for auto-open import modal
@@ -46,6 +50,14 @@ const WorkExperienceBuilder: React.FC = () => {
       setUserId(user.id)
       await loadResume(user.id)
       await loadCARStories(user.id)
+      
+      const completed = await hasCompletedTour(workExperienceTourConfig.tourId)
+      if (!completed && !tourStarted) {
+        setTourStarted(true)
+        setTimeout(() => {
+          startTour(workExperienceTourConfig)
+        }, 800)
+      }
     } else {
       setLoading(false)
     }
@@ -705,10 +717,17 @@ const WorkExperienceBuilder: React.FC = () => {
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md transition-colors duration-200">
 
           <div className="flex items-center justify-between mb-4">
-            <BackButton
-              to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
-              label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
-              className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+            <div data-tour="back-dashboard">
+              <BackButton
+                to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
+                label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
+                className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
+              />
+            </div>
+            <TourTriggerButton
+              tour={workExperienceTourConfig}
+              onStartTour={startTour}
+              hasCompletedTour={hasCompletedTour}
             />
             {!isStandalone && (
               <button
@@ -725,7 +744,7 @@ const WorkExperienceBuilder: React.FC = () => {
           </div>
 
           {isStandalone && (
-            <div className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
+            <div data-tour="nav-tabs" className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
               <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
                 {t('resumeBuilder.menu.workExperience')}
               </button>
@@ -745,7 +764,7 @@ const WorkExperienceBuilder: React.FC = () => {
           )}
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 w-full">
-            <div>
+            <div data-tour="section-title">
               <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
                 {t('resumeBuilder.steps.craft')} - {t('resumeBuilder.steps.step', { number: 2 })}
               </div>
@@ -755,7 +774,7 @@ const WorkExperienceBuilder: React.FC = () => {
               <p className="text-gray-600 dark:text-gray-300 mt-2">
                 {t('resumeBuilder.menu.workExperienceDesc')}
               </p>
-              <div className="flex items-center gap-3 mt-3">
+              <div data-tour="video-chips" className="flex items-center gap-3 mt-3">
                 <button
                   onClick={() => setVideoModal({ url: '/videos/Proposito_del_cargo.mp4', title: 'Job Purpose' })}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors border border-teal-200 dark:border-teal-700"
@@ -776,6 +795,7 @@ const WorkExperienceBuilder: React.FC = () => {
               {!showForm && (
                 <>
                   <button
+                    data-tour="import-resume"
                     onClick={() => setShowImportModal(true)}
                     className="w-full sm:w-auto px-6 py-3 bg-white dark:bg-gray-700 border-2 border-primary-600 dark:border-primary-500 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-50 dark:hover:bg-gray-600 transition font-medium flex items-center justify-center gap-2"
                   >
@@ -785,6 +805,7 @@ const WorkExperienceBuilder: React.FC = () => {
                     <span>{t('resumeBuilder.workExperience.importFromResume')}</span>
                   </button>
                   <button
+                    data-tour="add-experience"
                     onClick={handleNewExperience}
                     className="w-full sm:w-auto px-6 py-3 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 transition font-medium text-center"
                   >
@@ -837,7 +858,7 @@ const WorkExperienceBuilder: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div className="space-y-4">
+              <div data-tour="experience-list" className="space-y-4">
                 {experiences.map((exp, index) => (
                   <div key={exp.id} className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 p-6 rounded-lg shadow-md transition-colors duration-200">
                     <div className="flex justify-between items-start mb-4">
