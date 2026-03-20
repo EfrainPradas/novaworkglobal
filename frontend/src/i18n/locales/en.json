@@ -578,5 +578,63 @@
     "ctaText": "With the right mindset in place, you can now structure a resume that is focused, credible, and built around what hiring teams care about most: evidence of performance.",
     "ctaContinue": "Continue to Builder",
     "footerNote": "NovaWork Global - Accomplishment-Based Resume Method"
+  },
+  "tour": {
+    "resumeBuilderMenu": {
+      "title": "Resume Builder Tour",
+      "skip": "Skip tour",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "steps": {
+        "1": {
+          "title": "Work Experience Outline",
+          "content": "In the first part, you'll outline your work experience. This is where you list the companies and roles you've held, along with the key details like the company name, position, years, and locations."
+        },
+        "2": {
+          "title": "Accomplishment Bank",
+          "content": "In the Accomplishment Bank, you'll gather all the major achievements from your career. Build them through the CAR system (Challenge + Actions + Result) or import from an existing resume."
+        },
+        "3": {
+          "title": "Professional Profile",
+          "content": "Build the reader's first impression with a positioning paragraph that includes ATS keywords. Create it yourself, follow video instructions, or use our AI questionnaire."
+        },
+        "4": {
+          "title": "Resume Format Selection",
+          "content": "Choose between a chronological resume (ideal for similar career paths) or a functional resume (great for career changers or project-based work)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Work Experience Tour",
+      "backDashboard": {
+        "title": "Return to Dashboard",
+        "content": "Head back to your main dashboard to access other sections or view your overall progress."
+      },
+      "navTabs": {
+        "title": "Resume Sections",
+        "content": "Navigate between different sections of your resume using these tabs."
+      },
+      "sectionTitle": {
+        "title": "Work Experience Builder",
+        "content": "This is where you build your career history. Add each role you've held to create a comprehensive work timeline."
+      },
+      "videoChips": {
+        "title": "Contextual Videos",
+        "content": "Watch short videos to understand key concepts. \"Job Purpose\" explains how to define your role impact."
+      },
+      "importResume": {
+        "title": "Import from Resume",
+        "content": "Have an existing resume? Import it to automatically populate your work history."
+      },
+      "addExperience": {
+        "title": "Add Work Experience",
+        "content": "Manually add your work history here. Capture the company, your title, dates, and key accomplishments."
+      },
+      "experienceList": {
+        "title": "Your Experience Cards",
+        "content": "Each card represents a role in your career. Click Edit to modify or Delete to remove."
+      }
+    }
   }
 }

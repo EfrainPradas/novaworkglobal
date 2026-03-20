@@ -6,6 +6,8 @@ import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ServiceAddOns from '../../components/services/ServiceAddOns'
 import { trackEvent } from '../../lib/analytics'
+import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
+import { resumeBuilderMenuTourConfig } from '../../config/tours/resumeBuilderMenuTour'
 
 
 interface ResumeOption {
@@ -31,6 +33,8 @@ export default function ResumeBuilderMenu() {
   const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
+  const [tourStarted, setTourStarted] = useState(false)
+  const { startTour, hasCompletedTour } = useGuidedTour()
 
 
   useEffect(() => {
@@ -59,6 +63,14 @@ export default function ResumeBuilderMenu() {
 
       await loadProgress(user.id)
 
+      // Check and start tour
+      const completed = await hasCompletedTour(resumeBuilderMenuTourConfig.tourId)
+      if (!completed && !tourStarted) {
+        setTourStarted(true)
+        setTimeout(() => {
+          startTour(resumeBuilderMenuTourConfig)
+        }, 800)
+      }
     }
     setLoading(false)
   }
@@ -263,12 +275,19 @@ export default function ResumeBuilderMenu() {
 
 
         {/* Back Button */}
-        <BackButton
-          to="/dashboard"
-          label={t('resumeBuilder.menu.backToDashboard')}
-          variant="light"
-          className="mb-4 pl-0"
-        />
+        <div className="flex items-center justify-between mb-4">
+          <BackButton
+            to="/dashboard"
+            label={t('resumeBuilder.menu.backToDashboard')}
+            variant="light"
+            className="pl-0"
+          />
+          <TourTriggerButton
+            tour={resumeBuilderMenuTourConfig}
+            onStartTour={startTour}
+            hasCompletedTour={hasCompletedTour}
+          />
+        </div>
 
         {/* Header Section */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
@@ -349,12 +368,14 @@ export default function ResumeBuilderMenu() {
 
         {/* Main Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
-          {resumeOptions.map((option) => {
+          {resumeOptions.map((option, index) => {
             const Icon = option.icon
+            const tourStepId = `resume-step-${index + 1}`
 
             return (
               <div
                 key={option.id}
+                data-tour={tourStepId}
                 className={`
                 group relative p-8 rounded-2xl border transition-all duration-300
                 bg-white dark:bg-gray-800 hover:shadow-2xl cursor-pointer hover:-translate-y-1
