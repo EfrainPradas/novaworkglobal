@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, SkipForward } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { TourStep, TooltipPlacement, SpotlightRect } from './types';
 
@@ -17,6 +17,7 @@ interface TourTooltipProps {
   showProgress?: boolean;
   isFirst: boolean;
   isLast: boolean;
+  onKeyboardNav?: (direction: 'next' | 'prev' | 'close') => void;
 }
 
 const PADDING = 16;
@@ -134,19 +135,20 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
   const { t } = useTranslation();
   const tooltipRef = useRef<HTMLDivElement>(null);
 
-  const getStepTitle = () => {
-    if (step.title.startsWith('tour.')) {
-      return t(step.title);
-    }
-    return step.title;
-  };
+  const getStepTitle = () => step.title.startsWith('tour.') ? t(step.title) : step.title;
+  const getStepContent = () => step.content.startsWith('tour.') ? t(step.content) : step.content;
 
-  const getStepContent = () => {
-    if (step.content.startsWith('tour.')) {
-      return t(step.content);
-    }
-    return step.content;
-  };
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') { onClose(); }
+    else if (e.key === 'ArrowRight' || e.key === 'Enter') { onNext(); }
+    else if (e.key === 'ArrowLeft' && !isFirst) { onPrev(); }
+  }, [onClose, onNext, onPrev, isFirst]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
   const [dimensions, setDimensions] = useState({ width: 340, height: 200 });
   const [position, setPosition] = useState<{ top: number; left: number; arrowSide: 'top' | 'bottom' | 'left' | 'right' }>({ 
     top: 100, 
@@ -179,14 +181,6 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
   const showArrowBottom = position.arrowSide === 'bottom';
   const showArrowLeft = position.arrowSide === 'left';
   const showArrowRight = position.arrowSide === 'right';
-
-  const arrowTop = position.arrowSide === 'top' 
-    ? spotlightRect.top + spotlightRect.height + 2
-    : spotlightRect.top - 14;
-  
-  const arrowLeft = position.arrowSide === 'left'
-    ? spotlightRect.left + spotlightRect.width + 2
-    : spotlightRect.left - 14;
 
   return (
     <AnimatePresence>
@@ -231,7 +225,7 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
                 {showProgress && (
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-medium text-primary-600 dark:text-primary-400">
-                      Step {stepIndex + 1} of {totalSteps}
+                      {t('tour.common.stepOf', { current: stepIndex + 1, total: totalSteps, defaultValue: `Step ${stepIndex + 1} of ${totalSteps}` })}
                     </span>
                     <div className="flex-1 h-1 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                       <div 
@@ -265,7 +259,7 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
                     className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
                     <ChevronLeft className="w-4 h-4" />
-                    <span>{t('tour.resumeBuilderMenu.back', 'Back')}</span>
+                    <span>{t('tour.common.back', 'Back')}</span>
                   </button>
                 )}
               </div>
@@ -276,14 +270,14 @@ export const TourTooltip: React.FC<TourTooltipProps> = ({
                     onClick={onSkip}
                     className="flex items-center gap-1 px-3 py-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
                   >
-                    {t('tour.resumeBuilderMenu.skip', 'Skip')}
+                    {t('tour.common.skip', 'Skip tour')}
                   </button>
                 )}
                 <button
                   onClick={onNext}
                   className="flex items-center gap-1 px-4 py-1.5 text-sm font-semibold text-white bg-primary-600 dark:bg-primary-500 hover:bg-primary-700 dark:hover:bg-primary-600 transition-colors rounded-lg shadow-sm min-w-[80px] justify-center"
                 >
-                  <span>{isLast ? t('tour.resumeBuilderMenu.done', 'Done') : t('tour.resumeBuilderMenu.next', 'Next')}</span>
+                  <span>{isLast ? t('tour.common.done', 'Done') : t('tour.common.next', 'Next')}</span>
                   {!isLast && <ChevronRight className="w-4 h-4" />}
                 </button>
               </div>

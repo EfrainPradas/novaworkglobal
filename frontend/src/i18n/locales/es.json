@@ -585,6 +585,13 @@
     "footerNote": "NovaWork Global - Método de CV Basado en Logros"
   },
   "tour": {
+    "common": {
+      "back": "Atrás",
+      "skip": "Saltar tour",
+      "next": "Siguiente",
+      "done": "Hecho",
+      "stepOf": "Paso {{current}} de {{total}}"
+    },
     "resumeBuilderMenu": {
       "title": "Tour del Constructor de CV",
       "skip": "Saltar tour",

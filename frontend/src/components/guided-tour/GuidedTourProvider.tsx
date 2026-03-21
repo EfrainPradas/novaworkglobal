@@ -88,22 +88,7 @@ export const GuidedTourProvider: React.FC<GuidedTourProviderProps> = ({ children
     const step = currentTour.steps[currentStep];
     if (!step) return;
 
-    const rect = calculateSpotlightRect(step.target);
-    
-    if (rect) {
-      if (step.scrollOptions) {
-        const element = document.querySelector(step.target);
-        if (element) {
-          element.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center',
-            ...step.scrollOptions,
-          });
-        }
-      }
-    }
-    
-    setSpotlightRect(rect);
+    setSpotlightRect(calculateSpotlightRect(step.target));
   }, [isTourActive, currentTour, currentStep, calculateSpotlightRect]);
 
   useEffect(() => {

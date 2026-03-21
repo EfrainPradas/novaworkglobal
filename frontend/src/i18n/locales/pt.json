@@ -539,6 +539,13 @@
     "footerNote": "NovaWork Global - Método de Currículo Baseado em Conquistas"
   },
   "tour": {
+    "common": {
+      "back": "Voltar",
+      "skip": "Pular tour",
+      "next": "Próximo",
+      "done": "Feito",
+      "stepOf": "Etapa {{current}} de {{total}}"
+    },
     "resumeBuilderMenu": {
       "title": "Tour do Construtor de Currículo",
       "skip": "Pular tour",
