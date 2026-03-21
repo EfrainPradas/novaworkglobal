@@ -539,6 +539,13 @@
     "footerNote": "NovaWork Global - Méthode de CV Orienté Réalisations"
   },
   "tour": {
+    "common": {
+      "back": "Retour",
+      "skip": "Passer le tour",
+      "next": "Suivant",
+      "done": "Terminé",
+      "stepOf": "Étape {{current}} sur {{total}}"
+    },
     "resumeBuilderMenu": {
       "title": "Tour du Constructeur de CV",
       "skip": "Passer le tour",

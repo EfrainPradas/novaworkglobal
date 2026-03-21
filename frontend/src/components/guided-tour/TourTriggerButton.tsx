@@ -8,17 +8,13 @@ interface TourTriggerButtonProps {
   onStartTour: (tour: TourConfig) => void;
   hasCompletedTour?: (tourId: string) => Promise<boolean>;
   className?: string;
-  tourId?: string;
 }
 
 export const TourTriggerButton: React.FC<TourTriggerButtonProps> = ({
   tour,
   onStartTour,
-  hasCompletedTour,
   className = '',
-  tourId,
 }) => {
-  const [isHovered, setIsHovered] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handleStartTour = () => {
@@ -31,8 +27,6 @@ export const TourTriggerButton: React.FC<TourTriggerButtonProps> = ({
   return (
     <div className="relative">
       <motion.button
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
         onClick={() => setShowDropdown(!showDropdown)}
         className={`
           flex items-center gap-2 px-3 py-2
@@ -95,18 +89,6 @@ export const TourTriggerButton: React.FC<TourTriggerButtonProps> = ({
                 </button>
               )}
 
-              <div className="p-3 bg-gray-50 dark:bg-gray-700/30 border-t border-gray-100 dark:border-gray-700">
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setShowDropdown(false);
-                  }}
-                  className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
-                >
-                  View all help resources
-                </a>
-              </div>
             </motion.div>
           </>
         )}

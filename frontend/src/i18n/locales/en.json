@@ -580,6 +580,13 @@
     "footerNote": "NovaWork Global - Accomplishment-Based Resume Method"
   },
   "tour": {
+    "common": {
+      "back": "Back",
+      "skip": "Skip tour",
+      "next": "Next",
+      "done": "Done",
+      "stepOf": "Step {{current}} of {{total}}"
+    },
     "resumeBuilderMenu": {
       "title": "Resume Builder Tour",
       "skip": "Skip tour",

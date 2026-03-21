@@ -539,6 +539,13 @@
     "footerNote": "NovaWork Global - Metodo CV Basato sui Risultati"
   },
   "tour": {
+    "common": {
+      "back": "Indietro",
+      "skip": "Salta tour",
+      "next": "Avanti",
+      "done": "Fatto",
+      "stepOf": "Passaggio {{current}} di {{total}}"
+    },
     "resumeBuilderMenu": {
       "title": "Tour del Costruttore di CV",
       "skip": "Salta tour",

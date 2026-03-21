@@ -27,6 +27,9 @@ export const GuidedTour: React.FC = () => {
     return null;
   }
 
+  const backdropOpacity = currentTour.backdropOpacity ?? 0.6;
+  const springTransition = { type: 'spring', stiffness: 300, damping: 30 };
+
   return (
     <AnimatePresence>
       <motion.div
@@ -34,17 +37,28 @@ export const GuidedTour: React.FC = () => {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.2 }}
-        className="fixed inset-0 z-[9998] pointer-events-none"
+        className="fixed inset-0 z-[9998]"
+        style={{ pointerEvents: 'none' }}
       >
+        {/* Clickable backdrop outside spotlight */}
+        <div
+          className="absolute inset-0"
+          style={{ pointerEvents: 'auto', cursor: 'pointer' }}
+          onClick={() => stopTour('skipped')}
+        />
+
         <svg className="absolute inset-0 w-full h-full" style={{ pointerEvents: 'none' }}>
           <defs>
             <mask id="tour-spotlight-mask">
               <rect x="0" y="0" width="100%" height="100%" fill="white" />
-              <rect
-                x={spotlightRect.left}
-                y={spotlightRect.top}
-                width={spotlightRect.width}
-                height={spotlightRect.height}
+              <motion.rect
+                animate={{
+                  x: spotlightRect.left,
+                  y: spotlightRect.top,
+                  width: spotlightRect.width,
+                  height: spotlightRect.height,
+                }}
+                transition={springTransition}
                 rx="8"
                 fill="black"
               />
@@ -55,39 +69,41 @@ export const GuidedTour: React.FC = () => {
             y="0"
             width="100%"
             height="100%"
-            fill="rgba(0, 0, 0, 0.6)"
+            fill={`rgba(0, 0, 0, ${backdropOpacity})`}
             mask="url(#tour-spotlight-mask)"
-            className="dark:fill-black/70"
           />
           <motion.rect
-            x={spotlightRect.left}
-            y={spotlightRect.top}
-            width={spotlightRect.width}
-            height={spotlightRect.height}
+            animate={{
+              x: spotlightRect.left,
+              y: spotlightRect.top,
+              width: spotlightRect.width,
+              height: spotlightRect.height,
+              opacity: 1,
+            }}
+            initial={{ opacity: 0 }}
+            transition={springTransition}
             rx="8"
             fill="transparent"
             stroke="var(--primary-500, #1F5BAA)"
             strokeWidth="2"
             strokeDasharray="4 4"
-            initial={{ opacity: 0, scale: 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3 }}
             className="dark:stroke-primary-400"
           />
         </svg>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.1 }}
-          className="absolute"
-          style={{
+          animate={{
             top: spotlightRect.top,
             left: spotlightRect.left,
             width: spotlightRect.width,
             height: spotlightRect.height,
+          }}
+          transition={springTransition}
+          className="absolute"
+          style={{
             borderRadius: '8px',
             boxShadow: '0 0 0 4px rgba(31, 91, 170, 0.2)',
+            pointerEvents: 'none',
           }}
         />
       </motion.div>
