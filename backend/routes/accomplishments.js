@@ -180,6 +180,51 @@ router.post('/group-accomplishments', async (req, res) => {
 })
 
 /**
+ * POST /api/ai/improve-bullet
+ * Improve an accomplishment bullet with AI
+ */
+router.post('/improve-bullet', async (req, res) => {
+  try {
+    const { bullet_text } = req.body;
+
+    if (!bullet_text || typeof bullet_text !== 'string' || bullet_text.trim().length < 5) {
+      return res.status(400).json({ error: 'bullet_text is required and must be at least 5 characters' });
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert resume writer. Improve the given accomplishment bullet point to make it more impactful, specific, and results-oriented.
+Rules:
+- Start with a strong action verb
+- Add quantifiable results if implied (use realistic estimates if none are given)
+- Keep it concise (1-2 sentences max)
+- Use professional language
+- Return ONLY the improved bullet point text, no explanation, no quotes, no prefix`
+        },
+        {
+          role: 'user',
+          content: bullet_text.trim()
+        }
+      ],
+      max_tokens: 200,
+      temperature: 0.7
+    });
+
+    const improved = completion.choices[0]?.message?.content?.trim();
+    if (!improved) throw new Error('No response from AI');
+
+    res.json({ success: true, improved_text: improved });
+
+  } catch (error) {
+    console.error('❌ Error in /improve-bullet:', error);
+    res.status(500).json({ error: 'Failed to improve bullet', details: error.message });
+  }
+})
+
+/**
  * GET /api/ai/health
  * Health check for AI services
  */
