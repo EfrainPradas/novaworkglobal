@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2 } from 'lucide-react'
+import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2, Play, BookOpen } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { BackButton } from '../../components/common/BackButton'
 
@@ -9,6 +9,7 @@ export default function ResumeTypeSelection() {
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [selectedType, setSelectedType] = useState<'chronological' | 'functional' | null>(null)
+    const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
 
     const handleContinue = async () => {
         if (selectedType) {
@@ -50,6 +51,20 @@ export default function ResumeTypeSelection() {
                     <p className="mt-4 text-base text-slate-600 dark:text-slate-400 md:text-lg max-w-2xl mx-auto">
                         Select the structural format that best highlights your professional narrative and aligns with your target role.
                     </p>
+                    <div className="flex items-center justify-center gap-3 mt-6">
+                        <button
+                            onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/The_Architecture_of_Access__Decoding_the_Résumé_Reality_Match.mp4`)}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                        >
+                            <Play className="w-4 h-4" /> Watch video
+                        </button>
+                        <button
+                            onClick={() => navigate('/resume/type-selection/learn-more')}
+                            className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                        >
+                            <BookOpen className="w-4 h-4" /> Learn more
+                        </button>
+                    </div>
                 </div>
 
                 <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
@@ -114,6 +129,28 @@ export default function ResumeTypeSelection() {
                     </button>
                 </div>
             </div>
+
+            {/* Video Modal */}
+            {activeVideoSrc && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onClick={() => setActiveVideoSrc(null)}>
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+                    <div className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            onClick={() => setActiveVideoSrc(null)}
+                            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                        >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <div className="w-full aspect-video bg-black">
+                            <video src={activeVideoSrc} className="w-full h-full outline-none" controls controlsList="nodownload" autoPlay playsInline>
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

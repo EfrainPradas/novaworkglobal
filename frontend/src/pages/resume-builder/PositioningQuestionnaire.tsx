@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, ClipboardList, AlertTriangle, ChevronRight, ChevronLeft, Save, Sparkles, Loader2, Check, CheckCircle2, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ClipboardList, AlertTriangle, ChevronRight, ChevronLeft, Save, Sparkles, Loader2, Check, CheckCircle2, ArrowRight, Play, BookOpen } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { PositioningQuestionnaire as QuestionnaireType, GeneratedProfessionalProfile } from '../../types/resume'
@@ -54,6 +54,7 @@ export default function PositioningQuestionnairePage() {
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [currentSection, setCurrentSection] = useState(0)
+    const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
     const [form, setForm] = useState<Partial<QuestionnaireType>>({
         identity_current_title: '',
         identity_target_title: '',
@@ -356,6 +357,20 @@ export default function PositioningQuestionnairePage() {
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Professional Positioning Questionnaire</h1>
                     <p className="text-gray-600 dark:text-gray-400 mt-1">Complete this after your accomplishments for best results.</p>
+                    <div className="flex items-center gap-2 mt-3">
+                        <button
+                            onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Writing_Your_Professional_Profile_Snapshot.mp4`)}
+                            className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                        >
+                            <Play className="w-3.5 h-3.5" /> Watch video
+                        </button>
+                        <button
+                            onClick={() => navigate('/resume/profile/learn-more')}
+                            className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                        >
+                            <BookOpen className="w-3.5 h-3.5" /> Learn more
+                        </button>
+                    </div>
                 </div>
 
                 {/* Warning if no stories */}
@@ -626,6 +641,28 @@ export default function PositioningQuestionnairePage() {
                     </div>
                 )}
             </div>
+
+            {/* Video Modal */}
+            {activeVideoSrc && (
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6" onClick={() => setActiveVideoSrc(null)}>
+                    <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+                    <div className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            onClick={() => setActiveVideoSrc(null)}
+                            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+                        >
+                            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                        <div className="w-full aspect-video bg-black">
+                            <video src={activeVideoSrc} className="w-full h-full outline-none" controls controlsList="nodownload" autoPlay playsInline>
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }

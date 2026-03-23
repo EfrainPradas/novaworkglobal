@@ -14,6 +14,7 @@ export default function CareerVisionDashboard() {
   const navigate = useNavigate()
   const { t } = useTranslation()
   const [loading, setLoading] = useState(true)
+  const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
   const [sectionsStatus, setSectionsStatus] = useState({
     skillsValues: false,
     jobHistory: false,
@@ -148,16 +149,14 @@ export default function CareerVisionDashboard() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <a
-              href={`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Mapping_the_Professional_DNA__The_Skills_&_Interests_Assessment.mp4`)}
               className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
               <Play className="w-4 h-4" /> Watch video
-            </a>
+            </button>
             <button
-              onClick={() => navigate('/career-vision')}
+              onClick={() => navigate('/career-vision/learn-more')}
               className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
               <BookOpen className="w-4 h-4" /> Learn more
@@ -228,20 +227,14 @@ export default function CareerVisionDashboard() {
 
               {/* Watch video + Learn more */}
               <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
-                <a
-                  href={section.videoSrc}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={(e) => e.stopPropagation()}
+                <button
+                  onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(section.videoSrc) }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   <Play className="w-3 h-3" /> Watch video
-                </a>
+                </button>
                 <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    navigate(section.route)
-                  }}
+                  onClick={(e) => { e.stopPropagation(); navigate('/career-vision/learn-more') }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   <BookOpen className="w-3 h-3" /> Learn more
@@ -280,6 +273,42 @@ export default function CareerVisionDashboard() {
           </div>
         )}
       </div>
+
+      {/* Video Modal */}
+      {activeVideoSrc && (
+      <div
+        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+        onClick={() => setActiveVideoSrc(null)}
+      >
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+        <div
+          className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => setActiveVideoSrc(null)}
+            className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+            aria-label="Close video"
+          >
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          <div className="w-full aspect-video bg-black">
+            <video
+              src={activeVideoSrc}
+              className="w-full h-full outline-none"
+              controls
+              controlsList="nodownload"
+              autoPlay
+              playsInline
+            >
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+      </div>
+      )}
     </div>
   )
 }

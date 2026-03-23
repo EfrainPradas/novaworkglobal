@@ -744,22 +744,38 @@ const WorkExperienceBuilder: React.FC = () => {
           </div>
 
           {isStandalone && (
-            <div data-tour="nav-tabs" className="flex space-x-6 mb-6 border-b border-gray-200 dark:border-gray-700 overflow-x-auto whitespace-nowrap scrollbar-hide pb-1">
-              <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
-                {t('resumeBuilder.menu.workExperience')}
-              </button>
-              <button
-                onClick={() => navigate('/resume/education?mode=standalone')}
-                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
-              >
-                {t('resumeBuilder.menu.education') || 'Education'}
-              </button>
-              <button
-                onClick={() => navigate('/resume/awards?mode=standalone')}
-                className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
-              >
-                {t('resumeBuilder.menu.awardsAndCerts', 'Awards & Certifications')}
-              </button>
+            <div data-tour="nav-tabs" id="resume-tabs" className="flex items-center justify-between mb-6 border-b border-gray-200 dark:border-gray-700 pb-1">
+              <div className="flex space-x-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
+                <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
+                  {t('resumeBuilder.menu.workExperience')}
+                </button>
+                <button
+                  onClick={() => navigate('/resume/education?mode=standalone')}
+                  className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
+                >
+                  {t('resumeBuilder.menu.education') || 'Education'}
+                </button>
+                <button
+                  onClick={() => navigate('/resume/awards?mode=standalone')}
+                  className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
+                >
+                  {t('resumeBuilder.menu.awardsAndCerts', 'Awards & Certifications')}
+                </button>
+              </div>
+              <div className="flex items-center gap-2 pb-1 shrink-0">
+                <button
+                  onClick={() => setVideoModal({ url: `${import.meta.env.BASE_URL}videos/Engineering_Impact__The_NovaWork_Experience_Framework.mp4`, title: 'Work Experience Framework' })}
+                  className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                >
+                  <Play className="w-3.5 h-3.5" /> Watch video
+                </button>
+                <button
+                  onClick={() => navigate('/resume/work-experience/learn-more')}
+                  className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                >
+                  <HelpCircle className="w-3.5 h-3.5" /> Learn more
+                </button>
+              </div>
             </div>
           )}
 

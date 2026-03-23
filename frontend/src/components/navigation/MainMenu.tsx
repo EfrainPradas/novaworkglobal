@@ -407,18 +407,6 @@ export default function MainMenu() {
                     </div>
                     {isAccessible && (
                       <div className="flex items-center gap-2">
-                        {item.id === 'resume' && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              navigate('/resume-builder/workflow')
-                            }}
-                            className="flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm rounded-lg hover:shadow-md transition-colors"
-                          >
-                            <Play className="h-3 w-3" />
-                            Quick Start
-                          </button>
-                        )}
                         {isExpanded ? (
                           <ChevronUp className="h-5 w-5 text-gray-400" />
                         ) : (

@@ -351,7 +351,7 @@ export default function NavigationPrompt() {
                     onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4?t=${Date.now()}`))}
                     className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
-                    <Play className="w-3.5 h-3.5" /> Ver Video
+                    <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
                   </button>
                 </div>
               </div>
@@ -484,7 +484,7 @@ export default function NavigationPrompt() {
                         }}
                         className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                       >
-                        <Play className="w-3 h-3" /> Ver Video
+                        <Play className="w-3 h-3" /> {t('dashboard.watchVideo', 'Watch video')}
                       </button>
                       <button
                         onClick={(e) => {

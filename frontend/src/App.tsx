@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
 // Guided Tour
 import { GuidedTourProvider } from './components/guided-tour'
@@ -22,8 +22,8 @@ import ClientSharedResources from './pages/client/ClientSharedResources'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
 
 // Career Vision Routes
-import CareerVisionWelcome from './pages/career-vision/Welcome'
 import CareerVisionDashboard from './pages/career-vision/Dashboard'
+import CareerVisionLearnMore from './pages/career-vision/CareerVisionLearnMore'
 import SkillsValues from './pages/career-vision/SkillsValues'
 import JobHistory from './pages/career-vision/JobHistory'
 import Preferences from './pages/career-vision/Preferences'
@@ -40,6 +40,9 @@ import AccomplishmentsHub from './pages/resume-builder/AccomplishmentsHub'
 import AccomplishmentBankLearnMore from './pages/resume-builder/AccomplishmentBankLearnMore'
 import ResumeBuilderLearnMore from './pages/resume-builder/ResumeBuilderLearnMore'
 import ResumeTypeSelection from './pages/resume-builder/ResumeTypeSelection'
+import ResumeTypeLearnMore from './pages/resume-builder/ResumeTypeLearnMore'
+import WorkExperienceLearnMore from './pages/resume-builder/WorkExperienceLearnMore'
+import ProfileLearnMore from './pages/resume-builder/ProfileLearnMore'
 import ResumeTracking from './pages/resume-builder/ResumeTracking'
 import ResumeFinalPreview from './pages/resume-builder/ResumeFinalPreview'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
@@ -147,6 +150,9 @@ function App() {
           <Route path="/resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
           <Route path="/resume/profile" element={<ProfileBuilder />} />
           <Route path="/resume/type-selection" element={<ResumeTypeSelection />} />
+          <Route path="/resume/type-selection/learn-more" element={<ResumeTypeLearnMore />} />
+          <Route path="/resume/work-experience/learn-more" element={<WorkExperienceLearnMore />} />
+          <Route path="/resume/profile/learn-more" element={<ProfileLearnMore />} />
           <Route path="/resume/final-preview" element={<ResumeFinalPreview />} />
           <Route path="/resume/tracking" element={<ResumeTracking />} />
           <Route path="/resume/cover-letter" element={<CoverLetterGenerator />} />
@@ -181,13 +187,14 @@ function App() {
           <Route path="/job-search/social-positioning" element={<PlanYourSearch />} />
 
           {/* Career Vision - Momentum Tier */}
-          <Route path="/career-vision" element={<CareerVisionWelcome />} />
-          <Route path="/career-vision/welcome" element={<CareerVisionWelcome />} />
+          <Route path="/career-vision" element={<Navigate to="/career-vision/dashboard" replace />} />
+          <Route path="/career-vision/welcome" element={<Navigate to="/career-vision/dashboard" replace />} />
           <Route path="/career-vision/dashboard" element={<CareerVisionDashboard />} />
           <Route path="/career-vision/skills-values" element={<SkillsValues />} />
           <Route path="/career-vision/job-history" element={<JobHistory />} />
           <Route path="/career-vision/preferences" element={<Preferences />} />
           <Route path="/career-vision/summary" element={<CareerVisionSummary />} />
+          <Route path="/career-vision/learn-more" element={<CareerVisionLearnMore />} />
         </Route>
 
         {/* Executive Tier Routes - Interview Mastery Only */}
