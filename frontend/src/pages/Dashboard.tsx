@@ -339,7 +339,7 @@ export default function Dashboard() {
                   }}
                   className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition-all shadow-md shadow-teal-500/20"
                 >
-                  <Play className="w-5 h-5" /> Ver Video
+                  <Play className="w-5 h-5" /> {t('dashboard.watchVideo', 'Watch video')}
                 </button>
               </div>
 

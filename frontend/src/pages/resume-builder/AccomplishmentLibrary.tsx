@@ -35,6 +35,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [newEnd, setNewEnd] = useState('')
     const [isAdding, setIsAdding] = useState(false)
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+    const [isImprovingAI, setIsImprovingAI] = useState(false)
 
     // AI Grouping State
     const [isGroupingPanelOpen, setIsGroupingPanelOpen] = useState(false)
@@ -47,6 +48,31 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [saveGroupName, setSaveGroupName] = useState('')
     const [groupToSave, setGroupToSave] = useState<{ theme: string, storyIds: string[] }[] | null>(null)
     const [isSavingGroup, setIsSavingGroup] = useState(false)
+
+    const handleImproveWithAI = async () => {
+        if (!newItemText.trim() || isImprovingAI) return
+        setIsImprovingAI(true)
+        try {
+            const fallbackApi = window.location.pathname.startsWith('/novaworkglobal') ? '/novaworkglobal-api' : ''
+            const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+            const { data: { session } } = await supabase.auth.getSession()
+            const response = await fetch(`${apiUrl}/api/ai/improve-bullet`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${session?.access_token}`
+                },
+                body: JSON.stringify({ bullet_text: newItemText })
+            })
+            if (!response.ok) throw new Error('Failed to improve')
+            const data = await response.json()
+            if (data.improved_text) setNewItemText(data.improved_text)
+        } catch (err) {
+            console.error('Improve with AI error:', err)
+        } finally {
+            setIsImprovingAI(false)
+        }
+    }
 
     const sensors = useSensors(
         useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -650,9 +676,23 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 value={newItemText}
                                 onChange={(e) => setNewItemText(e.target.value)}
                                 placeholder={t('accomplishmentLibrary.bulletPlaceholder', 'e.g., Led team of 5...')}
-                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px] mb-3"
+                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px]"
                                 autoFocus
                             />
+
+                            {newItemText.trim().length > 0 && (
+                                <button
+                                    onClick={handleImproveWithAI}
+                                    disabled={isImprovingAI}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 mt-2 mb-3 text-sm font-semibold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-60"
+                                >
+                                    {isImprovingAI ? (
+                                        <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Improving...</>
+                                    ) : (
+                                        <><Wand2 className="w-3.5 h-3.5" /> Improve with AI</>
+                                    )}
+                                </button>
+                            )}
 
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
                                 <div>
@@ -697,13 +737,15 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 </div>
                             </div>
 
-                            <div className="flex justify-end gap-2 mt-4">
-                                <button onClick={() => setIsAdding(false)} className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
-                                    {t('common.cancel', 'Cancel')}
-                                </button>
-                                <button onClick={handleAddManual} className="px-3 py-1.5 text-sm bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-600">
-                                    {t('common.save', 'Save')}
-                                </button>
+                            <div className="flex items-center justify-end mt-4">
+                                <div className="flex gap-2">
+                                    <button onClick={() => setIsAdding(false)} className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
+                                        {t('common.cancel', 'Cancel')}
+                                    </button>
+                                    <button onClick={handleAddManual} className="px-3 py-1.5 text-sm bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-600">
+                                        {t('common.save', 'Save')}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     )}

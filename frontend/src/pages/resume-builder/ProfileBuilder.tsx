@@ -582,6 +582,7 @@ const ProfileBuilder: React.FC = () => {
             <p className="text-gray-600 dark:text-gray-400 mt-2">
               {t('resumeBuilder.profile.subtitle')}
             </p>
+
           </div>
 
           <div className="flex gap-3">
@@ -908,6 +909,8 @@ const ProfileBuilder: React.FC = () => {
       </div>
       {/* Resume Preview Button */}
       {userId && <ResumePreview userId={userId} />}
+
+
     </div>
   )
 }
