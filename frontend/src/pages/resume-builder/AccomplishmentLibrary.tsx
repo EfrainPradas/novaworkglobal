@@ -676,9 +676,23 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 value={newItemText}
                                 onChange={(e) => setNewItemText(e.target.value)}
                                 placeholder={t('accomplishmentLibrary.bulletPlaceholder', 'e.g., Led team of 5...')}
-                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px] mb-3"
+                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px]"
                                 autoFocus
                             />
+
+                            {newItemText.trim().length > 0 && (
+                                <button
+                                    onClick={handleImproveWithAI}
+                                    disabled={isImprovingAI}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 mt-2 mb-3 text-sm font-semibold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-60"
+                                >
+                                    {isImprovingAI ? (
+                                        <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Improving...</>
+                                    ) : (
+                                        <><Wand2 className="w-3.5 h-3.5" /> Improve with AI</>
+                                    )}
+                                </button>
+                            )}
 
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
                                 <div>
@@ -723,21 +737,8 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between mt-4">
-                                {newItemText.trim().length > 0 && (
-                                    <button
-                                        onClick={handleImproveWithAI}
-                                        disabled={isImprovingAI}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-60"
-                                    >
-                                        {isImprovingAI ? (
-                                            <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Improving...</>
-                                        ) : (
-                                            <><Wand2 className="w-3.5 h-3.5" /> Improve with AI</>
-                                        )}
-                                    </button>
-                                )}
-                                <div className="flex gap-2 ml-auto">
+                            <div className="flex items-center justify-end mt-4">
+                                <div className="flex gap-2">
                                     <button onClick={() => setIsAdding(false)} className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                                         {t('common.cancel', 'Cancel')}
                                     </button>
