@@ -21,10 +21,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            echo "🚀 Deploying backend..."
+            echo "🚀 Deploying backend to novaworkglobal..."
             cd /home/admin/novaworkglobal/backend
+            git fetch origin main
+            git checkout main
             git pull origin main
             npm ci --omit=dev
-            pm2 restart novaworkglobal-backend || pm2 start server.js --name novaworkglobal-backend
-            echo "✅ Deploy complete"
+            pm2 restart novaworkglobal-backend || pm2 start server.js --name novaworkglobal-backend --env production
+            sleep 2
             pm2 status novaworkglobal-backend
+            echo "✅ Deploy complete"
