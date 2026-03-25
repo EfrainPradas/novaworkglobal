@@ -40,7 +40,15 @@ export const AccomplishmentBankSelector: React.FC<AccomplishmentBankSelectorProp
                 .order('created_at', { ascending: false })
 
             if (error) throw error
-            setBankItems(data || [])
+            // Sort: ai_generated first, then car_story, manual, imported — then by date
+            const sourcePriority: Record<string, number> = { ai_generated: 0, car_story: 1, manual: 2, imported: 3 }
+            const sorted = (data || []).sort((a, b) => {
+                const pa = sourcePriority[a.source] ?? 2
+                const pb = sourcePriority[b.source] ?? 2
+                if (pa !== pb) return pa - pb
+                return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
+            })
+            setBankItems(sorted)
         } catch (error) {
             console.error('Error loading bank items:', error)
         } finally {
