@@ -225,6 +225,75 @@ Rules:
 })
 
 /**
+ * POST /api/ai/improve-car
+ * Improve a full CAR (Context/Challenge, Action, Results) story using AI
+ * Enforces CAR methodology: quantified results with % or numbers
+ */
+router.post('/improve-car', async (req, res) => {
+  try {
+    const { role_title, company_name, problem_challenge, actions, result } = req.body;
+
+    if (!problem_challenge || !actions || !result) {
+      return res.status(400).json({ error: 'problem_challenge, actions, and result are required' });
+    }
+
+    const actionsText = Array.isArray(actions) ? actions.filter(a => a?.trim()).join('\n- ') : actions;
+
+    const prompt = `You are an expert executive career coach specializing in the CAR methodology (Context/Challenge → Action → Result). Your task is to rewrite and improve the following CAR story so it is compelling, specific, and fully quantified.
+
+CAR METHODOLOGY RULES (NON-NEGOTIABLE):
+1. CONTEXT/CHALLENGE: Clearly state the business problem, situation, or opportunity. Include scope (team size, budget, timeframe, market conditions) when relevant.
+2. ACTION: Use powerful, specific action verbs. Describe WHAT the person did and HOW — include specific methods, tools, or strategies. Use bullet points for multiple actions.
+3. RESULT: ALWAYS include quantified outcomes using real numbers or percentages. Every result MUST have at least one metric (%, $, time saved, headcount, revenue, efficiency gain, NPS score, etc.). If the original lacks numbers, infer realistic estimates based on the context and mark them with "(est.)".
+
+STYLE RULES:
+- Use executive-level language (strong verbs: Spearheaded, Orchestrated, Drove, Accelerated, Generated, Reduced)
+- Be specific and concrete — no vague language ("improved performance" → "reduced processing time by 40%")
+- Keep each section concise but complete
+- Results must be measurable and impressive
+
+INPUT CAR:
+Role: ${role_title || 'N/A'} at ${company_name || 'N/A'}
+Context/Challenge: ${problem_challenge}
+Actions:
+- ${actionsText}
+Result: ${result}
+
+OUTPUT FORMAT (respond with valid JSON only):
+{
+  "improved_challenge": "Improved Context/Challenge text here",
+  "improved_actions": ["Improved action 1", "Improved action 2", "Improved action 3"],
+  "improved_result": "Improved Result with quantified metrics here",
+  "key_improvements": ["brief note on what was improved 1", "brief note 2", "brief note 3"]
+}`;
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: 'You are an expert executive career coach. Always respond with valid JSON only. No markdown, no explanation outside JSON.' },
+        { role: 'user', content: prompt }
+      ],
+      max_tokens: 800,
+      temperature: 0.7
+    });
+
+    const raw = completion.choices[0]?.message?.content?.trim();
+    if (!raw) throw new Error('No response from AI');
+
+    // Parse JSON response
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) throw new Error('Invalid JSON response from AI');
+    const improved = JSON.parse(jsonMatch[0]);
+
+    res.json({ success: true, improved });
+
+  } catch (error) {
+    console.error('❌ Error in /improve-car:', error);
+    res.status(500).json({ error: 'Failed to improve CAR', details: error.message });
+  }
+})
+
+/**
  * GET /api/ai/health
  * Health check for AI services
  */
