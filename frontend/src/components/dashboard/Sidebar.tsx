@@ -76,22 +76,15 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
         {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
       </button>
 
-      {/* Logo + tier badge */}
+      {/* Tier badge */}
       <div className={`px-3 pt-4 pb-3 ${collapsed ? 'flex justify-center' : ''}`}>
-        {collapsed ? (
-          <img src="/logo.png" alt="NovaWork" className="h-7 w-auto object-contain" />
-        ) : (
-          <>
-            <div className="flex items-center gap-2 mb-3">
-              <img src="/logo.png" alt="NovaWork Global" className="h-8 w-auto" />
-            </div>
-            <span
-              className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border"
-              style={{ background: badge.bg, color: badge.text, borderColor: badge.border }}
-            >
-              ★ {badge.label} Member
-            </span>
-          </>
+        {!collapsed && (
+          <span
+            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold border"
+            style={{ background: badge.bg, color: badge.text, borderColor: badge.border }}
+          >
+            ★ {badge.label} Member
+          </span>
         )}
       </div>
 

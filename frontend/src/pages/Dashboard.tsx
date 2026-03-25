@@ -309,14 +309,27 @@ export default function Dashboard() {
       />
 
       {/* ── CENTER PANEL ── */}
-      <main className="flex-1 overflow-y-auto min-w-0">
-        <ModulePanel
-          module={activeModuleData}
-          userName={userProfile?.full_name ?? null}
-          loading={loading}
-          onWatchVideo={setActiveVideoSrc}
-          onNavigate={navigate}
-        />
+      <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+        {/* Top bar with user controls */}
+        <div
+          className="flex items-center justify-between gap-2 px-4 py-2 flex-shrink-0"
+          style={{ background: '#F0F3F8' }}
+        >
+          <img src="/logo.png" alt="NovaWork Global" className="h-14 w-auto object-contain" />
+          <div className="flex items-center gap-2">
+            {user && <NotificationBell userId={user.id} />}
+            <UserMenu user={user} userProfile={userProfile} />
+          </div>
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          <ModulePanel
+            module={activeModuleData}
+            userName={userProfile?.full_name ?? null}
+            loading={loading}
+            onWatchVideo={setActiveVideoSrc}
+            onNavigate={navigate}
+          />
+        </div>
       </main>
 
       {/* ── RIGHT SIDEBAR ── */}
@@ -348,13 +361,7 @@ export default function Dashboard() {
             <ChevronRight size={14} />
           </button>
 
-          {/* User controls */}
-          <div className="flex items-center justify-end gap-2 px-4 py-3 border-b" style={{ borderColor: '#F0F3F8' }}>
-            {user && <NotificationBell userId={user.id} />}
-            <UserMenu user={user} userProfile={userProfile} />
-          </div>
-
-          <div className="pt-4">
+          <div className="pt-[130px]">
             <StatsCard stats={stats} loading={loading} />
             <QuickActions onNavigate={navigate} />
           </div>
