@@ -71,6 +71,27 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                     .order('start_date', { ascending: false })
 
                 workExperience = work || []
+
+                // Merge AI-generated bullets from accomplishment_bank (AI first, no duplicates)
+                const { data: aiBullets } = await supabase
+                    .from('accomplishment_bank')
+                    .select('id, bullet_text, role_title, company_name')
+                    .eq('user_id', userId!)
+                    .eq('source', 'ai_generated')
+                if (aiBullets && aiBullets.length > 0) {
+                    workExperience = workExperience.map((exp: any) => {
+                        const matching = aiBullets.filter(
+                            b => b.role_title?.toLowerCase().trim() === exp.job_title?.toLowerCase().trim()
+                        )
+                        if (matching.length === 0) return exp
+                        const existingTexts = new Set((exp.accomplishments || []).map((a: any) => a.bullet_text?.toLowerCase().trim()))
+                        const newAI = matching
+                            .filter(b => !existingTexts.has(b.bullet_text?.toLowerCase().trim()))
+                            .map((b, i) => ({ id: `ai-${b.id}`, bullet_text: b.bullet_text, source: 'ai_generated', order_index: -(matching.length - i) }))
+                        const combined = [...newAI, ...(exp.accomplishments || [])]
+                        return { ...exp, accomplishments: combined }
+                    })
+                }
             }
 
             setResumeData({

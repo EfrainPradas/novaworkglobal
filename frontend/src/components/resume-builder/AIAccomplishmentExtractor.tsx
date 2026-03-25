@@ -210,6 +210,50 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
 
             if (dbError) throw dbError
 
+            // Also push AI bullets directly into the accomplishments table
+            // so they show up in the resume without extra steps
+            try {
+                const { data: resumes } = await supabase
+                    .from('user_resumes')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .eq('is_master', true)
+                    .limit(1)
+
+                const resumeId = resumes?.[0]?.id
+                if (resumeId) {
+                    const { data: workExps } = await supabase
+                        .from('work_experience')
+                        .select('id, job_title, company_name, accomplishments(bullet_text)')
+                        .eq('resume_id', resumeId)
+
+                    if (workExps) {
+                        for (const item of itemsToInsert) {
+                            const matchingExp = workExps.find(
+                                w => w.job_title?.toLowerCase().trim() === item.role_title?.toLowerCase().trim()
+                            )
+                            if (!matchingExp) continue
+
+                            const existingTexts = new Set(
+                                (matchingExp.accomplishments || []).map((a: any) => a.bullet_text?.trim())
+                            )
+                            if (existingTexts.has(item.bullet_text?.trim())) continue
+
+                            const currentCount = matchingExp.accomplishments?.length || 0
+                            await supabase.from('accomplishments').insert({
+                                work_experience_id: matchingExp.id,
+                                bullet_text: item.bullet_text,
+                                order_index: currentCount,
+                                is_featured: false,
+                                par_story_id: item.par_story_id || null
+                            })
+                        }
+                    }
+                }
+            } catch (syncErr) {
+                console.warn('Could not sync AI bullets to accomplishments table:', syncErr)
+            }
+
             trackEvent('analytics', 'accomplishments_extracted', { count: itemsToInsert.length })
             onSuccess()
             onClose()
