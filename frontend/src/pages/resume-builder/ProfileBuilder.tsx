@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { UserResume, CARStory } from '../../types/resume'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { COUNTRIES, US_STATES } from '../../constants/locations'
 import AvatarUpload from '../../components/common/AvatarUpload'
 import { BackButton } from '../../components/common/BackButton'
@@ -13,6 +13,8 @@ import ResumePreview from '../../components/resume/ResumePreview'
 const ProfileBuilder: React.FC = () => {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
   const [userId, setUserId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -525,7 +527,7 @@ const ProfileBuilder: React.FC = () => {
       console.log('✅ Profile saved successfully:', data)
       trackEvent('analytics', 'step_completed', { step_name: 'profile', next_step: 'resume-builder' })
       alert('Profile saved successfully!')
-      navigate('/resume-builder')
+      navigate(isStandalone ? '/dashboard' : '/resume-builder')
     } catch (error: any) {
       console.error('❌ Error saving profile:', error)
       setError(`Failed to save profile: ${error.message || 'Unknown error'}`)
@@ -562,7 +564,7 @@ const ProfileBuilder: React.FC = () => {
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
         <div className="flex items-center justify-between mb-4">
           <button
-            onClick={() => navigate('/resume-builder')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/resume-builder')}
             className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

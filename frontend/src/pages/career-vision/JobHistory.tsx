@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { Plus, Edit2, Trash2, Save, X, Loader2, Sparkles, TrendingUp, TrendingDown, Play, BookOpen } from 'lucide-react'
@@ -40,6 +40,8 @@ interface AIInsights {
 
 export default function JobHistory() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
   const { t } = useTranslation()
 
   const [loading, setLoading] = useState(true)
@@ -335,7 +337,7 @@ export default function JobHistory() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/career-vision/dashboard')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4 flex items-center gap-2"
           >
             ← Back to Career Vision
@@ -549,7 +551,7 @@ export default function JobHistory() {
         {/* Back Button */}
         <div className="flex justify-center">
           <button
-            onClick={() => navigate('/career-vision/dashboard')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
           >
             ← Back to Career Vision Dashboard

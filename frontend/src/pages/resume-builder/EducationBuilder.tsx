@@ -163,10 +163,10 @@ export default function EducationBuilder() {
                 {/* Navigation Header */}
                 <div className="flex items-center justify-between mb-6">
                     <button
-                        onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/work-experience')}
+                        onClick={() => navigate(isStandalone ? '/dashboard' : '/resume/work-experience')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Work Experience'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : 'Back to Work Experience'}
                     </button>
 
                     {!isStandalone && (

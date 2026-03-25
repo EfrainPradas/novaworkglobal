@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Briefcase, CheckSquare, AlertCircle, FileText, Search, MessageSquare, X } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import JobApplicationTracker from '../../components/fast-track/JobApplicationTracker'
@@ -9,6 +9,8 @@ import { BackButton } from '../../components/common/BackButton'
 
 export default function OnlineJobApplications() {
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+    const isStandalone = searchParams.get('mode') === 'standalone'
     const [activeTab, setActiveTab] = useState<'tracker' | 'checklist' | 'resumes'>('tracker')
     const [showReferralModal, setShowReferralModal] = useState(false)
 
@@ -89,7 +91,7 @@ export default function OnlineJobApplications() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <BackButton to="/job-search-hub" label="Back to Job Search" className="mb-2 pl-0" />
+                            <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-2 pl-0" />
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Online Job Applications</h1>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">Step 2: Track applications & leverage referrals</p>

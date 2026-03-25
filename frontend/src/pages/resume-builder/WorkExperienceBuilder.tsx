@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
-import { ArrowRight, Play, X } from 'lucide-react'
+import { ArrowRight, Play, X, HelpCircle } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { workExperienceTourConfig } from '../../config/tours/workExperienceTour'
@@ -719,7 +719,7 @@ const WorkExperienceBuilder: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div data-tour="back-dashboard">
               <BackButton
-                to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
+                to={isStandalone ? '/dashboard' : '/resume/contact-info'}
                 label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
                 className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
               />

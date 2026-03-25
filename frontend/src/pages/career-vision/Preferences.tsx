@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { Save, Sparkles, CheckCircle } from 'lucide-react'
@@ -55,6 +55,8 @@ interface PreferencesProps {
 
 export default function Preferences({ embedded = false, initialData }: PreferencesProps) {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
   const { t } = useTranslation()
   const [loading, setLoading] = useState(!initialData)
   const [saving, setSaving] = useState(false)
@@ -344,7 +346,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
               </div>
               <div className="flex gap-3">
                 <button
-                  onClick={() => navigate('/career-vision')}
+                  onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision')}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Back to Menu
@@ -451,7 +453,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/career-vision/dashboard')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4"
           >
             ← {t('common.back', 'Back to Career Vision')}

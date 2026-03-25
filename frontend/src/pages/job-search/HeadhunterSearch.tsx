@@ -1,8 +1,11 @@
 
 import { Linkedin, ExternalLink, Filter, Users, Building2, Search } from 'lucide-react'
 import { BackButton } from '../../components/common/BackButton'
+import { useSearchParams } from 'react-router-dom'
 
 export default function HeadhunterSearch() {
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
 
     const linkedInSearchUrl = "https://www.linkedin.com/search/results/people/?keywords=recruiter&origin=SWITCH_SEARCH_VERTICAL&sid=Q1j"
 
@@ -22,7 +25,7 @@ export default function HeadhunterSearch() {
 
                 {/* Header */}
                 <div>
-                    <BackButton to="/job-search-hub" label="Back to Job Search" className="mb-6 pl-0" />
+                    <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-6 pl-0" />
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
                         <span className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-lg">
                             <Users className="w-8 h-8" />
