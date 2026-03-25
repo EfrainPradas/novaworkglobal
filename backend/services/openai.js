@@ -388,8 +388,11 @@ export async function generateAccomplishments(data) {
       role_company = '',
       skills = [],
       competencies = [],
-      positioning = null
+      positioning = null,
+      language = 'English'
     } = data
+
+    const lang = language || 'English'
 
     // Build the prompt
     const prompt = buildAccomplishmentsPrompt(
@@ -407,7 +410,7 @@ export async function generateAccomplishments(data) {
       messages: [
         {
           role: 'system',
-          content: 'You are an expert career coach and resume writer who specializes in creating powerful, accomplishment-focused statements that showcase quantifiable impact and professional achievements.'
+          content: `You are an expert career coach and resume writer who specializes in creating powerful, accomplishment-focused statements that showcase quantifiable impact and professional achievements. YOU MUST RESPOND IN ${lang.toUpperCase()} ONLY. Every single accomplishment must be written in ${lang}. Do not use any other language.`
         },
         {
           role: 'user',

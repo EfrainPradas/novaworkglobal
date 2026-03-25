@@ -61,13 +61,19 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
             for (let i = 0; i < stories.length; i++) {
                 const story = stories[i]
 
+                // Detect language from Spanish diacritics + common words
+                const carText = `${story.problem_challenge || ''} ${story.result || ''} ${(story.actions || []).join(' ')}`
+                const isSpanish = /[áéíóúüñ¿¡]/.test(carText) || (carText.match(/\b(el|la|los|las|de|del|en|con|que|se|es|fue|para|por|una|también|así|más)\b/gi) || []).length >= 3
+                const language = isSpanish ? 'Spanish' : 'English'
+
                 const payload = {
                     challenge: story.problem_challenge || 'N/A',
                     result: story.result || 'N/A',
                     role_title: story.role_title,
                     company_name: story.company_name,
                     skills: story.skills_tags || [],
-                    competencies: [] // Omitted entirely so the AI doesn't invent based on external themes
+                    competencies: [], // Omitted entirely so the AI doesn't invent based on external themes
+                    language
                 }
 
                 // Make sure we have enough text for the backend validation (>10 chars)

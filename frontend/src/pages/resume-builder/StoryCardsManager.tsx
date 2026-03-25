@@ -484,6 +484,11 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
             const fallbackApi = window.location.pathname.startsWith('/novaworkglobal') ? '/novaworkglobal-api' : ''
             const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
 
+            // Detect language from Spanish diacritics + common words
+            const carText = `${story.problem_challenge || ''} ${story.result || ''} ${(story.actions || []).join(' ')}`
+            const isSpanish = /[áéíóúüñ¿¡]/.test(carText) || (carText.match(/\b(el|la|los|las|de|del|en|con|que|se|es|fue|para|por|una|también|así|más)\b/gi) || []).length >= 3
+            const language = isSpanish ? 'Spanish' : 'English'
+
             const res = await fetch(`${apiUrl}/api/ai/improve-car`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
@@ -492,7 +497,8 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     company_name: story.company_name,
                     problem_challenge: story.problem_challenge,
                     actions: story.actions,
-                    result: story.result
+                    result: story.result,
+                    language
                 })
             })
 

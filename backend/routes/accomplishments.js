@@ -87,7 +87,8 @@ router.post('/generate-accomplishments', async (req, res) => {
       role_company: mappedRoleCompany || '',
       skills: Array.isArray(skills) ? skills : [],
       competencies: Array.isArray(competencies) ? competencies : [],
-      positioning: questionnaire || null
+      positioning: questionnaire || null,
+      language: req.body.language || null
     })
 
     console.log('✅ Accomplishments generated successfully')
@@ -231,7 +232,7 @@ Rules:
  */
 router.post('/improve-car', async (req, res) => {
   try {
-    const { role_title, company_name, problem_challenge, actions, result } = req.body;
+    const { role_title, company_name, problem_challenge, actions, result, language } = req.body;
 
     if (!problem_challenge || !actions || !result) {
       return res.status(400).json({ error: 'problem_challenge, actions, and result are required' });
@@ -272,7 +273,7 @@ OUTPUT FORMAT (respond with valid JSON only, all values in the SAME language as 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'You are an expert executive career coach. Always respond with valid JSON only. No markdown, no explanation outside JSON.' },
+        { role: 'system', content: `You are an expert executive career coach. YOU MUST RESPOND IN ${(language || 'English').toUpperCase()} ONLY. Every field in the JSON must be written in ${language || 'English'}. Always respond with valid JSON only. No markdown, no explanation outside JSON.` },
         { role: 'user', content: prompt }
       ],
       max_tokens: 800,
