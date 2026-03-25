@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, Plus, Search, Trophy, Briefcase, Star, Link2, Pencil, Trash2, X, Loader2, ArrowRight, Wand2, Copy, BookOpen, Sparkles, Filter, ChevronDown, Calendar, CheckSquare, Tag, RotateCw, PlusCircle } from 'lucide-react'
+import { ArrowLeft, Plus, Search, Trophy, Briefcase, Star, Link2, Pencil, Trash2, X, Loader2, ArrowRight, Wand2, Copy, BookOpen, Sparkles, Filter, ChevronDown, Calendar, CheckSquare, Tag, RotateCw, PlusCircle, Zap, CheckCircle2, AlertCircle } from 'lucide-react'
 import { AIAccomplishmentExtractor } from '../../components/resume-builder/AIAccomplishmentExtractor'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
@@ -46,6 +46,18 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
     const [showAIAccomplishmentExtractor, setShowAIAccomplishmentExtractor] = useState(false)
     const [extractorStories, setExtractorStories] = useState<CARStory[]>([])
+
+    // Improve CAR state
+    const [improveModalStory, setImproveModalStory] = useState<CARStory | null>(null)
+    const [improveLoading, setImproveLoading] = useState(false)
+    const [improveResult, setImproveResult] = useState<{
+        improved_challenge: string
+        improved_actions: string[]
+        improved_result: string
+        key_improvements: string[]
+    } | null>(null)
+    const [improveError, setImproveError] = useState<string | null>(null)
+    const [applyingImprove, setApplyingImprove] = useState(false)
 
     // Personalized Examples state
     const [personalizedExamples, setPersonalizedExamples] = useState<{ role: string, text: string }[]>([])
@@ -460,7 +472,62 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
         if (verb) setLastInsertedVerb(verb)
     }
 
+    const handleImproveCAR = async (story: CARStory) => {
+        setImproveModalStory(story)
+        setImproveResult(null)
+        setImproveError(null)
+        setImproveLoading(true)
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+            if (!session) throw new Error('Not authenticated')
 
+            const fallbackApi = window.location.pathname.startsWith('/novaworkglobal') ? '/novaworkglobal-api' : ''
+            const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+
+            const res = await fetch(`${apiUrl}/api/ai/improve-car`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session.access_token}` },
+                body: JSON.stringify({
+                    role_title: story.role_title,
+                    company_name: story.company_name,
+                    problem_challenge: story.problem_challenge,
+                    actions: story.actions,
+                    result: story.result
+                })
+            })
+
+            const data = await res.json()
+            if (!res.ok || !data.success) throw new Error(data.error || 'AI failed to improve CAR')
+            setImproveResult(data.improved)
+        } catch (err: any) {
+            setImproveError(err.message || 'Unknown error')
+        } finally {
+            setImproveLoading(false)
+        }
+    }
+
+    const handleApplyImprovement = async () => {
+        if (!improveModalStory?.id || !improveResult) return
+        setApplyingImprove(true)
+        try {
+            const { error } = await supabase.from('par_stories').update({
+                problem_challenge: improveResult.improved_challenge,
+                actions: improveResult.improved_actions,
+                result: improveResult.improved_result,
+            }).eq('id', improveModalStory.id)
+
+            if (error) throw error
+            setStories(prev => prev.map(s => s.id === improveModalStory.id
+                ? { ...s, problem_challenge: improveResult.improved_challenge, actions: improveResult.improved_actions, result: improveResult.improved_result }
+                : s))
+            setImproveModalStory(null)
+            setImproveResult(null)
+        } catch (err: any) {
+            setImproveError(err.message)
+        } finally {
+            setApplyingImprove(false)
+        }
+    }
 
     if (loading) {
         return (
@@ -652,6 +719,13 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-1.5 ml-4 flex-shrink-0">
+                                        <button
+                                            onClick={() => handleImproveCAR(story)}
+                                            className="px-3 py-1.5 rounded-lg border border-amber-200 text-amber-700 font-semibold hover:bg-amber-50 transition-colors flex items-center gap-1.5 text-xs"
+                                            title="Improve this CAR with AI using CAR methodology"
+                                        >
+                                            <Zap className="w-3.5 h-3.5" /> Improve
+                                        </button>
                                         <button
                                             onClick={() => {
                                                 setExtractorStories([story])
@@ -940,6 +1014,158 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     )}
                                 </div>
                             )}
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* ── Improve CAR Modal ── */}
+            {improveModalStory && (
+                <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-[150] flex items-center justify-center p-4 overflow-y-auto">
+                    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-3xl my-8 flex flex-col overflow-hidden">
+                        {/* Header */}
+                        <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20">
+                            <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                    <Zap className="w-5 h-5" />
+                                </div>
+                                <div>
+                                    <h2 className="text-lg font-bold text-gray-900 dark:text-white">Improve with AI</h2>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">CAR Methodology · Quantified Results</p>
+                                </div>
+                            </div>
+                            <button onClick={() => { setImproveModalStory(null); setImproveResult(null); setImproveError(null) }}
+                                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 p-1.5 rounded-lg transition-colors">
+                                <X className="w-5 h-5" />
+                            </button>
+                        </div>
+
+                        <div className="p-6 space-y-5 overflow-y-auto max-h-[75vh]">
+                            {/* Original */}
+                            <div className="rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+                                <div className="px-4 py-2 bg-gray-50 dark:bg-gray-800 text-xs font-bold text-gray-500 uppercase tracking-wider border-b border-gray-200 dark:border-gray-700">
+                                    Original CAR — {improveModalStory.role_title} at {improveModalStory.company_name}
+                                </div>
+                                <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase mb-1.5">C · Context/Challenge</p>
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{improveModalStory.problem_challenge || <span className="italic text-gray-300">Empty</span>}</p>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-gray-400 uppercase mb-1.5">A · Actions</p>
+                                        <ul className="space-y-1 text-sm text-gray-600 dark:text-gray-300 leading-relaxed list-disc pl-4">
+                                            {(improveModalStory.actions || []).filter(a => a).map((a, i) => <li key={i}>{a}</li>)}
+                                        </ul>
+                                    </div>
+                                    <div>
+                                        <p className="text-[10px] font-bold text-[#4F46E5] uppercase mb-1.5">R · Results</p>
+                                        <p className="text-sm text-[#4F46E5] dark:text-indigo-300 font-medium leading-relaxed">{improveModalStory.result || <span className="italic font-normal text-gray-300">Empty</span>}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Loading */}
+                            {improveLoading && (
+                                <div className="flex flex-col items-center justify-center py-10 gap-3">
+                                    <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">Analyzing and improving your CAR with AI…</p>
+                                    <p className="text-xs text-gray-400">Applying CAR methodology + quantified results</p>
+                                </div>
+                            )}
+
+                            {/* Error */}
+                            {improveError && !improveLoading && (
+                                <div className="flex items-start gap-3 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+                                    <div>
+                                        <p className="text-sm font-semibold text-red-700 dark:text-red-400">Error improving CAR</p>
+                                        <p className="text-xs text-red-600 dark:text-red-300 mt-1">{improveError}</p>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* AI Result */}
+                            {improveResult && !improveLoading && (
+                                <>
+                                    <div className="rounded-xl border-2 border-amber-200 dark:border-amber-800 overflow-hidden">
+                                        <div className="px-4 py-2.5 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-200 dark:border-amber-800 flex items-center gap-2">
+                                            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                                            <span className="text-xs font-bold text-amber-700 dark:text-amber-400 uppercase tracking-wider">AI-Improved CAR · Quantified Results</span>
+                                        </div>
+                                        <div className="p-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                            <div>
+                                                <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase mb-1.5 flex items-center gap-1">
+                                                    <span className="w-4 h-4 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 flex items-center justify-center text-[10px] font-bold">C</span>
+                                                    Context/Challenge
+                                                </p>
+                                                <p className="text-sm text-gray-700 dark:text-gray-200 leading-relaxed">{improveResult.improved_challenge}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase mb-1.5 flex items-center gap-1">
+                                                    <span className="w-4 h-4 rounded bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-400 flex items-center justify-center text-[10px] font-bold">A</span>
+                                                    Actions
+                                                </p>
+                                                <ul className="space-y-1.5 text-sm text-gray-700 dark:text-gray-200 leading-relaxed list-disc pl-4">
+                                                    {improveResult.improved_actions.map((a, i) => <li key={i}>{a}</li>)}
+                                                </ul>
+                                            </div>
+                                            <div className="bg-[#EEF2FF] dark:bg-indigo-900/20 rounded-xl p-3 border border-[#C7D2FE] dark:border-indigo-800">
+                                                <p className="text-[10px] font-bold text-[#4F46E5] dark:text-indigo-400 uppercase mb-1.5 flex items-center gap-1">
+                                                    <span className="w-4 h-4 rounded bg-[#E0E7FF] dark:bg-indigo-900/50 text-[#4F46E5] dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold">R</span>
+                                                    Results
+                                                </p>
+                                                <p className="text-sm text-[#4F46E5] dark:text-indigo-300 font-semibold leading-relaxed">{improveResult.improved_result}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Key improvements */}
+                                    {improveResult.key_improvements?.length > 0 && (
+                                        <div className="p-4 bg-green-50 dark:bg-green-900/10 border border-green-100 dark:border-green-800/30 rounded-xl">
+                                            <p className="text-xs font-bold text-green-700 dark:text-green-400 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                                <CheckCircle2 className="w-3.5 h-3.5" /> Key Improvements Made
+                                            </p>
+                                            <ul className="space-y-1">
+                                                {improveResult.key_improvements.map((note, i) => (
+                                                    <li key={i} className="text-xs text-green-700 dark:text-green-300 flex items-start gap-2">
+                                                        <span className="mt-1 w-1 h-1 rounded-full bg-green-500 flex-shrink-0" />
+                                                        {note}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+
+                        {/* Footer actions */}
+                        <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 flex items-center justify-between gap-3">
+                            <button
+                                onClick={() => handleImproveCAR(improveModalStory)}
+                                disabled={improveLoading}
+                                className="flex items-center gap-2 px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 transition-colors disabled:opacity-50"
+                            >
+                                <RotateCw className="w-3.5 h-3.5" /> Regenerate
+                            </button>
+                            <div className="flex items-center gap-3">
+                                <button
+                                    onClick={() => { setImproveModalStory(null); setImproveResult(null); setImproveError(null) }}
+                                    className="px-4 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 transition-colors"
+                                >
+                                    Cancel
+                                </button>
+                                {improveResult && (
+                                    <button
+                                        onClick={handleApplyImprovement}
+                                        disabled={applyingImprove}
+                                        className="flex items-center gap-2 px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold transition-colors disabled:opacity-50 shadow-md shadow-amber-500/25"
+                                    >
+                                        {applyingImprove ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
+                                        Apply Improvements
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
