@@ -87,7 +87,8 @@ router.post('/generate-accomplishments', async (req, res) => {
       role_company: mappedRoleCompany || '',
       skills: Array.isArray(skills) ? skills : [],
       competencies: Array.isArray(competencies) ? competencies : [],
-      positioning: questionnaire || null
+      positioning: questionnaire || null,
+      language: req.body.language || null
     })
 
     console.log('✅ Accomplishments generated successfully')
@@ -231,7 +232,7 @@ Rules:
  */
 router.post('/improve-car', async (req, res) => {
   try {
-    const { role_title, company_name, problem_challenge, actions, result } = req.body;
+    const { role_title, company_name, problem_challenge, actions, result, language } = req.body;
 
     if (!problem_challenge || !actions || !result) {
       return res.status(400).json({ error: 'problem_challenge, actions, and result are required' });
@@ -241,14 +242,16 @@ router.post('/improve-car', async (req, res) => {
 
     const prompt = `You are an expert executive career coach specializing in the CAR methodology (Context/Challenge → Action → Result). Your task is to rewrite and improve the following CAR story so it is compelling, specific, and fully quantified.
 
+CRITICAL LANGUAGE RULE: Detect the language of the input text (Context/Challenge, Actions, Result). Write ALL output — improved_challenge, improved_actions, improved_result, AND key_improvements — in the EXACT SAME LANGUAGE as the input. If the input is in Spanish, respond entirely in Spanish. If English, respond in English. Never switch languages.
+
 CAR METHODOLOGY RULES (NON-NEGOTIABLE):
 1. CONTEXT/CHALLENGE: Clearly state the business problem, situation, or opportunity. Include scope (team size, budget, timeframe, market conditions) when relevant.
 2. ACTION: Use powerful, specific action verbs. Describe WHAT the person did and HOW — include specific methods, tools, or strategies. Use bullet points for multiple actions.
 3. RESULT: ALWAYS include quantified outcomes using real numbers or percentages. Every result MUST have at least one metric (%, $, time saved, headcount, revenue, efficiency gain, NPS score, etc.). If the original lacks numbers, infer realistic estimates based on the context and mark them with "(est.)".
 
 STYLE RULES:
-- Use executive-level language (strong verbs: Spearheaded, Orchestrated, Drove, Accelerated, Generated, Reduced)
-- Be specific and concrete — no vague language ("improved performance" → "reduced processing time by 40%")
+- Use executive-level language with strong action verbs appropriate to the detected language
+- Be specific and concrete — no vague language
 - Keep each section concise but complete
 - Results must be measurable and impressive
 
@@ -259,18 +262,18 @@ Actions:
 - ${actionsText}
 Result: ${result}
 
-OUTPUT FORMAT (respond with valid JSON only):
+OUTPUT FORMAT (respond with valid JSON only, all values in the SAME language as the input):
 {
-  "improved_challenge": "Improved Context/Challenge text here",
-  "improved_actions": ["Improved action 1", "Improved action 2", "Improved action 3"],
-  "improved_result": "Improved Result with quantified metrics here",
-  "key_improvements": ["brief note on what was improved 1", "brief note 2", "brief note 3"]
+  "improved_challenge": "...",
+  "improved_actions": ["...", "...", "..."],
+  "improved_result": "...",
+  "key_improvements": ["...", "...", "..."]
 }`;
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [
-        { role: 'system', content: 'You are an expert executive career coach. Always respond with valid JSON only. No markdown, no explanation outside JSON.' },
+        { role: 'system', content: `You are an expert executive career coach. YOU MUST RESPOND IN ${(language || 'English').toUpperCase()} ONLY. Every field in the JSON must be written in ${language || 'English'}. Always respond with valid JSON only. No markdown, no explanation outside JSON.` },
         { role: 'user', content: prompt }
       ],
       max_tokens: 800,
