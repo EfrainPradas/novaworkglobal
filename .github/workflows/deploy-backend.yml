@@ -1,0 +1,30 @@
+name: Deploy Backend to EC2
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'backend/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy backend via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: 3.145.4.238
+          username: admin
+          key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
+          script: |
+            echo "🚀 Deploying backend..."
+            cd /home/admin/novaworkglobal/backend
+            git pull origin main
+            npm ci --omit=dev
+            pm2 restart novaworkglobal-backend || pm2 start server.js --name novaworkglobal-backend
+            echo "✅ Deploy complete"
+            pm2 status novaworkglobal-backend
