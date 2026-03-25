@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import { Network, Calendar, ChevronRight } from 'lucide-react'
 import { BackButton } from '../../components/common/BackButton'
+import { useSearchParams } from 'react-router-dom'
 
 export default function NetworkingStrategy() {
+    const [searchParams] = useSearchParams()
+    const isStandalone = searchParams.get('mode') === 'standalone'
     const [activeWeek, setActiveWeek] = useState(1)
 
     const weeks = [
@@ -18,7 +21,7 @@ export default function NetworkingStrategy() {
 
                 {/* Header */}
                 <div>
-                    <BackButton to="/job-search-hub" label="Back to Job Search" className="mb-6 pl-0" />
+                    <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-6 pl-0" />
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
                         <span className="p-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg">
                             <Network className="w-8 h-8" />

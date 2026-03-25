@@ -719,7 +719,7 @@ const WorkExperienceBuilder: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div data-tour="back-dashboard">
               <BackButton
-                to={isStandalone ? '/resume-builder' : '/resume/contact-info'}
+                to={isStandalone ? '/dashboard' : '/resume/contact-info'}
                 label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
                 className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
               />

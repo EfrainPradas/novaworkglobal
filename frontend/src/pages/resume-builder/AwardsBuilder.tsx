@@ -222,10 +222,10 @@ export default function AwardsBuilder() {
                 {/* Navigation Header */}
                 <div className="flex items-center justify-between mb-6">
                     <button
-                        onClick={() => navigate(isStandalone ? '/resume-builder' : '/resume/education')}
+                        onClick={() => navigate(isStandalone ? '/dashboard' : '/resume/education')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Education'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : 'Back to Education'}
                     </button>
 
                     {!isStandalone && (

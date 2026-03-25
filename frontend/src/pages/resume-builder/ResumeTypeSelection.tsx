@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2, Play, BookOpen } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
@@ -8,6 +8,8 @@ import { BackButton } from '../../components/common/BackButton'
 export default function ResumeTypeSelection() {
     const { t } = useTranslation()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
+    const isStandalone = searchParams.get('mode') === 'standalone'
     const [selectedType, setSelectedType] = useState<'chronological' | 'functional' | null>(null)
     const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
 
@@ -38,8 +40,8 @@ export default function ResumeTypeSelection() {
         <div className="min-h-screen bg-gray-50 dark:bg-slate-950 p-6 md:p-10 transition-colors duration-200">
             <div className="mx-auto max-w-5xl">
                 <BackButton
-                    to="/resume-builder"
-                    label={t('common.backToMenu', 'Back to Menu')}
+                    to={isStandalone ? '/dashboard' : '/resume-builder'}
+                    label={isStandalone ? 'Back to Dashboard' : t('common.backToMenu', 'Back to Menu')}
                     variant="light"
                     className="mb-8 pl-0"
                 />

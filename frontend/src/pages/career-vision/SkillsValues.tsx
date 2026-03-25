@@ -5,12 +5,14 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { X, Plus, Sparkles, Save, Loader2, ArrowLeft, Play, BookOpen } from 'lucide-react'
 
 export default function SkillsValues() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
 
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -241,7 +243,7 @@ export default function SkillsValues() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/career-vision/dashboard')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4 flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -654,7 +656,7 @@ export default function SkillsValues() {
         {/* Action Buttons */}
         <div className="flex justify-between items-center">
           <button
-            onClick={() => navigate('/career-vision/dashboard')}
+            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
           >
             Cancel

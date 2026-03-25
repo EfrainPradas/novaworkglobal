@@ -17,6 +17,7 @@ import NovaAlignPage from './pages/programs/NovaAlign'
 import Onboarding from './pages/onboarding/Onboarding'
 import NavigationPrompt from './components/navigation/NavigationPrompt'
 import MainMenu from './pages/MainMenu'
+import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
@@ -46,6 +47,7 @@ import ProfileLearnMore from './pages/resume-builder/ProfileLearnMore'
 import ResumeTracking from './pages/resume-builder/ResumeTracking'
 import ResumeFinalPreview from './pages/resume-builder/ResumeFinalPreview'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
+import JDAnalyzer from './pages/resume-builder/JDAnalyzer'
 
 // Resume Builder V2 Routes
 import WorkHistoryIntake from './pages/resume-builder/WorkHistoryIntake'
@@ -134,7 +136,7 @@ function App() {
         {/* Essentials Protected Routes */}
         <Route element={<ProtectedRoute requiredLevel="essentials" />}>
           <Route path="/onboarding" element={<Onboarding />} />
-          <Route path="/dashboard" element={<NavigationPrompt />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
           <Route path="/shared-resources" element={<ClientSharedResources />} />
@@ -156,6 +158,7 @@ function App() {
           <Route path="/resume/final-preview" element={<ResumeFinalPreview />} />
           <Route path="/resume/tracking" element={<ResumeTracking />} />
           <Route path="/resume/cover-letter" element={<CoverLetterGenerator />} />
+          <Route path="/resume-builder/jd-analyzer" element={<JDAnalyzer />} />
 
           {/* Resume Builder V2 Routes */}
           <Route path="/resume/contact-info" element={<ContactInfoPage />} />

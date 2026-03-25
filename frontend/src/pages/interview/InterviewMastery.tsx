@@ -5,7 +5,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import { supabase } from '../../lib/supabase'
@@ -14,6 +14,8 @@ import { getDaysUntilInterview, formatInterviewDate } from '../../types/intervie
 
 export default function InterviewMastery() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const isStandalone = searchParams.get('mode') === 'standalone'
   const { t } = useTranslation()
   const [loading, setLoading] = useState(true)
   const [interviews, setInterviews] = useState<InterviewPreparation[]>([])
@@ -96,7 +98,7 @@ export default function InterviewMastery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <BackButton to="/job-search-hub" label="Back to Job Search" className="mb-4 pl-0" />
+          <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-4 pl-0" />
 
           <div className="flex items-start justify-between">
             <div>

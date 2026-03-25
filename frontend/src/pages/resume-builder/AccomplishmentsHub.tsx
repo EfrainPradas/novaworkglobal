@@ -40,10 +40,10 @@ export default function AccomplishmentsHub() {
                 <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center gap-2">
                         <button
-                            onClick={() => navigate('/resume-builder')}
+                            onClick={() => navigate(isStandalone ? '/dashboard' : '/resume-builder')}
                             className="flex items-center gap-2 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 transition-colors text-sm font-medium"
                         >
-                            <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
+                            <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : t('common.backToResumeBuilder', 'Back to Resume Builder')}
                         </button>
                     </div>
 
