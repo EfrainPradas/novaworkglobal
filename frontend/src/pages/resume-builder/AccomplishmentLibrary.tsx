@@ -112,6 +112,8 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
             if (error) throw error
 
+            // Priority: ai_generated first, then car_story, manual, imported
+            const sourcePriority: Record<string, number> = { ai_generated: 0, car_story: 1, manual: 2, imported: 3 }
             let fetchedItems = data || []
             try {
                 const savedOrderStr = localStorage.getItem(`accomplishment_order_${user.id}`)
@@ -120,10 +122,24 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                     fetchedItems.sort((a, b) => {
                         const idxA = savedOrder.indexOf(a.id!)
                         const idxB = savedOrder.indexOf(b.id!)
-                        if (idxA === -1 && idxB === -1) return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
+                        // Items not yet in saved order: sort by source priority then date
+                        if (idxA === -1 && idxB === -1) {
+                            const pa = sourcePriority[a.source] ?? 2
+                            const pb = sourcePriority[b.source] ?? 2
+                            if (pa !== pb) return pa - pb
+                            return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
+                        }
                         if (idxA === -1) return 1
                         if (idxB === -1) return -1
                         return idxA - idxB
+                    })
+                } else {
+                    // No custom order saved: ai_generated first, then by date
+                    fetchedItems.sort((a, b) => {
+                        const pa = sourcePriority[a.source] ?? 2
+                        const pb = sourcePriority[b.source] ?? 2
+                        if (pa !== pb) return pa - pb
+                        return new Date(b.created_at || '').getTime() - new Date(a.created_at || '').getTime()
                     })
                 }
             } catch (e) {
