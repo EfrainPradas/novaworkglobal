@@ -462,6 +462,8 @@ export async function generateAccomplishments(data) {
 function buildAccomplishmentsPrompt(challenge, result, roleCompany, skills, competencies, positioning) {
   let prompt = `You are an expert executive resume writer. Generate 3 powerful, achievement-based accomplishment statements based on the following PAR (Problem-Action-Result) story and strategic positioning context:\n\n`
 
+  prompt += `CRITICAL LANGUAGE RULE: Detect the language of the Problem/Challenge and Result fields below. Write ALL 3 accomplishment statements in the EXACT SAME LANGUAGE as those fields. If the input is in Spanish, respond entirely in Spanish. If in English, respond in English. Never switch languages.\n\n`
+
   prompt += `**Role/Company Context**: ${roleCompany || 'Not specified'}\n`
   prompt += `**Problem/Challenge**: ${challenge || 'Not specified'}\n`
   prompt += `**Result Achieved**: ${result || 'Not specified'}\n`
