@@ -377,6 +377,15 @@ Focus on recurring themes and be specific. Don't just list what they said - synt
  * @param {Array} data.competencies - Selected competencies
  * @returns {Promise<Array>} Array of 3 accomplishment statements
  */
+// Simple server-side language detection based on Spanish indicators
+function detectLanguage(text) {
+  if (!text) return 'English'
+  const spanishIndicators = /\b(el|la|los|las|un|una|de|del|en|con|por|para|que|se|es|al|fue|era|son|han|las|los|más|también|como|pero|cuando|desde|hasta|entre|sobre|sin|muy|bien|así|esto|este|esta|su|sus|mi|mis|tu|tus|nos|les|hay|ya|ni|si|le|me|te|lo)\b/gi
+  const matches = (text.match(spanishIndicators) || []).length
+  const words = text.split(/\s+/).length
+  return (matches / words) > 0.08 ? 'Spanish' : 'English'
+}
+
 export async function generateAccomplishments(data) {
   try {
     console.log('🤖 Generating AI accomplishments...')
@@ -390,6 +399,10 @@ export async function generateAccomplishments(data) {
       competencies = [],
       positioning = null
     } = data
+
+    // Detect language from input
+    const detectedLang = detectLanguage(`${challenge} ${result}`)
+    console.log(`🌐 Detected language: ${detectedLang}`)
 
     // Build the prompt
     const prompt = buildAccomplishmentsPrompt(
@@ -407,7 +420,7 @@ export async function generateAccomplishments(data) {
       messages: [
         {
           role: 'system',
-          content: 'You are an expert career coach and resume writer who specializes in creating powerful, accomplishment-focused statements that showcase quantifiable impact and professional achievements. CRITICAL RULE: You MUST detect the language of the user\'s input (Problem/Challenge and Result fields) and respond ENTIRELY in that same language. If the input is in Spanish, ALL accomplishments must be in Spanish. If in English, respond in English. This language rule overrides everything else.'
+          content: `You are an expert career coach and resume writer who specializes in creating powerful, accomplishment-focused statements that showcase quantifiable impact and professional achievements. YOU MUST RESPOND IN ${detectedLang.toUpperCase()} ONLY. Every single accomplishment statement must be written in ${detectedLang}. Do not use any other language.`
         },
         {
           role: 'user',
