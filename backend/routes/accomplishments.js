@@ -42,7 +42,8 @@ router.post('/generate-accomplishments', async (req, res) => {
       role_title,
       company_name,
       skills,
-      competencies
+      competencies,
+      language
     } = req.body
 
     // Map new fields to legacy role_company if they exist
@@ -87,7 +88,8 @@ router.post('/generate-accomplishments', async (req, res) => {
       role_company: mappedRoleCompany || '',
       skills: Array.isArray(skills) ? skills : [],
       competencies: Array.isArray(competencies) ? competencies : [],
-      positioning: questionnaire || null
+      positioning: questionnaire || null,
+      language: language || null
     })
 
     console.log('✅ Accomplishments generated successfully')

@@ -377,19 +377,9 @@ Focus on recurring themes and be specific. Don't just list what they said - synt
  * @param {Array} data.competencies - Selected competencies
  * @returns {Promise<Array>} Array of 3 accomplishment statements
  */
-// Simple server-side language detection based on Spanish indicators
-function detectLanguage(text) {
-  if (!text) return 'English'
-  const spanishIndicators = /\b(el|la|los|las|un|una|de|del|en|con|por|para|que|se|es|al|fue|era|son|han|las|los|más|también|como|pero|cuando|desde|hasta|entre|sobre|sin|muy|bien|así|esto|este|esta|su|sus|mi|mis|tu|tus|nos|les|hay|ya|ni|si|le|me|te|lo)\b/gi
-  const matches = (text.match(spanishIndicators) || []).length
-  const words = text.split(/\s+/).length
-  return (matches / words) > 0.08 ? 'Spanish' : 'English'
-}
-
 export async function generateAccomplishments(data) {
   try {
     console.log('🤖 Generating AI accomplishments...')
-    console.log('Input data:', JSON.stringify(data, null, 2))
 
     const {
       challenge = '',
@@ -397,12 +387,12 @@ export async function generateAccomplishments(data) {
       role_company = '',
       skills = [],
       competencies = [],
-      positioning = null
+      positioning = null,
+      language = 'English'
     } = data
 
-    // Detect language from input
-    const detectedLang = detectLanguage(`${challenge} ${result}`)
-    console.log(`🌐 Detected language: ${detectedLang}`)
+    const detectedLang = language || 'English'
+    console.log(`🌐 Language: ${detectedLang}`)
 
     // Build the prompt
     const prompt = buildAccomplishmentsPrompt(
