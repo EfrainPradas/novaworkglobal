@@ -361,11 +361,17 @@ router.post('/recommendations', async (req, res) => {
       allJobs.slice(0, limit * 2).map(async (job) => {
         let aiScore = 50 // Base score
 
-        try {
-          // Use AI to calculate match score
-          const hasDescription = job.description && job.description.trim().length > 50
-          const hasHighlights = job.job_highlights && job.job_highlights.length > 0
+        // Pre-build best description from real data (available in both try and catch)
+        const hasDescription = job.description && job.description.trim().length > 50
+        const hasHighlights = job.job_highlights && job.job_highlights.length > 0
+        let bestDescription = job.description || ''
+        if (!bestDescription && hasHighlights) {
+          bestDescription = job.job_highlights.map(h =>
+            `${h.title}:\n${h.items.map(i => `• ${i}`).join('\n')}`
+          ).join('\n\n')
+        }
 
+        try {
           const analysisPrompt = `
 Analyze this job match for a user with the following profile:
 
@@ -409,15 +415,9 @@ Return only a JSON object with:
           const aiAnalysis = JSON.parse(aiResponse.choices[0].message.content)
           aiScore = aiAnalysis.score || 50
 
-          // Build best possible description: real > highlights > AI-generated
-          let bestDescription = job.description || ''
-          if (!bestDescription && hasHighlights) {
-            bestDescription = job.job_highlights.map(h =>
-              `${h.title}:\n${h.items.map(i => `• ${i}`).join('\n')}`
-            ).join('\n\n')
-          }
-          if (!bestDescription) {
-            bestDescription = aiAnalysis.generated_description || ''
+          // Upgrade description with AI-generated if still empty
+          if (!bestDescription && aiAnalysis.generated_description) {
+            bestDescription = aiAnalysis.generated_description
           }
 
           return {
@@ -442,7 +442,7 @@ Return only a JSON object with:
             // Metadata
             searchQuery: job._searchQuery || '',
             recommendedAt: new Date().toISOString(),
-            descriptionSource: hasDescription ? 'serpapi' : hasHighlights ? 'highlights' : 'ai-generated',
+            descriptionSource: hasDescription ? 'serpapi' : hasHighlights ? 'highlights' : (aiAnalysis.generated_description ? 'ai-generated' : 'none'),
 
             // Original data
             highlights: job.job_highlights || [],
@@ -452,13 +452,12 @@ Return only a JSON object with:
         } catch (aiError) {
           console.warn(`⚠️ AI analysis failed for job: ${job.title} - ${aiError.message}`)
 
-          // Fallback to basic scoring
           return {
             id: job.job_id || `job-${Math.random()}`,
             title: job.title,
             company: job.company_name,
             location: job.location,
-            description: job.description,
+            description: bestDescription, // use pre-built description
             salary: job.detected_extensions?.salary || null,
             postedAt: job.detected_extensions?.posted_at || 'Recently',
             applyLink: job.apply_options?.[0]?.link || null,
