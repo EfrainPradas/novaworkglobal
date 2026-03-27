@@ -26,7 +26,8 @@ export default function MarketPulse() {
   const fetchNews = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/market-news')
+      const apiBase = import.meta.env.VITE_API_URL || ''
+      const res = await fetch(`${apiBase}/api/market-news`)
       const json = await res.json()
       setItems(json.items ?? [])
       setSource(json.source ?? 'fallback')
