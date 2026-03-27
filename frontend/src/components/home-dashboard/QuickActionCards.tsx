@@ -74,7 +74,7 @@ export default function QuickActionCards() {
 
       {/* Card 1 — Continue Program */}
       <button
-        onClick={() => navigate('/resume-builder')}
+        onClick={() => navigate('/dashboard/resume-builder')}
         className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group"
         style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
       >

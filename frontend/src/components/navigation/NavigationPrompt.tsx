@@ -246,16 +246,16 @@ export default function NavigationPrompt() {
 
     switch (action.id) {
       case 'career-discovery':
-        navigate('/career-vision')
+        navigate('/dashboard/career-vision')
         break
       case 'build-resume':
-        navigate('/resume-builder')
+        navigate('/dashboard/resume-builder')
         break
       case 'job-search-suite':
-        navigate('/job-search-hub')
+        navigate('/dashboard/job-search-hub')
         break
       case 'interview-mastery':
-        navigate('/interview')
+        navigate('/dashboard/interview')
         break
       default:
         navigate('/main-menu')

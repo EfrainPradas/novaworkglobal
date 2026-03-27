@@ -182,18 +182,18 @@ export default function HomeSidebar({
 
         {/* NovaNext Programs — features for the user's plan */}
         {sectionLabel(t('membership.title'))}
-        {navItem('/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
+        {navItem('/dashboard/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
         })}
-        {navItem('/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
+        {navItem('/dashboard/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
           required: 'momentum',
           iconBg: '#E8F5E9', iconColor: '#2E7D32',
         })}
-        {navItem('/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
+        {navItem('/dashboard/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
           required: 'momentum',
           iconBg: '#FFF3E0', iconColor: '#E65100',
         })}
-        {navItem('/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
+        {navItem('/dashboard/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
           required: 'executive',
           iconBg: '#F3E5F5', iconColor: '#6A1B9A',
         })}
@@ -212,7 +212,7 @@ export default function HomeSidebar({
 
         {/* Tools */}
         {sectionLabel(t('sidebarTools.title'))}
-        {navItem('/coaching', <UserCheck size={15} />, t('sidebarTools.myCoaches'), {
+        {navItem('/dashboard/coaching', <UserCheck size={15} />, t('sidebarTools.myCoaches'), {
           iconBg: '#F3E5F5', iconColor: '#7B1FA2',
         })}
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {

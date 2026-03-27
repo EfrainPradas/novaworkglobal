@@ -142,97 +142,98 @@ function App() {
         {/* Essentials Protected Routes */}
         <Route element={<ProtectedRoute requiredLevel="essentials" />}>
           <Route path="/onboarding" element={<Onboarding />} />
-
-          {/* Home Dashboard Shell — persistent layout with nested routes */}
-          <Route path="/dashboard" element={<HomeDashboard />}>
-            {/* Default dashboard index */}
-            <Route index element={<HomeDashboardIndex />} />
-            {/* Dashboard sub-pages nested INSIDE the shell */}
-            <Route path="modules" element={<DashboardModules />} />
-            <Route path="networking-sessions" element={<NetworkingSessionsPage />} />
-            <Route path="member-calendar" element={<MemberCalendarPage />} />
-            <Route path="community" element={<CommunityPage />} />
-          </Route>
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
           <Route path="/shared-resources" element={<ClientSharedResources />} />
 
-          {/* Resume Builder Routes - Level: Essentials */}
-          <Route path="/resume-builder" element={<ResumeBuilderMenu />} />
-          <Route path="/resume-builder/workflow" element={<ResumeBuilder />} />
-          <Route path="/resume/work-experience" element={<WorkExperienceBuilder />} />
-          <Route path="/resume/car-stories" element={<CARStoryBuilder />} />
-          <Route path="/resume/accomplishment-library" element={<AccomplishmentLibrary />} />
-          <Route path="/resume/accomplishments-hub" element={<AccomplishmentsHub />} />
-          <Route path="/resume/accomplishment-bank-learn-more" element={<AccomplishmentBankLearnMore />} />
-          <Route path="/resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
-          <Route path="/resume/profile" element={<ProfileBuilder />} />
-          <Route path="/resume/type-selection" element={<ResumeTypeSelection />} />
-          <Route path="/resume/type-selection/learn-more" element={<ResumeTypeLearnMore />} />
-          <Route path="/resume/work-experience/learn-more" element={<WorkExperienceLearnMore />} />
-          <Route path="/resume/profile/learn-more" element={<ProfileLearnMore />} />
-          <Route path="/resume/final-preview" element={<ResumeFinalPreview />} />
-          <Route path="/resume/tracking" element={<ResumeTracking />} />
-          <Route path="/resume/cover-letter" element={<CoverLetterGenerator />} />
-          <Route path="/resume-builder/jd-analyzer" element={<JDAnalyzer />} />
+          {/* Home Dashboard Shell — persistent layout with ALL nested module routes */}
+          <Route path="/dashboard" element={<HomeDashboard />}>
+            {/* Default dashboard index */}
+            <Route index element={<HomeDashboardIndex />} />
 
-          {/* Resume Builder V2 Routes */}
-          <Route path="/resume/contact-info" element={<ContactInfoPage />} />
-          <Route path="/resume/work-history" element={<WorkHistoryIntake />} />
-          <Route path="/resume/story-cards" element={<StoryCardsManager />} />
-          <Route path="/resume/education" element={<EducationBuilder />} />
-          <Route path="/resume/awards" element={<AwardsBuilder />} />
-          <Route path="/resume/questionnaire" element={<PositioningQuestionnaire />} />
+            {/* Dashboard sub-pages */}
+            <Route path="modules" element={<DashboardModules />} />
+            <Route path="networking-sessions" element={<NetworkingSessionsPage />} />
+            <Route path="member-calendar" element={<MemberCalendarPage />} />
+            <Route path="community" element={<CommunityPage />} />
 
-          {/* Weekly Reinvention & Settings */}
-          <Route path="/weekly-reinvention/monday-ritual" element={<MondayRitual />} />
-          <Route path="/weekly-reinvention/friday-ritual" element={<FridayRitual />} />
-          <Route path="/weekly-reinvention/progress" element={<ProgressDashboard />} />
-          <Route path="/settings/data" element={<DataManagement />} />
-          <Route path="/coaching" element={<ClientCoaching />} />
+            {/* Resume Builder Routes - nested inside /dashboard */}
+            <Route path="resume-builder" element={<ResumeBuilderMenu />} />
+            <Route path="resume-builder/workflow" element={<ResumeBuilder />} />
+            <Route path="resume-builder/jd-analyzer" element={<JDAnalyzer />} />
+            <Route path="resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
+            <Route path="resume/work-experience" element={<WorkExperienceBuilder />} />
+            <Route path="resume/car-stories" element={<CARStoryBuilder />} />
+            <Route path="resume/accomplishment-library" element={<AccomplishmentLibrary />} />
+            <Route path="resume/accomplishments-hub" element={<AccomplishmentsHub />} />
+            <Route path="resume/accomplishment-bank-learn-more" element={<AccomplishmentBankLearnMore />} />
+            <Route path="resume/profile" element={<ProfileBuilder />} />
+            <Route path="resume/type-selection" element={<ResumeTypeSelection />} />
+            <Route path="resume/type-selection/learn-more" element={<ResumeTypeLearnMore />} />
+            <Route path="resume/work-experience/learn-more" element={<WorkExperienceLearnMore />} />
+            <Route path="resume/profile/learn-more" element={<ProfileLearnMore />} />
+            <Route path="resume/final-preview" element={<ResumeFinalPreview />} />
+            <Route path="resume/tracking" element={<ResumeTracking />} />
+            <Route path="resume/cover-letter" element={<CoverLetterGenerator />} />
+            <Route path="resume/contact-info" element={<ContactInfoPage />} />
+            <Route path="resume/work-history" element={<WorkHistoryIntake />} />
+            <Route path="resume/story-cards" element={<StoryCardsManager />} />
+            <Route path="resume/education" element={<EducationBuilder />} />
+            <Route path="resume/awards" element={<AwardsBuilder />} />
+            <Route path="resume/questionnaire" element={<PositioningQuestionnaire />} />
+
+            {/* Job Search Routes - nested inside /dashboard (momentum tier only) */}
+            <Route path="job-search-hub" element={<JobSearchHub />} />
+            <Route path="job-search/learn-more" element={<StrategicJobSearchLearnMore />} />
+            <Route path="job-search/methodology" element={<FastTrackMethodology />} />
+            <Route path="job-search/plan-your-search" element={<PlanYourSearch />} />
+            <Route path="job-search/online-applications" element={<OnlineJobApplications />} />
+            <Route path="job-search/headhunters" element={<HeadhunterSearch />} />
+            <Route path="job-search/networking" element={<NetworkingStrategy />} />
+            <Route path="job-search/ai-recommendations" element={<AIRecommendations />} />
+            <Route path="job-search/application-tracker" element={<ResumeTracking />} />
+            <Route path="job-search/social-positioning" element={<PlanYourSearch />} />
+
+            {/* Career Vision Routes - nested inside /dashboard (momentum tier only) */}
+            <Route path="career-vision" element={<Navigate to="/dashboard/career-vision/dashboard" replace />} />
+            <Route path="career-vision/welcome" element={<Navigate to="/dashboard/career-vision/dashboard" replace />} />
+            <Route path="career-vision/dashboard" element={<CareerVisionDashboard />} />
+            <Route path="career-vision/skills-values" element={<SkillsValues />} />
+            <Route path="career-vision/job-history" element={<JobHistory />} />
+            <Route path="career-vision/preferences" element={<Preferences />} />
+            <Route path="career-vision/summary" element={<CareerVisionSummary />} />
+            <Route path="career-vision/learn-more" element={<CareerVisionLearnMore />} />
+
+            {/* Interview Routes - nested inside /dashboard (executive tier only) */}
+            <Route path="interview" element={<InterviewMastery />} />
+            <Route path="interview/new" element={<NewInterview />} />
+            <Route path="interview/questions" element={<QuestionBank />} />
+            <Route path="interview/questions/:questionId/answer" element={<QuestionAnswer />} />
+            <Route path="interview/:id" element={<InterviewDetail />} />
+            <Route path="interview/:id/interview-type" element={<InterviewTypeGuide />} />
+            <Route path="interview/:id/research" element={<ResearchForm />} />
+            <Route path="interview/:id/jd-comparison" element={<JDComparisonForm />} />
+            <Route path="interview/:id/practice" element={<PracticeDashboard />} />
+
+            {/* Weekly Reinvention & Settings - nested inside /dashboard */}
+            <Route path="weekly-reinvention/monday-ritual" element={<MondayRitual />} />
+            <Route path="weekly-reinvention/friday-ritual" element={<FridayRitual />} />
+            <Route path="weekly-reinvention/progress" element={<ProgressDashboard />} />
+            <Route path="settings/data" element={<DataManagement />} />
+            <Route path="coaching" element={<ClientCoaching />} />
+          </Route>
         </Route>
 
-        {/* Momentum Tier Routes */}
-        <Route element={<ProtectedRoute requiredLevel="momentum" />}>
-          <Route path="/job-search-hub" element={<JobSearchHub />} />
-          <Route path="/job-search/learn-more" element={<StrategicJobSearchLearnMore />} />
-          <Route path="/job-search/methodology" element={<FastTrackMethodology />} />
-          <Route path="/job-search/plan-your-search" element={<PlanYourSearch />} />
-          <Route path="/job-search/online-applications" element={<OnlineJobApplications />} />
-          <Route path="/job-search/headhunters" element={<HeadhunterSearch />} />
-          <Route path="/job-search/networking" element={<NetworkingStrategy />} />
-          <Route path="/job-search/ai-recommendations" element={<AIRecommendations />} />
-          <Route path="/job-search/application-tracker" element={<ResumeTracking />} />
-          <Route path="/job-search/social-positioning" element={<PlanYourSearch />} />
-
-          {/* Career Vision - Momentum Tier */}
-          <Route path="/career-vision" element={<Navigate to="/career-vision/dashboard" replace />} />
-          <Route path="/career-vision/welcome" element={<Navigate to="/career-vision/dashboard" replace />} />
-          <Route path="/career-vision/dashboard" element={<CareerVisionDashboard />} />
-          <Route path="/career-vision/skills-values" element={<SkillsValues />} />
-          <Route path="/career-vision/job-history" element={<JobHistory />} />
-          <Route path="/career-vision/preferences" element={<Preferences />} />
-          <Route path="/career-vision/summary" element={<CareerVisionSummary />} />
-          <Route path="/career-vision/learn-more" element={<CareerVisionLearnMore />} />
-        </Route>
-
-        {/* Executive Tier Routes - Interview Mastery Only */}
-        <Route element={<ProtectedRoute requiredLevel="executive" />}>
-          <Route path="/interview" element={<InterviewMastery />} />
-          <Route path="/interview/new" element={<NewInterview />} />
-          <Route path="/interview/questions" element={<QuestionBank />} />
-          <Route path="/interview/questions/:questionId/answer" element={<QuestionAnswer />} />
-          <Route path="/interview/:id" element={<InterviewDetail />} />
-          <Route path="/interview/:id/interview-type" element={<InterviewTypeGuide />} />
-          <Route path="/interview/:id/research" element={<ResearchForm />} />
-          <Route path="/interview/:id/jd-comparison" element={<JDComparisonForm />} />
-          <Route path="/interview/:id/practice" element={<PracticeDashboard />} />
-        </Route>
-
-        {/* Weekly Reinvention Routes - Available for All Levels */}
-        <Route path="/weekly-reinvention/monday-ritual" element={<MondayRitual />} />
-        <Route path="/weekly-reinvention/friday-ritual" element={<FridayRitual />} />
-        <Route path="/weekly-reinvention/progress" element={<ProgressDashboard />} />
+        {/* Backward compatibility redirects — old routes to new dashboard structure */}
+        <Route path="/resume-builder/*" element={<Navigate to="/dashboard/resume-builder" replace />} />
+        <Route path="/resume/*" element={<Navigate to="/dashboard/resume" replace />} />
+        <Route path="/job-search-hub" element={<Navigate to="/dashboard/job-search-hub" replace />} />
+        <Route path="/job-search/*" element={<Navigate to="/dashboard/job-search" replace />} />
+        <Route path="/career-vision/*" element={<Navigate to="/dashboard/career-vision" replace />} />
+        <Route path="/interview/*" element={<Navigate to="/dashboard/interview" replace />} />
+        <Route path="/weekly-reinvention/monday-ritual" element={<Navigate to="/dashboard/weekly-reinvention/monday-ritual" replace />} />
+        <Route path="/weekly-reinvention/friday-ritual" element={<Navigate to="/dashboard/weekly-reinvention/friday-ritual" replace />} />
+        <Route path="/weekly-reinvention/progress" element={<Navigate to="/dashboard/weekly-reinvention/progress" replace />} />
 
         {/* Coach-Only Routes */}
         <Route element={<CoachRoute />}>
