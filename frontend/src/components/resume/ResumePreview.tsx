@@ -71,6 +71,27 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                     .order('start_date', { ascending: false })
 
                 workExperience = work || []
+
+                // Merge AI-generated bullets from accomplishment_bank (AI first, no duplicates)
+                const { data: aiBullets } = await supabase
+                    .from('accomplishment_bank')
+                    .select('id, bullet_text, role_title, company_name')
+                    .eq('user_id', userId!)
+                    .eq('source', 'ai_generated')
+                if (aiBullets && aiBullets.length > 0) {
+                    workExperience = workExperience.map((exp: any) => {
+                        const matching = aiBullets.filter(
+                            b => b.role_title?.toLowerCase().trim() === exp.job_title?.toLowerCase().trim()
+                        )
+                        if (matching.length === 0) return exp
+                        const existingTexts = new Set((exp.accomplishments || []).map((a: any) => a.bullet_text?.toLowerCase().trim()))
+                        const newAI = matching
+                            .filter(b => !existingTexts.has(b.bullet_text?.toLowerCase().trim()))
+                            .map((b, i) => ({ id: `ai-${b.id}`, bullet_text: b.bullet_text, source: 'ai_generated', order_index: -(matching.length - i) }))
+                        const combined = [...newAI, ...(exp.accomplishments || [])]
+                        return { ...exp, accomplishments: combined }
+                    })
+                }
             }
 
             setResumeData({
@@ -106,7 +127,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
         if (dateString.length === 4) return dateString
         try {
             const date = new Date(dateString)
-            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short' })
+            return date.toLocaleDateString(undefined, { year: 'numeric' })
         } catch (e) {
             return dateString
         }
@@ -206,8 +227,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                                     <div className="text-center border-b-2 border-gray-300 pb-6 mb-6">
                                         <h1 className="text-3xl font-bold uppercase tracking-wider mb-2">{resumeData.contact.full_name}</h1>
                                         <div className="text-sm flex justify-center gap-3 text-gray-600 flex-wrap">
-                                            {resumeData.contact.location && <span>{resumeData.contact.location}</span>}
-                                            {resumeData.contact.phone && <span>• {resumeData.contact.phone}</span>}
+                                            {resumeData.contact.phone && <span>{resumeData.contact.phone}</span>}
                                             {resumeData.contact.email && <span>• {resumeData.contact.email}</span>}
                                             {resumeData.contact.linkedin && <span>• <a href={resumeData.contact.linkedin} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">LinkedIn</a></span>}
                                         </div>
@@ -215,36 +235,38 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
 
                                     {/* Profile Summary */}
                                     {resumeData.summary && (
-                                        <div className="mb-6">
-                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-3 uppercase tracking-wide text-gray-800">Professional Summary</h2>
-                                            <p className="text-sm leading-relaxed text-justify">{resumeData.summary}</p>
+                                        <div className="mb-3">
+                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-2 uppercase tracking-wide text-gray-800">Professional Summary</h2>
+                                            <p className="text-sm leading-tight text-justify">{resumeData.summary}</p>
                                         </div>
                                     )}
 
                                     {/* Areas of Excellence */}
                                     {resumeData.skills && resumeData.skills.length > 0 && (
-                                        <div className="mb-6">
-                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-3 uppercase tracking-wide text-gray-800">Areas of Excellence</h2>
+                                        <div className="mb-3">
+                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-2 uppercase tracking-wide text-gray-800">Areas of Excellence</h2>
                                             <div className="flex flex-wrap gap-2">
-                                                <p className="text-sm w-full text-center font-medium opacity-90">{resumeData.skills.join(' • ')}</p>
+                                                <p className="text-sm w-full text-center font-medium opacity-90">{resumeData.skills.join(' | ')}</p>
                                             </div>
                                         </div>
                                     )}
 
                                     {/* Work Experience */}
                                     {resumeData.work_experience && resumeData.work_experience.length > 0 && (
-                                        <div className="mb-6">
-                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-4 uppercase tracking-wide text-gray-800">
+                                        <div className="mb-3">
+                                            <h2 className="text-lg font-bold border-b border-gray-300 mb-2 uppercase tracking-wide text-gray-800">
                                                 {resumeData.resume_type === 'functional' ? 'Professional Capabilities' : 'Professional Experience'}
                                             </h2>
-                                            <div className="space-y-6">
+                                            <div className="space-y-2">
                                                 {resumeData.work_experience.map((exp: any) => (
                                                     <div key={exp.id}>
                                                         <div className="flex justify-between items-baseline mb-1">
-                                                            <h3 className="font-bold text-gray-900">{exp.company_name}</h3>
-                                                            <span className="text-sm font-medium text-gray-600 space-x-2">
-                                                                <span>{exp.location_city || ''}</span>
-                                                                <span>{formatDate(exp.start_date, false)} – {formatDate(exp.end_date, exp.is_current)}</span>
+                                                            <h3 className="font-bold text-gray-900">
+                                                                {exp.company_name}
+                                                                {exp.location_city && <span> | {exp.location_city}</span>}
+                                                            </h3>
+                                                            <span className="text-sm font-medium text-gray-600">
+                                                                {formatDate(exp.start_date, false)} – {formatDate(exp.end_date, exp.is_current)}
                                                             </span>
                                                         </div>
                                                         <div className="text-sm font-semibold italic text-gray-700 mb-2">{exp.job_title}</div>
