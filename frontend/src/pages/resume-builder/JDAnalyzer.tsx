@@ -308,15 +308,15 @@ const JDAnalyzer: React.FC = () => {
 
       console.log('✅ Analysis saved successfully')
 
-      // FIX: Update local state with the saved data (including ID)
+      // Keep ALL keywords (including unmatched) in state — only add the DB id
       if (data) {
+        const recalculatedScore = keywords.length > 0
+          ? Math.round((keywords.filter(k => k.currentMatch).length / keywords.length) * 100)
+          : matchScore
         setAnalysis({
+          ...newAnalysis,
           id: data.id,
-          job_title: data.job_title,
-          company_name: data.company_name,
-          jd_text: data.job_description_text,
-          extracted_keywords: data.top_keywords || keywords,
-          match_score: data.extracted_requirements?.match_score || matchScore
+          match_score: recalculatedScore
         })
       }
 
@@ -397,13 +397,17 @@ const JDAnalyzer: React.FC = () => {
     setJobTitle(savedAnalysis.job_title || '')
     setCompanyName(savedAnalysis.company_name || '')
     setJdText(savedAnalysis.job_description_text || '')
+    const kws = savedAnalysis.top_keywords || []
+    const recalcScore = kws.length > 0
+      ? Math.round((kws.filter((k: any) => k.currentMatch).length / kws.length) * 100)
+      : savedAnalysis.extracted_requirements?.match_score || 0
     setAnalysis({
       id: savedAnalysis.id,
       job_title: savedAnalysis.job_title,
       company_name: savedAnalysis.company_name,
       jd_text: savedAnalysis.job_description_text,
-      extracted_keywords: savedAnalysis.top_keywords || [],
-      match_score: savedAnalysis.extracted_requirements?.match_score || 0
+      extracted_keywords: kws,
+      match_score: recalcScore
     })
   }
 
