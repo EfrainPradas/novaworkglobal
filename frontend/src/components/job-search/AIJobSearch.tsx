@@ -258,10 +258,41 @@ export default function AIJobSearch() {
     }
 
     const handleJobAnalysis = (job: AIRecommendation) => {
+        // Build the best possible description from available data
+        let description = job.description || ''
+
+        // If description is short/empty, build from highlights
+        if (description.length < 100 && job.highlights && job.highlights.length > 0) {
+            const highlightText = job.highlights.map((h: any) => {
+                if (typeof h === 'string') return h
+                if (h.title && h.items) return `${h.title}:\n${h.items.join('\n')}`
+                if (h.items) return h.items.join('\n')
+                return ''
+            }).filter(Boolean).join('\n\n')
+            if (highlightText) description = highlightText
+        }
+
+        // If still empty, build a structured description from AI analysis
+        if (!description && job.aiAnalysis) {
+            const lines = [
+                `Position: ${job.title}`,
+                `Company: ${job.company}`,
+                `Location: ${job.location}`,
+                job.salary ? `Salary: ${job.salary}` : '',
+                '',
+                job.aiAnalysis.reasoning,
+                '',
+                job.aiAnalysis.keyMatches.length > 0
+                    ? `Key Requirements:\n${job.aiAnalysis.keyMatches.map(m => `• ${m}`).join('\n')}`
+                    : ''
+            ].filter(l => l !== undefined)
+            description = lines.join('\n').trim()
+        }
+
         const jobData = {
             title: job.title,
             company: job.company,
-            description: job.description,
+            description,
             location: job.location,
             salary: job.salary,
             aiAnalysis: job.aiAnalysis
