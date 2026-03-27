@@ -548,7 +548,11 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
 
             // Generated Profile
             try {
-                const { data: genProf } = await supabase.from('generated_professional_profile').select('id').eq('user_id', clientId).limit(1)
+                const { data: genProf } = await supabase
+                    .from('generated_professional_profile')
+                    .select('id')
+                    .eq('user_id', clientId)
+                    .limit(1)
                 progress.hasGeneratedProfile = !!(genProf && genProf.length > 0)
             } catch { /* table may not exist */ }
 
@@ -966,6 +970,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                         </div>
                                     ))}
                                 </div>
+
                             </>
                         ) : (
                             /* Module Detail Drill-down takeover */

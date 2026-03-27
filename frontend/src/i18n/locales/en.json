@@ -458,7 +458,133 @@
     "jobSearch": "Job Search and Positioning",
     "jobSearchDesc": "Use these techniques and get called for an interview 75% faster than others.",
     "interviewMastery": "Interview Mastery",
-    "interviewMasteryDesc": "Be the one they choose. Understand and practice the interview to be the winning candidate."
+    "interviewMasteryDesc": "Be the one they choose. Understand and practice the interview to be the winning candidate.",
+    "home": {
+      "title": "Career Command Center",
+      "greeting": "Welcome back, {{name}}",
+      "subtitle": "Your personalized career hub",
+      "heroTitle": "Your progress, community, and next best actions in one place.",
+      "heroDescription": "Keep moving forward in your NovaWork journey. Track your momentum, continue your current program, discover curated resources, and join this week's networking sessions."
+    },
+    "marketPulse": {
+      "title": "What's happening in the job market",
+      "viewMore": "View more insights"
+    },
+    "quickActions": {
+      "continueDesc": "Pick up where you left off in your NovaNext program.",
+      "networkingDesc": "Join live sessions and connect with your community."
+    },
+    "cta": {
+      "continueProgram": "Continue Program",
+      "exploreNetworking": "Explore Networking",
+      "viewCalendar": "View Member Calendar",
+      "viewAll": "View All",
+      "register": "Register",
+      "cancelRegistration": "Cancel Registration",
+      "retry": "Try Again",
+      "viewModules": "View All Modules"
+    },
+    "statsSection": {
+      "title": "Your Progress",
+      "profileCompletion": "Profile Completion",
+      "resumeVersions": "Resume Versions",
+      "applications": "Applications",
+      "interviews": "Interviews",
+      "sessionsJoined": "Sessions Joined"
+    },
+    "nextActions": {
+      "title": "Next Best Actions",
+      "continueResume": "Continue Resume Builder",
+      "finishCareerVision": "Finish Career Vision",
+      "joinSession": "Join This Week's Session",
+      "reviewResources": "Review Recommended Resources",
+      "startOnboarding": "Complete Your Profile"
+    },
+    "sessions": {
+      "title": "Upcoming Member Sessions",
+      "seatsLeft_one": "{{count}} seat left",
+      "seatsLeft_other": "{{count}} seats left",
+      "full": "Session Full",
+      "registered": "Registered",
+      "register": "Register",
+      "cancelRegistration": "Cancel Registration",
+      "duration": "{{minutes}} min",
+      "empty": "No upcoming sessions right now. Check back soon.",
+      "error": "Unable to load sessions.",
+      "workshop": "Workshop",
+      "networking": "Networking",
+      "q_and_a": "Q&A",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Community Highlights",
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "joinGroup": "Join Group",
+      "empty": "Community spaces coming soon.",
+      "error": "Unable to load community."
+    },
+    "resources": {
+      "title": "Recommended Resources",
+      "viewResource": "View Resource",
+      "empty": "No resources available yet.",
+      "error": "Unable to load resources.",
+      "article": "Article",
+      "video": "Video",
+      "pdf": "PDF",
+      "tool": "Tool"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "empty": "No activity yet — start by updating your resume or joining a session.",
+      "error": "Unable to load activity.",
+      "resume_updated": "Updated resume",
+      "session_joined": "Joined a session",
+      "session_cancelled": "Cancelled session",
+      "resource_viewed": "Viewed a resource",
+      "application_tracked": "Tracked an application",
+      "interview_scheduled": "Scheduled an interview",
+      "profile_updated": "Updated profile",
+      "car_story_added": "Added an accomplishment",
+      "onboarding_completed": "Completed onboarding"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "novanext": { "label": "NovaNext", "badge": "Active" },
+    "novarearchitect": { "label": "NovaRearchitect", "badge": "In Development" },
+    "novaalign": { "label": "NovaAlign", "badge": "In Development" }
+  },
+  "membership": {
+    "title": "NovaNext Programs",
+    "essential": "Essential",
+    "momentum": "Momentum",
+    "executive": "Executive",
+    "upgradeTo": "Upgrade to {{tier}}",
+    "availableIn": "Available in {{tier}}",
+    "currentPlan": "Current Plan"
+  },
+  "learningModules": {
+    "title": "Learning Modules",
+    "careerVision": "Career Vision",
+    "resumeBuilder": "Resume Builder",
+    "jobSearch": "Job Search",
+    "interviewMastery": "Interview Mastery"
+  },
+  "sidebarCommunity": {
+    "title": "Community",
+    "networkingSessions": "Networking Sessions",
+    "memberCalendar": "Member Calendar",
+    "community": "Community"
+  },
+  "sidebarOverview": {
+    "dashboard": "Dashboard",
+    "modules": "All Modules"
+  },
+  "sidebarTools": {
+    "title": "Tools",
+    "myCoaches": "My Coaches",
+    "sharedResources": "Shared Resources"
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Learn More · Accomplishment Bank",

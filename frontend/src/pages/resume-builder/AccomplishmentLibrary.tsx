@@ -34,6 +34,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [newStart, setNewStart] = useState('')
     const [newEnd, setNewEnd] = useState('')
     const [isAdding, setIsAdding] = useState(false)
+    const [applyingToResume, setApplyingToResume] = useState(false)
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
     const [isImprovingAI, setIsImprovingAI] = useState(false)
 
@@ -48,6 +49,58 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [saveGroupName, setSaveGroupName] = useState('')
     const [groupToSave, setGroupToSave] = useState<{ theme: string, storyIds: string[] }[] | null>(null)
     const [isSavingGroup, setIsSavingGroup] = useState(false)
+
+    const handleApplyAIToResume = async () => {
+        if (applyingToResume) return
+        setApplyingToResume(true)
+        try {
+            const { data: { user } } = await supabase.auth.getUser()
+            if (!user) return
+
+            // Get AI-generated bullets from the bank
+            const aiBullets = items.filter(i => i.source === 'ai_generated')
+            if (aiBullets.length === 0) {
+                alert('No AI-generated bullets found in your bank.')
+                return
+            }
+
+            // Get user's master resume and work experiences
+            const { data: resumes } = await supabase
+                .from('user_resumes').select('id').eq('user_id', user.id).eq('is_master', true).limit(1)
+            const resumeId = resumes?.[0]?.id
+            if (!resumeId) { alert('No resume found.'); return }
+
+            const { data: workExps } = await supabase
+                .from('work_experience')
+                .select('id, job_title, accomplishments(bullet_text)')
+                .eq('resume_id', resumeId)
+            if (!workExps) return
+
+            let added = 0
+            for (const bullet of aiBullets) {
+                const match = workExps.find(
+                    w => w.job_title?.toLowerCase().trim() === bullet.role_title?.toLowerCase().trim()
+                )
+                if (!match) continue
+                const existingTexts = new Set((match.accomplishments || []).map((a: any) => a.bullet_text?.trim()))
+                if (existingTexts.has(bullet.bullet_text?.trim())) continue
+                const currentCount = (match.accomplishments || []).length
+                await supabase.from('accomplishments').insert({
+                    work_experience_id: match.id,
+                    bullet_text: bullet.bullet_text,
+                    order_index: currentCount,
+                    is_featured: false
+                })
+                added++
+            }
+            alert(added > 0 ? `✅ ${added} AI bullet(s) added to your resume!` : 'All AI bullets are already in your resume.')
+        } catch (err) {
+            console.error('Apply AI to resume error:', err)
+            alert('Something went wrong. Please try again.')
+        } finally {
+            setApplyingToResume(false)
+        }
+    }
 
     const handleImproveWithAI = async () => {
         if (!newItemText.trim() || isImprovingAI) return
@@ -483,6 +536,17 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         </div>
 
                         <div className="flex flex-wrap gap-2 justify-end">
+
+                            {items.some(i => i.source === 'ai_generated') && (
+                                <button
+                                    onClick={handleApplyAIToResume}
+                                    disabled={applyingToResume}
+                                    className="flex items-center gap-2 px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 shadow-sm transition-colors disabled:opacity-60"
+                                >
+                                    {applyingToResume ? <Loader2 size={18} className="animate-spin" /> : <Sparkles size={18} />}
+                                    Apply AI to Resume
+                                </button>
+                            )}
 
                             <button
                                 onClick={() => setIsAdding(true)}

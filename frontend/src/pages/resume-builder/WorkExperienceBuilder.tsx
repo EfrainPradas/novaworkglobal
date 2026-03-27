@@ -7,7 +7,7 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
-import { ArrowRight, Play, X, HelpCircle } from 'lucide-react'
+import { ArrowRight, Play, X, HelpCircle, Sparkles, Loader2 } from 'lucide-react'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { workExperienceTourConfig } from '../../config/tours/workExperienceTour'
@@ -30,6 +30,8 @@ const WorkExperienceBuilder: React.FC = () => {
   const [importing, setImporting] = useState(false)
   const [importFile, setImportFile] = useState<File | null>(null)
   const [tourStarted, setTourStarted] = useState(false)
+  const [aiBulletCounts, setAIBulletCounts] = useState<Record<string, number>>({})
+  const [replacingAI, setReplacingAI] = useState<string | null>(null)
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -145,8 +147,84 @@ const WorkExperienceBuilder: React.FC = () => {
       })
 
       setExperiences(sortedExperiences)
+      await checkAIBullets(sortedExperiences)
     } catch (error) {
       console.error('Error loading experiences:', error)
+    }
+  }
+
+  const checkAIBullets = async (exps: WorkExperience[]) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const { data } = await supabase
+        .from('accomplishment_bank')
+        .select('id, role_title')
+        .eq('user_id', user.id)
+        .eq('source', 'ai_generated')
+      if (!data) return
+      const counts: Record<string, number> = {}
+      for (const exp of exps) {
+        counts[exp.id!] = data.filter(b => b.role_title === exp.job_title).length
+      }
+      setAIBulletCounts(counts)
+    } catch (e) {
+      console.error('Error checking AI bullets:', e)
+    }
+  }
+
+  const handleAddAIBullets = async (workExpId: string) => {
+    if (!resumeId) return
+    const exp = experiences.find(e => e.id === workExpId)
+    if (!exp) return
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) return
+
+    setReplacingAI(workExpId)
+    try {
+      const { data: aiBullets, error: fetchErr } = await supabase
+        .from('accomplishment_bank')
+        .select('*')
+        .eq('user_id', user.id)
+        .eq('source', 'ai_generated')
+        .eq('role_title', exp.job_title)
+        .order('created_at', { ascending: false })
+
+      if (fetchErr) throw fetchErr
+      if (!aiBullets || aiBullets.length === 0) {
+        alert('No AI-generated bullets found for this position.')
+        return
+      }
+
+      // Only insert bullets that aren't already in this experience
+      const existingTexts = new Set((exp.accomplishments || []).map(a => a.bullet_text.trim()))
+      const newBullets = aiBullets.filter(b => !existingTexts.has(b.bullet_text.trim()))
+
+      if (newBullets.length === 0) {
+        alert('All AI bullets are already in this position.')
+        return
+      }
+
+      const nextIndex = (exp.accomplishments || []).length
+      const toInsert = newBullets.map((b, i) => ({
+        work_experience_id: workExpId,
+        bullet_text: b.bullet_text,
+        order_index: nextIndex + i,
+        is_featured: false,
+        par_story_id: b.par_story_id || null
+      }))
+
+      const { error: insertErr } = await supabase
+        .from('accomplishments')
+        .insert(toInsert)
+      if (insertErr) throw insertErr
+
+      await loadExperiences(resumeId)
+    } catch (error) {
+      console.error('Error adding AI bullets:', error)
+      alert('Failed to add AI bullets. Please try again.')
+    } finally {
+      setReplacingAI(null)
     }
   }
 
@@ -906,6 +984,40 @@ const WorkExperienceBuilder: React.FC = () => {
                       <p className="text-gray-500 dark:text-gray-300 text-sm mb-4 italic">{exp.scope_description}</p>
                     )}
 
+                    {/* Bullets list with individual delete buttons */}
+                    {exp.accomplishments && exp.accomplishments.length > 0 && (
+                      <ul className="space-y-1.5 mb-3">
+                        {[...exp.accomplishments]
+                          .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+                          .map(acc => (
+                            <li key={acc.id} className="flex items-start gap-2 group">
+                              <span className="text-gray-400 mt-0.5 shrink-0">•</span>
+                              <span className="text-sm text-gray-600 dark:text-gray-400 flex-1">{acc.bullet_text}</span>
+                              <button
+                                onClick={() => handleDeleteAccomplishment(exp.id!, acc.id!)}
+                                className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity shrink-0 mt-0.5"
+                                title="Remove bullet"
+                              >
+                                <X className="w-3.5 h-3.5" />
+                              </button>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+
+                    {/* Add AI Bullets button — adds without deleting existing */}
+                    {aiBulletCounts[exp.id!] > 0 && (
+                      <button
+                        onClick={() => handleAddAIBullets(exp.id!)}
+                        disabled={replacingAI === exp.id}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition disabled:opacity-50"
+                      >
+                        {replacingAI === exp.id
+                          ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Adding...</>
+                          : <><Sparkles className="w-3.5 h-3.5" /> Add AI Bullets ({aiBulletCounts[exp.id!]})</>
+                        }
+                      </button>
+                    )}
 
                   </div>
                 ))}

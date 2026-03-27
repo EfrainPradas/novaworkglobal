@@ -407,7 +407,10 @@
     "resumeScore": "Punteggio CV",
     "applicationsTracked": "Candidature tracciate",
     "interviewsScheduled": "Colloqui programmati",
-    "quickActions": "Azioni rapide",
+    "quickActions": {
+      "continueDesc": "Riprendi dal punto in cui eri nel tuo programma NovaNext.",
+      "networkingDesc": "Partecipa a sessioni live e connettiti con la community."
+    },
     "uploadResume": "Carica CV",
     "analyzeJD": "Analizza descrizione lavoro",
     "careerVision": "Comprendi la Tua Visione di Carriera",
@@ -417,7 +420,92 @@
     "jobSearch": "Ricerca Lavoro e Posizionamento",
     "jobSearchDesc": "Usa queste tecniche e verrai chiamato per un colloquio il 75% più velocemente degli altri.",
     "interviewMastery": "Maestria nel Colloquio",
-    "interviewMasteryDesc": "Sii quello che scelgono. Comprendi e pratica il colloquio per essere il candidato vincente."
+    "interviewMasteryDesc": "Sii quello che scelgono. Comprendi e pratica il colloquio per essere il candidato vincente.",
+    "home": {
+      "title": "Centro di Comando della Carriera",
+      "greeting": "Bentornato, {{name}}",
+      "subtitle": "Il tuo hub di carriera personalizzato",
+      "heroTitle": "I tuoi progressi, la community e le prossime azioni in un unico posto.",
+      "heroDescription": "Continua ad avanzare nel tuo percorso NovaWork. Monitora il tuo slancio, prosegui il programma e partecipa alle sessioni di questa settimana."
+    },
+    "cta": {
+      "continueProgram": "Continua Programma",
+      "exploreNetworking": "Esplora il Networking",
+      "viewCalendar": "Vedi Calendario Membri",
+      "viewAll": "Vedi Tutto",
+      "register": "Registrati",
+      "cancelRegistration": "Annulla Iscrizione",
+      "retry": "Riprova",
+      "viewModules": "Vedi Tutti i Moduli"
+    },
+    "statsSection": {
+      "title": "Il Tuo Progresso",
+      "profileCompletion": "Profilo Completato",
+      "resumeVersions": "Versioni del CV",
+      "applications": "Candidature",
+      "interviews": "Colloqui",
+      "sessionsJoined": "Sessioni Seguite"
+    },
+    "nextActions": {
+      "title": "Prossime Azioni",
+      "continueResume": "Continua il Costruttore di CV",
+      "finishCareerVision": "Completa Visione di Carriera",
+      "joinSession": "Unisciti alla Sessione di questa Settimana",
+      "reviewResources": "Rivedi le Risorse Consigliate",
+      "startOnboarding": "Completa il Tuo Profilo"
+    },
+    "sessions": {
+      "title": "Prossime Sessioni per Membri",
+      "seatsLeft_one": "{{count}} posto disponibile",
+      "seatsLeft_other": "{{count}} posti disponibili",
+      "full": "Sessione Completa",
+      "registered": "Iscritto",
+      "register": "Registrati",
+      "cancelRegistration": "Annulla Iscrizione",
+      "duration": "{{minutes}} min",
+      "empty": "Nessuna sessione in arrivo al momento. Torna presto.",
+      "error": "Impossibile caricare le sessioni.",
+      "workshop": "Workshop",
+      "networking": "Networking",
+      "q_and_a": "Domande e Risposte",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Highlights della Community",
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membri",
+      "joinGroup": "Unisciti al Gruppo",
+      "empty": "Spazi della community in arrivo.",
+      "error": "Impossibile caricare la community."
+    },
+    "resources": {
+      "title": "Risorse Consigliate",
+      "viewResource": "Vedi Risorsa",
+      "empty": "Nessuna risorsa disponibile ancora.",
+      "error": "Impossibile caricare le risorse.",
+      "article": "Articolo",
+      "video": "Video",
+      "pdf": "PDF",
+      "tool": "Strumento"
+    },
+    "activity": {
+      "title": "Attività Recente",
+      "empty": "Nessuna attività ancora — inizia aggiornando il tuo CV o unendoti a una sessione.",
+      "error": "Impossibile caricare l'attività.",
+      "resume_updated": "CV aggiornato",
+      "session_joined": "Sessione seguita",
+      "session_cancelled": "Sessione annullata",
+      "resource_viewed": "Risorsa visualizzata",
+      "application_tracked": "Candidatura registrata",
+      "interview_scheduled": "Colloquio pianificato",
+      "profile_updated": "Profilo aggiornato",
+      "car_story_added": "Risultato aggiunto",
+      "onboarding_completed": "Integrazione completata"
+    },
+    "marketPulse": {
+      "title": "Cosa sta succedendo nel mercato del lavoro",
+      "viewMore": "Vedi altri insights"
+    }
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Scopri di più · Banca dei Risultati",
@@ -602,5 +690,51 @@
         "content": "Ogni scheda rappresenta un ruolo nella tua carriera. Clicca su Modifica per modificare o Elimina per rimuovere."
       }
     }
+  },
+  "services": {
+    "title": "Servizi",
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Attivo"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "In Sviluppo"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "In Sviluppo"
+    }
+  },
+  "membership": {
+    "title": "Programmi NovaNext",
+    "essential": "Essenziale",
+    "momentum": "Momentum",
+    "executive": "Esecutivo",
+    "upgradeTo": "Passa a {{tier}}",
+    "availableIn": "Disponibile in {{tier}}",
+    "currentPlan": "Piano Attuale"
+  },
+  "learningModules": {
+    "title": "Moduli di Apprendimento",
+    "careerVision": "Visione di Carriera",
+    "resumeBuilder": "Costruttore di CV",
+    "jobSearch": "Ricerca di Lavoro",
+    "interviewMastery": "Maestria nei Colloqui"
+  },
+  "sidebarCommunity": {
+    "title": "Community",
+    "networkingSessions": "Sessioni di Networking",
+    "memberCalendar": "Calendario Membri",
+    "community": "Community"
+  },
+  "sidebarOverview": {
+    "dashboard": "Pannello Principale",
+    "modules": "Tutti i Moduli"
+  },
+  "sidebarTools": {
+    "title": "Strumenti",
+    "myCoaches": "I Miei Coach",
+    "sharedResources": "Risorse Condivise"
   }
 }
