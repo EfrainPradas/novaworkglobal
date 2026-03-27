@@ -346,13 +346,13 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div className="flex items-center justify-between">
               <div>
-                <BackButton to="/job-search-hub" label="Back to Job Search" variant="light" className="mb-2 pl-0" />
+                <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" variant="light" className="mb-2 pl-0" />
                 <h1 className="text-2xl font-heading font-bold text-gray-900 dark:text-white">
                   📊 Resume Application Tracker
                 </h1>
               </div>
               <button
-                onClick={() => navigate('/resume/jd-analyzer')}
+                onClick={() => navigate('/dashboard/resume/jd-analyzer')}
                 className="bg-primary-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-700 transition-colors flex items-center gap-2"
               >
                 <span className="text-lg">🔍</span>
@@ -441,7 +441,7 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center transition-colors duration-200">
             <p className="text-gray-600 dark:text-gray-400 mb-4">No resumes found.</p>
             <button
-              onClick={() => navigate('/resume-builder/jd-analyzer')}
+              onClick={() => navigate('/dashboard/resume-builder/jd-analyzer')}
               className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700"
             >
               Create Your First Resume

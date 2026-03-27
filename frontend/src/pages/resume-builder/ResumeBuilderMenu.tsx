@@ -212,7 +212,7 @@ export default function ResumeBuilderMenu() {
       title: 'Work Experience and Education',
       description: 'Build your career history and academic record.',
       icon: Briefcase,
-      route: '/resume/work-experience?mode=standalone',
+      route: '/dashboard/resume/work-experience?mode=standalone',
       completed: completedSteps.has('work-history') && completedSteps.has('education'),
       current: !completedSteps.has('work-history') || !completedSteps.has('education'),
       color: 'text-emerald-600',
@@ -225,7 +225,7 @@ export default function ResumeBuilderMenu() {
       title: 'Accomplishment Bank',
       description: 'Highlight your key accomplishments.',
       icon: Trophy,
-      route: '/resume/accomplishments-hub?mode=standalone',
+      route: '/dashboard/resume/accomplishments-hub?mode=standalone',
       completed: completedSteps.has('accomplishment-bank') && completedSteps.has('story-cards'),
       current: (completedSteps.has('work-history') && completedSteps.has('education')) && (!completedSteps.has('accomplishment-bank') || !completedSteps.has('story-cards')),
       color: 'text-amber-600',
@@ -238,7 +238,7 @@ export default function ResumeBuilderMenu() {
       title: 'Professional Summary',
       description: 'Introduce and postion yourself.',
       icon: ClipboardList,
-      route: '/resume/questionnaire?mode=standalone',
+      route: '/dashboard/resume/questionnaire?mode=standalone',
       completed: completedSteps.has('questionnaire'),
       current: completedSteps.has('story-cards') && !completedSteps.has('questionnaire'),
       color: 'text-teal-600',
@@ -251,7 +251,7 @@ export default function ResumeBuilderMenu() {
       title: 'Choose you Resume',
       description: 'Chronological or Functional',
       icon: CheckSquare,
-      route: '/resume/type-selection?mode=standalone',
+      route: '/dashboard/resume/type-selection?mode=standalone',
       completed: completedSteps.has('finalize'),
       current: completedSteps.has('questionnaire') && !completedSteps.has('finalize'),
       color: 'text-blue-600',
@@ -312,7 +312,7 @@ export default function ResumeBuilderMenu() {
                   <Play className="w-4 h-4" /> Watch video
                 </button>
                 <button
-                  onClick={() => navigate('/resume-builder/learn-more')}
+                  onClick={() => navigate('/dashboard/resume-builder/learn-more')}
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <BookOpen className="w-4 h-4" /> Learn more

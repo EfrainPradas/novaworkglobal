@@ -44,7 +44,7 @@ export default function ResumeBuilderLearnMore() {
                 <div className="max-w-[1100px] mx-auto flex items-center justify-between px-6 py-4">
                     <div
                         className="flex items-center gap-3 font-bold text-[#0b2450] dark:text-white cursor-pointer group"
-                        onClick={() => navigate('/resume-builder')}
+                        onClick={() => navigate('/dashboard/resume-builder')}
                     >
                         <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#39d0d8] to-[#143a72] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
                             <FileText className="w-5 h-5" />
@@ -52,7 +52,7 @@ export default function ResumeBuilderLearnMore() {
                         <span className="tracking-tight text-lg">NovaWork Global</span>
                     </div>
                     <button
-                        onClick={() => navigate('/resume-builder')}
+                        onClick={() => navigate('/dashboard/resume-builder')}
                         className="flex items-center gap-2 text-sm font-semibold text-[#5a6b86] dark:text-slate-400 hover:text-[#0b2450] dark:hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Resume Builder
@@ -346,7 +346,7 @@ export default function ResumeBuilderLearnMore() {
                             Build a resume that tells your accomplishment story, not your job description.
                         </p>
                         <button
-                            onClick={() => navigate('/resume-builder')}
+                            onClick={() => navigate('/dashboard/resume-builder')}
                             className="bg-[#39d0d8] text-[#0b2450] px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-transform relative z-10"
                         >
                             Start Building Now

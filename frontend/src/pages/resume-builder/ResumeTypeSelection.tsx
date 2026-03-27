@@ -27,11 +27,11 @@ export default function ResumeTypeSelection() {
 
                     if (error) throw error
                 }
-                navigate('/resume/final-preview')
+                navigate('/dashboard/resume/final-preview')
             } catch (error) {
                 console.error('Error saving resume type:', error)
                 // Fallback to navigation anyway
-                navigate('/resume/final-preview')
+                navigate('/dashboard/resume/final-preview')
             }
         }
     }
@@ -40,8 +40,8 @@ export default function ResumeTypeSelection() {
         <div className="min-h-screen bg-gray-50 dark:bg-slate-950 p-6 md:p-10 transition-colors duration-200">
             <div className="mx-auto max-w-5xl">
                 <BackButton
-                    to={isStandalone ? '/dashboard' : '/resume-builder'}
-                    label={isStandalone ? 'Back to Dashboard' : t('common.backToMenu', 'Back to Menu')}
+                    to="/dashboard/resume-builder"
+                    label="Back to Resume Builder"
                     variant="light"
                     className="mb-8 pl-0"
                 />
@@ -61,7 +61,7 @@ export default function ResumeTypeSelection() {
                             <Play className="w-4 h-4" /> Watch video
                         </button>
                         <button
-                            onClick={() => navigate('/resume/type-selection/learn-more')}
+                            onClick={() => navigate('/dashboard/resume/type-selection/learn-more')}
                             className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                         >
                             <BookOpen className="w-4 h-4" /> Learn more

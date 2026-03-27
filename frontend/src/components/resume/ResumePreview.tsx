@@ -127,7 +127,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
         if (dateString.length === 4) return dateString
         try {
             const date = new Date(dateString)
-            return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short' })
+            return date.toLocaleDateString(undefined, { year: 'numeric' })
         } catch (e) {
             return dateString
         }
@@ -227,8 +227,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                                     <div className="text-center border-b-2 border-gray-300 pb-6 mb-6">
                                         <h1 className="text-3xl font-bold uppercase tracking-wider mb-2">{resumeData.contact.full_name}</h1>
                                         <div className="text-sm flex justify-center gap-3 text-gray-600 flex-wrap">
-                                            {resumeData.contact.location && <span>{resumeData.contact.location}</span>}
-                                            {resumeData.contact.phone && <span>• {resumeData.contact.phone}</span>}
+                                            {resumeData.contact.phone && <span>{resumeData.contact.phone}</span>}
                                             {resumeData.contact.email && <span>• {resumeData.contact.email}</span>}
                                             {resumeData.contact.linkedin && <span>• <a href={resumeData.contact.linkedin} target="_blank" rel="noreferrer" className="text-blue-600 hover:underline">LinkedIn</a></span>}
                                         </div>
@@ -247,7 +246,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
                                         <div className="mb-6">
                                             <h2 className="text-lg font-bold border-b border-gray-300 mb-3 uppercase tracking-wide text-gray-800">Areas of Excellence</h2>
                                             <div className="flex flex-wrap gap-2">
-                                                <p className="text-sm w-full text-center font-medium opacity-90">{resumeData.skills.join(' • ')}</p>
+                                                <p className="text-sm w-full text-center font-medium opacity-90">{resumeData.skills.join(' | ')}</p>
                                             </div>
                                         </div>
                                     )}

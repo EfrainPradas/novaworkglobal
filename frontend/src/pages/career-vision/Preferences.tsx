@@ -200,7 +200,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
 
       // Navigate to next section (Job History)
       setTimeout(() => {
-        navigate('/career-vision/job-history')
+        navigate('/dashboard/career-vision/job-history')
       }, 1500)
 
     } catch (error) {
@@ -346,7 +346,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
               </div>
               <div className="flex gap-3">
                 <button
-                  onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision')}
+                  onClick={() => navigate('/dashboard/career-vision/dashboard')}
                   className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Back to Menu
@@ -453,7 +453,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
+            onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4"
           >
             ← {t('common.back', 'Back to Career Vision')}

@@ -2,9 +2,9 @@ import express from 'express'
 
 const router = express.Router()
 
-// ── In-memory cache (1 hour) ─────────────────────────────────────────────────
+// ── In-memory cache (30 minutes) ────────────────────────────────────────────
 let cache = null
-const CACHE_TTL = 60 * 60 * 1000 // 1 hr
+const CACHE_TTL = 30 * 60 * 1000 // 30 min
 
 // ── Tag classifier ───────────────────────────────────────────────────────────
 function classifyTag(title = '', description = '') {

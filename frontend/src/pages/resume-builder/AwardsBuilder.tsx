@@ -163,7 +163,7 @@ export default function AwardsBuilder() {
 
     const handleContinue = async () => {
         await trackEvent('analytics', 'step_completed', { step_name: 'awards', next_step: 'pos-identity' })
-        navigate('/resume/questionnaire')
+        navigate('/dashboard/resume/questionnaire')
     }
 
     const inputClass = (field: string) =>
@@ -222,10 +222,10 @@ export default function AwardsBuilder() {
                 {/* Navigation Header */}
                 <div className="flex items-center justify-between mb-6">
                     <button
-                        onClick={() => navigate(isStandalone ? '/dashboard' : '/resume/education')}
+                        onClick={() => navigate('/dashboard/resume/education')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : 'Back to Education'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Education'}
                     </button>
 
                     {!isStandalone && (
@@ -241,13 +241,13 @@ export default function AwardsBuilder() {
                 {isStandalone && (
                     <div className="flex space-x-6 mb-8 border-b border-gray-200 dark:border-gray-700">
                         <button
-                            onClick={() => navigate('/resume/work-experience?mode=standalone')}
+                            onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
                             Work Experience
                         </button>
                         <button
-                            onClick={() => navigate('/resume/education?mode=standalone')}
+                            onClick={() => navigate('/dashboard/resume/education?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
                             Education

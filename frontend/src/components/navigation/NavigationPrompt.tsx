@@ -342,7 +342,7 @@ export default function NavigationPrompt() {
                 </span>
                 <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full xl:w-auto">
                   <button
-                    onClick={() => navigate('/resume-builder')}
+                    onClick={() => navigate('/dashboard/resume-builder')}
                     className="flex-1 sm:flex-none justify-center bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
                   >
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
@@ -375,7 +375,7 @@ export default function NavigationPrompt() {
                   </div>
                 </div>
                 <button
-                  onClick={() => navigate('/resume-builder')}
+                  onClick={() => navigate('/dashboard/resume-builder')}
                   className="sm:hidden w-full mt-4 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium"
                 >
                   {t('dashboard.start')} <ArrowRight className="w-4 h-4 inline ml-1" />
@@ -564,7 +564,7 @@ export default function NavigationPrompt() {
                 </button>
 
                 <button
-                  onClick={() => navigate('/resume/work-experience?openImport=true')}
+                  onClick={() => navigate('/dashboard/resume/work-experience?openImport=true')}
                   className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
                 >
                   <div className="flex items-center gap-3">
@@ -577,7 +577,7 @@ export default function NavigationPrompt() {
                 </button>
 
                 <button
-                  onClick={() => navigate('/resume/jd-analyzer')}
+                  onClick={() => navigate('/dashboard/resume/jd-analyzer')}
                   className="w-full flex items-center justify-between p-3 rounded-xl border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all group"
                 >
                   <div className="flex items-center gap-3">

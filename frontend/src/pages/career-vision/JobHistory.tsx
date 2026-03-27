@@ -337,7 +337,7 @@ export default function JobHistory() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
+            onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4 flex items-center gap-2"
           >
             ← Back to Career Vision
@@ -365,7 +365,7 @@ export default function JobHistory() {
                 <Play className="w-4 h-4" /> Watch video
               </a>
               <button
-                onClick={() => navigate('/career-vision/job-history')}
+                onClick={() => navigate('/dashboard/career-vision/job-history')}
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 <BookOpen className="w-4 h-4" /> Learn more
@@ -551,7 +551,7 @@ export default function JobHistory() {
         {/* Back Button */}
         <div className="flex justify-center">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
+            onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
           >
             ← Back to Career Vision Dashboard

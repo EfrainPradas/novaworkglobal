@@ -91,7 +91,7 @@ export default function OnlineJobApplications() {
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
                     <div className="flex items-center justify-between">
                         <div className="flex flex-col">
-                            <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-2 pl-0" />
+                            <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" className="mb-2 pl-0" />
                             <div>
                                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Online Job Applications</h1>
                                 <p className="text-sm text-gray-600 dark:text-gray-400">Step 2: Track applications & leverage referrals</p>
@@ -160,7 +160,7 @@ export default function OnlineJobApplications() {
                             </p>
                         </div>
                         <button
-                            onClick={() => navigate('/resume/jd-analyzer')}
+                            onClick={() => navigate('/dashboard/resume/jd-analyzer')}
                             className="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 font-medium whitespace-nowrap shadow-sm"
                         >
                             Launch Analyzer

@@ -43,14 +43,14 @@ export default function InterviewDetail() {
       if (error) throw error
 
       if (!data) {
-        navigate('/interview')
+        navigate('/dashboard/interview')
         return
       }
 
       setInterview(data)
     } catch (error) {
       console.error('Error loading interview:', error)
-      navigate('/interview')
+      navigate('/dashboard/interview')
     } finally {
       setLoading(false)
     }
@@ -145,7 +145,7 @@ export default function InterviewDetail() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/interview')}
+            onClick={() => navigate('/dashboard/interview')}
             className="text-primary-600 hover:text-primary-700 mb-4 flex items-center gap-2"
           >
             ← Back to Interviews
@@ -310,7 +310,7 @@ export default function InterviewDetail() {
               </p>
             </div>
             <button
-              onClick={() => navigate('/interview/questions')}
+              onClick={() => navigate('/dashboard/interview/questions')}
               className="px-6 py-3 bg-white text-teal-600 rounded-lg hover:bg-gray-50 transition-colors font-medium shadow-lg"
             >
               Question Bank

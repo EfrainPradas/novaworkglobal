@@ -205,7 +205,7 @@ export default function ResumeFinalPreview() {
         if (!dateString) return ''
         if (dateString.length === 4) return dateString
         try {
-            return new Date(dateString).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })
+            return new Date(dateString).toLocaleDateString(undefined, { year: 'numeric' })
         } catch { return dateString }
     }
 
@@ -319,7 +319,7 @@ export default function ResumeFinalPreview() {
                 {/* ── Top action bar ── */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-800">
                     <div>
-                        <BackButton to="/resume/type-selection" label="Back to Selection" variant="light" className="pl-0 mb-2" />
+                        <BackButton to="/dashboard/resume/type-selection" label="Back to Selection" variant="light" className="pl-0 mb-2" />
                         <h1 className="text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-3">
                             <CheckCircle className="w-6 h-6 text-green-500" />
                             Resume Generated!
@@ -333,7 +333,7 @@ export default function ResumeFinalPreview() {
                         <button onClick={handleExport} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium text-sm">
                             <Download className="w-4 h-4" /> Word
                         </button>
-                        <button onClick={() => navigate('/resume/tracking?mode=standalone')} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors font-bold text-sm">
+                        <button onClick={() => navigate('/dashboard/resume/tracking?mode=standalone')} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors font-bold text-sm">
                             Finish
                         </button>
                     </div>
@@ -350,8 +350,7 @@ export default function ResumeFinalPreview() {
                                     {(resumeData.contact.full_name || '').toLowerCase().replace(/\b\w/g, (c: string) => c.toUpperCase())}
                                 </div>
                                 <div style={{ fontSize: '9.5pt', color: '#111', display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
-                                    {resumeData.contact.location && <span>{resumeData.contact.location}</span>}
-                                    {resumeData.contact.phone && <span>• {resumeData.contact.phone}</span>}
+                                    {resumeData.contact.phone && <span>{resumeData.contact.phone}</span>}
                                     {resumeData.contact.email && <span>• {resumeData.contact.email}</span>}
                                     {resumeData.contact.linkedin && <span>• LinkedIn</span>}
                                 </div>
@@ -452,7 +451,7 @@ export default function ResumeFinalPreview() {
                                                         {exp.job_title}
                                                     </span>
                                                     <span style={{ fontSize: '9.5pt', color: '#444', marginLeft: '4px' }}>
-                                                        {exp.company_name}{exp.location_city ? `, ${exp.location_city}` : ''}
+                                                        {exp.company_name}{exp.location_city ? ` | ${exp.location_city}` : ''}
                                                     </span>
                                                 </div>
                                                 <span style={{ fontSize: '9.5pt', color: '#444', whiteSpace: 'nowrap' }}>
@@ -506,7 +505,7 @@ export default function ResumeFinalPreview() {
                                                     {/* Company Header: Company .. Location [Overall Dates] */}
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
                                                         <span style={{ fontWeight: 'bold', fontSize: '10.5pt' }}>
-                                                            {group.company_name}{group.location_city ? `.. ${group.location_city}` : ''}
+                                                            {group.company_name}{group.location_city ? ` | ${group.location_city}` : ''}
                                                         </span>
                                                         <span style={{ fontSize: '9.5pt', fontWeight: 'bold', color: '#111' }}>
                                                             {formatDate(group.minStart, false)} – {group.maxEnd === 'Present' ? 'Present' : formatDate(group.maxEnd, false)}

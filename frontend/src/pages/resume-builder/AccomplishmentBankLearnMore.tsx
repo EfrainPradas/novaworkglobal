@@ -55,13 +55,13 @@ export default function AccomplishmentBankLearnMore() {
                             </p>
                             <div className="mt-8 flex flex-wrap gap-3">
                                 <button
-                                    onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=bank')}
+                                    onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=bank')}
                                     className="rounded-xl bg-cyan-500 dark:bg-cyan-400 px-5 py-3 text-sm font-semibold text-white dark:text-slate-950 transition hover:bg-cyan-600 dark:hover:bg-cyan-300"
                                 >
                                     {t('accomplishmentBankLearnMore.ctaBuildBank')}
                                 </button>
                                 <button
-                                    onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=cars')}
+                                    onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=cars')}
                                     className="rounded-xl border border-gray-300 dark:border-white/15 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-gray-700 dark:text-white transition hover:bg-gray-100 dark:hover:bg-white/10"
                                 >
                                     {t('accomplishmentBankLearnMore.ctaStartCAR')}
@@ -162,7 +162,7 @@ export default function AccomplishmentBankLearnMore() {
                             <h3 className="mt-2 text-2xl font-semibold">{t('accomplishmentBankLearnMore.uploadTitle')}</h3>
                             <p className="mt-4 text-sm leading-7 text-gray-600 dark:text-slate-300">{t('accomplishmentBankLearnMore.uploadText')}</p>
                             <button
-                                onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=bank')}
+                                onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=bank')}
                                 className="mt-6 rounded-xl border border-gray-300 dark:border-white/15 bg-gray-50 dark:bg-white/5 px-4 py-3 text-sm font-semibold transition hover:bg-gray-100 dark:hover:bg-white/10"
                             >
                                 {t('accomplishmentBankLearnMore.uploadBtn')}
@@ -177,7 +177,7 @@ export default function AccomplishmentBankLearnMore() {
                             <h3 className="mt-2 text-2xl font-semibold">{t('accomplishmentBankLearnMore.carTitle')}</h3>
                             <p className="mt-4 text-sm leading-7 text-gray-600 dark:text-slate-300">{t('accomplishmentBankLearnMore.carText')}</p>
                             <button
-                                onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=cars')}
+                                onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=cars')}
                                 className="mt-6 rounded-xl border border-gray-300 dark:border-white/15 bg-gray-50 dark:bg-white/5 px-4 py-3 text-sm font-semibold transition hover:bg-gray-100 dark:hover:bg-white/10"
                             >
                                 {t('accomplishmentBankLearnMore.carBtn')}
@@ -259,13 +259,13 @@ export default function AccomplishmentBankLearnMore() {
                         </div>
                         <div className="flex flex-wrap gap-3">
                             <button
-                                onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=bank')}
+                                onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=bank')}
                                 className="rounded-xl bg-cyan-500 dark:bg-cyan-400 px-5 py-3 text-sm font-semibold text-white dark:text-slate-950 transition hover:bg-cyan-600 dark:hover:bg-cyan-300"
                             >
                                 {t('accomplishmentBankLearnMore.ctaBuildBank')}
                             </button>
                             <button
-                                onClick={() => navigate('/resume/accomplishments-hub?mode=standalone&tab=cars')}
+                                onClick={() => navigate('/dashboard/resume/accomplishments-hub?mode=standalone&tab=cars')}
                                 className="rounded-xl border border-gray-300 dark:border-white/15 bg-white dark:bg-white/5 px-5 py-3 text-sm font-semibold text-gray-700 dark:text-white transition hover:bg-gray-100 dark:hover:bg-white/10"
                             >
                                 {t('accomplishmentBankLearnMore.ctaStartCAR')}

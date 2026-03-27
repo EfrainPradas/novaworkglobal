@@ -171,7 +171,7 @@ const JDAnalyzer: React.FC = () => {
 
       if (!profile || !profile.onboarding_completed || !profile.full_name || !profile.phone) {
         if (confirm(t('resumeBuilder.jdAnalyzer.profileIncomplete') || 'Your profile is incomplete. Please complete your profile before exporting your resume.')) {
-          navigate('/resume-builder/profile')
+          navigate('/dashboard/resume-builder/profile')
         }
         return false
       }
@@ -574,7 +574,7 @@ const JDAnalyzer: React.FC = () => {
     }))
 
     // Navigate to profile builder with edit mode
-    navigate('/resume-builder/profile?mode=edit')
+    navigate('/dashboard/resume-builder/profile?mode=edit')
   }
 
   const loadTailoredResumes = async (uid: string) => {
@@ -1014,7 +1014,7 @@ const JDAnalyzer: React.FC = () => {
                 </p>
               </div>
               <button
-                onClick={() => navigate('/resume-builder/tracking')}
+                onClick={() => navigate('/dashboard/resume-builder/tracking')}
                 className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold transition-colors whitespace-nowrap"
               >
                 View Full Tracker →
@@ -1121,7 +1121,7 @@ const JDAnalyzer: React.FC = () => {
                 </button>
 
                 <button
-                  onClick={() => navigate('/resume/cover-letter', {
+                  onClick={() => navigate('/dashboard/resume/cover-letter', {
                     state: {
                       jobTitle,
                       companyName,
@@ -1263,7 +1263,7 @@ const JDAnalyzer: React.FC = () => {
                 {/* Cover Letter Action */}
                 <div className="pt-4 border-t">
                   <button
-                    onClick={() => navigate('/resume/cover-letter', {
+                    onClick={() => navigate('/dashboard/resume/cover-letter', {
                       state: {
                         jobTitle,
                         companyName,

@@ -117,7 +117,7 @@ export default function JobSearchHub() {
                             Your command center for landing the job. Plan, track, analyze, and prepare.
                         </p>
                         <div
-                            onClick={() => navigate('/job-search/learn-more')}
+                            onClick={() => navigate('/dashboard/job-search/learn-more')}
                             className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
                         >
                             <span className="font-bold">Understand the Strategic Framework:</span>
@@ -133,7 +133,7 @@ export default function JobSearchHub() {
                             <Play fill="currentColor" className="w-4 h-4" /> Watch video
                         </button>
                         <button
-                            onClick={() => navigate('/job-search/learn-more')}
+                            onClick={() => navigate('/dashboard/job-search/learn-more')}
                             className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                         >
                             Learn more

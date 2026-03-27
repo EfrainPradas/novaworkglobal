@@ -156,7 +156,7 @@ export default function CareerVisionDashboard() {
               <Play className="w-4 h-4" /> Watch video
             </button>
             <button
-              onClick={() => navigate('/career-vision/learn-more')}
+              onClick={() => navigate('/dashboard/career-vision/learn-more')}
               className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
               <BookOpen className="w-4 h-4" /> Learn more
@@ -234,7 +234,7 @@ export default function CareerVisionDashboard() {
                   <Play className="w-3 h-3" /> Watch video
                 </button>
                 <button
-                  onClick={(e) => { e.stopPropagation(); navigate('/career-vision/learn-more') }}
+                  onClick={(e) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   <BookOpen className="w-3 h-3" /> Learn more
@@ -256,7 +256,7 @@ export default function CareerVisionDashboard() {
             </p>
             <div className="flex gap-3 justify-center">
               <button
-                onClick={() => navigate('/career-vision/summary')}
+                onClick={() => navigate('/dashboard/career-vision/summary')}
                 className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors"
               >
                 View Your Career Vision →

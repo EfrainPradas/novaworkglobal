@@ -25,7 +25,7 @@ export default function HeadhunterSearch() {
 
                 {/* Header */}
                 <div>
-                    <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-6 pl-0" />
+                    <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" className="mb-6 pl-0" />
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
                         <span className="p-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded-lg">
                             <Users className="w-8 h-8" />

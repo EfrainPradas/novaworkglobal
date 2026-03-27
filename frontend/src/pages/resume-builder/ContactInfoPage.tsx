@@ -122,7 +122,7 @@ export default function ContactInfoPage() {
             }
             // Success — move to next step
             await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-history-intake' })
-            navigate('/resume/work-history')
+            navigate('/dashboard/resume/work-history')
         } catch (err: any) {
             console.error('Error saving contact profile:', err)
             setSaveError(err.message || 'Failed to save. Please try again.')
@@ -132,7 +132,7 @@ export default function ContactInfoPage() {
 
     const handleSkipToNext = async () => {
         await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-history-intake', skipped: true })
-        navigate('/resume/work-history')
+        navigate('/dashboard/resume/work-history')
     }
 
     const updateField = (field: string, value: string) => {
@@ -164,7 +164,7 @@ export default function ContactInfoPage() {
             <div className="max-w-3xl mx-auto">
                 {/* Back nav */}
                 <button
-                    onClick={() => navigate('/resume-builder')}
+                    onClick={() => navigate('/dashboard/resume-builder')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
                     <ArrowLeft className="w-4 h-4" /> Back to Resume Builder

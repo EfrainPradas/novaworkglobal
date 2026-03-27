@@ -160,7 +160,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
     const handleContinue = async () => {
         await trackEvent('analytics', 'step_completed', { step_name: 'accomplishment-library', next_step: 'story-cards' })
-        navigate('/resume/story-cards')
+        navigate('/dashboard/resume/story-cards')
     }
 
     const importFromWorkExperience = async () => {
@@ -458,7 +458,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <>
                                 <div className="flex items-center gap-2">
                                     <button
-                                        onClick={() => navigate('/resume-builder')}
+                                        onClick={() => navigate('/dashboard/resume-builder')}
                                         className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
                                     >
                                         <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}

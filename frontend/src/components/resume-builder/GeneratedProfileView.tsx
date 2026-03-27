@@ -231,7 +231,7 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                         <div className="space-y-4">
                             <p className="text-gray-500 dark:text-gray-400 font-medium">{t('resumeBuilder.profile.readyToBuildResume', 'Ready to build your resume based on this strategy?')}</p>
                             <button
-                                onClick={() => navigate('/resume-builder')}
+                                onClick={() => navigate('/dashboard/resume-builder')}
                                 className="flex items-center gap-2 px-10 py-5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white rounded-2xl shadow-xl transition-all transform hover:scale-105 font-bold text-xl"
                             >
                                 {t('resumeBuilder.navigation.continueToResumeBuilder', 'Continue to Resume Builder')}

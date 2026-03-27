@@ -329,7 +329,7 @@ export default function WorkHistoryIntake() {
 
             // Success — move to work experience manager
             await trackEvent('analytics', 'step_completed', { step_name: 'review-confirm', next_step: 'work-experience' })
-            navigate('/resume/work-experience')
+            navigate('/dashboard/resume/work-experience')
         } catch (err: any) {
             console.error('Error saving resume data:', err)
             setError(err.message || 'Failed to save your progress. Please try again.')
@@ -352,7 +352,7 @@ export default function WorkHistoryIntake() {
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
                 <div className="max-w-3xl mx-auto">
                     <button
-                        onClick={() => navigate('/resume-builder')}
+                        onClick={() => navigate('/dashboard/resume-builder')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Resume Builder
@@ -383,7 +383,7 @@ export default function WorkHistoryIntake() {
                             <button
                                 onClick={async () => {
                                     await trackEvent('analytics', 'step_completed', { step_name: 'work-history-intake', next_step: 'work-experience' })
-                                    navigate('/resume/work-experience')
+                                    navigate('/dashboard/resume/work-experience')
                                 }}
                                 className="w-full py-4 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-lg rounded-xl transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2"
                             >
@@ -404,7 +404,7 @@ export default function WorkHistoryIntake() {
 
                     {/* Back button */}
                     <button
-                        onClick={() => navigate('/resume-builder')}
+                        onClick={() => navigate('/dashboard/resume-builder')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Resume Builder
@@ -459,7 +459,7 @@ export default function WorkHistoryIntake() {
                                     trackEvent('analytics', 'resume_mode_selected', { has_resume: false })
                                     trackEvent('analytics', 'resume_manual_entry_started')
                                     await trackEvent('analytics', 'step_completed', { step_name: 'work-history-intake', next_step: 'work-experience' })
-                                    navigate('/resume/work-experience')
+                                    navigate('/dashboard/resume/work-experience')
                                 }}
                                 className="group p-6 rounded-2xl border-2 border-gray-200 dark:border-gray-600 hover:border-emerald-500 dark:hover:border-emerald-400 bg-gradient-to-br from-white to-emerald-50 dark:from-gray-800 dark:to-emerald-900/20 transition-all duration-300 hover:shadow-lg text-left"
                             >
