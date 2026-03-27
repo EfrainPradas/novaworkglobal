@@ -53,6 +53,10 @@ export default function AIJobSearch() {
     const [error, setError] = useState<string | null>(null)
     const [metadata, setMetadata] = useState<any>(null)
     const [expandedJobs, setExpandedJobs] = useState<Set<string>>(new Set())
+    const [editingRole, setEditingRole] = useState(false)
+    const [editingLocation, setEditingLocation] = useState(false)
+    const [roleInput, setRoleInput] = useState('')
+    const [locationInput, setLocationInput] = useState('')
 
     useEffect(() => {
         checkUser()
@@ -322,18 +326,65 @@ export default function AIJobSearch() {
                             <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
                                 <h2 className="text-base font-bold text-gray-900 dark:text-white">AI-Powered Job Matching</h2>
                                 {userProfile && (
-                                    <div className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
-                                        <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.career_vision.target_roles.slice(0, 1).join(', ')}</span>
-                                        {userProfile.preferences.ideal_work.geographic_location[0] && (
-                                            <span>in <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.preferences.ideal_work.geographic_location[0]}</span></span>
-                                        )}
-                                        <button
-                                            onClick={() => navigate('/dashboard/career-vision/preferences')}
-                                            title="Edit your work preferences"
-                                            className="ml-1 text-gray-400 hover:text-indigo-600 transition-colors"
-                                        >
-                                            ✏️
-                                        </button>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        {/* Role field */}
+                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                            {editingRole ? (
+                                                <input
+                                                    autoFocus
+                                                    value={roleInput}
+                                                    onChange={e => setRoleInput(e.target.value)}
+                                                    onBlur={() => {
+                                                        if (roleInput.trim()) {
+                                                            setUserProfile((p: any) => ({ ...p, career_vision: { ...p.career_vision, target_roles: [roleInput.trim()] } }))
+                                                        }
+                                                        setEditingRole(false)
+                                                    }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-32"
+                                                    placeholder="e.g. Data Analyst"
+                                                />
+                                            ) : (
+                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                    {userProfile.career_vision.target_roles.slice(0, 1).join(', ')}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={() => { setRoleInput(userProfile.career_vision.target_roles[0] || ''); setEditingRole(true) }}
+                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                                title="Edit role"
+                                            >✏️</button>
+                                        </div>
+
+                                        {/* Location field */}
+                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">in</span>
+                                            {editingLocation ? (
+                                                <input
+                                                    autoFocus
+                                                    value={locationInput}
+                                                    onChange={e => setLocationInput(e.target.value)}
+                                                    onBlur={() => {
+                                                        if (locationInput.trim()) {
+                                                            setUserProfile((p: any) => ({ ...p, preferences: { ...p.preferences, ideal_work: { ...p.preferences.ideal_work, geographic_location: [locationInput.trim()] } } }))
+                                                        }
+                                                        setEditingLocation(false)
+                                                    }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-24"
+                                                    placeholder="e.g. Remote"
+                                                />
+                                            ) : (
+                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                    {userProfile.preferences.ideal_work.geographic_location[0]}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
+                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                                title="Edit location"
+                                            >✏️</button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
