@@ -490,12 +490,50 @@ export default function AIJobSearch() {
 
                             {expandedJobs.has(job.id) && (
                                 <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30 p-6">
-                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Full Description</h4>
-                                    <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
-                                        {job.description?.split('\n').map((paragraph, index) => (
-                                            <p key={index} className="mb-3 leading-relaxed">{paragraph}</p>
-                                        ))}
-                                    </div>
+                                    {/* Structured highlights (Qualifications, Responsibilities, etc.) */}
+                                    {job.highlights && job.highlights.length > 0 ? (
+                                        <div className="space-y-4">
+                                            {job.highlights.map((section: any, i: number) => (
+                                                <div key={i}>
+                                                    {section.title && (
+                                                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">
+                                                            {section.title}
+                                                        </h4>
+                                                    )}
+                                                    {section.items && (
+                                                        <ul className="space-y-1">
+                                                            {section.items.map((item: string, j: number) => (
+                                                                <li key={j} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                                                    <span className="text-primary-500 mt-0.5 flex-shrink-0">•</span>
+                                                                    <span>{item}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            ))}
+                                            {/* Also show raw description if available */}
+                                            {job.description && (
+                                                <div>
+                                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">Description</h4>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{job.description}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : job.description ? (
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Full Description</h4>
+                                            <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
+                                                {job.description.split('\n').map((paragraph: string, index: number) => (
+                                                    <p key={index} className="mb-3 leading-relaxed">{paragraph}</p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                                            No description available. Click "Analyze JD" to proceed with AI-generated insights.
+                                        </p>
+                                    )}
                                 </div>
                             )}
                         </div>
