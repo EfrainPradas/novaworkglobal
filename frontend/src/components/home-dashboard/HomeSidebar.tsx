@@ -55,9 +55,12 @@ export default function HomeSidebar({
       required?: TierLevel
       iconBg?: string
       iconColor?: string
+      exact?: boolean
     }
   ) => {
-    const active = currentPath === path || currentPath.startsWith(path + '/')
+    const active = opts?.exact
+      ? currentPath === path
+      : currentPath === path || currentPath.startsWith(path + '/')
     const locked = opts?.required && !canAccess(opts.required)
 
     return (
@@ -177,23 +180,23 @@ export default function HomeSidebar({
         {/* Overview */}
         {sectionLabel(t('sidebarOverview.dashboard'))}
         {navItem('/dashboard', <LayoutDashboard size={15} />, t('sidebarOverview.dashboard'), {
-          iconBg: '#E3F2FD', iconColor: '#1565C0',
+          iconBg: '#E3F2FD', iconColor: '#1565C0', exact: true,
         })}
 
         {/* NovaNext Programs — features for the user's plan */}
         {sectionLabel(t('membership.title'))}
-        {navItem('/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
+        {navItem('/dashboard/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
         })}
-        {navItem('/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
+        {navItem('/dashboard/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
           required: 'momentum',
           iconBg: '#E8F5E9', iconColor: '#2E7D32',
         })}
-        {navItem('/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
+        {navItem('/dashboard/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
           required: 'momentum',
           iconBg: '#FFF3E0', iconColor: '#E65100',
         })}
-        {navItem('/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
+        {navItem('/dashboard/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
           required: 'executive',
           iconBg: '#F3E5F5', iconColor: '#6A1B9A',
         })}
