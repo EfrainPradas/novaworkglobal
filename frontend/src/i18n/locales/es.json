@@ -452,7 +452,10 @@
     "resumeScore": "Puntuación del currículum",
     "applicationsTracked": "Aplicaciones rastreadas",
     "interviewsScheduled": "Entrevistas programadas",
-    "quickActions": "Acciones Rápidas",
+    "quickActions": {
+      "continueDesc": "Continúa donde lo dejaste en tu programa NovaNext.",
+      "networkingDesc": "Únete a sesiones en vivo y conecta con tu comunidad."
+    },
     "tools": "Herramientas",
     "uploadResume": "Subir currículum",
     "analyzeJD": "Analizar descripción del trabajo",
@@ -463,7 +466,92 @@
     "jobSearch": "Búsqueda de Empleo y Posicionamiento",
     "jobSearchDesc": "Usa estas técnicas y sé llamado para una entrevista 75% más rápido que otros.",
     "interviewMastery": "Dominio de la Entrevista",
-    "interviewMasteryDesc": "Sé el que elijan. Entiende y practica la entrevista para ser el candidato ganador."
+    "interviewMasteryDesc": "Sé el que elijan. Entiende y practica la entrevista para ser el candidato ganador.",
+    "home": {
+      "title": "Centro de Comando de Carrera",
+      "greeting": "Bienvenido de nuevo, {{name}}",
+      "subtitle": "Tu centro de carrera personalizado",
+      "heroTitle": "Tu progreso, comunidad y próximas acciones en un solo lugar.",
+      "heroDescription": "Sigue avanzando en tu camino con NovaWork. Monitorea tu impulso, continúa tu programa, descubre recursos y únete a las sesiones de esta semana."
+    },
+    "cta": {
+      "continueProgram": "Continuar Programa",
+      "exploreNetworking": "Explorar Red Profesional",
+      "viewCalendar": "Ver Calendario de Miembros",
+      "viewAll": "Ver Todo",
+      "register": "Registrarse",
+      "cancelRegistration": "Cancelar Registro",
+      "retry": "Intentar de Nuevo",
+      "viewModules": "Ver Todos los Módulos"
+    },
+    "statsSection": {
+      "title": "Tu Progreso",
+      "profileCompletion": "Perfil Completado",
+      "resumeVersions": "Versiones de CV",
+      "applications": "Aplicaciones",
+      "interviews": "Entrevistas",
+      "sessionsJoined": "Sesiones Asistidas"
+    },
+    "nextActions": {
+      "title": "Próximas Acciones",
+      "continueResume": "Continuar Constructor de CV",
+      "finishCareerVision": "Finalizar Visión de Carrera",
+      "joinSession": "Unirse a la Sesión de Esta Semana",
+      "reviewResources": "Revisar Recursos Recomendados",
+      "startOnboarding": "Completa Tu Perfil"
+    },
+    "sessions": {
+      "title": "Próximas Sesiones para Miembros",
+      "seatsLeft_one": "{{count}} lugar disponible",
+      "seatsLeft_other": "{{count}} lugares disponibles",
+      "full": "Sesión Llena",
+      "registered": "Registrado",
+      "register": "Registrarse",
+      "cancelRegistration": "Cancelar Registro",
+      "duration": "{{minutes}} min",
+      "empty": "No hay sesiones próximas por ahora. Vuelve pronto.",
+      "error": "No se pudieron cargar las sesiones.",
+      "workshop": "Taller",
+      "networking": "Networking",
+      "q_and_a": "Preguntas y Respuestas",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Destacados de la Comunidad",
+      "members_one": "{{count}} miembro",
+      "members_other": "{{count}} miembros",
+      "joinGroup": "Unirse al Grupo",
+      "empty": "Espacios de comunidad próximamente.",
+      "error": "No se pudo cargar la comunidad."
+    },
+    "resources": {
+      "title": "Recursos Recomendados",
+      "viewResource": "Ver Recurso",
+      "empty": "No hay recursos disponibles aún.",
+      "error": "No se pudieron cargar los recursos.",
+      "article": "Artículo",
+      "video": "Video",
+      "pdf": "PDF",
+      "tool": "Herramienta"
+    },
+    "activity": {
+      "title": "Actividad Reciente",
+      "empty": "Sin actividad aún — empieza actualizando tu CV o uniéndote a una sesión.",
+      "error": "No se pudo cargar la actividad.",
+      "resume_updated": "CV actualizado",
+      "session_joined": "Sesión asistida",
+      "session_cancelled": "Sesión cancelada",
+      "resource_viewed": "Recurso visto",
+      "application_tracked": "Aplicación registrada",
+      "interview_scheduled": "Entrevista agendada",
+      "profile_updated": "Perfil actualizado",
+      "car_story_added": "Logro agregado",
+      "onboarding_completed": "Incorporación completada"
+    },
+    "marketPulse": {
+      "title": "Qué está pasando en el mercado laboral",
+      "viewMore": "Ver más tendencias"
+    }
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Más Info · Banco de Logros",
@@ -648,5 +736,51 @@
         "content": "Cada tarjeta representa un puesto en tu carrera. Haz clic en Editar para modificar o Eliminar para quitar."
       }
     }
+  },
+  "services": {
+    "title": "Servicios",
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Activo"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "En Desarrollo"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "En Desarrollo"
+    }
+  },
+  "membership": {
+    "title": "Programas NovaNext",
+    "essential": "Esencial",
+    "momentum": "Momentum",
+    "executive": "Ejecutivo",
+    "upgradeTo": "Actualizar a {{tier}}",
+    "availableIn": "Disponible en {{tier}}",
+    "currentPlan": "Plan Actual"
+  },
+  "learningModules": {
+    "title": "Módulos de Aprendizaje",
+    "careerVision": "Visión de Carrera",
+    "resumeBuilder": "Constructor de CV",
+    "jobSearch": "Búsqueda de Empleo",
+    "interviewMastery": "Dominio de Entrevistas"
+  },
+  "sidebarCommunity": {
+    "title": "Comunidad",
+    "networkingSessions": "Sesiones de Networking",
+    "memberCalendar": "Calendario de Miembros",
+    "community": "Comunidad"
+  },
+  "sidebarOverview": {
+    "dashboard": "Panel Principal",
+    "modules": "Todos los Módulos"
+  },
+  "sidebarTools": {
+    "title": "Herramientas",
+    "myCoaches": "Mis Coaches",
+    "sharedResources": "Recursos Compartidos"
   }
 }
