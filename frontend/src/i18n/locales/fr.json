@@ -417,7 +417,86 @@
     "jobSearch": "Recherche d'Emploi et Positionnement",
     "jobSearchDesc": "Utilisez ces techniques et soyez appelé pour un entretien 75 % plus rapidement que les autres.",
     "interviewMastery": "Maîtrise de l'Entretien",
-    "interviewMasteryDesc": "Soyez celui qu'ils choisissent. Comprenez et pratiquez l'entretien pour être le candidat gagnant."
+    "interviewMasteryDesc": "Soyez celui qu'ils choisissent. Comprenez et pratiquez l'entretien pour être le candidat gagnant.",
+    "home": {
+      "title": "Centre de Commandement de Carrière",
+      "greeting": "Bon retour, {{name}}",
+      "subtitle": "Votre hub de carrière personnalisé"
+    },
+    "cta": {
+      "continueProgram": "Continuer le Programme",
+      "exploreNetworking": "Explorer le Réseautage",
+      "viewCalendar": "Voir le Calendrier",
+      "viewAll": "Voir Tout",
+      "register": "S'inscrire",
+      "cancelRegistration": "Annuler l'Inscription",
+      "retry": "Réessayer",
+      "viewModules": "Voir Tous les Modules"
+    },
+    "statsSection": {
+      "title": "Votre Progression",
+      "profileCompletion": "Profil Complété",
+      "resumeVersions": "Versions de CV",
+      "applications": "Candidatures",
+      "interviews": "Entretiens",
+      "sessionsJoined": "Sessions Suivies"
+    },
+    "nextActions": {
+      "title": "Prochaines Actions",
+      "continueResume": "Continuer le Générateur de CV",
+      "finishCareerVision": "Terminer Vision de Carrière",
+      "joinSession": "Rejoindre la Session de la Semaine",
+      "reviewResources": "Consulter les Ressources Recommandées",
+      "startOnboarding": "Complétez Votre Profil"
+    },
+    "sessions": {
+      "title": "Sessions à Venir",
+      "seatsLeft_one": "{{count}} place disponible",
+      "seatsLeft_other": "{{count}} places disponibles",
+      "full": "Session Complète",
+      "registered": "Inscrit",
+      "register": "S'inscrire",
+      "cancelRegistration": "Annuler l'Inscription",
+      "duration": "{{minutes}} min",
+      "empty": "Aucune session à venir pour le moment. Revenez bientôt.",
+      "error": "Impossible de charger les sessions.",
+      "workshop": "Atelier",
+      "networking": "Réseautage",
+      "q_and_a": "Questions-Réponses",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Points Forts de la Communauté",
+      "members_one": "{{count}} membre",
+      "members_other": "{{count}} membres",
+      "joinGroup": "Rejoindre le Groupe",
+      "empty": "Espaces communautaires bientôt disponibles.",
+      "error": "Impossible de charger la communauté."
+    },
+    "resources": {
+      "title": "Ressources Recommandées",
+      "viewResource": "Voir la Ressource",
+      "empty": "Aucune ressource disponible pour le moment.",
+      "error": "Impossible de charger les ressources.",
+      "article": "Article",
+      "video": "Vidéo",
+      "pdf": "PDF",
+      "tool": "Outil"
+    },
+    "activity": {
+      "title": "Activité Récente",
+      "empty": "Aucune activité pour le moment — commencez par mettre à jour votre CV ou rejoindre une session.",
+      "error": "Impossible de charger l'activité.",
+      "resume_updated": "CV mis à jour",
+      "session_joined": "Session rejointe",
+      "session_cancelled": "Session annulée",
+      "resource_viewed": "Ressource consultée",
+      "application_tracked": "Candidature suivie",
+      "interview_scheduled": "Entretien planifié",
+      "profile_updated": "Profil mis à jour",
+      "car_story_added": "Réalisation ajoutée",
+      "onboarding_completed": "Intégration terminée"
+    }
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "En savoir plus · Banque de Réalisations",
@@ -602,5 +681,51 @@
         "content": "Chaque carte représente un poste dans votre carrière. Cliquez sur Modifier pour changer ou Supprimer pour retirer."
       }
     }
+  },
+  "services": {
+    "title": "Services",
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Actif"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "En Développement"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "En Développement"
+    }
+  },
+  "membership": {
+    "title": "Programmes NovaNext",
+    "essential": "Essentiel",
+    "momentum": "Momentum",
+    "executive": "Exécutif",
+    "upgradeTo": "Passer à {{tier}}",
+    "availableIn": "Disponible avec {{tier}}",
+    "currentPlan": "Plan Actuel"
+  },
+  "learningModules": {
+    "title": "Modules d'Apprentissage",
+    "careerVision": "Vision de Carrière",
+    "resumeBuilder": "Générateur de CV",
+    "jobSearch": "Recherche d'Emploi",
+    "interviewMastery": "Maîtrise des Entretiens"
+  },
+  "sidebarCommunity": {
+    "title": "Communauté",
+    "networkingSessions": "Sessions de Réseautage",
+    "memberCalendar": "Calendrier des Membres",
+    "community": "Communauté"
+  },
+  "sidebarOverview": {
+    "dashboard": "Tableau de Bord",
+    "modules": "Tous les Modules"
+  },
+  "sidebarTools": {
+    "title": "Outils",
+    "myCoaches": "Mes Coaches",
+    "sharedResources": "Ressources Partagées"
   }
 }

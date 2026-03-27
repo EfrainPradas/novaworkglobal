@@ -20,6 +20,7 @@ import translationsRoutes from './routes/translations.js'
 import coachingRoutes from './routes/coaching.js'
 import workExperienceRoutes from './routes/workExperience.js'
 import agentRoutes from './routes/agent.js'
+import homeDashboardRoutes from './routes/homeDashboard.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -117,6 +118,7 @@ app.use('/api', positioningQuestionnaireRoutes)
 app.use('/api/coaching', coachingRoutes)
 app.use('/api/work-experience', workExperienceRoutes)
 app.use('/api/agent', agentRoutes)
+app.use('/api/home-dashboard', homeDashboardRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
