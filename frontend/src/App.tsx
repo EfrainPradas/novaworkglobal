@@ -19,6 +19,7 @@ import NavigationPrompt from './components/navigation/NavigationPrompt'
 import MainMenu from './pages/MainMenu'
 import Dashboard from './pages/Dashboard'
 import HomeDashboard from './pages/HomeDashboard'
+import HomeDashboardIndex from './pages/HomeDashboardIndex'
 import DashboardModules from './pages/DashboardModules'
 import NetworkingSessionsPage from './pages/dashboard/networking-sessions/NetworkingSessionsPage'
 import MemberCalendarPage from './pages/dashboard/member-calendar/MemberCalendarPage'
@@ -141,14 +142,17 @@ function App() {
         {/* Essentials Protected Routes */}
         <Route element={<ProtectedRoute requiredLevel="essentials" />}>
           <Route path="/onboarding" element={<Onboarding />} />
-          {/* Home Dashboard — new Career Command Center */}
-          <Route path="/dashboard" element={<HomeDashboard />} />
-          {/* Legacy module-navigation dashboard preserved at /dashboard/modules */}
-          <Route path="/dashboard/modules" element={<DashboardModules />} />
-          {/* Dashboard sub-pages */}
-          <Route path="/dashboard/networking-sessions" element={<NetworkingSessionsPage />} />
-          <Route path="/dashboard/member-calendar" element={<MemberCalendarPage />} />
-          <Route path="/dashboard/community" element={<CommunityPage />} />
+
+          {/* Home Dashboard Shell — persistent layout with nested routes */}
+          <Route path="/dashboard" element={<HomeDashboard />}>
+            {/* Default dashboard index */}
+            <Route index element={<HomeDashboardIndex />} />
+            {/* Dashboard sub-pages nested INSIDE the shell */}
+            <Route path="modules" element={<DashboardModules />} />
+            <Route path="networking-sessions" element={<NetworkingSessionsPage />} />
+            <Route path="member-calendar" element={<MemberCalendarPage />} />
+            <Route path="community" element={<CommunityPage />} />
+          </Route>
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
           <Route path="/shared-resources" element={<ClientSharedResources />} />
