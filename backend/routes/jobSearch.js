@@ -363,6 +363,9 @@ router.post('/recommendations', async (req, res) => {
 
         try {
           // Use AI to calculate match score
+          const hasDescription = job.description && job.description.trim().length > 50
+          const hasHighlights = job.job_highlights && job.job_highlights.length > 0
+
           const analysisPrompt = `
 Analyze this job match for a user with the following profile:
 
@@ -375,9 +378,9 @@ USER PROFILE:
 JOB DETAILS:
 - Title: ${job.title}
 - Company: ${job.company_name}
-- Description: ${job.description?.slice(0, 500)}...
+- Description: ${job.description?.slice(0, 500) || 'Not provided'}
 - Location: ${job.location}
-- Highlights: ${JSON.stringify(job.job_highlights || {})}
+- Highlights: ${JSON.stringify(job.job_highlights || [])}
 
 Rate this job match from 0-100 considering:
 1. Skills alignment (40% weight)
@@ -390,26 +393,38 @@ Return only a JSON object with:
   "score": 0-100,
   "reasoning": "Brief explanation of the score",
   "key_matches": ["list of key matching factors"],
-  "potential_concerns": ["list of potential concerns"]
+  "potential_concerns": ["list of potential concerns"],
+  "generated_description": "Write a realistic 200-word job description for this role based on the title, company, and any available details. Include likely responsibilities and requirements."
 }
 `
 
           const aiResponse = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
             messages: [{ role: 'user', content: analysisPrompt }],
-            max_tokens: 200,
-            temperature: 0.1
+            max_tokens: 500,
+            temperature: 0.2
           })
 
           const aiAnalysis = JSON.parse(aiResponse.choices[0].message.content)
           aiScore = aiAnalysis.score || 50
+
+          // Build best possible description: real > highlights > AI-generated
+          let bestDescription = job.description || ''
+          if (!bestDescription && hasHighlights) {
+            bestDescription = job.job_highlights.map(h =>
+              `${h.title}:\n${h.items.map(i => `• ${i}`).join('\n')}`
+            ).join('\n\n')
+          }
+          if (!bestDescription) {
+            bestDescription = aiAnalysis.generated_description || ''
+          }
 
           return {
             id: job.job_id || `job-${Math.random()}`,
             title: job.title,
             company: job.company_name,
             location: job.location,
-            description: job.description,
+            description: bestDescription,
             salary: job.detected_extensions?.salary || null,
             postedAt: job.detected_extensions?.posted_at || 'Recently',
             applyLink: job.apply_options?.[0]?.link || null,
@@ -426,6 +441,7 @@ Return only a JSON object with:
             // Metadata
             searchQuery: query,
             recommendedAt: new Date().toISOString(),
+            descriptionSource: hasDescription ? 'serpapi' : hasHighlights ? 'highlights' : 'ai-generated',
 
             // Original data
             highlights: job.job_highlights || [],
