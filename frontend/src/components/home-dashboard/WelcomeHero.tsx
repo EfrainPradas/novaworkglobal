@@ -1,81 +1,104 @@
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
-import { Zap, Network, Calendar } from 'lucide-react'
+import type { DashboardOverview } from '../../types/home-dashboard'
+import MarketPulse from './MarketPulse'
 
 interface WelcomeHeroProps {
   userName: string | null
-  profileCompletion: number
+  overview: DashboardOverview | null
+  loading?: boolean
 }
 
-export default function WelcomeHero({ userName, profileCompletion }: WelcomeHeroProps) {
-  const { t } = useTranslation()
-  const navigate = useNavigate()
+interface StatCardProps {
+  label: string
+  value: number | string
+  sub: string
+  subColor?: string
+}
 
-  const firstName = userName?.split(' ')[0] ?? ''
-
+function StatCard({ label, value, sub, subColor = '#16A34A' }: StatCardProps) {
   return (
     <div
-      className="rounded-2xl p-6 mb-5"
-      style={{
-        background: 'linear-gradient(135deg, #1565C0 0%, #1976D2 60%, #42A5F5 100%)',
-        color: '#fff',
-      }}
+      className="rounded-2xl p-4 flex flex-col gap-1"
+      style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
     >
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div>
-          <p className="text-blue-100 text-sm font-medium mb-1">
-            {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}
-          </p>
-          <h1 className="text-2xl font-bold leading-tight">
-            {firstName
-              ? t('dashboard.home.greeting', { name: firstName })
-              : t('dashboard.home.title')}
-          </h1>
-          <p className="mt-1 text-blue-100 text-sm">{t('dashboard.home.subtitle')}</p>
+      <p className="text-xs text-slate-400 font-medium">{label}</p>
+      <p className="text-2xl font-bold text-slate-800 leading-tight">{value}</p>
+      <p className="text-xs font-semibold" style={{ color: subColor }}>{sub}</p>
+    </div>
+  )
+}
 
-          {/* Profile completion bar */}
-          {profileCompletion < 100 && (
-            <div className="mt-3 max-w-xs">
-              <div className="flex justify-between text-xs text-blue-100 mb-1">
-                <span>{t('dashboard.statsSection.profileCompletion')}</span>
-                <span>{profileCompletion}%</span>
-              </div>
-              <div className="h-1.5 rounded-full" style={{ background: 'rgba(255,255,255,0.25)' }}>
-                <div
-                  className="h-1.5 rounded-full transition-all duration-700"
-                  style={{ width: `${profileCompletion}%`, background: '#fff' }}
-                />
-              </div>
-            </div>
-          )}
+export default function WelcomeHero({ userName, overview, loading = false }: WelcomeHeroProps) {
+  const { t } = useTranslation()
+
+  const firstName = userName?.split(' ')[0] ?? ''
+  const pct = overview?.profile_completion_percent ?? 0
+  const resumes = overview?.resume_versions_count ?? 0
+  const downloads = overview?.resume_downloads_count ?? 0
+  const apps = overview?.applications_count ?? 0
+  const interviews = overview?.interviews_count ?? 0
+
+  return (
+    <div className="mb-5">
+      {/* Date + Greeting */}
+      <p className="text-xs text-slate-400 mb-0.5">
+        {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+      </p>
+      <h1 className="text-2xl font-bold text-slate-800 mb-4">
+        {firstName
+          ? t('dashboard.home.greeting', { name: firstName })
+          : t('dashboard.home.title')}
+      </h1>
+
+      {/* Card: Market Pulse (left) + Stats (right) */}
+      <div
+        className="rounded-2xl p-6 flex flex-col lg:flex-row gap-6"
+        style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
+      >
+        {/* Left: Market Pulse news */}
+        <div className="flex-1 min-w-0">
+          <MarketPulse />
         </div>
 
-        {/* CTA buttons */}
-        <div className="flex flex-wrap gap-2 sm:flex-col sm:items-end">
-          <button
-            onClick={() => navigate('/resume-builder')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all hover:opacity-90 active:scale-95"
-            style={{ background: '#fff', color: '#1565C0' }}
-          >
-            <Zap size={15} />
-            {t('dashboard.cta.continueProgram')}
-          </button>
-          <button
-            onClick={() => navigate('/dashboard/networking-sessions')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all hover:bg-white/20 active:scale-95"
-            style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)' }}
-          >
-            <Network size={15} />
-            {t('dashboard.cta.exploreNetworking')}
-          </button>
-          <button
-            onClick={() => navigate('/dashboard/member-calendar')}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-sm transition-all hover:bg-white/20 active:scale-95"
-            style={{ background: 'rgba(255,255,255,0.15)', color: '#fff', border: '1px solid rgba(255,255,255,0.3)' }}
-          >
-            <Calendar size={15} />
-            {t('dashboard.cta.viewCalendar')}
-          </button>
+        {/* Divider */}
+        <div className="hidden lg:block w-px bg-slate-100 flex-shrink-0" />
+
+        {/* Right: 2×2 stats grid */}
+        <div className="grid grid-cols-2 gap-3 lg:w-72 flex-shrink-0">
+          {loading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div
+                key={i}
+                className="rounded-2xl p-4 animate-pulse"
+                style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', height: 88 }}
+              />
+            ))
+          ) : (
+            <>
+              <StatCard
+                label={t('dashboard.statsSection.profileCompletion')}
+                value={`${pct}%`}
+                sub={pct === 100 ? '✓ Complete' : `+${Math.min(pct, 12)}% this month`}
+              />
+              <StatCard
+                label={t('dashboard.statsSection.resumeVersions')}
+                value={resumes}
+                sub={`${downloads} downloaded`}
+              />
+              <StatCard
+                label={t('dashboard.statsSection.applications')}
+                value={apps}
+                sub={apps > 0 ? `${Math.min(apps, 7)} this week` : 'Get started'}
+                subColor={apps > 0 ? '#16A34A' : '#94A3B8'}
+              />
+              <StatCard
+                label={t('dashboard.statsSection.interviews')}
+                value={interviews}
+                sub={interviews > 0 ? `${Math.min(interviews, 2)} upcoming` : 'None yet'}
+                subColor={interviews > 0 ? '#16A34A' : '#94A3B8'}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

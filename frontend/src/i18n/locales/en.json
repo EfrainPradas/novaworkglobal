@@ -462,7 +462,17 @@
     "home": {
       "title": "Career Command Center",
       "greeting": "Welcome back, {{name}}",
-      "subtitle": "Your personalized career hub"
+      "subtitle": "Your personalized career hub",
+      "heroTitle": "Your progress, community, and next best actions in one place.",
+      "heroDescription": "Keep moving forward in your NovaWork journey. Track your momentum, continue your current program, discover curated resources, and join this week's networking sessions."
+    },
+    "marketPulse": {
+      "title": "What's happening in the job market",
+      "viewMore": "View more insights"
+    },
+    "quickActions": {
+      "continueDesc": "Pick up where you left off in your NovaNext program.",
+      "networkingDesc": "Join live sessions and connect with your community."
     },
     "cta": {
       "continueProgram": "Continue Program",

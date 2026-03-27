@@ -2,7 +2,6 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard,
-  Zap,
   Target,
   FileText,
   Briefcase,
@@ -13,7 +12,6 @@ import {
   FolderOpen,
   ChevronRight,
   ChevronLeft,
-  Grid3X3,
 } from 'lucide-react'
 import type { TierLevel } from '../../types/home-dashboard'
 
@@ -180,17 +178,6 @@ export default function HomeSidebar({
         {sectionLabel(t('sidebarOverview.dashboard'))}
         {navItem('/dashboard', <LayoutDashboard size={15} />, t('sidebarOverview.dashboard'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
-        })}
-        {navItem('/dashboard/modules', <Grid3X3 size={15} />, t('sidebarOverview.modules'), {
-          iconBg: '#F1F5F9', iconColor: '#475569',
-        })}
-
-        {/* Services — only active service shown */}
-        {sectionLabel(t('services.title'))}
-        {navItem('/programs/novanext', <Zap size={15} />, t('services.novanext.label'), {
-          badge: t('services.novanext.badge'),
-          badgeColor: '#2E7D32',
-          iconBg: '#E8F5E9', iconColor: '#2E7D32',
         })}
 
         {/* NovaNext Programs — features for the user's plan */}

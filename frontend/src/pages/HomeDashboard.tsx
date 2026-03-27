@@ -7,7 +7,7 @@ import NotificationBell from '../components/common/NotificationBell'
 import HomeSidebar from '../components/home-dashboard/HomeSidebar'
 import WelcomeHero from '../components/home-dashboard/WelcomeHero'
 import ProgressSummary from '../components/home-dashboard/ProgressSummary'
-import NextBestActionCards from '../components/home-dashboard/NextBestActionCards'
+import QuickActionCards from '../components/home-dashboard/QuickActionCards'
 import MemberSessionsSection from '../components/home-dashboard/MemberSessionsSection'
 import CommunityHighlights from '../components/home-dashboard/CommunityHighlights'
 import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
@@ -159,13 +159,12 @@ export default function HomeDashboard() {
           {/* Hero */}
           <WelcomeHero
             userName={userName}
-            profileCompletion={overview?.profile_completion_percent ?? 0}
+            overview={overview}
+            loading={overviewLoading}
           />
 
-          {/* Next Best Actions */}
-          {!overviewLoading && (
-            <NextBestActionCards overview={overview} userLevel={userLevel} />
-          )}
+          {/* Quick Action Cards */}
+          <QuickActionCards />
 
           {/* Member Sessions */}
           {user && <MemberSessionsSection userId={user.id} />}

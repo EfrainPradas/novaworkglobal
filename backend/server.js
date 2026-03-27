@@ -21,6 +21,7 @@ import coachingRoutes from './routes/coaching.js'
 import workExperienceRoutes from './routes/workExperience.js'
 import agentRoutes from './routes/agent.js'
 import homeDashboardRoutes from './routes/homeDashboard.js'
+import marketNewsRoutes from './routes/marketNews.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -108,6 +109,7 @@ app.use('/api/process-mining', processMiningRoutes)
 
 // Admin / Unauthenticated tools (mount before generic /api)
 app.use('/api/translations', translationsRoutes)
+app.use('/api/market-news', marketNewsRoutes)  // public — no auth required
 
 // Generically mounted routes (these often contain internal requireAuth that intercepts all /api/* requests)
 app.use('/api', resumeParserRoutes)

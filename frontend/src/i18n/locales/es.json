@@ -452,7 +452,10 @@
     "resumeScore": "Puntuación del currículum",
     "applicationsTracked": "Aplicaciones rastreadas",
     "interviewsScheduled": "Entrevistas programadas",
-    "quickActions": "Acciones Rápidas",
+    "quickActions": {
+      "continueDesc": "Continúa donde lo dejaste en tu programa NovaNext.",
+      "networkingDesc": "Únete a sesiones en vivo y conecta con tu comunidad."
+    },
     "tools": "Herramientas",
     "uploadResume": "Subir currículum",
     "analyzeJD": "Analizar descripción del trabajo",
@@ -467,7 +470,9 @@
     "home": {
       "title": "Centro de Comando de Carrera",
       "greeting": "Bienvenido de nuevo, {{name}}",
-      "subtitle": "Tu centro de carrera personalizado"
+      "subtitle": "Tu centro de carrera personalizado",
+      "heroTitle": "Tu progreso, comunidad y próximas acciones en un solo lugar.",
+      "heroDescription": "Sigue avanzando en tu camino con NovaWork. Monitorea tu impulso, continúa tu programa, descubre recursos y únete a las sesiones de esta semana."
     },
     "cta": {
       "continueProgram": "Continuar Programa",
@@ -542,6 +547,10 @@
       "profile_updated": "Perfil actualizado",
       "car_story_added": "Logro agregado",
       "onboarding_completed": "Incorporación completada"
+    },
+    "marketPulse": {
+      "title": "Qué está pasando en el mercado laboral",
+      "viewMore": "Ver más tendencias"
     }
   },
   "accomplishmentBankLearnMore": {
