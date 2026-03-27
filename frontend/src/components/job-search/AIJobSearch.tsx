@@ -258,36 +258,36 @@ export default function AIJobSearch() {
     }
 
     const handleJobAnalysis = (job: AIRecommendation) => {
-        // Build the best possible description from available data
-        let description = job.description || ''
+        // Build the most complete description possible by combining all available data
+        const parts: string[] = []
 
-        // If description is short/empty, build from highlights
-        if (description.length < 100 && job.highlights && job.highlights.length > 0) {
-            const highlightText = job.highlights.map((h: any) => {
-                if (typeof h === 'string') return h
-                if (h.title && h.items) return `${h.title}:\n${h.items.join('\n')}`
-                if (h.items) return h.items.join('\n')
-                return ''
-            }).filter(Boolean).join('\n\n')
-            if (highlightText) description = highlightText
+        // 1. Add highlights (structured sections like Qualifications, Responsibilities)
+        if (job.highlights && job.highlights.length > 0) {
+            job.highlights.forEach((h: any) => {
+                if (typeof h === 'string') {
+                    parts.push(h)
+                } else if (h.title && h.items) {
+                    parts.push(`${h.title}:\n${h.items.map((item: string) => `• ${item}`).join('\n')}`)
+                } else if (h.items) {
+                    parts.push(h.items.map((item: string) => `• ${item}`).join('\n'))
+                }
+            })
         }
 
-        // If still empty, build a structured description from AI analysis
-        if (!description && job.aiAnalysis) {
-            const lines = [
-                `Position: ${job.title}`,
-                `Company: ${job.company}`,
-                `Location: ${job.location}`,
-                job.salary ? `Salary: ${job.salary}` : '',
-                '',
-                job.aiAnalysis.reasoning,
-                '',
-                job.aiAnalysis.keyMatches.length > 0
-                    ? `Key Requirements:\n${job.aiAnalysis.keyMatches.map(m => `• ${m}`).join('\n')}`
-                    : ''
-            ].filter(l => l !== undefined)
-            description = lines.join('\n').trim()
+        // 2. Add raw description if different from highlights content
+        if (job.description && job.description.trim()) {
+            parts.push(job.description.trim())
         }
+
+        // 3. If still nothing, use AI analysis as structured JD
+        if (parts.length === 0 && job.aiAnalysis) {
+            if (job.aiAnalysis.reasoning) parts.push(job.aiAnalysis.reasoning)
+            if (job.aiAnalysis.keyMatches?.length > 0) {
+                parts.push(`Key Requirements:\n${job.aiAnalysis.keyMatches.map((m: string) => `• ${m}`).join('\n')}`)
+            }
+        }
+
+        const description = parts.join('\n\n').trim()
 
         const jobData = {
             title: job.title,
