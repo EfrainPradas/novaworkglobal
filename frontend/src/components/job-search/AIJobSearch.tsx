@@ -267,7 +267,7 @@ export default function AIJobSearch() {
             aiAnalysis: job.aiAnalysis
         }
         localStorage.setItem('jd-analyzer-job-data', JSON.stringify(jobData))
-        navigate('/dashboard/resume/jd-analyzer')
+        navigate('/dashboard/resume-builder/jd-analyzer')
     }
 
     if (profileLoading) {
