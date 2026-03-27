@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Outlet } from 'react-router-dom'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
@@ -154,29 +154,16 @@ export default function HomeDashboard() {
           </div>
         </div>
 
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto px-5 py-4">
-          {/* Hero */}
-          <WelcomeHero
-            userName={userName}
-            overview={overview}
-            loading={overviewLoading}
-          />
-
-          {/* Quick Action Cards */}
-          <QuickActionCards />
-
-          {/* Member Sessions */}
-          {user && <MemberSessionsSection userId={user.id} />}
-
-          {/* Community */}
-          <CommunityHighlights userLevel={userLevel} />
-
-          {/* Resources */}
-          <ResourcesFeed userLevel={userLevel} />
-
-          {/* Recent Activity */}
-          {user && <RecentActivity userId={user.id} />}
+        {/* Scrollable content - uses Outlet for nested routes */}
+        <div className="flex-1 overflow-y-auto">
+          <Outlet context={{
+            user,
+            userProfile,
+            userName,
+            userLevel,
+            overview,
+            overviewLoading
+          }} />
         </div>
       </main>
 
