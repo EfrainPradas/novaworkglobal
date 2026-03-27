@@ -54,7 +54,7 @@ export default function InterviewMastery() {
   }
 
   const handleViewInterview = (id: string) => {
-    navigate(`/interview/${id}`)
+    navigate(`/dashboard/interview/${id}`)
   }
 
   const getStatusBadge = (status: string) => {

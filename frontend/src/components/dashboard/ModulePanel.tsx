@@ -1,4 +1,5 @@
-import { Play, BookOpen } from 'lucide-react'
+import { Play } from 'lucide-react'
+import LearnMoreLink from '../common/LearnMoreLink'
 import {
   ClipboardList, Star, AlignLeft, Layers,
   Target, Briefcase, Users
@@ -142,13 +143,11 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
               >
                 <Play size={13} /> Watch video
               </button>
-              <button
+              <LearnMoreLink
+                label="Learn more"
+                description="Explore this module in depth"
                 onClick={() => onNavigate(module.learnMoreRoute)}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold transition-colors hover:opacity-90"
-                style={{ background: '#E3F2FD', color: '#1565C0' }}
-              >
-                <BookOpen size={13} /> Learn more
-              </button>
+              />
             </div>
           </div>
 

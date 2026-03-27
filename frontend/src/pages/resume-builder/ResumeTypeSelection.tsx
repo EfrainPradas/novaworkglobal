@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2, Play, BookOpen } from 'lucide-react'
+import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2, Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import { BackButton } from '../../components/common/BackButton'
 
@@ -60,12 +61,11 @@ export default function ResumeTypeSelection() {
                         >
                             <Play className="w-4 h-4" /> Watch video
                         </button>
-                        <button
-                            onClick={() => navigate('/dashboard/resume/type-selection/learn-more')}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-                        >
-                            <BookOpen className="w-4 h-4" /> Learn more
-                        </button>
+                        <LearnMoreLink
+                          label="Which resume is right for you?"
+                          description="One format does not fit all roles"
+                          onClick={() => navigate('/dashboard/resume/type-selection/learn-more')}
+                        />
                     </div>
                 </div>
 

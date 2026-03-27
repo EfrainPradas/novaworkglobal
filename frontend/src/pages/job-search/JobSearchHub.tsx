@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import VisualGuide from '../../components/common/VisualGuide'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe, X, Play } from 'lucide-react'
 import AIJobSearch from '../../components/job-search/AIJobSearch'
 
@@ -28,7 +29,7 @@ export default function JobSearchHub() {
             title: 'AI Job Search',
             description: 'Find personalized job matches based on your skills, career vision, and preferences using Google Jobs.',
             icon: Brain,
-            route: '/fast-track/ai-recommendations',
+            route: '/dashboard/job-search/ai-recommendations',
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200',
@@ -41,7 +42,7 @@ export default function JobSearchHub() {
             title: 'Step 1: Plan Your Search',
             description: 'Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.',
             icon: Compass,
-            route: '/job-search/plan-your-search',
+            route: '/dashboard/job-search/plan-your-search',
             color: 'text-blue-600',
             bgColor: 'bg-blue-50',
             borderColor: 'border-blue-200',
@@ -53,7 +54,7 @@ export default function JobSearchHub() {
             title: 'Step 2: Online Job Applications',
             description: 'Track applications, leverage referrals, and analyze JDs in one place.',
             icon: LayoutDashboard,
-            route: '/job-search/online-applications',
+            route: '/dashboard/job-search/online-applications',
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200',
@@ -65,7 +66,7 @@ export default function JobSearchHub() {
             title: 'Step 3: Headhunters & Firms',
             description: 'Target recruiters with smart filters and access top firm rankings.',
             icon: Users,
-            route: '/job-search/headhunters',
+            route: '/dashboard/job-search/headhunters',
             color: 'text-orange-600',
             bgColor: 'bg-orange-50',
             borderColor: 'border-orange-200',
@@ -77,7 +78,7 @@ export default function JobSearchHub() {
             title: 'Step 4: Networking Strategy',
             description: 'Access the hidden job market with the 60-Day Plan and 90-Sec Story.',
             icon: Network,
-            route: '/job-search/networking',
+            route: '/dashboard/job-search/networking',
             color: 'text-green-600',
             bgColor: 'bg-green-50',
             borderColor: 'border-green-200',
@@ -89,7 +90,7 @@ export default function JobSearchHub() {
             title: 'Step 5: Your online presence',
             description: 'Optimize your LinkedIn profile and personal brand to attract recruiters.',
             icon: Globe,
-            route: '/job-search/social-positioning',
+            route: '/dashboard/job-search/social-positioning',
             color: 'text-cyan-600',
             bgColor: 'bg-cyan-50',
             borderColor: 'border-cyan-200',
@@ -132,12 +133,11 @@ export default function JobSearchHub() {
                         >
                             <Play fill="currentColor" className="w-4 h-4" /> Watch video
                         </button>
-                        <button
+                        <LearnMoreLink
+                            label="Understand the Strategy"
+                            description="Target companies get 3x more interview callbacks"
                             onClick={() => navigate('/dashboard/job-search/learn-more')}
-                            className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                        >
-                            Learn more
-                        </button>
+                        />
                     </div>
                 </div>
 

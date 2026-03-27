@@ -211,7 +211,7 @@ export default function NewInterview() {
 
       if (error) throw error
 
-      navigate(`/interview/${data.id}`)
+      navigate(`/dashboard/interview/${data.id}`)
     } catch (err: any) {
       setError(err.message || 'Failed to create interview preparation')
     } finally {

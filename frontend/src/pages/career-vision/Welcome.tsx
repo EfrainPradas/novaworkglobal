@@ -7,7 +7,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { Play, BookOpen } from 'lucide-react'
+import { Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 export default function CareerVisionWelcome() {
   const navigate = useNavigate()
@@ -179,12 +180,11 @@ export default function CareerVisionWelcome() {
             >
               <Play className="w-4 h-4" /> Watch video
             </a>
-            <button
+            <LearnMoreLink
+              label="Start your Career Vision"
+              description="Clarity is the first step to landing the right job"
               onClick={() => navigate('/dashboard/career-vision/dashboard')}
-              className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-            >
-              <BookOpen className="w-4 h-4" /> Learn more
-            </button>
+            />
           </div>
 
           {/* Time & Progress Info */}

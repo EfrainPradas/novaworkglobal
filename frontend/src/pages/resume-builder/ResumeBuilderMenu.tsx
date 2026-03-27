@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, BookOpen, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
@@ -311,12 +312,11 @@ export default function ResumeBuilderMenu() {
                 >
                   <Play className="w-4 h-4" /> Watch video
                 </button>
-                <button
+                <LearnMoreLink
+                  label="Resume strategy guide"
+                  description="ATS-optimized resumes get 3x more callbacks"
                   onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                  className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-                >
-                  <BookOpen className="w-4 h-4" /> Learn more
-                </button>
+                />
               </div>
             </div>
           </div>

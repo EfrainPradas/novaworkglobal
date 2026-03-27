@@ -132,7 +132,7 @@ export default function ResearchForm() {
         {/* Header */}
         <div className="mb-6">
           <button
-            onClick={() => navigate(`/interview/${id}`)}
+            onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="text-primary-600 hover:text-primary-700 mb-4 flex items-center gap-2"
           >
             ← Back to Interview
@@ -384,7 +384,7 @@ export default function ResearchForm() {
         {/* Action Buttons */}
         <div className="flex justify-center gap-4">
           <button
-            onClick={() => navigate(`/interview/${id}`)}
+            onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50"
           >
             Cancel

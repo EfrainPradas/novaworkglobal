@@ -7,7 +7,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
-import { X, Plus, Sparkles, Save, Loader2, ArrowLeft, Play, BookOpen } from 'lucide-react'
+import { X, Plus, Sparkles, Save, Loader2, ArrowLeft, Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 export default function SkillsValues() {
   const navigate = useNavigate()
@@ -271,12 +272,11 @@ export default function SkillsValues() {
               >
                 <Play className="w-4 h-4" /> Watch video
               </a>
-              <button
+              <LearnMoreLink
+                label="Discover your strengths"
+                description="Know your value before the interview"
                 onClick={() => navigate('/dashboard/career-vision/skills-values')}
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-              >
-                <BookOpen className="w-4 h-4" /> Learn more
-              </button>
+              />
             </div>
           </div>
         </div>
