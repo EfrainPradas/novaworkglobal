@@ -463,13 +463,13 @@ export default function MondayRitual() {
       <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
         <div className="flex items-center justify-between">
           <button
-            onClick={() => navigate('/weekly-reinvention/friday-ritual')}
+            onClick={() => navigate('/dashboard/weekly-reinvention/friday-ritual')}
             className="flex items-center gap-2 text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 font-medium"
           >
             Friday Reflection →
           </button>
           <button
-            onClick={() => navigate('/weekly-reinvention/progress')}
+            onClick={() => navigate('/dashboard/weekly-reinvention/progress')}
             className="flex items-center gap-2 text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 font-medium"
           >
             Progress Dashboard →

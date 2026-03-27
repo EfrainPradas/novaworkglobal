@@ -202,7 +202,7 @@ export default function SkillsValues() {
       }
 
       alert('✅ Your skills and interests have been saved!')
-      navigate('/career-vision/preferences')
+      navigate('/dashboard/career-vision/preferences')
     } catch (error) {
       console.error('Error saving career vision data:', error)
       alert('❌ Failed to save. Please try again.')
@@ -243,7 +243,7 @@ export default function SkillsValues() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
+            onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4 flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -272,7 +272,7 @@ export default function SkillsValues() {
                 <Play className="w-4 h-4" /> Watch video
               </a>
               <button
-                onClick={() => navigate('/career-vision/skills-values')}
+                onClick={() => navigate('/dashboard/career-vision/skills-values')}
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 <BookOpen className="w-4 h-4" /> Learn more
@@ -656,7 +656,7 @@ export default function SkillsValues() {
         {/* Action Buttons */}
         <div className="flex justify-between items-center">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/career-vision/dashboard')}
+            onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
           >
             Cancel

@@ -276,7 +276,7 @@ export default function AIRecommendations() {
     localStorage.setItem('jd-analyzer-job-data', JSON.stringify(jobData))
 
     // Navigate to JD Analyzer
-    navigate('/resume/jd-analyzer')
+    navigate('/dashboard/resume/jd-analyzer')
   }
 
   const clearSavedRecommendations = () => {

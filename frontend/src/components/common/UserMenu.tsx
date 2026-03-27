@@ -214,7 +214,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
               <div className="py-2">
                 <button
                   onClick={() => {
-                    navigate('/resume-builder/profile')
+                    navigate('/dashboard/resume-builder/profile')
                     setIsOpen(false)
                   }}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
@@ -397,7 +397,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                     <div className="space-y-2">
                       <button
                         onClick={() => {
-                          navigate('/resume-builder/profile')
+                          navigate('/dashboard/resume-builder/profile')
                           setShowSettings(false)
                           setIsOpen(false)
                         }}

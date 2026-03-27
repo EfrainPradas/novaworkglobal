@@ -71,7 +71,7 @@ export default function FastTrackMethodology() {
 
                 {/* Header */}
                 <div>
-                    <BackButton to="/job-search-hub" label="Back to Job Search Hub" className="mb-6 pl-0" />
+                    <BackButton to="/dashboard/job-search-hub" label="Back to Job Search Hub" className="mb-6 pl-0" />
                     <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-12 text-center relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-teal-400 to-orange-400"></div>
                         <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
@@ -150,7 +150,7 @@ export default function FastTrackMethodology() {
                             Begin by defining your target market, industries, and creating your personal marketing plan.
                         </p>
                         <button
-                            onClick={() => navigate('/job-search/plan-your-search')}
+                            onClick={() => navigate('/dashboard/job-search/plan-your-search')}
                             className="px-8 py-4 bg-white text-indigo-900 rounded-xl font-bold text-lg hover:bg-gray-100 transform hover:scale-105 transition-all flex items-center gap-3 mx-auto shadow-lg"
                         >
                             Start Your Search Plan <ArrowRight className="w-5 h-5" />

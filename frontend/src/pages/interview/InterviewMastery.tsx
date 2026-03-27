@@ -50,7 +50,7 @@ export default function InterviewMastery() {
   }
 
   const handleCreateInterview = () => {
-    navigate('/interview/new')
+    navigate('/dashboard/interview/new')
   }
 
   const handleViewInterview = (id: string) => {
@@ -98,7 +98,7 @@ export default function InterviewMastery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <BackButton to={isStandalone ? '/dashboard' : '/job-search-hub'} label={isStandalone ? 'Back to Dashboard' : 'Back to Job Search'} className="mb-4 pl-0" />
+          <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" className="mb-4 pl-0" />
 
           <div className="flex items-start justify-between">
             <div>
@@ -319,7 +319,7 @@ export default function InterviewMastery() {
               </p>
             </div>
             <button
-              onClick={() => navigate('/interview/questions')}
+              onClick={() => navigate('/dashboard/interview/questions')}
               className="px-6 py-3 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium shadow-lg"
             >
               Browse Questions

@@ -188,7 +188,7 @@ const CARStoryBuilder: React.FC = () => {
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
                 <div className="flex items-center justify-between mb-4">
                     <div onClick={() => trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'resume-builder' })}>
-                        <BackButton to="/resume-builder" label={t('resumeBuilder.par.backToResumeBuilder')} className="pl-0" />
+                        <BackButton to="/dashboard/resume-builder" label={t('resumeBuilder.par.backToResumeBuilder')} className="pl-0" />
                     </div>
                 </div>
                 <div className="flex items-center justify-between">

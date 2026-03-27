@@ -32,7 +32,7 @@ export default function ProfileLearnMore() {
         <div className="max-w-[1100px] mx-auto flex items-center justify-between px-6 py-4">
           <div
             className="flex items-center gap-3 font-bold text-[#0b2450] dark:text-white cursor-pointer group"
-            onClick={() => navigate('/resume/profile')}
+            onClick={() => navigate('/dashboard/resume/profile')}
           >
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#1c61cf] to-[#143a72] flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
               <User className="w-5 h-5" />
@@ -40,7 +40,7 @@ export default function ProfileLearnMore() {
             <span className="tracking-tight text-lg">NovaWork Global</span>
           </div>
           <button
-            onClick={() => navigate('/resume/profile')}
+            onClick={() => navigate('/dashboard/resume/profile')}
             className="flex items-center gap-2 text-sm font-semibold text-[#5a6b86] dark:text-slate-400 hover:text-[#0b2450] dark:hover:text-white transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Profile Builder
@@ -323,7 +323,7 @@ export default function ProfileLearnMore() {
               You now have the blueprint. Deconstruct your current profile and rebuild it step-by-step to command the attention your experience deserves.
             </p>
             <button
-              onClick={() => navigate('/resume/profile')}
+              onClick={() => navigate('/dashboard/resume/profile')}
               className="inline-flex items-center gap-2 bg-[#39d0d8] text-[#0b2450] px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-transform relative z-10"
             >
               Build Your Profile <ArrowRight className="w-5 h-5" />

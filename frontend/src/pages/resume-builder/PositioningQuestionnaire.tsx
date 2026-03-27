@@ -344,10 +344,10 @@ export default function PositioningQuestionnairePage() {
 
                 {/* Back Link */}
                 <button
-                    onClick={() => navigate(isStandalone ? '/dashboard' : '/resume/story-cards')}
+                    onClick={() => navigate(isStandalone ? '/dashboard/resume-builder' : '/dashboard/resume/story-cards')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : 'Back to CAR Stories'}
+                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to CAR Stories'}
                 </button>
 
                 {/* Header */}
@@ -365,7 +365,7 @@ export default function PositioningQuestionnairePage() {
                             <Play className="w-3.5 h-3.5" /> Watch video
                         </button>
                         <button
-                            onClick={() => navigate('/resume/profile/learn-more')}
+                            onClick={() => navigate('/dashboard/resume/profile/learn-more')}
                             className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                         >
                             <BookOpen className="w-3.5 h-3.5" /> Learn more
@@ -379,7 +379,7 @@ export default function PositioningQuestionnairePage() {
                         <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
                             <p className="text-sm font-medium text-amber-800 dark:text-amber-200">Completing your accomplishments first improves the quality of the generated profile.</p>
-                            <button onClick={() => navigate('/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">Go to Story Cards →</button>
+                            <button onClick={() => navigate('/dashboard/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">Go to Story Cards →</button>
                         </div>
                     </div>
                 )}

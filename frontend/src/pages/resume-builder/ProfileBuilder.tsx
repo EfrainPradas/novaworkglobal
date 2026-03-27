@@ -527,7 +527,7 @@ const ProfileBuilder: React.FC = () => {
       console.log('✅ Profile saved successfully:', data)
       trackEvent('analytics', 'step_completed', { step_name: 'profile', next_step: 'resume-builder' })
       alert('Profile saved successfully!')
-      navigate(isStandalone ? '/dashboard' : '/resume-builder')
+      navigate('/dashboard/resume-builder')
     } catch (error: any) {
       console.error('❌ Error saving profile:', error)
       setError(`Failed to save profile: ${error.message || 'Unknown error'}`)
@@ -564,7 +564,7 @@ const ProfileBuilder: React.FC = () => {
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
         <div className="flex items-center justify-between mb-4">
           <button
-            onClick={() => navigate(isStandalone ? '/dashboard' : '/resume-builder')}
+            onClick={() => navigate('/dashboard/resume-builder')}
             className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-white transition"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

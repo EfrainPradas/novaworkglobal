@@ -67,7 +67,7 @@ export default function MainMenu() {
       icon: Star,
       color: 'from-blue-600 to-indigo-600',
       requiredLevel: 'momentum',
-      route: '/career-vision',
+      route: '/dashboard/career-vision',
       steps: [
         'Career Vision Discovery',
         'Skills & Values Analysis',
@@ -82,7 +82,7 @@ export default function MainMenu() {
       icon: FileText,
       color: 'from-blue-500 to-cyan-500',
       requiredLevel: 'essentials',
-      route: '/resume-builder',
+      route: '/dashboard/resume-builder',
       steps: [
         'Work Experience',
         'CAR Accomplishments',
@@ -99,7 +99,7 @@ export default function MainMenu() {
       icon: Search,
       color: 'from-emerald-600 to-teal-600',
       requiredLevel: 'momentum',
-      route: '/job-search/plan-your-search',
+      route: '/dashboard/job-search/plan-your-search',
       steps: [
         'Plan Your Search',
         'Social Media Positioning',
@@ -115,7 +115,7 @@ export default function MainMenu() {
       icon: Users,
       color: 'from-slate-700 to-slate-900',
       requiredLevel: 'executive',
-      route: '/interview',
+      route: '/dashboard/interview',
       steps: [
         'Interview Type Guide',
         'Company Research',

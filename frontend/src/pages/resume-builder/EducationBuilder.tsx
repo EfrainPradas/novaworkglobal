@@ -142,7 +142,7 @@ export default function EducationBuilder() {
 
     const handleContinue = async () => {
         await trackEvent('analytics', 'step_completed', { step_name: 'education', next_step: 'accomplishment-library' })
-        navigate('/resume/accomplishment-library')
+        navigate('/dashboard/resume/accomplishment-library')
     }
 
     const inputClass = (field: string) =>
@@ -163,10 +163,10 @@ export default function EducationBuilder() {
                 {/* Navigation Header */}
                 <div className="flex items-center justify-between mb-6">
                     <button
-                        onClick={() => navigate(isStandalone ? '/dashboard' : '/resume/work-experience')}
+                        onClick={() => navigate('/dashboard/resume/work-experience')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Dashboard' : 'Back to Work Experience'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Work Experience'}
                     </button>
 
                     {!isStandalone && (
@@ -182,7 +182,7 @@ export default function EducationBuilder() {
                 {isStandalone && (
                     <div className="flex space-x-6 mb-8 border-b border-gray-200 dark:border-gray-700">
                         <button
-                            onClick={() => navigate('/resume/work-experience?mode=standalone')}
+                            onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
                         >
                             Work Experience
@@ -191,7 +191,7 @@ export default function EducationBuilder() {
                             Education
                         </button>
                         <button
-                            onClick={() => navigate('/resume/awards?mode=standalone')}
+                            onClick={() => navigate('/dashboard/resume/awards?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
                             Awards & Certifications

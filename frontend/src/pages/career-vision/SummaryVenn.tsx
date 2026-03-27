@@ -315,7 +315,7 @@ const CareerVisionSummary: React.FC = () => {
                 {/* Action Buttons */}
                 <div className="flex justify-center gap-4">
                     <button
-                        onClick={() => navigate('/career-vision')}
+                        onClick={() => navigate('/dashboard/career-vision')}
                         className="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium"
                     >
                         ← Volver

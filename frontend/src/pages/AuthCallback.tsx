@@ -59,7 +59,7 @@ export default function AuthCallback() {
         setTimeout(() => {
           if (!profile || !profile.has_seen_career_vision_prompt) {
             // New user - show Career Vision welcome
-            navigate('/career-vision/welcome')
+            navigate('/dashboard/career-vision/welcome')
           } else {
             // Existing user - go to dashboard
             navigate('/dashboard')

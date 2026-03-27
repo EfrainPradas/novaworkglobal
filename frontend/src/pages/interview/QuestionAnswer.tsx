@@ -119,7 +119,7 @@ export default function QuestionAnswer() {
             if (error) throw error
 
             // Go back to bank
-            navigate('/interview/questions')
+            navigate('/dashboard/interview/questions')
 
         } catch (error) {
             console.error('Error saving answer:', error)
@@ -142,7 +142,7 @@ export default function QuestionAnswer() {
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
                     <h2 className="text-xl font-bold text-gray-900">Question not found</h2>
-                    <button onClick={() => navigate('/interview/questions')} className="mt-4 text-primary-600 hover:text-primary-700">
+                    <button onClick={() => navigate('/dashboard/interview/questions')} className="mt-4 text-primary-600 hover:text-primary-700">
                         Go Back
                     </button>
                 </div>
@@ -155,7 +155,7 @@ export default function QuestionAnswer() {
             <div className="max-w-3xl mx-auto px-4">
                 {/* Header */}
                 <button
-                    onClick={() => navigate('/interview/questions')}
+                    onClick={() => navigate('/dashboard/interview/questions')}
                     className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 mb-6 flex items-center gap-2"
                 >
                     ← Back to Question Bank
@@ -240,7 +240,7 @@ export default function QuestionAnswer() {
 
                         <div className="flex gap-3">
                             <button
-                                onClick={() => navigate('/interview/questions')}
+                                onClick={() => navigate('/dashboard/interview/questions')}
                                 className="px-4 py-2 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                             >
                                 Cancel

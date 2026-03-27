@@ -559,7 +559,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                             <button
                                 onClick={async () => {
                                     await trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'questionnaire' })
-                                    navigate('/resume/questionnaire')
+                                    navigate('/dashboard/resume/questionnaire')
                                 }}
                                 className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
                             >
@@ -947,7 +947,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 {!isStandalone && (
                     <div className="mt-8 flex justify-end border-t border-gray-200 dark:border-gray-700 pt-6">
                         <button
-                            onClick={() => navigate('/resume/questionnaire')}
+                            onClick={() => navigate('/dashboard/resume/questionnaire')}
                             className="py-3 px-8 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
                         >
                             Continue to Next Step <ArrowRight className="w-5 h-5" />
@@ -1450,7 +1450,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 stories={extractorStories}
                 onSuccess={() => {
                     if (window.confirm("Accomplishments saved! Would you like to go to your Accomplishment Bank now?")) {
-                        navigate('/resume/accomplishment-library')
+                        navigate('/dashboard/resume/accomplishment-library')
                     }
                 }}
             />

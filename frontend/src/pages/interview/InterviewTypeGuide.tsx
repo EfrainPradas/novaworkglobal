@@ -25,7 +25,7 @@ export default function InterviewTypeGuide() {
       setInterview(data)
     } catch (error) {
       console.error('Error loading interview:', error)
-      navigate('/interview')
+      navigate('/dashboard/interview')
     } finally {
       setLoading(false)
     }

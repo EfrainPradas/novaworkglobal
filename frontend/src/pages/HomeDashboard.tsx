@@ -6,7 +6,7 @@ import UserMenu from '../components/common/UserMenu'
 import NotificationBell from '../components/common/NotificationBell'
 import HomeSidebar from '../components/home-dashboard/HomeSidebar'
 import WelcomeHero from '../components/home-dashboard/WelcomeHero'
-import ProgressSummary from '../components/home-dashboard/ProgressSummary'
+import DashboardRightPanel from '../components/home-dashboard/DashboardRightPanel'
 import QuickActionCards from '../components/home-dashboard/QuickActionCards'
 import MemberSessionsSection from '../components/home-dashboard/MemberSessionsSection'
 import CommunityHighlights from '../components/home-dashboard/CommunityHighlights'
@@ -200,13 +200,7 @@ export default function HomeDashboard() {
             <ChevronRight size={14} />
           </button>
 
-          <div className="pt-6 px-4">
-            <ProgressSummary
-              overview={overview}
-              loading={overviewLoading}
-              compact
-            />
-          </div>
+          <DashboardRightPanel userId={user?.id ?? null} />
         </aside>
       ) : (
         <div

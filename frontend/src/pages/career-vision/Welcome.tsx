@@ -23,10 +23,10 @@ export default function CareerVisionWelcome() {
       }
 
       // Navigate to Career Vision Dashboard
-      navigate('/career-vision/dashboard')
+      navigate('/dashboard/career-vision/dashboard')
     } catch (error) {
       console.error('Error starting Career Vision:', error)
-      navigate('/career-vision/dashboard')
+      navigate('/dashboard/career-vision/dashboard')
     } finally {
       setLoading(false)
     }
@@ -180,7 +180,7 @@ export default function CareerVisionWelcome() {
               <Play className="w-4 h-4" /> Watch video
             </a>
             <button
-              onClick={() => navigate('/career-vision/dashboard')}
+              onClick={() => navigate('/dashboard/career-vision/dashboard')}
               className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
               <BookOpen className="w-4 h-4" /> Learn more

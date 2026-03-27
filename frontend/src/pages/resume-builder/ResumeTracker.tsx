@@ -553,7 +553,7 @@ export const ResumeTracker: React.FC = () => {
               : 'Start by analyzing a job description and generating tailored resumes'}
           </p>
           <button
-            onClick={() => navigate('/resume-builder/jd-analyzer')}
+            onClick={() => navigate('/dashboard/resume-builder/jd-analyzer')}
             className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
           >
             Go to JD Analyzer

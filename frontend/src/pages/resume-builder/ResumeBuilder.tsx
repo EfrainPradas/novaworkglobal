@@ -229,7 +229,7 @@ export default function ResumeBuilder() {
 
       {/* Quick Action Footer - Apply Jobs */}
       <div
-        onClick={() => navigate('/job-search/plan-your-search')}
+        onClick={() => navigate('/dashboard/job-search/plan-your-search')}
         className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-8 text-white shadow-lg cursor-pointer hover:shadow-2xl hover:scale-[1.01] transition-all flex items-center justify-between group"
       >
         <div>

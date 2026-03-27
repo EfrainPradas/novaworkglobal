@@ -798,7 +798,7 @@ const WorkExperienceBuilder: React.FC = () => {
           <div className="flex items-center justify-between mb-4">
             <div data-tour="back-dashboard">
               <BackButton
-                to={isStandalone ? '/dashboard' : '/resume/contact-info'}
+                to="/dashboard/resume-builder"
                 label={isStandalone ? t('resumeBuilder.menu.backToDashboard') : t('common.back')}
                 className="text-gray-600 dark:text-white hover:text-gray-900 dark:hover:text-gray-200"
               />
@@ -812,7 +812,7 @@ const WorkExperienceBuilder: React.FC = () => {
               <button
                 onClick={async () => {
                   await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
-                  navigate('/resume/education')
+                  navigate('/dashboard/resume/education')
                 }}
                 className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
               >
@@ -829,13 +829,13 @@ const WorkExperienceBuilder: React.FC = () => {
                   {t('resumeBuilder.menu.workExperience')}
                 </button>
                 <button
-                  onClick={() => navigate('/resume/education?mode=standalone')}
+                  onClick={() => navigate('/dashboard/resume/education?mode=standalone')}
                   className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                 >
                   {t('resumeBuilder.menu.education') || 'Education'}
                 </button>
                 <button
-                  onClick={() => navigate('/resume/awards?mode=standalone')}
+                  onClick={() => navigate('/dashboard/resume/awards?mode=standalone')}
                   className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                 >
                   {t('resumeBuilder.menu.awardsAndCerts', 'Awards & Certifications')}
@@ -849,7 +849,7 @@ const WorkExperienceBuilder: React.FC = () => {
                   <Play className="w-3.5 h-3.5" /> Watch video
                 </button>
                 <button
-                  onClick={() => navigate('/resume/work-experience/learn-more')}
+                  onClick={() => navigate('/dashboard/resume/work-experience/learn-more')}
                   className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
                   <HelpCircle className="w-3.5 h-3.5" /> Learn more

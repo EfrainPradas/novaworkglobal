@@ -225,7 +225,7 @@ export default function NewInterview() {
         {/* Header */}
         <div className="mb-8">
           <button
-            onClick={() => navigate('/interview')}
+            onClick={() => navigate('/dashboard/interview')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-4 flex items-center gap-2"
           >
             ← Back to Interviews
@@ -547,7 +547,7 @@ export default function NewInterview() {
                 <div className="flex justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
                   <button
                     type="button"
-                    onClick={() => navigate('/interview')}
+                    onClick={() => navigate('/dashboard/interview')}
                     className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
                     Cancel
