@@ -328,7 +328,7 @@ router.post('/recommendations', async (req, res) => {
 
         const jobs = response.data.jobs_results || []
         console.log(`✅ Found ${jobs.length} jobs for "${query}"`)
-        allJobs.push(...jobs)
+        allJobs.push(...jobs.map(j => ({ ...j, _searchQuery: query })))
       } catch (error) {
         console.warn(`⚠️ Query failed: "${query}" - ${error.message}`)
       }
@@ -401,8 +401,9 @@ Return only a JSON object with:
           const aiResponse = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
             messages: [{ role: 'user', content: analysisPrompt }],
-            max_tokens: 500,
-            temperature: 0.2
+            max_tokens: 600,
+            temperature: 0.2,
+            response_format: { type: 'json_object' }
           })
 
           const aiAnalysis = JSON.parse(aiResponse.choices[0].message.content)
@@ -439,7 +440,7 @@ Return only a JSON object with:
             },
 
             // Metadata
-            searchQuery: query,
+            searchQuery: job._searchQuery || '',
             recommendedAt: new Date().toISOString(),
             descriptionSource: hasDescription ? 'serpapi' : hasHighlights ? 'highlights' : 'ai-generated',
 
