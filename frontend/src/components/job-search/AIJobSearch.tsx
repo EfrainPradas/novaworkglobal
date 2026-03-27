@@ -349,7 +349,7 @@ export default function AIJobSearch() {
                         ) : (
                             <>
                                 <Target className="w-4 h-4" />
-                                Find My Dream Jobs
+                                Find My Jobs
                             </>
                         )}
                     </button>
