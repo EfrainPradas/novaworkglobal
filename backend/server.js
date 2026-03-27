@@ -107,11 +107,13 @@ app.use('/api/analytics', analyticsRoutes)
 app.use('/api/accomplishment-bank', accomplishmentBankRoutes)
 app.use('/api/process-mining', processMiningRoutes)
 
-// Admin / Unauthenticated tools (mount before generic /api)
+// 🚨 PUBLIC/SPECIFIC ROUTES MUST come BEFORE generic /api routes
+// Otherwise, generic auth-protected middleware intercepts them
 app.use('/api/translations', translationsRoutes)
 app.use('/api/market-news', marketNewsRoutes)  // public — no auth required
 
-// Generically mounted routes (these often contain internal requireAuth that intercepts all /api/* requests)
+// Generically mounted routes with requireAuth middleware
+// These must come AFTER specific public routes
 app.use('/api', resumeParserRoutes)
 app.use('/api', profileGeneratorRoutes)
 app.use('/api', contactProfileRoutes)
