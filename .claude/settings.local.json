@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "mcp__Claude_Preview__preview_start",
-      "Read(//mnt/c/Ubuntu/home/efraiprada/novaworkglobal/active/**)",
-      "Bash(npx tsc:*)"
-    ]
-  }
-}
