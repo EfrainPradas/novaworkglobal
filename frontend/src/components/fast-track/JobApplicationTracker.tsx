@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Plus, Search, Filter, ExternalLink, Users, Calendar, CheckCircle, XCircle, Clock, AlertCircle, Briefcase } from 'lucide-react'
+import { Plus, Search, ExternalLink, Users, CheckCircle, XCircle, Clock, AlertCircle, Briefcase, X, Loader2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
 interface JobApplication {
@@ -21,13 +21,29 @@ interface JobApplication {
   created_at: string
 }
 
+const EMPTY_FORM = {
+  job_title: '',
+  company: '',
+  where_found: 'LinkedIn',
+  date_found: new Date().toISOString().split('T')[0],
+  link_to_posting: '',
+  top_keywords: '',
+  referral_requested: false,
+  referral_contact_name: '',
+  referral_made: false,
+  application_status: 'found' as JobApplication['application_status'],
+  date_applied: '',
+}
+
 export default function JobApplicationTracker() {
   const [applications, setApplications] = useState<JobApplication[]>([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<string>('all')
   const [referralFilter, setReferralFilter] = useState<string>('all')
   const [showAddModal, setShowAddModal] = useState(false)
+  const [form, setForm] = useState({ ...EMPTY_FORM })
 
   useEffect(() => {
     loadApplications()
@@ -51,6 +67,55 @@ export default function JobApplicationTracker() {
       console.error('Error loading applications:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleSaveApplication = async () => {
+    if (!form.job_title.trim() || !form.company.trim()) {
+      alert('Job Title and Company are required.')
+      return
+    }
+
+    setSaving(true)
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) throw new Error('Not authenticated')
+
+      // Auto-calculate follow-up date (7 days after applied)
+      const followUpDate = form.date_applied
+        ? new Date(new Date(form.date_applied).getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        : null
+
+      const { error } = await supabase.from('job_applications').insert({
+        user_id: user.id,
+        job_title: form.job_title.trim(),
+        company: form.company.trim(),
+        where_found: form.where_found,
+        date_found: form.date_found,
+        link_to_posting: form.link_to_posting.trim() || null,
+        top_keywords: form.top_keywords
+          ? form.top_keywords.split(',').map(k => k.trim()).filter(Boolean)
+          : [],
+        referral_requested: form.referral_requested,
+        referral_contact_name: form.referral_contact_name.trim() || null,
+        referral_made: form.referral_made,
+        application_status: form.application_status,
+        date_applied: form.date_applied || null,
+        auto_follow_up_date: followUpDate,
+        last_follow_up_date: null,
+        follow_up_count: 0,
+      })
+
+      if (error) throw error
+
+      setForm({ ...EMPTY_FORM })
+      setShowAddModal(false)
+      await loadApplications()
+    } catch (error: any) {
+      console.error('Error saving application:', error)
+      alert('Error saving. Please try again.')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -328,18 +393,188 @@ export default function JobApplicationTracker() {
         </div>
       )}
 
-      {/* Add Application Modal - Placeholder */}
+      {/* Add Application Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full p-6 border border-gray-200 dark:border-gray-700">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">Add Job Application</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">Application form coming soon...</p>
-            <button
-              onClick={() => setShowAddModal(false)}
-              className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-300 px-6 py-2 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              Close
-            </button>
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
+            {/* Header */}
+            <div className="sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between rounded-t-2xl z-10">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <Plus className="w-5 h-5 text-primary-600" /> Add Job Application
+              </h2>
+              <button onClick={() => { setShowAddModal(false); setForm({ ...EMPTY_FORM }) }}
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full transition-colors">
+                <X className="w-5 h-5 text-gray-500" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-5">
+              {/* Job Title + Company */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    Job Title <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Senior Data Analyst"
+                    value={form.job_title}
+                    onChange={e => setForm(f => ({ ...f, job_title: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    Company <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Stripe"
+                    value={form.company}
+                    onChange={e => setForm(f => ({ ...f, company: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Where Found + Status */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Where Found</label>
+                  <select
+                    value={form.where_found}
+                    onChange={e => setForm(f => ({ ...f, where_found: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option>LinkedIn</option>
+                    <option>Indeed</option>
+                    <option>Glassdoor</option>
+                    <option>Company Website</option>
+                    <option>Referral</option>
+                    <option>Handshake</option>
+                    <option>ZipRecruiter</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                  <select
+                    value={form.application_status}
+                    onChange={e => setForm(f => ({ ...f, application_status: e.target.value as JobApplication['application_status'] }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  >
+                    <option value="found">🟣 Found</option>
+                    <option value="tailoring">🟡 Tailoring Resume</option>
+                    <option value="applied">🔵 Applied</option>
+                    <option value="followed_up">🔵 Followed Up</option>
+                    <option value="interviewing">🟠 Interviewing</option>
+                    <option value="offer">🟢 Offer</option>
+                    <option value="rejected">🔴 Rejected</option>
+                  </select>
+                </div>
+              </div>
+
+              {/* Date Found + Date Applied */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Date Found</label>
+                  <input
+                    type="date"
+                    value={form.date_found}
+                    onChange={e => setForm(f => ({ ...f, date_found: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                    Date Applied <span className="text-xs text-gray-400 font-normal">(follow-up auto-set to +7 days)</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={form.date_applied}
+                    onChange={e => setForm(f => ({ ...f, date_applied: e.target.value }))}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Link to Posting */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Link to Job Posting</label>
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={form.link_to_posting}
+                  onChange={e => setForm(f => ({ ...f, link_to_posting: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Keywords */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                  Top Keywords <span className="text-xs text-gray-400 font-normal">comma separated</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. SQL, Python, Tableau, Data Visualization"
+                  value={form.top_keywords}
+                  onChange={e => setForm(f => ({ ...f, top_keywords: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                />
+              </div>
+
+              {/* Referral section */}
+              <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-900/40 rounded-lg p-4 space-y-3">
+                <p className="text-sm font-semibold text-green-800 dark:text-green-300">Referral</p>
+                <div className="flex items-center gap-6">
+                  <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-700 dark:text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={form.referral_requested}
+                      onChange={e => setForm(f => ({ ...f, referral_requested: e.target.checked }))}
+                      className="w-4 h-4 text-primary-600 rounded"
+                    />
+                    Referral Requested
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-700 dark:text-gray-300">
+                    <input
+                      type="checkbox"
+                      checked={form.referral_made}
+                      onChange={e => setForm(f => ({ ...f, referral_made: e.target.checked }))}
+                      className="w-4 h-4 text-primary-600 rounded"
+                    />
+                    Referral Confirmed ✓
+                  </label>
+                </div>
+                {(form.referral_requested || form.referral_made) && (
+                  <input
+                    type="text"
+                    placeholder="Contact name (e.g. John Smith)"
+                    value={form.referral_contact_name}
+                    onChange={e => setForm(f => ({ ...f, referral_contact_name: e.target.value }))}
+                    className="w-full px-3 py-2 border border-green-300 dark:border-green-700 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-sm"
+                  />
+                )}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="sticky bottom-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 px-6 py-4 flex justify-end gap-3 rounded-b-2xl">
+              <button
+                onClick={() => { setShowAddModal(false); setForm({ ...EMPTY_FORM }) }}
+                className="px-5 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveApplication}
+                disabled={saving}
+                className="px-6 py-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg font-semibold hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2"
+              >
+                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : <><Plus className="w-4 h-4" /> Save Application</>}
+              </button>
+            </div>
           </div>
         </div>
       )}

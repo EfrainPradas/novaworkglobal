@@ -7,7 +7,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
-import { Plus, Edit2, Trash2, Save, X, Loader2, Sparkles, TrendingUp, TrendingDown, Play, BookOpen } from 'lucide-react'
+import { Plus, Edit2, Trash2, Save, X, Loader2, Sparkles, TrendingUp, TrendingDown, Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
@@ -364,12 +365,11 @@ export default function JobHistory() {
               >
                 <Play className="w-4 h-4" /> Watch video
               </a>
-              <button
+              <LearnMoreLink
+                label="Why job history matters"
+                description="Patterns reveal your next best career move"
                 onClick={() => navigate('/dashboard/career-vision/job-history')}
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-              >
-                <BookOpen className="w-4 h-4" /> Learn more
-              </button>
+              />
             </div>
           </div>
         </div>

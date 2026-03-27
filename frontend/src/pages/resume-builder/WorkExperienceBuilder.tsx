@@ -7,7 +7,8 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
-import { ArrowRight, Play, X, HelpCircle, Sparkles, Loader2 } from 'lucide-react'
+import { ArrowRight, Play, X, Sparkles, Loader2 } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { workExperienceTourConfig } from '../../config/tours/workExperienceTour'
@@ -848,12 +849,11 @@ const WorkExperienceBuilder: React.FC = () => {
                 >
                   <Play className="w-3.5 h-3.5" /> Watch video
                 </button>
-                <button
+                <LearnMoreLink
+                  label="Write achievements, not duties"
+                  description="Quantified results get you the interview"
                   onClick={() => navigate('/dashboard/resume/work-experience/learn-more')}
-                  className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
-                >
-                  <HelpCircle className="w-3.5 h-3.5" /> Learn more
-                </button>
+                />
               </div>
             </div>
           )}

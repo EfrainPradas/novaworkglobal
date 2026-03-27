@@ -272,7 +272,7 @@ export default function InterviewDetail() {
                     {phase.sections.map((section) => (
                       <button
                         key={section.id}
-                        onClick={() => navigate(`/interview/${id}/${section.route}`)}
+                        onClick={() => navigate(`/dashboard/interview/${id}/${section.route}`)}
                         className="p-4 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 hover:border-primary-500 transition-all text-left"
                       >
                         <div className="flex items-center gap-3">

@@ -3,7 +3,7 @@
  * Edit and refine your answer for a specific interview question
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { InterviewQuestion, InterviewQuestionAnswer } from '../../types/interview'
@@ -21,6 +21,19 @@ export default function QuestionAnswer() {
     // Form state
     const [answerText, setAnswerText] = useState('')
     const [confidenceLevel, setConfidenceLevel] = useState(3)
+
+    // Recording state
+    const [showRecorder, setShowRecorder] = useState(false)
+    const [isRecording, setIsRecording] = useState(false)
+    const [recordedBlob, setRecordedBlob] = useState<Blob | null>(null)
+    const [recordingSeconds, setRecordingSeconds] = useState(0)
+    const [cameraError, setCameraError] = useState<string | null>(null)
+    const videoPreviewRef = useRef<HTMLVideoElement>(null)
+    const videoPlaybackRef = useRef<HTMLVideoElement>(null)
+    const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+    const streamRef = useRef<MediaStream | null>(null)
+    const chunksRef = useRef<Blob[]>([])
+    const timerRef = useRef<NodeJS.Timeout | null>(null)
 
     useEffect(() => {
         if (questionId) {
@@ -91,6 +104,96 @@ export default function QuestionAnswer() {
             setGenerating(false)
         }
     }
+
+    const openRecorder = async () => {
+        setCameraError(null)
+        setRecordedBlob(null)
+        setShowRecorder(true)
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            streamRef.current = stream
+            if (videoPreviewRef.current) {
+                videoPreviewRef.current.srcObject = stream
+            }
+        } catch (err: any) {
+            setCameraError('Could not access camera/microphone. Please allow permissions and try again.')
+        }
+    }
+
+    const closeRecorder = () => {
+        stopStream()
+        setShowRecorder(false)
+        setIsRecording(false)
+        setRecordedBlob(null)
+        setRecordingSeconds(0)
+    }
+
+    const stopStream = () => {
+        if (streamRef.current) {
+            streamRef.current.getTracks().forEach(t => t.stop())
+            streamRef.current = null
+        }
+        if (timerRef.current) clearInterval(timerRef.current)
+    }
+
+    const startRecording = () => {
+        if (!streamRef.current) return
+        chunksRef.current = []
+        setRecordedBlob(null)
+        setRecordingSeconds(0)
+
+        const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+            ? 'video/webm;codecs=vp9'
+            : MediaRecorder.isTypeSupported('video/webm')
+                ? 'video/webm'
+                : 'video/mp4'
+
+        const recorder = new MediaRecorder(streamRef.current, { mimeType })
+        mediaRecorderRef.current = recorder
+
+        recorder.ondataavailable = (e) => {
+            if (e.data.size > 0) chunksRef.current.push(e.data)
+        }
+
+        recorder.onstop = () => {
+            const blob = new Blob(chunksRef.current, { type: mimeType })
+            setRecordedBlob(blob)
+            if (timerRef.current) clearInterval(timerRef.current)
+            // Show playback
+            setTimeout(() => {
+                if (videoPlaybackRef.current) {
+                    videoPlaybackRef.current.src = URL.createObjectURL(blob)
+                }
+            }, 100)
+        }
+
+        recorder.start(250)
+        setIsRecording(true)
+
+        // Timer
+        timerRef.current = setInterval(() => {
+            setRecordingSeconds(s => s + 1)
+        }, 1000)
+    }
+
+    const stopRecording = () => {
+        mediaRecorderRef.current?.stop()
+        setIsRecording(false)
+    }
+
+    const downloadRecording = () => {
+        if (!recordedBlob) return
+        const ext = recordedBlob.type.includes('mp4') ? 'mp4' : 'webm'
+        const filename = `interview-practice-${question?.question_text?.slice(0, 30).replace(/[^a-z0-9]/gi, '_') || 'answer'}.${ext}`
+        const url = URL.createObjectURL(recordedBlob)
+        const a = document.createElement('a')
+        a.href = url
+        a.download = filename
+        a.click()
+        URL.revokeObjectURL(url)
+    }
+
+    const formatTime = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
 
     const handleSave = async () => {
         if (!questionId) return
@@ -217,6 +320,135 @@ export default function QuestionAnswer() {
                                 <span>Ready for Interview</span>
                             </div>
                         </div>
+                    </div>
+
+                    {/* Practice Recording Section */}
+                    <div className="px-6 pb-6">
+                        {!showRecorder ? (
+                            <button
+                                onClick={openRecorder}
+                                className="w-full flex items-center justify-center gap-2 px-4 py-3 border-2 border-dashed border-red-300 dark:border-red-700 rounded-xl text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors font-medium"
+                            >
+                                🎥 Record Yourself Answering
+                                <span className="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">— saved only to your device</span>
+                            </button>
+                        ) : (
+                            <div className="border-2 border-red-200 dark:border-red-800 rounded-xl overflow-hidden">
+                                {/* Header */}
+                                <div className="flex items-center justify-between px-4 py-3 bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800">
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-lg">🎥</span>
+                                        <span className="font-semibold text-gray-800 dark:text-white text-sm">Practice Recording</span>
+                                        <span className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">Not saved to server</span>
+                                    </div>
+                                    <button onClick={closeRecorder} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-xl font-bold leading-none">×</button>
+                                </div>
+
+                                {cameraError ? (
+                                    <div className="p-6 text-center">
+                                        <p className="text-red-600 dark:text-red-400 text-sm">{cameraError}</p>
+                                    </div>
+                                ) : (
+                                    <div className="p-4">
+                                        {/* Side-by-side layout: teleprompter + camera */}
+                                        <div className="flex gap-4 mb-4">
+
+                                            {/* Left: Question + Answer as teleprompter */}
+                                            <div className="flex-1 flex flex-col gap-3 min-w-0">
+                                                {/* Question */}
+                                                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 border border-blue-200 dark:border-blue-800">
+                                                    <p className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-1">❓ Question</p>
+                                                    <p className="text-sm font-semibold text-gray-800 dark:text-white leading-snug">{question?.question_text}</p>
+                                                </div>
+                                                {/* Answer */}
+                                                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 border border-green-200 dark:border-green-800 flex-1 overflow-y-auto" style={{ maxHeight: '260px' }}>
+                                                    <p className="text-xs font-semibold text-green-600 dark:text-green-400 uppercase tracking-wide mb-1">📝 Your Answer</p>
+                                                    {answerText ? (
+                                                        <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">{answerText}</p>
+                                                    ) : (
+                                                        <p className="text-sm text-gray-400 dark:text-gray-500 italic">No answer written yet — write your answer above first.</p>
+                                                    )}
+                                                </div>
+                                            </div>
+
+                                            {/* Right: Camera */}
+                                            <div className="w-72 flex-shrink-0">
+                                                {!recordedBlob ? (
+                                                    <div className="relative bg-black rounded-lg overflow-hidden h-full min-h-[200px]">
+                                                        <video
+                                                            ref={videoPreviewRef}
+                                                            autoPlay
+                                                            muted
+                                                            playsInline
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                        {isRecording && (
+                                                            <div className="absolute top-2 left-2 flex items-center gap-1.5 bg-black/60 text-white px-2.5 py-1 rounded-full text-xs">
+                                                                <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse inline-block"></span>
+                                                                REC {formatTime(recordingSeconds)}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <div className="relative bg-black rounded-lg overflow-hidden h-full min-h-[200px]">
+                                                        <video
+                                                            ref={videoPlaybackRef}
+                                                            controls
+                                                            playsInline
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Controls */}
+                                        <div className="flex items-center justify-center gap-3">
+                                            {!recordedBlob ? (
+                                                <>
+                                                    {!isRecording ? (
+                                                        <button
+                                                            onClick={startRecording}
+                                                            className="flex items-center gap-2 px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+                                                        >
+                                                            <span className="w-3 h-3 rounded-full bg-white inline-block"></span>
+                                                            Start Recording
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            onClick={stopRecording}
+                                                            className="flex items-center gap-2 px-6 py-2.5 bg-gray-700 hover:bg-gray-800 text-white font-semibold rounded-lg transition-colors"
+                                                        >
+                                                            <span className="w-3 h-3 bg-white inline-block"></span>
+                                                            Stop Recording
+                                                        </button>
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button
+                                                        onClick={downloadRecording}
+                                                        className="flex items-center gap-2 px-6 py-2.5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+                                                    >
+                                                        ⬇️ Download to My Device
+                                                    </button>
+                                                    <button
+                                                        onClick={() => { setRecordedBlob(null); setRecordingSeconds(0) }}
+                                                        className="px-4 py-2.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm"
+                                                    >
+                                                        Record Again
+                                                    </button>
+                                                </>
+                                            )}
+                                        </div>
+
+                                        <p className="text-center text-xs text-gray-400 dark:text-gray-500 mt-3">
+                                            🔒 Your recording stays on your device — we never store it
+                                        </p>
+                                    </div>
+                                )}
+                            </div>
+                        )}
                     </div>
 
                     {/* Footer */}

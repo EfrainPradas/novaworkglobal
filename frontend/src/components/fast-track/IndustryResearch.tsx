@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Plus, Save, Trash2, Loader2, CheckCircle2, TrendingUp } from 'lucide-react'
+import { Plus, Save, Trash2, Loader2, CheckCircle2, TrendingUp, Sparkles } from 'lucide-react'
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 interface IndustryResearchData {
   id?: string
@@ -24,6 +26,8 @@ export default function IndustryResearch({ onComplete }: Props) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [autofilling, setAutofilling] = useState(false)
+  const [autofillError, setAutofillError] = useState<string | null>(null)
   const [industries, setIndustries] = useState<IndustryResearchData[]>([])
   const [editingId, setEditingId] = useState<string | null>(null)
   const [formData, setFormData] = useState<IndustryResearchData>({
@@ -78,6 +82,30 @@ export default function IndustryResearch({ onComplete }: Props) {
       })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleAutofill = async () => {
+    if (!formData.industry_name.trim()) return
+    setAutofilling(true)
+    setAutofillError(null)
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      const response = await fetch(`${API_BASE_URL}/api/jobs/industry-autofill`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {})
+        },
+        body: JSON.stringify({ industry_name: formData.industry_name.trim() })
+      })
+      const result = await response.json()
+      if (!response.ok) throw new Error(result.error || 'Autofill failed')
+      setFormData(prev => ({ ...prev, ...result.data }))
+    } catch (err: any) {
+      setAutofillError(err.message || 'Could not autofill. Please try again.')
+    } finally {
+      setAutofilling(false)
     }
   }
 
@@ -252,13 +280,34 @@ export default function IndustryResearch({ onComplete }: Props) {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Industry Name *
           </label>
-          <input
-            type="text"
-            value={formData.industry_name}
-            onChange={(e) => setFormData({ ...formData, industry_name: e.target.value })}
-            placeholder="e.g., SaaS, FinTech, HealthTech"
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-          />
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={formData.industry_name}
+              onChange={(e) => { setFormData({ ...formData, industry_name: e.target.value }); setAutofillError(null) }}
+              placeholder="e.g., SaaS, FinTech, HealthTech"
+              className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+            <button
+              type="button"
+              onClick={handleAutofill}
+              disabled={autofilling || formData.industry_name.trim().length < 2}
+              className="flex items-center gap-2 px-4 py-2 bg-violet-600 text-white rounded-lg font-medium hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
+              title="Auto-fill fields using AI"
+            >
+              {autofilling ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> Researching...</>
+              ) : (
+                <><Sparkles className="w-4 h-4" /> AI Autofill</>
+              )}
+            </button>
+          </div>
+          {autofillError && (
+            <p className="mt-2 text-sm text-red-600">{autofillError}</p>
+          )}
+          {autofilling && (
+            <p className="mt-2 text-sm text-violet-600">Researching "{formData.industry_name}" with AI — this may take a few seconds...</p>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

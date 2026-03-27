@@ -116,7 +116,7 @@ export default function QuestionBank() {
   }
 
   const handlePrepareAnswer = (questionId: string) => {
-    navigate(`/interview/questions/${questionId}/answer`)
+    navigate(`/dashboard/interview/questions/${questionId}/answer`)
   }
 
   const filteredQuestions = selectedCategory === 'all'

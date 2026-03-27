@@ -132,7 +132,7 @@ export default function InterviewTypeGuide() {
         {/* Header */}
         <div className="mb-6">
           <button
-            onClick={() => navigate(`/interview/${id}`)}
+            onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="text-primary-600 hover:text-primary-700 mb-4 flex items-center gap-2"
           >
             ← Back to Interview
@@ -157,7 +157,7 @@ export default function InterviewTypeGuide() {
               You haven't specified the interview type yet. Set it up to get tailored strategies!
             </p>
             <button
-              onClick={() => navigate(`/interview/${id}/edit`)}
+              onClick={() => navigate(`/dashboard/interview/${id}/edit`)}
               className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700"
             >
               Edit Interview Details
@@ -174,7 +174,7 @@ export default function InterviewTypeGuide() {
                   </h2>
                 </div>
                 <button
-                  onClick={() => navigate(`/interview/${id}/edit`)}
+                  onClick={() => navigate(`/dashboard/interview/${id}/edit`)}
                   className="text-primary-600 hover:text-primary-700 text-sm font-medium"
                 >
                   Edit
@@ -451,7 +451,7 @@ export default function InterviewTypeGuide() {
             {/* Action Button */}
             <div className="mt-8 text-center">
               <button
-                onClick={() => navigate(`/interview/${id}`)}
+                onClick={() => navigate(`/dashboard/interview/${id}`)}
                 className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors"
               >
                 Back to Interview Preparation

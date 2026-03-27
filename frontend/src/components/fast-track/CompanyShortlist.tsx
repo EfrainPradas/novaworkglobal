@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
 import { Plus, Save, Trash2, Loader2, CheckCircle2, Building2, ExternalLink, Star, Sparkles } from 'lucide-react'
 
@@ -53,6 +53,8 @@ export default function CompanyShortlist({ onComplete }: Props) {
   const [userIndustries, setUserIndustries] = useState<any[]>([])
   const [suggestedCompanies, setSuggestedCompanies] = useState<any[]>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const [addedCompanyNames, setAddedCompanyNames] = useState<Set<string>>(new Set())
+  const cameFromSuggestions = useRef(false)
 
   // Sorting and Filtering
   const [sortBy, setSortBy] = useState<'match_score' | 'date_added' | 'salary'>('match_score')
@@ -244,10 +246,6 @@ export default function CompanyShortlist({ onComplete }: Props) {
   }
 
   const handleFindCompanies = async () => {
-    console.log('🔍 Find Companies clicked!')
-    console.log('📊 User industries:', userIndustries)
-    console.log('📊 User criteria:', userCriteria)
-
     if (userIndustries.length === 0) {
       alert('Please add at least 1 industry in Industry Research (Tab 2) first!')
       return
@@ -255,88 +253,33 @@ export default function CompanyShortlist({ onComplete }: Props) {
 
     setSearching(true)
 
-    // Build search criteria (use defaults if criteria not filled)
-    const industry = userCriteria?.industry || userIndustries[0]?.industry || 'Technology'
-    const geography = userCriteria?.geography || 'United States'
-    const companySize = userCriteria?.company_size || 'All Sizes'
-    const roleFunction = userCriteria?.role_function || ''
-
-    console.log('🎯 Search criteria:', { industry, geography, companySize, roleFunction })
-
     try {
-      // Call backend API to search for real jobs
-      const response = await fetch(`${API_BASE_URL}/api/jobs/search`, {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) throw new Error('Not authenticated')
+
+      const response = await fetch(`${API_BASE_URL}/api/jobs/company-suggestions`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
         },
         body: JSON.stringify({
-          query: roleFunction || `${industry} jobs`,
-          location: geography,
-          industry: industry,
-          companySize: companySize,
-          limit: 20
+          industries: userIndustries,
+          criteria: userCriteria
         })
       })
 
       if (!response.ok) {
         const errorData = await response.json()
-        throw new Error(errorData.details || 'Failed to search jobs')
+        throw new Error(errorData.error || 'Failed to get company suggestions')
       }
 
       const data = await response.json()
-      console.log('✅ API Response:', data)
-
-      // Transform API results into company suggestions
-      const suggestions = data.jobs.map((job: any) => ({
-        name: job.company,
-        size: job.companySize || 'Unknown',
-        location: job.location,
-        industry: industry,
-        matchScore: job.matchScore,
-        suggested: true,
-        jobTitle: job.title,
-        jobDescription: job.description,
-        salary: job.salary,
-        applyLink: job.applyLink,
-        postedAt: job.postedAt,
-        source: job.source
-      }))
-
-      console.log('✨ Generated suggestions:', suggestions)
-
-      // Save search to JSON (localStorage for now)
-      const searchRecord = {
-        timestamp: new Date().toISOString(),
-        criteria: {
-          industry,
-          geography,
-          companySize,
-          roleFunction,
-          industries: userIndustries.map(i => i.industry_name)
-        },
-        suggestions,
-        resultsCount: suggestions.length
-      }
-
-      // Get existing searches
-      const existingSearches = JSON.parse(localStorage.getItem('company_searches') || '[]')
-      existingSearches.unshift(searchRecord)
-      // Keep only last 10 searches
-      if (existingSearches.length > 10) existingSearches.pop()
-      localStorage.setItem('company_searches', JSON.stringify(existingSearches))
-
-      setSuggestedCompanies(suggestions)
+      setSuggestedCompanies(data.companies || [])
       setShowSuggestions(true)
-    } catch (error) {
-      console.error('❌ Error searching jobs:', error)
-
-      // Check if it's a "no results" error
-      if (error.message.includes("hasn't returned any results")) {
-        alert(`No jobs found for this search.\n\nTry:\n• A more general search (e.g., "Software Engineer" instead of specific industry)\n• A larger location (e.g., "United States" instead of specific city)\n• Different keywords in your role/industry\n\nSearch tried: "${roleFunction || industry} ${geography}"`)
-      } else {
-        alert(`Failed to search jobs: ${error.message}\n\nPlease contact support if this error persists.`)
-      }
+    } catch (error: any) {
+      console.error('❌ Error finding companies:', error)
+      alert(`Failed to find companies: ${error.message}\n\nPlease try again.`)
     } finally {
       setSearching(false)
     }
@@ -469,33 +412,33 @@ export default function CompanyShortlist({ onComplete }: Props) {
   }
 
   const handleAddSuggested = (suggested: any) => {
-    console.log('🎯 Adding suggested company:', suggested)
-    console.log('🔗 Apply link:', suggested.applyLink)
+    cameFromSuggestions.current = true
+    const score = suggested.match_score ?? suggested.matchScore ?? 75
 
     const formDataToSet = {
-      company_name: suggested.company || suggested.name,
+      company_name: suggested.company_name || suggested.name || suggested.company || '',
       industry: suggested.industry || '',
-      website: '',
+      website: suggested.website || '',
       linkedin_url: '',
-      headquarters: '',
-      company_size: '',
-      revenue_range: '',
-      job_title: suggested.title || suggested.jobTitle || '',
-      location: suggested.location || '',
-      salary_range: suggested.salary || '',
-      posted_date: suggested.postedAt || '',
-      apply_link: suggested.applyLink || '',
-      job_description: suggested.description || suggested.jobDescription || '',
-      match_score: suggested.matchScore || 0,
-      why_target: `Match score: ${suggested.matchScore || 0}%\nSource: ${suggested.source || 'Google Jobs'}`,
-      recent_news: '',
-      financials_growth: '',
-      openings_closings: '',
-      notes: '',
-      key_contacts: suggested.applyLink ? [{ type: 'apply_link', value: suggested.applyLink }] : [],
+      headquarters: suggested.headquarters || '',
+      company_size: suggested.company_size || suggested.size || '',
+      revenue_range: suggested.financials_growth || '',
+      job_title: suggested.job_title || suggested.jobTitle || '',
+      location: suggested.headquarters || suggested.location || '',
+      salary_range: suggested.salary_range || suggested.salary || '',
+      posted_date: '',
+      apply_link: suggested.website || suggested.applyLink || '',
+      job_description: suggested.openings_closings || suggested.jobDescription || '',
+      match_score: score,
+      why_target: suggested.why_target || `AI Match score: ${score}%`,
+      recent_news: suggested.recent_news || '',
+      financials_growth: suggested.financials_growth || '',
+      openings_closings: suggested.openings_closings || '',
+      notes: suggested.notes || '',
+      key_contacts: [],
       application_status: 'researching' as const,
       follow_up_date: null,
-      priority_score: suggested.matchScore >= 90 ? 9 : suggested.matchScore >= 85 ? 7 : 5,
+      priority_score: score >= 90 ? 9 : score >= 80 ? 7 : 5,
       criteria_match_count: 0,
       ai_generated: true,
       last_ai_refresh_date: new Date().toISOString().split('T')[0]
@@ -565,9 +508,11 @@ export default function CompanyShortlist({ onComplete }: Props) {
       setEditingId(null)
       setShowForm(false)
 
-      // If we were adding from suggestions, return to suggestions view
-      if (suggestedCompanies.length > 0) {
+      // If we came from suggestions, return to suggestions view and mark company as added
+      if (cameFromSuggestions.current) {
+        setAddedCompanyNames(prev => new Set([...prev, formData.company_name]))
         setShowSuggestions(true)
+        cameFromSuggestions.current = false
       }
 
       setFormData({
@@ -644,6 +589,11 @@ export default function CompanyShortlist({ onComplete }: Props) {
   const handleCancel = () => {
     setEditingId(null)
     setShowForm(false)
+    // If we came from suggestions, go back to them
+    if (cameFromSuggestions.current) {
+      setShowSuggestions(true)
+      cameFromSuggestions.current = false
+    }
     setFormData({
       company_name: '',
       industry: '',
@@ -694,7 +644,7 @@ export default function CompanyShortlist({ onComplete }: Props) {
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
         <h3 className="font-semibold text-blue-900 mb-2">Build Your Target Company List</h3>
         <p className="text-sm mb-2 text-blue-800">
-          Create a list of 10-15 companies that match your criteria. This focused approach:
+          Build your Top 10 target companies that match your criteria. This focused approach:
         </p>
         <ul className="text-sm space-y-1 list-disc list-inside text-blue-800">
           <li>Gives you clear targets instead of applying randomly</li>
@@ -717,7 +667,7 @@ export default function CompanyShortlist({ onComplete }: Props) {
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-2xl font-bold text-gray-900">{companies.length}</div>
           <div className="text-sm text-gray-600">Total Companies</div>
-          <div className="text-xs text-gray-500 mt-1">Target: 10-15</div>
+          <div className="text-xs text-gray-500 mt-1">Target: Top 10</div>
         </div>
         <div className="bg-white border border-gray-200 rounded-lg p-4">
           <div className="text-2xl font-bold text-red-600">
@@ -820,117 +770,113 @@ export default function CompanyShortlist({ onComplete }: Props) {
       {/* Suggested Companies List */}
       {showSuggestions && suggestedCompanies.length > 0 && (
         <div className="bg-white border-2 border-primary-200 rounded-lg p-6 space-y-4">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-2">
             <div>
               <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                 <Sparkles className="w-6 h-6 text-primary-600" />
-                Suggested Companies ({suggestedCompanies.length})
+                Top {suggestedCompanies.length} AI-Suggested Companies
               </h3>
               <p className="text-sm text-gray-600 mt-1">
-                Based on: {userCriteria?.industry} • {userCriteria?.geography} • {userCriteria?.company_size}
+                Based on: <span className="font-medium">{userIndustries.map(i => i.industry_name).join(', ')}</span>
+                {userCriteria?.geography && <> • <span className="font-medium">{userCriteria.geography}</span></>}
+                {userCriteria?.role_function && <> • <span className="font-medium">{userCriteria.role_function}</span></>}
               </p>
             </div>
             <button
-              onClick={() => {
-                setShowSuggestions(false)
-                setSuggestedCompanies([])
-              }}
-              className="text-sm text-gray-600 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100"
+              onClick={() => { setShowSuggestions(false); setSuggestedCompanies([]); setAddedCompanyNames(new Set()) }}
+              className="text-sm text-gray-500 hover:text-gray-900 px-3 py-1 rounded hover:bg-gray-100"
             >
               ✕ Close
             </button>
           </div>
 
-          <div className="space-y-3 max-h-96 overflow-y-auto">
-            {suggestedCompanies.map((company) => (
-              <div
-                key={company.id}
-                className="bg-gradient-to-r from-primary-50 to-primary-100 border border-primary-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    {/* Company Header */}
-                    <div className="flex items-center gap-3 mb-2">
-                      <h4 className="text-lg font-bold text-gray-900">{company.name}</h4>
-                      <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                        {company.matchScore}% Match
-                      </span>
-                      {company.postedAt && (
-                        <span className="text-xs text-gray-500">
-                          Posted {company.postedAt}
+          <div className="space-y-3 max-h-[600px] overflow-y-auto pr-1">
+            {suggestedCompanies.map((company, idx) => {
+              const score = company.match_score ?? company.matchScore ?? 75
+              const scoreColor = score >= 85 ? 'bg-green-100 text-green-700' : score >= 70 ? 'bg-yellow-100 text-yellow-700' : 'bg-gray-100 text-gray-600'
+              const companyKey = company.company_name || company.name || ''
+              const isAdded = addedCompanyNames.has(companyKey)
+              return (
+                <div
+                  key={idx}
+                  className="bg-gradient-to-r from-primary-50 to-white border border-primary-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                >
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      {/* Header */}
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <span className="text-xs font-bold text-gray-400 bg-gray-100 rounded-full px-2 py-0.5">#{idx + 1}</span>
+                        <h4 className="text-base font-bold text-gray-900">{company.company_name || company.name}</h4>
+                        <span className={`px-2 py-0.5 text-xs font-semibold rounded-full ${scoreColor}`}>
+                          {score}% Match
                         </span>
+                      </div>
+
+                      {/* Meta row */}
+                      <div className="flex flex-wrap gap-3 text-xs text-gray-600 mb-2">
+                        {company.industry && <span>🏭 {company.industry}</span>}
+                        {company.headquarters && <span>📍 {company.headquarters}</span>}
+                        {company.company_size && <span>👥 {company.company_size}</span>}
+                        {company.website && (
+                          <a href={company.website} target="_blank" rel="noopener noreferrer"
+                            className="text-primary-600 hover:underline flex items-center gap-0.5">
+                            <ExternalLink className="w-3 h-3" /> Website
+                          </a>
+                        )}
+                      </div>
+
+                      {/* Why Target */}
+                      {company.why_target && (
+                        <p className="text-sm text-gray-700 mb-2">
+                          <span className="font-semibold text-primary-700">Why target: </span>{company.why_target}
+                        </p>
                       )}
+
+                      {/* Details grid */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-xs text-gray-600">
+                        {company.financials_growth && (
+                          <div><span className="font-semibold">💰 Financials:</span> {company.financials_growth}</div>
+                        )}
+                        {company.openings_closings && (
+                          <div><span className="font-semibold">📢 Hiring:</span> {company.openings_closings}</div>
+                        )}
+                        {company.recent_news && (
+                          <div className="md:col-span-2"><span className="font-semibold">📰 Recent news:</span> {company.recent_news}</div>
+                        )}
+                        {company.notes && (
+                          <div className="md:col-span-2"><span className="font-semibold">💡 Tip:</span> {company.notes}</div>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Job Title (if available) */}
-                    {company.jobTitle && (
-                      <p className="text-sm font-semibold text-primary-700 mb-2">
-                        📋 {company.jobTitle}
-                      </p>
-                    )}
-
-                    {/* Company Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-2 text-sm text-gray-700 mb-2">
-                      <div>
-                        <span className="font-semibold">Industry:</span> {company.industry}
-                      </div>
-                      <div>
-                        <span className="font-semibold">Location:</span> {company.location}
-                      </div>
-                      {company.salary && (
-                        <div>
-                          <span className="font-semibold">Salary:</span> {company.salary}
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Job Description Preview */}
-                    {company.jobDescription && (
-                      <p className="text-xs text-gray-600 line-clamp-2">
-                        {company.jobDescription}
-                      </p>
-                    )}
-
-                    {/* Apply Link */}
-                    {company.applyLink && (
-                      <div className="mt-2">
-                        <a
-                          href={company.applyLink}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs text-primary-600 hover:text-primary-700 underline flex items-center gap-1"
-                        >
-                          <ExternalLink className="w-3 h-3" />
-                          Apply on {company.source || 'website'}
-                        </a>
-                      </div>
+                    {/* Add Button */}
+                    {isAdded ? (
+                      <span className="px-4 py-2 bg-green-100 text-green-700 rounded-lg font-medium text-sm whitespace-nowrap flex-shrink-0 flex items-center gap-1">
+                        <CheckCircle2 className="w-4 h-4" /> Added
+                      </span>
+                    ) : (
+                      <button
+                        onClick={() => handleAddSuggested(company)}
+                        className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium text-sm whitespace-nowrap flex-shrink-0"
+                      >
+                        + Add
+                      </button>
                     )}
                   </div>
-
-                  {/* Add Button */}
-                  <button
-                    onClick={() => handleAddSuggested(company)}
-                    className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium text-sm whitespace-nowrap"
-                  >
-                    + Add to List
-                  </button>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
           <div className="pt-4 border-t border-gray-200 flex gap-3">
             <button
-              onClick={() => setShowForm(true)}
+              onClick={() => { setShowSuggestions(false); setShowForm(true) }}
               className="flex-1 px-4 py-2 border border-primary-600 text-primary-600 rounded-lg hover:bg-primary-50 font-semibold"
             >
-              Add Different Company
+              + Add Different Company
             </button>
             <button
-              onClick={() => {
-                setShowSuggestions(false)
-                setSuggestedCompanies([])
-              }}
+              onClick={() => { setShowSuggestions(false); setSuggestedCompanies([]); setAddedCompanyNames(new Set()) }}
               className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold"
             >
               Done

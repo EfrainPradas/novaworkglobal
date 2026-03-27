@@ -16,7 +16,8 @@ interface JDComparison {
 
 interface PARStory {
   id: string
-  role_company: string
+  role_title: string
+  company_name: string
   problem_challenge: string
   actions: any  // JSONB in database
   result: string
@@ -66,7 +67,7 @@ export default function JDComparisonForm() {
       if (user) {
         const { data: storiesData, error: storiesError } = await supabase
           .from('par_stories')
-          .select('id, role_company, problem_challenge, actions, result')
+          .select('id, role_title, company_name, problem_challenge, actions, result')
           .eq('user_id', user.id)
           .order('created_at', { ascending: false })
 
@@ -195,7 +196,7 @@ export default function JDComparisonForm() {
         {/* Header */}
         <div className="mb-6">
           <button
-            onClick={() => navigate(`/interview/${id}`)}
+            onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="text-primary-600 hover:text-primary-700 mb-4 flex items-center gap-2"
           >
             ← Back to Interview
@@ -383,7 +384,7 @@ export default function JDComparisonForm() {
                     <option value="">Select a PAR Story (or write below)</option>
                     {parStories.map((story) => (
                       <option key={story.id} value={story.id}>
-                        {story.role_company}
+                        {story.role_title} @ {story.company_name}
                       </option>
                     ))}
                   </select>
@@ -394,7 +395,7 @@ export default function JDComparisonForm() {
                       {parStories.find(s => s.id === comparison.my_experience_par_id) && (
                         <div className="text-sm text-gray-700">
                           <div className="font-semibold mb-1">
-                            {parStories.find(s => s.id === comparison.my_experience_par_id)!.role_company}
+                            {parStories.find(s => s.id === comparison.my_experience_par_id)!.role_title} @ {parStories.find(s => s.id === comparison.my_experience_par_id)!.company_name}
                           </div>
                           <div className="line-clamp-2">
                             {parStories.find(s => s.id === comparison.my_experience_par_id)!.problem_challenge}
@@ -472,7 +473,7 @@ export default function JDComparisonForm() {
         {comparisons.length > 0 && (
           <div className="mt-8 flex justify-center gap-4">
             <button
-              onClick={() => navigate(`/interview/${id}`)}
+              onClick={() => navigate(`/dashboard/interview/${id}`)}
               className="px-8 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50"
             >
               Cancel

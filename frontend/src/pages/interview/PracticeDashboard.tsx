@@ -11,6 +11,14 @@ interface Message {
   timestamp: Date
 }
 
+const LANGUAGES = [
+  { code: 'en-US', label: 'English', flag: '🇺🇸' },
+  { code: 'es-ES', label: 'Español', flag: '🇪🇸' },
+  { code: 'pt-BR', label: 'Português', flag: '🇧🇷' },
+  { code: 'fr-FR', label: 'Français', flag: '🇫🇷' },
+  { code: 'it-IT', label: 'Italiano', flag: '🇮🇹' },
+]
+
 export default function PracticeDashboard() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
@@ -23,6 +31,8 @@ export default function PracticeDashboard() {
   const [interviewStarted, setInterviewStarted] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const [selectedLanguage, setSelectedLanguage] = useState('en-US')
+  const selectedLanguageRef = useRef('en-US') // Ref to avoid stale closure in recognition callbacks
 
   const recognitionRef = useRef<any>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -353,7 +363,8 @@ export default function PracticeDashboard() {
           'Authorization': `Bearer ${(await supabase.auth.getSession()).data.session?.access_token}`
         },
         body: JSON.stringify({
-          messages: []
+          messages: [],
+          language: selectedLanguageRef.current
         })
       })
 
@@ -398,6 +409,8 @@ export default function PracticeDashboard() {
     if (recognitionRef.current && !isListening) {
       console.log('▶️ START LISTENING - clearing transcript, starting recognition')
       console.log('  📝 Previous transcript:', transcript.substring(0, 50))
+      // Apply selected language to recognition
+      recognitionRef.current.lang = selectedLanguageRef.current
       setTranscript('')
       try {
         recognitionRef.current.start()
@@ -494,7 +507,8 @@ export default function PracticeDashboard() {
         },
         body: JSON.stringify({
           messages: apiMessages,
-          userResponse: currentTranscript
+          userResponse: currentTranscript,
+          language: selectedLanguageRef.current
         })
       })
 
@@ -590,7 +604,8 @@ export default function PracticeDashboard() {
         },
         body: JSON.stringify({
           messages: apiMessages,
-          userResponse: 'finaliza'
+          userResponse: 'finaliza',
+          language: selectedLanguageRef.current
         })
       })
 
@@ -638,7 +653,7 @@ export default function PracticeDashboard() {
         {/* Header */}
         <div className="mb-6">
           <button
-            onClick={() => navigate(`/interview/${id}`)}
+            onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-4 flex items-center gap-2"
           >
             ← Back to Interview
@@ -673,7 +688,7 @@ export default function PracticeDashboard() {
                 and give you immediate feedback. Use the microphone to respond naturally.
               </p>
 
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-8 max-w-2xl mx-auto text-left">
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6 mb-6 max-w-2xl mx-auto text-left">
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-3">💡 How it works:</h3>
                 <ul className="text-sm text-gray-700 dark:text-gray-300 space-y-2">
                   <li>• 🗣️ The AI interviewer will SPEAK to you using natural voice</li>
@@ -685,12 +700,33 @@ export default function PracticeDashboard() {
                 </ul>
               </div>
 
+              {/* Language Selector */}
+              <div className="mb-8 max-w-md mx-auto">
+                <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">🌐 Choose your practice language:</p>
+                <div className="flex flex-wrap justify-center gap-2">
+                  {LANGUAGES.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => { setSelectedLanguage(lang.code); selectedLanguageRef.current = lang.code }}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full border-2 font-medium text-sm transition-all ${
+                        selectedLanguage === lang.code
+                          ? 'border-primary-600 bg-primary-600 text-white shadow-md scale-105'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:border-primary-400'
+                      }`}
+                    >
+                      <span className="text-lg">{lang.flag}</span>
+                      <span>{lang.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button
                 onClick={startInterview}
                 disabled={isProcessing}
                 className="px-8 py-4 bg-primary-600 text-white rounded-lg font-semibold text-lg hover:bg-primary-700 disabled:opacity-50 transition-colors"
               >
-                {isProcessing ? 'Starting...' : 'Start Voice Interview 🎤'}
+                {isProcessing ? 'Starting...' : `Start Voice Interview 🎤`}
               </button>
             </div>
           ) : (

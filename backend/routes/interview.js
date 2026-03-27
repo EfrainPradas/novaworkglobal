@@ -2139,9 +2139,19 @@ router.post('/:id/ai-practice', async (req, res) => {
   try {
     const { id: interviewId } = req.params
     const userId = req.user.id
-    const { messages, userResponse } = req.body
+    const { messages, userResponse, language } = req.body
 
-    console.log(`🤖 AI Mock Interview request for interview: ${interviewId}`)
+    // Map language code to full language name for the prompt
+    const languageMap = {
+      'en-US': 'English',
+      'es-ES': 'Spanish',
+      'pt-BR': 'Portuguese (Brazilian)',
+      'fr-FR': 'French',
+      'it-IT': 'Italian'
+    }
+    const languageName = languageMap[language] || 'English'
+
+    console.log(`🤖 AI Mock Interview request for interview: ${interviewId}, language: ${languageName}`)
 
     // Load interview and research data
     const { data: interview, error: interviewError } = await supabaseAdmin
@@ -2219,7 +2229,13 @@ router.post('/:id/ai-practice', async (req, res) => {
     }
 
     // Build system prompt with interview context
-    const systemPrompt = `You are ${research?.interviewer_name || 'Jon'}, ${research?.interviewer_role ? `a ${research.interviewer_role}` : 'an interviewer'} at ${interview.company_name || 'the company'}.
+    const systemPrompt = `🌐 ABSOLUTE LANGUAGE RULE — THIS OVERRIDES EVERYTHING ELSE:
+You MUST speak ONLY in ${languageName} for this ENTIRE conversation.
+Every single word you say — greetings, questions, feedback, encouragement, goodbye — must be in ${languageName}.
+NEVER switch to English or any other language, even if the candidate responds in another language.
+If you break this rule, the session fails. Stay in ${languageName} at all times.
+
+You are ${research?.interviewer_name || 'Jon'}, ${research?.interviewer_role ? `a ${research.interviewer_role}` : 'an interviewer'} at ${interview.company_name || 'the company'}.
 
 You're conducting a friendly, conversational mock interview with ${candidateName} for the ${interview.position_title || 'position'}.
 
@@ -2265,22 +2281,34 @@ CRITICAL RULES:
 - Don't list things or use bullets mid-interview
 - React to what they actually say`
 
+    // Re-tag all assistant messages in history with language label so model sees pattern
+    const taggedHistory = (messages || []).map(m => {
+      if (m.role === 'assistant' && languageName !== 'English') {
+        return { ...m, content: `[${languageName}] ${m.content}` }
+      }
+      return m
+    })
+
     // Build messages array for OpenAI
     const chatMessages = [
       { role: 'system', content: systemPrompt },
-      ...(messages || [])
+      ...taggedHistory
     ]
 
-    // Add user response if provided
+    // Add user response - embed language instruction INSIDE the user message
+    // This is read immediately before the model generates its response
     if (userResponse) {
-      chatMessages.push({ role: 'user', content: userResponse })
+      const wrappedUserMsg = languageName !== 'English'
+        ? `${userResponse}\n\n[INSTRUCTION: Your reply MUST be entirely in ${languageName}. Zero English words.]`
+        : userResponse
+      chatMessages.push({ role: 'user', content: wrappedUserMsg })
     }
 
     console.log(`🤖 Calling OpenAI with ${chatMessages.length} messages`)
 
     // Call OpenAI API
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       messages: chatMessages,
       temperature: 0.7,
       max_tokens: 800

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Target, Search, Building2, CheckCircle2 } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import TargetCompanyCriteria from '../../components/fast-track/TargetCompanyCriteria'
 import IndustryResearch from '../../components/fast-track/IndustryResearch'
@@ -72,7 +73,7 @@ export default function PlanYourSearch() {
       id: 'shortlist' as const,
       name: 'Company Shortlist',
       icon: Building2,
-      description: '10-15 target companies',
+      description: 'Top 10 target companies',
       completed: hasShortlist
     }
   ]
@@ -99,9 +100,11 @@ export default function PlanYourSearch() {
               <button className="px-3 py-1.5 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-1.5">
                 ▶ Watch video
               </button>
-              <button className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                Learn more
-              </button>
+              <LearnMoreLink
+                label="See how it works"
+                description="Targeted search beats mass applying every time"
+                onClick={() => {}}
+              />
               <div className="flex items-center gap-2 text-sm ml-2">
                 <span className="text-gray-500 dark:text-gray-400">Progress:</span>
                 <span className="font-semibold text-primary-600 dark:text-primary-400">
@@ -122,7 +125,7 @@ export default function PlanYourSearch() {
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">
-              <div className="text-3xl font-bold mb-1">10-15</div>
+              <div className="text-3xl font-bold mb-1">10</div>
               <div className="text-sm text-primary-100">Target companies</div>
             </div>
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4">

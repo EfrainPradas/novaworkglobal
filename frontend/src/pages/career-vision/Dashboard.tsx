@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
-import { Play, BookOpen } from 'lucide-react'
+import { Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 export default function CareerVisionDashboard() {
   const navigate = useNavigate()
@@ -101,7 +102,7 @@ export default function CareerVisionDashboard() {
       description: 'List what you know and what you would do again',
       icon: '🎯',
       completed: sectionsStatus.skillsValues,
-      route: '/career-vision/skills-values',
+      route: '/dashboard/career-vision/skills-values',
       videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     },
     {
@@ -110,7 +111,7 @@ export default function CareerVisionDashboard() {
       description: 'Reflect on past roles to identify patterns',
       icon: '📋',
       completed: sectionsStatus.jobHistory,
-      route: '/career-vision/job-history',
+      route: '/dashboard/career-vision/job-history',
       videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     },
     {
@@ -119,7 +120,7 @@ export default function CareerVisionDashboard() {
       description: 'Define your must-haves and priorities',
       icon: '⚙️',
       completed: sectionsStatus.preferences,
-      route: '/career-vision/preferences',
+      route: '/dashboard/career-vision/preferences',
       videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
     }
   ]
@@ -155,12 +156,11 @@ export default function CareerVisionDashboard() {
             >
               <Play className="w-4 h-4" /> Watch video
             </button>
-            <button
+            <LearnMoreLink
+              label="What is Career Vision?"
+              description="Clarity gets you hired 2x faster"
               onClick={() => navigate('/dashboard/career-vision/learn-more')}
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-            >
-              <BookOpen className="w-4 h-4" /> Learn more
-            </button>
+            />
           </div>
         </div>
 
@@ -233,12 +233,11 @@ export default function CareerVisionDashboard() {
                 >
                   <Play className="w-3 h-3" /> Watch video
                 </button>
-                <button
-                  onClick={(e) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
-                >
-                  <BookOpen className="w-3 h-3" /> Learn more
-                </button>
+                <LearnMoreLink
+                  label="Explore section"
+                  description="Deepen your self-knowledge and strategy"
+                  onClick={(e: any) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
+                />
               </div>
             </div>
           ))}

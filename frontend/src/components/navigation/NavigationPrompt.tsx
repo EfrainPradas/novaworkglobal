@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import LearnMoreLink from '../common/LearnMoreLink'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
@@ -486,15 +487,11 @@ export default function NavigationPrompt() {
                       >
                         <Play className="w-3 h-3" /> {t('dashboard.watchVideo', 'Watch video')}
                       </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          if (isAccessible) handleActionClick(action)
-                        }}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white text-xs font-semibold rounded-lg transition-colors"
-                      >
-                        <BookOpen className="w-3 h-3" /> {t('dashboard.learnMore', 'Learn more')}
-                      </button>
+                      <LearnMoreLink
+                        label={t('dashboard.learnMore', 'Learn more')}
+                        description="Explore this section in depth"
+                        onClick={(e: any) => { e.stopPropagation(); if (isAccessible) handleActionClick(action) }}
+                      />
                     </div>
                   </div>
                 )

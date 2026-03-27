@@ -607,4 +607,201 @@ function generateDemoRecommendations(limit) {
   return demoJobs.slice(0, limit)
 }
 
+/**
+ * POST /api/jobs/company-suggestions
+ * AI-powered top 10 company suggestions based on industry research + target criteria
+ */
+router.post('/company-suggestions', requireAuth, async (req, res) => {
+  const { industries, criteria } = req.body
+
+  if (!industries || industries.length === 0) {
+    return res.status(400).json({ error: 'At least one industry is required' })
+  }
+
+  if (!openai) {
+    return res.status(503).json({ error: 'AI service not available' })
+  }
+
+  try {
+    const industryList = industries.map(i => i.industry_name).join(', ')
+    const majorPlayersContext = industries
+      .filter(i => i.major_players)
+      .map(i => `- ${i.industry_name}: ${i.major_players}`)
+      .join('\n')
+    const growthContext = industries
+      .filter(i => i.growth_outlook)
+      .map(i => `- ${i.industry_name}: ${i.growth_outlook}`)
+      .join('\n')
+
+    const role = criteria?.role_function || 'professional'
+    const geography = criteria?.geography || 'USA'
+    const companySize = criteria?.company_size || 'Any size'
+    const sector = criteria?.sector || ''
+    const salaryRange = criteria?.salary_range || ''
+    const revenueRange = criteria?.revenue_range || ''
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o',
+      response_format: { type: 'json_object' },
+      temperature: 0.3,
+      messages: [
+        {
+          role: 'system',
+          content: `You are a senior career advisor specialized in company research and job search strategy.
+Your task: identify exactly 10 REAL companies that are the best match for a job seeker's profile.
+
+Rules:
+- Only suggest companies that ACTUALLY EXIST as of your knowledge cutoff
+- Do NOT invent companies, websites, or details
+- Prioritize companies known to hire for the specified role/function
+- Consider geography but include remote-friendly companies when geography is broad
+- Be specific and factual — if you're unsure about a detail, use "Not enough reliable information"
+- Return valid JSON with exactly 10 companies, ordered by best match first`
+        },
+        {
+          role: 'user',
+          content: `Find the top 10 companies for this job seeker:
+
+**Target Role/Function:** ${role}
+**Industries of Interest:** ${industryList}
+**Preferred Geography:** ${geography}
+**Company Size Preference:** ${companySize}
+${sector ? `**Sector:** ${sector}` : ''}
+${salaryRange ? `**Target Salary Range:** ${salaryRange}` : ''}
+${revenueRange ? `**Company Revenue Preference:** ${revenueRange}` : ''}
+
+**Known major players from the user's research:**
+${majorPlayersContext || 'Not specified'}
+
+**Industry growth context:**
+${growthContext || 'Not specified'}
+
+Return a JSON object with EXACTLY this structure:
+{
+  "companies": [
+    {
+      "company_name": "Exact company name",
+      "industry": "Specific industry/sector (e.g., FinTech - Payments)",
+      "headquarters": "City, State or City, Country",
+      "company_size": "e.g., 500–2,000 employees",
+      "website": "https://www.actualwebsite.com",
+      "why_target": "2–3 sentences explaining why this company is an excellent target for this specific role and profile. Be concrete.",
+      "match_score": 88,
+      "recent_news": "One real, notable recent development (fundraising, IPO, product launch, expansion, acquisition). If unsure, write 'Not enough reliable information'.",
+      "financials_growth": "Stage/financials: e.g., Public (NYSE: XYZ), Series D – $200M raised, Profitable – $1B ARR. If unsure, write 'Not enough reliable information'.",
+      "openings_closings": "Brief note on hiring activity: are they actively growing? Any known layoffs or freezes? If unsure, write 'Not enough reliable information'.",
+      "notes": "1–2 sentences of actionable context for applying: culture, interview style, unique perks, or strategic advice."
+    }
+  ]
+}
+
+Rank by match_score (0–100). Only include real, verifiable data.`
+        }
+      ]
+    })
+
+    const raw = completion.choices[0]?.message?.content
+    if (!raw) throw new Error('Empty response from AI')
+
+    const parsed = JSON.parse(raw)
+
+    if (!parsed.companies || !Array.isArray(parsed.companies)) {
+      throw new Error('Invalid response format from AI')
+    }
+
+    const companies = parsed.companies.slice(0, 10).map(c => ({
+      company_name: typeof c.company_name === 'string' ? c.company_name.trim() : '',
+      industry: typeof c.industry === 'string' ? c.industry.trim() : '',
+      headquarters: typeof c.headquarters === 'string' ? c.headquarters.trim() : '',
+      company_size: typeof c.company_size === 'string' ? c.company_size.trim() : '',
+      website: typeof c.website === 'string' ? c.website.trim() : '',
+      why_target: typeof c.why_target === 'string' ? c.why_target.trim() : '',
+      match_score: typeof c.match_score === 'number' ? Math.min(100, Math.max(0, Math.round(c.match_score))) : 75,
+      recent_news: typeof c.recent_news === 'string' ? c.recent_news.trim() : '',
+      financials_growth: typeof c.financials_growth === 'string' ? c.financials_growth.trim() : '',
+      openings_closings: typeof c.openings_closings === 'string' ? c.openings_closings.trim() : '',
+      notes: typeof c.notes === 'string' ? c.notes.trim() : ''
+    })).filter(c => c.company_name.length > 0)
+
+    console.log(`✅ Company suggestions generated: ${companies.length} companies for user ${req.user.email}`)
+    res.json({ success: true, companies, count: companies.length })
+
+  } catch (error) {
+    console.error('Company suggestions error:', error)
+    res.status(500).json({ error: 'Failed to generate company suggestions. Please try again.' })
+  }
+})
+
+/**
+ * POST /api/jobs/industry-autofill
+ * AI-powered autofill for industry research fields
+ */
+router.post('/industry-autofill', async (req, res) => {
+  const { industry_name } = req.body
+
+  if (!industry_name || industry_name.trim().length < 2) {
+    return res.status(400).json({ error: 'Industry name is required' })
+  }
+
+  if (!openai) {
+    return res.status(503).json({ error: 'AI service not available' })
+  }
+
+  try {
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      response_format: { type: 'json_object' },
+      temperature: 0.3,
+      messages: [
+        {
+          role: 'system',
+          content: `You are a career research expert. Your job is to provide accurate, job-search-oriented information about industries.
+
+Rules:
+- Be factual and concrete. Do NOT invent statistics or companies.
+- If you are not confident about a field, write "Not enough reliable information" for that field.
+- Keep responses concise and actionable for a job seeker.
+- Salary ranges should be in USD unless otherwise implied by the industry name.
+- Always return valid JSON with all 9 fields.`
+        },
+        {
+          role: 'user',
+          content: `Research the "${industry_name.trim()}" industry for a job seeker. Return a JSON object with exactly these fields:
+
+{
+  "key_trends": "2-4 current trends shaping this industry (bullet points separated by \\n)",
+  "major_players": "Top 5-8 well-known companies in this space, comma separated",
+  "growth_outlook": "One paragraph: is the industry growing, stable, or declining? Why?",
+  "job_demand": "Which roles are most in demand? Are companies actively hiring?",
+  "salary_ranges": "Typical salary ranges by seniority level (e.g., Entry $60K-80K, Mid $90K-130K, Senior $140K-180K)",
+  "skills_needed": "Top 6-10 technical and soft skills required, comma separated",
+  "pros": "3-5 reasons why working in this industry is attractive for a professional",
+  "cons": "3-5 honest challenges or downsides of working in this industry",
+  "notes": "Any important nuances a job seeker should know before targeting this industry"
+}
+
+Only include data you are confident is accurate as of your knowledge cutoff. Use "Not enough reliable information" for any field where you lack confidence.`
+        }
+      ]
+    })
+
+    const raw = completion.choices[0]?.message?.content
+    if (!raw) throw new Error('Empty response from AI')
+
+    const parsed = JSON.parse(raw)
+
+    // Validate all required fields are present
+    const fields = ['key_trends', 'major_players', 'growth_outlook', 'job_demand', 'salary_ranges', 'skills_needed', 'pros', 'cons', 'notes']
+    const result = {}
+    for (const field of fields) {
+      result[field] = typeof parsed[field] === 'string' && parsed[field].trim() ? parsed[field].trim() : ''
+    }
+
+    res.json({ success: true, data: result })
+  } catch (error) {
+    console.error('Industry autofill error:', error)
+    res.status(500).json({ error: 'Failed to generate industry research. Please try again.' })
+  }
+})
+
 export default router

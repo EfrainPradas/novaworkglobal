@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, ClipboardList, AlertTriangle, ChevronRight, ChevronLeft, Save, Sparkles, Loader2, Check, CheckCircle2, ArrowRight, Play, BookOpen } from 'lucide-react'
+import { ArrowLeft, ClipboardList, AlertTriangle, ChevronRight, ChevronLeft, Save, Sparkles, Loader2, Check, CheckCircle2, ArrowRight, Play } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { PositioningQuestionnaire as QuestionnaireType, GeneratedProfessionalProfile } from '../../types/resume'
@@ -364,12 +365,11 @@ export default function PositioningQuestionnairePage() {
                         >
                             <Play className="w-3.5 h-3.5" /> Watch video
                         </button>
-                        <button
-                            onClick={() => navigate('/dashboard/resume/profile/learn-more')}
-                            className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-                        >
-                            <BookOpen className="w-3.5 h-3.5" /> Learn more
-                        </button>
+                        <LearnMoreLink
+                          label="Your professional brand matters"
+                          description="Position yourself to stand out from day one"
+                          onClick={() => navigate('/dashboard/resume/profile/learn-more')}
+                        />
                     </div>
                 </div>
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { Briefcase, CheckSquare, AlertCircle, FileText, Search, MessageSquare, X } from 'lucide-react'
+import { Briefcase, CheckSquare, FileText, Search } from 'lucide-react'
+import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import JobApplicationTracker from '../../components/fast-track/JobApplicationTracker'
 import ResumeTailoringChecklist from '../../components/fast-track/ResumeTailoringChecklist'
@@ -12,8 +13,6 @@ export default function OnlineJobApplications() {
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [activeTab, setActiveTab] = useState<'tracker' | 'checklist' | 'resumes'>('tracker')
-    const [showReferralModal, setShowReferralModal] = useState(false)
-
     // Google Jobs State
     const [jobTitle, setJobTitle] = useState('')
     const [location, setLocation] = useState('')
@@ -101,9 +100,11 @@ export default function OnlineJobApplications() {
                             <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2">
                                 ▶ Watch video
                             </button>
-                            <button className="px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors">
-                                Learn more
-                            </button>
+                            <LearnMoreLink
+                                label="Application best practices"
+                                description="Referrals increase your callbacks by 400%"
+                                onClick={() => {}}
+                            />
                         </div>
                     </div>
                 </div>
@@ -147,43 +148,22 @@ export default function OnlineJobApplications() {
                     </div>
                 </div>
 
-                {/* Action Row: JD Analyzer & Referral Guide */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* JD Analyzer Integration */}
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-6 flex items-center justify-between gap-4">
-                        <div>
-                            <h3 className="font-bold text-amber-900 dark:text-amber-100 mb-1 flex items-center gap-2">
-                                <FileText className="w-5 h-5" /> Check ATS Score
-                            </h3>
-                            <p className="text-amber-800 dark:text-amber-200/80 text-xs">
-                                Compare resume vs. job description before applying.
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => navigate('/dashboard/resume/jd-analyzer')}
-                            className="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 font-medium whitespace-nowrap shadow-sm"
-                        >
-                            Launch Analyzer
-                        </button>
+                {/* Action Row: JD Analyzer */}
+                <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-900/40 rounded-xl p-6 flex items-center justify-between gap-4">
+                    <div>
+                        <h3 className="font-bold text-amber-900 dark:text-amber-100 mb-1 flex items-center gap-2">
+                            <FileText className="w-5 h-5" /> ATS Analyzer
+                        </h3>
+                        <p className="text-amber-800 dark:text-amber-200/80 text-xs">
+                            Compare resume vs. job description before applying.
+                        </p>
                     </div>
-
-                    {/* Referral Guide Access */}
-                    <div className="bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-200 dark:border-indigo-900/40 rounded-xl p-6 flex items-center justify-between gap-4">
-                        <div>
-                            <h3 className="font-bold text-indigo-900 dark:text-indigo-100 mb-1 flex items-center gap-2">
-                                <MessageSquare className="w-5 h-5" /> Referral Guide
-                            </h3>
-                            <p className="text-indigo-800 dark:text-indigo-200/80 text-xs">
-                                Step-by-step scripts to get referred by employees.
-                            </p>
-                        </div>
-                        <button
-                            onClick={() => setShowReferralModal(true)}
-                            className="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 font-medium whitespace-nowrap shadow-sm"
-                        >
-                            Open Guide
-                        </button>
-                    </div>
+                    <button
+                        onClick={() => navigate('/dashboard/resume-builder/jd-analyzer')}
+                        className="px-4 py-2 bg-amber-600 text-white text-sm rounded-lg hover:bg-amber-700 font-medium whitespace-nowrap shadow-sm"
+                    >
+                        Launch Analyzer
+                    </button>
                 </div>
 
                 {/* Stats Banner */}
@@ -289,77 +269,6 @@ export default function OnlineJobApplications() {
                 </div>
             </div>
 
-            {/* Referral Guide Modal */}
-            {showReferralModal && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-                        <div className="p-6 border-b border-gray-100 flex justify-between items-center sticky top-0 bg-white z-10">
-                            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-                                <MessageSquare className="w-6 h-6 text-indigo-600" />
-                                Referral Scripts & Guide
-                            </h2>
-                            <button onClick={() => setShowReferralModal(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                                <X className="w-6 h-6 text-gray-500" />
-                            </button>
-                        </div>
-                        <div className="p-8 space-y-8">
-
-                            <div className="space-y-4">
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold">1</div>
-                                    <div>
-                                        <h3 className="font-bold text-gray-900 mb-1">Identify the right person</h3>
-                                        <p className="text-gray-600 text-sm">Don't ask the CEO. Look for peers (future teammates) or managers on LinkedIn. Use the "People" tab on the Company page.</p>
-                                    </div>
-                                </div>
-                                <div className="flex gap-4">
-                                    <div className="flex-shrink-0 w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center font-bold">2</div>
-                                    <div>
-                                        <h3 className="font-bold text-gray-900 mb-1">Connect with a personalized note</h3>
-                                        <p className="text-gray-600 text-sm">Never send a blank connection request. Mention a shared interest, school, or genuine curiosity about their work.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-gray-50 rounded-xl p-6 border border-gray-100">
-                                <h4 className="font-bold text-gray-800 mb-4 text-sm uppercase tracking-wide">Copy & Paste Templates</h4>
-
-                                <div className="space-y-6">
-                                    <div>
-                                        <p className="text-xs font-bold text-indigo-600 mb-2">OPTION A: The "Curious Peer" Approach (Best for 2nd connections)</p>
-                                        <div className="bg-white p-4 rounded-lg border border-gray-200 text-gray-700 text-sm font-mono leading-relaxed">
-                                            "Hi [Name], I'm a [Current Role] and saw you're working on [Project/Team] at [Company]. I've been following [Company]'s work in [Area] and would love to hear your perspective on the team culture. Open to a 10-min virtual coffee? No expectations!"
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <p className="text-xs font-bold text-indigo-600 mb-2">OPTION B: The "Direct Application" Approach</p>
-                                        <div className="bg-white p-4 rounded-lg border border-gray-200 text-gray-700 text-sm font-mono leading-relaxed">
-                                            "Hi [Name], I just applied for the [Role] position at [Company]. I noticed we both [Shared Connection/Interest]. I'd love to ask one quick question about your experience with the team to see if I'd be a good cultural fit. Thanks!"
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="bg-indigo-50 p-4 rounded-lg flex gap-3">
-                                <AlertCircle className="w-5 h-5 text-indigo-600 flex-shrink-0" />
-                                <p className="text-indigo-800 text-sm">
-                                    <strong>Pro Tip:</strong> Only ask for the referral AFTER you've established rapport or if they offer. "Do you think my background aligns with what the team needs?" is a soft way to prompt them.
-                                </p>
-                            </div>
-
-                        </div>
-                        <div className="p-6 border-t border-gray-100 bg-gray-50 flex justify-end">
-                            <button
-                                onClick={() => setShowReferralModal(false)}
-                                className="px-6 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-black transition-colors"
-                            >
-                                Got it, I'm ready
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
         </div>
     )
