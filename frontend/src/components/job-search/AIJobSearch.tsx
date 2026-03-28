@@ -53,6 +53,10 @@ export default function AIJobSearch() {
     const [error, setError] = useState<string | null>(null)
     const [metadata, setMetadata] = useState<any>(null)
     const [expandedJobs, setExpandedJobs] = useState<Set<string>>(new Set())
+    const [editingRole, setEditingRole] = useState(false)
+    const [editingLocation, setEditingLocation] = useState(false)
+    const [roleInput, setRoleInput] = useState('')
+    const [locationInput, setLocationInput] = useState('')
 
     useEffect(() => {
         checkUser()
@@ -258,16 +262,47 @@ export default function AIJobSearch() {
     }
 
     const handleJobAnalysis = (job: AIRecommendation) => {
+        // Build the most complete description possible by combining all available data
+        const parts: string[] = []
+
+        // 1. Add highlights (structured sections like Qualifications, Responsibilities)
+        if (job.highlights && job.highlights.length > 0) {
+            job.highlights.forEach((h: any) => {
+                if (typeof h === 'string') {
+                    parts.push(h)
+                } else if (h.title && h.items) {
+                    parts.push(`${h.title}:\n${h.items.map((item: string) => `• ${item}`).join('\n')}`)
+                } else if (h.items) {
+                    parts.push(h.items.map((item: string) => `• ${item}`).join('\n'))
+                }
+            })
+        }
+
+        // 2. Add raw description if different from highlights content
+        if (job.description && job.description.trim()) {
+            parts.push(job.description.trim())
+        }
+
+        // 3. If still nothing, use AI analysis as structured JD
+        if (parts.length === 0 && job.aiAnalysis) {
+            if (job.aiAnalysis.reasoning) parts.push(job.aiAnalysis.reasoning)
+            if (job.aiAnalysis.keyMatches?.length > 0) {
+                parts.push(`Key Requirements:\n${job.aiAnalysis.keyMatches.map((m: string) => `• ${m}`).join('\n')}`)
+            }
+        }
+
+        const description = parts.join('\n\n').trim()
+
         const jobData = {
             title: job.title,
             company: job.company,
-            description: job.description,
+            description,
             location: job.location,
             salary: job.salary,
             aiAnalysis: job.aiAnalysis
         }
         localStorage.setItem('jd-analyzer-job-data', JSON.stringify(jobData))
-        navigate('/dashboard/resume/jd-analyzer')
+        navigate('/dashboard/resume-builder/jd-analyzer')
     }
 
     if (profileLoading) {
@@ -291,11 +326,65 @@ export default function AIJobSearch() {
                             <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
                                 <h2 className="text-base font-bold text-gray-900 dark:text-white">AI-Powered Job Matching</h2>
                                 {userProfile && (
-                                    <div className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
-                                        <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.career_vision.target_roles.slice(0, 1).join(', ')}</span>
-                                        {userProfile.preferences.ideal_work.geographic_location[0] && (
-                                            <span>in <span className="font-medium text-gray-700 dark:text-gray-300">{userProfile.preferences.ideal_work.geographic_location[0]}</span></span>
-                                        )}
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        {/* Role field */}
+                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                            {editingRole ? (
+                                                <input
+                                                    autoFocus
+                                                    value={roleInput}
+                                                    onChange={e => setRoleInput(e.target.value)}
+                                                    onBlur={() => {
+                                                        if (roleInput.trim()) {
+                                                            setUserProfile((p: any) => ({ ...p, career_vision: { ...p.career_vision, target_roles: [roleInput.trim()] } }))
+                                                        }
+                                                        setEditingRole(false)
+                                                    }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-32"
+                                                    placeholder="e.g. Data Analyst"
+                                                />
+                                            ) : (
+                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                    {userProfile.career_vision.target_roles.slice(0, 1).join(', ')}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={() => { setRoleInput(userProfile.career_vision.target_roles[0] || ''); setEditingRole(true) }}
+                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                                title="Edit role"
+                                            >✏️</button>
+                                        </div>
+
+                                        {/* Location field */}
+                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                            <span className="text-xs text-gray-500 dark:text-gray-400">in</span>
+                                            {editingLocation ? (
+                                                <input
+                                                    autoFocus
+                                                    value={locationInput}
+                                                    onChange={e => setLocationInput(e.target.value)}
+                                                    onBlur={() => {
+                                                        if (locationInput.trim()) {
+                                                            setUserProfile((p: any) => ({ ...p, preferences: { ...p.preferences, ideal_work: { ...p.preferences.ideal_work, geographic_location: [locationInput.trim()] } } }))
+                                                        }
+                                                        setEditingLocation(false)
+                                                    }}
+                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-24"
+                                                    placeholder="e.g. Remote"
+                                                />
+                                            ) : (
+                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                    {userProfile.preferences.ideal_work.geographic_location[0]}
+                                                </span>
+                                            )}
+                                            <button
+                                                onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
+                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                                title="Edit location"
+                                            >✏️</button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
@@ -318,7 +407,7 @@ export default function AIJobSearch() {
                         ) : (
                             <>
                                 <Target className="w-4 h-4" />
-                                Find My Dream Jobs
+                                Find My Jobs
                             </>
                         )}
                     </button>
@@ -459,12 +548,50 @@ export default function AIJobSearch() {
 
                             {expandedJobs.has(job.id) && (
                                 <div className="border-t border-gray-100 dark:border-gray-700 bg-gray-50/50 dark:bg-gray-900/30 p-6">
-                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Full Description</h4>
-                                    <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
-                                        {job.description?.split('\n').map((paragraph, index) => (
-                                            <p key={index} className="mb-3 leading-relaxed">{paragraph}</p>
-                                        ))}
-                                    </div>
+                                    {/* Structured highlights (Qualifications, Responsibilities, etc.) */}
+                                    {job.highlights && job.highlights.length > 0 ? (
+                                        <div className="space-y-4">
+                                            {job.highlights.map((section: any, i: number) => (
+                                                <div key={i}>
+                                                    {section.title && (
+                                                        <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">
+                                                            {section.title}
+                                                        </h4>
+                                                    )}
+                                                    {section.items && (
+                                                        <ul className="space-y-1">
+                                                            {section.items.map((item: string, j: number) => (
+                                                                <li key={j} className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
+                                                                    <span className="text-primary-500 mt-0.5 flex-shrink-0">•</span>
+                                                                    <span>{item}</span>
+                                                                </li>
+                                                            ))}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            ))}
+                                            {/* Also show raw description if available */}
+                                            {job.description && (
+                                                <div>
+                                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">Description</h4>
+                                                    <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{job.description}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    ) : job.description ? (
+                                        <div>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Full Description</h4>
+                                            <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
+                                                {job.description.split('\n').map((paragraph: string, index: number) => (
+                                                    <p key={index} className="mb-3 leading-relaxed">{paragraph}</p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                                            No description available. Click "Analyze JD" to proceed with AI-generated insights.
+                                        </p>
+                                    )}
                                 </div>
                             )}
                         </div>

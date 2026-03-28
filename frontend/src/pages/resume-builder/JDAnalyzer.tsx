@@ -308,15 +308,15 @@ const JDAnalyzer: React.FC = () => {
 
       console.log('✅ Analysis saved successfully')
 
-      // FIX: Update local state with the saved data (including ID)
+      // Keep ALL keywords (including unmatched) in state — only add the DB id
       if (data) {
+        const recalculatedScore = keywords.length > 0
+          ? Math.round((keywords.filter(k => k.currentMatch).length / keywords.length) * 100)
+          : matchScore
         setAnalysis({
+          ...newAnalysis,
           id: data.id,
-          job_title: data.job_title,
-          company_name: data.company_name,
-          jd_text: data.job_description_text,
-          extracted_keywords: data.top_keywords || keywords,
-          match_score: data.extracted_requirements?.match_score || matchScore
+          match_score: recalculatedScore
         })
       }
 
@@ -397,13 +397,17 @@ const JDAnalyzer: React.FC = () => {
     setJobTitle(savedAnalysis.job_title || '')
     setCompanyName(savedAnalysis.company_name || '')
     setJdText(savedAnalysis.job_description_text || '')
+    const kws = savedAnalysis.top_keywords || []
+    const recalcScore = kws.length > 0
+      ? Math.round((kws.filter((k: any) => k.currentMatch).length / kws.length) * 100)
+      : savedAnalysis.extracted_requirements?.match_score || 0
     setAnalysis({
       id: savedAnalysis.id,
       job_title: savedAnalysis.job_title,
       company_name: savedAnalysis.company_name,
       jd_text: savedAnalysis.job_description_text,
-      extracted_keywords: savedAnalysis.top_keywords || [],
-      match_score: savedAnalysis.extracted_requirements?.match_score || 0
+      extracted_keywords: kws,
+      match_score: recalcScore
     })
   }
 
@@ -1014,7 +1018,7 @@ const JDAnalyzer: React.FC = () => {
                 </p>
               </div>
               <button
-                onClick={() => navigate('/dashboard/resume-builder/tracking')}
+                onClick={() => navigate('/dashboard/resume/tracking')}
                 className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold transition-colors whitespace-nowrap"
               >
                 View Full Tracker →
@@ -1148,7 +1152,9 @@ const JDAnalyzer: React.FC = () => {
 
             {/* Analysis Results */}
             {analysis && (
-              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-4">
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md space-y-6">
+
+                {/* Score Header */}
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white">Keyword Analysis</h2>
                   <div className="flex items-center gap-2">
@@ -1162,64 +1168,82 @@ const JDAnalyzer: React.FC = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Top 15 ATS keywords extracted from the job description
-                </p>
-
-
-                {/* Keywords Table - Simplified */}
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm table-fixed border-collapse border border-gray-300 dark:border-gray-600">
-                    <thead className="bg-gray-50 dark:bg-gray-700">
-                      <tr>
-                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Keyword</th>
-                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Match</th>
-                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-left text-xs font-semibold">Explanation</th>
-                        <th className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center text-xs font-semibold">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {analysis.extracted_keywords.map((kw, idx) => {
-                        return (
-                          <tr key={idx} className="border border-gray-300 dark:border-gray-600">
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 font-medium text-xs">{kw.keyword}</td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                              {kw.currentMatch ? (
-                                <span className="text-green-600 dark:text-green-400 font-bold text-sm">✓</span>
-                              ) : (
-                                <span className="text-red-600 dark:text-red-400 font-bold text-sm">✗</span>
-                              )}
-                            </td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-xs">
-                              {kw.currentMatch ? (
-                                <span className="text-green-700">Found in your resume</span>
-                              ) : (
-                                <div>
-                                  <span className="text-red-700 font-medium">Not found</span>
-                                  {kw.matchReason && (
-                                    <div className="text-gray-600 dark:text-gray-400 italic mt-1" title={kw.matchReason}>
-                                      {kw.matchReason.length > 80 ? `${kw.matchReason.substring(0, 80)}...` : kw.matchReason}
-                                    </div>
-                                  )}
-                                </div>
-                              )}
-                            </td>
-                            <td className="border border-gray-300 dark:border-gray-600 px-2 py-1 text-center">
-                              {!kw.currentMatch && (
-                                <button
-                                  onClick={() => handleAddKeyword(kw)}
-                                  className="px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 font-medium"
-                                >
-                                  + Add to Resume
-                                </button>
-                              )}
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                {/* Progress Bar */}
+                <div>
+                  <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                    <span>{analysis.extracted_keywords.filter(k => k.currentMatch).length} found</span>
+                    <span>{analysis.extracted_keywords.filter(k => !k.currentMatch).length} missing</span>
+                  </div>
+                  <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
+                    <div
+                      className="h-3 rounded-full bg-gradient-to-r from-green-500 to-green-600 transition-all duration-500"
+                      style={{ width: `${analysis.match_score}%` }}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Add missing keywords to get closer to 100% ATS match
+                  </p>
                 </div>
+
+                {/* MISSING KEYWORDS — shown first, prominently */}
+                {analysis.extracted_keywords.filter(k => !k.currentMatch).length > 0 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="font-bold text-red-600 dark:text-red-400 flex items-center gap-2">
+                        🚨 Missing Keywords ({analysis.extracted_keywords.filter(k => !k.currentMatch).length})
+                      </h3>
+                      <button
+                        onClick={() => {
+                          analysis.extracted_keywords
+                            .filter(k => !k.currentMatch)
+                            .forEach(kw => handleAddKeyword(kw))
+                        }}
+                        className="px-3 py-1.5 text-xs bg-red-600 text-white rounded-lg hover:bg-red-700 font-semibold"
+                      >
+                        + Add All Missing
+                      </button>
+                    </div>
+                    <div className="space-y-2">
+                      {analysis.extracted_keywords.filter(k => !k.currentMatch).map((kw, idx) => (
+                        <div key={idx} className="flex items-start justify-between gap-3 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                          <div className="flex-1 min-w-0">
+                            <span className="font-semibold text-sm text-red-800 dark:text-red-300">{kw.keyword}</span>
+                            {kw.whereItGoes && (
+                              <span className="ml-2 text-xs px-1.5 py-0.5 bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400 rounded">
+                                → {kw.whereItGoes?.replace(/_/g, ' ')}
+                              </span>
+                            )}
+                            {kw.matchReason && (
+                              <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 italic">{kw.matchReason}</p>
+                            )}
+                          </div>
+                          <button
+                            onClick={() => handleAddKeyword(kw)}
+                            className="flex-shrink-0 px-3 py-1.5 text-xs bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold"
+                          >
+                            + Add
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* FOUND KEYWORDS — secondary, collapsed style */}
+                {analysis.extracted_keywords.filter(k => k.currentMatch).length > 0 && (
+                  <div>
+                    <h3 className="font-bold text-green-600 dark:text-green-400 flex items-center gap-2 mb-3">
+                      ✅ Already in Your Resume ({analysis.extracted_keywords.filter(k => k.currentMatch).length})
+                    </h3>
+                    <div className="flex flex-wrap gap-2">
+                      {analysis.extracted_keywords.filter(k => k.currentMatch).map((kw, idx) => (
+                        <span key={idx} className="px-3 py-1.5 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-700 text-green-800 dark:text-green-300 rounded-full text-sm font-medium">
+                          ✓ {kw.keyword}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Action Buttons */}
                 <div className="flex flex-col gap-4 pt-5 border-t border-gray-200 dark:border-gray-700">

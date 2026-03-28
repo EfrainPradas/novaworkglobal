@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Target, Search, Building2, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, Target, Search, Building2, CheckCircle2, Briefcase } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import TargetCompanyCriteria from '../../components/fast-track/TargetCompanyCriteria'
 import IndustryResearch from '../../components/fast-track/IndustryResearch'
 import CompanyShortlist from '../../components/fast-track/CompanyShortlist'
+import AIJobSearch from '../../components/job-search/AIJobSearch'
 
 export default function PlanYourSearch() {
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState<'criteria' | 'research' | 'shortlist'>('criteria')
+  const [activeTab, setActiveTab] = useState<'criteria' | 'research' | 'shortlist' | 'jobs'>('criteria')
 
   // Progress tracking
   const [hasCriteria, setHasCriteria] = useState(false)
@@ -75,6 +76,13 @@ export default function PlanYourSearch() {
       icon: Building2,
       description: 'Top 10 target companies',
       completed: hasShortlist
+    },
+    {
+      id: 'jobs' as const,
+      name: 'Job Matches',
+      icon: Briefcase,
+      description: 'AI-matched open positions',
+      completed: false
     }
   ]
 
@@ -141,7 +149,7 @@ export default function PlanYourSearch() {
 
         {/* Tab Navigation */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6 transition-colors duration-200">
-          <div className="grid grid-cols-3 divide-x divide-gray-200 dark:divide-gray-700">
+          <div className="grid grid-cols-4 divide-x divide-gray-200 dark:divide-gray-700">
             {tabs.map((tab) => {
               const Icon = tab.icon
               return (
@@ -162,12 +170,17 @@ export default function PlanYourSearch() {
                       <CheckCircle2 className="w-5 h-5 text-green-500" />
                     )}
                   </div>
-                  <h3
-                    className={`font-semibold mb-1 ${activeTab === tab.id ? 'text-primary-900 dark:text-primary-300' : 'text-gray-900 dark:text-white'
-                      }`}
-                  >
-                    {tab.name}
-                  </h3>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h3
+                      className={`font-semibold ${activeTab === tab.id ? 'text-primary-900 dark:text-primary-300' : 'text-gray-900 dark:text-white'
+                        }`}
+                    >
+                      {tab.name}
+                    </h3>
+                    {tab.id === 'jobs' && (
+                      <span className="px-1.5 py-0.5 bg-indigo-600 text-white text-xs font-bold rounded-full leading-none">NEW</span>
+                    )}
+                  </div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">{tab.description}</p>
                 </button>
               )
@@ -176,7 +189,7 @@ export default function PlanYourSearch() {
         </div>
 
         {/* Tab Content */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-8 transition-colors duration-200">
+        <div className={`bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 transition-colors duration-200 ${activeTab === 'jobs' ? 'p-6' : 'p-8'}`}>
           {activeTab === 'criteria' && (
             <TargetCompanyCriteria onComplete={checkProgress} />
           )}
@@ -187,6 +200,18 @@ export default function PlanYourSearch() {
 
           {activeTab === 'shortlist' && (
             <CompanyShortlist onComplete={checkProgress} />
+          )}
+
+          {activeTab === 'jobs' && (
+            <div>
+              <div className="mb-6">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">🎯 AI-Matched Job Openings</h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Based on your profile, skills, and target roles — click <strong>Find My Dream Jobs</strong> to search live openings. Use <strong>Analyze JD</strong> to tailor your resume for any position.
+                </p>
+              </div>
+              <AIJobSearch />
+            </div>
           )}
         </div>
       </div>
