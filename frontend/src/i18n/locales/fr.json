@@ -928,5 +928,103 @@
       "negotiation": "Préparation à la Négociation",
       "markPhaseComplete": "Marquer la Phase {{n}} comme Terminée"
     }
+  },
+  "onlineApplications": {
+    "title": "Candidatures en Ligne",
+    "subtitle": "Étape 2: Suivez les candidatures et exploitez les recommandations",
+    "backToJobSearch": "Retour à la Recherche d'Emploi",
+    "watchVideo": "Voir la vidéo",
+    "bestPractices": "Meilleures pratiques de candidature",
+    "referralsBoost": "Les recommandations augmentent vos rappels de 400%",
+    "tunnel": {
+      "title": "Tunnel de Candidatures",
+      "target": "Objectif: 30% Taux de Recommandations",
+      "lastUpdated": "Dernière Mise à Jour: Aujourd'hui",
+      "applications": "Candidatures",
+      "referralRate": "Taux de Recommandations",
+      "followUpsDue": "Relances à Faire",
+      "interviews": "Entretiens"
+    },
+    "tabs": {
+      "applications": "Candidatures",
+      "applicationsSubtitle": "Suivi manuel",
+      "aiApplications": "Candidatures IA",
+      "aiSubtitle": "Créées avec l'Analyseur JD",
+      "checklist": "Liste de Contrôle",
+      "checklistSubtitle": "Assurance qualité"
+    },
+    "search": {
+      "title": "Recherche d'Emploi Intelligente",
+      "subtitle": "Générez un lien Google Jobs optimisé pour trouver les dernières offres sur toutes les plateformes (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Titre du Poste (ex. Chef de Produit)",
+      "locationPlaceholder": "Lieu (Optionnel)",
+      "button": "Rechercher des Emplois"
+    },
+    "ats": {
+      "title": "Analyseur ATS",
+      "subtitle": "Comparez votre CV avec la description du poste avant de postuler.",
+      "button": "Lancer l'Analyseur"
+    }
+  },
+  "checklist": {
+    "header": "80% des CV sont Rejetés par l'ATS",
+    "subtitle": "Utilisez cette liste À CHAQUE candidature pour vous assurer que votre CV passe le filtrage automatisé.",
+    "items": "éléments",
+    "priority": {
+      "mustDo": "Indispensable",
+      "important": "Important",
+      "niceToHave": "Recommandé"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Avant de Commencer",
+        "items": {
+          "readJD": { "title": "Lisez la description complète du poste 3 fois", "desc": "Comprenez les exigences, responsabilités et culture d'entreprise" },
+          "keywords": { "title": "Identifiez les 5-10 mots-clés principaux", "desc": "Utilisez l'Analyseur JD ou extrayez manuellement les compétences clés" },
+          "research": { "title": "Recherchez l'entreprise", "desc": "Connaissez leur mission, actualités récentes et pourquoi vous souhaitez y travailler" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Optimisation du CV",
+        "items": {
+          "jobTitles": { "title": "Adaptez vos intitulés de poste à leur langage", "desc": "S'ils disent \"Chef de Produit\", n'utilisez pas \"Lead Produit\"" },
+          "allSkills": { "title": "Incluez TOUTES les compétences requises", "desc": "Si vous avez la compétence, elle DOIT figurer sur votre CV" },
+          "exactKeywords": { "title": "Utilisez leurs mots-clés exacts (surtout pour l'ATS)", "desc": "Copiez les phrases exactes comme \"méthodologie Agile\"" },
+          "quantify": { "title": "Quantifiez vos réalisations", "desc": "Utilisez des métriques: \"Augmenté le chiffre d'affaires de 40%\"" },
+          "summary": { "title": "Adaptez votre section résumé/profil", "desc": "Les 3 premières lignes doivent refléter les exigences du poste" },
+          "removeIrrelevant": { "title": "Supprimez l'expérience non pertinente", "desc": "Si cela ne vous aide pas à obtenir CE poste, envisagez de le supprimer" }
+        }
+      },
+      "atsFormatting": {
+        "title": "Mise en Forme Compatible ATS",
+        "items": {
+          "standardHeaders": { "title": "Utilisez des en-têtes de section standard", "desc": "\"Expérience Professionnelle\" pas \"Mon Parcours\"" },
+          "saveFormat": { "title": "Enregistrez en .docx ou .pdf", "desc": "PDF préféré, mais certains ATS préfèrent .docx" },
+          "standardFonts": { "title": "Utilisez des polices standard (Arial, Calibri, Times)", "desc": "Évitez les polices fantaisie que l'ATS ne peut pas lire" },
+          "avoidTables": { "title": "Évitez les tableaux, colonnes, en-têtes/pieds de page", "desc": "L'ATS a du mal avec les mises en forme complexes" },
+          "bulletPoints": { "title": "Utilisez des puces standard", "desc": "Uniquement les symboles simples • ou -" }
+        }
+      },
+      "fileNaming": {
+        "title": "Nommage de Fichier et Soumission",
+        "items": {
+          "nameFile": { "title": "Nommez correctement le fichier", "desc": "Format: VotreNom_Poste_Entreprise.pdf" },
+          "saveFolder": { "title": "Enregistrez dans un dossier dédié", "desc": "Restez organisé: Candidatures/[Entreprise]/[Date]/" },
+          "keepOriginal": { "title": "Conservez la version originale", "desc": "Maintenez toujours votre CV maître séparément" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Conseil Pro: La Règle des 80% de Recommandations",
+      "body": "Même avec un CV parfaitement adapté, votre taux de rappel sans recommandation n'est que de 1-2%. AVEC une recommandation, il passe à 80%.",
+      "tip1": "Cherchez sur LinkedIn des connexions de 1er ou 2ème degré",
+      "tip2": "Contactez des anciens élèves de votre école",
+      "tip3": "Demandez à votre réseau des introductions directes",
+      "tip4": "Écrivez aux employés sur LinkedIn avec un message personnalisé"
+    },
+    "printChecklist": {
+      "title": "Liste Rapide à Imprimer",
+      "button": "Imprimer la Liste"
+    }
   }
 }

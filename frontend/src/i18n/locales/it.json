@@ -928,5 +928,103 @@
       "negotiation": "Preparazione alla Negoziazione",
       "markPhaseComplete": "Segna Fase {{n}} come Completata"
     }
+  },
+  "onlineApplications": {
+    "title": "Candidature Online",
+    "subtitle": "Passo 2: Monitora le candidature e sfrutta i referral",
+    "backToJobSearch": "Torna alla Ricerca di Lavoro",
+    "watchVideo": "Guarda il video",
+    "bestPractices": "Migliori pratiche di candidatura",
+    "referralsBoost": "I referral aumentano i tuoi richiami del 400%",
+    "tunnel": {
+      "title": "Tunnel delle Candidature",
+      "target": "Obiettivo: 30% Tasso di Referral",
+      "lastUpdated": "Ultimo Aggiornamento: Oggi",
+      "applications": "Candidature",
+      "referralRate": "Tasso di Referral",
+      "followUpsDue": "Follow-up in Scadenza",
+      "interviews": "Colloqui"
+    },
+    "tabs": {
+      "applications": "Candidature",
+      "applicationsSubtitle": "Monitorate manualmente",
+      "aiApplications": "Candidature IA",
+      "aiSubtitle": "Create con l'Analizzatore JD",
+      "checklist": "Lista di Controllo",
+      "checklistSubtitle": "Controllo qualità"
+    },
+    "search": {
+      "title": "Ricerca Intelligente di Lavoro",
+      "subtitle": "Genera un link di ricerca Google Jobs ottimizzato per trovare le ultime offerte su tutte le piattaforme (LinkedIn, Glassdoor, ZipRecruiter, ecc.).",
+      "titlePlaceholder": "Titolo del Lavoro (es. Product Manager)",
+      "locationPlaceholder": "Luogo (Opzionale)",
+      "button": "Cerca Lavori"
+    },
+    "ats": {
+      "title": "Analizzatore ATS",
+      "subtitle": "Confronta il CV con la descrizione del lavoro prima di candidarti.",
+      "button": "Avvia l'Analizzatore"
+    }
+  },
+  "checklist": {
+    "header": "L'80% dei CV viene Rifiutato dall'ATS",
+    "subtitle": "Usa questa lista OGNI VOLTA che ti candidi per assicurarti che il tuo CV superi il filtro automatizzato.",
+    "items": "elementi",
+    "priority": {
+      "mustDo": "Indispensabile",
+      "important": "Importante",
+      "niceToHave": "Consigliato"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Prima di Iniziare",
+        "items": {
+          "readJD": { "title": "Leggi la descrizione completa del lavoro 3 volte", "desc": "Comprendi i requisiti, le responsabilità e la cultura aziendale" },
+          "keywords": { "title": "Identifica le 5-10 parole chiave principali", "desc": "Usa l'Analizzatore JD o estrai manualmente le competenze chiave" },
+          "research": { "title": "Ricerca l'azienda", "desc": "Conosci la loro missione, notizie recenti e perché vuoi lavorare lì" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Ottimizzazione del CV",
+        "items": {
+          "jobTitles": { "title": "Adatta i tuoi titoli lavorativi al loro linguaggio", "desc": "Se dicono \"Product Manager\", non usare \"Product Lead\"" },
+          "allSkills": { "title": "Includi TUTTE le competenze richieste nella JD", "desc": "Se hai la competenza, DEVE essere nel tuo CV" },
+          "exactKeywords": { "title": "Usa le loro parole chiave esatte (soprattutto per ATS)", "desc": "Copia frasi esatte come \"metodologia Agile\"" },
+          "quantify": { "title": "Quantifica i tuoi risultati", "desc": "Usa metriche: \"Aumentato i ricavi del 40%\" non \"Migliorato i ricavi\"" },
+          "summary": { "title": "Personalizza la sezione sommario/profilo", "desc": "Le prime 3 righe devono rispecchiare i requisiti del lavoro" },
+          "removeIrrelevant": { "title": "Rimuovi l'esperienza non pertinente", "desc": "Se non ti aiuta a ottenere QUESTO lavoro, considera di rimuoverla" }
+        }
+      },
+      "atsFormatting": {
+        "title": "Formattazione Compatibile ATS",
+        "items": {
+          "standardHeaders": { "title": "Usa intestazioni di sezione standard", "desc": "\"Esperienza Lavorativa\" non \"Il Mio Percorso\"" },
+          "saveFormat": { "title": "Salva come .docx o .pdf", "desc": "PDF preferito, ma alcuni ATS preferiscono .docx" },
+          "standardFonts": { "title": "Usa font standard (Arial, Calibri, Times)", "desc": "Evita font decorativi che l'ATS non riesce a leggere" },
+          "avoidTables": { "title": "Evita tabelle, colonne, intestazioni/piè di pagina", "desc": "L'ATS ha difficoltà con formattazioni complesse" },
+          "bulletPoints": { "title": "Usa punti elenco standard", "desc": "Solo simboli semplici • o -" }
+        }
+      },
+      "fileNaming": {
+        "title": "Denominazione File e Invio",
+        "items": {
+          "nameFile": { "title": "Nomina correttamente il file", "desc": "Formato: TuoNome_Ruolo_Azienda.pdf" },
+          "saveFolder": { "title": "Salva in una cartella dedicata", "desc": "Mantieni organizzato: Candidature/[Azienda]/[Data]/" },
+          "keepOriginal": { "title": "Conserva la versione originale", "desc": "Mantieni sempre separato il tuo CV principale" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Consiglio Pro: La Regola dell'80% dei Referral",
+      "body": "Anche con un CV perfettamente personalizzato, il tuo tasso di risposta senza referral è solo dell'1-2%. CON un referral, sale all'80%.",
+      "tip1": "Cerca su LinkedIn connessioni di 1° o 2° grado",
+      "tip2": "Contatta ex colleghi della tua università",
+      "tip3": "Chiedi alla tua rete presentazioni dirette",
+      "tip4": "Scrivi ai dipendenti su LinkedIn con un messaggio personalizzato"
+    },
+    "printChecklist": {
+      "title": "Lista Rapida da Stampare",
+      "button": "Stampa la Lista"
+    }
   }
 }

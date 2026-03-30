@@ -1009,5 +1009,103 @@
       "negotiation": "Preparación para Negociación",
       "markPhaseComplete": "Marcar Fase {{n}} como Completa"
     }
+  },
+  "onlineApplications": {
+    "title": "Solicitudes de Empleo Online",
+    "subtitle": "Paso 2: Rastrea solicitudes y aprovecha referencias",
+    "backToJobSearch": "Volver a Búsqueda de Empleo",
+    "watchVideo": "Ver video",
+    "bestPractices": "Mejores prácticas de solicitud",
+    "referralsBoost": "Las referencias aumentan tus llamadas un 400%",
+    "tunnel": {
+      "title": "Túnel de Aplicaciones",
+      "target": "Objetivo: 30% Tasa de Referidos",
+      "lastUpdated": "Última Actualización: Hoy",
+      "applications": "Solicitudes",
+      "referralRate": "Tasa de Referidos",
+      "followUpsDue": "Seguimientos Pendientes",
+      "interviews": "Entrevistas"
+    },
+    "tabs": {
+      "applications": "Solicitudes",
+      "applicationsSubtitle": "Seguimiento manual",
+      "aiApplications": "Solicitudes con IA",
+      "aiSubtitle": "Creadas con el Analizador JD",
+      "checklist": "Lista de Verificación",
+      "checklistSubtitle": "Control de calidad"
+    },
+    "search": {
+      "title": "Búsqueda Inteligente de Empleo",
+      "subtitle": "Genera un enlace optimizado de Google Jobs para encontrar las últimas publicaciones en todas las plataformas (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Título del Cargo (ej. Gerente de Producto)",
+      "locationPlaceholder": "Ubicación (Opcional)",
+      "button": "Buscar Empleos"
+    },
+    "ats": {
+      "title": "Analizador ATS",
+      "subtitle": "Compara tu CV con la descripción del cargo antes de aplicar.",
+      "button": "Lanzar Analizador"
+    }
+  },
+  "checklist": {
+    "header": "El 80% de los CVs son Rechazados por el ATS",
+    "subtitle": "Usa esta lista CADA VEZ que apliques para asegurarte de que tu CV pase el filtro automático y llegue a manos humanas.",
+    "items": "elementos",
+    "priority": {
+      "mustDo": "Imprescindible",
+      "important": "Importante",
+      "niceToHave": "Recomendable"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Antes de Empezar",
+        "items": {
+          "readJD": { "title": "Lee la descripción completa del cargo 3 veces", "desc": "Entiende los requisitos, responsabilidades y cultura de la empresa" },
+          "keywords": { "title": "Identifica las 5-10 palabras clave principales del cargo", "desc": "Usa el Analizador JD o extrae manualmente las habilidades clave" },
+          "research": { "title": "Investiga la empresa", "desc": "Conoce su misión, noticias recientes y por qué quieres trabajar allí" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Optimización del CV",
+        "items": {
+          "jobTitles": { "title": "Adapta tus títulos de cargo a su lenguaje", "desc": "Si dicen \"Gerente de Producto\", no uses \"Líder de Producto\"" },
+          "allSkills": { "title": "Incluye TODAS las habilidades requeridas en el cargo", "desc": "Si tienes la habilidad, DEBE estar en tu CV" },
+          "exactKeywords": { "title": "Usa sus palabras clave exactas (especialmente para ATS)", "desc": "Copia frases exactas como \"metodología Agile\" vs \"procesos Agile\"" },
+          "quantify": { "title": "Cuantifica tus logros", "desc": "Usa métricas: \"Aumenté ingresos un 40%\" no \"Mejoré ingresos\"" },
+          "summary": { "title": "Adapta tu sección de resumen/perfil", "desc": "Las primeras 3 líneas deben reflejar los requisitos del cargo" },
+          "removeIrrelevant": { "title": "Elimina experiencia irrelevante", "desc": "Si no te ayuda a conseguir ESTE trabajo, considera eliminarlo" }
+        }
+      },
+      "atsFormatting": {
+        "title": "Formato Compatible con ATS",
+        "items": {
+          "standardHeaders": { "title": "Usa encabezados de sección estándar", "desc": "\"Experiencia Laboral\" no \"Mi Trayectoria\", \"Educación\" no \"Aprendizaje\"" },
+          "saveFormat": { "title": "Guarda como .docx o .pdf", "desc": "Se prefiere PDF, pero algunos ATS prefieren .docx - verifica la oferta" },
+          "standardFonts": { "title": "Usa fuentes estándar (Arial, Calibri, Times)", "desc": "Evita fuentes decorativas que el ATS no pueda leer" },
+          "avoidTables": { "title": "Evita tablas, columnas, encabezados/pies de página", "desc": "El ATS tiene dificultades con formatos complejos" },
+          "bulletPoints": { "title": "Usa viñetas estándar", "desc": "Solo símbolos simples • o -" }
+        }
+      },
+      "fileNaming": {
+        "title": "Nombre de Archivo y Envío",
+        "items": {
+          "nameFile": { "title": "Nombra el archivo correctamente", "desc": "Formato: TuNombre_Cargo_Empresa.pdf" },
+          "saveFolder": { "title": "Guarda en carpeta dedicada", "desc": "Mantén organizado: Solicitudes/[Empresa]/[Fecha]/" },
+          "keepOriginal": { "title": "Conserva la versión original", "desc": "Siempre mantén tu CV maestro por separado" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Consejo Pro: La Regla del 80% de Referidos",
+      "body": "Incluso con un CV perfectamente adaptado, tu tasa de respuesta sin referido es solo del 1-2%. CON un referido, sube al 80%. Siempre intenta conseguir un referido antes de aplicar.",
+      "tip1": "Busca en LinkedIn conexiones de 1er o 2do grado",
+      "tip2": "Contacta a ex compañeros de tu universidad",
+      "tip3": "Pide a tu red presentaciones directas",
+      "tip4": "Escribe a empleados en LinkedIn con un mensaje personalizado"
+    },
+    "printChecklist": {
+      "title": "Lista Rápida para Imprimir",
+      "button": "Imprimir Lista"
+    }
   }
 }
