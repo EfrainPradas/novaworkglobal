@@ -256,7 +256,44 @@
       "accomplishmentLibrary": "Accomplishment Library",
       "accomplishmentLibraryDesc": "Your personal bank of achievements — pick, tag, and auto-assemble for any job.",
       "largestResult": "Your Largest Result",
-      "mostComplexProject": "Most Complex Project"
+      "mostComplexProject": "Most Complex Project",
+      "workAndEducationTitle": "Work Experience and Education",
+      "workAndEducationDesc": "Build your career history and academic record.",
+      "accomplishmentBankTitle": "Accomplishment Bank",
+      "accomplishmentBankDesc": "Highlight your key accomplishments.",
+      "professionalSummaryTitle": "Professional Summary",
+      "professionalSummaryDesc": "Introduce and position yourself.",
+      "chooseResumeTitle": "Choose your Resume",
+      "chooseResumeDesc": "Chronological or Functional",
+      "learnMore": "Learn more",
+      "showLess": "Show less",
+      "needGuidance": "Need Personalized Guidance?",
+      "accelerateResults": "ACCELERATE YOUR RESULTS"
+    },
+    "education": {
+      "title": "Education",
+      "reviewDescription": "Review your education history imported from your resume. Edit or add more entries.",
+      "emptyDescription": "Add your academic degrees, diplomas, and certificates.",
+      "addEducationButton": "+ Add Education",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "backToWorkExperience": "Back to Work Experience",
+      "tabWorkExperience": "Work Experience",
+      "tabEducation": "Education",
+      "tabAwardsCertifications": "Awards & Certifications",
+      "addEducation": "Add Education",
+      "editEducation": "Edit Education",
+      "institutionName": "Institution Name",
+      "location": "Location",
+      "degreeType": "Degree Type",
+      "selectDegree": "Select Degree",
+      "fieldOfStudy": "Field of Study",
+      "graduationYear": "Graduation Year (YYYY)",
+      "selectYearOptional": "Select Year (Optional)",
+      "gpa": "GPA",
+      "honors": "Honors",
+      "update": "Update",
+      "save": "Save",
+      "cancel": "Cancel"
     },
     "profile": {
       "title": "Professional Profile",
@@ -422,6 +459,118 @@
       "editBullet": "Edit accomplishment",
       "starred": "Starred",
       "groupedBy": "Grouped by role"
+    },
+    "questionnaire": {
+      "section_identity": "Identity & Target",
+      "section_environments": "Environments & Functions",
+      "section_impact": "Impact & Scale",
+      "section_strengths": "Strengths & Differentiators",
+      "section_skills": "Skills & Tools",
+      "section_high_impact": "High-Impact Stories",
+      "step3": "Step 3",
+      "title": "Professional Positioning Questionnaire",
+      "subtitle": "Complete this after your accomplishments for best results.",
+      "warningText": "Completing your accomplishments first improves the quality of the generated profile.",
+      "goToStoryCards": "Go to Story Cards →",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "backToCarStories": "Back to CAR Stories",
+      "sectionLabel": "Section {{current}} of {{total}}: {{name}}",
+      "add": "Add",
+      "currentJobTitle": "Current Job Title",
+      "currentJobTitlePlaceholder": "e.g., Director of Supply Chain",
+      "targetJobTitle": "Target Job Title",
+      "targetJobTitlePlaceholder": "e.g., VP of Operations",
+      "onePhraseIdentity": "One-Phrase Identity",
+      "onePhraseIdentityHelper": "How would you describe yourself in one powerful phrase?",
+      "onePhraseIdentityPlaceholder": "e.g., Operational strategist who turns chaos into scalable systems",
+      "yearsOfExperience": "Years of Experience",
+      "industries": "Industries",
+      "industriesPlaceholder": "e.g., Manufacturing, Healthcare",
+      "workEnvironments": "Work Environments",
+      "functions": "Functions (2-3 primary)",
+      "functionsPlaceholder": "e.g., Operations, Finance, Strategy",
+      "trustedProblems": "Trusted Problems",
+      "trustedProblemsHelper": "What type of problems do people bring to you to solve?",
+      "trustedProblemsPlaceholder": "e.g., Complex cross-functional challenges...",
+      "typesOfImpact": "Types of Impact You Deliver",
+      "teamSize": "Team Size",
+      "teamSizePlaceholder": "e.g., 50+ direct, 200+ indirect",
+      "budgetManaged": "Budget Managed",
+      "budgetManagedPlaceholder": "e.g., $25M annual",
+      "geographicScope": "Geographic Scope",
+      "geographicScopePlaceholder": "e.g., Global (US, EU, APAC)",
+      "projectScale": "Project Scale",
+      "projectScalePlaceholder": "e.g., 12-month, $10M programs",
+      "stakeholderExposure": "Stakeholder Exposure",
+      "coreStrengths": "Core Strengths (select your top 5-8)",
+      "technicalSkills": "Technical Skills & Tools",
+      "technicalSkillsPlaceholder": "e.g., SAP, Python, Tableau",
+      "platformsSystems": "Platforms & Systems",
+      "platformsSystemsPlaceholder": "e.g., Salesforce, Oracle, AWS",
+      "methodologies": "Methodologies & Frameworks",
+      "methodologiesPlaceholder": "e.g., Lean Six Sigma, Agile, PMBOK",
+      "certifications": "Certifications & Advanced Training",
+      "certificationsPlaceholder": "e.g., PMP, CPA, AWS Solutions Architect",
+      "languagesSpoken": "Languages Spoken",
+      "languagesSpokenPlaceholder": "e.g., English, Spanish, French",
+      "pasteJobDescriptions": "Paste Target Job Descriptions (optional)",
+      "pasteJobDescriptionsHelper": "Paste 1-3 job descriptions for roles you're targeting. This helps generate a more tailored profile.",
+      "pasteJobDescriptionsPlaceholder": "Paste a job description here...",
+      "impactOptions": [
+        "Revenue Growth",
+        "Cost Reduction",
+        "Process Optimization",
+        "Team Building / Scaling",
+        "Market Expansion",
+        "Digital Transformation",
+        "Risk Mitigation",
+        "Cultural Change",
+        "Innovation / R&D",
+        "Customer Experience",
+        "Operational Efficiency",
+        "M&A Integration"
+      ],
+      "environmentOptions": [
+        "Fortune 500 / Enterprise",
+        "Mid-Market",
+        "Start-up / Scale-up",
+        "Government / Public Sector",
+        "Non-Profit / NGO",
+        "Consulting / Professional Services",
+        "Private Equity / VC-Backed",
+        "Family-Owned",
+        "Matrix Organization",
+        "Remote / Distributed"
+      ],
+      "strengthOptions": [
+        "Strategic Thinking",
+        "Analytical Problem Solving",
+        "Cross-Functional Leadership",
+        "Change Management",
+        "Stakeholder Management",
+        "Negotiation",
+        "Data-Driven Decision Making",
+        "Team Development",
+        "Communication / Storytelling",
+        "Innovation / Creativity",
+        "Execution / Delivery",
+        "Financial Acumen",
+        "Client Relationship Building",
+        "Technical Depth",
+        "Global / Multicultural Awareness",
+        "Resilience / Adaptability"
+      ],
+      "stakeholderOptions": [
+        "C-Suite",
+        "Board of Directors",
+        "Investors / PE / VC",
+        "External Clients",
+        "Vendors / Suppliers",
+        "Cross-Functional Teams",
+        "Government / Regulators",
+        "International Partners",
+        "Union / Labor Groups"
+      ]
     }
   },
   "dashboard": {
@@ -447,7 +596,10 @@
     "resumeScore": "Resume score",
     "applicationsTracked": "Applications tracked",
     "interviewsScheduled": "Interviews scheduled",
-    "quickActions": "Quick Actions",
+    "quickActions": {
+      "continueDesc": "Pick up where you left off in your NovaNext program.",
+      "networkingDesc": "Join live sessions and connect with your community."
+    },
     "tools": "Tools",
     "uploadResume": "Upload resume",
     "analyzeJD": "Analyze job description",
@@ -460,7 +612,7 @@
     "interviewMastery": "Interview Mastery",
     "interviewMasteryDesc": "Be the one they choose. Understand and practice the interview to be the winning candidate.",
     "home": {
-      "title": "Career Command Center",
+      "title": "Dashboard",
       "greeting": "Welcome back, {{name}}",
       "subtitle": "Your personalized career hub",
       "heroTitle": "Your progress, community, and next best actions in one place.",
@@ -469,10 +621,6 @@
     "marketPulse": {
       "title": "What's happening in the job market",
       "viewMore": "View more insights"
-    },
-    "quickActions": {
-      "continueDesc": "Pick up where you left off in your NovaNext program.",
-      "networkingDesc": "Join live sessions and connect with your community."
     },
     "cta": {
       "continueProgram": "Continue Program",
@@ -491,6 +639,15 @@
       "applications": "Applications",
       "interviews": "Interviews",
       "sessionsJoined": "Sessions Joined"
+    },
+    "quickActionsPanel": {
+      "title": "Quick Actions",
+      "myCoaches": "My Coaches / Book",
+      "uploadResume": "Upload Resume",
+      "analyzeJD": "Analyze Job Description",
+      "joinNetworking": "Join Networking",
+      "viewCalendar": "View Calendar",
+      "sharedResources": "Shared Resources"
     },
     "nextActions": {
       "title": "Next Best Actions",
@@ -551,12 +708,21 @@
   },
   "services": {
     "title": "Services",
-    "novanext": { "label": "NovaNext", "badge": "Active" },
-    "novarearchitect": { "label": "NovaRearchitect", "badge": "In Development" },
-    "novaalign": { "label": "NovaAlign", "badge": "In Development" }
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Active"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "In Development"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "In Development"
+    }
   },
   "membership": {
-    "title": "NovaNext Programs",
+    "title": "Programs",
     "essential": "Essential",
     "momentum": "Momentum",
     "executive": "Executive",
@@ -768,6 +934,33 @@
         "title": "Your Experience Cards",
         "content": "Each card represents a role in your career. Click Edit to modify or Delete to remove."
       }
+    }
+  },
+  "careerVision": {
+    "journey": {
+      "title": "Your Career Vision Journey",
+      "subtitle": "Complete these sections to discover your ideal career path",
+      "progress": "Progress",
+      "sectionsCompleted": "{{completed}} of {{total}} sections completed",
+      "completed": "✓ Completed",
+      "notStarted": "Not started",
+      "skillsInterests": "Skills & Interests",
+      "skillsSubtitle": "List what you know and what you would do again",
+      "jobHistoryAnalysis": "Job History Analysis",
+      "jobHistorySubtitle": "Reflect on past roles to identify patterns",
+      "idealWorkPreferences": "Ideal Work Preferences",
+      "idealWorkSubtitle": "Define your must-haves and priorities",
+      "review": "Review →",
+      "start": "Start →",
+      "watchVideo": "Watch video",
+      "exploreSection": "Explore section",
+      "deepenKnowledge": "Deepen your self-knowledge and strategy",
+      "completeTitle": "Career Vision Complete!",
+      "completeSubtitle": "You've completed all sections. View your comprehensive career profile now!",
+      "viewCareerVision": "View Your Career Vision →",
+      "backToDashboard": "Back to Dashboard",
+      "whatIsCareerVision": "What is Career Vision?",
+      "clarityHired": "Clarity gets you hired 2x faster"
     }
   }
 }

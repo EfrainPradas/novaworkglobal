@@ -210,8 +210,8 @@ export default function ResumeBuilderMenu() {
   const resumeOptions: ResumeOption[] = [
     {
       id: 'work-and-education',
-      title: 'Work Experience and Education',
-      description: 'Build your career history and academic record.',
+      title: t('resumeBuilder.menu.workAndEducationTitle', 'Work Experience and Education'),
+      description: t('resumeBuilder.menu.workAndEducationDesc', 'Build your career history and academic record.'),
       icon: Briefcase,
       route: '/dashboard/resume/work-experience?mode=standalone',
       completed: completedSteps.has('work-history') && completedSteps.has('education'),
@@ -223,8 +223,8 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'accomplishments-hub',
-      title: 'Accomplishment Bank',
-      description: 'Highlight your key accomplishments.',
+      title: t('resumeBuilder.menu.accomplishmentBankTitle', 'Accomplishment Bank'),
+      description: t('resumeBuilder.menu.accomplishmentBankDesc', 'Highlight your key accomplishments.'),
       icon: Trophy,
       route: '/dashboard/resume/accomplishments-hub?mode=standalone',
       completed: completedSteps.has('accomplishment-bank') && completedSteps.has('story-cards'),
@@ -236,8 +236,8 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'professional-profile',
-      title: 'Professional Summary',
-      description: 'Introduce and postion yourself.',
+      title: t('resumeBuilder.menu.professionalSummaryTitle', 'Professional Summary'),
+      description: t('resumeBuilder.menu.professionalSummaryDesc', 'Introduce and position yourself.'),
       icon: ClipboardList,
       route: '/dashboard/resume/questionnaire?mode=standalone',
       completed: completedSteps.has('questionnaire'),
@@ -249,8 +249,8 @@ export default function ResumeBuilderMenu() {
     },
     {
       id: 'finalize',
-      title: 'Choose you Resume',
-      description: 'Chronological or Functional',
+      title: t('resumeBuilder.menu.chooseResumeTitle', 'Choose your Resume'),
+      description: t('resumeBuilder.menu.chooseResumeDesc', 'Chronological or Functional'),
       icon: CheckSquare,
       route: '/dashboard/resume/type-selection?mode=standalone',
       completed: completedSteps.has('finalize'),
@@ -302,21 +302,25 @@ export default function ResumeBuilderMenu() {
                     <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 shrink-0" />
                     <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
-                  <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
+                    <span className="text-gray-300 text-xs">|</span>
+                    <button
+                      onClick={() => navigate('/dashboard/resume-builder/learn-more')}
+                      className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
+                    >
+                      Read this before starting to use this tool →
+                    </button>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 w-full md:w-auto">
+              <div className="flex items-center w-full md:w-auto">
                 <button
                   onClick={() => setIsVideoModalOpen(true)}
                   className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <Play className="w-4 h-4" /> Watch video
                 </button>
-                <LearnMoreLink
-                  label="Resume strategy guide"
-                  description="ATS-optimized resumes get 3x more callbacks"
-                  onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                />
               </div>
             </div>
           </div>
@@ -410,9 +414,9 @@ export default function ResumeBuilderMenu() {
                     className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                   >
                     {expandedCards.has(option.id) ? (
-                      <>Show less <ChevronUp className="w-4 h-4" /></>
+                      <>{t('resumeBuilder.menu.showLess', 'Show less')} <ChevronUp className="w-4 h-4" /></>
                     ) : (
-                      <>Learn more <ChevronDown className="w-4 h-4" /></>
+                      <>{t('resumeBuilder.menu.learnMore', 'Learn more')} <ChevronDown className="w-4 h-4" /></>
                     )}
                   </button>
                 </div>

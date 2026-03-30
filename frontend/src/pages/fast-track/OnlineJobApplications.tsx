@@ -12,7 +12,8 @@ export default function OnlineJobApplications() {
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
-    const [activeTab, setActiveTab] = useState<'tracker' | 'checklist' | 'resumes'>('tracker')
+    const tabParam = searchParams.get('tab') as 'tracker' | 'checklist' | 'resumes' | null
+    const [activeTab, setActiveTab] = useState<'tracker' | 'checklist' | 'resumes'>(tabParam || 'tracker')
     // Google Jobs State
     const [jobTitle, setJobTitle] = useState('')
     const [location, setLocation] = useState('')

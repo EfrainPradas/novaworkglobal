@@ -165,10 +165,10 @@ export default function HomeSidebar({
       {/* Tier badge */}
       {!collapsed && (
         <div className="mx-3 mb-1 px-3 py-1.5 rounded-xl" style={{ background: '#EFF6FF' }}>
-          <p className="text-xs text-slate-400 leading-tight">{t('membership.currentPlan')}</p>
           <p className="text-sm font-bold leading-tight" style={{ color: '#1976D2' }}>
-            {tierLabel} / NovaNext
+            NovaNext
           </p>
+          <p className="text-xs text-slate-500 leading-tight">{tierLabel}</p>
         </div>
       )}
 

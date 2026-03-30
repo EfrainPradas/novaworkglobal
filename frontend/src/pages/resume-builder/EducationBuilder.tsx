@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
 import { ArrowLeft, ArrowRight, GraduationCap, Plus, Pencil, Trash2, Loader2, X, CheckCircle2 } from 'lucide-react'
@@ -28,6 +29,7 @@ const emptyEntry: Education = {
 }
 
 export default function EducationBuilder() {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
@@ -166,7 +168,7 @@ export default function EducationBuilder() {
                         onClick={() => navigate('/dashboard/resume/work-experience')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Work Experience'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('resumeBuilder.education.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.education.backToWorkExperience', 'Back to Work Experience')}
                     </button>
 
                     {!isStandalone && (
@@ -185,16 +187,16 @@ export default function EducationBuilder() {
                             onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors"
                         >
-                            Work Experience
+                            {t('resumeBuilder.education.tabWorkExperience', 'Work Experience')}
                         </button>
                         <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
-                            Education
+                            {t('resumeBuilder.education.tabEducation', 'Education')}
                         </button>
                         <button
                             onClick={() => navigate('/dashboard/resume/awards?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
-                            Awards & Certifications
+                            {t('resumeBuilder.education.tabAwardsCertifications', 'Awards & Certifications')}
                         </button>
                     </div>
                 )}
@@ -205,12 +207,12 @@ export default function EducationBuilder() {
                         <GraduationCap className="w-6 h-6 text-indigo-600" />
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                        Education
+                        {t('resumeBuilder.education.title', 'Education')}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400">
                         {entries.length > 0
-                            ? 'Review your education history imported from your resume. Edit or add more entries.'
-                            : 'Add your academic degrees, diplomas, and certificates.'}
+                            ? t('resumeBuilder.education.reviewDescription', 'Review your education history imported from your resume. Edit or add more entries.')
+                            : t('resumeBuilder.education.emptyDescription', 'Add your academic degrees, diplomas, and certificates.')}
                     </p>
                 </div>
 
@@ -260,7 +262,7 @@ export default function EducationBuilder() {
                         onClick={() => { resetForm(); setShowForm(true) }}
                         className="w-full py-4 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl text-gray-500 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2 mb-8"
                     >
-                        <Plus className="w-5 h-5" /> Add Education
+                        <Plus className="w-5 h-5" /> {t('resumeBuilder.education.addEducationButton', '+ Add Education')}
                     </button>
                 )}
 
@@ -269,7 +271,7 @@ export default function EducationBuilder() {
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 p-6 md:p-8 mb-8">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                                {editingIndex !== null ? 'Edit Education' : 'Add Education'}
+                                {editingIndex !== null ? t('resumeBuilder.education.editEducation', 'Edit Education') : t('resumeBuilder.education.addEducation', 'Add Education')}
                             </h2>
                             <button onClick={resetForm} className="p-2 text-gray-400 hover:text-gray-600">
                                 <X className="w-5 h-5" />
@@ -281,7 +283,7 @@ export default function EducationBuilder() {
                                 {/* Institution */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Institution Name <span className="text-red-500">*</span>
+                                        {t('resumeBuilder.education.institutionName', 'Institution Name')} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -295,7 +297,7 @@ export default function EducationBuilder() {
                                 {/* Location */}
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Location
+                                        {t('resumeBuilder.education.location', 'Location')}
                                     </label>
                                     <input
                                         type="text"
@@ -311,21 +313,21 @@ export default function EducationBuilder() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Degree Type <span className="text-red-500">*</span>
+                                        {t('resumeBuilder.education.degreeType', 'Degree Type')} <span className="text-red-500">*</span>
                                     </label>
                                     <select
                                         value={form.degree_type}
                                         onChange={e => setForm(p => ({ ...p, degree_type: e.target.value }))}
                                         className={inputClass('degree_type')}
                                     >
-                                        <option value="">Select Degree</option>
+                                        <option value="">{t('resumeBuilder.education.selectDegree', 'Select Degree')}</option>
                                         {DEGREE_TYPES.map(d => <option key={d} value={d}>{d}</option>)}
                                     </select>
                                     {errors.degree_type && <p className="text-red-500 text-xs mt-1">{errors.degree_type}</p>}
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Field of Study <span className="text-red-500">*</span>
+                                        {t('resumeBuilder.education.fieldOfStudy', 'Field of Study')} <span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
@@ -342,14 +344,14 @@ export default function EducationBuilder() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Graduation Year (YYYY)
+                                        {t('resumeBuilder.education.graduationYear', 'Graduation Year (YYYY)')}
                                     </label>
                                     <select
                                         value={form.graduation_year || ''}
                                         onChange={e => setForm(p => ({ ...p, graduation_year: e.target.value ? parseInt(e.target.value) : null }))}
                                         className={inputClass('graduation_year')}
                                     >
-                                        <option value="">Select Year (Optional)</option>
+                                        <option value="">{t('resumeBuilder.education.selectYearOptional', 'Select Year (Optional)')}</option>
                                         {years.map(year => (
                                             <option key={year} value={year}>{year}</option>
                                         ))}
@@ -358,7 +360,7 @@ export default function EducationBuilder() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        GPA
+                                        {t('resumeBuilder.education.gpa', 'GPA')}
                                     </label>
                                     <input
                                         type="text"
@@ -370,7 +372,7 @@ export default function EducationBuilder() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                        Honors
+                                        {t('resumeBuilder.education.honors', 'Honors')}
                                     </label>
                                     <input
                                         type="text"
@@ -391,13 +393,13 @@ export default function EducationBuilder() {
                                 className="flex-1 py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                             >
                                 {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-                                {editingIndex !== null ? 'Update' : 'Save'}
+                                {editingIndex !== null ? t('resumeBuilder.education.update', 'Update') : t('resumeBuilder.education.save', 'Save')}
                             </button>
                             <button
                                 onClick={resetForm}
                                 className="py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                             >
-                                Cancel
+                                {t('resumeBuilder.education.cancel', 'Cancel')}
                             </button>
                         </div>
                     </div>

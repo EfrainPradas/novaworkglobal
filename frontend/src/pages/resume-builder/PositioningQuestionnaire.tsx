@@ -14,44 +14,22 @@ const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
     : ''
 const API_BASE_URL = import.meta.env.VITE_API_URL || fallbackApi
 
-const SECTIONS = [
-    { key: 'identity', label: 'Identity & Target' },
-    { key: 'environments', label: 'Environments & Functions' },
-    { key: 'impact', label: 'Impact & Scale' },
-    { key: 'strengths', label: 'Strengths & Differentiators' },
-    { key: 'skills', label: 'Skills & Tools' },
-    { key: 'high_impact', label: 'High-Impact Stories' }
-] as const
-
-const ENVIRONMENT_OPTIONS = [
-    'Fortune 500 / Enterprise', 'Mid-Market', 'Start-up / Scale-up', 'Government / Public Sector',
-    'Non-Profit / NGO', 'Consulting / Professional Services', 'Private Equity / VC-Backed',
-    'Family-Owned', 'Matrix Organization', 'Remote / Distributed'
-]
-
-const IMPACT_TYPE_OPTIONS = [
-    'Revenue Growth', 'Cost Reduction', 'Process Optimization', 'Team Building / Scaling',
-    'Market Expansion', 'Digital Transformation', 'Risk Mitigation', 'Cultural Change',
-    'Innovation / R&D', 'Customer Experience', 'Operational Efficiency', 'M&A Integration'
-]
-
-const STRENGTH_OPTIONS = [
-    'Strategic Thinking', 'Analytical Problem Solving', 'Cross-Functional Leadership',
-    'Change Management', 'Stakeholder Management', 'Negotiation', 'Data-Driven Decision Making',
-    'Team Development', 'Communication / Storytelling', 'Innovation / Creativity',
-    'Execution / Delivery', 'Financial Acumen', 'Client Relationship Building',
-    'Technical Depth', 'Global / Multicultural Awareness', 'Resilience / Adaptability'
-]
-
-const STAKEHOLDER_OPTIONS = [
-    'C-Suite', 'Board of Directors', 'Investors / PE / VC', 'External Clients',
-    'Vendors / Suppliers', 'Cross-Functional Teams', 'Government / Regulators',
-    'International Partners', 'Union / Labor Groups'
-]
+const SECTION_KEYS = ['identity', 'environments', 'impact', 'strengths', 'skills', 'high_impact'] as const
 
 export default function PositioningQuestionnairePage() {
     const { t } = useTranslation()
     const navigate = useNavigate()
+
+    const SECTIONS = SECTION_KEYS.map(key => ({
+        key,
+        label: t(`resumeBuilder.questionnaire.section_${key}`)
+    }))
+
+    const ENVIRONMENT_OPTIONS: string[] = t('resumeBuilder.questionnaire.environmentOptions', { returnObjects: true }) as string[]
+    const IMPACT_TYPE_OPTIONS: string[] = t('resumeBuilder.questionnaire.impactOptions', { returnObjects: true }) as string[]
+    const STRENGTH_OPTIONS: string[] = t('resumeBuilder.questionnaire.strengthOptions', { returnObjects: true }) as string[]
+    const STAKEHOLDER_OPTIONS: string[] = t('resumeBuilder.questionnaire.stakeholderOptions', { returnObjects: true }) as string[]
+
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [currentSection, setCurrentSection] = useState(0)
@@ -272,7 +250,7 @@ export default function PositioningQuestionnairePage() {
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
                     <Loader2 className="w-16 h-16 text-indigo-600 animate-spin" />
-                    <span className="text-indigo-900 font-semibold mt-2">Generating your Professional Profile...</span>
+                    <span className="text-indigo-900 font-semibold mt-2">{t('resumeBuilder.questionnaire.generatingProfile', 'Generating your Professional Profile...')}</span>
                 </div>
             </div>
         )
@@ -308,7 +286,7 @@ export default function PositioningQuestionnairePage() {
                     className="flex-1 px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm"
                     placeholder={placeholder}
                 />
-                <button onClick={() => addTagItem(field)} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 text-gray-700 dark:text-gray-300">Add</button>
+                <button onClick={() => addTagItem(field)} className="px-4 py-2 bg-gray-100 dark:bg-gray-700 rounded-xl text-sm font-medium hover:bg-gray-200 text-gray-700 dark:text-gray-300">{t('resumeBuilder.questionnaire.add', 'Add')}</button>
             </div>
         </div>
     )
@@ -348,29 +326,16 @@ export default function PositioningQuestionnairePage() {
                     onClick={() => navigate(isStandalone ? '/dashboard/resume-builder' : '/dashboard/resume/story-cards')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to CAR Stories'}
+                    <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('resumeBuilder.questionnaire.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.questionnaire.backToCarStories', 'Back to CAR Stories')}
                 </button>
 
                 {/* Header */}
                 <div className="mb-8">
                     <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-3">
-                        <ClipboardList className="w-4 h-4" /> Step 3
+                        <ClipboardList className="w-4 h-4" /> {t('resumeBuilder.questionnaire.step3', 'Step 3')}
                     </div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Professional Positioning Questionnaire</h1>
-                    <p className="text-gray-600 dark:text-gray-400 mt-1">Complete this after your accomplishments for best results.</p>
-                    <div className="flex items-center gap-2 mt-3">
-                        <button
-                            onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Writing_Your_Professional_Profile_Snapshot.mp4`)}
-                            className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-                        >
-                            <Play className="w-3.5 h-3.5" /> Watch video
-                        </button>
-                        <LearnMoreLink
-                          label="Your professional brand matters"
-                          description="Position yourself to stand out from day one"
-                          onClick={() => navigate('/dashboard/resume/profile/learn-more')}
-                        />
-                    </div>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.questionnaire.title', 'Professional Positioning Questionnaire')}</h1>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1">{t('resumeBuilder.questionnaire.subtitle', 'Complete this after your accomplishments for best results.')}</p>
                 </div>
 
                 {/* Warning if no stories */}
@@ -378,8 +343,8 @@ export default function PositioningQuestionnairePage() {
                     <div className="mb-6 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl flex items-start gap-3">
                         <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
-                            <p className="text-sm font-medium text-amber-800 dark:text-amber-200">Completing your accomplishments first improves the quality of the generated profile.</p>
-                            <button onClick={() => navigate('/dashboard/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">Go to Story Cards →</button>
+                            <p className="text-sm font-medium text-amber-800 dark:text-amber-200">{t('resumeBuilder.questionnaire.warningText', 'Completing your accomplishments first improves the quality of the generated profile.')}</p>
+                            <button onClick={() => navigate('/dashboard/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">{t('resumeBuilder.questionnaire.goToStoryCards', 'Go to Story Cards →')}</button>
                         </div>
                     </div>
                 )}
@@ -419,7 +384,7 @@ export default function PositioningQuestionnairePage() {
                             ))}
                         </div>
                         <p className="text-sm text-gray-500 dark:text-gray-400 font-medium whitespace-nowrap">
-                            Section {currentSection + 1} of {SECTIONS.length}: {SECTIONS[currentSection].label}
+                            {t('resumeBuilder.questionnaire.sectionLabel', 'Section {{current}} of {{total}}: {{name}}', { current: currentSection + 1, total: SECTIONS.length, name: SECTIONS[currentSection].label })}
                         </p>
                     </div>
                     <div className="flex-shrink-0 flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
@@ -461,20 +426,20 @@ export default function PositioningQuestionnairePage() {
                     {currentSection === 0 && (
                         <>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Current Job Title</label>
-                                <input value={form.identity_current_title || ''} onChange={e => updateField('identity_current_title', e.target.value)} className={inputClass} placeholder="e.g., Director of Supply Chain" />
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.currentJobTitle', 'Current Job Title')}</label>
+                                <input value={form.identity_current_title || ''} onChange={e => updateField('identity_current_title', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.currentJobTitlePlaceholder', 'e.g., Director of Supply Chain')} />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Target Job Title</label>
-                                <input value={form.identity_target_title || ''} onChange={e => updateField('identity_target_title', e.target.value)} className={inputClass} placeholder="e.g., VP of Operations" />
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.targetJobTitle', 'Target Job Title')}</label>
+                                <input value={form.identity_target_title || ''} onChange={e => updateField('identity_target_title', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.targetJobTitlePlaceholder', 'e.g., VP of Operations')} />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">One-Phrase Identity</label>
-                                <p className="text-xs text-gray-500 mb-1">How would you describe yourself in one powerful phrase?</p>
-                                <input value={form.identity_one_phrase || ''} onChange={e => updateField('identity_one_phrase', e.target.value)} className={inputClass} placeholder="e.g., Operational strategist who turns complexity into competitive advantage" />
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.onePhraseIdentity', 'One-Phrase Identity')}</label>
+                                <p className="text-xs text-gray-500 mb-1">{t('resumeBuilder.questionnaire.onePhraseIdentityHelper', 'How would you describe yourself in one powerful phrase?')}</p>
+                                <input value={form.identity_one_phrase || ''} onChange={e => updateField('identity_one_phrase', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.onePhraseIdentityPlaceholder', 'e.g., Operational strategist who turns chaos into scalable systems')} />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Years of Experience</label>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('resumeBuilder.questionnaire.yearsOfExperience', 'Years of Experience')}</label>
                                 <div className="flex flex-wrap gap-2">
                                     {(['0-2', '3-5', '6-10', '10-15', '15+'] as const).map(bucket => (
                                         <button
@@ -490,19 +455,19 @@ export default function PositioningQuestionnairePage() {
                                     ))}
                                 </div>
                             </div>
-                            {renderTagField('industries', 'Industries', 'e.g., Manufacturing, Healthcare')}
+                            {renderTagField('industries', t('resumeBuilder.questionnaire.industries', 'Industries'), t('resumeBuilder.questionnaire.industriesPlaceholder', 'e.g., Manufacturing, Healthcare'))}
                         </>
                     )}
 
                     {/* Section 2: Environments & Functions */}
                     {currentSection === 1 && (
                         <>
-                            {renderChecklistField('environments', ENVIRONMENT_OPTIONS, 'Work Environments')}
-                            {renderTagField('functions', 'Functions (2-3 primary)', 'e.g., Operations, Finance, Strategy')}
+                            {renderChecklistField('environments', ENVIRONMENT_OPTIONS, t('resumeBuilder.questionnaire.workEnvironments', 'Work Environments'))}
+                            {renderTagField('functions', t('resumeBuilder.questionnaire.functions', 'Functions (2-3 primary)'), t('resumeBuilder.questionnaire.functionsPlaceholder', 'e.g., Operations, Finance, Strategy'))}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Trusted Problems</label>
-                                <p className="text-xs text-gray-500 mb-1">What type of problems do people bring to you to solve?</p>
-                                <textarea value={form.trusted_problems || ''} onChange={e => updateField('trusted_problems', e.target.value)} rows={3} className={inputClass + ' resize-none'} placeholder="e.g., Complex cross-functional challenges involving multiple stakeholders and tight deadlines" />
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.trustedProblems', 'Trusted Problems')}</label>
+                                <p className="text-xs text-gray-500 mb-1">{t('resumeBuilder.questionnaire.trustedProblemsHelper', 'What type of problems do people bring to you to solve?')}</p>
+                                <textarea value={form.trusted_problems || ''} onChange={e => updateField('trusted_problems', e.target.value)} rows={3} className={inputClass + ' resize-none'} placeholder={t('resumeBuilder.questionnaire.trustedProblemsPlaceholder', 'e.g., Complex cross-functional challenges...')} />
                             </div>
                         </>
                     )}
@@ -510,53 +475,53 @@ export default function PositioningQuestionnairePage() {
                     {/* Section 3: Impact & Scale */}
                     {currentSection === 2 && (
                         <>
-                            {renderChecklistField('impact_types', IMPACT_TYPE_OPTIONS, 'Types of Impact You Deliver')}
+                            {renderChecklistField('impact_types', IMPACT_TYPE_OPTIONS, t('resumeBuilder.questionnaire.typesOfImpact', 'Types of Impact You Deliver'))}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Team Size</label>
-                                    <input value={form.scale_team_size || ''} onChange={e => updateField('scale_team_size', e.target.value)} className={inputClass} placeholder="e.g., 50+ direct, 200+ indirect" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.teamSize', 'Team Size')}</label>
+                                    <input value={form.scale_team_size || ''} onChange={e => updateField('scale_team_size', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.teamSizePlaceholder', 'e.g., 50+ direct, 200+ indirect')} />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget Managed</label>
-                                    <input value={form.scale_budget || ''} onChange={e => updateField('scale_budget', e.target.value)} className={inputClass} placeholder="e.g., $25M annual" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.budgetManaged', 'Budget Managed')}</label>
+                                    <input value={form.scale_budget || ''} onChange={e => updateField('scale_budget', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.budgetManagedPlaceholder', 'e.g., $25M annual')} />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Geographic Scope</label>
-                                    <input value={form.scale_geo_scope || ''} onChange={e => updateField('scale_geo_scope', e.target.value)} className={inputClass} placeholder="e.g., Global (US, EU, APAC)" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.geographicScope', 'Geographic Scope')}</label>
+                                    <input value={form.scale_geo_scope || ''} onChange={e => updateField('scale_geo_scope', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.geographicScopePlaceholder', 'e.g., Global (US, EU, APAC)')} />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Project Scale</label>
-                                    <input value={form.scale_project_scale || ''} onChange={e => updateField('scale_project_scale', e.target.value)} className={inputClass} placeholder="e.g., 12-month, $10M programs" />
+                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.projectScale', 'Project Scale')}</label>
+                                    <input value={form.scale_project_scale || ''} onChange={e => updateField('scale_project_scale', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.projectScalePlaceholder', 'e.g., 12-month, $10M programs')} />
                                 </div>
                             </div>
-                            {renderChecklistField('stakeholder_exposure', STAKEHOLDER_OPTIONS, 'Stakeholder Exposure')}
+                            {renderChecklistField('stakeholder_exposure', STAKEHOLDER_OPTIONS, t('resumeBuilder.questionnaire.stakeholderExposure', 'Stakeholder Exposure'))}
                         </>
                     )}
 
                     {/* Section 4: Strengths & Differentiators */}
                     {currentSection === 3 && (
                         <>
-                            {renderChecklistField('strengths', STRENGTH_OPTIONS, 'Core Strengths (select your top 5-8)')}
+                            {renderChecklistField('strengths', STRENGTH_OPTIONS, t('resumeBuilder.questionnaire.coreStrengths', 'Core Strengths (select your top 5-8)'))}
                         </>
                     )}
 
                     {/* Section 5: Skills & Tools */}
                     {currentSection === 4 && (
                         <>
-                            {renderTagField('technical_skills_tools', 'Technical Skills & Tools', 'e.g., SAP, Python, Tableau')}
-                            {renderTagField('platforms_systems', 'Platforms & Systems', 'e.g., Salesforce, Oracle, AWS')}
-                            {renderTagField('methodologies', 'Methodologies & Frameworks', 'e.g., Lean Six Sigma, Agile, PMBOK')}
-                            {renderTagField('certifications_advanced_training', 'Certifications & Advanced Training', 'e.g., PMP, CPA, AWS Solutions Architect')}
-                            {renderTagField('languages_spoken', 'Languages Spoken', 'e.g., English, Spanish, French')}
+                            {renderTagField('technical_skills_tools', t('resumeBuilder.questionnaire.technicalSkills', 'Technical Skills & Tools'), t('resumeBuilder.questionnaire.technicalSkillsPlaceholder', 'e.g., SAP, Python, Tableau'))}
+                            {renderTagField('platforms_systems', t('resumeBuilder.questionnaire.platformsSystems', 'Platforms & Systems'), t('resumeBuilder.questionnaire.platformsSystemsPlaceholder', 'e.g., Salesforce, Oracle, AWS'))}
+                            {renderTagField('methodologies', t('resumeBuilder.questionnaire.methodologies', 'Methodologies & Frameworks'), t('resumeBuilder.questionnaire.methodologiesPlaceholder', 'e.g., Lean Six Sigma, Agile, PMBOK'))}
+                            {renderTagField('certifications_advanced_training', t('resumeBuilder.questionnaire.certifications', 'Certifications & Advanced Training'), t('resumeBuilder.questionnaire.certificationsPlaceholder', 'e.g., PMP, CPA, AWS Solutions Architect'))}
+                            {renderTagField('languages_spoken', t('resumeBuilder.questionnaire.languagesSpoken', 'Languages Spoken'), t('resumeBuilder.questionnaire.languagesSpokenPlaceholder', 'e.g., English, Spanish, French'))}
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Paste Target Job Descriptions (optional)</label>
-                                <p className="text-xs text-gray-500 mb-1">Paste 1-3 job descriptions for roles you're targeting. This helps our AI extract the right keywords.</p>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.pasteJobDescriptions', 'Paste Target Job Descriptions (optional)')}</label>
+                                <p className="text-xs text-gray-500 mb-1">{t('resumeBuilder.questionnaire.pasteJobDescriptionsHelper', "Paste 1-3 job descriptions for roles you're targeting. This helps generate a more tailored profile.")}</p>
                                 <textarea
                                     value={(form.job_descriptions || []).join('\n---\n')}
                                     onChange={e => updateField('job_descriptions', e.target.value.split('\n---\n').filter(Boolean))}
                                     rows={4}
                                     className={inputClass + ' resize-none'}
-                                    placeholder="Paste a job description here... Separate multiple JDs with a line containing only ---"
+                                    placeholder={t('resumeBuilder.questionnaire.pasteJobDescriptionsPlaceholder', 'Paste a job description here...')}
                                 />
                             </div>
                         </>
