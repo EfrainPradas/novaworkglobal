@@ -705,6 +705,128 @@
     "ctaContinue": "Continue to Builder",
     "footerNote": "NovaWork Global - Accomplishment-Based Resume Method"
   },
+  "onlineJobApplications": {
+    "title": "Online Job Applications",
+    "subtitle": "Step 2: Track applications & leverage referrals",
+    "backToJobSearch": "Back to Job Search",
+    "watchVideo": "Watch video",
+    "bestPracticesLabel": "Application best practices",
+    "bestPracticesDesc": "Referrals increase your callbacks by 400%",
+    "smartSearch": {
+      "title": "Smart Job Search",
+      "description": "Generate an optimized Google Jobs search link to find the latest postings across all platforms (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "jobTitlePlaceholder": "Job Title (e.g. Product Manager)",
+      "locationPlaceholder": "Location (Optional)",
+      "searchBtn": "Search Jobs"
+    },
+    "atsAnalyzer": {
+      "title": "ATS Analyzer",
+      "description": "Compare resume vs. job description before applying.",
+      "launchBtn": "Launch Analyzer"
+    },
+    "tunnel": {
+      "title": "Application Tunnel",
+      "target": "Target: 30% Referral Rate",
+      "lastUpdated": "Last Updated: Today",
+      "applications": "Applications",
+      "referralRate": "Referral Rate",
+      "followUpsDue": "Follow-ups Due",
+      "interviews": "Interviews"
+    },
+    "tabs": {
+      "applications": "Applications",
+      "applicationsDesc": "Manual tracking",
+      "aiApplications": "AI Applications",
+      "aiApplicationsDesc": "Created with JD Analyzer",
+      "checklist": "Checklist",
+      "checklistDesc": "Quality assurance"
+    }
+  },
+  "resumeChecklist": {
+    "bannerTitle": "80% of Resumes Are Rejected by ATS",
+    "bannerDesc": "Use this checklist EVERY time you apply to ensure your resume gets through automated screening and into human hands.",
+    "stepLabel": "Step {{number}}",
+    "etapaLabel": "Stage {{current}} of {{total}}",
+    "completedLabel": "completed",
+    "stepInstructions": "Check off each item before sending your application",
+    "prev": "Previous",
+    "next": "Next",
+    "progress": {
+      "title": "Verification Progress",
+      "completed": "{{checked}}/{{total}} completed",
+      "reset": "Reset",
+      "doneMsg": "Ready to apply! Your resume is optimized."
+    },
+    "priority": {
+      "high": "Must-Do",
+      "medium": "Important",
+      "low": "Nice-to-Have"
+    },
+    "proTip": {
+      "title": "Pro Tip — The 80% Referral Rule",
+      "desc": "Even with a perfectly tailored resume, your callback rate without a referral is only 1-2%. WITH a referral, it jumps to 80%. Always try to find a referral before applying.",
+      "li1": "Check LinkedIn for 1st or 2nd degree connections",
+      "li2": "Reach out to alumni from your school",
+      "li3": "Ask your network for warm introductions",
+      "li4": "Message employees on LinkedIn with a personalized note"
+    },
+    "printSection": {
+      "title": "Print-Friendly Quick Checklist",
+      "btn": "Print Checklist"
+    },
+    "sections": {
+      "beforeStart": {
+        "title": "Before You Start",
+        "subtitle": "Research before touching your resume",
+        "item1": "Read the full job description 3 times",
+        "item1Desc": "Identify requirements, responsibilities and company culture",
+        "item2": "Identify the top 5-10 keywords from the JD",
+        "item2Desc": "Use them when rewriting; they must appear exactly as listed",
+        "item3": "Research the company",
+        "item3Desc": "Know their mission, recent news, and why you want to work there"
+      },
+      "resumeOptimization": {
+        "title": "Resume Optimization",
+        "subtitle": "Tailor your resume to the role",
+        "item1": "Match your job titles to their language",
+        "item1Desc": "If they say \"Product Manager,\" don't use \"Product Lead\"",
+        "item2": "Include ALL required skills mentioned in the JD",
+        "item2Desc": "If you have the skill, it MUST be on your resume",
+        "item3": "Use their exact keywords (especially for ATS)",
+        "item3Desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\"",
+        "item4": "Quantify your accomplishments",
+        "item4Desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\"",
+        "item5": "Tailor your summary/profile section",
+        "item5Desc": "First 3 lines should mirror the job requirements",
+        "item6": "Remove irrelevant experience",
+        "item6Desc": "If it doesn't help you get THIS job, consider removing it"
+      },
+      "atsFormatting": {
+        "title": "ATS-Friendly Formatting",
+        "subtitle": "Make sure robots can read your resume",
+        "item1": "Use standard section headers",
+        "item1Desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\"",
+        "item2": "Save as .docx or .pdf",
+        "item2Desc": "PDF preferred, but some ATS prefer .docx - check job posting",
+        "item3": "Use standard fonts (Arial, Calibri, Times)",
+        "item3Desc": "Avoid fancy fonts that ATS can't read",
+        "item4": "Avoid tables, columns, headers/footers",
+        "item4Desc": "ATS struggles with complex formatting",
+        "item5": "Use standard bullet points",
+        "item5Desc": "Simple • or - symbols only"
+      },
+      "fileNaming": {
+        "title": "File Naming & Submission",
+        "subtitle": "Final checks before you hit send",
+        "item1": "Name file correctly",
+        "item1Desc": "Format: YourName_JobTitle_CompanyName.pdf (e.g., JohnSmith_ProductManager_Google.pdf)",
+        "item2": "Save in dedicated folder",
+        "item2Desc": "Keep organized: Applications/[Company]/[Date]/",
+        "item3": "Keep original version",
+        "item3Desc": "Always maintain your master resume separately"
+      }
+    }
+  },
   "tour": {
     "common": {
       "back": "Back",

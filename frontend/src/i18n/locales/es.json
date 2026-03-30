@@ -782,5 +782,127 @@
     "title": "Herramientas",
     "myCoaches": "Mis Coaches",
     "sharedResources": "Recursos Compartidos"
+  },
+  "onlineJobApplications": {
+    "title": "Solicitudes de Empleo Online",
+    "subtitle": "Paso 2: Rastrea solicitudes y aprovecha referencias",
+    "backToJobSearch": "Volver a Búsqueda de Empleo",
+    "watchVideo": "Ver video",
+    "bestPracticesLabel": "Mejores prácticas de solicitud",
+    "bestPracticesDesc": "Las referencias aumentan tus llamadas un 400%",
+    "smartSearch": {
+      "title": "Búsqueda Inteligente de Empleo",
+      "description": "Genera un enlace optimizado de Google Jobs para encontrar las últimas ofertas en todas las plataformas (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "jobTitlePlaceholder": "Cargo (ej: Gerente de Producto)",
+      "locationPlaceholder": "Ubicación (Opcional)",
+      "searchBtn": "Buscar Empleos"
+    },
+    "atsAnalyzer": {
+      "title": "Analizador de CV con IA",
+      "description": "Compara tu CV vs. la descripción del cargo antes de aplicar.",
+      "launchBtn": "Abrir Analizador"
+    },
+    "tunnel": {
+      "title": "Embudo de Solicitudes",
+      "target": "Meta: 30% de Tasa de Referencias",
+      "lastUpdated": "Actualizado: Hoy",
+      "applications": "Solicitudes",
+      "referralRate": "Tasa de Referencias",
+      "followUpsDue": "Seguimientos Pendientes",
+      "interviews": "Entrevistas"
+    },
+    "tabs": {
+      "applications": "Solicitudes",
+      "applicationsDesc": "Seguimiento manual",
+      "aiApplications": "Solicitudes con IA",
+      "aiApplicationsDesc": "Creadas con el Analizador JD",
+      "checklist": "Lista de Verificación",
+      "checklistDesc": "Control de calidad"
+    }
+  },
+  "resumeChecklist": {
+    "bannerTitle": "El 80% de los CVs son Rechazados por el ATS",
+    "bannerDesc": "Usa esta lista CADA VEZ que apliques para asegurarte de que tu CV pase el filtro automático y llegue a manos humanas.",
+    "stepLabel": "Paso {{number}}",
+    "etapaLabel": "Etapa {{current}} de {{total}}",
+    "completedLabel": "completados",
+    "stepInstructions": "Marca cada punto antes de enviar tu aplicación",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "progress": {
+      "title": "Progreso de Verificación",
+      "completed": "{{checked}}/{{total}} completados",
+      "reset": "Reiniciar",
+      "doneMsg": "¡Listo para aplicar! Tu CV está optimizado."
+    },
+    "priority": {
+      "high": "Imprescindible",
+      "medium": "Importante",
+      "low": "Opcional"
+    },
+    "proTip": {
+      "title": "Consejo Pro — La regla del 80% de referidos",
+      "desc": "Si aplicas sin referido, tu tasa de respuesta es del 1-3%. Con un referido, sube al 80%. Siempre intenta conseguir un contacto dentro de la empresa antes de enviar tu aplicación — es tu ventaja más grande.",
+      "li1": "Busca conexiones de 1er o 2do grado en LinkedIn",
+      "li2": "Contacta a exalumnos de tu universidad",
+      "li3": "Pide presentaciones cálidas a tu red",
+      "li4": "Escribe a empleados en LinkedIn con un mensaje personalizado"
+    },
+    "printSection": {
+      "title": "Lista Rápida para Imprimir",
+      "btn": "Imprimir Lista"
+    },
+    "sections": {
+      "beforeStart": {
+        "title": "Antes de empezar",
+        "subtitle": "Investiga antes de tocar el CV",
+        "item1": "Lee la descripción completa del cargo 3 veces",
+        "item1Desc": "Identifica requisitos, responsabilidades y cultura de la empresa",
+        "item2": "Identifica las 5-10 palabras clave principales del cargo",
+        "item2Desc": "Usalas al redactar; deben aparecer exactamente como las listan",
+        "item3": "Investiga la empresa",
+        "item3Desc": "Conoce su misión, valores recientes y por qué quieres trabajar allí"
+      },
+      "resumeOptimization": {
+        "title": "Optimización del CV",
+        "subtitle": "Adapta tu CV al cargo específico",
+        "item1": "Adapta tus títulos de cargo a su lenguaje",
+        "item1Desc": "Si dicen \"Gerente de Producto\", no uses \"Líder de Producto\"",
+        "item2": "Incluye TODAS las habilidades requeridas del cargo",
+        "item2Desc": "Si tienes la habilidad, DEBE estar en tu CV",
+        "item3": "Usa sus palabras clave exactas (especialmente para el ATS)",
+        "item3Desc": "Copia frases exactas como \"Metodología Ágil\" vs \"Procesos Ágiles\"",
+        "item4": "Cuantifica tus logros",
+        "item4Desc": "Usa métricas: \"Aumenté los ingresos en 40%\" no \"Mejoré los ingresos\"",
+        "item5": "Personaliza tu sección de resumen/perfil",
+        "item5Desc": "Las primeras 3 líneas deben reflejar los requisitos del cargo",
+        "item6": "Elimina experiencia irrelevante",
+        "item6Desc": "Si no te ayuda a conseguir ESTE trabajo, considera eliminarlo"
+      },
+      "atsFormatting": {
+        "title": "Formato compatible con ATS",
+        "subtitle": "Asegúrate de que los robots puedan leer tu CV",
+        "item1": "Usa encabezados de sección estándar",
+        "item1Desc": "\"Experiencia Laboral\" no \"Mi Trayectoria\", \"Educación\" no \"Formación\"",
+        "item2": "Guarda como .docx o .pdf",
+        "item2Desc": "PDF preferido, pero algunos ATS prefieren .docx - verifica la oferta",
+        "item3": "Usa fuentes estándar (Arial, Calibri, Times)",
+        "item3Desc": "Evita fuentes decorativas que el ATS no puede leer",
+        "item4": "Evita tablas, columnas, encabezados/pies de página",
+        "item4Desc": "Los ATS tienen dificultades con formatos complejos",
+        "item5": "Usa viñetas estándar",
+        "item5Desc": "Solo símbolos simples como • o -"
+      },
+      "fileNaming": {
+        "title": "Nombre de archivo y envío",
+        "subtitle": "Verificaciones finales antes de enviar",
+        "item1": "Nombra el archivo correctamente",
+        "item1Desc": "Formato: TuNombre_Cargo_Empresa.pdf (ej: JuanPerez_GerenteProducto_Google.pdf)",
+        "item2": "Guarda en una carpeta dedicada",
+        "item2Desc": "Mantén organizado: Aplicaciones/[Empresa]/[Fecha]/",
+        "item3": "Conserva la versión original",
+        "item3Desc": "Siempre mantén tu CV maestro por separado"
+      }
+    }
   }
 }
