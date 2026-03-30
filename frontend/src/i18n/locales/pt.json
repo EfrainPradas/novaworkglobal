@@ -928,5 +928,103 @@
       "negotiation": "Preparação para Negociação",
       "markPhaseComplete": "Marcar Fase {{n}} como Concluída"
     }
+  },
+  "onlineApplications": {
+    "title": "Candidaturas Online",
+    "subtitle": "Passo 2: Rastreie candidaturas e aproveite indicações",
+    "backToJobSearch": "Voltar à Busca de Emprego",
+    "watchVideo": "Assistir vídeo",
+    "bestPractices": "Melhores práticas de candidatura",
+    "referralsBoost": "Indicações aumentam seus retornos em 400%",
+    "tunnel": {
+      "title": "Túnel de Candidaturas",
+      "target": "Meta: 30% Taxa de Indicações",
+      "lastUpdated": "Última Atualização: Hoje",
+      "applications": "Candidaturas",
+      "referralRate": "Taxa de Indicações",
+      "followUpsDue": "Acompanhamentos Pendentes",
+      "interviews": "Entrevistas"
+    },
+    "tabs": {
+      "applications": "Candidaturas",
+      "applicationsSubtitle": "Rastreamento manual",
+      "aiApplications": "Candidaturas com IA",
+      "aiSubtitle": "Criadas com o Analisador JD",
+      "checklist": "Lista de Verificação",
+      "checklistSubtitle": "Controle de qualidade"
+    },
+    "search": {
+      "title": "Busca Inteligente de Emprego",
+      "subtitle": "Gere um link de pesquisa Google Jobs otimizado para encontrar as últimas vagas em todas as plataformas (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Título do Cargo (ex. Gerente de Produto)",
+      "locationPlaceholder": "Localização (Opcional)",
+      "button": "Buscar Empregos"
+    },
+    "ats": {
+      "title": "Analisador ATS",
+      "subtitle": "Compare seu currículo com a descrição do cargo antes de candidatar-se.",
+      "button": "Iniciar Analisador"
+    }
+  },
+  "checklist": {
+    "header": "80% dos Currículos são Rejeitados pelo ATS",
+    "subtitle": "Use esta lista TODA VEZ que se candidatar para garantir que seu currículo passe pelo filtro automatizado.",
+    "items": "itens",
+    "priority": {
+      "mustDo": "Essencial",
+      "important": "Importante",
+      "niceToHave": "Recomendado"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Antes de Começar",
+        "items": {
+          "readJD": { "title": "Leia a descrição completa do cargo 3 vezes", "desc": "Entenda os requisitos, responsabilidades e cultura da empresa" },
+          "keywords": { "title": "Identifique as 5-10 palavras-chave principais", "desc": "Use o Analisador JD ou extraia manualmente as habilidades-chave" },
+          "research": { "title": "Pesquise a empresa", "desc": "Conheça sua missão, notícias recentes e por que deseja trabalhar lá" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Otimização do Currículo",
+        "items": {
+          "jobTitles": { "title": "Adapte seus títulos de cargo à linguagem deles", "desc": "Se dizem \"Gerente de Produto\", não use \"Líder de Produto\"" },
+          "allSkills": { "title": "Inclua TODAS as habilidades exigidas na vaga", "desc": "Se você tem a habilidade, ela DEVE estar no seu currículo" },
+          "exactKeywords": { "title": "Use as palavras-chave exatas deles (especialmente para ATS)", "desc": "Copie frases exatas como \"metodologia Agile\"" },
+          "quantify": { "title": "Quantifique suas conquistas", "desc": "Use métricas: \"Aumentei a receita em 40%\" não \"Melhorei a receita\"" },
+          "summary": { "title": "Personalize sua seção de resumo/perfil", "desc": "As primeiras 3 linhas devem espelhar os requisitos da vaga" },
+          "removeIrrelevant": { "title": "Remova experiências irrelevantes", "desc": "Se não ajuda a conseguir ESTE emprego, considere remover" }
+        }
+      },
+      "atsFormatting": {
+        "title": "Formatação Compatível com ATS",
+        "items": {
+          "standardHeaders": { "title": "Use cabeçalhos de seção padrão", "desc": "\"Experiência Profissional\" não \"Minha Trajetória\"" },
+          "saveFormat": { "title": "Salve como .docx ou .pdf", "desc": "PDF preferido, mas alguns ATS preferem .docx" },
+          "standardFonts": { "title": "Use fontes padrão (Arial, Calibri, Times)", "desc": "Evite fontes decorativas que o ATS não consegue ler" },
+          "avoidTables": { "title": "Evite tabelas, colunas, cabeçalhos/rodapés", "desc": "O ATS tem dificuldades com formatações complexas" },
+          "bulletPoints": { "title": "Use marcadores padrão", "desc": "Apenas símbolos simples • ou -" }
+        }
+      },
+      "fileNaming": {
+        "title": "Nome do Arquivo e Envio",
+        "items": {
+          "nameFile": { "title": "Nomeie o arquivo corretamente", "desc": "Formato: SeuNome_Cargo_Empresa.pdf" },
+          "saveFolder": { "title": "Salve em pasta dedicada", "desc": "Mantenha organizado: Candidaturas/[Empresa]/[Data]/" },
+          "keepOriginal": { "title": "Mantenha a versão original", "desc": "Sempre mantenha seu currículo mestre separadamente" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Dica Pro: A Regra dos 80% de Indicações",
+      "body": "Mesmo com um currículo perfeitamente adaptado, sua taxa de retorno sem indicação é de apenas 1-2%. COM uma indicação, sobe para 80%.",
+      "tip1": "Procure no LinkedIn conexões de 1º ou 2º grau",
+      "tip2": "Contate ex-colegas da sua universidade",
+      "tip3": "Peça à sua rede apresentações diretas",
+      "tip4": "Escreva para funcionários no LinkedIn com uma mensagem personalizada"
+    },
+    "printChecklist": {
+      "title": "Lista Rápida para Imprimir",
+      "button": "Imprimir Lista"
+    }
   }
 }

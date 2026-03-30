@@ -1004,5 +1004,103 @@
       "negotiation": "Negotiation Prep",
       "markPhaseComplete": "Mark Phase {{n}} as Complete"
     }
+  },
+  "onlineApplications": {
+    "title": "Online Job Applications",
+    "subtitle": "Step 2: Track applications & leverage referrals",
+    "backToJobSearch": "Back to Job Search",
+    "watchVideo": "Watch video",
+    "bestPractices": "Application best practices",
+    "referralsBoost": "Referrals increase your callbacks by 400%",
+    "tunnel": {
+      "title": "Application Tunnel",
+      "target": "Target: 30% Referral Rate",
+      "lastUpdated": "Last Updated: Today",
+      "applications": "Applications",
+      "referralRate": "Referral Rate",
+      "followUpsDue": "Follow-ups Due",
+      "interviews": "Interviews"
+    },
+    "tabs": {
+      "applications": "Applications",
+      "applicationsSubtitle": "Manually tracked",
+      "aiApplications": "AI Applications",
+      "aiSubtitle": "Created with JD Analyzer",
+      "checklist": "Checklist",
+      "checklistSubtitle": "Quality assurance"
+    },
+    "search": {
+      "title": "Smart Job Search",
+      "subtitle": "Generate an optimized Google Jobs search link to find the latest postings across all platforms (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Job Title (e.g. Product Manager)",
+      "locationPlaceholder": "Location (Optional)",
+      "button": "Search Jobs"
+    },
+    "ats": {
+      "title": "ATS Analyzer",
+      "subtitle": "Compare resume vs. job description before applying.",
+      "button": "Launch Analyzer"
+    }
+  },
+  "checklist": {
+    "header": "80% of Resumes Are Rejected by ATS",
+    "subtitle": "Use this checklist EVERY time you apply to ensure your resume gets through automated screening and into human hands.",
+    "items": "items",
+    "priority": {
+      "mustDo": "Must-Do",
+      "important": "Important",
+      "niceToHave": "Nice-to-Have"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Before You Start",
+        "items": {
+          "readJD": { "title": "Read the full job description 3 times", "desc": "Understand requirements, responsibilities, and company culture" },
+          "keywords": { "title": "Identify top 5-10 keywords from the JD", "desc": "Use JD Analyzer tool or manually extract key skills and requirements" },
+          "research": { "title": "Research the company", "desc": "Know their mission, recent news, and why you want to work there" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Resume Optimization",
+        "items": {
+          "jobTitles": { "title": "Match your job titles to their language", "desc": "If they say \"Product Manager,\" don't use \"Product Lead\"" },
+          "allSkills": { "title": "Include ALL required skills mentioned in the JD", "desc": "If you have the skill, it MUST be on your resume" },
+          "exactKeywords": { "title": "Use their exact keywords (especially for ATS)", "desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\"" },
+          "quantify": { "title": "Quantify your accomplishments", "desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\"" },
+          "summary": { "title": "Tailor your summary/profile section", "desc": "First 3 lines should mirror the job requirements" },
+          "removeIrrelevant": { "title": "Remove irrelevant experience", "desc": "If it doesn't help you get THIS job, consider removing it" }
+        }
+      },
+      "atsFormatting": {
+        "title": "ATS-Friendly Formatting",
+        "items": {
+          "standardHeaders": { "title": "Use standard section headers", "desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\"" },
+          "saveFormat": { "title": "Save as .docx or .pdf", "desc": "PDF preferred, but some ATS prefer .docx - check job posting" },
+          "standardFonts": { "title": "Use standard fonts (Arial, Calibri, Times)", "desc": "Avoid fancy fonts that ATS can't read" },
+          "avoidTables": { "title": "Avoid tables, columns, headers/footers", "desc": "ATS struggles with complex formatting" },
+          "bulletPoints": { "title": "Use standard bullet points", "desc": "Simple • or - symbols only" }
+        }
+      },
+      "fileNaming": {
+        "title": "File Naming & Submission",
+        "items": {
+          "nameFile": { "title": "Name file correctly", "desc": "Format: YourName_JobTitle_CompanyName.pdf" },
+          "saveFolder": { "title": "Save in dedicated folder", "desc": "Keep organized: Applications/[Company]/[Date]/" },
+          "keepOriginal": { "title": "Keep original version", "desc": "Always maintain your master resume separately" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Pro Tip: The 80% Referral Rule",
+      "body": "Even with a perfectly tailored resume, your callback rate without a referral is only 1-2%. WITH a referral, it jumps to 80%. Always try to find a referral before applying.",
+      "tip1": "Check LinkedIn for 1st or 2nd degree connections",
+      "tip2": "Reach out to alumni from your school",
+      "tip3": "Ask your network for warm introductions",
+      "tip4": "Message employees on LinkedIn with a personalized note"
+    },
+    "printChecklist": {
+      "title": "Print-Friendly Quick Checklist",
+      "button": "Print Checklist"
+    }
   }
 }
