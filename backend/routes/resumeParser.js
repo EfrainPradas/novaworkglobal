@@ -84,6 +84,8 @@ SECTIONS TO EXTRACT:
 - scope_description: Brief 1-2 sentence description of what the role entailed
 - accomplishments: Array of ALL bullet points / achievements. Extract EVERY SINGLE bullet point exactly as written. Do NOT summarize, shorten, combine, or skip any. If there are 20 bullets, return all 20. If there are 50, return all 50.
 
+IMPORTANT - "Other positions" sections: If the resume contains a paragraph like "Other positions: Role A at Company X; Role B at Company Y; Role C at Company Z", treat EACH semicolon-separated entry as its own work experience entry. Parse the job_title and company_name from each entry. If no dates are provided, use null for start_date and end_date. Include all of them in the experiences array — do NOT skip them.
+
 5. EDUCATION:
 - Array of: degree, field_of_study, institution, graduation_year
 
@@ -96,6 +98,8 @@ CRITICAL RULES:
 3. Parse dates to YYYY-MM format.
 4. DO NOT truncate, summarize, or limit the number of accomplishments. Capture them ALL verbatim.
 5. Preserve the original language of the resume (if it's in Spanish, keep it in Spanish).
+6. NEVER skip "Other positions" or condensed role listings. Always expand each role into its own experience entry.
+7. If a role has no dates, still include it with null dates — do not omit it.
 
 Resume Text:
 ${resumeText}

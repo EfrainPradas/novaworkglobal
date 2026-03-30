@@ -61,11 +61,6 @@ export default function WorkExperienceLearnMore() {
             <p className="text-xl md:text-2xl leading-relaxed text-[#5a6b86] dark:text-slate-300 mb-10 max-w-3xl mx-auto">
               Moving from task lists to impact statements. Stop describing what you did — start proving what you delivered.
             </p>
-            <div className="flex justify-center gap-4">
-              <a href="#framework" className="px-8 py-4 rounded-2xl bg-[#0b2450] text-white font-bold shadow-lg hover:bg-[#143a72] transition-all">
-                See the Framework
-              </a>
-            </div>
           </div>
         </header>
 

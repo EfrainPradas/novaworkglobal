@@ -115,7 +115,7 @@ export default function JobSearchHub() {
                             Job Search & Application Suite
                         </h1>
                         <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-base">
-                            Your command center for landing the job. Plan, track, analyze, and prepare.
+                            Your dashboard for landing the job. Plan, track, analyze, and prepare.
                         </p>
                         <div
                             onClick={() => navigate('/dashboard/job-search/learn-more')}
@@ -133,11 +133,6 @@ export default function JobSearchHub() {
                         >
                             <Play fill="currentColor" className="w-4 h-4" /> Watch video
                         </button>
-                        <LearnMoreLink
-                            label="Understand the Strategy"
-                            description="Target companies get 3x more interview callbacks"
-                            onClick={() => navigate('/dashboard/job-search/learn-more')}
-                        />
                     </div>
                 </div>
 
@@ -192,7 +187,7 @@ export default function JobSearchHub() {
                 onClose={() => setShowGuide(false)}
                 steps={[
                     {
-                        title: 'Welcome to Job Search Command Center',
+                        title: 'Welcome to Job Search Dashboard',
                         content: 'This is your central hub for managing your entire job search process. We have broken it down into 4 strategic pillars.',
                         position: 'center'
                     },

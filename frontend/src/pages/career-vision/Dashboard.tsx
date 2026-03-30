@@ -98,8 +98,8 @@ export default function CareerVisionDashboard() {
   const sections = [
     {
       id: 'skills-values',
-      title: 'Skills & Interests',
-      description: 'List what you know and what you would do again',
+      title: t('careerVision.journey.skillsInterests', 'Skills & Interests'),
+      description: t('careerVision.journey.skillsSubtitle', 'List what you know and what you would do again'),
       icon: '🎯',
       completed: sectionsStatus.skillsValues,
       route: '/dashboard/career-vision/skills-values',
@@ -107,8 +107,8 @@ export default function CareerVisionDashboard() {
     },
     {
       id: 'job-history',
-      title: 'Job History Analysis',
-      description: 'Reflect on past roles to identify patterns',
+      title: t('careerVision.journey.jobHistoryAnalysis', 'Job History Analysis'),
+      description: t('careerVision.journey.jobHistorySubtitle', 'Reflect on past roles to identify patterns'),
       icon: '📋',
       completed: sectionsStatus.jobHistory,
       route: '/dashboard/career-vision/job-history',
@@ -116,8 +116,8 @@ export default function CareerVisionDashboard() {
     },
     {
       id: 'preferences',
-      title: 'Ideal Work Preferences',
-      description: 'Define your must-haves and priorities',
+      title: t('careerVision.journey.idealWorkPreferences', 'Ideal Work Preferences'),
+      description: t('careerVision.journey.idealWorkSubtitle', 'Define your must-haves and priorities'),
       icon: '⚙️',
       completed: sectionsStatus.preferences,
       route: '/dashboard/career-vision/preferences',
@@ -143,10 +143,10 @@ export default function CareerVisionDashboard() {
         <div className="flex items-start justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-              {t('careerVision.dashboard.title', 'Your Career Vision Journey')}
+              {t('careerVision.journey.title', 'Your Career Vision Journey')}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              {t('careerVision.dashboard.subtitle', 'Complete these sections to discover your ideal career path')}
+              {t('careerVision.journey.subtitle', 'Complete these sections to discover your ideal career path')}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -154,11 +154,11 @@ export default function CareerVisionDashboard() {
               onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Mapping_the_Professional_DNA__The_Skills_&_Interests_Assessment.mp4`)}
               className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
-              <Play className="w-4 h-4" /> Watch video
+              <Play className="w-4 h-4" /> {t('careerVision.journey.watchVideo', 'Watch video')}
             </button>
             <LearnMoreLink
-              label="What is Career Vision?"
-              description="Clarity gets you hired 2x faster"
+              label={t('careerVision.journey.whatIsCareerVision', 'What is Career Vision?')}
+              description={t('careerVision.journey.clarityHired', 'Clarity gets you hired 2x faster')}
               onClick={() => navigate('/dashboard/career-vision/learn-more')}
             />
           </div>
@@ -168,7 +168,7 @@ export default function CareerVisionDashboard() {
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow p-6 mb-8 border border-gray-200 dark:border-gray-700 transition-colors">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
-              {t('careerVision.dashboard.progress', 'Progress')}
+              {t('careerVision.journey.progress', 'Progress')}
             </h2>
             <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">{progressPercent}%</span>
           </div>
@@ -179,7 +179,7 @@ export default function CareerVisionDashboard() {
             ></div>
           </div>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-            {completedCount} of 3 sections completed
+            {t('careerVision.journey.sectionsCompleted', '{{completed}} of {{total}} sections completed', { completed: completedCount, total: 3 })}
           </p>
         </div>
 
@@ -199,11 +199,11 @@ export default function CareerVisionDashboard() {
               <div className="absolute top-4 right-4">
                 {section.completed ? (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-full text-xs font-bold border border-green-300 dark:border-green-800">
-                    <span className="text-green-500">✓</span> Completed
+                    {t('careerVision.journey.completed', '✓ Completed')}
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-1 px-3 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 rounded-full text-xs font-bold border border-orange-300 dark:border-orange-800">
-                    Not started
+                    {t('careerVision.journey.notStarted', 'Not started')}
                   </span>
                 )}
               </div>
@@ -221,7 +221,7 @@ export default function CareerVisionDashboard() {
                   ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-green-900/30'
                   : 'bg-primary-600 text-white hover:bg-primary-700'
                   }`}>
-                  {section.completed ? 'Review →' : 'Start →'}
+                  {section.completed ? t('careerVision.journey.review', 'Review →') : t('careerVision.journey.start', 'Start →')}
                 </button>
               </div>
 
@@ -231,11 +231,11 @@ export default function CareerVisionDashboard() {
                   onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(section.videoSrc) }}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                 >
-                  <Play className="w-3 h-3" /> Watch video
+                  <Play className="w-3 h-3" /> {t('careerVision.journey.watchVideo', 'Watch video')}
                 </button>
                 <LearnMoreLink
-                  label="Explore section"
-                  description="Deepen your self-knowledge and strategy"
+                  label={t('careerVision.journey.exploreSection', 'Explore section')}
+                  description={t('careerVision.journey.deepenKnowledge', 'Deepen your self-knowledge and strategy')}
                   onClick={(e: any) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
                 />
               </div>
@@ -248,19 +248,19 @@ export default function CareerVisionDashboard() {
           <div className="bg-gradient-to-r from-green-50 to-blue-50 dark:from-green-900/10 dark:to-blue-900/10 border border-green-300 dark:border-green-800 rounded-lg p-6 text-center">
             <div className="text-4xl mb-3">🎉</div>
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-              Career Vision Complete!
+              {t('careerVision.journey.completeTitle', 'Career Vision Complete!')}
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
-              You've completed all sections. View your comprehensive career profile now!
+              {t('careerVision.journey.completeSubtitle', "You've completed all sections. View your comprehensive career profile now!")}
             </p>
             <div className="flex gap-3 justify-center">
               <button
                 onClick={() => navigate('/dashboard/career-vision/summary')}
                 className="bg-primary-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-primary-700 transition-colors"
               >
-                View Your Career Vision →
+                {t('careerVision.journey.viewCareerVision', 'View Your Career Vision →')}
               </button>
-              <BackButton to="/dashboard" label="Back to Dashboard" />
+              <BackButton to="/dashboard" label={t('careerVision.journey.backToDashboard', 'Back to Dashboard')} />
             </div>
           </div>
         ) : (

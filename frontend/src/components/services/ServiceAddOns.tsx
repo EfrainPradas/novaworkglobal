@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Check, Star, ArrowRight } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import BookingModal from '../booking/BookingModal'
 
 interface AddOnService {
@@ -53,6 +54,7 @@ const ADD_ONS: AddOnService[] = [
 ]
 
 export default function ServiceAddOns() {
+    const { t } = useTranslation()
     const [selectedService, setSelectedService] = useState<AddOnService | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -65,10 +67,10 @@ export default function ServiceAddOns() {
         <section className="py-12 bg-gradient-to-br from-indigo-50 to-white rounded-2xl border border-indigo-100 p-8 shadow-sm my-16">
             <div className="text-center max-w-3xl mx-auto mb-12">
                 <span className="bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                    Accelerate Your Results
+                    {t('resumeBuilder.menu.accelerateResults', 'ACCELERATE YOUR RESULTS')}
                 </span>
                 <h2 className="text-3xl font-bold text-gray-900 mt-4 mb-4">
-                    Need Personalized Guidance?
+                    {t('resumeBuilder.menu.needGuidance', 'Need Personalized Guidance?')}
                 </h2>
                 <p className="text-lg text-gray-600">
                     While our AI tools are powerful, sometimes you need a human expert.

@@ -173,7 +173,7 @@ function App() {
             <Route path="resume/work-experience/learn-more" element={<WorkExperienceLearnMore />} />
             <Route path="resume/profile/learn-more" element={<ProfileLearnMore />} />
             <Route path="resume/final-preview" element={<ResumeFinalPreview />} />
-            <Route path="resume/tracking" element={<ResumeTracking />} />
+            <Route path="resume/tracking" element={<Navigate to="/dashboard/job-search/online-applications?tab=resumes" replace />} />
             <Route path="resume/cover-letter" element={<CoverLetterGenerator />} />
             <Route path="resume/contact-info" element={<ContactInfoPage />} />
             <Route path="resume/work-history" element={<WorkHistoryIntake />} />
@@ -249,7 +249,7 @@ function App() {
         <Route path="/resume-builder/profile" element={<ProfileBuilder />} />
         <Route path="/resume-builder/work-experience" element={<WorkExperienceBuilder />} />
 
-        <Route path="/resume-builder/tracking" element={<ResumeTracking />} />
+        <Route path="/resume-builder/tracking" element={<Navigate to="/dashboard/job-search/online-applications?tab=resumes" replace />} />
         <Route path="/fast-track/plan-your-search" element={<PlanYourSearch />} />
         <Route path="/fast-track/apply-smart-online" element={<OnlineJobApplications />} />
         <Route path="/fast-track/ai-recommendations" element={<AIRecommendations />} />
