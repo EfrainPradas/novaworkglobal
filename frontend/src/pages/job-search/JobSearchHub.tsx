@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import VisualGuide from '../../components/common/VisualGuide'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
@@ -9,6 +10,7 @@ import AIJobSearch from '../../components/job-search/AIJobSearch'
 
 export default function JobSearchHub() {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [showGuide, setShowGuide] = useState(false)
     const [showVideoModal, setShowVideoModal] = useState(false)
 
@@ -26,45 +28,44 @@ export default function JobSearchHub() {
     const tools = [
         {
             id: 'ai-job-search',
-            title: 'AI Job Search',
-            description: 'Find personalized job matches based on your skills, career vision, and preferences using Google Jobs.',
+            title: t('jobSearch.hub.aiMatchingTitle', 'AI Job Search'),
+            description: t('jobSearch.hub.aiMatchingDesc', 'Find personalized job matches based on your skills, career vision, and preferences using Google Jobs.'),
             icon: Brain,
             route: '/dashboard/job-search/ai-recommendations',
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200',
-            badge: 'AI Powered',
+            badge: t('jobSearch.hub.aiPowered', 'AI Powered'),
             className: 'md:col-span-full'
         },
-
         {
             id: 'plan-search',
-            title: 'Step 1: Plan Your Search',
-            description: 'Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.',
+            title: t('jobSearch.hub.step1Title', 'Step 1: Plan Your Search'),
+            description: t('jobSearch.hub.step1Desc', 'Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.'),
             icon: Compass,
             route: '/dashboard/job-search/plan-your-search',
             color: 'text-blue-600',
             bgColor: 'bg-blue-50',
             borderColor: 'border-blue-200',
-            badge: 'Start Here',
+            badge: t('jobSearch.hub.startHere', 'Start Here'),
             className: ''
         },
         {
             id: 'application-tracker',
-            title: 'Step 2: Online Job Applications',
-            description: 'Track applications, leverage referrals, and analyze JDs in one place.',
+            title: t('jobSearch.hub.step2Title', 'Step 2: Online Job Applications'),
+            description: t('jobSearch.hub.step2Desc', 'Track applications, leverage referrals, and analyze JDs in one place.'),
             icon: LayoutDashboard,
             route: '/dashboard/job-search/online-applications',
             color: 'text-purple-600',
             bgColor: 'bg-purple-50',
             borderColor: 'border-purple-200',
-            badge: 'Daily Tool',
+            badge: t('jobSearch.hub.dailyTool', 'Daily Tool'),
             className: ''
         },
         {
             id: 'headhunters',
-            title: 'Step 3: Headhunters & Firms',
-            description: 'Target recruiters with smart filters and access top firm rankings.',
+            title: t('jobSearch.hub.step3Title', 'Step 3: Headhunters & Firms'),
+            description: t('jobSearch.hub.step3Desc', 'Target recruiters with smart filters and access top firm rankings.'),
             icon: Users,
             route: '/dashboard/job-search/headhunters',
             color: 'text-orange-600',
@@ -75,8 +76,8 @@ export default function JobSearchHub() {
         },
         {
             id: 'networking',
-            title: 'Step 4: Networking Strategy',
-            description: 'Access the hidden job market with the 60-Day Plan and 90-Sec Story.',
+            title: t('jobSearch.hub.step4Title', 'Step 4: Networking Strategy'),
+            description: t('jobSearch.hub.step4Desc', 'Access the hidden job market with the 60-Day Plan and 90-Sec Story.'),
             icon: Network,
             route: '/dashboard/job-search/networking',
             color: 'text-green-600',
@@ -87,8 +88,8 @@ export default function JobSearchHub() {
         },
         {
             id: 'online-presence',
-            title: 'Step 5: Your online presence',
-            description: 'Optimize your LinkedIn profile and personal brand to attract recruiters.',
+            title: t('jobSearch.hub.step5Title', 'Step 5: Your online presence'),
+            description: t('jobSearch.hub.step5Desc', 'Optimize your LinkedIn profile and personal brand to attract recruiters.'),
             icon: Globe,
             route: '/dashboard/job-search/social-positioning',
             color: 'text-cyan-600',
@@ -112,17 +113,17 @@ export default function JobSearchHub() {
                             <span className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-lg">
                                 <Target className="w-8 h-8" />
                             </span>
-                            Job Search & Application Suite
+                            {t('jobSearch.hub.title', 'Job Search & Application Suite')}
                         </h1>
                         <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-base">
-                            Your dashboard for landing the job. Plan, track, analyze, and prepare.
+                            {t('jobSearch.hub.subtitle', 'Your dashboard for landing the job. Plan, track, analyze, and prepare.')}
                         </p>
                         <div
                             onClick={() => navigate('/dashboard/job-search/learn-more')}
                             className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
                         >
-                            <span className="font-bold">Understand the Strategic Framework:</span>
-                            <span>Success, getting called 75% faster than most</span>
+                            <span className="font-bold">{t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}</span>
+                            <span>{t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}</span>
                             <ArrowRight className="w-4 h-4 ml-1" />
                         </div>
                     </div>
@@ -131,7 +132,7 @@ export default function JobSearchHub() {
                             onClick={() => setShowVideoModal(true)}
                             className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2"
                         >
-                            <Play fill="currentColor" className="w-4 h-4" /> Watch video
+                            <Play fill="currentColor" className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
                         </button>
                     </div>
                 </div>
@@ -172,7 +173,7 @@ export default function JobSearchHub() {
                                 </p>
 
                                 <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                                    Open Tool <ArrowRight className="w-4 h-4 ml-2" />
+                                    {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
                                 </div>
                             </div>
                         )

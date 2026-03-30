@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { Brain, Target, TrendingUp, Clock, DollarSign, MapPin, Building, Star, ArrowRight, RefreshCw, AlertCircle, CheckCircle, ExternalLink, Settings, Search } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
@@ -41,6 +42,7 @@ interface RecommendationsResponse {
 
 export default function AIJobSearch() {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [user, setUser] = useState<any>(null)
     const [userProfile, setUserProfile] = useState<any>({
         skills: ['General Skills'],
@@ -324,7 +326,7 @@ export default function AIJobSearch() {
                         </div>
                         <div>
                             <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
-                                <h2 className="text-base font-bold text-gray-900 dark:text-white">AI-Powered Job Matching</h2>
+                                <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('jobSearch.hub.aiMatchingTitle', 'AI-Powered Job Matching')}</h2>
                                 {userProfile && (
                                     <div className="flex items-center gap-2 flex-wrap">
                                         {/* Role field */}
@@ -389,7 +391,7 @@ export default function AIJobSearch() {
                                 )}
                             </div>
                             <p className="text-xs text-gray-500 dark:text-gray-400 hidden md:block mt-0.5">
-                                Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.
+                                {t('jobSearch.hub.aiMatchingDesc', 'Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.')}
                             </p>
                         </div>
                     </div>
@@ -407,7 +409,7 @@ export default function AIJobSearch() {
                         ) : (
                             <>
                                 <Target className="w-4 h-4" />
-                                Find My Jobs
+                                {t('jobSearch.hub.findMyJob', 'Find My Job')}
                             </>
                         )}
                     </button>
