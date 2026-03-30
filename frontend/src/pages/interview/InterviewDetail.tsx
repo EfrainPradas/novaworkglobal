@@ -103,38 +103,38 @@ export default function InterviewDetail() {
   const phases = [
     {
       number: 1,
-      title: 'Before the Interview (Prepare)',
+      title: t('interview.detail.phase1Title', 'Before the Interview (Prepare)'),
       icon: '📘',
       color: 'blue',
       completed: interview.phase1_completed,
       sections: [
-        { id: 'research', title: 'Research Thoroughly', icon: '🔍', route: 'research' },
-        { id: 'content', title: 'Content Preparation', icon: '📝', route: 'jd-comparison' },
-        { id: 'practice', title: 'Practice Techniques', icon: '🎯', route: 'practice' },
-        { id: 'type', title: 'Identify Interview Type', icon: '🎭', route: 'interview-type' }
+        { id: 'research', title: t('interview.detail.research', 'Research Thoroughly'), icon: '🔍', route: 'research' },
+        { id: 'content', title: t('interview.detail.contentPrep', 'Content Preparation'), icon: '📝', route: 'jd-comparison' },
+        { id: 'practice', title: t('interview.detail.practice', 'Practice Techniques'), icon: '🎯', route: 'practice' },
+        { id: 'type', title: t('interview.detail.interviewType', 'Identify Interview Type'), icon: '🎭', route: 'interview-type' }
       ]
     },
     {
       number: 2,
-      title: 'During the Interview (Execution)',
+      title: t('interview.detail.phase2Title', 'During the Interview (Execution)'),
       icon: '💼',
       color: 'green',
       completed: interview.phase2_completed,
       sections: [
-        { id: 'notes', title: 'Interview Session Notes', icon: '📋', route: 'session-notes' },
-        { id: 'questions', title: 'Questions to Ask', icon: '❓', route: 'my-questions' }
+        { id: 'notes', title: t('interview.detail.sessionNotes', 'Interview Session Notes'), icon: '📋', route: 'session-notes' },
+        { id: 'questions', title: t('interview.detail.questionsToAsk', 'Questions to Ask'), icon: '❓', route: 'my-questions' }
       ]
     },
     {
       number: 3,
-      title: 'After the Interview (Follow-up)',
+      title: t('interview.detail.phase3Title', 'After the Interview (Follow-up)'),
       icon: '✉️',
       color: 'purple',
       completed: interview.phase3_completed,
       sections: [
-        { id: 'thank-you', title: 'Thank You Notes', icon: '💌', route: 'thank-you' },
-        { id: 'followup', title: 'Follow-up Timeline', icon: '📅', route: 'followups' },
-        { id: 'negotiation', title: 'Negotiation Prep', icon: '💰', route: 'negotiation' }
+        { id: 'thank-you', title: t('interview.detail.thankYou', 'Thank You Notes'), icon: '💌', route: 'thank-you' },
+        { id: 'followup', title: t('interview.detail.followupTimeline', 'Follow-up Timeline'), icon: '📅', route: 'followups' },
+        { id: 'negotiation', title: t('interview.detail.negotiation', 'Negotiation Prep'), icon: '💰', route: 'negotiation' }
       ]
     }
   ]
@@ -291,7 +291,7 @@ export default function InterviewDetail() {
                       onClick={() => markPhaseComplete(phase.number)}
                       className="mt-4 w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
                     >
-                      Mark Phase {phase.number} as Complete ✅
+                      {t('interview.detail.markPhaseComplete', 'Mark Phase {{n}} as Complete', { n: phase.number })} ✅
                     </button>
                   )}
                 </div>

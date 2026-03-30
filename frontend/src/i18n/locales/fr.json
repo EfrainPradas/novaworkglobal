@@ -886,5 +886,47 @@
       "whatIsCareerVision": "Qu'est-ce que la Vision de Carrière?",
       "clarityHired": "La clarté vous fait embaucher 2x plus vite"
     }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Recherche d'Emploi et Candidatures",
+      "subtitle": "Votre tableau de bord pour décrocher un emploi. Planifiez, suivez, analysez et préparez-vous.",
+      "strategicFramework": "Comprendre le Cadre Stratégique:",
+      "frameworkStat": "Succès, être contacté 75% plus vite que la plupart",
+      "aiMatchingTitle": "Matching d'Emplois par IA",
+      "aiMatchingDesc": "Recherche automatique sur Google Jobs basée sur vos compétences et préférences de profil.",
+      "aiPowered": "Propulsé par IA",
+      "findMyJob": "Trouver mon Emploi",
+      "step1Title": "Étape 1: Planifiez Votre Recherche",
+      "step1Desc": "Définissez votre marché cible (Entreprises, Industries, Rôles) et votre stratégie. Commencez ici pour vous concentrer.",
+      "step2Title": "Étape 2: Candidatures en Ligne",
+      "step2Desc": "Suivez les candidatures, exploitez les recommandations et analysez les offres en un seul endroit.",
+      "step3Title": "Étape 3: Chasseurs de Têtes et Cabinets",
+      "step3Desc": "Ciblez les recruteurs avec des filtres intelligents et accédez aux classements des meilleures entreprises.",
+      "step4Title": "Étape 4: Stratégie de Réseautage",
+      "step4Desc": "Accédez au marché caché de l'emploi avec le Plan 60 Jours et l'Histoire 90 Secondes.",
+      "step5Title": "Étape 5: Votre Présence en Ligne",
+      "step5Desc": "Optimisez votre profil LinkedIn et votre marque personnelle pour attirer les recruteurs.",
+      "openTool": "Ouvrir l'Outil",
+      "startHere": "Commencez Ici",
+      "dailyTool": "Outil Quotidien"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Avant l'Entretien (Préparation)",
+      "phase2Title": "Pendant l'Entretien (Exécution)",
+      "phase3Title": "Après l'Entretien (Suivi)",
+      "research": "Rechercher Thoroughly",
+      "contentPrep": "Préparation du Contenu",
+      "practice": "Techniques de Pratique",
+      "interviewType": "Identifier le Type d'Entretien",
+      "sessionNotes": "Notes de Session d'Entretien",
+      "questionsToAsk": "Questions à Poser",
+      "thankYou": "Notes de Remerciement",
+      "followupTimeline": "Calendrier de Suivi",
+      "negotiation": "Préparation à la Négociation",
+      "markPhaseComplete": "Marquer la Phase {{n}} comme Terminée"
+    }
   }
 }

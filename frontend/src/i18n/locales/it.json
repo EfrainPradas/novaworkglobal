@@ -886,5 +886,47 @@
       "whatIsCareerVision": "Cos'è la Visione della Carriera?",
       "clarityHired": "La chiarezza ti fa assumere 2x più velocemente"
     }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Ricerca di Lavoro e Candidature",
+      "subtitle": "La tua dashboard per trovare lavoro. Pianifica, traccia, analizza e preparati.",
+      "strategicFramework": "Comprendi il Framework Strategico:",
+      "frameworkStat": "Successo, ricevere chiamate 75% più velocemente della maggior parte",
+      "aiMatchingTitle": "Matching di Lavoro con IA",
+      "aiMatchingDesc": "Ricerca automatica su Google Jobs basata sulle tue competenze e preferenze del profilo.",
+      "aiPowered": "Powered by IA",
+      "findMyJob": "Trova il mio Lavoro",
+      "step1Title": "Passo 1: Pianifica la Tua Ricerca",
+      "step1Desc": "Definisci il tuo mercato target (Aziende, Industrie, Ruoli) e la strategia. Inizia qui per concentrarti.",
+      "step2Title": "Passo 2: Candidature Online",
+      "step2Desc": "Traccia le candidature, sfrutta i referral e analizza le JD in un unico posto.",
+      "step3Title": "Passo 3: Headhunter e Società",
+      "step3Desc": "Punta ai recruiter con filtri intelligenti e accedi alle classifiche delle migliori aziende.",
+      "step4Title": "Passo 4: Strategia di Networking",
+      "step4Desc": "Accedi al mercato del lavoro nascosto con il Piano 60 Giorni e la Storia 90 Secondi.",
+      "step5Title": "Passo 5: La Tua Presenza Online",
+      "step5Desc": "Ottimizza il tuo profilo LinkedIn e il tuo brand personale per attirare i recruiter.",
+      "openTool": "Apri lo Strumento",
+      "startHere": "Inizia Qui",
+      "dailyTool": "Strumento Quotidiano"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Prima del Colloquio (Preparazione)",
+      "phase2Title": "Durante il Colloquio (Esecuzione)",
+      "phase3Title": "Dopo il Colloquio (Follow-up)",
+      "research": "Ricerca Approfondita",
+      "contentPrep": "Preparazione del Contenuto",
+      "practice": "Tecniche di Pratica",
+      "interviewType": "Identificare il Tipo di Colloquio",
+      "sessionNotes": "Note della Sessione di Colloquio",
+      "questionsToAsk": "Domande da Fare",
+      "thankYou": "Note di Ringraziamento",
+      "followupTimeline": "Cronologia di Follow-up",
+      "negotiation": "Preparazione alla Negoziazione",
+      "markPhaseComplete": "Segna Fase {{n}} come Completata"
+    }
   }
 }

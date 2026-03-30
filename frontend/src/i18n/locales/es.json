@@ -967,5 +967,47 @@
       "whatIsCareerVision": "¿Qué es Visión de Carrera?",
       "clarityHired": "La claridad te consigue trabajo 2x más rápido"
     }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Búsqueda de Empleo y Aplicaciones",
+      "subtitle": "Tu panel para conseguir trabajo. Planifica, rastrea, analiza y prepárate.",
+      "strategicFramework": "Entiende el Marco Estratégico:",
+      "frameworkStat": "Éxito, siendo llamado 75% más rápido que la mayoría",
+      "aiMatchingTitle": "Matching de Empleos con IA",
+      "aiMatchingDesc": "Búsqueda automática en Google Jobs basada en tus habilidades y preferencias de perfil.",
+      "aiPowered": "Con IA",
+      "findMyJob": "Encontrar mi Empleo",
+      "step1Title": "Paso 1: Planifica tu Búsqueda",
+      "step1Desc": "Define tu mercado objetivo (Empresas, Industrias, Roles) y estrategia. Empieza aquí para enfocarte.",
+      "step2Title": "Paso 2: Solicitudes de Empleo Online",
+      "step2Desc": "Rastrea solicitudes, aprovecha referencias y analiza JDs en un solo lugar.",
+      "step3Title": "Paso 3: Headhunters y Firmas",
+      "step3Desc": "Apunta a reclutadores con filtros inteligentes y accede a rankings de las mejores firmas.",
+      "step4Title": "Paso 4: Estrategia de Networking",
+      "step4Desc": "Accede al mercado laboral oculto con el Plan de 60 Días y la Historia de 90 Segundos.",
+      "step5Title": "Paso 5: Tu Presencia Online",
+      "step5Desc": "Optimiza tu perfil de LinkedIn y marca personal para atraer reclutadores.",
+      "openTool": "Abrir Herramienta",
+      "startHere": "Empieza Aquí",
+      "dailyTool": "Herramienta Diaria"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Antes de la Entrevista (Preparación)",
+      "phase2Title": "Durante la Entrevista (Ejecución)",
+      "phase3Title": "Después de la Entrevista (Seguimiento)",
+      "research": "Investigar a Fondo",
+      "contentPrep": "Preparación de Contenido",
+      "practice": "Técnicas de Práctica",
+      "interviewType": "Identificar Tipo de Entrevista",
+      "sessionNotes": "Notas de la Sesión de Entrevista",
+      "questionsToAsk": "Preguntas para Hacer",
+      "thankYou": "Notas de Agradecimiento",
+      "followupTimeline": "Cronograma de Seguimiento",
+      "negotiation": "Preparación para Negociación",
+      "markPhaseComplete": "Marcar Fase {{n}} como Completa"
+    }
   }
 }

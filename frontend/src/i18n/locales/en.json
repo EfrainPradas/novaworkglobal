@@ -962,5 +962,47 @@
       "whatIsCareerVision": "What is Career Vision?",
       "clarityHired": "Clarity gets you hired 2x faster"
     }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Job Search & Application Suite",
+      "subtitle": "Your dashboard for landing the job. Plan, track, analyze, and prepare.",
+      "strategicFramework": "Understand the Strategic Framework:",
+      "frameworkStat": "Success, getting called 75% faster than most",
+      "aiMatchingTitle": "AI-Powered Job Matching",
+      "aiMatchingDesc": "Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.",
+      "aiPowered": "AI Powered",
+      "findMyJob": "Find My Job",
+      "step1Title": "Step 1: Plan Your Search",
+      "step1Desc": "Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.",
+      "step2Title": "Step 2: Online Job Applications",
+      "step2Desc": "Track applications, leverage referrals, and analyze JDs in one place.",
+      "step3Title": "Step 3: Headhunters & Firms",
+      "step3Desc": "Target recruiters with smart filters and access top firm rankings.",
+      "step4Title": "Step 4: Networking Strategy",
+      "step4Desc": "Access the hidden job market with the 60-Day Plan and 90-Sec Story.",
+      "step5Title": "Step 5: Your online presence",
+      "step5Desc": "Optimize your LinkedIn profile and personal brand to attract recruiters.",
+      "openTool": "Open Tool",
+      "startHere": "Start Here",
+      "dailyTool": "Daily Tool"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Before the Interview (Prepare)",
+      "phase2Title": "During the Interview (Execution)",
+      "phase3Title": "After the Interview (Follow-up)",
+      "research": "Research Thoroughly",
+      "contentPrep": "Content Preparation",
+      "practice": "Practice Techniques",
+      "interviewType": "Identify Interview Type",
+      "sessionNotes": "Interview Session Notes",
+      "questionsToAsk": "Questions to Ask",
+      "thankYou": "Thank You Notes",
+      "followupTimeline": "Follow-up Timeline",
+      "negotiation": "Negotiation Prep",
+      "markPhaseComplete": "Mark Phase {{n}} as Complete"
+    }
   }
 }
