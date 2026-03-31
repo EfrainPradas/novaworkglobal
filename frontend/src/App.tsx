@@ -160,6 +160,7 @@ function App() {
             {/* Resume Builder Routes - nested inside /dashboard */}
             <Route path="resume-builder" element={<ResumeBuilderMenu />} />
             <Route path="resume-builder/workflow" element={<ResumeBuilder />} />
+            <Route path="resume-builder/profile" element={<ProfileBuilder />} />
             <Route path="resume-builder/jd-analyzer" element={<JDAnalyzer />} />
             <Route path="resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
             <Route path="resume/work-experience" element={<WorkExperienceBuilder />} />
