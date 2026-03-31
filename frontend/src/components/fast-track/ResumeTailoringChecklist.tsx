@@ -164,24 +164,16 @@ export default function ResumeTailoringChecklist() {
       {/* Step Content */}
       <div className={`rounded-xl border-2 ${step.borderColor} overflow-hidden`}>
         {/* Step Header */}
-        <div className={`${step.bgColor} dark:bg-gray-800/80 px-6 py-5 flex items-start justify-between`}>
-          <div className="flex items-start gap-3">
-            <div className={`p-2 rounded-lg bg-white dark:bg-gray-700 shadow-sm`}>
-              <StepIcon className={`w-5 h-5 ${step.color}`} />
-            </div>
-            <div>
-              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-                {t('resumeChecklist.etapaLabel', { current: currentStep + 1, total: steps.length })}
-              </p>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t(step.titleKey)}</h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400">{t('resumeChecklist.stepInstructions')}</p>
-            </div>
+        <div className={`${step.bgColor} dark:bg-gray-800/80 px-6 py-5 flex items-start gap-3`}>
+          <div className={`p-2 rounded-lg bg-white dark:bg-gray-700 shadow-sm`}>
+            <StepIcon className={`w-5 h-5 ${step.color}`} />
           </div>
-          <div className="text-right shrink-0 ml-4">
-            <p className={`text-3xl font-black ${stepProgress(currentStep) === 100 ? 'text-green-500' : 'text-gray-800 dark:text-white'}`}>
-              {stepProgress(currentStep)}%
+          <div>
+            <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
+              {t('resumeChecklist.etapaLabel', { current: currentStep + 1, total: steps.length })}
             </p>
-            <p className="text-xs text-gray-400">{t('resumeChecklist.completedLabel')}</p>
+            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t(step.titleKey)}</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400">{t('resumeChecklist.stepInstructions')}</p>
           </div>
         </div>
 

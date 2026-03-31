@@ -513,17 +513,6 @@ export default function PositioningQuestionnairePage() {
                             {renderTagField('methodologies', t('resumeBuilder.questionnaire.methodologies', 'Methodologies & Frameworks'), t('resumeBuilder.questionnaire.methodologiesPlaceholder', 'e.g., Lean Six Sigma, Agile, PMBOK'))}
                             {renderTagField('certifications_advanced_training', t('resumeBuilder.questionnaire.certifications', 'Certifications & Advanced Training'), t('resumeBuilder.questionnaire.certificationsPlaceholder', 'e.g., PMP, CPA, AWS Solutions Architect'))}
                             {renderTagField('languages_spoken', t('resumeBuilder.questionnaire.languagesSpoken', 'Languages Spoken'), t('resumeBuilder.questionnaire.languagesSpokenPlaceholder', 'e.g., English, Spanish, French'))}
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.pasteJobDescriptions', 'Paste Target Job Descriptions (optional)')}</label>
-                                <p className="text-xs text-gray-500 mb-1">{t('resumeBuilder.questionnaire.pasteJobDescriptionsHelper', "Paste 1-3 job descriptions for roles you're targeting. This helps generate a more tailored profile.")}</p>
-                                <textarea
-                                    value={(form.job_descriptions || []).join('\n---\n')}
-                                    onChange={e => updateField('job_descriptions', e.target.value.split('\n---\n').filter(Boolean))}
-                                    rows={4}
-                                    className={inputClass + ' resize-none'}
-                                    placeholder={t('resumeBuilder.questionnaire.pasteJobDescriptionsPlaceholder', 'Paste a job description here...')}
-                                />
-                            </div>
                         </>
                     )}
 
