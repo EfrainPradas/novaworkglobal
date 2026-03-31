@@ -48,13 +48,21 @@ const supportedLanguages = ['en', 'es', 'fr', 'it', 'pt'];
  * PAGE GROUPING: Maps top-level JSON keys to human-readable page names.
  */
 const PAGE_GROUPS = {
+    // Main App Sections (Left Menu)
+    'Panel Principal': ['dashboard', 'home', 'sidebarOverview'],
+    'Resumé Profesional': ['resumeBuilder'],
+    'Visión de Carrera': ['careerVision'],
+    'Búsqueda de Empleo': ['jobSearch', 'onlineApplications', 'checklist'],
+    'Dominio de Entrevistas': ['interview'],
+    'Comunidad': ['sidebarCommunity', 'membership', 'learningModules'],
+    'Herramientas': ['sidebarTools'],
+
+    // System & Landing Pages
     'Landing Page': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta'],
     'Navigation & Footer': ['nav', 'footer'],
     'Common': ['common'],
     'Authentication': ['auth'],
     'Onboarding': ['onboarding'],
-    'Resume Builder': ['resumeBuilder'],
-    'Dashboard': ['dashboard'],
 };
 
 // Build reverse lookup: jsonKey -> pageName

@@ -38,7 +38,8 @@
     "newest": "Newest",
     "strongestResults": "Strongest Results",
     "byRole": "By Role",
-    "watchVideo": "Watch video"
+    "watchVideo": "Watch video",
+    "backToDashboard": "Back"
   },
   "nav": {
     "signIn": "Sign In",
@@ -1177,38 +1178,89 @@
       "beforeYouStart": {
         "title": "Before You Start",
         "items": {
-          "readJD": { "title": "Read the full job description 3 times", "desc": "Understand requirements, responsibilities, and company culture" },
-          "keywords": { "title": "Identify top 5-10 keywords from the JD", "desc": "Use JD Analyzer tool or manually extract key skills and requirements" },
-          "research": { "title": "Research the company", "desc": "Know their mission, recent news, and why you want to work there" }
+          "readJD": {
+            "title": "Read the full job description 3 times",
+            "desc": "Understand requirements, responsibilities, and company culture"
+          },
+          "keywords": {
+            "title": "Identify top 5-10 keywords from the JD",
+            "desc": "Use JD Analyzer tool or manually extract key skills and requirements"
+          },
+          "research": {
+            "title": "Research the company",
+            "desc": "Know their mission, recent news, and why you want to work there"
+          }
         }
       },
       "resumeOptimization": {
         "title": "Resume Optimization",
         "items": {
-          "jobTitles": { "title": "Match your job titles to their language", "desc": "If they say \"Product Manager,\" don't use \"Product Lead\"" },
-          "allSkills": { "title": "Include ALL required skills mentioned in the JD", "desc": "If you have the skill, it MUST be on your resume" },
-          "exactKeywords": { "title": "Use their exact keywords (especially for ATS)", "desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\"" },
-          "quantify": { "title": "Quantify your accomplishments", "desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\"" },
-          "summary": { "title": "Tailor your summary/profile section", "desc": "First 3 lines should mirror the job requirements" },
-          "removeIrrelevant": { "title": "Remove irrelevant experience", "desc": "If it doesn't help you get THIS job, consider removing it" }
+          "jobTitles": {
+            "title": "Match your job titles to their language",
+            "desc": "If they say \"Product Manager,\" don't use \"Product Lead\""
+          },
+          "allSkills": {
+            "title": "Include ALL required skills mentioned in the JD",
+            "desc": "If you have the skill, it MUST be on your resume"
+          },
+          "exactKeywords": {
+            "title": "Use their exact keywords (especially for ATS)",
+            "desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\""
+          },
+          "quantify": {
+            "title": "Quantify your accomplishments",
+            "desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\""
+          },
+          "summary": {
+            "title": "Tailor your summary/profile section",
+            "desc": "First 3 lines should mirror the job requirements"
+          },
+          "removeIrrelevant": {
+            "title": "Remove irrelevant experience",
+            "desc": "If it doesn't help you get THIS job, consider removing it"
+          }
         }
       },
       "atsFormatting": {
         "title": "ATS-Friendly Formatting",
         "items": {
-          "standardHeaders": { "title": "Use standard section headers", "desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\"" },
-          "saveFormat": { "title": "Save as .docx or .pdf", "desc": "PDF preferred, but some ATS prefer .docx - check job posting" },
-          "standardFonts": { "title": "Use standard fonts (Arial, Calibri, Times)", "desc": "Avoid fancy fonts that ATS can't read" },
-          "avoidTables": { "title": "Avoid tables, columns, headers/footers", "desc": "ATS struggles with complex formatting" },
-          "bulletPoints": { "title": "Use standard bullet points", "desc": "Simple • or - symbols only" }
+          "standardHeaders": {
+            "title": "Use standard section headers",
+            "desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\""
+          },
+          "saveFormat": {
+            "title": "Save as .docx or .pdf",
+            "desc": "PDF preferred, but some ATS prefer .docx - check job posting"
+          },
+          "standardFonts": {
+            "title": "Use standard fonts (Arial, Calibri, Times)",
+            "desc": "Avoid fancy fonts that ATS can't read"
+          },
+          "avoidTables": {
+            "title": "Avoid tables, columns, headers/footers",
+            "desc": "ATS struggles with complex formatting"
+          },
+          "bulletPoints": {
+            "title": "Use standard bullet points",
+            "desc": "Simple • or - symbols only"
+          }
         }
       },
       "fileNaming": {
         "title": "File Naming & Submission",
         "items": {
-          "nameFile": { "title": "Name file correctly", "desc": "Format: YourName_JobTitle_CompanyName.pdf" },
-          "saveFolder": { "title": "Save in dedicated folder", "desc": "Keep organized: Applications/[Company]/[Date]/" },
-          "keepOriginal": { "title": "Keep original version", "desc": "Always maintain your master resume separately" }
+          "nameFile": {
+            "title": "Name file correctly",
+            "desc": "Format: YourName_JobTitle_CompanyName.pdf"
+          },
+          "saveFolder": {
+            "title": "Save in dedicated folder",
+            "desc": "Keep organized: Applications/[Company]/[Date]/"
+          },
+          "keepOriginal": {
+            "title": "Keep original version",
+            "desc": "Always maintain your master resume separately"
+          }
         }
       }
     },

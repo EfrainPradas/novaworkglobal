@@ -223,6 +223,20 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   <span>My Profile</span>
                 </button>
 
+                {/* Admin Only - Translations */}
+                {user?.email && ['awoodw@gmail.com', 'efrain.pradas@gmail.com'].includes(user.email.toLowerCase()) && (
+                  <button
+                    onClick={() => {
+                      navigate('/admin/translations')
+                      setIsOpen(false)
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10 hover:bg-purple-100 dark:hover:bg-purple-900/20 transition-colors font-medium border-l-2 border-purple-500"
+                  >
+                    <Globe className="w-4 h-4" />
+                    <span>Translations</span>
+                  </button>
+                )}
+
                 <button
                   onClick={() => setShowSettings(true)}
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
