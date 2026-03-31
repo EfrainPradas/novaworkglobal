@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Filter } from 'lucide-react'
 import { supabase } from '../../../lib/supabase'
-import UserMenu from '../../../components/common/UserMenu'
-import NotificationBell from '../../../components/common/NotificationBell'
 import SessionCard from '../../../components/home-dashboard/SessionCard'
 import LoadingCard from '../../../components/home-dashboard/states/LoadingCard'
 import EmptyState from '../../../components/home-dashboard/states/EmptyState'
@@ -23,7 +21,6 @@ export default function NetworkingSessionsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
-  const [userProfile, setUserProfile] = useState<any>(null)
   const [userLevel, setUserLevel] = useState<TierLevel>('essentials')
   const [sessions, setSessions] = useState<MemberSession[]>([])
   const [loading, setLoading] = useState(true)
@@ -49,9 +46,6 @@ export default function NetworkingSessionsPage() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) { navigate('/signin'); return }
       setUser(user)
-      const { data: profileData } = await supabase
-        .from('user_profiles').select('full_name').eq('user_id', user.id).maybeSingle()
-      setUserProfile(profileData)
       const tier = await getUserTier(user.id)
       setUserLevel(tier)
       await load(user.id)
@@ -107,25 +101,19 @@ export default function NetworkingSessionsPage() {
       className="min-h-screen"
       style={{ background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
     >
-      {/* Top bar */}
-      <div className="sticky top-0 z-10 flex items-center justify-between gap-3 px-5 py-3 bg-white border-b border-slate-100">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
-          >
-            <ArrowLeft size={16} />
-            {t('sidebarOverview.dashboard')}
-          </button>
-          <span className="text-slate-300">/</span>
-          <h1 className="text-sm font-semibold text-slate-800">
-            {t('sidebarCommunity.networkingSessions')}
-          </h1>
-        </div>
-        <div className="flex items-center gap-2">
-          {user && <NotificationBell userId={user.id} />}
-          <UserMenu user={user} userProfile={userProfile} />
-        </div>
+      {/* Breadcrumb */}
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-slate-100 bg-white">
+        <button
+          onClick={() => navigate('/dashboard')}
+          className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
+        >
+          <ArrowLeft size={16} />
+          {t('sidebarOverview.dashboard')}
+        </button>
+        <span className="text-slate-300">/</span>
+        <h1 className="text-sm font-semibold text-slate-800">
+          {t('sidebarCommunity.networkingSessions')}
+        </h1>
       </div>
 
       <div className="max-w-5xl mx-auto px-5 py-6">
