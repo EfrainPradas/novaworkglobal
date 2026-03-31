@@ -7,7 +7,7 @@ import Sidebar from '../components/dashboard/Sidebar'
 import ModulePanel from '../components/dashboard/ModulePanel'
 import StatsCard from '../components/dashboard/StatsCard'
 import QuickActions from '../components/dashboard/QuickActions'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Menu, X } from 'lucide-react'
 import type { ModuleId, TierLevel, DashboardModule, DashboardStats, StepStatus } from '../types/dashboard'
 
 // ─── module definitions (static shape, dynamic status filled at runtime) ───
@@ -179,6 +179,23 @@ export default function Dashboard() {
   const [modules, setModules] = useState<Record<ModuleId, DashboardModule> | null>(null)
   const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
 
+  // ── Mobile Drawer State ─────────────────────────────────────
+  const [mobileLeftOpen, setMobileLeftOpen] = useState(false)
+  const [mobileRightOpen, setMobileRightOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const closeMobileDrawers = () => {
+    setMobileLeftOpen(false)
+    setMobileRightOpen(false)
+  }
+
   useEffect(() => {
     async function load() {
       const { data: { user } } = await supabase.auth.getUser()
@@ -296,26 +313,83 @@ export default function Dashboard() {
       className="flex overflow-hidden"
       style={{ height: '100dvh', background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
     >
+      {/* ── MOBILE LEFT DRAWER BACKDROP ── */}
+      {isMobile && mobileLeftOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={closeMobileDrawers}
+        />
+      )}
+
+      {/* ── MOBILE RIGHT DRAWER BACKDROP ── */}
+      {isMobile && mobileRightOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={closeMobileDrawers}
+        />
+      )}
+
       {/* ── LEFT SIDEBAR ── */}
-      <Sidebar
-        activeModule={activeModule}
-        onSelect={setActiveModule}
-        userLevel={userLevel}
-        tierLabel={userLevel}
-        width={sidebarWidth}
-        collapsed={sidebarCollapsed}
-        onToggle={toggleSidebar}
-        onResizeStart={handleSidebarResize}
-      />
+      {isMobile ? (
+        mobileLeftOpen && (
+          <aside
+            className="fixed left-0 top-0 bottom-0 z-50 flex flex-col"
+            style={{
+              width: 300,
+              background: '#FFFFFF',
+              boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
+            }}
+          >
+            <button
+              onClick={() => setMobileLeftOpen(false)}
+              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
+              style={{ color: '#64748B' }}
+            >
+              <X size={18} />
+            </button>
+            <Sidebar
+              activeModule={activeModule}
+              onSelect={(m) => { setActiveModule(m); setMobileLeftOpen(false) }}
+              userLevel={userLevel}
+              tierLabel={userLevel}
+              width={300}
+              collapsed={false}
+              onToggle={() => setMobileLeftOpen(false)}
+              onResizeStart={() => {}}
+            />
+          </aside>
+        )
+      ) : (
+        <Sidebar
+          activeModule={activeModule}
+          onSelect={setActiveModule}
+          userLevel={userLevel}
+          tierLabel={userLevel}
+          width={sidebarWidth}
+          collapsed={sidebarCollapsed}
+          onToggle={toggleSidebar}
+          onResizeStart={handleSidebarResize}
+        />
+      )}
 
       {/* ── CENTER PANEL ── */}
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top bar with user controls */}
         <div
-          className="flex items-center justify-between gap-2 px-4 py-2 flex-shrink-0"
+          className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2 flex-shrink-0"
           style={{ background: '#F0F3F8' }}
         >
-          <img src="/logo.png" alt="NovaWork Global" className="h-14 w-auto object-contain" />
+          {isMobile ? (
+            <button
+              onClick={() => setMobileLeftOpen(true)}
+              className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/50 transition-colors"
+              style={{ color: '#475569' }}
+            >
+              <Menu size={20} />
+            </button>
+          ) : (
+            <img src="/logo.png" alt="NovaWork Global" className="h-14 w-auto object-contain" />
+          )}
           <div className="flex items-center gap-2">
             {user && <NotificationBell userId={user.id} />}
             <UserMenu user={user} userProfile={userProfile} />
@@ -333,7 +407,30 @@ export default function Dashboard() {
       </main>
 
       {/* ── RIGHT SIDEBAR ── */}
-      {rightVisible ? (
+      {isMobile ? (
+        mobileRightOpen && (
+          <aside
+            className="fixed right-0 top-0 bottom-0 z-50 overflow-y-auto"
+            style={{
+              width: 300,
+              background: '#FFFFFF',
+              boxShadow: '-4px 0 20px rgba(0,0,0,0.15)',
+            }}
+          >
+            <button
+              onClick={() => setMobileRightOpen(false)}
+              className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
+              style={{ color: '#64748B' }}
+            >
+              <X size={18} />
+            </button>
+            <div className="pt-10">
+              <StatsCard stats={stats} loading={loading} />
+              <QuickActions onNavigate={navigate} />
+            </div>
+          </aside>
+        )
+      ) : rightVisible ? (
         <aside
           className="flex-shrink-0 overflow-y-auto relative"
           style={{ width: rightWidth, minWidth: rightWidth, background: '#FFFFFF', borderLeft: '1px solid #E2E8F0' }}
@@ -381,6 +478,18 @@ export default function Dashboard() {
             <ChevronLeft size={14} />
           </button>
         </div>
+      )}
+
+      {/* ── MOBILE RIGHT PANEL TOGGLE BUTTON ── */}
+      {isMobile && !mobileRightOpen && (
+        <button
+          onClick={() => setMobileRightOpen(true)}
+          className="fixed bottom-4 right-4 z-30 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+          style={{ background: '#1976D2', color: '#fff' }}
+          title="Open stats panel"
+        >
+          <ChevronLeft size={18} />
+        </button>
       )}
 
       {/* ── VIDEO MODAL ── */}
