@@ -48,21 +48,23 @@ const supportedLanguages = ['en', 'es', 'fr', 'it', 'pt'];
  * PAGE GROUPING: Maps top-level JSON keys to human-readable page names.
  */
 const PAGE_GROUPS = {
-    // Main App Sections (Left Menu)
+    // 1. PANEL PRINCIPAL
     'Panel Principal': ['dashboard', 'home', 'sidebarOverview'],
-    'Resumé Profesional': ['resumeBuilder'],
-    'Visión de Carrera': ['careerVision'],
-    'Búsqueda de Empleo': ['jobSearch', 'onlineApplications', 'checklist'],
-    'Dominio de Entrevistas': ['interview'],
-    'Comunidad': ['sidebarCommunity', 'membership', 'learningModules'],
-    'Herramientas': ['sidebarTools'],
 
-    // System & Landing Pages
-    'Landing Page': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta'],
-    'Navigation & Footer': ['nav', 'footer'],
-    'Common': ['common'],
-    'Authentication': ['auth'],
-    'Onboarding': ['onboarding'],
+    // 2. PROGRAMAS NOVANEXT
+    'Programas NovaNext': ['resumeBuilder', 'careerVision', 'jobSearch', 'onlineApplications', 'checklist', 'interview'],
+
+    // 3. COMUNIDAD
+    'Comunidad': ['sidebarCommunity', 'membership'],
+
+    // 4. NOVANEXT ACADEMY
+    'NovaNext Academy': ['novaNextAcademy', 'topics', 'learningModules'],
+
+    // 5. HERRAMIENTAS
+    'Herramientas': ['sidebarTools', 'sharedResources'],
+
+    // 6. SISTEMA Y LANDING (Common/Auth/Global)
+    'Sitio Web y Sistema': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta', 'nav', 'footer', 'auth', 'onboarding', 'common'],
 };
 
 // Build reverse lookup: jsonKey -> pageName
