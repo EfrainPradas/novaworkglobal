@@ -30,6 +30,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     // Existing State
     const [stories, setStories] = useState<CARStory[]>([])
     const [workExperiences, setWorkExperiences] = useState<any[]>([])
+    const [allAccomplishments, setAllAccomplishments] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('')
     const [filterStatus, setFilterStatus] = useState<'all' | 'draft' | 'completed'>('all')
@@ -192,6 +193,9 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     const uniqueLinked = Array.from(new Map(linked.map(item => [item.id, item])).values())
                         ; (story as any).associated_accomplishments = uniqueLinked;
                 })
+                setAllAccomplishments(userAccomplishments || [])
+            } else {
+                setAllAccomplishments([])
             }
 
             const { data: resumes } = await supabase
@@ -1242,6 +1246,27 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                     </option>
                                                 ))}
                                             </select>
+                                        </div>
+                                    )}
+
+                                    {/* Related Accomplishments from Bank */}
+                                    {form.role_title && form.company_name && allAccomplishments.filter(a => a.role_title === form.role_title && a.company_name === form.company_name).length > 0 && (
+                                        <div className="bg-[#EEF2FF] dark:bg-indigo-900/10 p-4 rounded-xl border border-[#C7D2FE] dark:border-indigo-800">
+                                            <h4 className="text-[11px] font-bold text-[#4F46E5] dark:text-indigo-400 uppercase tracking-wider mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> Accomplishments from this role</h4>
+                                            <div className="space-y-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
+                                                {allAccomplishments.filter(a => a.role_title === form.role_title && a.company_name === form.company_name).map(acc => (
+                                                    <div key={acc.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800/50 flex items-start gap-3 group relative hover:border-[#4F46E5] transition-colors">
+                                                        <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{acc.bullet_text}</p>
+                                                        <button 
+                                                            onClick={(e) => { e.preventDefault(); copyToClipboard(acc.bullet_text); }} 
+                                                            className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity"
+                                                            title="Copy to clipboard"
+                                                        >
+                                                            <Copy className="w-3.5 h-3.5" />
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     )}
 

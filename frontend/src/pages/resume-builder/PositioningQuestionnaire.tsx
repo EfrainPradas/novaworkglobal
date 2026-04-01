@@ -344,7 +344,7 @@ export default function PositioningQuestionnairePage() {
                         <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <div>
                             <p className="text-sm font-medium text-amber-800 dark:text-amber-200">{t('resumeBuilder.questionnaire.warningText', 'Completing your accomplishments first improves the quality of the generated profile.')}</p>
-                            <button onClick={() => navigate('/dashboard/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">{t('resumeBuilder.questionnaire.goToStoryCards', 'Go to Story Cards →')}</button>
+                            <button onClick={() => navigate('/dashboard/resume/story-cards')} className="text-sm text-amber-700 dark:text-amber-300 underline mt-1">{t('resumeBuilder.questionnaire.goToStoryCards', 'Go to your "accomplishment bank" →')}</button>
                         </div>
                     </div>
                 )}
