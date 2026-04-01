@@ -14,6 +14,7 @@ import {
   ChevronLeft,
 } from 'lucide-react'
 import type { TierLevel } from '../../types/home-dashboard'
+import SidebarCardButton from './SidebarCardButton'
 
 interface HomeSidebarProps {
   userLevel: TierLevel
@@ -209,6 +210,27 @@ export default function HomeSidebar({
         {navItem('/dashboard/community', <Users size={15} />, t('sidebarCommunity.community'), {
           iconBg: '#EFF6FF', iconColor: '#1976D2',
         })}
+
+        {/* NovaNext Academy */}
+        {!collapsed && (
+          <div className="px-3 pt-4 pb-1">
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">{t('novaNextAcademy.title')}</p>
+          </div>
+        )}
+        {!collapsed && (
+          <div className="px-2">
+            <SidebarCardButton
+              title={t('novaNextAcademy.title')}
+              label={t('novaNextAcademy.videosAudio')}
+              subtitle={t('novaNextAcademy.subtitle')}
+              path="/dashboard/academy"
+              iconBg="#E8F5E9"
+              iconColor="#16A34A"
+              cardBg="#F0FDF4"
+              cardHoverBg="#DCFCE7"
+            />
+          </div>
+        )}
 
         {/* Tools */}
         {sectionLabel(t('sidebarTools.title'))}

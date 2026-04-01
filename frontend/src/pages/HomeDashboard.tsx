@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useNavigate, Outlet } from 'react-router-dom'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Menu, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
 import NotificationBell from '../components/common/NotificationBell'
@@ -35,6 +35,10 @@ export default function HomeDashboard() {
   const rightWidthRef = useRef(280)
   const [rightVisible, setRightVisible] = useState(true)
   const sidebarCollapsed = sidebarWidth <= 80
+
+  // ── Mobile Drawer State ─────────────────────────────────────
+  const [mobileLeftOpen, setMobileLeftOpen] = useState(false)
+  const [mobileRightOpen, setMobileRightOpen] = useState(false)
 
   // ── Sidebar resize ─────────────────────────────────────────
   const handleSidebarResize = useCallback((e: React.MouseEvent) => {
@@ -121,29 +125,97 @@ export default function HomeDashboard() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [user, loadData])
 
+  // Mobile resize handler
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const closeMobileDrawers = () => {
+    setMobileLeftOpen(false)
+    setMobileRightOpen(false)
+  }
+
   return (
     <div
       className="flex overflow-hidden"
       style={{ height: '100dvh', background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
     >
+      {/* ── MOBILE LEFT DRAWER BACKDROP ── */}
+      {isMobile && mobileLeftOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={closeMobileDrawers}
+        />
+      )}
+
+      {/* ── MOBILE RIGHT DRAWER BACKDROP ── */}
+      {isMobile && mobileRightOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 z-40"
+          onClick={closeMobileDrawers}
+        />
+      )}
+
       {/* ── LEFT SIDEBAR ── */}
-      <HomeSidebar
-        userLevel={userLevel}
-        width={sidebarWidth}
-        collapsed={sidebarCollapsed}
-        onToggle={toggleSidebar}
-        onResizeStart={handleSidebarResize}
-      />
+      {isMobile ? (
+        mobileLeftOpen && (
+          <aside
+            className="fixed left-0 top-0 bottom-0 z-50 flex flex-col"
+            style={{
+              width: 280,
+              background: '#FFFFFF',
+              boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
+            }}
+          >
+            <button
+              onClick={() => setMobileLeftOpen(false)}
+              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
+              style={{ color: '#64748B' }}
+            >
+              <X size={18} />
+            </button>
+            <HomeSidebar
+              userLevel={userLevel}
+              width={280}
+              collapsed={false}
+              onToggle={() => setMobileLeftOpen(false)}
+              onResizeStart={() => {}}
+            />
+          </aside>
+        )
+      ) : (
+        <HomeSidebar
+          userLevel={userLevel}
+          width={sidebarWidth}
+          collapsed={sidebarCollapsed}
+          onToggle={toggleSidebar}
+          onResizeStart={handleSidebarResize}
+        />
+      )}
 
       {/* ── CENTER PANEL ── */}
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top bar */}
         <div
-          className="flex items-center justify-between gap-2 px-5 py-2 flex-shrink-0"
+          className="flex items-center justify-between gap-2 px-3 sm:px-5 py-2 flex-shrink-0"
           style={{ background: '#F0F3F8' }}
         >
+          {/* Mobile menu button */}
+          {isMobile && (
+            <button
+              onClick={() => setMobileLeftOpen(true)}
+              className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/50 transition-colors"
+              style={{ color: '#475569' }}
+            >
+              <Menu size={20} />
+            </button>
+          )}
           <h1
-            className="text-base font-semibold text-slate-700 truncate"
+            className={`text-base font-semibold text-slate-700 truncate ${isMobile ? 'flex-1 text-center mr-9' : ''}`}
             style={{ fontFamily: "'DM Sans', sans-serif" }}
           >
             Dashboard
@@ -168,7 +240,29 @@ export default function HomeDashboard() {
       </main>
 
       {/* ── RIGHT SIDEBAR ── */}
-      {rightVisible ? (
+      {isMobile ? (
+        mobileRightOpen && (
+          <aside
+            className="fixed right-0 top-0 bottom-0 z-50 overflow-y-auto"
+            style={{
+              width: 300,
+              background: '#FFFFFF',
+              boxShadow: '-4px 0 20px rgba(0,0,0,0.15)',
+            }}
+          >
+            <button
+              onClick={() => setMobileRightOpen(false)}
+              className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
+              style={{ color: '#64748B' }}
+            >
+              <X size={18} />
+            </button>
+            <div className="pt-10">
+              <DashboardRightPanel userId={user?.id ?? null} />
+            </div>
+          </aside>
+        )
+      ) : rightVisible ? (
         <aside
           className="flex-shrink-0 overflow-y-auto relative"
           style={{
@@ -216,6 +310,18 @@ export default function HomeDashboard() {
             <ChevronLeft size={14} />
           </button>
         </div>
+      )}
+
+      {/* ── MOBILE RIGHT PANEL TOGGLE BUTTON ── */}
+      {isMobile && !mobileRightOpen && (
+        <button
+          onClick={() => setMobileRightOpen(true)}
+          className="fixed bottom-4 right-4 z-30 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+          style={{ background: '#1976D2', color: '#fff' }}
+          title="Open stats panel"
+        >
+          <ChevronLeft size={18} />
+        </button>
       )}
     </div>
   )

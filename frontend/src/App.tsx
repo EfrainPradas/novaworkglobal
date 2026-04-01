@@ -24,6 +24,7 @@ import DashboardModules from './pages/DashboardModules'
 import NetworkingSessionsPage from './pages/dashboard/networking-sessions/NetworkingSessionsPage'
 import MemberCalendarPage from './pages/dashboard/member-calendar/MemberCalendarPage'
 import CommunityPage from './pages/dashboard/community/CommunityPage'
+import AcademyPage from './pages/Academy'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
@@ -223,6 +224,9 @@ function App() {
             <Route path="settings/data" element={<DataManagement />} />
             <Route path="coaching" element={<ClientCoaching />} />
           </Route>
+          
+          {/* Academy - Standalone page with its own sidebar */}
+          <Route path="/dashboard/academy" element={<AcademyPage />} />
         </Route>
 
         {/* Backward compatibility redirects — old routes to new dashboard structure */}
