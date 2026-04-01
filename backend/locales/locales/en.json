@@ -1,0 +1,1358 @@
+{
+  "common": {
+    "continueWith": "Continue with {{provider}}",
+    "continue": "Continue",
+    "orContinueWith": "or continue with email",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "backToHome": "Back to Home",
+    "add": "Add",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saveProgress": "Save Progress",
+    "saved": "Saved!",
+    "back": "Back",
+    "next": "Next",
+    "nextSection": "Next Section",
+    "generateProfile": "Generate Professional Profile",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Are you sure you want to delete this item?",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "pleaseSignIn": "Please sign in to view this page.",
+    "present": "Present",
+    "or": "or",
+    "all": "All",
+    "yes": "Yes",
+    "no": "No",
+    "actions": "actions",
+    "confirmDelete": "Are you sure you want to delete this experience?",
+    "stories": "Stories",
+    "drafts": "Drafts",
+    "polished": "Polished",
+    "allStatus": "All Status",
+    "draft": "Draft",
+    "ready": "Ready",
+    "allCompetencies": "All Competencies",
+    "newest": "Newest",
+    "strongestResults": "Strongest Results",
+    "byRole": "By Role",
+    "watchVideo": "Watch video",
+    "backToDashboard": "Back"
+  },
+  "nav": {
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "menu": {
+      "programs": "Programs",
+      "methodology": "Methodology",
+      "insights": "Insights",
+      "howitworks": "How It Works"
+    }
+  },
+  "hero": {
+    "badge": "MANAGE YOUR CAREER",
+    "title": "Ignite Your Next Career Chapter",
+    "subtitle": "Clarity. Direction. Momentum.",
+    "description": "NovaWork Global helps professionals navigate career change with a proven system that blends hands-on human experience in career coaching with intelligent AI tools, so you move forward with confidence and clarity.",
+    "ctaStart": "Start Your Journey",
+    "ctaExplore": "Explore Programs"
+  },
+  "trust": {
+    "title": "Trusted by Professionals Worldwide",
+    "subtitle": "Real results from real people who transformed their careers with our proven system",
+    "stats": {
+      "guided": "Professionals Supported",
+      "expertise": "Combined Experience",
+      "global": "Global Experience",
+      "rating": "Average Rating"
+    },
+    "testimonial": "NovaWork really understands how to get the best out of their clients. They helped me successfully navigate my career options resulting in a new executive role with a Fortune 500 company. Their ability to challenge your assumptions and expand your world view while helping build and work a plan to pursue your ambitions were key in my successful transition. They know how to bring the best out of each person. Even during the most frustrating moments, they knew how to push past barriers and instill confidence through the entire process."
+  },
+  "problem": {
+    "titlePart1": "Career change isn't the problem.",
+    "titlePart2": "Uncertainty is.",
+    "descriptionPart1": "Most people don't get stuck because they lack talent.",
+    "descriptionPart2": "They get stuck because they don't know which move makes sense next.",
+    "card1": "Unsure which role or industry fits you now",
+    "card2": "Impacted by layoffs, AI disruption, or market shifts",
+    "card3": "Torn between multiple paths with no clear direction",
+    "solutionPart1": "NovaWork replaces uncertainty with",
+    "solutionPart2": "structure and clear options forward."
+  },
+  "philosophy": {
+    "bgText": "HUMAN+AI",
+    "badge": "Our Philosophy",
+    "quotePart1": "We believe the future of work isn't about competing with AI, but",
+    "quotePart2": "orchestrating",
+    "quotePart3": "it alongside human intuition.",
+    "precisionTitle": "",
+    "precisionText": "",
+    "empathyTitle": "",
+    "empathyText": ""
+  },
+  "differentiator": {
+    "title": "Human Expertise + AI Support",
+    "description": "We combine 30+ years of hands-on career coaching with AI powered tools, so you get the depth of human insight and the speed of technology.",
+    "humanCardTitle": "Human-Designed System",
+    "humanCardText": "Built by expert career coaches who've guided thousands through successful transitions. Real experience, proven frameworks.",
+    "aiCardTitle": "AI-Powered Tools",
+    "aiCardText": "Smart automation handles the heavy lifting, ATS optimization, job matching, resume building support, so you move faster.",
+    "pathCardTitle": "Your Personalized Path",
+    "pathCardText": "Not generic advice. A tailored strategy that adapts to your background, goals, and timeline.",
+    "resultLabel": "The result?",
+    "resultText": "You get expert-level guidance without waiting weeks for an available expert, and AI-speed execution without losing the human touch that actually makes career change work."
+  },
+  "programs": {
+    "title": "Select your Path",
+    "description": "Select the trajectory that aligns with your professional moment.",
+    "compare": "Compare all programs",
+    "viewProgram": "View Program",
+    "watchVideo": "Watch Video",
+    "cards": {
+      "novanext": {
+        "title": "NovaNext™",
+        "subtitle": "Career Movement",
+        "description": "Choose this path if you already know which role you want to pursue next."
+      },
+      "novarearchitect": {
+        "title": "NovaRearchitect™",
+        "subtitle": "Career Reinvention",
+        "description": "Choose this path if your current role or industry is no longer viable."
+      },
+      "novalign": {
+        "title": "NovaAlign™",
+        "subtitle": "Career Direction",
+        "description": "Choose this path if you need clarity before committing to a career direction."
+      }
+    }
+  },
+  "cta": {
+    "title": "Ready to Start Your Next Career Chapter?",
+    "subtitle": "Join thousands of professionals who've transformed their careers with NovaWork Global",
+    "button": "Find Your Path →"
+  },
+  "footer": {
+    "tagline": "Empowering professionals to navigate career change with clarity and confidence",
+    "programs": "Programs",
+    "company": "Company",
+    "legal": "Legal",
+    "links": {
+      "novanext": "NovaNext™",
+      "novarearchitect": "NovaRearchitect™",
+      "novalign": "NovaAlign™",
+      "about": "About",
+      "methodology": "Methodology",
+      "insights": "Insights",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service"
+    },
+    "copyright": "© {{year}} NovaWork Global. All rights reserved."
+  },
+  "onboarding": {
+    "questions": {
+      "situations": {
+        "activelyJobHunting": "Actively job hunting",
+        "exploringNewCareer": "Exploring new career",
+        "feelingStuck": "Feeling stuck",
+        "recentlyLaidOff": "Recently separated from last job",
+        "newGraduate": "New graduate",
+        "careerChanger": "Career changer"
+      },
+      "priorities": {
+        "betterJob": "Better job",
+        "higherSalary": "Higher salary",
+        "careerChange": "Career change",
+        "workLifeBalance": "Work-life balance",
+        "remoteWork": "Remote work",
+        "internationalOpportunity": "International opportunity"
+      }
+    },
+    "situation": {
+      "title": "Your Current Context",
+      "subtitle": "Help us understand your situation to personalize your experience.",
+      "selectSituation": "What describes your current situation?",
+      "selectGoal": "What is your main goal right now?",
+      "continue": "Continue"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "subtitle": "Sign in to continue your career journey",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password",
+      "forgotPassword": "Forgot password?",
+      "signInButton": "Sign In",
+      "signingIn": "Signing in...",
+      "noAccount": "Don't have an account?",
+      "errors": {
+        "fillAllFields": "Please fill in all fields"
+      }
+    },
+    "signUp": {
+      "title": "Create Your Account",
+      "subtitle": "Start your career journey today",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email",
+      "password": "Password",
+      "passwordPlaceholder": "Create a password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordPlaceholder": "Confirm your password",
+      "createAccount": "Create Account",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "terms": "By creating an account, you agree to our",
+      "termsLink": "Terms of Service",
+      "and": "and",
+      "privacyLink": "Privacy Policy",
+      "success": "Account created! Check your email to confirm.",
+      "errors": {
+        "fillAllFields": "Please fill in all fields",
+        "passwordMismatch": "Passwords do not match",
+        "passwordLength": "Password must be at least 6 characters"
+      }
+    }
+  },
+  "resumeBuilder": {
+    "steps": {
+      "capture": "Capture",
+      "craft": "Craft",
+      "refine": "Refine",
+      "step": "Step {{number}}",
+      "workExperience": "Work Experience",
+      "questionnaire": "Positioning Questionnaire",
+      "storyCards": "CARs (Accomplishments)",
+      "jdAnalyzer": "JD Analyzer (Finalize)"
+    },
+    "navigation": {
+      "continueToStep": "Continue to {{step}}"
+    },
+    "menu": {
+      "title": "Resume Builder",
+      "subtitle": "Follow the steps to complete an interview magnet resume.",
+      "backToDashboard": "Back to Dashboard",
+      "yourProgress": "Your Progress",
+      "stepsCompleted": "{{completed}} of {{total}} steps completed",
+      "editDetails": "Edit Details",
+      "getStarted": "Get Started",
+      "readyToApply": "Ready to Apply?",
+      "readyToApplyLocked": "Ready to Apply? (Momentum Only)",
+      "applyDesc": "Start your job search journey with AI-powered recommendations.",
+      "applyDescLocked": "Upgrade to Momentum to access our AI-powered job search engine.",
+      "workExperience": "Work Experience",
+      "workExperienceDesc": "Build your career history with ease.",
+      "education": "Education",
+      "awardsCertifications": "Awards & Certifications",
+      "nextEducation": "Next: Education",
+      "carStories": "CARs",
+      "carStoriesDesc": "Highlight your key achievements.",
+      "profile": "Professional Profile",
+      "profileDesc": "Craft a compelling summary.",
+      "coverLetter": "Cover Letter Generator",
+      "coverLetterDesc": "AI-powered personalized cover letters.",
+      "accomplishmentLibrary": "Accomplishment Library",
+      "accomplishmentLibraryDesc": "Your personal bank of achievements — pick, tag, and auto-assemble for any job.",
+      "largestResult": "Your Largest Result",
+      "mostComplexProject": "Most Complex Project",
+      "workAndEducationTitle": "Work Experience and Education",
+      "workAndEducationDesc": "Build your career history and academic record.",
+      "accomplishmentBankTitle": "Accomplishment Bank",
+      "accomplishmentBankDesc": "Highlight your key accomplishments.",
+      "professionalSummaryTitle": "Professional Summary",
+      "professionalSummaryDesc": "Introduce and position yourself.",
+      "chooseResumeTitle": "Choose your Resume",
+      "chooseResumeDesc": "Chronological or Functional",
+      "learnMore": "Learn more",
+      "showLess": "Show less",
+      "needGuidance": "Need Personalized Guidance?",
+      "accelerateResults": "ACCELERATE YOUR RESULTS"
+    },
+    "education": {
+      "title": "Education",
+      "reviewDescription": "Review your education history imported from your resume. Edit or add more entries.",
+      "emptyDescription": "Add your academic degrees, diplomas, and certificates.",
+      "addEducationButton": "+ Add Education",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "backToWorkExperience": "Back to Work Experience",
+      "tabWorkExperience": "Work Experience",
+      "tabEducation": "Education",
+      "tabAwardsCertifications": "Awards & Certifications",
+      "addEducation": "Add Education",
+      "editEducation": "Edit Education",
+      "institutionName": "Institution Name",
+      "location": "Location",
+      "degreeType": "Degree Type",
+      "selectDegree": "Select Degree",
+      "fieldOfStudy": "Field of Study",
+      "graduationYear": "Graduation Year (YYYY)",
+      "selectYearOptional": "Select Year (Optional)",
+      "gpa": "GPA",
+      "honors": "Honors",
+      "update": "Update",
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "profile": {
+      "title": "Professional Profile",
+      "subtitle": "Define who you are and what you bring to the table",
+      "whoYouAre": "Who You Are (The Hook)",
+      "whoYouAreHelp": "One powerful sentence that defines your professional identity. Includes: your position, amount of experience and industry/industries",
+      "coreSkills": "Technical and Hard Skills: These are the skills that describe you best and, when combined, create your value-add",
+      "coreSkillsHelp": "List your key technical competencies.",
+      "softSkills": "Leadership & Soft Skills: These are usually transferable",
+      "softSkillsHelp": "Describe your leadership style and interpersonal strengths.",
+      "areasOfExcellence": "Areas of Excellence: This is the list of your technical competencies",
+      "areasOfExcellenceHelp": "Key domains where you act as a subject matter expert.",
+      "preview": "Profile Preview",
+      "generateWithAI": "Generate with AI"
+    },
+    "jdAnalyzer": {
+      "profileIncomplete": "Your profile is incomplete. Please complete your mandatory profile information (Full Name, Phone, and Location) before exporting your resume."
+    },
+    "workExperience": {
+      "company": "Company",
+      "companyDesc": "Company Description",
+      "companyDescPlaceholder": "e.g., Global leader in Logistics and Supply Chain solutions",
+      "jobTitle": "Job Title",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "current": "I currently work here",
+      "scope": "Scope & Responsibilities",
+      "scopeHelp": "High-level summary of your role. Metrics should go in accomplishments.",
+      "scopePlaceholder": "Led the global procurement strategy for...",
+      "tools": "Tools & Systems",
+      "title": "Work Experience",
+      "addNew": "Add New Experience",
+      "noExperience": "No work experience added yet",
+      "startAdding": "Start by adding your most recent role",
+      "addFirst": "Add First Experience",
+      "importFromResume": "Import from Resume",
+      "dragDrop": "Drag and drop your resume here",
+      "browseFiles": "Browse Files",
+      "supportFormat": "Support for PDF and DOCX files",
+      "cancel": "Cancel",
+      "importing": "Importing...",
+      "import": "Import Experience",
+      "removeFile": "Remove file",
+      "importDescription": "Upload your existing resume (PDF or DOCX) and we'll automatically extract your work experience using AI.",
+      "accomplishments": "Accomplishments",
+      "accomplishmentsHelp": "Specific results you achieved that ensure your value-add and the things you have contributed. Use bullet points to highlight your success.",
+      "addBullet": "Add Bullet",
+      "linkPARStory": "Link CAR",
+      "selectCARStory": "Select a CAR to convert",
+      "noUnconvertedStories": "No unconverted CARs available. Create more in the CAR Builder.",
+      "convert": "Convert",
+      "addBulletTitle": "Add an Accomplishment Bullet",
+      "bulletHelp": "Use: Verb + Action + Result (measured)",
+      "bulletPlaceholder": "e.g., Led team of 12 engineers that delivered new payment system, reducing transaction time by 40% and saving $2M annually",
+      "adding": "Adding...",
+      "fromCARStory": "From CAR",
+      "pickFromBank": "Pick from bank",
+      "selectAccomplishments": "Select accomplishments from your bank",
+      "addSelected": "Add Selected ({{count}})",
+      "noBankItems": "Your accomplishment bank is empty. Add items in the Library first."
+    },
+    "par": {
+      "step2": "Step 2",
+      "toolsDescription": "Keep the writing tools visible and grouped in one focused area.",
+      "actionVerbs": "Action Verbs",
+      "viewExamples": "View Examples",
+      "aiGrouping": "AI Grouping",
+      "searchPlaceholder": "Search accomplishments...",
+      "storiesFoundCount": "{{count}} accomplishments found",
+      "lastInsertedVerb": "Last inserted action verb:",
+      "title": "CAR Builder",
+      "subtitle": "Challenge. Actions. Result. The framework for powerful accomplishments.",
+      "description": "Structure your accomplishments using the Challenge-Actions-Result (measured) framework.",
+      "addNew": "Add New CAR",
+      "noStories": "No CARs yet",
+      "noStoriesHelp": "Create stories to highlight your problem-solving skills.",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "legend": {
+        "challenge": "Challenge",
+        "actions": "Actions",
+        "result": "Result (measured)"
+      },
+      "roleCompany": "Role & Company",
+      "year": "Year",
+      "problem": "Challenge (Context)",
+      "problemHelp": "What specific problem or situation did you face?",
+      "actions": "Actions taken",
+      "actionsHelp": "What specific steps did YOU take? (Use active action verbs)",
+      "result": "Result (measured)",
+      "resultHelp": "What was the quantifiable outcome?",
+      "willDoAgain": "I would do this again",
+      "willDoAgainHelp": "Mark if this is a type of work you enjoy and want to repeat.",
+      "wouldDoAgain": "Would do again",
+      "converted": "Converted",
+      "filterByCompetency": "Filter by competency",
+      "filterByWillDoAgain": "Would do again",
+      "storiesFound": "stories found",
+      "convertToBullet": "Convert to Bullet",
+      "errors": {
+        "roleRequired": "Role and Company are required",
+        "problemRequired": "Challenge description is required",
+        "actionsRequired": "At least 2 actions are required",
+        "resultRequired": "Result is required",
+        "requiredFields": "Please fill in Challenge and Result fields first"
+      }
+    },
+    "placeholders": {
+      "whoYouAre": "e.g., Senior Product Manager with 10+ years driving digital transformation in FinTech.",
+      "coreSkills": "e.g., Strategic Planning, Agile Methodologies, Stakeholder Management, Python, SQL.",
+      "softSkills": "e.g., Empathetic leader who builds high-performing teams through mentorship and clear communication.",
+      "areasOfExcellence": "e.g., Project Management, budget planning, team leadership",
+      "roleCompany": "e.g., Senior Product Manager at Google",
+      "problem": "e.g., Product adoption was declining 15% QoQ due to poor onboarding UX",
+      "result": "e.g., Increased user activation by 40% in 3 months, reduced churn from 25% to 12%, and generated $2M in additional ARR",
+      "metricInput": "e.g., Increased efficiency by 25%",
+      "action1": "e.g., Conducted user research with 50+ customers",
+      "action2": "e.g., Redesigned the onboarding flow",
+      "action3": "e.g., Collaborated with engineering to implement changes",
+      "fullName": "John Doe",
+      "email": "john.doe@example.com",
+      "phone": "+1 (555) 123-4567",
+      "linkedin": "https://linkedin.com/in/johndoe",
+      "city": "San Francisco",
+      "cityGeneric": "Enter city name"
+    },
+    "accomplishmentLibrary": {
+      "title": "Accomplishment Library",
+      "subtitle": "Your personal bank of achievements — organized, tagged, and ready for any resume.",
+      "addNew": "Add Accomplishment",
+      "importExisting": "Import from Work Experience",
+      "importingAll": "Importing...",
+      "importSuccess": "{{count}} accomplishments imported!",
+      "importNone": "No new accomplishments to import — all are already in your library.",
+      "filterByRole": "Filter by role",
+      "filterBySkill": "Filter by skill",
+      "starredOnly": "Starred only",
+      "allItems": "All",
+      "noAccomplishments": "No accomplishments yet",
+      "noAccomplishmentsHelp": "Start building your library by adding accomplishments or importing them from your work experience.",
+      "noResults": "No accomplishments match your filters.",
+      "autoAssemble": "AI Auto-Select",
+      "autoAssembleHelp": "Enter a target job title and let AI pick the best accomplishments for your resume.",
+      "targetJobTitle": "Target Job Title",
+      "targetJobPlaceholder": "e.g., Senior Product Manager",
+      "selectBullets": "How many bullets?",
+      "assembling": "AI is selecting...",
+      "assemble": "Auto-Select",
+      "aiSelected": "AI selected {{count}} accomplishments for \"{{job}}\"",
+      "timesUsed": "Used {{count}} times",
+      "source": "Source",
+      "sourceManual": "Manual",
+      "sourceImported": "Imported",
+      "sourceCarStory": "CAR",
+      "sourceAI": "AI Generated",
+      "skills": "Skills",
+      "competencies": "Competencies",
+      "addSkill": "Add skill...",
+      "addCompetency": "Add competency...",
+      "bulletPlaceholder": "e.g., Led team of 12 to deliver payment system, reducing transaction time by 40%",
+      "rolePlaceholder": "e.g., Senior Product Manager",
+      "companyPlaceholder": "e.g., Google",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "editBullet": "Edit accomplishment",
+      "starred": "Starred",
+      "groupedBy": "Grouped by role"
+    },
+    "questionnaire": {
+      "section_identity": "Identity & Target",
+      "section_environments": "Environments & Functions",
+      "section_impact": "Impact & Scale",
+      "section_strengths": "Strengths & Differentiators",
+      "section_skills": "Skills & Tools",
+      "section_high_impact": "High-Impact Stories",
+      "step3": "Step 3",
+      "title": "Professional Positioning Questionnaire",
+      "subtitle": "Complete this after your accomplishments for best results.",
+      "warningText": "Completing your accomplishments first improves the quality of the generated profile.",
+      "goToStoryCards": "Go to your \"accomplishment bank\" →",
+      "backToResumeBuilder": "Back to Resume Builder",
+      "backToCarStories": "Back to CAR Stories",
+      "sectionLabel": "Section {{current}} of {{total}}: {{name}}",
+      "add": "Add",
+      "currentJobTitle": "Current Job Title",
+      "currentJobTitlePlaceholder": "e.g., Director of Supply Chain",
+      "targetJobTitle": "Target Job Title",
+      "targetJobTitlePlaceholder": "e.g., VP of Operations",
+      "onePhraseIdentity": "One-Phrase Identity",
+      "onePhraseIdentityHelper": "How would you describe yourself in one powerful phrase?",
+      "onePhraseIdentityPlaceholder": "e.g., Operational strategist who turns chaos into scalable systems",
+      "yearsOfExperience": "Years of Experience",
+      "industries": "Industries",
+      "industriesPlaceholder": "e.g., Manufacturing, Healthcare",
+      "workEnvironments": "Work Environments",
+      "functions": "Functions (2-3 primary)",
+      "functionsPlaceholder": "e.g., Operations, Finance, Strategy",
+      "trustedProblems": "Trusted Problems",
+      "trustedProblemsHelper": "What type of problems do people bring to you to solve?",
+      "trustedProblemsPlaceholder": "e.g., Complex cross-functional challenges...",
+      "typesOfImpact": "Types of Impact You Deliver",
+      "teamSize": "Team Size",
+      "teamSizePlaceholder": "e.g., 50+ direct, 200+ indirect",
+      "budgetManaged": "Budget Managed",
+      "budgetManagedPlaceholder": "e.g., $25M annual",
+      "geographicScope": "Geographic Scope",
+      "geographicScopePlaceholder": "e.g., Global (US, EU, APAC)",
+      "projectScale": "Project Scale",
+      "projectScalePlaceholder": "e.g., 12-month, $10M programs",
+      "stakeholderExposure": "Stakeholder Exposure",
+      "coreStrengths": "Core Strengths (select your top 5-8)",
+      "technicalSkills": "Technical Skills & Tools",
+      "technicalSkillsPlaceholder": "e.g., SAP, Python, Tableau",
+      "platformsSystems": "Platforms & Systems",
+      "platformsSystemsPlaceholder": "e.g., Salesforce, Oracle, AWS",
+      "methodologies": "Methodologies & Frameworks",
+      "methodologiesPlaceholder": "e.g., Lean Six Sigma, Agile, PMBOK",
+      "certifications": "Certifications & Advanced Training",
+      "certificationsPlaceholder": "e.g., PMP, CPA, AWS Solutions Architect",
+      "languagesSpoken": "Languages Spoken",
+      "languagesSpokenPlaceholder": "e.g., English, Spanish, French",
+      "pasteJobDescriptions": "Paste Target Job Descriptions (optional)",
+      "pasteJobDescriptionsHelper": "Paste 1-3 job descriptions for roles you're targeting. This helps generate a more tailored profile.",
+      "pasteJobDescriptionsPlaceholder": "Paste a job description here...",
+      "impactOptions": [
+        "Revenue Growth",
+        "Cost Reduction",
+        "Process Optimization",
+        "Team Building / Scaling",
+        "Market Expansion",
+        "Digital Transformation",
+        "Risk Mitigation",
+        "Cultural Change",
+        "Innovation / R&D",
+        "Customer Experience",
+        "Operational Efficiency",
+        "M&A Integration"
+      ],
+      "environmentOptions": [
+        "Fortune 500 / Enterprise",
+        "Mid-Market",
+        "Start-up / Scale-up",
+        "Government / Public Sector",
+        "Non-Profit / NGO",
+        "Consulting / Professional Services",
+        "Private Equity / VC-Backed",
+        "Family-Owned",
+        "Matrix Organization",
+        "Remote / Distributed"
+      ],
+      "strengthOptions": [
+        "Strategic Thinking",
+        "Analytical Problem Solving",
+        "Cross-Functional Leadership",
+        "Change Management",
+        "Stakeholder Management",
+        "Negotiation",
+        "Data-Driven Decision Making",
+        "Team Development",
+        "Communication / Storytelling",
+        "Innovation / Creativity",
+        "Execution / Delivery",
+        "Financial Acumen",
+        "Client Relationship Building",
+        "Technical Depth",
+        "Global / Multicultural Awareness",
+        "Resilience / Adaptability"
+      ],
+      "stakeholderOptions": [
+        "C-Suite",
+        "Board of Directors",
+        "Investors / PE / VC",
+        "External Clients",
+        "Vendors / Suppliers",
+        "Cross-Functional Teams",
+        "Government / Regulators",
+        "International Partners",
+        "Union / Labor Groups"
+      ]
+    }
+  },
+  "dashboard": {
+    "welcomeBack": "Welcome back,",
+    "whatToAchieve": "What do you want to achieve today?",
+    "pickFocus": "Pick a focus, we'll guide you step-by-step with the fastest path to results.",
+    "executiveMember": "Executive Member",
+    "momentumMember": "Momentum Member",
+    "essentialsPlan": "Essentials Plan",
+    "recommendedNext": "Recommended Next Step",
+    "continue": "Continue",
+    "start": "Start",
+    "watchVideo": "Watch video",
+    "learnMore": "Learn more",
+    "buildMyResume": "Build My Resume",
+    "buildMyResumeDesc": "Continue where you left off. We'll prioritize edits to improve ATS match and clarity.",
+    "progress": "Progress",
+    "steps": "steps",
+    "preview": "Preview",
+    "locked": "Locked",
+    "upgradeTo": "Upgrade to",
+    "yourStats": "Your stats progress this week",
+    "resumeScore": "Resume score",
+    "applicationsTracked": "Applications tracked",
+    "interviewsScheduled": "Interviews scheduled",
+    "quickActions": {
+      "continueDesc": "Pick up where you left off in your NovaNext program.",
+      "networkingDesc": "Join live sessions and connect with your community."
+    },
+    "tools": "Tools",
+    "uploadResume": "Upload resume",
+    "analyzeJD": "Analyze job description",
+    "careerVision": "Understand Your Career Vision",
+    "careerVisionDesc": "Get a clear understanding of who you are and what is your success formula.",
+    "resumeBuilder": "Resume Builder",
+    "resumeBuilderDesc": "Build an interview magnet resume and your personal accomplishment bank.",
+    "jobSearch": "Job Search and Positioning",
+    "jobSearchDesc": "Use these techniques and get called for an interview 75% faster than others.",
+    "interviewMastery": "Interview Mastery",
+    "interviewMasteryDesc": "Be the one they choose. Understand and practice the interview to be the winning candidate.",
+    "home": {
+      "title": "Dashboard",
+      "greeting": "Welcome back, {{name}}",
+      "subtitle": "Your personalized career hub",
+      "heroTitle": "Your progress, community, and next best actions in one place.",
+      "heroDescription": "Keep moving forward in your NovaWork journey. Track your momentum, continue your current program, discover curated resources, and join this week's networking sessions."
+    },
+    "marketPulse": {
+      "title": "What's happening in the job market",
+      "viewMore": "View more insights"
+    },
+    "cta": {
+      "continueProgram": "Continue Program",
+      "exploreNetworking": "Explore Networking",
+      "viewCalendar": "View Member Calendar",
+      "viewAll": "View All",
+      "register": "Register",
+      "cancelRegistration": "Cancel Registration",
+      "retry": "Try Again",
+      "viewModules": "View All Modules"
+    },
+    "statsSection": {
+      "title": "Your Progress",
+      "profileCompletion": "Profile Completion",
+      "resumeVersions": "Resume Versions",
+      "applications": "Applications",
+      "interviews": "Interviews",
+      "sessionsJoined": "Sessions Joined"
+    },
+    "quickActionsPanel": {
+      "title": "Quick Actions",
+      "myCoaches": "My Coaches / Book",
+      "uploadResume": "Upload Resume",
+      "analyzeJD": "Analyze Job Description",
+      "joinNetworking": "Join Networking",
+      "viewCalendar": "View Calendar",
+      "sharedResources": "Shared Resources"
+    },
+    "nextActions": {
+      "title": "Next Best Actions",
+      "continueResume": "Continue Resume Builder",
+      "finishCareerVision": "Finish Career Vision",
+      "joinSession": "Join This Week's Session",
+      "reviewResources": "Review Recommended Resources",
+      "startOnboarding": "Complete Your Profile"
+    },
+    "sessions": {
+      "title": "Upcoming Member Sessions",
+      "seatsLeft_one": "{{count}} seat left",
+      "seatsLeft_other": "{{count}} seats left",
+      "full": "Session Full",
+      "registered": "Registered",
+      "register": "Register",
+      "cancelRegistration": "Cancel Registration",
+      "duration": "{{minutes}} min",
+      "empty": "No upcoming sessions right now. Check back soon.",
+      "error": "Unable to load sessions.",
+      "workshop": "Workshop",
+      "networking": "Networking",
+      "q_and_a": "Q&A",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Community Highlights",
+      "members_one": "{{count}} member",
+      "members_other": "{{count}} members",
+      "joinGroup": "Join Group",
+      "empty": "Community spaces coming soon.",
+      "error": "Unable to load community."
+    },
+    "resources": {
+      "title": "Recommended Resources",
+      "viewResource": "View Resource",
+      "empty": "No resources available yet.",
+      "error": "Unable to load resources.",
+      "article": "Article",
+      "video": "Video",
+      "pdf": "PDF",
+      "tool": "Tool"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "empty": "No activity yet — start by updating your resume or joining a session.",
+      "error": "Unable to load activity.",
+      "resume_updated": "Updated resume",
+      "session_joined": "Joined a session",
+      "session_cancelled": "Cancelled session",
+      "resource_viewed": "Viewed a resource",
+      "application_tracked": "Tracked an application",
+      "interview_scheduled": "Scheduled an interview",
+      "profile_updated": "Updated profile",
+      "car_story_added": "Added an accomplishment",
+      "onboarding_completed": "Completed onboarding"
+    }
+  },
+  "services": {
+    "title": "Services",
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Active"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "In Development"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "In Development"
+    }
+  },
+  "membership": {
+    "title": "Programs",
+    "essential": "Essential",
+    "momentum": "Momentum",
+    "executive": "Executive",
+    "upgradeTo": "Upgrade to {{tier}}",
+    "availableIn": "Available in {{tier}}",
+    "currentPlan": "Current Plan"
+  },
+  "learningModules": {
+    "title": "Learning Modules",
+    "careerVision": "Career Vision",
+    "resumeBuilder": "Resume Builder",
+    "jobSearch": "Job Search",
+    "interviewMastery": "Interview Mastery"
+  },
+  "sidebarCommunity": {
+    "title": "Community",
+    "networkingSessions": "Networking Sessions",
+    "memberCalendar": "Member Calendar",
+    "community": "Community"
+  },
+  "sidebarOverview": {
+    "dashboard": "Dashboard",
+    "modules": "All Modules"
+  },
+  "sidebarTools": {
+    "title": "Tools",
+    "myCoaches": "My Coaches",
+    "sharedResources": "Shared Resources"
+  },
+  "novaNextAcademy": {
+    "title": "NovaNext Academy",
+    "videosAudio": "Videos & Audio",
+    "subtitle": "Learn. Prepare. Stand Out."
+  },
+  "academy": {
+    "badge": "NovaNext Academy",
+    "title": "Learning Map",
+    "subtitle": "Interactive career development roadmap",
+    "clickToExplore": "Click the center node to explore topics",
+    "setupRequired": "Click the center node to explore topics"
+  },
+  "topics": {
+    "resume": "Resume Mastery",
+    "interview": "Interview Mastery",
+    "jobSearch": "Job Search",
+    "networking": "Networking",
+    "salary": "Salary Negotiation"
+  },
+  "nodes": {
+    "resumeIntro": "Introduction to Resumes",
+    "resumeStructure": "Resume Structure",
+    "accomplishments": "Accomplishments Bank",
+    "keywords": "Keywords & ATS",
+    "interviewPrep": "Interview Preparation",
+    "commonQuestions": "Common Questions",
+    "bodyLanguage": "Body Language",
+    "followUp": "Follow-up Strategies",
+    "marketResearch": "Market Research",
+    "applications": "Application Strategy",
+    "tracking": "Application Tracking",
+    "linkedIn": "LinkedIn Optimization",
+    "informationalInterviews": "Informational Interviews",
+    "elevatorPitch": "Elevator Pitch",
+    "negotiation": "Negotiation Tactics",
+    "benefits": "Benefits Package"
+  },
+  "panel": {
+    "learningPanel": "Learning Panel",
+    "continueLearning": "Continue Learning",
+    "recommended": "Recommended",
+    "resources": "Resources",
+    "items": "items",
+    "all": "All",
+    "video": "Video",
+    "audio": "Audio",
+    "article": "Article",
+    "noResources": "No resources available",
+    "completed": "Completed",
+    "aiRecommendation": "Personalized recommendations based on your progress",
+    "aiRecommendationDesc": "Our AI analyzes your learning patterns to suggest the best next steps."
+  },
+  "resources": {
+    "resumeIntroTitle": "Introduction to Resume Writing",
+    "resumeIntroDesc": "Learn the fundamentals of creating an impactful resume that gets noticed by recruiters.",
+    "resumeAudioTitle": "Resume Tips Audio Guide",
+    "resumeAudioDesc": "Listen to expert tips on resume optimization while you commute or exercise.",
+    "accomplishmentsTitle": "Building Your Accomplishments Bank",
+    "accomplishmentsDesc": "Discover how to document and quantify your professional achievements effectively.",
+    "interviewPrepTitle": "Master Interview Preparation",
+    "interviewPrepDesc": "A comprehensive guide to preparing for any type of interview with confidence.",
+    "commonQuestionsTitle": "Common Interview Questions",
+    "commonQuestionsDesc": "Practice responses to the most frequently asked interview questions.",
+    "bodyLanguageTitle": "Body Language Mastery",
+    "bodyLanguageDesc": "Learn non-verbal communication techniques that can make or break your interview.",
+    "marketResearchTitle": "Salary & Market Research",
+    "marketResearchDesc": "How to research compensation trends and market rates for your target role.",
+    "applicationsTitle": "Strategic Job Applications",
+    "applicationsDesc": "A systematic approach to applying for jobs that actually converts to interviews.",
+    "linkedInTitle": "LinkedIn Profile Optimization",
+    "linkedInDesc": "Transform your LinkedIn profile into a powerful networking and job search tool.",
+    "elevatorPitchTitle": "The Perfect Elevator Pitch",
+    "elevatorPitchDesc": "Craft and deliver a compelling 30-second introduction that opens doors.",
+    "negotiationTitle": "Salary Negotiation Tactics",
+    "negotiationDesc": "Proven strategies to negotiate your salary and compensation package with confidence.",
+    "benefitsTitle": "Understanding Benefits Packages",
+    "benefitsDesc": "How to evaluate and negotiate the full benefits package beyond base salary."
+  },
+  "accomplishmentBankLearnMore": {
+    "heroBadge": "Learn More · Accomplishment Bank",
+    "heroTitle": "Build a living portfolio of your professional wins",
+    "heroDescription": "Capture your achievements, organize them with structure, and turn them into high-impact statements for resumes, interviews, LinkedIn, and career growth.",
+    "ctaBuildBank": "Build My Bank",
+    "ctaStartCAR": "Start with CAR",
+    "snapshotTitle": "Accomplishment Snapshot",
+    "snapshotOriginal": "Original Story",
+    "snapshotOriginalText": "Led reporting automation across sales operations, reducing manual work and improving delivery speed.",
+    "snapshotAILabel": "AI-Generated Variations",
+    "aiOutput1": "Improved reporting efficiency by automating sales workflows and reducing manual effort by 35%.",
+    "aiOutput2": "Streamlined cross-functional reporting processes, accelerating dashboard delivery for leadership teams.",
+    "aiOutput3": "Designed a scalable reporting approach that improved visibility, speed, and reporting accuracy.",
+    "whatItIsLabel": "What it is",
+    "whatItIsTitle": "What is the Accomplishment Bank?",
+    "whatItIsText": "The Accomplishment Bank is a structured space where you collect, refine, and reuse your most valuable professional achievements. Instead of starting from zero every time you update a resume or prepare for an interview, you build a reusable system of impact.",
+    "whyUsersLoveTitle": "Why users love it",
+    "whyLove1": "No more trying to remember achievements under pressure",
+    "whyLove2": "Better resume bullets and stronger interview answers",
+    "whyLove3": "One accomplishment can become many strategic variations",
+    "whyItMattersLabel": "Why it matters",
+    "whyItMattersTitle": "A better way to communicate your value",
+    "captureTitle": "Capture",
+    "captureText": "Save your career wins in one structured place instead of losing them across old resumes, notes, or memory.",
+    "organizeTitle": "Organize",
+    "organizeText": "Refine and categorize your accomplishments so they are easier to reuse for resumes, interviews, and LinkedIn.",
+    "leverageTitle": "Leverage",
+    "leverageText": "Turn your experience into a reusable portfolio of impact for new roles, promotions, and career transitions.",
+    "twoWaysLabel": "Two ways to start",
+    "twoWaysTitle": "Choose the path that fits your situation",
+    "fastTrackLabel": "Fast-track path",
+    "uploadTitle": "Upload Your Resume",
+    "uploadText": "Already have strong achievement-based content? Upload your resume and extract accomplishments into your bank automatically.",
+    "uploadBtn": "Open Accomplishment Bank",
+    "guidedLabel": "Guided path",
+    "carTitle": "Build with CAR",
+    "carText": "Start from scratch using the Context, Action, Result method to create powerful accomplishment statements step by step.",
+    "carBtn": "Start with CAR",
+    "carFrameworkLabel": "CAR Framework",
+    "carFrameworkTitle": "Turn experience into clear accomplishment statements",
+    "carFrameworkText": "The CAR method helps you write stronger, more strategic accomplishments by breaking each story into three essential parts: Context, Action, and Result.",
+    "carCTitle": "Context",
+    "carCText": "What was the situation, challenge, business need, or goal?",
+    "carATitle": "Action",
+    "carAText": "What did you do specifically? What process, decision, or initiative did you lead or improve?",
+    "carRTitle": "Result",
+    "carRText": "What changed? Show the measurable outcome, improvement, savings, growth, or impact.",
+    "aiMultiplierLabel": "AI Multiplier",
+    "aiMultiplierTitle": "One story becomes multiple high-impact versions",
+    "aiMultiplierText": "After you enter one complete accomplishment story, AI can generate multiple polished variations tailored to different career goals and communication contexts.",
+    "aiInput": "Input",
+    "aiInputText": "Led reporting automation across sales operations, reducing manual work and improving delivery speed.",
+    "aiOutputLabel": "Output Variations",
+    "adaptLabel": "Strategic adaptability",
+    "adaptTitle": "The same accomplishment can highlight different strengths",
+    "leadershipTitle": "Leadership",
+    "leadershipText": "Frame the accomplishment around ownership, direction, initiative, and team impact.",
+    "analyticalTitle": "Analytical Thinking",
+    "analyticalText": "Emphasize the problem-solving approach, data reasoning, metrics, and decision logic.",
+    "communicationTitle": "Communication",
+    "communicationText": "Show stakeholder alignment, collaboration, influence, and cross-functional execution.",
+    "ctaLabel": "Ready to start?",
+    "ctaTitle": "Start building your Accomplishment Bank today",
+    "ctaText": "Stop relying on memory. Build a reusable portfolio of career wins that supports your resume, interview preparation, and next opportunity."
+  },
+  "resumeBuilderLearnMore": {
+    "heroBadge": "LEARN MORE • ACCOMPLISHMENT-BASED RESUME",
+    "heroTitle": "The Architecture of the Accomplishment-Based Resume",
+    "heroSubtitle": "Stop writing your resume like a job description. Start presenting yourself as a proven contributor with measurable impact, business value, and real performance.",
+    "ctaStart": "Start Building",
+    "ctaExample": "See Example",
+    "blackHoleTitle": "The Resume Black Hole",
+    "blackHoleText": "Many job seekers spend hours or weeks trying to perfect a resume, yet still feel unsure about what belongs on it. The real issue is not effort. It is the wrong framing.",
+    "blackHoleQuotePre": "A resume has one job:",
+    "blackHoleQuoteAccent": "to get you an interview.",
+    "notTitle": "What a Resume Is Not",
+    "not1": "It is not the most important tool in your job search.",
+    "not2": "It is not a summary of your entire professional life.",
+    "not3": "It is not supposed to get you hired by itself.",
+    "mistakeTitle": "The Biggest Mistake",
+    "mistakeText": "Most resumes are filled with responsibilities, tasks, and generic duties. That content describes the role, but it does not distinguish the person who performed it.",
+    "jobDescription": "Describing the Job",
+    "jd1": "Managed pipeline",
+    "jd2": "Attended weekly meetings",
+    "jd3": "Closed deals",
+    "jd4": "Prospected new clients",
+    "contribution": "Showing Contribution",
+    "c1": "Expanded territory revenue by 42%",
+    "c2": "Ranked #1 for 3 straight quarters",
+    "c3": "Improved win rate in 18 months",
+    "c4": "Created measurable business impact",
+    "whyTitle": "Why Accomplishments Win",
+    "whyText": "Your accomplishments are uniquely yours. No one else had your exact role, inside your exact company, during your exact timeline, with your exact outcomes.",
+    "whyQuotePre": "Grew territory revenue by",
+    "whyQuoteAccent1": "42%",
+    "whyQuoteMid": "in",
+    "whyQuoteAccent2": "18 months",
+    "whyQuoteEnd": "and ranked #1 in the region for three consecutive quarters.",
+    "pillarsTitle": "The Three Pillars of an Accomplishment",
+    "pillarsSubtitle": "Each strong accomplishment should prove what you delivered, why it mattered, and how your performance went beyond what was merely expected.",
+    "pillarresultsTitle": "Results",
+    "pillarresultsText": "What you delivered. The concrete outcome, metric, or improvement you achieved.",
+    "pillarbusinessImpactTitle": "Business Impact",
+    "pillarbusinessImpactText": "What you created for the company. Revenue, savings, efficiency, growth, risk reduction, or customer value.",
+    "pillaractualPerformanceTitle": "Actual Performance",
+    "pillaractualPerformanceText": "Not just what your role expected. This proves excellence, ownership, and differentiated execution.",
+    "hiringTitle": "The Hiring Manager Perspective",
+    "hiringText": "When someone reads an accomplishment-based resume, they no longer just see a candidate. They see a contributor. That shift changes the way your profile is evaluated.",
+    "mindsetFrom1": "Candidate",
+    "mindsetTo1": "Contributor",
+    "mindsetTitle": "The Essential Mindset Shift",
+    "mindsetText": "Stop thinking of your resume as a job description. Think of it as a performance record. That is what makes your story clearer, stronger, and easier to believe.",
+    "mindsetFrom2": "Job Description",
+    "mindsetTo2": "Performance Record",
+    "ctaTitle": "Ready to Build Your Story?",
+    "ctaText": "With the right mindset in place, you can now structure a resume that is focused, credible, and built around what hiring teams care about most: evidence of performance.",
+    "ctaContinue": "Continue to Builder",
+    "footerNote": "NovaWork Global - Accomplishment-Based Resume Method"
+  },
+  "onlineJobApplications": {
+    "title": "Online Job Applications",
+    "subtitle": "Step 2: Track applications & leverage referrals",
+    "backToJobSearch": "Back to Job Search",
+    "watchVideo": "Watch video",
+    "bestPracticesLabel": "Application best practices",
+    "bestPracticesDesc": "Referrals increase your callbacks by 400%",
+    "smartSearch": {
+      "title": "Smart Job Search",
+      "description": "Generate an optimized Google Jobs search link to find the latest postings across all platforms (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "jobTitlePlaceholder": "Job Title (e.g. Product Manager)",
+      "locationPlaceholder": "Location (Optional)",
+      "searchBtn": "Search Jobs"
+    },
+    "atsAnalyzer": {
+      "title": "ATS Analyzer",
+      "description": "Compare resume vs. job description before applying.",
+      "launchBtn": "Launch Analyzer"
+    },
+    "tunnel": {
+      "title": "Application Tunnel",
+      "target": "Target: 30% Referral Rate",
+      "lastUpdated": "Last Updated: Today",
+      "applications": "Applications",
+      "referralRate": "Referral Rate",
+      "followUpsDue": "Follow-ups Due",
+      "interviews": "Interviews"
+    },
+    "tabs": {
+      "applications": "Applications",
+      "applicationsDesc": "Manual tracking",
+      "aiApplications": "AI Applications",
+      "aiApplicationsDesc": "Created with JD Analyzer",
+      "checklist": "Checklist",
+      "checklistDesc": "Quality assurance"
+    }
+  },
+  "resumeChecklist": {
+    "bannerTitle": "80% of Resumes Are Rejected by ATS",
+    "bannerDesc": "Use this checklist EVERY time you apply to ensure your resume gets through automated screening and into human hands.",
+    "stepLabel": "Step {{number}}",
+    "etapaLabel": "Stage {{current}} of {{total}}",
+    "completedLabel": "completed",
+    "stepInstructions": "Check off each item before sending your application",
+    "prev": "Previous",
+    "next": "Next",
+    "progress": {
+      "title": "Verification Progress",
+      "completed": "{{checked}}/{{total}} completed",
+      "reset": "Reset",
+      "doneMsg": "Ready to apply! Your resume is optimized."
+    },
+    "priority": {
+      "high": "Must-Do",
+      "medium": "Important",
+      "low": "Nice-to-Have"
+    },
+    "proTip": {
+      "title": "Pro Tip — The 80% Referral Rule",
+      "desc": "Even with a perfectly tailored resume, your callback rate without a referral is only 1-2%. WITH a referral, it jumps to 80%. Always try to find a referral before applying.",
+      "li1": "Check LinkedIn for 1st or 2nd degree connections",
+      "li2": "Reach out to alumni from your school",
+      "li3": "Ask your network for warm introductions",
+      "li4": "Message employees on LinkedIn with a personalized note"
+    },
+    "printSection": {
+      "title": "Print-Friendly Quick Checklist",
+      "btn": "Print Checklist"
+    },
+    "sections": {
+      "beforeStart": {
+        "title": "Before You Start",
+        "subtitle": "Research before touching your resume",
+        "item1": "Read the full job description 3 times",
+        "item1Desc": "Identify requirements, responsibilities and company culture",
+        "item2": "Identify the top 5-10 keywords from the JD",
+        "item2Desc": "Use them when rewriting; they must appear exactly as listed",
+        "item3": "Research the company",
+        "item3Desc": "Know their mission, recent news, and why you want to work there"
+      },
+      "resumeOptimization": {
+        "title": "Resume Optimization",
+        "subtitle": "Tailor your resume to the role",
+        "item1": "Match your job titles to their language",
+        "item1Desc": "If they say \"Product Manager,\" don't use \"Product Lead\"",
+        "item2": "Include ALL required skills mentioned in the JD",
+        "item2Desc": "If you have the skill, it MUST be on your resume",
+        "item3": "Use their exact keywords (especially for ATS)",
+        "item3Desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\"",
+        "item4": "Quantify your accomplishments",
+        "item4Desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\"",
+        "item5": "Tailor your summary/profile section",
+        "item5Desc": "First 3 lines should mirror the job requirements",
+        "item6": "Remove irrelevant experience",
+        "item6Desc": "If it doesn't help you get THIS job, consider removing it"
+      },
+      "atsFormatting": {
+        "title": "ATS-Friendly Formatting",
+        "subtitle": "Make sure robots can read your resume",
+        "item1": "Use standard section headers",
+        "item1Desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\"",
+        "item2": "Save as .docx or .pdf",
+        "item2Desc": "PDF preferred, but some ATS prefer .docx - check job posting",
+        "item3": "Use standard fonts (Arial, Calibri, Times)",
+        "item3Desc": "Avoid fancy fonts that ATS can't read",
+        "item4": "Avoid tables, columns, headers/footers",
+        "item4Desc": "ATS struggles with complex formatting",
+        "item5": "Use standard bullet points",
+        "item5Desc": "Simple • or - symbols only"
+      },
+      "fileNaming": {
+        "title": "File Naming & Submission",
+        "subtitle": "Final checks before you hit send",
+        "item1": "Name file correctly",
+        "item1Desc": "Format: YourName_JobTitle_CompanyName.pdf (e.g., JohnSmith_ProductManager_Google.pdf)",
+        "item2": "Save in dedicated folder",
+        "item2Desc": "Keep organized: Applications/[Company]/[Date]/",
+        "item3": "Keep original version",
+        "item3Desc": "Always maintain your master resume separately"
+      }
+    }
+  },
+  "tour": {
+    "common": {
+      "back": "Back",
+      "skip": "Skip tour",
+      "next": "Next",
+      "done": "Done",
+      "stepOf": "Step {{current}} of {{total}}"
+    },
+    "resumeBuilderMenu": {
+      "title": "Resume Builder Tour",
+      "skip": "Skip tour",
+      "back": "Back",
+      "next": "Next",
+      "done": "Done",
+      "steps": {
+        "1": {
+          "title": "Work Experience Outline",
+          "content": "In the first part, you'll outline your work experience. This is where you list the companies and roles you've held, along with the key details like the company name, position, years, and locations."
+        },
+        "2": {
+          "title": "Accomplishment Bank",
+          "content": "In the Accomplishment Bank, you'll gather all the major achievements from your career. Build them through the CAR system (Challenge + Actions + Result) or import from an existing resume."
+        },
+        "3": {
+          "title": "Professional Profile",
+          "content": "Build the reader's first impression with a positioning paragraph that includes ATS keywords. Create it yourself, follow video instructions, or use our AI questionnaire."
+        },
+        "4": {
+          "title": "Resume Format Selection",
+          "content": "Choose between a chronological resume (ideal for similar career paths) or a functional resume (great for career changers or project-based work)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Work Experience Tour",
+      "backDashboard": {
+        "title": "Return to Dashboard",
+        "content": "Head back to your main dashboard to access other sections or view your overall progress."
+      },
+      "navTabs": {
+        "title": "Resume Sections",
+        "content": "Navigate between different sections of your resume using these tabs."
+      },
+      "sectionTitle": {
+        "title": "Work Experience Builder",
+        "content": "This is where you build your career history. Add each role you've held to create a comprehensive work timeline."
+      },
+      "videoChips": {
+        "title": "Contextual Videos",
+        "content": "Watch short videos to understand key concepts. \"Job Purpose\" explains how to define your role impact."
+      },
+      "importResume": {
+        "title": "Import from Resume",
+        "content": "Have an existing resume? Import it to automatically populate your work history."
+      },
+      "addExperience": {
+        "title": "Add Work Experience",
+        "content": "Manually add your work history here. Capture the company, your title, dates, and key accomplishments."
+      },
+      "experienceList": {
+        "title": "Your Experience Cards",
+        "content": "Each card represents a role in your career. Click Edit to modify or Delete to remove."
+      }
+    }
+  },
+  "careerVision": {
+    "journey": {
+      "title": "Your Career Vision Journey",
+      "subtitle": "Complete these sections to discover your ideal career path",
+      "progress": "Progress",
+      "sectionsCompleted": "{{completed}} of {{total}} sections completed",
+      "completed": "✓ Completed",
+      "notStarted": "Not started",
+      "skillsInterests": "Skills & Interests",
+      "skillsSubtitle": "List what you know and what you would do again",
+      "jobHistoryAnalysis": "Job History Analysis",
+      "jobHistorySubtitle": "Reflect on past roles to identify patterns",
+      "idealWorkPreferences": "Ideal Work Preferences",
+      "idealWorkSubtitle": "Define your must-haves and priorities",
+      "review": "Review →",
+      "start": "Start →",
+      "watchVideo": "Watch video",
+      "exploreSection": "Explore section",
+      "deepenKnowledge": "Deepen your self-knowledge and strategy",
+      "completeTitle": "Career Vision Complete!",
+      "completeSubtitle": "You've completed all sections. View your comprehensive career profile now!",
+      "viewCareerVision": "View Your Career Vision →",
+      "backToDashboard": "Back to Dashboard",
+      "whatIsCareerVision": "What is Career Vision?",
+      "clarityHired": "Clarity gets you hired 2x faster"
+    }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Job Search & Application Suite",
+      "subtitle": "Your dashboard for landing the job. Plan, track, analyze, and prepare.",
+      "strategicFramework": "Understand the Strategic Framework:",
+      "frameworkStat": "Success, getting called 75% faster than most",
+      "aiMatchingTitle": "AI-Powered Job Matching",
+      "aiMatchingDesc": "Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.",
+      "aiPowered": "AI Powered",
+      "findMyJob": "Find My Job",
+      "step1Title": "Step 1: Plan Your Search",
+      "step1Desc": "Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.",
+      "step2Title": "Step 2: Online Job Applications",
+      "step2Desc": "Track applications, leverage referrals, and analyze JDs in one place.",
+      "step3Title": "Step 3: Headhunters & Firms",
+      "step3Desc": "Target recruiters with smart filters and access top firm rankings.",
+      "step4Title": "Step 4: Networking Strategy",
+      "step4Desc": "Access the hidden job market with the 60-Day Plan and 90-Sec Story.",
+      "step5Title": "Step 5: Your online presence",
+      "step5Desc": "Optimize your LinkedIn profile and personal brand to attract recruiters.",
+      "openTool": "Open Tool",
+      "startHere": "Start Here",
+      "dailyTool": "Daily Tool"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Before the Interview (Prepare)",
+      "phase2Title": "During the Interview (Execution)",
+      "phase3Title": "After the Interview (Follow-up)",
+      "research": "Research Thoroughly",
+      "contentPrep": "Content Preparation",
+      "practice": "Practice Techniques",
+      "interviewType": "Identify Interview Type",
+      "sessionNotes": "Interview Session Notes",
+      "questionsToAsk": "Questions to Ask",
+      "thankYou": "Thank You Notes",
+      "followupTimeline": "Follow-up Timeline",
+      "negotiation": "Negotiation Prep",
+      "markPhaseComplete": "Mark Phase {{n}} as Complete"
+    }
+  },
+  "onlineApplications": {
+    "title": "Online Job Applications",
+    "subtitle": "Step 2: Track applications & leverage referrals",
+    "backToJobSearch": "Back to Job Search",
+    "watchVideo": "Watch video",
+    "bestPractices": "Application best practices",
+    "referralsBoost": "Referrals increase your callbacks by 400%",
+    "tunnel": {
+      "title": "Application Tunnel",
+      "target": "Target: 30% Referral Rate",
+      "lastUpdated": "Last Updated: Today",
+      "applications": "Applications",
+      "referralRate": "Referral Rate",
+      "followUpsDue": "Follow-ups Due",
+      "interviews": "Interviews"
+    },
+    "tabs": {
+      "applications": "Applications",
+      "applicationsSubtitle": "Manually tracked",
+      "aiApplications": "AI Applications",
+      "aiSubtitle": "Created with JD Analyzer",
+      "checklist": "Checklist",
+      "checklistSubtitle": "Quality assurance"
+    },
+    "search": {
+      "title": "Smart Job Search",
+      "subtitle": "Generate an optimized Google Jobs search link to find the latest postings across all platforms (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Job Title (e.g. Product Manager)",
+      "locationPlaceholder": "Location (Optional)",
+      "button": "Search Jobs"
+    },
+    "ats": {
+      "title": "ATS Analyzer",
+      "subtitle": "Compare resume vs. job description before applying.",
+      "button": "Launch Analyzer"
+    }
+  },
+  "checklist": {
+    "header": "80% of Resumes Are Rejected by ATS",
+    "subtitle": "Use this checklist EVERY time you apply to ensure your resume gets through automated screening and into human hands.",
+    "items": "items",
+    "priority": {
+      "mustDo": "Must-Do",
+      "important": "Important",
+      "niceToHave": "Nice-to-Have"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Before You Start",
+        "items": {
+          "readJD": {
+            "title": "Read the full job description 3 times",
+            "desc": "Understand requirements, responsibilities, and company culture"
+          },
+          "keywords": {
+            "title": "Identify top 5-10 keywords from the JD",
+            "desc": "Use JD Analyzer tool or manually extract key skills and requirements"
+          },
+          "research": {
+            "title": "Research the company",
+            "desc": "Know their mission, recent news, and why you want to work there"
+          }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Resume Optimization",
+        "items": {
+          "jobTitles": {
+            "title": "Match your job titles to their language",
+            "desc": "If they say \"Product Manager,\" don't use \"Product Lead\""
+          },
+          "allSkills": {
+            "title": "Include ALL required skills mentioned in the JD",
+            "desc": "If you have the skill, it MUST be on your resume"
+          },
+          "exactKeywords": {
+            "title": "Use their exact keywords (especially for ATS)",
+            "desc": "Copy exact phrases like \"Agile methodology\" vs \"Agile processes\""
+          },
+          "quantify": {
+            "title": "Quantify your accomplishments",
+            "desc": "Use metrics: \"Increased revenue by 40%\" not \"Improved revenue\""
+          },
+          "summary": {
+            "title": "Tailor your summary/profile section",
+            "desc": "First 3 lines should mirror the job requirements"
+          },
+          "removeIrrelevant": {
+            "title": "Remove irrelevant experience",
+            "desc": "If it doesn't help you get THIS job, consider removing it"
+          }
+        }
+      },
+      "atsFormatting": {
+        "title": "ATS-Friendly Formatting",
+        "items": {
+          "standardHeaders": {
+            "title": "Use standard section headers",
+            "desc": "\"Work Experience\" not \"My Journey,\" \"Education\" not \"Learning\""
+          },
+          "saveFormat": {
+            "title": "Save as .docx or .pdf",
+            "desc": "PDF preferred, but some ATS prefer .docx - check job posting"
+          },
+          "standardFonts": {
+            "title": "Use standard fonts (Arial, Calibri, Times)",
+            "desc": "Avoid fancy fonts that ATS can't read"
+          },
+          "avoidTables": {
+            "title": "Avoid tables, columns, headers/footers",
+            "desc": "ATS struggles with complex formatting"
+          },
+          "bulletPoints": {
+            "title": "Use standard bullet points",
+            "desc": "Simple • or - symbols only"
+          }
+        }
+      },
+      "fileNaming": {
+        "title": "File Naming & Submission",
+        "items": {
+          "nameFile": {
+            "title": "Name file correctly",
+            "desc": "Format: YourName_JobTitle_CompanyName.pdf"
+          },
+          "saveFolder": {
+            "title": "Save in dedicated folder",
+            "desc": "Keep organized: Applications/[Company]/[Date]/"
+          },
+          "keepOriginal": {
+            "title": "Keep original version",
+            "desc": "Always maintain your master resume separately"
+          }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Pro Tip: The 80% Referral Rule",
+      "body": "Even with a perfectly tailored resume, your callback rate without a referral is only 1-2%. WITH a referral, it jumps to 80%. Always try to find a referral before applying.",
+      "tip1": "Check LinkedIn for 1st or 2nd degree connections",
+      "tip2": "Reach out to alumni from your school",
+      "tip3": "Ask your network for warm introductions",
+      "tip4": "Message employees on LinkedIn with a personalized note"
+    },
+    "printChecklist": {
+      "title": "Print-Friendly Quick Checklist",
+      "button": "Print Checklist"
+    }
+  }
+}

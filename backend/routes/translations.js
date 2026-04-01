@@ -48,21 +48,23 @@ const supportedLanguages = ['en', 'es', 'fr', 'it', 'pt'];
  * PAGE GROUPING: Maps top-level JSON keys to human-readable page names.
  */
 const PAGE_GROUPS = {
-    // Main App Sections (Left Menu)
+    // 1. PANEL PRINCIPAL
     'Panel Principal': ['dashboard', 'home', 'sidebarOverview'],
-    'Resumé Profesional': ['resumeBuilder'],
-    'Visión de Carrera': ['careerVision'],
-    'Búsqueda de Empleo': ['jobSearch', 'onlineApplications', 'checklist'],
-    'Dominio de Entrevistas': ['interview'],
-    'Comunidad': ['sidebarCommunity', 'membership', 'learningModules'],
-    'Herramientas': ['sidebarTools'],
 
-    // System & Landing Pages
-    'Landing Page': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta'],
-    'Navigation & Footer': ['nav', 'footer'],
-    'Common': ['common'],
-    'Authentication': ['auth'],
-    'Onboarding': ['onboarding'],
+    // 2. PROGRAMAS NOVANEXT
+    'Programas NovaNext': ['resumeBuilder', 'careerVision', 'jobSearch', 'onlineApplications', 'checklist', 'interview'],
+
+    // 3. COMUNIDAD
+    'Comunidad': ['sidebarCommunity', 'membership'],
+
+    // 4. NOVANEXT ACADEMY
+    'NovaNext Academy': ['novaNextAcademy', 'topics', 'learningModules'],
+
+    // 5. HERRAMIENTAS
+    'Herramientas': ['sidebarTools', 'sharedResources'],
+
+    // 6. SISTEMA Y LANDING (Common/Auth/Global)
+    'Sitio Web y Sistema': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta', 'nav', 'footer', 'auth', 'onboarding', 'common'],
 };
 
 // Build reverse lookup: jsonKey -> pageName
@@ -170,6 +172,51 @@ router.post('/', async (req, res) => {
     } catch (error) {
         console.error('Error saving translation:', error);
         res.status(500).json({ error: 'Failed to save translation update' });
+    }
+});
+
+/**
+ * POST /api/translations/academy-topic
+ * Body: { key: 'test2', value: 'Test 2' }
+ * Updates the topic key in all 5 language files
+ */
+router.post('/academy-topic', async (req, res) => {
+    try {
+        const localesPath = await getLocalesPath();
+        const { key, value } = req.body;
+
+        console.log(`📝 Adding academy topic: key=${key}, value="${value}"`);
+
+        if (!key || value === undefined) {
+            return res.status(400).json({ error: 'Missing required fields: key, value' });
+        }
+
+        const results = [];
+        for (const lang of supportedLanguages) {
+            const filePath = path.join(localesPath, `${lang}.json`);
+            
+            let currentJSON = {};
+            try {
+                const data = await fs.readFile(filePath, 'utf-8');
+                currentJSON = JSON.parse(data);
+            } catch (err) {
+                console.warn(`File ${lang}.json not found, creating new.`);
+            }
+
+            if (!currentJSON.topics) {
+                currentJSON.topics = {};
+            }
+            currentJSON.topics[key] = value;
+
+            await fs.writeFile(filePath, JSON.stringify(currentJSON, null, 2) + '\n', 'utf-8');
+            results.push(lang);
+        }
+
+        console.log(`✅ Added topic "${key}" to ${results.join(', ')}`);
+        res.json({ success: true, message: `Updated topic in ${results.length} languages`, languages: results });
+    } catch (error) {
+        console.error('Error adding academy topic:', error);
+        res.status(500).json({ error: 'Failed to add academy topic' });
     }
 });
 

@@ -1,3 +1,5 @@
+import { ArrowRight } from 'lucide-react'
+
 interface LearnMoreLinkProps {
   label: string
   description: string
@@ -7,13 +9,17 @@ interface LearnMoreLinkProps {
 
 export default function LearnMoreLink({ label, description, onClick, className = '' }: LearnMoreLinkProps) {
   return (
-    <button
+    <div
       onClick={onClick}
-      className={`group flex items-center gap-1 text-sm text-left transition-opacity hover:opacity-75 ${className}`}
+      onKeyDown={(e) => e.key === 'Enter' && onClick()}
+      role="button"
+      tabIndex={0}
+      aria-label={`${label}${description ? ': ' + description : ''}`}
+      className={`inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors ${className}`}
     >
-      <span className="font-bold text-primary-700 dark:text-primary-400">{label}:</span>
-      <span className="text-gray-600 dark:text-gray-400"> {description}</span>
-      <span className="ml-0.5 inline-block group-hover:translate-x-0.5 transition-transform">→</span>
-    </button>
+      <span className="font-bold">{label}</span>
+      {description && <span>{description}</span>}
+      <ArrowRight className="w-4 h-4 ml-1" />
+    </div>
   )
 }

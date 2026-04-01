@@ -841,12 +841,11 @@ const WorkExperienceBuilder: React.FC = () => {
                   >
                     <Play className="w-3.5 h-3.5" /> Watch video
                   </button>
-                  <button
-                    onClick={() => navigate('/dashboard/resume/work-experience/learn-more')}
-                    className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
-                  >
-                    Read this first →
-                  </button>
+                    <LearnMoreLink
+                      label="Read this first"
+                      description=""
+                      onClick={() => navigate('/dashboard/resume/work-experience/learn-more')}
+                    />
                 </div>
               </div>
             </div>

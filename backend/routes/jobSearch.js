@@ -265,18 +265,21 @@ router.post('/recommendations', async (req, res) => {
       })
     }
 
-    // Check for required API keys
     const serpApiKey = process.env.SERPAPI_KEY
     if (!serpApiKey || serpApiKey === 'YOUR_SERPAPI_KEY_HERE') {
-      // Return demo data
+      // Return empty array instead of demo data
       return res.json({
         success: true,
-        recommendations: generateDemoRecommendations(limit),
+        recommendations: [],
         metadata: {
           userId,
           generatedAt: new Date().toISOString(),
+          totalJobsFound: 0,
+          jobsAnalyzed: 0,
+          jobsRecommended: 0,
+          averageScore: 0,
           demoMode: true,
-          message: 'Demo mode - Set SERPAPI_KEY and OPENAI_API_KEY to get real recommendations'
+          message: 'Set SERPAPI_KEY and OPENAI_API_KEY to get real recommendations'
         }
       })
     }
@@ -295,6 +298,15 @@ router.post('/recommendations', async (req, res) => {
     // Add target roles from career vision
     targetRoles.forEach(role => {
       searchQueries.push(`${role} ${userLocation}`)
+
+      // Broaden queries by taking the last 2-3 words (e.g. "Global PBS Procurement Category Director" -> "Procurement Category Director")
+      const words = role.split(' ').filter(w => w.trim().length > 0)
+      if (words.length > 3) {
+        searchQueries.push(`${words.slice(-3).join(' ')} ${userLocation}`)
+        searchQueries.push(`${words.slice(-2).join(' ')} ${userLocation}`)
+      } else if (words.length > 1) {
+        searchQueries.push(`${words.slice(-1).join(' ')} ${userLocation}`)
+      }
     })
 
     // Add skills-based queries
@@ -312,7 +324,7 @@ router.post('/recommendations', async (req, res) => {
     // 3. Search multiple sources
     const allJobs = []
 
-    for (const query of searchQueries.slice(0, 3)) { // Limit to prevent timeout
+    for (const query of searchQueries.slice(0, 5)) { // Limit to prevent timeout
       try {
         console.log(`🔎 Searching for: "${query}"`)
         const response = await axios.get('https://serpapi.com/search.json', {
@@ -336,22 +348,20 @@ router.post('/recommendations', async (req, res) => {
 
     console.log(`📊 Found ${allJobs.length} total jobs`)
 
-    // If no jobs found (possibly SerpAPI credits exhausted), return demo data
+    // If no jobs found, return empty array instead of demo software data
     if (allJobs.length === 0) {
-      console.log('⚠️ No jobs found from SerpAPI, returning demo data')
-      const demoJobs = generateDemoRecommendations(limit)
+      console.log('⚠️ No jobs found from SerpAPI')
       return res.json({
         success: true,
-        recommendations: demoJobs,
+        recommendations: [],
         metadata: {
           userId,
           generatedAt: new Date().toISOString(),
-          totalJobsFound: demoJobs.length,
-          jobsAnalyzed: demoJobs.length,
-          jobsRecommended: demoJobs.length,
-          averageScore: 75,
-          demoMode: true,
-          message: 'Using demo data - SerpAPI may have no remaining credits'
+          totalJobsFound: 0,
+          jobsAnalyzed: 0,
+          jobsRecommended: 0,
+          averageScore: 0,
+          message: 'No matching jobs found. Try broadening your role or location.'
         }
       })
     }
