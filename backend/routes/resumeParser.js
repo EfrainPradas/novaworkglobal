@@ -95,11 +95,11 @@ IMPORTANT - "Other positions" sections: If the resume contains a paragraph like 
 CRITICAL RULES:
 1. Return ONLY valid JSON. No markdown formatting, no \`\`\` blocks.
 2. If a section is not found, use null or empty array [].
-3. Parse dates to YYYY-MM format.
+3. Parse dates to YYYY-MM format. If dates are missing entirely, return null for both start_date and end_date.
 4. DO NOT truncate, summarize, or limit the number of accomplishments. Capture them ALL verbatim.
 5. Preserve the original language of the resume (if it's in Spanish, keep it in Spanish).
 6. NEVER skip "Other positions" or condensed role listings. Always expand each role into its own experience entry.
-7. If a role has no dates, still include it with null dates — do not omit it.
+7. ABSOLUTELY DO NOT omit roles without dates. If a role has no dates, including condensed "Other positions", extract it and set start_date and end_date to null.
 
 Resume Text:
 ${resumeText}
@@ -126,7 +126,7 @@ Return format:
       "job_title": "string",
       "location_city": "string or null",
       "location_country": "string or null",
-      "start_date": "YYYY-MM",
+      "start_date": "YYYY-MM or null",
       "end_date": "YYYY-MM or null",
       "is_current": boolean,
       "scope_description": "string or null",
@@ -155,7 +155,7 @@ Return format:
         messages: [
             {
                 role: 'system',
-                content: 'You are an expert resume parser. You extract ALL data from resumes into structured JSON. You NEVER truncate or summarize accomplishments — you capture every single bullet point verbatim. You always return valid JSON without markdown formatting.'
+                content: 'You are an expert resume parser. You extract ALL data from resumes into structured JSON, including roles without explicitly defined dates. You NEVER truncate or summarize accomplishments — you capture every single bullet point verbatim. You always return valid JSON without markdown formatting.'
             },
             {
                 role: 'user',
