@@ -41,7 +41,7 @@ const RightPanel: React.FC<RightPanelProps> = ({
 
   if (!isOpen) return null
 
-  const nodeTitle = selectedNode ? t(selectedNode.label_key) : ''
+  const nodeTitle = selectedNode ? (selectedNode.label || t(selectedNode.label_key)) : ''
 
   const getResourceTypeIcon = (type: string) => {
     switch (type) {

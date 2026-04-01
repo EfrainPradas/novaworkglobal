@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
+import i18n from '../../i18n'
 import { 
   Upload, 
   Video, 
@@ -12,20 +13,18 @@ import {
   Trash2,
   Plus,
   FolderOpen,
-  File
+  File,
+  ArrowLeft
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import type { AcademyNode, AcademyResource } from '../../types/academy'
 
-interface AcademyAdminProps {
-  isOpen: boolean
-  onClose: () => void
-}
+const LOCALE_FILES = ['en', 'es', 'fr', 'pt', 'it']
 
 const ADMIN_EMAIL = 'efrain.pradas@gmail.com'
 
-const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
-  const { t } = useTranslation()
+const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab }) => {
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [userEmail, setUserEmail] = useState<string | null>(null)
@@ -36,6 +35,28 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
   const [uploading, setUploading] = useState(false)
   const [selectedTopic, setSelectedTopic] = useState<string>('')
   const [uploadProgress, setUploadProgress] = useState<string>('')
+  const [showNewNodeForm, setShowNewNodeForm] = useState(false)
+  const [newNode, setNewNode] = useState({
+    label: '',
+    icon: 'file-text',
+    color: '#6366F1',
+  })
+
+  const iconOptions = [
+    { value: 'file-text', label: 'Documento' },
+    { value: 'users', label: 'Personas' },
+    { value: 'briefcase', label: 'Trabajo' },
+    { value: 'network', label: 'Red' },
+    { value: 'dollar-sign', label: 'Dinero' },
+    { value: 'book-open', label: 'Libro' },
+    { value: 'target', label: 'Objetivo' },
+    { value: 'award', label: 'Premio' },
+  ]
+
+  const colorOptions = [
+    '#6366F1', '#3B82F6', '#8B5CF6', '#10B981',
+    '#F59E0B', '#EC4899', '#EF4444', '#14B8A6',
+  ]
   const [newResource, setNewResource] = useState({
     type: 'video' as 'video' | 'audio' | 'article',
     title: '',
@@ -52,6 +73,13 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
     { code: 'it', name: 'Italiano', flag: '🇮🇹' },
     { code: 'fr', name: 'Français', flag: '🇫🇷' },
   ]
+
+  useEffect(() => {
+    if (isOpen && initialTab) {
+      setActiveTab(initialTab)
+      if (initialTab === 'nodes') setShowNewNodeForm(true)
+    }
+  }, [isOpen, initialTab])
 
   useEffect(() => {
     const checkAdmin = async () => {
@@ -185,6 +213,73 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
     }
   }
 
+  const handleAddNode = async () => {
+    if (!newNode.label.trim()) return
+    setUploading(true)
+    try {
+      const rootNode = nodes.find(n => n.level === 1)
+      if (!rootNode) {
+        alert('❌ Primero inicializa la estructura base.')
+        return
+      }
+      const labelKey = `topics.${newNode.label.toLowerCase().replace(/\s+/g, '_')}`
+      const maxSort = nodes.filter(n => n.level === 2).reduce((max, n) => Math.max(max, n.sort_order ?? 0), 0)
+      const { error } = await supabase.from('academy_nodes').insert({
+        parent_id: rootNode.id,
+        level: 2,
+        label_key: labelKey,
+        type: 'topic',
+        default_x: 400,
+        default_y: 400,
+        icon: newNode.icon,
+        color: newNode.color,
+        sort_order: maxSort + 1,
+      })
+      if (error) {
+        alert('❌ Error: ' + error.message)
+      } else {
+        const key = labelKey.replace('topics.', '')
+        
+        try {
+          await fetch('/api/translations/academy-topic', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ key, value: newNode.label })
+          })
+        } catch (e) {
+          console.warn('Could not save translation to backend, using memory only')
+        }
+        
+        LOCALE_FILES.forEach(locale => {
+          i18n.addResourceBundle(locale, 'translation', { topics: { [key]: newNode.label } }, true)
+        })
+        setNewNode({ label: '', icon: 'file-text', color: '#6366F1' })
+        setShowNewNodeForm(false)
+        loadData()
+        alert(`✅ Módulo "${newNode.label}" creado y añadido a las traducciones (5 idiomas).`)
+      }
+    } catch (err) {
+      alert('❌ Error: ' + (err as Error).message)
+    } finally {
+      setUploading(false)
+    }
+  }
+
+  const handleDeleteNode = async (id: string, labelKey: string) => {
+    if (!confirm(`¿Eliminar el módulo "${t(labelKey) || labelKey}"? También se eliminarán sus recursos.`)) return
+    setUploading(true)
+    try {
+      // Delete resources first
+      await supabase.from('academy_resources').delete().eq('topic_id', id)
+      await supabase.from('academy_nodes').delete().eq('id', id)
+      loadData()
+    } catch (err) {
+      alert('❌ Error: ' + (err as Error).message)
+    } finally {
+      setUploading(false)
+    }
+  }
+
   const handleSeedData = async () => {
     setUploading(true)
     try {
@@ -241,6 +336,12 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 bg-slate-50">
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg px-2 py-1.5 text-sm transition-colors"
+            >
+              <ArrowLeft size={16} />
+            </button>
             <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
               <FolderOpen size={20} className="text-emerald-600" />
             </div>
@@ -288,37 +389,119 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
               {activeTab === 'nodes' && (
                 <div className="space-y-4">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-slate-800">Nodos del Mapa</h3>
-                    <button
-                      onClick={handleSeedData}
-                      disabled={uploading}
-                      className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 flex items-center gap-2"
-                    >
-                      {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-                      Inicializar Estructura
-                    </button>
+                    <h3 className="font-semibold text-slate-800">Módulos del Mapa</h3>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setShowNewNodeForm(!showNewNodeForm)}
+                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 flex items-center gap-2"
+                      >
+                        <Plus size={14} />
+                        Nuevo Módulo
+                      </button>
+                      {nodes.length === 0 && (
+                        <button
+                          onClick={handleSeedData}
+                          disabled={uploading}
+                          className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 flex items-center gap-2"
+                        >
+                          {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                          Inicializar Base
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  
+
+                  {/* New Node Form */}
+                  {showNewNodeForm && (
+                    <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-xl space-y-3">
+                      <h4 className="text-sm font-bold text-indigo-800">Nuevo Módulo</h4>
+                      <div>
+                        <label className="block text-xs font-semibold text-slate-700 mb-1">Nombre del módulo</label>
+                        <input
+                          type="text"
+                          value={newNode.label}
+                          onChange={(e) => setNewNode({ ...newNode, label: e.target.value })}
+                          placeholder="ej. Marca Personal"
+                          className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Ícono</label>
+                          <select
+                            value={newNode.icon}
+                            onChange={(e) => setNewNode({ ...newNode, icon: e.target.value })}
+                            className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"
+                          >
+                            {iconOptions.map(opt => (
+                              <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            ))}
+                          </select>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-semibold text-slate-700 mb-1">Color</label>
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {colorOptions.map(c => (
+                              <button
+                                key={c}
+                                onClick={() => setNewNode({ ...newNode, color: c })}
+                                className={`w-6 h-6 rounded-full transition-transform ${newNode.color === c ? 'scale-125 ring-2 ring-offset-1 ring-slate-400' : ''}`}
+                                style={{ backgroundColor: c }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex gap-2 pt-1">
+                        <button
+                          onClick={handleAddNode}
+                          disabled={uploading || !newNode.label.trim()}
+                          className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                          {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
+                          Crear Módulo
+                        </button>
+                        <button
+                          onClick={() => setShowNewNodeForm(false)}
+                          className="px-4 py-2 bg-white border border-slate-300 text-slate-600 rounded-lg text-sm hover:bg-slate-50"
+                        >
+                          Cancelar
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-2">
                     {nodes.map((node) => (
-                      <div key={node.id} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-sm">
-                        <span className={`px-2 py-0.5 rounded text-xs font-bold ${
+                      <div key={node.id} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-sm group">
+                        <span className={`px-2 py-0.5 rounded text-xs font-bold flex-shrink-0 ${
                           node.level === 1 ? 'bg-emerald-500 text-white' :
                           node.level === 2 ? 'bg-blue-500 text-white' :
                           'bg-slate-400 text-white'
                         }`}>
                           L{node.level}
                         </span>
+                        {node.color && (
+                          <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: node.color }} />
+                        )}
                         <span className="flex-1 text-sm font-medium text-slate-800">
-                          {t(node.label_key) || node.label_key}
+                          {node.label || t(node.label_key) || node.label_key}
                         </span>
-                        <span className={`text-xs font-medium px-2 py-0.5 rounded ${
+                        <span className={`text-xs font-medium px-2 py-0.5 rounded flex-shrink-0 ${
                           node.type === 'root' ? 'bg-emerald-100 text-emerald-700' :
                           node.type === 'topic' ? 'bg-blue-100 text-blue-700' :
                           'bg-slate-100 text-slate-600'
                         }`}>
                           {node.type}
                         </span>
+                        {node.level === 2 && (
+                          <button
+                            onClick={() => handleDeleteNode(node.id, node.label_key)}
+                            className="opacity-0 group-hover:opacity-100 p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -353,7 +536,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
                             <option value="" className="text-slate-500 font-semibold">Seleccionar tema...</option>
                             {topics.map((topic) => (
                               <option key={topic.id} value={topic.id} className="text-slate-900 font-bold py-2">
-                                {t(topic.label_key)}
+                                {topic.label || t(topic.label_key)}
                               </option>
                             ))}
                           </select>
@@ -528,4 +711,3 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose }) => {
 }
 
 export default AcademyAdmin
-export { ADMIN_EMAIL }

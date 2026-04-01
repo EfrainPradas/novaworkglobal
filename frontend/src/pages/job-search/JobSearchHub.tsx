@@ -118,14 +118,12 @@ export default function JobSearchHub() {
                         <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-base">
                             {t('jobSearch.hub.subtitle', 'Your dashboard for landing the job. Plan, track, analyze, and prepare.')}
                         </p>
-                        <div
+                        <LearnMoreLink
+                            label={t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}
+                            description={t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}
                             onClick={() => navigate('/dashboard/job-search/learn-more')}
-                            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
-                        >
-                            <span className="font-bold">{t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}</span>
-                            <span>{t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}</span>
-                            <ArrowRight className="w-4 h-4 ml-1" />
-                        </div>
+                            className="mt-2"
+                        />
                     </div>
                     <div className="flex gap-3">
                         <button

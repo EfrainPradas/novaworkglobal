@@ -958,7 +958,10 @@
     "interview": "Dominio de Entrevistas",
     "jobSearch": "Búsqueda de Empleo",
     "networking": "Networking",
-    "salary": "Negociación Salarial"
+    "salary": "Negociación Salarial",
+    "plataforma": "Plataforma",
+    "test2": "Test 2",
+    "test3": "Test3"
   },
   "nodes": {
     "resumeIntro": "Introducción a los Currículums",
@@ -1138,38 +1141,89 @@
       "beforeYouStart": {
         "title": "Antes de Empezar",
         "items": {
-          "readJD": { "title": "Lee la descripción completa del cargo 3 veces", "desc": "Entiende los requisitos, responsabilidades y cultura de la empresa" },
-          "keywords": { "title": "Identifica las 5-10 palabras clave principales del cargo", "desc": "Usa el Analizador JD o extrae manualmente las habilidades clave" },
-          "research": { "title": "Investiga la empresa", "desc": "Conoce su misión, noticias recientes y por qué quieres trabajar allí" }
+          "readJD": {
+            "title": "Lee la descripción completa del cargo 3 veces",
+            "desc": "Entiende los requisitos, responsabilidades y cultura de la empresa"
+          },
+          "keywords": {
+            "title": "Identifica las 5-10 palabras clave principales del cargo",
+            "desc": "Usa el Analizador JD o extrae manualmente las habilidades clave"
+          },
+          "research": {
+            "title": "Investiga la empresa",
+            "desc": "Conoce su misión, noticias recientes y por qué quieres trabajar allí"
+          }
         }
       },
       "resumeOptimization": {
         "title": "Optimización del CV",
         "items": {
-          "jobTitles": { "title": "Adapta tus títulos de cargo a su lenguaje", "desc": "Si dicen \"Gerente de Producto\", no uses \"Líder de Producto\"" },
-          "allSkills": { "title": "Incluye TODAS las habilidades requeridas en el cargo", "desc": "Si tienes la habilidad, DEBE estar en tu CV" },
-          "exactKeywords": { "title": "Usa sus palabras clave exactas (especialmente para ATS)", "desc": "Copia frases exactas como \"metodología Agile\" vs \"procesos Agile\"" },
-          "quantify": { "title": "Cuantifica tus logros", "desc": "Usa métricas: \"Aumenté ingresos un 40%\" no \"Mejoré ingresos\"" },
-          "summary": { "title": "Adapta tu sección de resumen/perfil", "desc": "Las primeras 3 líneas deben reflejar los requisitos del cargo" },
-          "removeIrrelevant": { "title": "Elimina experiencia irrelevante", "desc": "Si no te ayuda a conseguir ESTE trabajo, considera eliminarlo" }
+          "jobTitles": {
+            "title": "Adapta tus títulos de cargo a su lenguaje",
+            "desc": "Si dicen \"Gerente de Producto\", no uses \"Líder de Producto\""
+          },
+          "allSkills": {
+            "title": "Incluye TODAS las habilidades requeridas en el cargo",
+            "desc": "Si tienes la habilidad, DEBE estar en tu CV"
+          },
+          "exactKeywords": {
+            "title": "Usa sus palabras clave exactas (especialmente para ATS)",
+            "desc": "Copia frases exactas como \"metodología Agile\" vs \"procesos Agile\""
+          },
+          "quantify": {
+            "title": "Cuantifica tus logros",
+            "desc": "Usa métricas: \"Aumenté ingresos un 40%\" no \"Mejoré ingresos\""
+          },
+          "summary": {
+            "title": "Adapta tu sección de resumen/perfil",
+            "desc": "Las primeras 3 líneas deben reflejar los requisitos del cargo"
+          },
+          "removeIrrelevant": {
+            "title": "Elimina experiencia irrelevante",
+            "desc": "Si no te ayuda a conseguir ESTE trabajo, considera eliminarlo"
+          }
         }
       },
       "atsFormatting": {
         "title": "Formato Compatible con ATS",
         "items": {
-          "standardHeaders": { "title": "Usa encabezados de sección estándar", "desc": "\"Experiencia Laboral\" no \"Mi Trayectoria\", \"Educación\" no \"Aprendizaje\"" },
-          "saveFormat": { "title": "Guarda como .docx o .pdf", "desc": "Se prefiere PDF, pero algunos ATS prefieren .docx - verifica la oferta" },
-          "standardFonts": { "title": "Usa fuentes estándar (Arial, Calibri, Times)", "desc": "Evita fuentes decorativas que el ATS no pueda leer" },
-          "avoidTables": { "title": "Evita tablas, columnas, encabezados/pies de página", "desc": "El ATS tiene dificultades con formatos complejos" },
-          "bulletPoints": { "title": "Usa viñetas estándar", "desc": "Solo símbolos simples • o -" }
+          "standardHeaders": {
+            "title": "Usa encabezados de sección estándar",
+            "desc": "\"Experiencia Laboral\" no \"Mi Trayectoria\", \"Educación\" no \"Aprendizaje\""
+          },
+          "saveFormat": {
+            "title": "Guarda como .docx o .pdf",
+            "desc": "Se prefiere PDF, pero algunos ATS prefieren .docx - verifica la oferta"
+          },
+          "standardFonts": {
+            "title": "Usa fuentes estándar (Arial, Calibri, Times)",
+            "desc": "Evita fuentes decorativas que el ATS no pueda leer"
+          },
+          "avoidTables": {
+            "title": "Evita tablas, columnas, encabezados/pies de página",
+            "desc": "El ATS tiene dificultades con formatos complejos"
+          },
+          "bulletPoints": {
+            "title": "Usa viñetas estándar",
+            "desc": "Solo símbolos simples • o -"
+          }
         }
       },
       "fileNaming": {
         "title": "Nombre de Archivo y Envío",
         "items": {
-          "nameFile": { "title": "Nombra el archivo correctamente", "desc": "Formato: TuNombre_Cargo_Empresa.pdf" },
-          "saveFolder": { "title": "Guarda en carpeta dedicada", "desc": "Mantén organizado: Solicitudes/[Empresa]/[Fecha]/" },
-          "keepOriginal": { "title": "Conserva la versión original", "desc": "Siempre mantén tu CV maestro por separado" }
+          "nameFile": {
+            "title": "Nombra el archivo correctamente",
+            "desc": "Formato: TuNombre_Cargo_Empresa.pdf"
+          },
+          "saveFolder": {
+            "title": "Guarda en carpeta dedicada",
+            "desc": "Mantén organizado: Solicitudes/[Empresa]/[Fecha]/"
+          },
+          "keepOriginal": {
+            "title": "Conserva la versión original",
+            "desc": "Siempre mantén tu CV maestro por separado"
+          }
         }
       }
     },

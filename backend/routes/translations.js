@@ -174,6 +174,51 @@ router.post('/', async (req, res) => {
 });
 
 /**
+ * POST /api/translations/academy-topic
+ * Body: { key: 'test2', value: 'Test 2' }
+ * Updates the topic key in all 5 language files
+ */
+router.post('/academy-topic', async (req, res) => {
+    try {
+        const localesPath = await getLocalesPath();
+        const { key, value } = req.body;
+
+        console.log(`📝 Adding academy topic: key=${key}, value="${value}"`);
+
+        if (!key || value === undefined) {
+            return res.status(400).json({ error: 'Missing required fields: key, value' });
+        }
+
+        const results = [];
+        for (const lang of supportedLanguages) {
+            const filePath = path.join(localesPath, `${lang}.json`);
+            
+            let currentJSON = {};
+            try {
+                const data = await fs.readFile(filePath, 'utf-8');
+                currentJSON = JSON.parse(data);
+            } catch (err) {
+                console.warn(`File ${lang}.json not found, creating new.`);
+            }
+
+            if (!currentJSON.topics) {
+                currentJSON.topics = {};
+            }
+            currentJSON.topics[key] = value;
+
+            await fs.writeFile(filePath, JSON.stringify(currentJSON, null, 2) + '\n', 'utf-8');
+            results.push(lang);
+        }
+
+        console.log(`✅ Added topic "${key}" to ${results.join(', ')}`);
+        res.json({ success: true, message: `Updated topic in ${results.length} languages`, languages: results });
+    } catch (error) {
+        console.error('Error adding academy topic:', error);
+        res.status(500).json({ error: 'Failed to add academy topic' });
+    }
+});
+
+/**
  * GET /api/translations/download/:lang
  * Downloads a specific language JSON file (for syncing back to the repo)
  */

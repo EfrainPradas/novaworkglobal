@@ -124,7 +124,7 @@ const MindMapNode: React.FC<MindMapNodeProps> = ({
   }, [isDragging, handleMouseMove, handleMouseUp])
 
   const IconComponent = node.icon ? ICON_MAP[node.icon] || PlayCircle : PlayCircle
-  const label = t(node.label_key)
+  const label = node.label || t(node.label_key)
   const nodeColor = node.color || '#10B981'
 
   const getNodeStyles = () => {

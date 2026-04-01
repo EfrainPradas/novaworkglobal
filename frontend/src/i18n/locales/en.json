@@ -770,7 +770,10 @@
     "interview": "Interview Mastery",
     "jobSearch": "Job Search",
     "networking": "Networking",
-    "salary": "Salary Negotiation"
+    "salary": "Salary Negotiation",
+    "plataforma": "Plataforma",
+    "test2": "Test 2",
+    "test3": "Test3"
   },
   "nodes": {
     "resumeIntro": "Introduction to Resumes",

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { supabase } from '../../lib/supabase'
 import MediaPlayerModal from './MediaPlayerModal'
@@ -27,7 +28,8 @@ import {
   HelpCircle,
   LogOut,
   Plus,
-  Sparkles
+  Sparkles,
+  ArrowLeft
 } from 'lucide-react'
 import type { AcademyNode, Resource } from '../../types/academy'
 
@@ -109,6 +111,16 @@ const formatDuration = (minutes?: number) => {
   return `${hours}h ${mins}m`
 }
 
+// Cleans raw filenames: removes extension, replaces _ and - with spaces, trims
+const cleanTitle = (title: string) => {
+  if (!title) return 'Untitled Resource'
+  return title
+    .replace(/\.[^/.]+$/, '')       // remove extension
+    .replace(/[_-]+/g, ' ')         // underscores/dashes → spaces
+    .replace(/\s+/g, ' ')           // collapse multiple spaces
+    .trim()
+}
+
 const getModuleIcon = (iconName: string | undefined) => {
   switch (iconName) {
     case 'file-text': return FileText
@@ -130,11 +142,12 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
     <motion.div
       variants={itemVariants}
       whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
-      className="relative rounded-2xl overflow-hidden bg-white border border-slate-200/60 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+      className="relative rounded-2xl bg-white border border-slate-200/60 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
+      style={{ overflow: 'visible' }}
     >
       {/* Gradient top accent */}
       <div
-        className="h-[3px] w-full"
+        className="h-[3px] w-full rounded-t-2xl"
         style={{ background: `linear-gradient(to right, ${node.color}, ${node.color}88)` }}
       />
 
@@ -155,7 +168,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
         </div>
 
         {/* Title */}
-        <h3 className="text-base font-bold text-slate-900 mb-1">{t(node.label_key)}</h3>
+        <h3 className="text-base font-bold text-slate-900 mb-1">{node.label || t(node.label_key)}</h3>
         <p className="text-xs text-slate-400 mb-4">
           {resources.length} resources · {completedCount} completed
         </p>
@@ -190,7 +203,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-            className="overflow-hidden"
+            style={{ overflow: 'visible' }}
           >
             <div className="border-t border-slate-100 bg-gradient-to-b from-slate-50/80 to-white">
               {resources.length === 0 ? (
@@ -200,39 +213,64 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
               ) : (
                 <div className="p-3 space-y-1.5">
                   {resources.map((resource, idx) => (
-                    <motion.button
+                    <motion.div
                       key={resource.id}
+                      className="relative group/tip"
                       initial={{ opacity: 0, x: -8 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: idx * 0.04 }}
-                      onClick={(e) => { e.stopPropagation(); onResourceClick(resource) }}
-                      className="w-full flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/60 hover:border-indigo-200 hover:shadow-md transition-all text-left group"
                     >
-                      <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                        resource.type === 'video' ? 'bg-rose-50 ring-1 ring-rose-200/50' :
-                        resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' : 'bg-blue-50 ring-1 ring-blue-200/50'
-                      }`}>
-                        {resource.type === 'video' && <Play size={15} className="text-rose-500" />}
-                        {resource.type === 'audio' && <Headphones size={15} className="text-purple-500" />}
-                        {resource.type === 'article' && <FileBadge size={15} className="text-blue-500" />}
+                      {/* Elegant Tooltip */}
+                      <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50
+                        opacity-0 group-hover/tip:opacity-100 translate-y-1 group-hover/tip:translate-y-0
+                        transition-all duration-200 ease-out"
+                      >
+                        <div className="bg-slate-900/95 backdrop-blur-sm text-white text-xs font-medium
+                          px-3 py-1.5 rounded-lg shadow-xl shadow-black/20 whitespace-nowrap max-w-[240px] truncate"
+                        >
+                          {cleanTitle(resource.title)}
+                          {resource.durationMinutes && (
+                            <span className="ml-2 text-slate-400">· {formatDuration(resource.durationMinutes)}</span>
+                          )}
+                        </div>
+                        {/* Arrow */}
+                        <div className="flex justify-center">
+                          <div className="w-2 h-2 bg-slate-900/95 rotate-45 -mt-1" />
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-semibold text-slate-800 group-hover:text-indigo-600 transition-colors text-xs">
-                          {resource.title || 'Untitled Resource'}
-                        </h4>
-                        <p className="text-[11px] text-slate-400 line-clamp-1">
-                          {resource.description || 'No description'}
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        {resource.durationMinutes && (
-                          <span className="text-[11px] text-slate-400">{formatDuration(resource.durationMinutes)}</span>
-                        )}
-                        {resource.status === 'completed' && (
-                          <CheckCircle size={14} className="text-emerald-500" />
-                        )}
-                      </div>
-                    </motion.button>
+
+                      <button
+                        onClick={(e) => { e.stopPropagation(); onResourceClick(resource) }}
+                        className="w-full flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/60 hover:border-indigo-200 hover:shadow-md transition-all text-left group"
+                      >
+                        <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                          resource.type === 'video' ? 'bg-rose-50 ring-1 ring-rose-200/50' :
+                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' : 'bg-blue-50 ring-1 ring-blue-200/50'
+                        }`}>
+                          {resource.type === 'video' && <Play size={15} className="text-rose-500" />}
+                          {resource.type === 'audio' && <Headphones size={15} className="text-purple-500" />}
+                          {resource.type === 'article' && <FileBadge size={15} className="text-blue-500" />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-slate-800 group-hover:text-indigo-600 transition-colors text-xs truncate">
+                            {cleanTitle(resource.title)}
+                          </h4>
+                          {resource.description && resource.description !== resource.title && (
+                            <p className="text-[11px] text-slate-400 line-clamp-1">
+                              {resource.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 flex-shrink-0">
+                          {resource.durationMinutes && (
+                            <span className="text-[11px] text-slate-400">{formatDuration(resource.durationMinutes)}</span>
+                          )}
+                          {resource.status === 'completed' && (
+                            <CheckCircle size={14} className="text-emerald-500" />
+                          )}
+                        </div>
+                      </button>
+                    </motion.div>
                   ))}
                 </div>
               )}
@@ -245,8 +283,9 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
 }
 
 /* ── Main Academy Component ── */
-const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
+const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = ({ onOpenAdmin, onNewNode }) => {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null)
   const [nodes, setNodes] = useState<AcademyNode[]>([])
   const [resources, setResources] = useState<Resource[]>([])
@@ -275,6 +314,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
               id: r.id,
               topicId: r.topic_id,
               type: r.type,
+              language: r.language || 'en',
               title: r.title,
               description: r.description || '',
               url: r.url,
@@ -315,13 +355,16 @@ const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
     })
   }
 
+  const currentLang = i18n.language?.split('-')[0] || 'en'
+
   const getResourcesForModule = (moduleId: string) => {
-    return resources.filter(r => r.topicId === moduleId)
+    return resources.filter(r => r.topicId === moduleId && r.language === currentLang)
   }
 
-  const totalCompleted = resources.filter(r => r.status === 'completed').length
-  const totalProgress = resources.length > 0
-    ? Math.round((totalCompleted / resources.length) * 100)
+  const resourcesForCurrentLang = resources.filter(r => r.language === currentLang)
+  const totalCompleted = resourcesForCurrentLang.filter(r => r.status === 'completed').length
+  const totalProgress = resourcesForCurrentLang.length > 0
+    ? Math.round((totalCompleted / resourcesForCurrentLang.length) * 100)
     : 0
 
   if (isLoading) {
@@ -343,11 +386,18 @@ const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
     <div className="min-h-screen overflow-hidden flex flex-col" style={{ background: 'linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 40%, #EEF2FF 100%)' }}>
       {/* Top NavBar */}
       <header className="bg-white/70 backdrop-blur-xl border-b border-slate-200/40 px-8 py-3 flex justify-between items-center sticky top-0 z-50">
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full px-3 py-1.5 text-sm transition-colors"
+          >
+            <ArrowLeft size={16} />
+            <span className="hidden sm:inline">Back</span>
+          </button>
           <span className="text-xl font-bold bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
             NovaNext Academy
           </span>
-          <nav className="hidden md:flex gap-1">
+          <nav className="hidden md:flex gap-1 ml-8">
             <a className="text-indigo-700 bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium" href="#">Explorer</a>
             <a className="text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Collections</a>
             <a className="text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Network</a>
@@ -423,7 +473,10 @@ const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
                 <span>Admin Panel</span>
               </button>
             )}
-            <button className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl py-2.5 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-500/25 transition-all active:scale-[0.98]">
+            <button
+              onClick={onNewNode}
+              className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl py-2.5 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-500/25 transition-all active:scale-[0.98]"
+            >
               <Plus size={16} />
               <span>New Node</span>
             </button>
@@ -502,7 +555,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void }> = ({ onOpenAdmin }) => {
                         transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
                       />
                     </div>
-                    <span className="text-xs text-slate-400">{totalCompleted} of {resources.length} resources</span>
+                    <span className="text-xs text-slate-400">{totalCompleted} of {resourcesForCurrentLang.length} resources</span>
                   </div>
                 </div>
                 <div className="relative flex items-center justify-center">

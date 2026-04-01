@@ -877,7 +877,10 @@
     "interview": "Padronanza del Colloquio",
     "jobSearch": "Ricerca di Lavoro",
     "networking": "Networking",
-    "salary": "Negoziazione Salariale"
+    "salary": "Negoziazione Salariale",
+    "plataforma": "Plataforma",
+    "test2": "Test 2",
+    "test3": "Test3"
   },
   "nodes": {
     "resumeIntro": "Introduzione ai Curriculum",
@@ -1057,38 +1060,89 @@
       "beforeYouStart": {
         "title": "Prima di Iniziare",
         "items": {
-          "readJD": { "title": "Leggi la descrizione completa del lavoro 3 volte", "desc": "Comprendi i requisiti, le responsabilità e la cultura aziendale" },
-          "keywords": { "title": "Identifica le 5-10 parole chiave principali", "desc": "Usa l'Analizzatore JD o estrai manualmente le competenze chiave" },
-          "research": { "title": "Ricerca l'azienda", "desc": "Conosci la loro missione, notizie recenti e perché vuoi lavorare lì" }
+          "readJD": {
+            "title": "Leggi la descrizione completa del lavoro 3 volte",
+            "desc": "Comprendi i requisiti, le responsabilità e la cultura aziendale"
+          },
+          "keywords": {
+            "title": "Identifica le 5-10 parole chiave principali",
+            "desc": "Usa l'Analizzatore JD o estrai manualmente le competenze chiave"
+          },
+          "research": {
+            "title": "Ricerca l'azienda",
+            "desc": "Conosci la loro missione, notizie recenti e perché vuoi lavorare lì"
+          }
         }
       },
       "resumeOptimization": {
         "title": "Ottimizzazione del CV",
         "items": {
-          "jobTitles": { "title": "Adatta i tuoi titoli lavorativi al loro linguaggio", "desc": "Se dicono \"Product Manager\", non usare \"Product Lead\"" },
-          "allSkills": { "title": "Includi TUTTE le competenze richieste nella JD", "desc": "Se hai la competenza, DEVE essere nel tuo CV" },
-          "exactKeywords": { "title": "Usa le loro parole chiave esatte (soprattutto per ATS)", "desc": "Copia frasi esatte come \"metodologia Agile\"" },
-          "quantify": { "title": "Quantifica i tuoi risultati", "desc": "Usa metriche: \"Aumentato i ricavi del 40%\" non \"Migliorato i ricavi\"" },
-          "summary": { "title": "Personalizza la sezione sommario/profilo", "desc": "Le prime 3 righe devono rispecchiare i requisiti del lavoro" },
-          "removeIrrelevant": { "title": "Rimuovi l'esperienza non pertinente", "desc": "Se non ti aiuta a ottenere QUESTO lavoro, considera di rimuoverla" }
+          "jobTitles": {
+            "title": "Adatta i tuoi titoli lavorativi al loro linguaggio",
+            "desc": "Se dicono \"Product Manager\", non usare \"Product Lead\""
+          },
+          "allSkills": {
+            "title": "Includi TUTTE le competenze richieste nella JD",
+            "desc": "Se hai la competenza, DEVE essere nel tuo CV"
+          },
+          "exactKeywords": {
+            "title": "Usa le loro parole chiave esatte (soprattutto per ATS)",
+            "desc": "Copia frasi esatte come \"metodologia Agile\""
+          },
+          "quantify": {
+            "title": "Quantifica i tuoi risultati",
+            "desc": "Usa metriche: \"Aumentato i ricavi del 40%\" non \"Migliorato i ricavi\""
+          },
+          "summary": {
+            "title": "Personalizza la sezione sommario/profilo",
+            "desc": "Le prime 3 righe devono rispecchiare i requisiti del lavoro"
+          },
+          "removeIrrelevant": {
+            "title": "Rimuovi l'esperienza non pertinente",
+            "desc": "Se non ti aiuta a ottenere QUESTO lavoro, considera di rimuoverla"
+          }
         }
       },
       "atsFormatting": {
         "title": "Formattazione Compatibile ATS",
         "items": {
-          "standardHeaders": { "title": "Usa intestazioni di sezione standard", "desc": "\"Esperienza Lavorativa\" non \"Il Mio Percorso\"" },
-          "saveFormat": { "title": "Salva come .docx o .pdf", "desc": "PDF preferito, ma alcuni ATS preferiscono .docx" },
-          "standardFonts": { "title": "Usa font standard (Arial, Calibri, Times)", "desc": "Evita font decorativi che l'ATS non riesce a leggere" },
-          "avoidTables": { "title": "Evita tabelle, colonne, intestazioni/piè di pagina", "desc": "L'ATS ha difficoltà con formattazioni complesse" },
-          "bulletPoints": { "title": "Usa punti elenco standard", "desc": "Solo simboli semplici • o -" }
+          "standardHeaders": {
+            "title": "Usa intestazioni di sezione standard",
+            "desc": "\"Esperienza Lavorativa\" non \"Il Mio Percorso\""
+          },
+          "saveFormat": {
+            "title": "Salva come .docx o .pdf",
+            "desc": "PDF preferito, ma alcuni ATS preferiscono .docx"
+          },
+          "standardFonts": {
+            "title": "Usa font standard (Arial, Calibri, Times)",
+            "desc": "Evita font decorativi che l'ATS non riesce a leggere"
+          },
+          "avoidTables": {
+            "title": "Evita tabelle, colonne, intestazioni/piè di pagina",
+            "desc": "L'ATS ha difficoltà con formattazioni complesse"
+          },
+          "bulletPoints": {
+            "title": "Usa punti elenco standard",
+            "desc": "Solo simboli semplici • o -"
+          }
         }
       },
       "fileNaming": {
         "title": "Denominazione File e Invio",
         "items": {
-          "nameFile": { "title": "Nomina correttamente il file", "desc": "Formato: TuoNome_Ruolo_Azienda.pdf" },
-          "saveFolder": { "title": "Salva in una cartella dedicata", "desc": "Mantieni organizzato: Candidature/[Azienda]/[Data]/" },
-          "keepOriginal": { "title": "Conserva la versione originale", "desc": "Mantieni sempre separato il tuo CV principale" }
+          "nameFile": {
+            "title": "Nomina correttamente il file",
+            "desc": "Formato: TuoNome_Ruolo_Azienda.pdf"
+          },
+          "saveFolder": {
+            "title": "Salva in una cartella dedicata",
+            "desc": "Mantieni organizzato: Candidature/[Azienda]/[Data]/"
+          },
+          "keepOriginal": {
+            "title": "Conserva la versione originale",
+            "desc": "Mantieni sempre separato il tuo CV principale"
+          }
         }
       }
     },

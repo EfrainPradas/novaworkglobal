@@ -305,12 +305,11 @@ export default function ResumeBuilderMenu() {
                   <div className="flex items-center gap-3 mt-0.5">
                     <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
                     <span className="text-gray-300 text-xs">|</span>
-                    <button
+                    <LearnMoreLink
+                      label="Read this before starting to use this tool"
+                      description=""
                       onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                      className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
-                    >
-                      Read this before starting to use this tool →
-                    </button>
+                    />
                   </div>
                 </div>
               </div>

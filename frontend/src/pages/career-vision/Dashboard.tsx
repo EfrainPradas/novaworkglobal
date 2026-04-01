@@ -148,19 +148,19 @@ export default function CareerVisionDashboard() {
             <p className="text-gray-600 dark:text-gray-400">
               {t('careerVision.journey.subtitle', 'Complete these sections to discover your ideal career path')}
             </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Mapping_the_Professional_DNA__The_Skills_&_Interests_Assessment.mp4`)}
-              className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
-            >
-              <Play className="w-4 h-4" /> {t('careerVision.journey.watchVideo', 'Watch video')}
-            </button>
-            <LearnMoreLink
-              label={t('careerVision.journey.whatIsCareerVision', 'What is Career Vision?')}
-              description={t('careerVision.journey.clarityHired', 'Clarity gets you hired 2x faster')}
-              onClick={() => navigate('/dashboard/career-vision/learn-more')}
-            />
+            <div className="flex flex-wrap items-center gap-3 mt-3">
+              <LearnMoreLink
+                label={t('careerVision.journey.whatIsCareerVision', 'What is Career Vision?')}
+                description={t('careerVision.journey.clarityHired', 'Clarity gets you hired 2x faster')}
+                onClick={() => navigate('/dashboard/career-vision/learn-more')}
+              />
+              <button
+                onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/Mapping_the_Professional_DNA__The_Skills_&_Interests_Assessment.mp4`)}
+                className="flex items-center gap-1.5 px-3 py-1 bg-teal-700 hover:bg-teal-800 text-white text-xs font-medium rounded-lg transition-colors"
+              >
+                <Play className="w-3.5 h-3.5" /> {t('careerVision.journey.watchVideo', 'Watch video')}
+              </button>
+            </div>
           </div>
         </div>
 
@@ -223,21 +223,6 @@ export default function CareerVisionDashboard() {
                   }`}>
                   {section.completed ? t('careerVision.journey.review', 'Review →') : t('careerVision.journey.start', 'Start →')}
                 </button>
-              </div>
-
-              {/* Watch video + Learn more */}
-              <div className="flex items-center gap-2 pt-3 border-t border-gray-100 dark:border-gray-700">
-                <button
-                  onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(section.videoSrc) }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
-                >
-                  <Play className="w-3 h-3" /> {t('careerVision.journey.watchVideo', 'Watch video')}
-                </button>
-                <LearnMoreLink
-                  label={t('careerVision.journey.exploreSection', 'Explore section')}
-                  description={t('careerVision.journey.deepenKnowledge', 'Deepen your self-knowledge and strategy')}
-                  onClick={(e: any) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
-                />
               </div>
             </div>
           ))}

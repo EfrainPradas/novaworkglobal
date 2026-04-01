@@ -8,6 +8,7 @@ export interface AcademyNode {
   parent_id: string | null
   level: NodeLevel
   label_key: string
+  label?: string
   type: NodeType
   default_x: number
   default_y: number
@@ -79,6 +80,7 @@ export interface Resource {
   id: string
   topicId: string
   type: ResourceType
+  language: string
   title: string
   description: string
   url: string

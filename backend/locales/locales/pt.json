@@ -1,0 +1,1108 @@
+{
+  "common": {
+    "continueWith": "Continuar com {{provider}}",
+    "continue": "Continuar",
+    "orContinueWith": "ou continuar com e-mail",
+    "signIn": "Entrar",
+    "signUp": "Cadastrar-se",
+    "backToHome": "Voltar ao Início",
+    "add": "Adicionar",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "deleteConfirm": "Tem certeza de que deseja excluir este item?",
+    "loading": "Carregando...",
+    "saving": "Salvando...",
+    "pleaseSignIn": "Por favor, faça login para ver esta página.",
+    "present": "Presente",
+    "or": "ou",
+    "all": "Tudo",
+    "yes": "Sim",
+    "no": "Não",
+    "actions": "ações",
+    "confirmDelete": "Tem certeza de que deseja excluir esta experiência?"
+  },
+  "nav": {
+    "signIn": "Entrar",
+    "getStarted": "Começar",
+    "menu": {
+      "programs": "Programas",
+      "methodology": "Metodologia",
+      "insights": "Insights",
+      "howitworks": "Como Funciona"
+    }
+  },
+  "hero": {
+    "badge": "GERENCIE SUA CARREIRA",
+    "title": "Acenda Seu Próximo Capítulo Profissional",
+    "subtitle": "Clareza. Direção. Impulso.",
+    "description": "NovaWork Global ajuda profissionais a navegar na mudança de carreira com um sistema comprovado que combina a experiência humana prática em coaching de carreira com ferramentas inteligentes de IA, para que você avance com confiança e clareza.",
+    "ctaStart": "Começa Sua Jornada",
+    "ctaExplore": "Explorar Programas"
+  },
+  "trust": {
+    "title": "Com a Confiança de Profissionais em Todo o Mundo",
+    "subtitle": "Resultados reais de pessoas reais que transformaram suas carreiras com nosso sistema comprovado",
+    "stats": {
+      "guided": "Profissionais Apoiados",
+      "expertise": "Experiência Combinada",
+      "global": "Experiência Globale",
+      "rating": "Avaliação Média"
+    },
+    "testimonial": "A NovaWork realmente entende como tirar o melhor de seus clientes. Eles me ajudaram a navegar com sucesso nas minhas opções de carreira, resultando em um novo cargo executivo em uma empresa Fortune 500. Sua capacidade de desafiar suas suposizioni e expandir sua visão de mundo enquanto ajudam a criar e trabalhar um plano para perseguir suas ambições foram fundamentais na minha transição bem-sucedida. Eles sabem como tirar o melhor de cada pessoa. Mesmo durante os momentos mais frustrantes, eles sabiam como superar as barreiras e incutir confiança durante todo o processo."
+  },
+  "problem": {
+    "titlePart1": "A mudança de carreira não é o problema.",
+    "titlePart2": "A incerteza é.",
+    "descriptionPart1": "A maioria das pessoas não fica estagnada porque falta talento.",
+    "descriptionPart2": "Elas ficam estagnadas porque não sabem qual movimento faz sentido a seguir.",
+    "card1": "Incerto sobre qual função ou setor se adapta a você agora",
+    "card2": "Impactado por demissões, interrupção da IA ou mudanças no mercado",
+    "card3": "Dividido entre vários caminhos sem uma direção clara",
+    "solutionPart1": "NovaWork substitui a incerteza por",
+    "solutionPart2": "estrutura e opções claras para o futuro."
+  },
+  "philosophy": {
+    "bgText": "HUMANO+IA",
+    "badge": "Nossa Filosofia",
+    "quotePart1": "Acreditamos que o futuro do trabalho não é competir com a IA, mas",
+    "quotePart2": "orquestrá-la",
+    "quotePart3": "ao lado da intuição humana.",
+    "precisionTitle": "",
+    "precisionText": "",
+    "empathyTitle": "",
+    "empathyText": ""
+  },
+  "differentiator": {
+    "title": "Expertise Humana + Suporte de IA",
+    "description": "Combinamos mais de 30 anos de coaching de carreira prático com ferramentas impulsionadas por IA, para que você obtenha a profundidade da visão humana e a velocidade da tecnologia.",
+    "humanCardTitle": "Sistema Projetado por Humanos",
+    "humanCardText": "Construído por coaches de carreira especialistas que guiaram milhares através de transizioni bem-sucedidas. Experiência real, estruturas comprovadas.",
+    "aiCardTitle": "Ferramentas Impulsionadas por IA",
+    "aiCardText": "A automação inteligente lida com o trabalho pesado, otimização de ATS, correspondência de empregos, suporte para criação de currículos, para que você avance mais rápido.",
+    "pathCardTitle": "Seu Caminho Personalizado",
+    "pathCardText": "Não conselhos genéricos. Uma estratégia sob medida que se adapta ao seu histórico, objetivos e cronograma.",
+    "resultLabel": "O resultado?",
+    "resultText": "Você obtém orientação de nível especialista sem esperar semanas por um especialista disponível, e execução na velocidade da IA sem perder o toque humano que realmente faz a mudança de carreira funcionar."
+  },
+  "programs": {
+    "title": "Selecione seu Caminho",
+    "description": "Selecione a trajetória que se alinha ao seu momento profissional.",
+    "compare": "Comparar todos os programas",
+    "viewProgram": "Ver Programa",
+    "watchVideo": "Ver Vídeo",
+    "cards": {
+      "novanext": {
+        "title": "NovaNext™",
+        "subtitle": "Movimento de Carreira",
+        "description": "Escolha este caminho se você já sabe qual função deseja seguir a seguir."
+      },
+      "novarearchitect": {
+        "title": "NovaRearchitect™",
+        "subtitle": "Reinvenção de Carreira",
+        "description": "Escolha este caminho se sua função ou setor atual não for mais viável."
+      },
+      "novalign": {
+        "title": "NovaAlign™",
+        "subtitle": "Direção de Carreira",
+        "description": "Escolha este caminho se precisar de clareza antes de se comprometer com uma direção profissional."
+      }
+    }
+  },
+  "cta": {
+    "title": "Pronto para Começar Seu Próximo Capítulo Profissional?",
+    "subtitle": "Junte-se a milhares de profissionais que transformaram suas carreiras com a NovaWork Global",
+    "button": "Encontre Seu Caminho →"
+  },
+  "footer": {
+    "tagline": "Capacitando profissionais para navegar na mudança de carreira com clareza e confiança",
+    "programs": "Programas",
+    "company": "Empresa",
+    "legal": "Legal",
+    "links": {
+      "novanext": "NovaNext™",
+      "novarearchitect": "NovaRearchitect™",
+      "novalign": "NovaAlign™",
+      "about": "Sobre",
+      "methodology": "Metodologia",
+      "insights": "Insights",
+      "privacy": "Política de Privacidade",
+      "terms": "Termos de Serviço"
+    },
+    "copyright": "© {{year}} NovaWork Global. Todos os direitos reservados."
+  },
+  "onboarding": {
+    "questions": {
+      "situations": {
+        "activelyJobHunting": "Procurando emprego ativamente",
+        "exploringNewCareer": "Explorando nova carreira",
+        "feelingStuck": "Sentindo-se estagnado",
+        "recentlyLaidOff": "Recently desligado do último emprego",
+        "newGraduate": "Recém-graduado",
+        "careerChanger": "Mudança de carreira"
+      },
+      "priorities": {
+        "betterJob": "Trabalho melhor",
+        "higherSalary": "Salário mais alto",
+        "careerChange": "Mudança de carreira",
+        "workLifeBalance": "Equilíbrio vida-trabalho",
+        "remoteWork": "Trabalho remoto",
+        "internationalOpportunity": "Oportunidade internacional"
+      }
+    },
+    "situation": {
+      "title": "Seu Contexto Atual",
+      "subtitle": "Ajude-nos a entender sua situação para personalizar sua experiência.",
+      "selectSituation": "O que descreve sua situação atual?",
+      "selectGoal": "Qual é o seu objetivo principal agora?",
+      "continue": "Continuar"
+    }
+  },
+  "auth": {
+    "signIn": {
+      "title": "Bem-vindo de Volta",
+      "subtitle": "Entre para continuar sua jornada profissional",
+      "email": "E-mail",
+      "emailPlaceholder": "Digite seu e-mail",
+      "password": "Senha",
+      "passwordPlaceholder": "Digite sua senha",
+      "forgotPassword": "Esqueceu a senha?",
+      "signInButton": "Entrar",
+      "signingIn": "Entrando...",
+      "noAccount": "Não tem uma conta?",
+      "errors": {
+        "fillAllFields": "Por favor, preencha todos os campos"
+      }
+    },
+    "signUp": {
+      "title": "Crie Sua Conta",
+      "subtitle": "Comece sua jornada profissional hoje",
+      "email": "E-mail",
+      "emailPlaceholder": "Digite seu e-mail",
+      "password": "Senha",
+      "passwordPlaceholder": "Crie uma senha",
+      "confirmPassword": "Confirmar Senha",
+      "confirmPasswordPlaceholder": "Confirme sua senha",
+      "createAccount": "Criar Conta",
+      "creatingAccount": "Criando conta...",
+      "alreadyHaveAccount": "Já tem uma conta?",
+      "terms": "Ao criar uma conta, você concorda com nossos",
+      "termsLink": "Termos de Serviço",
+      "and": "e",
+      "privacyLink": "Política de Privacidade",
+      "success": "Conta criada! Verifique seu e-mail para confirmar.",
+      "errors": {
+        "fillAllFields": "Por favor, preencha todos os campos",
+        "passwordMismatch": "As senhas não coincidem",
+        "passwordLength": "A senha deve ter pelo menos 6 caracteres"
+      }
+    }
+  },
+  "resumeBuilder": {
+    "steps": {
+      "capture": "Capturar",
+      "craft": "Criar",
+      "refine": "Refinar",
+      "step": "Passo {{number}}"
+    },
+    "menu": {
+      "title": "Criador de Currículo",
+      "subtitle": "Siga as etapas para concluir um currículo imã de entrevistas.",
+      "backToDashboard": "Voltar ao Painel",
+      "yourProgress": "Seu Progresso",
+      "stepsCompleted": "{{completed}} de {{total}} etapas concluídas",
+      "editDetails": "Editar Detalhes",
+      "getStarted": "Começar",
+      "readyToApply": "Pronto para Aplicar?",
+      "readyToApplyLocked": "Pronto para Aplicar? (Apenas Momentum)",
+      "applyDesc": "Comece sua jornada de busca de emprego com recomendações impulsionadas por IA.",
+      "applyDescLocked": "Faça upgrade para o Momentum para acessar nosso mecanismo de busca de emprego impulsionado por IA.",
+      "workExperience": "Experiência Profissional",
+      "workExperienceDesc": "Construa seu histórico profissional com facilidade.",
+      "carStories": "Histórias CAR",
+      "carStoriesDesc": "Destaque suas principais conquistas.",
+      "profile": "Perfil Profissional",
+      "profileDesc": "Crie um resumo convincente.",
+      "coverLetter": "Gerador de Carta de Apresentação",
+      "coverLetterDesc": "Cartas de apresentação personalizadas impulsionadas por IA.",
+      "accomplishmentLibrary": "Biblioteca de Conquistas",
+      "accomplishmentLibraryDesc": "Seu banco pessoal de conquistas — escolha, marque e monte automaticamente para qualquer trabalho."
+    },
+    "profile": {
+      "title": "Perfil Profissional",
+      "subtitle": "Defina quem você é e o que traz para a mesa",
+      "whoYouAre": "Quem Você É (O Gancho)",
+      "whoYouAreHelp": "Uma frase poderosa que define sua identidade profissional. Inclui: seu cargo, tempo de experiência e setor/indústrias",
+      "coreSkills": "Habilidades Técnicas e Hard Skills: Estas são as habilidades que melhor descrevem você e que, quando combinadas, criam seu valor agregado",
+      "coreSkillsHelp": "Liste suas principais competências técnicas.",
+      "softSkills": "Liderança e Soft Skills: Estas geralmente são transferíveis",
+      "softSkillsHelp": "Descreva seu estilo de liderança e pontos fortes interpessoais.",
+      "areasOfExcellence": "Áreas de Excelência: Esta é a lista de suas competências técnicas",
+      "areasOfExcellenceHelp": "Domínios-chave onde você atua como especialista no assunto.",
+      "preview": "Visualização do Perfil",
+      "generateWithAI": "Gerar com IA"
+    },
+    "jdAnalyzer": {
+      "profileIncomplete": "Seu perfil está incompleto. Por favor, complete as informações obrigatórias do seu perfil (Nome Completo, Telefone e Localização) antes de exportar seu currículo."
+    },
+    "workExperience": {
+      "company": "Empresa",
+      "companyDesc": "Descrição da Empresa",
+      "companyDescPlaceholder": "ex., Líder global em soluções de Logística e Cadeia de Suprimentos",
+      "jobTitle": "Cargo",
+      "startDate": "Data de Início",
+      "endDate": "Data de Término",
+      "current": "Trabalho aqui atualmente",
+      "scope": "Escopo e Responsabilidades",
+      "scopeHelp": "Resumo de alto nível do seu cargo. As métricas devem ir nas conquistas.",
+      "scopePlaceholder": "Liderou a estratégia global de compras para...",
+      "tools": "Ferramentas e Sistemas",
+      "title": "Experiência Profissional",
+      "addNew": "Adicionar Nova Experiência",
+      "noExperience": "Nenhuma experiência profissional adicionada ainda",
+      "startAdding": "Comece adicionando seu cargo mais recente",
+      "addFirst": "Adicionar Primeira Experiência",
+      "importFromResume": "Importar do Currículo",
+      "dragDrop": "Arraste e solte seu currículo aqui",
+      "browseFiles": "Procurar Arquivos",
+      "supportFormat": "Suporte para arquivos PDF e DOCX",
+      "cancel": "Cancelar",
+      "importing": "Importando...",
+      "import": "Importar Experiência",
+      "removeFile": "Remover arquivo",
+      "importDescription": "Envie seu currículo existente (PDF ou DOCX) e extrairemos automaticamente sua experiência profissional usando IA.",
+      "accomplishments": "Conquistas",
+      "accomplishmentsHelp": "Resultados específicos que você alcançou que demonstram seu valor agregado e as contribuições que realizou. Use tópicos para destacar seu sucesso.",
+      "addBullet": "Adicionar Tópico",
+      "linkPARStory": "Vincular História CAR",
+      "selectCARStory": "Selecionar uma História CAR para converter",
+      "noUnconvertedStories": "Nenhuma história CAR não convertida disponível. Crie mais no Criador de Histórias CAR.",
+      "convert": "Converter",
+      "addBulletTitle": "Adicionar Tópico de Conquista",
+      "bulletHelp": "Uso: Verbo + Ação + Resultado (medido)",
+      "bulletPlaceholder": "ex., Liderou uma equipe de 12 engenheiros que entregou um novo sistema de pagamento, reduzindo o tempo de transação em 40% e economizando US$ 2 milhões anualmente",
+      "adding": "Adicionando...",
+      "fromCARStory": "Da História CAR",
+      "pickFromBank": "Escolher do banco",
+      "selectAccomplishments": "Selecione conquistas do seu banco",
+      "addSelected": "Adicionar Selecionados ({{count}})",
+      "noBankItems": "Seu banco de conquistas está vazio. Adicione itens na Biblioteca primeiro."
+    },
+    "par": {
+      "title": "Criador de Histórias CAR",
+      "subtitle": "Desafio. Ações. Resultado. A estrutura para conquistas poderosas.",
+      "description": "Estruture suas conquistas usando a estrutura Desafio-Ações-Resultado (medido).",
+      "addNew": "Adicionar Nova História",
+      "noStories": "Nenhuma História CAR ainda",
+      "noStoriesHelp": "Crie histórias para destacar suas habilidades de resolução de problemas.",
+      "backToResumeBuilder": "Voltar ao Criador de Currículo",
+      "legend": {
+        "challenge": "Desafio",
+        "actions": "Ações",
+        "result": "Resultado (medido)"
+      },
+      "roleCompany": "Cargo & Empresa",
+      "year": "Ano",
+      "problem": "Desafio (Contexto)",
+      "problemHelp": "Qual problema ou situação específica você enfrentou?",
+      "actions": "Ações tomadas",
+      "actionsHelp": "Quais etapas específicas VOCÊ tomou? (Use verbos de ação ativos)",
+      "result": "Resultado (medido)",
+      "resultHelp": "Qual foi o resultado quantificável?",
+      "willDoAgain": "Faria isso novamente",
+      "willDoAgainHelp": "Marque se este é um tipo de trabalho que você gosta e quer repetir.",
+      "wouldDoAgain": "Faria novamente",
+      "converted": "Convertido",
+      "filterByCompetency": "Filtrar por competência",
+      "filterByWillDoAgain": "Faria novamente",
+      "storiesFound": "histórias encontradas",
+      "convertToBullet": "Converter para Tópico",
+      "errors": {
+        "roleRequired": "Cargo e Empresa são obrigatórios",
+        "problemRequired": "A descrição do desafio é obrigatória",
+        "actionsRequired": "Pelo menos 2 ações são necessárias",
+        "resultRequired": "O resultado é obrigatório",
+        "requiredFields": "Por favor, preencha os campos Desafio e Resultado primeiro"
+      }
+    },
+    "placeholders": {
+      "whoYouAre": "ex., Gerente de Produto Sênior com mais de 10 anos impulsionando a transformação digital em FinTech.",
+      "coreSkills": "ex., Planejamento Estratégico, Metodologias Ágeis, Gestão de Stakeholders, Python, SQL.",
+      "softSkills": "ex., Líder empático que constrói equipes de alto desempenho através de mentoria e comunicação clara.",
+      "areasOfExcellence": "ex., gestão de projetos, planejamento orçamentário, liderança de equipe",
+      "roleCompany": "ex., Gerente de Produto Sênior no Google",
+      "problem": "ex., A adoção do produto estava caindo 15% trimestre a trimestre devido a uma experiência ruim de integração do usuário",
+      "result": "ex., Aumentou a ativação de usuários em 40% em 3 meses, reduziu o churn de 25% para 12% e gerou $2M em ARR adicional",
+      "metricInput": "ex., Aumentou a eficiência em 25%",
+      "action1": "ex., Conduziu pesquisa de usuário com mais de 50 clientes",
+      "action2": "ex., Redesenhou o fluxo de integração",
+      "action3": "ex., Colaborou com a engenharia para implementar mudanças",
+      "fullName": "João Silva",
+      "email": "joao.silva@exemplo.com",
+      "phone": "+55 11 9 1234 5678",
+      "linkedin": "https://linkedin.com/in/joaosilva",
+      "city": "São Paulo",
+      "cityGeneric": "Digite o nome da cidade"
+    },
+    "accomplishmentLibrary": {
+      "title": "Biblioteca de Conquistas",
+      "subtitle": "Seu banco pessoal de conquistas — organizado, marcado e pronto para qualquer currículo.",
+      "addNew": "Adicionar Conquista",
+      "importExisting": "Importar da Experiência Profissional",
+      "importingAll": "Importando...",
+      "importSuccess": "{{count}} conquistas importadas!",
+      "importNone": "Nenhuma nova conquista para importar — todas já estão na sua biblioteca.",
+      "filterByRole": "Filtrar por cargo",
+      "filterBySkill": "Filtrar por habilidade",
+      "starredOnly": "Apenas favoritos",
+      "allItems": "Tudo",
+      "noAccomplishments": "Nenhuma conquista ainda",
+      "noAccomplishmentsHelp": "Comece a construir sua biblioteca adicionando conquistas ou importando-as da sua experiência profissional.",
+      "noResults": "Nenhuma conquista corresponde aos seus filtros.",
+      "autoAssemble": "Auto-Seleção IA",
+      "autoAssembleHelp": "Insira um cargo alvo e deixe a IA escolher as melhores conquistas para o seu currículo.",
+      "targetJobTitle": "Cargo Alvo",
+      "targetJobPlaceholder": "ex., Gerente de Produto Sênior",
+      "selectBullets": "Quantos tópicos?",
+      "assembling": "A IA está selecionando...",
+      "assemble": "Auto-Selecionar",
+      "aiSelected": "A IA selecionou {{count}} conquistas para \"{{job}}\"",
+      "timesUsed": "Usado {{count}} vezes",
+      "source": "Fonte",
+      "sourceManual": "Manual",
+      "sourceImported": "Importado",
+      "sourceCarStory": "História CAR",
+      "sourceAI": "Generado por IA",
+      "skills": "Habilidades",
+      "competencies": "Competências",
+      "addSkill": "Adicionar habilidade...",
+      "addCompetency": "Adicionar competência...",
+      "bulletPlaceholder": "ex., Liderou equipe de 12 para entregar sistema de pagamento, reduzindo o tempo de transação em 40%",
+      "rolePlaceholder": "ex., Gerente de Produto Sênior",
+      "companyPlaceholder": "ex., Google",
+      "backToResumeBuilder": "Voltar ao Criador de Currículo",
+      "editBullet": "Editar conquista",
+      "starred": "Favorito",
+      "groupedBy": "Agrupado por cargo"
+    },
+    "questionnaire": {
+      "step3": "Passo 3",
+      "title": "Questionário de Posicionamento Profissional",
+      "subtitle": "Complete isso após suas realizações para melhores resultados.",
+      "warningText": "Completar suas realizações primeiro melhora a qualidade do perfil gerado.",
+      "goToStoryCards": "Ir para o seu \"accomplishment bank\" →",
+      "backToResumeBuilder": "Voltar ao Construtor de CV",
+      "backToCarStories": "Voltar aos CARs",
+      "sectionLabel": "Seção {{current}} de {{total}}: {{name}}",
+      "add": "Adicionar",
+      "section_identity": "Identidade e Objetivo",
+      "section_environments": "Ambientes e Funções",
+      "section_impact": "Impacto e Escala",
+      "section_strengths": "Pontos Fortes e Diferenciais",
+      "section_skills": "Habilidades e Ferramentas",
+      "section_high_impact": "Histórias de Alto Impacto",
+      "currentJobTitle": "Cargo Atual",
+      "currentJobTitlePlaceholder": "ex., Diretor de Cadeia de Suprimentos",
+      "targetJobTitle": "Cargo Objetivo",
+      "targetJobTitlePlaceholder": "ex., VP de Operações",
+      "onePhraseIdentity": "Identidade em Uma Frase",
+      "onePhraseIdentityHelper": "Como você se descreveria em uma frase poderosa?",
+      "onePhraseIdentityPlaceholder": "ex., Estrategista operacional que transforma o caos em sistemas escaláveis",
+      "yearsOfExperience": "Anos de Experiência",
+      "industries": "Indústrias",
+      "industriesPlaceholder": "ex., Manufatura, Saúde",
+      "workEnvironments": "Ambientes de Trabalho",
+      "functions": "Funções (2-3 principais)",
+      "functionsPlaceholder": "ex., Operações, Finanças, Estratégia",
+      "trustedProblems": "Problemas de Confiança",
+      "trustedProblemsHelper": "Que tipo de problemas as pessoas trazem para você resolver?",
+      "trustedProblemsPlaceholder": "ex., Desafios complexos interfuncionais...",
+      "typesOfImpact": "Tipos de Impacto que Você Gera",
+      "teamSize": "Tamanho da Equipe",
+      "teamSizePlaceholder": "ex., 50+ diretos, 200+ indiretos",
+      "budgetManaged": "Orçamento Gerenciado",
+      "budgetManagedPlaceholder": "ex., R$25M anual",
+      "geographicScope": "Abrangência Geográfica",
+      "geographicScopePlaceholder": "ex., Global (US, EU, APAC)",
+      "projectScale": "Escala do Projeto",
+      "projectScalePlaceholder": "ex., Programas de 12 meses, $10M",
+      "stakeholderExposure": "Exposição a Partes Interessadas",
+      "coreStrengths": "Pontos Fortes Principais (selecione seus top 5-8)",
+      "technicalSkills": "Habilidades Técnicas e Ferramentas",
+      "technicalSkillsPlaceholder": "ex., SAP, Python, Tableau",
+      "platformsSystems": "Plataformas e Sistemas",
+      "platformsSystemsPlaceholder": "ex., Salesforce, Oracle, AWS",
+      "methodologies": "Metodologias e Frameworks",
+      "methodologiesPlaceholder": "ex., Lean Six Sigma, Agile, PMBOK",
+      "certifications": "Certificações e Treinamento Avançado",
+      "certificationsPlaceholder": "ex., PMP, CPA, AWS Solutions Architect",
+      "languagesSpoken": "Idiomas Falados",
+      "languagesSpokenPlaceholder": "ex., Inglês, Espanhol, Francês",
+      "pasteJobDescriptions": "Cole Descrições de Vagas Alvo (opcional)",
+      "pasteJobDescriptionsHelper": "Cole 1-3 descrições de vagas para os cargos que você está buscando.",
+      "pasteJobDescriptionsPlaceholder": "Cole uma descrição de vaga aqui...",
+      "largestResult": "Seu Maior Resultado",
+      "mostComplexProject": "Projeto Mais Complexo",
+      "impactOptions": [
+        "Crescimento de Receita",
+        "Redução de Custos",
+        "Otimização de Processos",
+        "Formação e Crescimento de Equipes",
+        "Expansão de Mercado",
+        "Transformação Digital",
+        "Gestão de Riscos",
+        "Mudança Cultural",
+        "Inovação / P&D",
+        "Experiência do Cliente",
+        "Eficiência Operacional",
+        "Fusões e Aquisições"
+      ],
+      "environmentOptions": [
+        "Fortune 500 / Grande Empresa",
+        "Empresa de Médio Porte",
+        "Start-up / Scale-up",
+        "Governo / Setor Público",
+        "Sem Fins Lucrativos / ONG",
+        "Consultoria / Serviços Profissionais",
+        "Private Equity / VC",
+        "Empresa Familiar",
+        "Organização Matricial",
+        "Remoto / Distribuído"
+      ],
+      "strengthOptions": [
+        "Pensamento Estratégico",
+        "Resolução Analítica de Problemas",
+        "Liderança Interfuncional",
+        "Gestão de Mudanças",
+        "Gestão de Partes Interessadas",
+        "Negociação",
+        "Tomada de Decisão Baseada em Dados",
+        "Desenvolvimento de Equipes",
+        "Comunicação / Narrativa",
+        "Inovação / Criatividade",
+        "Execução e Entrega",
+        "Perspicácia Financeira",
+        "Construção de Relacionamentos com Clientes",
+        "Profundidade Técnica",
+        "Consciência Global / Multicultural",
+        "Resiliência / Adaptabilidade"
+      ],
+      "stakeholderOptions": [
+        "Alta Direção (C-Suite)",
+        "Conselho de Administração",
+        "Investidores / PE / VC",
+        "Clientes Externos",
+        "Fornecedores",
+        "Equipes Interfuncionais",
+        "Governo / Reguladores",
+        "Parceiros Internacionais",
+        "Sindicatos / Grupos de Trabalho"
+      ]
+    }
+  },
+  "dashboard": {
+    "welcomeBack": "Bem-vindo de volta,",
+    "whatToAchieve": "O que você quer alcançar hoje?",
+    "pickFocus": "Escolha um foco — nós o guiaremos passo a passo com o caminho mais rápido para os resultados.",
+    "recommendedNext": "Próximo Passo Recomendado",
+    "continue": "Continuar",
+    "start": "Começar",
+    "watchVideo": "Assistir vídeo",
+    "learnMore": "Saiba mais",
+    "buildMyResume": "Construir Meu Currículo",
+    "buildMyResumeDesc": "Continue de onde parou. Priorizaremos edições para melhorar a correspondência de ATS e a clareza.",
+    "progress": "Progresso",
+    "steps": "etapas",
+    "preview": "Visualizar",
+    "locked": "Bloqueado",
+    "upgradeTo": "Faça upgrade para",
+    "yourStats": "Suas estatísticas de progresso esta semana",
+    "resumeScore": "Pontuação do currículo",
+    "applicationsTracked": "Candidaturas rastreadas",
+    "interviewsScheduled": "Entrevistas agendadas",
+    "quickActions": {
+      "continueDesc": "Continue de onde parou no seu programa NovaNext.",
+      "networkingDesc": "Participe de sessões ao vivo e conecte-se com a comunidade."
+    },
+    "uploadResume": "Carregar currículo",
+    "analyzeJD": "Analisar descrição do trabalho",
+    "careerVision": "Entenda Sua Visão de Carreira",
+    "careerVisionDesc": "Obtenha uma compreensão clara de quem você é e qual é a sua fórmula de sucesso.",
+    "resumeBuilder": "Criador de Currículo",
+    "resumeBuilderDesc": "Construa um currículo imã de entrevistas e seu banco pessoal de conquistas.",
+    "jobSearch": "Busca de Emprego e Posicionamento",
+    "jobSearchDesc": "Use essas técnicas e seja chamado para uma entrevista 75% mais rápido que os outros.",
+    "interviewMastery": "Domínio da Entrevista",
+    "interviewMasteryDesc": "Seja aquele que eles escolhem. Entenda e pratique a entrevista para ser o candidato vencedor.",
+    "home": {
+      "title": "Centro de Comando de Carreira",
+      "greeting": "Bem-vindo de volta, {{name}}",
+      "subtitle": "Seu hub de carreira personalizado",
+      "heroTitle": "Seu progresso, comunidade e próximas ações em um só lugar.",
+      "heroDescription": "Continue avançando em sua jornada NovaWork. Acompanhe seu momentum, continue seu programa e participe das sessões desta semana."
+    },
+    "cta": {
+      "continueProgram": "Continuar Programa",
+      "exploreNetworking": "Explorar Networking",
+      "viewCalendar": "Ver Calendário de Membros",
+      "viewAll": "Ver Tudo",
+      "register": "Registrar",
+      "cancelRegistration": "Cancelar Registro",
+      "retry": "Tentar Novamente",
+      "viewModules": "Ver Todos os Módulos"
+    },
+    "statsSection": {
+      "title": "Seu Progresso",
+      "profileCompletion": "Perfil Completo",
+      "resumeVersions": "Versões do Currículo",
+      "applications": "Candidaturas",
+      "interviews": "Entrevistas",
+      "sessionsJoined": "Sessões Participadas"
+    },
+    "quickActionsPanel": {
+      "title": "Ações Rápidas",
+      "myCoaches": "Meus Coaches / Agendar",
+      "uploadResume": "Enviar Currículo",
+      "analyzeJD": "Analisar Vaga",
+      "joinNetworking": "Participar do Networking",
+      "viewCalendar": "Ver Calendário",
+      "sharedResources": "Recursos Compartilhados"
+    },
+    "nextActions": {
+      "title": "Próximas Ações",
+      "continueResume": "Continuar Construtor de Currículo",
+      "finishCareerVision": "Finalizar Visão de Carreira",
+      "joinSession": "Participar da Sessão desta Semana",
+      "reviewResources": "Revisar Recursos Recomendados",
+      "startOnboarding": "Complete Seu Perfil"
+    },
+    "sessions": {
+      "title": "Próximas Sessões para Membros",
+      "seatsLeft_one": "{{count}} vaga disponível",
+      "seatsLeft_other": "{{count}} vagas disponíveis",
+      "full": "Sessão Lotada",
+      "registered": "Registrado",
+      "register": "Registrar",
+      "cancelRegistration": "Cancelar Registro",
+      "duration": "{{minutes}} min",
+      "empty": "Não há sessões próximas agora. Volte em breve.",
+      "error": "Não foi possível carregar as sessões.",
+      "workshop": "Workshop",
+      "networking": "Networking",
+      "q_and_a": "Perguntas e Respostas",
+      "masterclass": "Masterclass"
+    },
+    "community": {
+      "title": "Destaques da Comunidade",
+      "members_one": "{{count}} membro",
+      "members_other": "{{count}} membros",
+      "joinGroup": "Entrar no Grupo",
+      "empty": "Espaços da comunidade em breve.",
+      "error": "Não foi possível carregar a comunidade."
+    },
+    "resources": {
+      "title": "Recursos Recomendados",
+      "viewResource": "Ver Recurso",
+      "empty": "Nenhum recurso disponível ainda.",
+      "error": "Não foi possível carregar os recursos.",
+      "article": "Artigo",
+      "video": "Vídeo",
+      "pdf": "PDF",
+      "tool": "Ferramenta"
+    },
+    "activity": {
+      "title": "Atividade Recente",
+      "empty": "Nenhuma atividade ainda — comece atualizando seu currículo ou participando de uma sessão.",
+      "error": "Não foi possível carregar a atividade.",
+      "resume_updated": "Currículo atualizado",
+      "session_joined": "Sessão participada",
+      "session_cancelled": "Sessão cancelada",
+      "resource_viewed": "Recurso visualizado",
+      "application_tracked": "Candidatura registrada",
+      "interview_scheduled": "Entrevista agendada",
+      "profile_updated": "Perfil atualizado",
+      "car_story_added": "Conquista adicionada",
+      "onboarding_completed": "Integração concluída"
+    },
+    "marketPulse": {
+      "title": "O que está acontecendo no mercado de trabalho",
+      "viewMore": "Ver mais insights"
+    }
+  },
+  "accomplishmentBankLearnMore": {
+    "heroBadge": "Saiba Mais · Banco de Conquistas",
+    "heroTitle": "Construa um portfólio vivo das suas vitórias profissionais",
+    "heroDescription": "Capture suas conquistas, organize-as com estrutura e transforme-as em declarações de alto impacto para currículos, entrevistas, LinkedIn e crescimento profissional.",
+    "ctaBuildBank": "Construir Meu Banco",
+    "ctaStartCAR": "Começar com CAR",
+    "snapshotTitle": "Visão da Conquista",
+    "snapshotOriginal": "História Original",
+    "snapshotOriginalText": "Liderei a automação de relatórios nas operações de vendas, reduzindo o trabalho manual e melhorando a velocidade de entrega.",
+    "snapshotAILabel": "Variações Geradas por IA",
+    "aiOutput1": "Melhorei a eficiência dos relatórios automatizando fluxos de trabalho de vendas e reduzindo o esforço manual em 35%.",
+    "aiOutput2": "Otimizei os processos de relatórios interfuncionais, acelerando a entrega de painéis para equipes de liderança.",
+    "aiOutput3": "Projetei uma abordagem de relatórios escalável que melhorou a visibilidade, velocidade e precisão.",
+    "whatItIsLabel": "O que é",
+    "whatItIsTitle": "O que é o Banco de Conquistas?",
+    "whatItIsText": "O Banco de Conquistas é um espaço estruturado onde você coleta, refina e reutiliza suas conquistas profissionais mais valiosas. Em vez de começar do zero cada vez que atualiza um currículo ou se prepara para uma entrevista, você cria um sistema de impacto reutilizável.",
+    "whyUsersLoveTitle": "Por que os usuários adoram",
+    "whyLove1": "Não precisar mais tentar lembrar conquistas sob pressão",
+    "whyLove2": "Melhores tópicos de currículo e respostas de entrevista mais sólidas",
+    "whyLove3": "Uma conquista pode se tornar muitas variações estratégicas",
+    "whyItMattersLabel": "Por que é importante",
+    "whyItMattersTitle": "Uma maneira melhor de comunicar seu valor",
+    "captureTitle": "Capturar",
+    "captureText": "Salve suas vitórias profissionais em um lugar estruturado em vez de perdê-las em currículos antigos, notas ou memória.",
+    "organizeTitle": "Organizar",
+    "organizeText": "Refine e categorize suas conquistas para reutilizá-las mais facilmente em currículos, entrevistas e LinkedIn.",
+    "leverageTitle": "Aproveitar",
+    "leverageText": "Transforme sua experiência em um portfólio de impacto reutilizável para novos cargos, promoções e transições de carreira.",
+    "twoWaysLabel": "Duas formas de começar",
+    "twoWaysTitle": "Escolha o caminho que se adapta à sua situação",
+    "fastTrackLabel": "Caminho rápido",
+    "uploadTitle": "Envie seu Currículo",
+    "uploadText": "Já tem conteúdo sólido baseado em conquistas? Envie seu currículo e extraia conquistas para o seu banco automaticamente.",
+    "uploadBtn": "Abrir Banco de Conquistas",
+    "guidedLabel": "Caminho guiado",
+    "carTitle": "Construir com CAR",
+    "carText": "Comece do zero usando o método Contexto, Ação, Resultado para criar declarações de conquistas poderosas passo a passo.",
+    "carBtn": "Começar com CAR",
+    "carFrameworkLabel": "Framework CAR",
+    "carFrameworkTitle": "Transforme experiência em declarações de conquistas claras",
+    "carFrameworkText": "O método CAR ajuda você a escrever conquistas mais fortes e estratégicas dividindo cada história em três partes essenciais: Contexto, Ação e Resultado.",
+    "carCTitle": "Contexto",
+    "carCText": "Qual era a situação, o desafio, a necessidade do negócio ou o objetivo?",
+    "carATitle": "Ação",
+    "carAText": "O que você fez especificamente? Qual processo, decisão ou iniciativa você liderou ou melhorou?",
+    "carRTitle": "Resultado",
+    "carRText": "O que mudou? Mostre o resultado mensurável, melhoria, economias, crescimento ou impacto.",
+    "aiMultiplierLabel": "Multiplicador de IA",
+    "aiMultiplierTitle": "Uma história se torna múltiplas versões de alto impacto",
+    "aiMultiplierText": "Após inserir uma história de conquista completa, a IA pode gerar múltiplas variações refinadas adaptadas a diferentes objetivos de carreira e contextos de comunicação.",
+    "aiInput": "Entrada",
+    "aiInputText": "Liderei a automação de relatórios nas operações de vendas, reduzindo o trabalho manual e melhorando a velocidade de entrega.",
+    "aiOutputLabel": "Variações de Saída",
+    "adaptLabel": "Adaptabilidade estratégica",
+    "adaptTitle": "A mesma conquista pode destacar diferentes pontos fortes",
+    "leadershipTitle": "Liderança",
+    "leadershipText": "Enquadre a conquista em torno de propriedade, direção, iniciativa e impacto na equipe.",
+    "analyticalTitle": "Pensamento Analítico",
+    "analyticalText": "Enfatize a abordagem de resolução de problemas, raciocínio baseado em dados, métricas e lógica de decisão.",
+    "communicationTitle": "Comunicação",
+    "communicationText": "Mostre alinhamento com stakeholders, colaboração, influência e execução interfuncional.",
+    "ctaLabel": "Pronto para começar?",
+    "ctaTitle": "Comece a construir seu Banco de Conquistas hoje",
+    "ctaText": "Pare de depender da memória. Construa um portfólio reutilizável de vitórias profissionais que apoia seu currículo, preparação para entrevistas e próxima oportunidade."
+  },
+  "resumeBuilderLearnMore": {
+    "heroBadge": "SAIBA MAIS • CURRÍCULO BASEADO EM CONQUISTAS",
+    "heroTitle": "A Arquitetura do Currículo Baseado em Conquistas",
+    "heroSubtitle": "Pare de escrever seu currículo como uma descrição de cargo. Comece a se apresentar como um colaborador comprovado com impacto mensurável, valor empresarial e desempenho real.",
+    "ctaStart": "Começar a Construir",
+    "ctaExample": "Ver Exemplo",
+    "blackHoleTitle": "O Buraco Negro do Currículo",
+    "blackHoleText": "Muitos candidatos passam horas ou semanas tentando aperfeiçoar um currículo e ainda não sabem o que incluir. O problema real não é o esforço. É a abordagem errada.",
+    "blackHoleQuotePre": "Um currículo tem um único trabalho:",
+    "blackHoleQuoteAccent": "conseguir uma entrevista.",
+    "notTitle": "O que um Currículo NÃO é",
+    "not1": "Não é a ferramenta mais importante na sua busca de emprego.",
+    "not2": "Não é um resumo de toda a sua vida profissional.",
+    "not3": "Não deve te contratar sozinho.",
+    "mistakeTitle": "O Maior Erro",
+    "mistakeText": "A maioria dos currículos está cheia de responsabilidades, tarefas e funções genéricas. Esse conteúdo descreve o cargo, mas não distingue a pessoa que o ocupou.",
+    "jobDescription": "Descrevendo o Cargo",
+    "jd1": "Gerenciou pipeline",
+    "jd2": "Participou de reuniões semanais",
+    "jd3": "Fechou negócios",
+    "jd4": "Prospectou novos clientes",
+    "contribution": "Mostrando Contribuição",
+    "c1": "Expandiu receita do território em 42%",
+    "c2": "Ficou em #1 por 3 trimestres consecutivos",
+    "c3": "Melhorou taxa de ganho em 18 meses",
+    "c4": "Criou impacto empresarial mensurável",
+    "whyTitle": "Por que as Conquistas Vencem",
+    "whyText": "Suas conquistas são exclusivamente suas. Ninguém mais teve seu cargo exato, dentro da sua empresa exata, no seu cronograma exato, com seus resultados exatos.",
+    "whyQuotePre": "Expandiu receita do território em",
+    "whyQuoteAccent1": "42%",
+    "whyQuoteMid": "em",
+    "whyQuoteAccent2": "18 meses",
+    "whyQuoteEnd": "e ficou em #1 na região por três trimestres consecutivos.",
+    "pillarsTitle": "Os Três Pilares de uma Conquista",
+    "pillarsSubtitle": "Cada conquista sólida deve provar o que você entregou, por que foi importante e como seu desempenho superou o esperado.",
+    "pillarresultsTitle": "Resultados",
+    "pillarresultsText": "O que você entregou. O resultado concreto, métrica ou melhoria que você alcançou.",
+    "pillarbusinessImpactTitle": "Impacto Empresarial",
+    "pillarbusinessImpactText": "O que você criou para a empresa: receita, economia, eficiência, crescimento, redução de riscos ou valor para o cliente.",
+    "pillaractualPerformanceTitle": "Desempenho Real",
+    "pillaractualPerformanceText": "Não apenas o que seu cargo esperava. Isso prova excelência, responsabilidade e execução diferenciada.",
+    "hiringTitle": "A Perspectiva do Recrutador",
+    "hiringText": "Quando alguém lê um currículo baseado em conquistas, não vê apenas um candidato. Vê um colaborador. Essa mudança transforma a forma como seu perfil é avaliado.",
+    "mindsetFrom1": "Candidato",
+    "mindsetTo1": "Colaborador",
+    "mindsetTitle": "A Mudança de Mentalidade Essencial",
+    "mindsetText": "Pare de pensar no seu currículo como uma descrição de cargo. Pense nele como um histórico de desempenho. É isso que torna sua história mais clara, mais forte e mais fácil de acreditar.",
+    "mindsetFrom2": "Descrição do Cargo",
+    "mindsetTo2": "Histórico de Desempenho",
+    "ctaTitle": "Pronto para Construir Sua História?",
+    "ctaText": "Com a mentalidade certa, você agora pode estruturar um currículo focado, credível e construído em torno do que as equipes de contratação mais valorizam: evidência de desempenho.",
+    "ctaContinue": "Continuar para o Construtor",
+    "footerNote": "NovaWork Global - Método de Currículo Baseado em Conquistas"
+  },
+  "tour": {
+    "common": {
+      "back": "Voltar",
+      "skip": "Pular tour",
+      "next": "Próximo",
+      "done": "Feito",
+      "stepOf": "Etapa {{current}} de {{total}}"
+    },
+    "resumeBuilderMenu": {
+      "title": "Tour do Construtor de Currículo",
+      "skip": "Pular tour",
+      "back": "Voltar",
+      "next": "Próximo",
+      "done": "Feito",
+      "steps": {
+        "1": {
+          "title": "Experiência Profissional",
+          "content": "Na primeira parte, você vai delinear sua experiência profissional. Aqui é onde você lista as empresas e cargos que ocupou, junto com os detalhes principais como nome da empresa, posição, anos e localizações."
+        },
+        "2": {
+          "title": "Banco de Conquistas",
+          "content": "No Banco de Conquistas, você vai reunir todas as principais conquistas da sua carreira. Construa-as através do sistema CAR (Contexto + Ações + Resultado) ou importe de um currículo existente."
+        },
+        "3": {
+          "title": "Perfil Profissional",
+          "content": "Construa a primeira impressão do leitor com um parágrafo de posicionamento que inclua palavras-chave ATS. Crie você mesmo, siga instruções em vídeo, ou use nosso questionário de IA."
+        },
+        "4": {
+          "title": "Seleção de Formato",
+          "content": "Escolha entre um currículo cronológico (ideal para trajetórias semelhantes) ou um currículo funcional (ótimo para quem muda de carreira ou trabalha com projetos)."
+        }
+      }
+    },
+    "workExperience": {
+      "title": "Tour de Experiência Profissional",
+      "backDashboard": {
+        "title": "Voltar ao Painel",
+        "content": "Volte ao seu painel principal para acessar outras seções ou ver seu progresso geral."
+      },
+      "navTabs": {
+        "title": "Seções do Currículo",
+        "content": "Navegue entre as diferentes seções do seu currículo usando estas abas."
+      },
+      "sectionTitle": {
+        "title": "Construtor de Experiência",
+        "content": "Aqui é onde você constrói seu histórico de carreira. Adicione cada cargo que ocupou para criar uma linha do tempo profissional completa."
+      },
+      "videoChips": {
+        "title": "Vídeos Contextuais",
+        "content": "Assista vídeos curtos para entender conceitos-chave. \"Propósito do Cargo\" explica como definir o impacto do seu cargo."
+      },
+      "importResume": {
+        "title": "Importar de Currículo",
+        "content": "Tem um currículo existente? Importe-o para preencher automaticamente seu histórico profissional."
+      },
+      "addExperience": {
+        "title": "Adicionar Experiência",
+        "content": "Adicione manualmente seu histórico profissional aqui. Capture a empresa, seu cargo, datas e conquistas principais."
+      },
+      "experienceList": {
+        "title": "Cartões de Experiência",
+        "content": "Cada cartão representa um cargo na sua carreira. Clique em Editar para modificar ou Excluir para remover."
+      }
+    }
+  },
+  "services": {
+    "title": "Serviços",
+    "novanext": {
+      "label": "NovaNext",
+      "badge": "Ativo"
+    },
+    "novarearchitect": {
+      "label": "NovaRearchitect",
+      "badge": "Em Desenvolvimento"
+    },
+    "novaalign": {
+      "label": "NovaAlign",
+      "badge": "Em Desenvolvimento"
+    }
+  },
+  "membership": {
+    "title": "Programas NovaNext",
+    "essential": "Essencial",
+    "momentum": "Momentum",
+    "executive": "Executivo",
+    "upgradeTo": "Atualizar para {{tier}}",
+    "availableIn": "Disponível em {{tier}}",
+    "currentPlan": "Plano Atual"
+  },
+  "learningModules": {
+    "title": "Módulos de Aprendizado",
+    "careerVision": "Visão de Carreira",
+    "resumeBuilder": "Construtor de Currículo",
+    "jobSearch": "Busca de Emprego",
+    "interviewMastery": "Domínio de Entrevistas"
+  },
+  "sidebarCommunity": {
+    "title": "Comunidade",
+    "networkingSessions": "Sessões de Networking",
+    "memberCalendar": "Calendário de Membros",
+    "community": "Comunidade"
+  },
+  "sidebarOverview": {
+    "dashboard": "Painel Principal",
+    "modules": "Todos os Módulos"
+  },
+  "sidebarTools": {
+    "title": "Ferramentas",
+    "myCoaches": "Meus Coaches",
+    "sharedResources": "Recursos Compartilhados"
+  },
+  "novaNextAcademy": {
+    "title": "NovaNext Academy",
+    "videosAudio": "Vídeos e Áudio",
+    "subtitle": "Aprenda. Prepare-se. Destaque-se."
+  },
+  "academy": {
+    "badge": "NovaNext Academy",
+    "title": "Mapa de Aprendizado",
+    "subtitle": "Roadmap interativo para desenvolvimento de carreira",
+    "clickToExplore": "Clique no nó central para explorar tópicos",
+    "setupRequired": "Clique no nó central para explorar tópicos"
+  },
+  "topics": {
+    "resume": "Dominância do Currículo",
+    "interview": "Dominância de Entrevistas",
+    "jobSearch": "Busca de Emprego",
+    "networking": "Networking",
+    "salary": "Negociação Salarial"
+  },
+  "nodes": {
+    "resumeIntro": "Introdução aos Currículos",
+    "resumeStructure": "Estrutura do Currículo",
+    "accomplishments": "Banco de Realizações",
+    "keywords": "Palavras-chave e ATS",
+    "interviewPrep": "Preparação para Entrevistas",
+    "commonQuestions": "Perguntas Comuns",
+    "bodyLanguage": "Linguagem Corporal",
+    "followUp": "Estratégias de Acompanhamento",
+    "marketResearch": "Pesquisa de Mercado",
+    "applications": "Estratégia de Candidatura",
+    "tracking": "Acompanhamento de Candidaturas",
+    "linkedIn": "Otimização do LinkedIn",
+    "informationalInterviews": "Entrevistas Informativas",
+    "elevatorPitch": "Discurso de Elevador",
+    "negotiation": "Táticas de Negociação",
+    "benefits": "Pacote de Benefícios"
+  },
+  "panel": {
+    "learningPanel": "Painel de Aprendizado",
+    "continueLearning": "Continuar Aprendendo",
+    "recommended": "Recomendado",
+    "resources": "Recursos",
+    "items": "itens",
+    "all": "Todos",
+    "video": "Vídeo",
+    "audio": "Áudio",
+    "article": "Artigo",
+    "noResources": "Nenhum recurso disponível",
+    "completed": "Concluído",
+    "aiRecommendation": "Recomendações personalizadas baseadas no seu progresso",
+    "aiRecommendationDesc": "Nossa IA analisa seus padrões de aprendizado para sugerir os melhores próximos passos."
+  },
+  "resources": {
+    "resumeIntroTitle": "Introdução à Escrita de Currículos",
+    "resumeIntroDesc": "Aprenda os fundamentos para criar um currículo impactante que chame a atenção dos recrutadores.",
+    "resumeAudioTitle": "Guia de Áudio sobre Currículos",
+    "resumeAudioDesc": "Ouça dicas de especialistas em otimização de currículos enquanto viaja ou se exercita.",
+    "accomplishmentsTitle": "Construindo seu Banco de Realizações",
+    "accomplishmentsDesc": "Descubra como documentar e quantificar suas realizações profissionais de forma eficaz.",
+    "interviewPrepTitle": "Domine a Preparação para Entrevistas",
+    "interviewPrepDesc": "Um guia completo para se preparar para qualquer tipo de entrevista com confiança.",
+    "commonQuestionsTitle": "Perguntas Comuns de Entrevistas",
+    "commonQuestionsDesc": "Pratique respostas para as perguntas de entrevista mais frequentes.",
+    "bodyLanguageTitle": "Domínio da Linguagem Corporal",
+    "bodyLanguageDesc": "Aprenda técnicas de comunicação não verbal que podem definir sua entrevista.",
+    "marketResearchTitle": "Pesquisa de Salários e Mercado",
+    "marketResearchDesc": "Como pesquisar tendências de compensação e salários do mercado para sua função alvo.",
+    "applicationsTitle": "Candidaturas Estratégicas de Emprego",
+    "applicationsDesc": "Uma abordagem sistemática para se candidatar a empregos que realmente se convertam em entrevistas.",
+    "linkedInTitle": "Otimização do Perfil do LinkedIn",
+    "linkedInDesc": "Transforme seu perfil do LinkedIn em uma poderosa ferramenta de networking e busca de emprego.",
+    "elevatorPitchTitle": "O Discurso de Elevador Perfeito",
+    "elevatorPitchDesc": "Crie e apresente uma introdução de 30 segundos convincente que abre portas.",
+    "negotiationTitle": "Táticas de Negociação Salarial",
+    "negotiationDesc": "Estratégias comprovadas para negociar seu salário e pacote de compensação com confiança.",
+    "benefitsTitle": "Entendendo Pacotes de Benefícios",
+    "benefitsDesc": "Como avaliar e negociar o pacote completo de benefícios além do salário base."
+  },
+  "careerVision": {
+    "journey": {
+      "title": "Sua Jornada de Visão de Carreira",
+      "subtitle": "Complete estas seções para descobrir seu caminho profissional ideal",
+      "progress": "Progresso",
+      "sectionsCompleted": "{{completed}} de {{total}} seções concluídas",
+      "completed": "✓ Concluído",
+      "notStarted": "Não iniciado",
+      "skillsInterests": "Habilidades e Interesses",
+      "skillsSubtitle": "Liste o que você sabe e o que faria novamente",
+      "jobHistoryAnalysis": "Análise do Histórico Profissional",
+      "jobHistorySubtitle": "Reflita sobre funções passadas para identificar padrões",
+      "idealWorkPreferences": "Preferências de Trabalho Ideal",
+      "idealWorkSubtitle": "Defina seus requisitos essenciais e prioridades",
+      "review": "Revisar →",
+      "start": "Começar →",
+      "watchVideo": "Assistir vídeo",
+      "exploreSection": "Explorar seção",
+      "deepenKnowledge": "Aprofunde seu autoconhecimento e estratégia",
+      "completeTitle": "Visão de Carreira Completa!",
+      "completeSubtitle": "Você completou todas as seções. Veja seu perfil profissional completo agora!",
+      "viewCareerVision": "Ver Sua Visão de Carreira →",
+      "backToDashboard": "Voltar ao Painel",
+      "whatIsCareerVision": "O que é Visão de Carreira?",
+      "clarityHired": "A clareza te contrata 2x mais rápido"
+    }
+  },
+  "jobSearch": {
+    "hub": {
+      "title": "Busca de Emprego e Candidaturas",
+      "subtitle": "Seu painel para conseguir emprego. Planeje, rastreie, analise e prepare-se.",
+      "strategicFramework": "Entenda o Framework Estratégico:",
+      "frameworkStat": "Sucesso, sendo chamado 75% mais rápido que a maioria",
+      "aiMatchingTitle": "Matching de Empregos com IA",
+      "aiMatchingDesc": "Busca automática no Google Jobs baseada nas suas habilidades e preferências de perfil.",
+      "aiPowered": "Com IA",
+      "findMyJob": "Encontrar meu Emprego",
+      "step1Title": "Passo 1: Planeje Sua Busca",
+      "step1Desc": "Defina seu mercado-alvo (Empresas, Indústrias, Funções) e estratégia. Comece aqui para focar.",
+      "step2Title": "Passo 2: Candidaturas Online",
+      "step2Desc": "Rastreie candidaturas, aproveite indicações e analise JDs em um só lugar.",
+      "step3Title": "Passo 3: Headhunters e Empresas",
+      "step3Desc": "Mire em recrutadores com filtros inteligentes e acesse rankings das melhores empresas.",
+      "step4Title": "Passo 4: Estratégia de Networking",
+      "step4Desc": "Acesse o mercado de trabalho oculto com o Plano de 60 Dias e a História de 90 Segundos.",
+      "step5Title": "Passo 5: Sua Presença Online",
+      "step5Desc": "Otimize seu perfil do LinkedIn e marca pessoal para atrair recrutadores.",
+      "openTool": "Abrir Ferramenta",
+      "startHere": "Comece Aqui",
+      "dailyTool": "Ferramenta Diária"
+    }
+  },
+  "interview": {
+    "detail": {
+      "phase1Title": "Antes da Entrevista (Preparação)",
+      "phase2Title": "Durante a Entrevista (Execução)",
+      "phase3Title": "Após a Entrevista (Acompanhamento)",
+      "research": "Pesquisar a Fundo",
+      "contentPrep": "Preparação de Conteúdo",
+      "practice": "Técnicas de Prática",
+      "interviewType": "Identificar Tipo de Entrevista",
+      "sessionNotes": "Notas da Sessão de Entrevista",
+      "questionsToAsk": "Perguntas para Fazer",
+      "thankYou": "Notas de Agradecimento",
+      "followupTimeline": "Cronograma de Acompanhamento",
+      "negotiation": "Preparação para Negociação",
+      "markPhaseComplete": "Marcar Fase {{n}} como Concluída"
+    }
+  },
+  "onlineApplications": {
+    "title": "Candidaturas Online",
+    "subtitle": "Passo 2: Rastreie candidaturas e aproveite indicações",
+    "backToJobSearch": "Voltar à Busca de Emprego",
+    "watchVideo": "Assistir vídeo",
+    "bestPractices": "Melhores práticas de candidatura",
+    "referralsBoost": "Indicações aumentam seus retornos em 400%",
+    "tunnel": {
+      "title": "Túnel de Candidaturas",
+      "target": "Meta: 30% Taxa de Indicações",
+      "lastUpdated": "Última Atualização: Hoje",
+      "applications": "Candidaturas",
+      "referralRate": "Taxa de Indicações",
+      "followUpsDue": "Acompanhamentos Pendentes",
+      "interviews": "Entrevistas"
+    },
+    "tabs": {
+      "applications": "Candidaturas",
+      "applicationsSubtitle": "Rastreamento manual",
+      "aiApplications": "Candidaturas com IA",
+      "aiSubtitle": "Criadas com o Analisador JD",
+      "checklist": "Lista de Verificação",
+      "checklistSubtitle": "Controle de qualidade"
+    },
+    "search": {
+      "title": "Busca Inteligente de Emprego",
+      "subtitle": "Gere um link de pesquisa Google Jobs otimizado para encontrar as últimas vagas em todas as plataformas (LinkedIn, Glassdoor, ZipRecruiter, etc.).",
+      "titlePlaceholder": "Título do Cargo (ex. Gerente de Produto)",
+      "locationPlaceholder": "Localização (Opcional)",
+      "button": "Buscar Empregos"
+    },
+    "ats": {
+      "title": "Analisador ATS",
+      "subtitle": "Compare seu currículo com a descrição do cargo antes de candidatar-se.",
+      "button": "Iniciar Analisador"
+    }
+  },
+  "checklist": {
+    "header": "80% dos Currículos são Rejeitados pelo ATS",
+    "subtitle": "Use esta lista TODA VEZ que se candidatar para garantir que seu currículo passe pelo filtro automatizado.",
+    "items": "itens",
+    "priority": {
+      "mustDo": "Essencial",
+      "important": "Importante",
+      "niceToHave": "Recomendado"
+    },
+    "sections": {
+      "beforeYouStart": {
+        "title": "Antes de Começar",
+        "items": {
+          "readJD": { "title": "Leia a descrição completa do cargo 3 vezes", "desc": "Entenda os requisitos, responsabilidades e cultura da empresa" },
+          "keywords": { "title": "Identifique as 5-10 palavras-chave principais", "desc": "Use o Analisador JD ou extraia manualmente as habilidades-chave" },
+          "research": { "title": "Pesquise a empresa", "desc": "Conheça sua missão, notícias recentes e por que deseja trabalhar lá" }
+        }
+      },
+      "resumeOptimization": {
+        "title": "Otimização do Currículo",
+        "items": {
+          "jobTitles": { "title": "Adapte seus títulos de cargo à linguagem deles", "desc": "Se dizem \"Gerente de Produto\", não use \"Líder de Produto\"" },
+          "allSkills": { "title": "Inclua TODAS as habilidades exigidas na vaga", "desc": "Se você tem a habilidade, ela DEVE estar no seu currículo" },
+          "exactKeywords": { "title": "Use as palavras-chave exatas deles (especialmente para ATS)", "desc": "Copie frases exatas como \"metodologia Agile\"" },
+          "quantify": { "title": "Quantifique suas conquistas", "desc": "Use métricas: \"Aumentei a receita em 40%\" não \"Melhorei a receita\"" },
+          "summary": { "title": "Personalize sua seção de resumo/perfil", "desc": "As primeiras 3 linhas devem espelhar os requisitos da vaga" },
+          "removeIrrelevant": { "title": "Remova experiências irrelevantes", "desc": "Se não ajuda a conseguir ESTE emprego, considere remover" }
+        }
+      },
+      "atsFormatting": {
+        "title": "Formatação Compatível com ATS",
+        "items": {
+          "standardHeaders": { "title": "Use cabeçalhos de seção padrão", "desc": "\"Experiência Profissional\" não \"Minha Trajetória\"" },
+          "saveFormat": { "title": "Salve como .docx ou .pdf", "desc": "PDF preferido, mas alguns ATS preferem .docx" },
+          "standardFonts": { "title": "Use fontes padrão (Arial, Calibri, Times)", "desc": "Evite fontes decorativas que o ATS não consegue ler" },
+          "avoidTables": { "title": "Evite tabelas, colunas, cabeçalhos/rodapés", "desc": "O ATS tem dificuldades com formatações complexas" },
+          "bulletPoints": { "title": "Use marcadores padrão", "desc": "Apenas símbolos simples • ou -" }
+        }
+      },
+      "fileNaming": {
+        "title": "Nome do Arquivo e Envio",
+        "items": {
+          "nameFile": { "title": "Nomeie o arquivo corretamente", "desc": "Formato: SeuNome_Cargo_Empresa.pdf" },
+          "saveFolder": { "title": "Salve em pasta dedicada", "desc": "Mantenha organizado: Candidaturas/[Empresa]/[Data]/" },
+          "keepOriginal": { "title": "Mantenha a versão original", "desc": "Sempre mantenha seu currículo mestre separadamente" }
+        }
+      }
+    },
+    "proTip": {
+      "title": "Dica Pro: A Regra dos 80% de Indicações",
+      "body": "Mesmo com um currículo perfeitamente adaptado, sua taxa de retorno sem indicação é de apenas 1-2%. COM uma indicação, sobe para 80%.",
+      "tip1": "Procure no LinkedIn conexões de 1º ou 2º grau",
+      "tip2": "Contate ex-colegas da sua universidade",
+      "tip3": "Peça à sua rede apresentações diretas",
+      "tip4": "Escreva para funcionários no LinkedIn com uma mensagem personalizada"
+    },
+    "printChecklist": {
+      "title": "Lista Rápida para Imprimir",
+      "button": "Imprimir Lista"
+    }
+  }
+}
