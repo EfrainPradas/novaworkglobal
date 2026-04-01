@@ -8,6 +8,7 @@ import {
 import { supabase } from '../../lib/supabase'
 import { getDashboardOverview } from '../../services/home-dashboard/dashboard.service'
 import type { DashboardOverview } from '../../types/home-dashboard'
+import { GuidedModeToggle, GuidedPathProgress } from '../guided-path'
 
 interface DashboardRightPanelProps {
   userId: string | null
@@ -131,6 +132,12 @@ export default function DashboardRightPanel({ userId }: DashboardRightPanelProps
 
   return (
     <div className="flex flex-col gap-4 p-4 h-full overflow-y-auto">
+
+      {/* ── Smart Guide Toggle ── */}
+      <GuidedModeToggle />
+
+      {/* ── Guided Path Progress (compact journey map) ── */}
+      <GuidedPathProgress compact />
 
       {/* ── Your Progress ── */}
       <div className="rounded-2xl border border-slate-100 p-4" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)', background: '#fff' }}>

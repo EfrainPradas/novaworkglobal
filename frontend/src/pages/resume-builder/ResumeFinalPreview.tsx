@@ -4,8 +4,20 @@ import { Download, Printer, CheckCircle, Pencil, Save, Loader2 } from 'lucide-re
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { CompletionCelebration } from '../../components/guided-path'
 
 export default function ResumeFinalPreview() {
+    const guided = useGuidedStep('guided_path_complete')
+    const [showCelebration, setShowCelebration] = useState(false)
+
+    // Trigger celebration when guided path is complete
+    useEffect(() => {
+      if (guided.isGuidedMode && guided.isStepComplete) {
+        setShowCelebration(true)
+      }
+    }, [guided.isGuidedMode, guided.isStepComplete])
+
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [userId, setUserId] = useState<string | null>(null)
@@ -639,6 +651,11 @@ export default function ResumeFinalPreview() {
                     @page { margin: 1cm; size: A4; }
                 }
             ` }} />
+
+            {/* Guided Path Completion Celebration */}
+            {guided.isGuidedMode && guided.isStepComplete && showCelebration && (
+              <CompletionCelebration onDismiss={() => setShowCelebration(false)} />
+            )}
         </div>
     )
 }

@@ -7,6 +7,7 @@ import MemberSessionsSection from '../components/home-dashboard/MemberSessionsSe
 import CommunityHighlights from '../components/home-dashboard/CommunityHighlights'
 import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
 import RecentActivity from '../components/home-dashboard/RecentActivity'
+import { SmartGuidedBanner, NextStepCard, SmartGuideWelcome } from '../components/guided-path'
 import { getDashboardOverview, getUserTier } from '../services/home-dashboard/dashboard.service'
 import type { DashboardOverview, TierLevel } from '../types/home-dashboard'
 
@@ -25,6 +26,12 @@ export default function HomeDashboardIndex() {
 
   return (
     <div className="px-5 py-4 space-y-6">
+      {/* First-time Smart Guide welcome modal */}
+      <SmartGuideWelcome userId={user?.id} />
+
+      {/* Smart Guided Path Banner */}
+      <SmartGuidedBanner />
+
       {/* Hero */}
       <WelcomeHero
         userName={userName}
@@ -34,6 +41,9 @@ export default function HomeDashboardIndex() {
 
       {/* Quick Action Cards */}
       <QuickActionCards />
+
+      {/* Next Best Action (Guided Path) */}
+      <NextStepCard />
 
       {/* Member Sessions */}
       {user && <MemberSessionsSection userId={user.id} />}

@@ -3,6 +3,8 @@ import { ArrowLeft, ArrowRight, Trophy, Star, BookOpen, Play } from 'lucide-reac
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { trackEvent } from '../../lib/analytics'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { GuidedStepFooter } from '../../components/guided-path'
 
 import AccomplishmentLibrary from './AccomplishmentLibrary'
 import StoryCardsManager from './StoryCardsManager'
@@ -11,6 +13,7 @@ import SavedAccomplishmentGroups from './SavedAccomplishmentGroups'
 type TabType = 'bank' | 'cars' | 'groups'
 
 export default function AccomplishmentsHub() {
+    const guided = useGuidedStep('accomplishment_bank')
     const { t } = useTranslation()
     const navigate = useNavigate()
     const [searchParams] = useSearchParams()
@@ -150,6 +153,15 @@ export default function AccomplishmentsHub() {
                     </div>
                 </div>
             )}
+
+            {/* Guided Path Footer */}
+            <GuidedStepFooter
+              isVisible={guided.isGuidedMode && guided.isStepComplete}
+              nextStepName={guided.nextStepName}
+              nextStepKey={guided.nextStepKey}
+              onContinue={guided.completeAndAdvance}
+              onSkip={() => guided.skipAndAdvance()}
+            />
         </div>
     )
 }

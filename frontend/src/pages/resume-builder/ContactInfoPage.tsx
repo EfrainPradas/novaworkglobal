@@ -4,10 +4,13 @@ import { ArrowLeft, ArrowRight, User, Phone, MapPin, Globe, Linkedin, ExternalLi
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
 import { COUNTRIES, US_STATES } from '../../constants/locations'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { GuidedStepFooter } from '../../components/guided-path'
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 export default function ContactInfoPage() {
+  const guided = useGuidedStep('profile_basic_info')
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -121,8 +124,12 @@ export default function ContactInfoPage() {
                 throw new Error(body?.error || 'Failed to save. The database migration may not have been run yet.')
             }
             // Success — move to next step
-            await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-history-intake' })
-            navigate('/dashboard/resume/work-history')
+            await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-experience' })
+            if (guided.isGuidedMode && guided.nextStepRoute) {
+                guided.completeAndAdvance()
+            } else {
+                navigate('/dashboard/resume/work-experience')
+            }
         } catch (err: any) {
             console.error('Error saving contact profile:', err)
             setSaveError(err.message || 'Failed to save. Please try again.')
@@ -131,8 +138,12 @@ export default function ContactInfoPage() {
     }
 
     const handleSkipToNext = async () => {
-        await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-history-intake', skipped: true })
-        navigate('/dashboard/resume/work-history')
+        await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-experience', skipped: true })
+        if (guided.isGuidedMode) {
+            guided.skipAndAdvance()
+        } else {
+            navigate('/dashboard/resume/work-experience')
+        }
     }
 
     const updateField = (field: string, value: string) => {
@@ -164,41 +175,37 @@ export default function ContactInfoPage() {
             <div className="max-w-3xl mx-auto">
                 {/* Back nav */}
                 <button
-                    onClick={() => navigate('/dashboard/resume-builder')}
+                    onClick={() => navigate('/dashboard')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> Back to Resume Builder
+                    <ArrowLeft className="w-4 h-4" /> Back to Dashboard
                 </button>
 
-                {/* Step indicator */}
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                        <span className="text-sm font-semibold text-blue-600">Personal Details</span>
+                {/* Smart Guide context badge */}
+                {guided.isGuidedMode && (
+                    <div className="flex items-center gap-2 mb-4">
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EFF6FF', color: '#1F5BAA' }}>
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1F5BAA', display: 'inline-block' }} />
+                            Smart Guide — Step 1 of 6
+                        </span>
                     </div>
-                    <div className="flex-1 h-0.5 bg-gray-200 dark:bg-gray-700" />
-                    <div className="flex items-center gap-2 opacity-40">
-                        <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                        <span className="text-sm text-gray-500">Work History</span>
-                    </div>
-                    <div className="flex-1 h-0.5 bg-gray-200 dark:bg-gray-700" />
-                    <div className="flex items-center gap-2 opacity-40">
-                        <div className="w-8 h-8 bg-gray-300 dark:bg-gray-600 text-gray-500 rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                        <span className="text-sm text-gray-500">Story Cards</span>
-                    </div>
-                </div>
+                )}
 
                 {/* Title */}
-                <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 p-3 bg-blue-100 dark:bg-blue-900/30 rounded-full mb-4">
-                        <User className="w-6 h-6 text-blue-600" />
+                <div className="mb-8">
+                    <div className="flex items-center gap-3 mb-3">
+                        <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: '#EFF6FF' }}>
+                            <User className="w-5 h-5" style={{ color: '#1F5BAA' }} />
+                        </div>
+                        <div>
+                            <h1 className="text-2xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                Contact Information
+                            </h1>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                                This information will appear at the top of your resume
+                            </p>
+                        </div>
                     </div>
-                    <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                        Personal Details
-                    </h1>
-                    <p className="text-gray-600 dark:text-gray-400">
-                        This information will appear at the top of your resume
-                    </p>
                 </div>
 
                 {/* Form Card */}
@@ -376,10 +383,14 @@ export default function ContactInfoPage() {
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="w-full py-3.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2"
+                            className="w-full py-3.5 px-6 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg flex items-center justify-center gap-2"
+                            style={{ background: '#1F5BAA' }}
                         >
                             {saving ? 'Saving...' : (
-                                <>Next: Review Work History <ArrowRight className="w-5 h-5" /></>
+                                <>
+                                    Save & Continue
+                                    <ArrowRight className="w-5 h-5" />
+                                </>
                             )}
                         </button>
                         <button
@@ -391,6 +402,15 @@ export default function ContactInfoPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Guided Path Footer */}
+            <GuidedStepFooter
+              isVisible={guided.isGuidedMode && guided.isStepComplete}
+              nextStepName={guided.nextStepName}
+              nextStepKey={guided.nextStepKey}
+              onContinue={guided.completeAndAdvance}
+              onSkip={() => guided.skipAndAdvance()}
+            />
         </div>
     )
 }

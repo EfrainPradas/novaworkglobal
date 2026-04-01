@@ -7,6 +7,8 @@ import { supabase } from '../../lib/supabase'
 import { PositioningQuestionnaire as QuestionnaireType, GeneratedProfessionalProfile } from '../../types/resume'
 import GeneratedProfileView from '../../components/resume-builder/GeneratedProfileView'
 import { trackEvent } from '../../lib/analytics'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { GuidedStepFooter } from '../../components/guided-path'
 
 // In production, we need the deployment-specific API prefix if VITE_API_URL is missing
 const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
@@ -17,6 +19,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || fallbackApi
 const SECTION_KEYS = ['identity', 'environments', 'impact', 'strengths', 'skills', 'high_impact'] as const
 
 export default function PositioningQuestionnairePage() {
+    const guided = useGuidedStep('professional_positioning')
     const { t } = useTranslation()
     const navigate = useNavigate()
 
@@ -617,6 +620,15 @@ export default function PositioningQuestionnairePage() {
                     </div>
                 </div>
             )}
+
+            {/* Guided Path Footer */}
+            <GuidedStepFooter
+              isVisible={guided.isGuidedMode && guided.isStepComplete}
+              nextStepName={guided.nextStepName}
+              nextStepKey={guided.nextStepKey}
+              onContinue={guided.completeAndAdvance}
+              onSkip={() => guided.skipAndAdvance()}
+            />
         </div>
     )
 }
