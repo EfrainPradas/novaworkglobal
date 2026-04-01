@@ -22,6 +22,7 @@ import workExperienceRoutes from './routes/workExperience.js'
 import agentRoutes from './routes/agent.js'
 import homeDashboardRoutes from './routes/homeDashboard.js'
 import marketNewsRoutes from './routes/marketNews.js'
+import guidedPathRoutes from './routes/guidedPath.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -79,7 +80,7 @@ app.use(helmet())
 import rateLimit from 'express-rate-limit'
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
+  max: 500, // limit each IP to 500 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
   message: 'Too many requests from this IP, please try again after 15 minutes'
@@ -123,6 +124,7 @@ app.use('/api/coaching', coachingRoutes)
 app.use('/api/work-experience', workExperienceRoutes)
 app.use('/api/agent', agentRoutes)
 app.use('/api/home-dashboard', homeDashboardRoutes)
+app.use('/api/guided-path', guidedPathRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

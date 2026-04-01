@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ResumePreview from '../../components/resume/ResumePreview'
 import { ArrowRight, Play, X, Sparkles, Loader2 } from 'lucide-react'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { GuidedStepFooter } from '../../components/guided-path'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
@@ -16,6 +18,7 @@ import { workExperienceTourConfig } from '../../config/tours/workExperienceTour'
 const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 const WorkExperienceBuilder: React.FC = () => {
+  const guided = useGuidedStep('resume_experience_capture')
   const { t } = useTranslation()
   const [userId, setUserId] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
@@ -1157,6 +1160,15 @@ const WorkExperienceBuilder: React.FC = () => {
 
         {/* Resume Preview Button */}
         {userId && <ResumePreview userId={userId} />}
+
+        {/* Guided Path Footer */}
+        <GuidedStepFooter
+          isVisible={guided.isGuidedMode && guided.isStepComplete}
+          nextStepName={guided.nextStepName}
+          nextStepKey={guided.nextStepKey}
+          onContinue={guided.completeAndAdvance}
+          onSkip={() => guided.skipAndAdvance()}
+        />
       </div>
     </div>
   )

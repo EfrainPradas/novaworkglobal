@@ -7,8 +7,11 @@ import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import ResumePreview from '../../components/resume/ResumePreview'
 import { trackEvent } from '../../lib/analytics'
+import { useGuidedStep } from '../../hooks/useGuidedStep'
+import { GuidedStepFooter, CARStoryGuidedPanel } from '../../components/guided-path'
 
 const CARStoryBuilder: React.FC = () => {
+    const guided = useGuidedStep('car_stories')
     const { t } = useTranslation()
     const [stories, setStories] = useState<CARStory[]>([])
     const [loading, setLoading] = useState(true)
@@ -184,6 +187,9 @@ const CARStoryBuilder: React.FC = () => {
 
     return (
         <div className="max-w-6xl mx-auto p-6 space-y-6">
+            {/* CAR Story Guided Panel */}
+            <CARStoryGuidedPanel storiesCreated={stories.length} storiesGoal={3} />
+
             {/* Header */}
             <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md transition-colors duration-200">
                 <div className="flex items-center justify-between mb-4">
@@ -243,6 +249,15 @@ const CARStoryBuilder: React.FC = () => {
             )}
             {/* Resume Preview Button */}
             {userId && <ResumePreview userId={userId} />}
+
+            {/* Guided Path Footer */}
+            <GuidedStepFooter
+              isVisible={guided.isGuidedMode && guided.isStepComplete}
+              nextStepName={guided.nextStepName}
+              nextStepKey={guided.nextStepKey}
+              onContinue={guided.completeAndAdvance}
+              onSkip={() => guided.skipAndAdvance()}
+            />
         </div>
     )
 }

@@ -9,6 +9,16 @@ import ServiceAddOns from '../../components/services/ServiceAddOns'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { resumeBuilderMenuTourConfig } from '../../config/tours/resumeBuilderMenuTour'
+import { ModuleCardEnhancement } from '../../components/guided-path'
+import type { GuidedStepKey } from '../../types/guidedPath'
+
+// Map ResumeBuilderMenu option IDs to guided step keys
+const OPTION_TO_STEP_KEY: Record<string, GuidedStepKey> = {
+  'work-and-education': 'resume_experience_capture',
+  'accomplishments-hub': 'accomplishment_bank',
+  'professional-profile': 'professional_positioning',
+  'finalize': 'guided_path_complete',
+}
 
 
 interface ResumeOption {
@@ -366,10 +376,11 @@ export default function ResumeBuilderMenu() {
           {resumeOptions.map((option, index) => {
             const Icon = option.icon
             const tourStepId = `resume-step-${index + 1}`
+            const guidedStepKey = OPTION_TO_STEP_KEY[option.id]
 
             return (
+              <ModuleCardEnhancement key={option.id} stepKey={guidedStepKey}>
               <div
-                key={option.id}
                 data-tour={tourStepId}
                 className={`
                 group relative p-8 rounded-2xl border transition-all duration-300
@@ -428,6 +439,7 @@ export default function ResumeBuilderMenu() {
                   </div>
                 )}
               </div>
+              </ModuleCardEnhancement>
             )
           })}
         </div>

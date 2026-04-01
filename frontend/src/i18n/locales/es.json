@@ -236,7 +236,7 @@
       "continueToStep": "Continuar al {{step}}"
     },
     "menu": {
-      "title": "Resumé Profesional",
+      "title": "Resume Profesional",
       "subtitle": "Sigue los pasos para completar un currículum imán para entrevistas.",
       "backToDashboard": "Volver al Tablero",
       "yourProgress": "Tu Progreso",
@@ -280,7 +280,7 @@
       "reviewDescription": "Revisa tu historial educativo importado de tu CV. Edita o agrega más entradas.",
       "emptyDescription": "Agrega tus títulos académicos, diplomas y certificados.",
       "addEducationButton": "+ Agregar Educación",
-      "backToResumeBuilder": "Volver a Resumé Profesional",
+      "backToResumeBuilder": "Volver a Resume Profesional",
       "backToWorkExperience": "Volver a Experiencia Laboral",
       "tabWorkExperience": "Experiencia Laboral",
       "tabEducation": "Educación",
@@ -375,7 +375,7 @@
       "addNew": "Añadir Nuevo CAR",
       "noStories": "Aún no hay CARs",
       "noStoriesHelp": "Crea CARs para resaltar tus habilidades de resolución de problemas.",
-      "backToResumeBuilder": "Volver a Resumé Profesional",
+      "backToResumeBuilder": "Volver a Resume Profesional",
       "legend": {
         "challenge": "Desafío",
         "actions": "Acciones",
@@ -460,7 +460,7 @@
       "bulletPlaceholder": "ej., Lideré un equipo de 12 para entregar un sistema de pagos, reduciendo el tiempo de transacción en 40%",
       "rolePlaceholder": "ej., Gerente Senior de Producto",
       "companyPlaceholder": "ej., Google",
-      "backToResumeBuilder": "Volver a Resumé Profesional",
+      "backToResumeBuilder": "Volver a Resume Profesional",
       "editBullet": "Editar logro",
       "starred": "Destacado",
       "groupedBy": "Agrupado por rol"
@@ -477,7 +477,7 @@
       "subtitle": "Completa esto después de tus logros para mejores resultados.",
       "warningText": "Completar tus logros primero mejora la calidad del perfil generado.",
       "goToStoryCards": "Ir a tu \"accomplishment bank\" →",
-      "backToResumeBuilder": "Volver a Resumé Profesional",
+      "backToResumeBuilder": "Volver a Resume Profesional",
       "backToCarStories": "Volver a CARs",
       "sectionLabel": "Sección {{current}} de {{total}}: {{name}}",
       "add": "Agregar",
@@ -610,7 +610,7 @@
     "analyzeJD": "Analizar descripción del trabajo",
     "careerVision": "Entiende Tu Visión de Carrera",
     "careerVisionDesc": "Obtén una comprensión clara de quién eres y cuál es tu fórmula de éxito.",
-    "resumeBuilder": "Resumé Profesional",
+    "resumeBuilder": "Resume Profesional",
     "resumeBuilderDesc": "Construye un currículum imán para entrevistas y tu banco personal de logros.",
     "jobSearch": "Búsqueda de Empleo y Posicionamiento",
     "jobSearchDesc": "Usa estas técnicas y sé llamado para una entrevista 75% más rápido que otros.",
@@ -652,7 +652,7 @@
     },
     "nextActions": {
       "title": "Próximas Acciones",
-      "continueResume": "Continuar Resumé Profesional",
+      "continueResume": "Continuar Resume Profesional",
       "finishCareerVision": "Finalizar Visión de Carrera",
       "joinSession": "Unirse a la Sesión de Esta Semana",
       "reviewResources": "Revisar Recursos Recomendados",
@@ -922,7 +922,7 @@
   "learningModules": {
     "title": "Módulos de Aprendizaje",
     "careerVision": "Visión de Carrera",
-    "resumeBuilder": "Resumé Profesional",
+    "resumeBuilder": "Resume Profesional",
     "jobSearch": "Búsqueda de Empleo",
     "interviewMastery": "Dominio de Entrevistas"
   },

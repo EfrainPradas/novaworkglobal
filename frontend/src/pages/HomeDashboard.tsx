@@ -14,6 +14,7 @@ import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
 import RecentActivity from '../components/home-dashboard/RecentActivity'
 import { getDashboardOverview, getUserName, getUserTier } from '../services/home-dashboard/dashboard.service'
 import type { DashboardOverview, TierLevel } from '../types/home-dashboard'
+import { GuidedPathProvider } from '../contexts/GuidedPathContext'
 
 export default function HomeDashboard() {
   const navigate = useNavigate()
@@ -140,6 +141,7 @@ export default function HomeDashboard() {
   }
 
   return (
+    <GuidedPathProvider user={user}>
     <div
       className="flex overflow-hidden"
       style={{ height: '100dvh', background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
@@ -324,5 +326,6 @@ export default function HomeDashboard() {
         </button>
       )}
     </div>
+    </GuidedPathProvider>
   )
 }

@@ -12,6 +12,7 @@ import {
   FolderOpen,
   ChevronRight,
   ChevronLeft,
+  Sparkles,
 } from 'lucide-react'
 import type { TierLevel } from '../../types/home-dashboard'
 import SidebarCardButton from './SidebarCardButton'
@@ -179,6 +180,11 @@ export default function HomeSidebar({
         {sectionLabel(t('sidebarOverview.dashboard'))}
         {navItem('/dashboard', <LayoutDashboard size={15} />, t('sidebarOverview.dashboard'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
+        })}
+        {navItem('/dashboard/resume/contact-info', <Sparkles size={15} />, 'Smart Guide', {
+          iconBg: '#EFF6FF', iconColor: '#1F5BAA',
+          badge: 'NEW',
+          badgeColor: '#1F5BAA',
         })}
 
         {/* NovaNext Programs — features for the user's plan */}
