@@ -582,15 +582,6 @@ const WorkExperienceBuilder: React.FC = () => {
       if (profile_summary) resumeUpdate.profile_summary = profile_summary
       if (areas_of_excellence?.length) resumeUpdate.areas_of_excellence = areas_of_excellence
       if (filePath) resumeUpdate.file_url = filePath
-      if (contact) {
-        if (contact.full_name) resumeUpdate.full_name = contact.full_name
-        if (contact.email) resumeUpdate.email = contact.email
-        if (contact.phone) resumeUpdate.phone = contact.phone
-        if (contact.city) resumeUpdate.city = contact.city
-        if (contact.state) resumeUpdate.state = contact.state
-        if (contact.country) resumeUpdate.country = contact.country
-        if (contact.linkedin_url) resumeUpdate.linkedin_url = contact.linkedin_url
-      }
 
       if (Object.keys(resumeUpdate).length > 0) {
         const { error } = await supabase
@@ -612,7 +603,7 @@ const WorkExperienceBuilder: React.FC = () => {
               job_title: exp.job_title,
               location_city: exp.location_city,
               location_country: exp.location_country,
-              start_date: exp.start_date,
+              start_date: exp.start_date || 'Not specified',
               end_date: exp.end_date,
               is_current: exp.is_current || false,
               scope_description: exp.scope_description,
