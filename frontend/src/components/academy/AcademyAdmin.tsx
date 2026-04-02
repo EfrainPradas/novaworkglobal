@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import i18n from '../../i18n'
-import { 
-  Upload, 
-  Video, 
-  Headphones, 
-  FileText, 
-  X, 
-  Check, 
+import {
+  Upload,
+  Video,
+  Headphones,
+  FileText,
+  FileDown,
+  X,
+  Check,
   Loader2,
   Trash2,
   Plus,
@@ -58,7 +59,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
     '#F59E0B', '#EC4899', '#EF4444', '#14B8A6',
   ]
   const [newResource, setNewResource] = useState({
-    type: 'video' as 'video' | 'audio' | 'article',
+    type: 'video' as 'video' | 'audio' | 'article' | 'document',
     title: '',
     description: '',
     language: 'en',
@@ -179,7 +180,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
     try {
       const fileExt = file.name.split('.').pop()
       const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`
-      const folder = newResource.type === 'audio' ? 'audios' : 'videos'
+      const folder = newResource.type === 'audio' ? 'audios' : newResource.type === 'document' || newResource.type === 'article' ? 'documents' : 'videos'
       const filePath = `${folder}/${fileName}`
 
       const { data, error } = await supabase.storage
@@ -374,7 +375,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
               activeTab === 'resources' ? 'bg-slate-800 text-white' : 'text-slate-600 hover:bg-slate-100'
             }`}
           >
-            Recursos (Videos/Audio)
+            Recursos (Videos/Audio/Docs)
           </button>
         </div>
 
@@ -545,11 +546,11 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                       <div>
                         <label className="block text-xs font-semibold text-slate-700 mb-2">Tipo</label>
                         <div className="flex gap-2">
-                          {(['video', 'audio', 'article'] as const).map((type) => (
+                          {(['video', 'audio', 'article', 'document'] as const).map((type) => (
                             <button
                               key={type}
                               onClick={() => setNewResource({ ...newResource, type })}
-                              className={`flex-1 px-3 py-2.5 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all ${
+                              className={`flex-1 px-2 py-2.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition-all ${
                                 newResource.type === type
                                   ? 'bg-slate-800 text-white shadow-md'
                                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
@@ -558,7 +559,8 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                               {type === 'video' && <Video size={14} />}
                               {type === 'audio' && <Headphones size={14} />}
                               {type === 'article' && <FileText size={14} />}
-                              {type.charAt(0).toUpperCase() + type.slice(1)}
+                              {type === 'document' && <FileDown size={14} />}
+                              {type === 'document' ? 'Doc' : type.charAt(0).toUpperCase() + type.slice(1)}
                             </button>
                           ))}
                         </div>
@@ -576,7 +578,12 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           <input
                             ref={fileInputRef}
                             type="file"
-                            accept={newResource.type === 'audio' ? 'audio/*' : 'video/*'}
+                            accept={
+                              newResource.type === 'audio' ? 'audio/*' :
+                              newResource.type === 'document' ? '.pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx' :
+                              newResource.type === 'article' ? '.pdf,.html,.txt' :
+                              'video/*'
+                            }
                             onChange={handleFileUpload}
                             className="hidden"
                           />
@@ -674,11 +681,13 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
                               resource.type === 'video' ? 'bg-red-100' :
                               resource.type === 'audio' ? 'bg-purple-100' :
+                              resource.type === 'document' ? 'bg-amber-100' :
                               'bg-blue-100'
                             }`}>
                               {resource.type === 'video' && <Video size={18} className="text-red-500" />}
                               {resource.type === 'audio' && <Headphones size={18} className="text-purple-500" />}
                               {resource.type === 'article' && <FileText size={18} className="text-blue-500" />}
+                              {resource.type === 'document' && <FileDown size={18} className="text-amber-600" />}
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-slate-800 truncate">{resource.title}</p>

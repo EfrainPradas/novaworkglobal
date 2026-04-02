@@ -1,11 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { 
-  X, 
-  Play, 
-  Headphones, 
-  FileText, 
-  Clock, 
+import {
+  X,
+  Play,
+  Headphones,
+  FileText,
+  FileDown,
+  Clock,
   ChevronRight,
   CheckCircle,
   BookOpen,
@@ -51,6 +52,8 @@ const RightPanel: React.FC<RightPanelProps> = ({
         return <Headphones size={16} className="text-purple-500" />
       case 'article':
         return <FileText size={16} className="text-blue-500" />
+      case 'document':
+        return <FileDown size={16} className="text-amber-600" />
       default:
         return <FileText size={16} />
     }

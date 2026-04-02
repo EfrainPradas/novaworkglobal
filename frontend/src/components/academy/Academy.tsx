@@ -7,6 +7,7 @@ import MediaPlayerModal from './MediaPlayerModal'
 import {
   Brain,
   FileText,
+  FileDown,
   MessageCircle,
   Briefcase,
   Network,
@@ -208,7 +209,9 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
             <div className="border-t border-slate-100 bg-gradient-to-b from-slate-50/80 to-white">
               {resources.length === 0 ? (
                 <div className="p-6 text-center">
-                  <p className="text-slate-400 italic text-sm">No resources available yet</p>
+                  <BookOpen size={24} className="text-slate-300 mx-auto mb-2" />
+                  <p className="text-slate-400 text-sm font-medium">Coming soon</p>
+                  <p className="text-slate-300 text-xs mt-0.5">New content is being prepared for this module.</p>
                 </div>
               ) : (
                 <div className="p-3 space-y-1.5">
@@ -245,10 +248,13 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
                       >
                         <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                           resource.type === 'video' ? 'bg-rose-50 ring-1 ring-rose-200/50' :
-                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' : 'bg-blue-50 ring-1 ring-blue-200/50'
+                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' :
+                          resource.type === 'document' ? 'bg-amber-50 ring-1 ring-amber-200/50' :
+                          'bg-blue-50 ring-1 ring-blue-200/50'
                         }`}>
                           {resource.type === 'video' && <Play size={15} className="text-rose-500" />}
                           {resource.type === 'audio' && <Headphones size={15} className="text-purple-500" />}
+                          {resource.type === 'document' && <FileDown size={15} className="text-amber-600" />}
                           {resource.type === 'article' && <FileBadge size={15} className="text-blue-500" />}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -505,32 +511,44 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
             initial="hidden"
             animate="visible"
           >
-            {/* ── Learning Map Hero ── */}
-            <motion.div variants={itemVariants} className="mb-10">
-              <div className="relative rounded-3xl overflow-hidden shadow-xl shadow-indigo-500/10">
+            {/* ── Learning Map Hero (compact) ── */}
+            <motion.div variants={itemVariants} className="mb-8">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/10">
                 {/* Gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700" />
 
-                {/* Animated blobs */}
-                <div className="absolute -top-10 -left-10 w-56 h-56 rounded-full bg-indigo-400/25 blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-                <div className="absolute -bottom-8 right-10 w-44 h-44 rounded-full bg-purple-400/20 blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '1s' }} />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 rounded-full bg-violet-300/10 blur-3xl" />
-
                 {/* Content */}
-                <div className="relative z-10 px-10 py-12 flex items-center justify-between">
-                  <div>
-                    <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm rounded-full px-3 py-1 mb-4">
-                      <Sparkles size={12} className="text-amber-300" />
-                      <span className="text-[11px] font-semibold text-white/90 uppercase tracking-widest">Learning Path</span>
+                <div className="relative z-10 px-8 py-7 flex items-center justify-between">
+                  <div className="flex items-center gap-5">
+                    <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
+                      <Sparkles size={22} className="text-amber-300" />
                     </div>
-                    <h1 className="text-3xl font-bold text-white mb-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                      Learning Map
-                    </h1>
-                    <p className="text-white/60 text-sm max-w-md">
-                      Mastery of Professional Narrative — your personalized journey through career knowledge.
-                    </p>
+                    <div>
+                      <h1 className="text-xl font-bold text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                        Learning Map
+                      </h1>
+                      <p className="text-white/60 text-xs mt-0.5">
+                        Your personalized journey through career knowledge.
+                      </p>
+                    </div>
                   </div>
-                  <Brain className="text-white/15" size={100} />
+                  {resourcesForCurrentLang.length > 0 && totalCompleted === 0 ? (
+                    <button
+                      onClick={() => {
+                        const firstNodeWithResources = nodes.find(n => getResourcesForModule(n.id).length > 0)
+                        if (firstNodeWithResources) {
+                          setExpandedModules(new Set([firstNodeWithResources.id]))
+                          document.getElementById('module-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                        }
+                      }}
+                      className="flex items-center gap-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-sm font-semibold rounded-xl px-5 py-2.5 transition-all"
+                    >
+                      Start your first lesson
+                      <Play size={14} />
+                    </button>
+                  ) : (
+                    <Brain className="text-white/10 flex-shrink-0" size={56} />
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -545,48 +563,43 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
                 <div>
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Academy Milestone</p>
                   <h3 className="text-2xl font-bold text-slate-900">Total Progress</h3>
-                  <div className="flex items-center gap-3 mt-3">
-                    <div className="w-40 h-2 bg-slate-100 rounded-full overflow-hidden">
-                      <motion.div
-                        className="h-full rounded-full"
-                        style={{ background: 'linear-gradient(to right, #6366F1, #A855F7)' }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${totalProgress}%` }}
-                        transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
-                      />
+                  {resourcesForCurrentLang.length > 0 ? (
+                    <div className="flex items-center gap-3 mt-3">
+                      <div className="w-40 h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full rounded-full"
+                          style={{ background: 'linear-gradient(to right, #6366F1, #A855F7)' }}
+                          initial={{ width: 0 }}
+                          animate={{ width: `${totalProgress}%` }}
+                          transition={{ duration: 1, delay: 0.3, ease: 'easeOut' }}
+                        />
+                      </div>
+                      <span className="text-xs text-slate-400">{totalCompleted} of {resourcesForCurrentLang.length} resources</span>
                     </div>
-                    <span className="text-xs text-slate-400">{totalCompleted} of {resourcesForCurrentLang.length} resources</span>
-                  </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 mt-2">Explore the modules below to start learning.</p>
+                  )}
                 </div>
-                <div className="relative flex items-center justify-center">
-                  <ProgressRing percent={totalProgress} size={88} stroke={7} />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <span className="text-2xl font-bold text-slate-800">{totalProgress}</span>
-                      <span className="text-xs text-slate-400 block -mt-0.5">%</span>
+                {resourcesForCurrentLang.length > 0 ? (
+                  <div className="relative flex items-center justify-center">
+                    <ProgressRing percent={totalProgress} size={88} stroke={7} />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="text-center">
+                        <span className="text-2xl font-bold text-slate-800">{totalProgress}</span>
+                        <span className="text-xs text-slate-400 block -mt-0.5">%</span>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center">
+                    <BookOpen size={28} className="text-indigo-300" />
+                  </div>
+                )}
               </div>
             </motion.div>
 
-            {/* ── Connector ── */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col items-center mb-8"
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-300" />
-              <div
-                className="w-px h-8"
-                style={{
-                  backgroundImage: 'repeating-linear-gradient(to bottom, #A5B4FC 0px, #A5B4FC 3px, transparent 3px, transparent 7px)',
-                }}
-              />
-              <div className="w-1.5 h-1.5 rounded-full bg-indigo-300" />
-            </motion.div>
-
             {/* ── Module Cards (horizontal grid) ── */}
-            <motion.div variants={containerVariants} className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            <motion.div id="module-grid" variants={containerVariants} className="grid grid-cols-2 lg:grid-cols-3 gap-4">
               {nodes.map((node) => (
                 <ModuleCard
                   key={node.id}

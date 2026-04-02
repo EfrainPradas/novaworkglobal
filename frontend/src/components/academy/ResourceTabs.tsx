@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Video, Headphones, FileText, CheckCircle, Circle, PlayCircle } from 'lucide-react'
+import { Video, Headphones, FileText, FileDown, CheckCircle, Circle, PlayCircle } from 'lucide-react'
 import type { Resource, LearningStatus } from '../../types/academy'
 
 interface ResourceTabsProps {
@@ -9,7 +9,7 @@ interface ResourceTabsProps {
   onProgressUpdate: (resourceId: string, status: LearningStatus, progress: number) => void
 }
 
-type TabType = 'all' | 'video' | 'audio' | 'article'
+type TabType = 'all' | 'video' | 'audio' | 'article' | 'document'
 
 const ResourceTabs: React.FC<ResourceTabsProps> = ({
   resources,
@@ -32,6 +32,8 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
         return <Headphones size={14} />
       case 'article':
         return <FileText size={14} />
+      case 'document':
+        return <FileDown size={14} />
       default:
         return null
     }
@@ -59,7 +61,7 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
     <div className="flex flex-col h-full">
       {/* Tab Navigation */}
       <div className="flex items-center gap-1 p-1 bg-slate-100 rounded-xl mb-4">
-        {(['all', 'video', 'audio', 'article'] as TabType[]).map((tab) => (
+        {(['all', 'video', 'audio', 'article', 'document'] as TabType[]).map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -110,10 +112,12 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
                 ${resource.type === 'video' ? 'bg-red-100 text-red-500' : ''}
                 ${resource.type === 'audio' ? 'bg-purple-100 text-purple-500' : ''}
                 ${resource.type === 'article' ? 'bg-blue-100 text-blue-500' : ''}
+                ${resource.type === 'document' ? 'bg-amber-100 text-amber-600' : ''}
               `}>
                 {resource.type === 'video' && <Video size={18} />}
                 {resource.type === 'audio' && <Headphones size={18} />}
                 {resource.type === 'article' && <FileText size={18} />}
+                {resource.type === 'document' && <FileDown size={18} />}
               </div>
 
               {/* Content */}

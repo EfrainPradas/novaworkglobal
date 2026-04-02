@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { X, Play, Pause, Volume2, VolumeX, Maximize2, Headphones, FileText } from 'lucide-react'
+import { X, Play, Pause, Volume2, VolumeX, Maximize2, Headphones, FileText, FileDown, Download, ExternalLink } from 'lucide-react'
 import type { Resource } from '../../types/academy'
 
 interface MediaPlayerModalProps {
@@ -53,6 +53,8 @@ const MediaPlayerModal: React.FC<MediaPlayerModalProps> = ({ resource, onClose }
 
   const isVideo = resource.type === 'video'
   const isAudio = resource.type === 'audio'
+  const isDocument = resource.type === 'document'
+  const isPdf = resource.url?.toLowerCase().endsWith('.pdf')
 
   const handlePlay = () => {
     const el = getMediaEl()
@@ -141,10 +143,11 @@ const MediaPlayerModal: React.FC<MediaPlayerModalProps> = ({ resource, onClose }
         <div className="flex items-center justify-between px-6 py-4 bg-slate-800 border-b border-slate-700">
           <div className="flex items-center gap-3">
             <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-              isVideo ? 'bg-red-500/20' : isAudio ? 'bg-purple-500/20' : 'bg-blue-500/20'
+              isVideo ? 'bg-red-500/20' : isAudio ? 'bg-purple-500/20' : isDocument ? 'bg-amber-500/20' : 'bg-blue-500/20'
             }`}>
               {isVideo && <Play size={18} className="text-red-400" />}
               {isAudio && <Headphones size={18} className="text-purple-400" />}
+              {isDocument && <FileDown size={18} className="text-amber-400" />}
               {resource.type === 'article' && <FileText size={18} className="text-blue-400" />}
             </div>
             <div>
@@ -263,6 +266,49 @@ const MediaPlayerModal: React.FC<MediaPlayerModalProps> = ({ resource, onClose }
                   </button>
                 </div>
               </div>
+            </div>
+          )}
+
+          {isDocument && (
+            <div className="bg-gradient-to-br from-slate-50 to-white">
+              {isPdf ? (
+                <iframe
+                  src={resource.url}
+                  className="w-full border-0"
+                  style={{ height: '70vh' }}
+                  title={cleanTitle(resource.title)}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-16 px-8">
+                  <div className="w-20 h-20 rounded-2xl bg-amber-100 flex items-center justify-center mb-6">
+                    <FileDown size={40} className="text-amber-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">{cleanTitle(resource.title)}</h3>
+                  {resource.description && (
+                    <p className="text-slate-500 text-sm mb-6 text-center max-w-md">{resource.description}</p>
+                  )}
+                  <div className="flex gap-3">
+                    <a
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 transition-colors"
+                    >
+                      <Download size={18} />
+                      Download
+                    </a>
+                    <a
+                      href={resource.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-slate-200 text-slate-700 rounded-xl font-semibold hover:bg-slate-300 transition-colors"
+                    >
+                      <ExternalLink size={18} />
+                      Open in new tab
+                    </a>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
