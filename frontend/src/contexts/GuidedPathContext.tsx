@@ -99,7 +99,9 @@ export function GuidedPathProvider({ user, children }: GuidedPathProviderProps) 
       localStorage.setItem(GUIDED_PATH_STORAGE_KEY, hasActive ? 'true' : 'false')
     } catch (err) {
       console.warn('[GuidedPath] Failed to fetch state:', err)
-      // If fetch fails, still respect localStorage for UI
+      // If fetch fails, respect localStorage for UI
+      const stored = localStorage.getItem(GUIDED_PATH_STORAGE_KEY) === 'true'
+      if (mountedRef.current) setIsGuidedMode(stored)
     } finally {
       if (mountedRef.current) setIsLoading(false)
     }
@@ -147,19 +149,30 @@ export function GuidedPathProvider({ user, children }: GuidedPathProviderProps) 
   // ---------- Actions ----------
 
   const enable = useCallback(async () => {
-    await apiEnable()
-    localStorage.setItem(GUIDED_PATH_STORAGE_KEY, 'true')
+    // Optimistic: set UI state immediately
     setIsGuidedMode(true)
-    logGuidedEvent({ event_type: 'guided_mode_enabled', triggered_by: 'user_action' })
-    await refreshState()
+    localStorage.setItem(GUIDED_PATH_STORAGE_KEY, 'true')
+    try {
+      await apiEnable()
+      logGuidedEvent({ event_type: 'guided_mode_enabled', triggered_by: 'user_action' })
+      await refreshState()
+    } catch (err) {
+      console.warn('[GuidedPath] Enable API failed, keeping local state:', err)
+      // Keep optimistic state — user still sees guided mode UI
+    }
   }, [refreshState])
 
   const disable = useCallback(async () => {
-    await apiDisable()
-    localStorage.setItem(GUIDED_PATH_STORAGE_KEY, 'false')
+    // Optimistic: set UI state immediately
     setIsGuidedMode(false)
-    logGuidedEvent({ event_type: 'guided_mode_disabled', triggered_by: 'user_action' })
-    await refreshState()
+    localStorage.setItem(GUIDED_PATH_STORAGE_KEY, 'false')
+    try {
+      await apiDisable()
+      logGuidedEvent({ event_type: 'guided_mode_disabled', triggered_by: 'user_action' })
+      await refreshState()
+    } catch (err) {
+      console.warn('[GuidedPath] Disable API failed, keeping local state:', err)
+    }
   }, [refreshState])
 
   const pause = useCallback(async () => {
