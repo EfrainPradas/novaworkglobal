@@ -16,7 +16,13 @@ import type {
   GuidedTriggerSource,
 } from '../types/guidedPath'
 
-const API_BASE = import.meta.env.VITE_API_URL || ''
+function getApiBase(): string {
+  if (import.meta.env.VITE_API_URL) return import.meta.env.VITE_API_URL
+  if (typeof window !== 'undefined' && window.location.pathname.startsWith('/novaworkglobal')) {
+    return '/novaworkglobal-api'
+  }
+  return ''
+}
 
 // ---------- Helpers ----------
 
@@ -35,7 +41,7 @@ function getSessionId(): string {
 
 async function apiPost<T = unknown>(path: string, body: Record<string, unknown> = {}): Promise<T> {
   const headers = await getAuthHeaders()
-  const res = await fetch(`${API_BASE}/api/guided-path${path}`, {
+  const res = await fetch(`${getApiBase()}/api/guided-path${path}`, {
     method: 'POST',
     headers,
     body: JSON.stringify({ ...body, session_id: getSessionId() }),
@@ -47,7 +53,7 @@ async function apiPost<T = unknown>(path: string, body: Record<string, unknown> 
 
 async function apiGet<T = unknown>(path: string): Promise<T> {
   const headers = await getAuthHeaders()
-  const res = await fetch(`${API_BASE}/api/guided-path${path}`, {
+  const res = await fetch(`${getApiBase()}/api/guided-path${path}`, {
     method: 'GET',
     headers,
   })
