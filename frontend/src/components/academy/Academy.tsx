@@ -364,13 +364,17 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
   const currentLang = i18n.language?.split('-')[0] || 'en'
 
   const getResourcesForModule = (moduleId: string) => {
-    return resources.filter(r => r.topicId === moduleId && r.language === currentLang)
+    const byLang = resources.filter(r => r.topicId === moduleId && r.language === currentLang)
+    // Fallback: if no resources in current language, show all resources for that module
+    return byLang.length > 0 ? byLang : resources.filter(r => r.topicId === moduleId)
   }
 
   const resourcesForCurrentLang = resources.filter(r => r.language === currentLang)
-  const totalCompleted = resourcesForCurrentLang.filter(r => r.status === 'completed').length
-  const totalProgress = resourcesForCurrentLang.length > 0
-    ? Math.round((totalCompleted / resourcesForCurrentLang.length) * 100)
+  // Fallback for total progress: use all resources if none match current language
+  const resourcesForProgress = resourcesForCurrentLang.length > 0 ? resourcesForCurrentLang : resources
+  const totalCompleted = resourcesForProgress.filter(r => r.status === 'completed').length
+  const totalProgress = resourcesForProgress.length > 0
+    ? Math.round((totalCompleted / resourcesForProgress.length) * 100)
     : 0
 
   if (isLoading) {
