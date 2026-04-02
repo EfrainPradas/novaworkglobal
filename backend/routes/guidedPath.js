@@ -34,6 +34,13 @@ router.post('/enable', async (req, res) => {
 
     if (error) return res.status(500).json({ error: error.message })
 
+    // Sync step states with existing user data (auto-complete steps that already have data)
+    try {
+      await syncStepStates(supabaseAdmin, userId, data.run_id)
+    } catch (syncErr) {
+      console.warn('[guidedPath] /enable sync warning:', syncErr.message)
+    }
+
     // Log event
     await logEvent(userId, 'guided_mode_enabled', {
       run_id: data.run_id,
