@@ -334,8 +334,6 @@ export default function ClientCoaching() {
                         <h1 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: 0 }}>My Coaches</h1>
                     </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                    {userAuth && <NotificationBell userId={userAuth.id} />}
-                    {userAuth && <UserMenu user={userAuth} userProfile={userProfile} />}
                 </div>
             </div>
         </header>
