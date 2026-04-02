@@ -7,6 +7,7 @@ import MediaPlayerModal from './MediaPlayerModal'
 import {
   Brain,
   FileText,
+  FileDown,
   MessageCircle,
   Briefcase,
   Network,
@@ -247,10 +248,13 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
                       >
                         <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
                           resource.type === 'video' ? 'bg-rose-50 ring-1 ring-rose-200/50' :
-                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' : 'bg-blue-50 ring-1 ring-blue-200/50'
+                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' :
+                          resource.type === 'document' ? 'bg-amber-50 ring-1 ring-amber-200/50' :
+                          'bg-blue-50 ring-1 ring-blue-200/50'
                         }`}>
                           {resource.type === 'video' && <Play size={15} className="text-rose-500" />}
                           {resource.type === 'audio' && <Headphones size={15} className="text-purple-500" />}
+                          {resource.type === 'document' && <FileDown size={15} className="text-amber-600" />}
                           {resource.type === 'article' && <FileBadge size={15} className="text-blue-500" />}
                         </div>
                         <div className="flex-1 min-w-0">

@@ -1,6 +1,6 @@
 export type NodeLevel = 1 | 2 | 3
 export type NodeType = 'root' | 'topic' | 'resource'
-export type ResourceType = 'video' | 'audio' | 'article'
+export type ResourceType = 'video' | 'audio' | 'article' | 'document'
 export type LearningStatus = 'not_started' | 'in_progress' | 'completed'
 
 export interface AcademyNode {
