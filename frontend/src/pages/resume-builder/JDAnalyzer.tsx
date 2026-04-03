@@ -727,85 +727,60 @@ const JDAnalyzer: React.FC = () => {
         }
       }
 
-      // Build PAR Stories HTML
-      const parStoriesHTML = (exportData.tailored_bullets?.par_stories || []).map((story: any) => {
-        const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
-        const actionsHTML = actions.map((action: string) => `<li>${action}</li>`).join('')
-        return `
-          <div style="margin-bottom: 30px;">
-            <p style="text-align: justify; line-height: 1.6; margin-bottom: 8px;">
-              <strong>Problem/Challenge:</strong> ${story.problem_challenge}
-            </p>
-            <div style="margin-left: 20px; margin-bottom: 8px;">
-              <p style="margin-bottom: 5px;"><strong>Actions:</strong></p>
-              <ul style="margin: 0; padding-left: 20px; list-style-type: disc;">
-                ${actionsHTML}
-              </ul>
-            </div>
-            <p style="text-align: justify; line-height: 1.6;">
-              <strong>Results:</strong> ${story.result}
-            </p>
-          </div>
-        `
-      }).join('')
+      const parStories: any[] = exportData.tailored_bullets?.par_stories || []
 
-      // Build Work Experience HTML with dates
-      const workExpHTML = (exportData.tailored_bullets?.work_experience || []).map((exp: any) => {
-        const formatDate = (dateStr: string | undefined) => {
-          if (!dateStr) return ''
+      const formatDate = (dateStr: string | undefined) => {
+        if (!dateStr) return ''
+        if (/^\d{4}$/.test(dateStr)) return dateStr
+        if (/^\d{2}\/\d{4}$/.test(dateStr)) return dateStr.split('/')[1]
+        return dateStr
+      }
 
-          // Handle "YYYY" format (e.g., "2020")
-          if (/^\d{4}$/.test(dateStr)) {
-            return dateStr
-          }
-
-          // Handle "MM/YYYY" format (e.g., "01/2020")
-          if (/^\d{2}\/\d{4}$/.test(dateStr)) {
-            return dateStr.split('/')[1]  // Extract year part
-          }
-
-          // Handle other potential formats or return as-is
-          return dateStr
-        }
-
+      // Build Work Experience HTML — bullets from PAR stories go inside first job
+      const workExpHTML = (exportData.tailored_bullets?.work_experience || []).map((exp: any, expIdx: number) => {
         const startYear = formatDate(exp.start_date)
         const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
         const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
-
         const formatType = exportData.tailored_bullets.format_type || 'chronological'
+
+        // Build bullet points from PAR stories (only for first/most recent job)
+        let bulletsHTML = ''
+        if (expIdx === 0 && parStories.length > 0) {
+          const allBullets: string[] = []
+          parStories.forEach((story: any) => {
+            const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
+            actions.forEach((a: string) => { if (a) allBullets.push(a) })
+            if (story.result) allBullets.push(story.result)
+          })
+          if (allBullets.length > 0) {
+            bulletsHTML = `<ul style="margin: 8px 0 0 0; padding-left: 20px; list-style-type: disc;">
+              ${allBullets.map(b => `<li style="text-align: justify; line-height: 1.6; color: #333; margin-bottom: 6px;">${b}</li>`).join('')}
+            </ul>`
+          }
+        }
 
         if (formatType === 'functional') {
           return `
             <div style="margin-bottom: 20px;">
               <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-                <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">
-                  ${exp.job_title}
-                </h4>
+                <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
                 ${dateRange ? `<span style="font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; margin-left: 10px;">${dateRange}</span>` : ''}
               </div>
-              <p style="font-weight: 600; margin-bottom: 5px; color: #333;">
-                ${exp.company_name}
-              </p>
-            </div>
-            `
+              <p style="font-weight: 600; margin-bottom: 5px; color: #333;">${exp.company_name}</p>
+              ${bulletsHTML}
+            </div>`
         }
 
         return `
-        <div style="margin-bottom: 25px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 5px;">
-            <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">
-              ${exp.job_title}
-            </h4>
+        <div style="margin-bottom: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+            <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
             ${dateRange ? `<span style="font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; margin-left: 10px;">${dateRange}</span>` : ''}
           </div>
-          <p style="font-weight: 600; margin-bottom: 10px; color: #333;">
-            ${exp.company_name}
-          </p>
-          <p style="text-align: justify; line-height: 1.6; color: #333;">
-            ${exp.scope_description}
-          </p>
-        </div>
-        `
+          <p style="font-weight: 600; margin-bottom: 8px; color: #333;">${exp.company_name}</p>
+          ${exp.scope_description ? `<p style="text-align: justify; line-height: 1.6; color: #333; margin-bottom: 6px;">${exp.scope_description}</p>` : ''}
+          ${bulletsHTML}
+        </div>`
       }).join('')
 
       // Build Areas of Excellence HTML (pipe-separated)
@@ -892,16 +867,9 @@ const JDAnalyzer: React.FC = () => {
     <p class="skills-text">${skillsText}</p>
   </div>
 
-  ${parStoriesHTML ? `
-  <div class="section">
-    <h2>Key Accomplishments</h2>
-    ${parStoriesHTML}
-  </div>
-  ` : ''}
-
   ${workExpHTML ? `
   <div class="section">
-    <h2>Work Experience</h2>
+    <h2>Work History</h2>
     ${workExpHTML}
   </div>
   ` : ''}
