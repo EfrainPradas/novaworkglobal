@@ -404,6 +404,9 @@ Rate this job match from 0-100 considering:
 3. Work preferences match (20% weight)
 4. Growth potential (15% weight)
 
+Be strict: only score >= 70 if the job genuinely aligns with the user's target role and skills.
+Scores below 70 mean poor fit — do not inflate scores.
+
 Return only a JSON object with:
 {
   "score": 0-100,
@@ -481,11 +484,12 @@ Return only a JSON object with:
       })
     )
 
-    // 5. Sort by AI score and remove duplicates
+    // 5. Sort by AI score, remove duplicates, and filter to >= 70% match
     const uniqueJobs = scoredJobs
       .filter((job, index, arr) =>
         arr.findIndex(j => j.title === job.title && j.company === job.company) === index
       )
+      .filter(job => job.matchScore >= 70)
       .sort((a, b) => b.matchScore - a.matchScore)
       .slice(0, limit)
 
