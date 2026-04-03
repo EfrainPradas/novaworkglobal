@@ -316,90 +316,128 @@ export default function AIJobSearch() {
         )
     }
 
+    const [resultsExpanded, setResultsExpanded] = React.useState(false)
+
+    // Auto-expand when results arrive
+    React.useEffect(() => {
+        if (recommendations.length > 0) setResultsExpanded(true)
+    }, [recommendations.length])
+
     return (
-        <div className="space-y-6">
-            {!recommendations.length && (
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 transition-colors duration-200 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <div className="flex items-center gap-4 flex-1">
-                        <div className="flex-shrink-0 bg-purple-100 dark:bg-purple-900/30 w-10 h-10 rounded-full flex items-center justify-center">
-                            <Search className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                        </div>
-                        <div>
-                            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
-                                <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('jobSearch.hub.aiMatchingTitle', 'AI-Powered Job Matching')}</h2>
-                                {userProfile && (
-                                    <div className="flex items-center gap-2 flex-wrap">
-                                        {/* Role field */}
-                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
-                                            {editingRole ? (
-                                                <input
-                                                    autoFocus
-                                                    value={roleInput}
-                                                    onChange={e => setRoleInput(e.target.value)}
-                                                    onBlur={() => {
-                                                        if (roleInput.trim()) {
-                                                            setUserProfile((p: any) => ({ ...p, career_vision: { ...p.career_vision, target_roles: [roleInput.trim()] } }))
-                                                        }
-                                                        setEditingRole(false)
-                                                    }}
-                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-32"
-                                                    placeholder="e.g. Data Analyst"
-                                                />
-                                            ) : (
-                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                                                    {userProfile.career_vision.target_roles.slice(0, 1).join(', ')}
-                                                </span>
-                                            )}
-                                            <button
-                                                onClick={() => { setRoleInput(userProfile.career_vision.target_roles[0] || ''); setEditingRole(true) }}
-                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
-                                                title="Edit role"
-                                            >✏️</button>
-                                        </div>
-
-                                        {/* Location field */}
-                                        <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
-                                            <span className="text-xs text-gray-500 dark:text-gray-400">in</span>
-                                            {editingLocation ? (
-                                                <input
-                                                    autoFocus
-                                                    value={locationInput}
-                                                    onChange={e => setLocationInput(e.target.value)}
-                                                    onBlur={() => {
-                                                        if (locationInput.trim()) {
-                                                            setUserProfile((p: any) => ({ ...p, preferences: { ...p.preferences, ideal_work: { ...p.preferences.ideal_work, geographic_location: [locationInput.trim()] } } }))
-                                                        }
-                                                        setEditingLocation(false)
-                                                    }}
-                                                    onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-                                                    className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-24"
-                                                    placeholder="e.g. Remote"
-                                                />
-                                            ) : (
-                                                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                                                    {userProfile.preferences.ideal_work.geographic_location[0]}
-                                                </span>
-                                            )}
-                                            <button
-                                                onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
-                                                className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
-                                                title="Edit location"
-                                            >✏️</button>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                            <p className="text-xs text-gray-500 dark:text-gray-400 hidden md:block mt-0.5">
-                                {t('jobSearch.hub.aiMatchingDesc', 'Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.')}
-                            </p>
-                        </div>
+        <div className="space-y-0">
+            {/* ── Compact search bar ── always visible */}
+            <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 transition-colors duration-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4 flex-1">
+                    <div className="flex-shrink-0 bg-purple-100 dark:bg-purple-900/30 w-10 h-10 rounded-full flex items-center justify-center">
+                        <Search className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                     </div>
+                    <div>
+                        <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
+                            <h2 className="text-base font-bold text-gray-900 dark:text-white">{t('jobSearch.hub.aiMatchingTitle', 'AI-Powered Job Matching')}</h2>
+                            {userProfile && (
+                                <div className="flex items-center gap-2 flex-wrap">
+                                    {/* Role field */}
+                                    <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                        {editingRole ? (
+                                            <input
+                                                autoFocus
+                                                value={roleInput}
+                                                onChange={e => setRoleInput(e.target.value)}
+                                                onBlur={() => {
+                                                    if (roleInput.trim()) {
+                                                        setUserProfile((p: any) => ({ ...p, career_vision: { ...p.career_vision, target_roles: [roleInput.trim()] } }))
+                                                    }
+                                                    setEditingRole(false)
+                                                }}
+                                                onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-32"
+                                                placeholder="e.g. Data Analyst"
+                                            />
+                                        ) : (
+                                            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                {userProfile.career_vision.target_roles.slice(0, 1).join(', ')}
+                                            </span>
+                                        )}
+                                        <button
+                                            onClick={() => { setRoleInput(userProfile.career_vision.target_roles[0] || ''); setEditingRole(true) }}
+                                            className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                            title="Edit role"
+                                        >✏️</button>
+                                    </div>
 
+                                    {/* Location field */}
+                                    <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                        <span className="text-xs text-gray-500 dark:text-gray-400">in</span>
+                                        {editingLocation ? (
+                                            <input
+                                                autoFocus
+                                                value={locationInput}
+                                                onChange={e => setLocationInput(e.target.value)}
+                                                onBlur={() => {
+                                                    if (locationInput.trim()) {
+                                                        setUserProfile((p: any) => ({ ...p, preferences: { ...p.preferences, ideal_work: { ...p.preferences.ideal_work, geographic_location: [locationInput.trim()] } } }))
+                                                    }
+                                                    setEditingLocation(false)
+                                                }}
+                                                onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
+                                                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-24"
+                                                placeholder="e.g. Remote"
+                                            />
+                                        ) : (
+                                            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                                {userProfile.preferences.ideal_work.geographic_location[0]}
+                                            </span>
+                                        )}
+                                        <button
+                                            onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
+                                            className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
+                                            title="Edit location"
+                                        >✏️</button>
+                                    </div>
+
+                                    {/* Results badge + toggle */}
+                                    {recommendations.length > 0 && (
+                                        <button
+                                            onClick={() => setResultsExpanded(v => !v)}
+                                            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-700 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-semibold hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors"
+                                        >
+                                            <TrendingUp className="w-3 h-3" />
+                                            {metadata?.jobsRecommended ?? recommendations.length} matches
+                                            <span className="ml-0.5">{resultsExpanded ? '▲' : '▼'}</span>
+                                        </button>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 hidden md:block mt-0.5">
+                            {t('jobSearch.hub.aiMatchingDesc', 'Auto-search Google Jobs via SerpAPI based on your profile skills & preferences.')}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-shrink-0">
+                    {recommendations.length > 0 && (
+                        <>
+                            <button
+                                onClick={generateRecommendations}
+                                disabled={loading}
+                                className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center gap-1.5"
+                            >
+                                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+                                Refresh
+                            </button>
+                            <button
+                                onClick={() => { clearSavedRecommendations(); setResultsExpanded(false) }}
+                                className="px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors"
+                            >
+                                Clear
+                            </button>
+                        </>
+                    )}
                     <button
                         onClick={generateRecommendations}
                         disabled={loading}
-                        className="flex-shrink-0 px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-all shadow-sm hover:shadow"
+                        className="px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-all shadow-sm hover:shadow"
                     >
                         {loading ? (
                             <>
@@ -414,46 +452,32 @@ export default function AIJobSearch() {
                         )}
                     </button>
                 </div>
-            )}
+            </div>
 
             {error && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                    <div className="flex items-center gap-2 text-red-800">
+                <div className="mt-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                    <div className="flex items-center gap-2 text-red-800 dark:text-red-300">
                         <AlertCircle className="w-5 h-5" />
                         <span>{error}</span>
                     </div>
                 </div>
             )}
 
-            {metadata && (
-                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-2">
-                        <div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Found {metadata.totalJobsFound} Jobs</h3>
-                            <p className="text-sm text-gray-500"> AI Curated Top {metadata.jobsRecommended} Matches (Avg Score: {metadata.averageScore}%)</p>
-                        </div>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={generateRecommendations}
-                                disabled={loading}
-                                className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center gap-2"
-                            >
-                                <RefreshCw className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`} />
-                                Refresh
-                            </button>
-                            <button
-                                onClick={clearSavedRecommendations}
-                                className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors"
-                            >
-                                Clear Results
+            {/* ── Collapsible results panel ── */}
+            {recommendations.length > 0 && resultsExpanded && (
+                <div className="mt-3 grid grid-cols-1 gap-4">
+                    {/* Metadata summary */}
+                    {metadata && (
+                        <div className="bg-indigo-50 dark:bg-indigo-900/20 rounded-xl border border-indigo-100 dark:border-indigo-800 px-5 py-3 flex items-center justify-between">
+                            <p className="text-sm font-medium text-indigo-800 dark:text-indigo-200">
+                                Found <span className="font-bold">{metadata.totalJobsFound}</span> jobs · AI selected top <span className="font-bold">{metadata.jobsRecommended}</span> matches (avg score: {metadata.averageScore}%)
+                            </p>
+                            <button onClick={() => setResultsExpanded(false)} className="text-indigo-500 hover:text-indigo-700 dark:hover:text-indigo-300 text-xs font-medium">
+                                Collapse ▲
                             </button>
                         </div>
-                    </div>
-                </div>
-            )}
+                    )}
 
-            {recommendations.length > 0 && (
-                <div className="grid grid-cols-1 gap-6">
                     {recommendations.map((job) => (
                         <div key={job.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-200">
                             <div className="p-6">
