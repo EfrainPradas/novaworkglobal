@@ -148,17 +148,22 @@ const JDAnalyzer: React.FC = () => {
 
   const loadResume = async (uid: string) => {
     try {
+      // Pick the NEWEST master resume to avoid stale/duplicate data in older ones
       const { data: resumes, error } = await supabase
         .from('user_resumes')
         .select('id')
         .eq('user_id', uid)
         .eq('is_master', true)
+        .order('created_at', { ascending: false })
         .limit(1)
 
       const resume = resumes?.[0]
 
       if (error) throw error
-      if (resume) setResumeId(resume.id)
+      if (resume) {
+        console.log('📋 Using master resume:', resume.id)
+        setResumeId(resume.id)
+      }
     } catch (error) {
       console.error('Error loading resume:', error)
       setError('Failed to load resume')
@@ -355,26 +360,39 @@ const JDAnalyzer: React.FC = () => {
         console.warn('Resume error:', resumeError)
       }
 
-      // Load PAR stories - don't throw on error, just log
-      const { data: parStories, error: parError } = await supabase
-        .from('par_stories')
-        .select('problem_challenge, actions, result')
-        .eq('user_id', uid)
-
-      if (parError) {
-        console.warn('PAR stories error:', parError)
-      }
-
-      // Load work experience with dates
+      // Load work experience WITH accomplishments (bullets per job)
       const { data: workExp, error: workExpError } = await supabase
         .from('work_experience')
-        .select('job_title, company_name, scope_description, start_date, end_date, is_current')
+        .select(`
+          id, job_title, company_name, scope_description, start_date, end_date, is_current,
+          accomplishments (
+            id,
+            bullet_text,
+            order_index,
+            is_featured
+          )
+        `)
         .eq('resume_id', resId)
-        .order('start_date', { ascending: false })
 
       if (workExpError) {
         console.warn('Work experience error:', workExpError)
       }
+
+      // Sort: current jobs first, then by start_date descending
+      const sortedWorkExp = (workExp || []).sort((a: any, b: any) => {
+        if (a.is_current && !b.is_current) return -1
+        if (!a.is_current && b.is_current) return 1
+        const dateA = a.start_date ? new Date(a.start_date).getTime() : 0
+        const dateB = b.start_date ? new Date(b.start_date).getTime() : 0
+        return dateB - dateA
+      })
+
+      // Sort accomplishments within each job by order_index
+      sortedWorkExp.forEach((exp: any) => {
+        if (exp.accomplishments) {
+          exp.accomplishments.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0))
+        }
+      })
 
       // Load user contact info from user_resumes (if available)
       const { data: userInfo } = await supabase
@@ -386,8 +404,7 @@ const JDAnalyzer: React.FC = () => {
       return {
         profile_summary: resume?.profile_summary || '',
         areas_of_excellence: resume?.areas_of_excellence || [],
-        par_stories: parStories || [],
-        work_experience: workExp || [],
+        work_experience: sortedWorkExp || [],
         user_info: userInfo || {}
       }
     } catch (error) {
@@ -396,7 +413,6 @@ const JDAnalyzer: React.FC = () => {
       return {
         profile_summary: '',
         areas_of_excellence: [],
-        par_stories: [],
         work_experience: [],
         user_info: {}
       }
@@ -546,7 +562,6 @@ const JDAnalyzer: React.FC = () => {
           tailored_profile: resumeData.profile_summary || '',
           tailored_skills: resumeData.areas_of_excellence || [],
           tailored_bullets: {
-            par_stories: resumeData.par_stories || [],
             work_experience: resumeData.work_experience || [],
             user_info: resumeData.user_info || {},
             format_type: resumeFormat
@@ -607,10 +622,109 @@ const JDAnalyzer: React.FC = () => {
     }
   }
 
+  // Always fetch fresh work_experience with accomplishments from master resume
+  // This ensures exports never use stale cached data from tailored_bullets
+  const fetchFreshWorkExperience = async (resId: string) => {
+    try {
+      const { data: workExp, error: workExpError } = await supabase
+        .from('work_experience')
+        .select(`
+          id, job_title, company_name, scope_description, start_date, end_date, is_current,
+          accomplishments (
+            id,
+            bullet_text,
+            order_index,
+            is_featured
+          )
+        `)
+        .eq('resume_id', resId)
+
+      if (workExpError) {
+        console.warn('Error fetching fresh work experience:', workExpError)
+        return null
+      }
+
+      // Sort: current jobs first, then by start_date descending
+      const sorted = (workExp || []).sort((a: any, b: any) => {
+        if (a.is_current && !b.is_current) return -1
+        if (!a.is_current && b.is_current) return 1
+        const dateA = a.start_date ? new Date(a.start_date).getTime() : 0
+        const dateB = b.start_date ? new Date(b.start_date).getTime() : 0
+        return dateB - dateA
+      })
+
+      // Sort accomplishments within each job
+      sorted.forEach((exp: any) => {
+        if (exp.accomplishments) {
+          exp.accomplishments.sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0))
+        }
+      })
+
+      console.log('🔄 Fresh work_experience loaded:', sorted.map((e: any) => `${e.job_title} @ ${e.company_name}`))
+      return sorted
+    } catch (error) {
+      console.error('Error in fetchFreshWorkExperience:', error)
+      return null
+    }
+  }
+
+  const fetchAdditionalSections = async (uid: string, resId: string) => {
+    try {
+      // Load education
+      const { data: education } = await supabase
+        .from('education')
+        .select('*')
+        .or(`resume_id.eq.${resId},user_id.eq.${uid}`)
+        .order('graduation_year', { ascending: false })
+
+      // Load certifications
+      const { data: certifications } = await supabase
+        .from('certifications')
+        .select('*')
+        .eq('user_id', uid)
+        .order('issue_date', { ascending: false })
+
+      // Load awards
+      const { data: awards } = await supabase
+        .from('awards')
+        .select('*')
+        .eq('user_id', uid)
+        .order('issue_date', { ascending: false })
+
+      return {
+        education: education || [],
+        certifications: certifications || [],
+        awards: awards || []
+      }
+    } catch (error) {
+      console.error('Error fetching additional sections:', error)
+      return { education: [], certifications: [], awards: [] }
+    }
+  }
+
   // OPCIÓN A: Ver/Editar Resume
   const handleViewResume = async (resume: any) => {
-    // If resume doesn't have user_info, load it from user_resumes
-    if (!resume.tailored_bullets?.user_info?.full_name && resumeId) {
+    // Always fetch fresh user info and work experience
+    const latestUserInfo = await fetchLatestUserInfo()
+    // Always use the current session's master resume (newest), not the one stored in the tailored_resume record
+    const activeResumeId = resumeId || resume.master_resume_id
+    const freshWorkExp = activeResumeId ? await fetchFreshWorkExperience(activeResumeId) : null
+    const additionalSections = userId ? await fetchAdditionalSections(userId, activeResumeId || '') : { education: [], certifications: [], awards: [] }
+
+    const freshResume = {
+      ...resume,
+      tailored_bullets: {
+        ...resume.tailored_bullets,
+        user_info: latestUserInfo || resume.tailored_bullets?.user_info || {},
+        ...(freshWorkExp ? { work_experience: freshWorkExp } : {}),
+        education: additionalSections.education,
+        certifications: additionalSections.certifications,
+        awards: additionalSections.awards,
+      }
+    }
+
+    // Fallback: load user_info from user_resumes if still missing
+    if (!freshResume.tailored_bullets.user_info.full_name && resumeId) {
       const { data: userInfo } = await supabase
         .from('user_resumes')
         .select('full_name, email, phone, linkedin_url, location_city, location_country')
@@ -618,17 +732,11 @@ const JDAnalyzer: React.FC = () => {
         .single()
 
       if (userInfo) {
-        resume = {
-          ...resume,
-          tailored_bullets: {
-            ...resume.tailored_bullets,
-            user_info: userInfo
-          }
-        }
+        freshResume.tailored_bullets.user_info = userInfo
       }
     }
 
-    setViewingResume(resume)
+    setViewingResume(freshResume)
     setShowViewModal(true)
   }
 
@@ -638,18 +746,26 @@ const JDAnalyzer: React.FC = () => {
     if (!isProfileComplete) return
 
     try {
-      // Always fetch latest user info from profile to ensure it's up to date
+      // Always fetch latest user info and fresh work experience from master resume
       const latestUserInfo = await fetchLatestUserInfo()
+      // Always use the current session's master resume (newest), not the cached one
+      const activeResumeId = resumeId || resume.master_resume_id
+      const freshWorkExp = activeResumeId ? await fetchFreshWorkExperience(activeResumeId) : null
+      const additionalSections = userId ? await fetchAdditionalSections(userId, activeResumeId || '') : { education: [], certifications: [], awards: [] }
 
       const exportData = {
         ...resume,
         tailored_bullets: {
           ...resume.tailored_bullets,
-          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {}
+          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {},
+          ...(freshWorkExp ? { work_experience: freshWorkExp } : {}),
+          education: additionalSections.education,
+          certifications: additionalSections.certifications,
+          awards: additionalSections.awards,
         }
       }
 
-      // If still no user info (unlikely with checkProfileCompletion), try to load from user_resumes as fallback
+      // Fallback: load user_info from user_resumes if still missing
       if (!exportData.tailored_bullets.user_info.full_name && resumeId) {
         const { data: userInfo } = await supabase
           .from('user_resumes')
@@ -673,8 +789,10 @@ const JDAnalyzer: React.FC = () => {
             profile_summary: exportData.tailored_profile,
             areas_of_excellence: exportData.tailored_skills,
             work_experience: exportData.tailored_bullets.work_experience || [],
-            par_stories: exportData.tailored_bullets.par_stories || [],
-            format_type: exportData.tailored_bullets.format_type || 'chronological'
+            format_type: exportData.tailored_bullets.format_type || 'chronological',
+            education: exportData.tailored_bullets.education || [],
+            certifications: exportData.tailored_bullets.certifications || [],
+            awards: exportData.tailored_bullets.awards || [],
           }
         }),
       });
@@ -703,18 +821,26 @@ const JDAnalyzer: React.FC = () => {
     if (!isProfileComplete) return
 
     try {
-      // Always fetch latest user info from profile to ensure it's up to date
+      // Always fetch latest user info and fresh work experience from master resume
       const latestUserInfo = await fetchLatestUserInfo()
+      // Always use the current session's master resume (newest), not the cached one
+      const activeResumeId = resumeId || resume.master_resume_id
+      const freshWorkExp = activeResumeId ? await fetchFreshWorkExperience(activeResumeId) : null
+      const additionalSections = userId ? await fetchAdditionalSections(userId, activeResumeId || '') : { education: [], certifications: [], awards: [] }
 
       const exportData = {
         ...resume,
         tailored_bullets: {
           ...resume.tailored_bullets,
-          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {}
+          user_info: latestUserInfo || resume.tailored_bullets?.user_info || {},
+          ...(freshWorkExp ? { work_experience: freshWorkExp } : {}),
+          education: additionalSections.education,
+          certifications: additionalSections.certifications,
+          awards: additionalSections.awards,
         }
       }
 
-      // If still no user info, try to load from user_resumes as fallback
+      // Fallback: load user_info from user_resumes if still missing
       if (!exportData.tailored_bullets.user_info.full_name && resumeId) {
         const { data: userInfo } = await supabase
           .from('user_resumes')
@@ -727,8 +853,6 @@ const JDAnalyzer: React.FC = () => {
         }
       }
 
-      const parStories: any[] = exportData.tailored_bullets?.par_stories || []
-
       const formatDate = (dateStr: string | undefined) => {
         if (!dateStr) return ''
         if (/^\d{4}$/.test(dateStr)) return dateStr
@@ -736,34 +860,27 @@ const JDAnalyzer: React.FC = () => {
         return dateStr
       }
 
-      // Build Work Experience HTML — bullets from PAR stories go inside first job
-      const workExpHTML = (exportData.tailored_bullets?.work_experience || []).map((exp: any, expIdx: number) => {
+      // Build Work Experience HTML — each job gets its own accomplishment bullets
+      const workExpHTML = (exportData.tailored_bullets?.work_experience || []).map((exp: any) => {
         const startYear = formatDate(exp.start_date)
         const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
         const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
         const formatType = exportData.tailored_bullets.format_type || 'chronological'
 
-        // Build bullet points from PAR stories (only for first/most recent job)
+        // Build bullet points from this job's accomplishments
         let bulletsHTML = ''
-        if (expIdx === 0 && parStories.length > 0) {
-          const allBullets: string[] = []
-          parStories.forEach((story: any) => {
-            const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
-            actions.forEach((a: string) => { if (a) allBullets.push(a) })
-            if (story.result) allBullets.push(story.result)
-          })
-          if (allBullets.length > 0) {
-            bulletsHTML = `<ul style="margin: 8px 0 0 0; padding-left: 20px; list-style-type: disc;">
-              ${allBullets.map(b => `<li style="text-align: justify; line-height: 1.6; color: #333; margin-bottom: 6px;">${b}</li>`).join('')}
-            </ul>`
-          }
+        const accomplishments = exp.accomplishments || []
+        if (accomplishments.length > 0) {
+          bulletsHTML = `<ul style="margin: 2px 0 0 0; padding-left: 18px; list-style-type: disc;">
+            ${accomplishments.map((acc: any) => `<li style="text-align: justify; color: #333; margin-bottom: 1px;">${acc.bullet_text}</li>`).join('')}
+          </ul>`
         }
 
         if (formatType === 'functional') {
           return `
-            <div style="margin-bottom: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px;">
-                <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
+            <div style="margin-bottom: 10px;">
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px;">
+                <h4 style="font-size: 11pt; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
                 ${dateRange ? `<span style="font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; margin-left: 10px;">${dateRange}</span>` : ''}
               </div>
               <p style="font-weight: 600; margin-bottom: 5px; color: #333;">${exp.company_name}</p>
@@ -772,13 +889,13 @@ const JDAnalyzer: React.FC = () => {
         }
 
         return `
-        <div style="margin-bottom: 28px;">
-          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
-            <h4 style="font-size: 16px; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
+        <div style="margin-bottom: 10px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1px;">
+            <h4 style="font-size: 11pt; font-weight: bold; color: #111; margin: 0;">${exp.job_title}</h4>
             ${dateRange ? `<span style="font-size: 14px; font-weight: 600; color: #666; white-space: nowrap; margin-left: 10px;">${dateRange}</span>` : ''}
           </div>
-          <p style="font-weight: 600; margin-bottom: 8px; color: #333;">${exp.company_name}</p>
-          ${exp.scope_description ? `<p style="text-align: justify; line-height: 1.6; color: #333; margin-bottom: 6px;">${exp.scope_description}</p>` : ''}
+          <p style="font-weight: 600; margin-bottom: 2px; color: #333;">${exp.company_name}</p>
+          ${exp.scope_description ? `<p style="text-align: justify; color: #333; margin-bottom: 2px;">${exp.scope_description}</p>` : ''}
           ${bulletsHTML}
         </div>`
       }).join('')
@@ -802,7 +919,7 @@ const JDAnalyzer: React.FC = () => {
       const contactLine = contactParts.join(' • ')
 
       const headerHTML = userInfo.full_name ? `
-        <div style="text-align: center; border-bottom: 2px solid #ccc; padding-bottom: 20px; margin-bottom: 30px;">
+        <div style="text-align: center; padding-bottom: 6px; margin-bottom: 8px;">
           <h1 style="font-size: 28px; font-weight: bold; color: #111; margin: 0 0 10px 0;">
             ${userInfo.full_name}
           </h1>
@@ -820,22 +937,25 @@ const JDAnalyzer: React.FC = () => {
   <title>${resume.job_title} - ${resume.company_name}</title>
   <style>
     body {
-      font-family: Georgia, serif;
-      margin: 40px 60px;
+      font-family: Calibri, sans-serif;
+      font-size: 11pt;
+      margin: 30px 50px;
       color: #333;
-      line-height: 1.6;
+      line-height: 1.15;
     }
     h2 {
-      font-size: 18px;
+      font-size: 12pt;
       font-weight: bold;
       color: #111;
-      border-bottom: 2px solid #2563eb;
-      padding-bottom: 8px;
-      margin-top: 30px;
-      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: none;
+      padding-bottom: 2px;
+      margin-top: 10px;
+      margin-bottom: 4px;
     }
     .section {
-      margin-bottom: 30px;
+      margin-bottom: 8px;
     }
     .profile-text {
       text-align: justify;
@@ -873,6 +993,60 @@ const JDAnalyzer: React.FC = () => {
     ${workExpHTML}
   </div>
   ` : ''}
+
+  ${(() => {
+    const educationData = exportData.tailored_bullets?.education || []
+    return educationData.length > 0 ? `
+    <div class="section">
+      <h2>Education</h2>
+      ${educationData.map((edu: any) => `
+        <div style="margin-bottom: 12px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <strong style="font-size: 15px;">${edu.degree_type || ''}${edu.degree_type && edu.field_of_study ? ' in ' : ''}${edu.field_of_study || ''}</strong>
+            ${edu.graduation_year ? `<span style="font-size: 14px; color: #666;">${edu.graduation_year}</span>` : ''}
+          </div>
+          <div style="color: #333;">${edu.institution_name || ''}</div>
+          ${edu.gpa ? `<div style="color: #666; font-size: 13px;">GPA: ${edu.gpa}</div>` : ''}
+          ${edu.honors ? `<div style="color: #666; font-size: 13px;">${edu.honors}</div>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    ` : ''
+  })()}
+
+  ${(() => {
+    const certsData = exportData.tailored_bullets?.certifications || []
+    return certsData.length > 0 ? `
+    <div class="section">
+      <h2>Certifications</h2>
+      ${certsData.map((cert: any) => {
+        const name = cert.certification_name || cert.name || ''
+        const org = cert.issuing_organization || ''
+        const year = cert.issue_date ? new Date(cert.issue_date).getFullYear() : ''
+        return `<div style="margin-bottom: 8px;">
+          <strong>${name}</strong>${org ? ` — ${org}` : ''}${year ? ` (${year})` : ''}
+        </div>`
+      }).join('')}
+    </div>
+    ` : ''
+  })()}
+
+  ${(() => {
+    const awardsData = exportData.tailored_bullets?.awards || []
+    return awardsData.length > 0 ? `
+    <div class="section">
+      <h2>Awards & Honors</h2>
+      ${awardsData.map((award: any) => {
+        const name = award.certification_name || award.name || ''
+        const org = award.issuing_organization || ''
+        const year = award.issue_date ? new Date(award.issue_date).getFullYear() : ''
+        return `<div style="margin-bottom: 8px;">
+          <strong>${name}</strong>${org ? ` — ${org}` : ''}${year ? ` (${year})` : ''}
+        </div>`
+      }).join('')}
+    </div>
+    ` : ''
+  })()}
 </body>
 </html>
       `
@@ -935,6 +1109,24 @@ const JDAnalyzer: React.FC = () => {
     } catch (error: any) {
       console.error('Error marking as sent:', error)
       alert('Failed to update: ' + error.message)
+    }
+  }
+
+  const handleDeleteTailoredResume = async (resume: any) => {
+    if (!confirm(`Delete tailored resume for "${resume.job_title} - ${resume.company_name}"?`)) return
+
+    try {
+      const { error } = await supabase
+        .from('tailored_resumes')
+        .delete()
+        .eq('id', resume.id)
+
+      if (error) throw error
+
+      if (userId) await loadTailoredResumes(userId)
+    } catch (error: any) {
+      console.error('Error deleting tailored resume:', error)
+      alert('Failed to delete: ' + error.message)
     }
   }
 
@@ -1382,6 +1574,12 @@ const JDAnalyzer: React.FC = () => {
                               ✉️ Mark Sent
                             </button>
                           )}
+                          <button
+                            onClick={() => handleDeleteTailoredResume(tr)}
+                            className="px-3 py-1 text-xs bg-gray-500 text-white rounded hover:bg-gray-600 whitespace-nowrap"
+                          >
+                            🗑️ Delete
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -1412,10 +1610,10 @@ const JDAnalyzer: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="p-8 space-y-8 bg-white dark:bg-gray-800" style={{ fontFamily: 'Georgia, serif' }}>
+                <div className="p-6 space-y-3 bg-white dark:bg-gray-800" style={{ fontFamily: 'Calibri, sans-serif', fontSize: '11pt', lineHeight: '1.15' }}>
                   {/* Header with User Info */}
                   {(viewingResume.tailored_bullets?.user_info?.full_name || userId) && (
-                    <div className="text-center border-b-2 border-gray-300 dark:border-gray-600 pb-6 mb-6">
+                    <div className="text-center pb-2 mb-2">
                       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                         {viewingResume.tailored_bullets.user_info.full_name || 'Your Name'}
                       </h1>
@@ -1444,7 +1642,7 @@ const JDAnalyzer: React.FC = () => {
 
                   {/* Professional Profile */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
                       Professional Profile
                     </h3>
                     <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
@@ -1454,7 +1652,7 @@ const JDAnalyzer: React.FC = () => {
 
                   {/* Areas of Excellence */}
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                    <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
                       Areas of Excellence
                     </h3>
                     <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
@@ -1465,10 +1663,10 @@ const JDAnalyzer: React.FC = () => {
                   {/* Work History (with PAR bullets inside first job) */}
                   {viewingResume.tailored_bullets?.work_experience && viewingResume.tailored_bullets.work_experience.length > 0 && (
                     <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
                         Work History
                       </h3>
-                      <div className="space-y-5">
+                      <div className="space-y-2">
                         {viewingResume.tailored_bullets.work_experience.map((exp: any, expIdx: number) => {
                           const formatDate = (dateStr: string | undefined) => {
                             if (!dateStr) return ''
@@ -1481,10 +1679,10 @@ const JDAnalyzer: React.FC = () => {
                           const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
                           const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
                           const isFunctional = viewingResume.tailored_bullets?.format_type === 'functional'
-                          const parStories = viewingResume.tailored_bullets?.par_stories || []
+                          const accomplishments = exp.accomplishments || []
 
                           return (
-                            <div key={expIdx} className={isFunctional ? "mb-6" : "mb-4"}>
+                            <div key={expIdx} className={isFunctional ? "mb-3" : "mb-2"}>
                               <div className="flex items-start justify-between mb-1">
                                 <h4 className="font-bold text-gray-900 dark:text-white text-lg">
                                   {exp.job_title}
@@ -1501,35 +1699,83 @@ const JDAnalyzer: React.FC = () => {
                                   {exp.scope_description}
                                 </p>
                               )}
-                              {/* PAR bullets inside first (most recent) job */}
-                              {expIdx === 0 && parStories.length > 0 && (
+                              {/* Accomplishment bullets for this job */}
+                              {accomplishments.length > 0 && (
                                 <ul className="list-disc pl-5 space-y-1 mt-2">
-                                  {parStories.flatMap((story: any, sIdx: number) => {
-                                    const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
-                                    const bullets: React.ReactNode[] = []
-                                    actions.forEach((action: string, aIdx: number) => {
-                                      if (action) {
-                                        bullets.push(
-                                          <li key={`s${sIdx}-a${aIdx}`} className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
-                                            {action}
-                                          </li>
-                                        )
-                                      }
-                                    })
-                                    if (story.result) {
-                                      bullets.push(
-                                        <li key={`s${sIdx}-r`} className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
-                                          {story.result}
-                                        </li>
-                                      )
-                                    }
-                                    return bullets
-                                  })}
+                                  {accomplishments.map((acc: any, aIdx: number) => (
+                                    <li key={aIdx} className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                                      {acc.bullet_text}
+                                    </li>
+                                  ))}
                                 </ul>
                               )}
                             </div>
                           )
                         })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Education */}
+                  {viewingResume.tailored_bullets?.education && viewingResume.tailored_bullets.education.length > 0 && (
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
+                        Education
+                      </h3>
+                      <div className="space-y-3">
+                        {viewingResume.tailored_bullets.education.map((edu: any, idx: number) => (
+                          <div key={idx}>
+                            <div className="flex items-start justify-between">
+                              <div>
+                                <span className="font-bold text-gray-900 dark:text-white">
+                                  {edu.degree_type}{edu.degree_type && edu.field_of_study ? ' in ' : ''}{edu.field_of_study}
+                                </span>
+                                <div className="text-gray-700 dark:text-gray-300">{edu.institution_name}</div>
+                                {edu.gpa && <div className="text-sm text-gray-600 dark:text-gray-400">GPA: {edu.gpa}</div>}
+                                {edu.honors && <div className="text-sm text-gray-600 dark:text-gray-400">{edu.honors}</div>}
+                              </div>
+                              {edu.graduation_year && (
+                                <span className="text-sm text-gray-600 dark:text-gray-400 font-semibold">{edu.graduation_year}</span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Certifications */}
+                  {viewingResume.tailored_bullets?.certifications && viewingResume.tailored_bullets.certifications.length > 0 && (
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
+                        Certifications
+                      </h3>
+                      <div className="space-y-2">
+                        {viewingResume.tailored_bullets.certifications.map((cert: any, idx: number) => (
+                          <div key={idx} className="text-gray-800 dark:text-gray-200">
+                            <strong>{cert.certification_name || cert.name}</strong>
+                            {cert.issuing_organization && ` — ${cert.issuing_organization}`}
+                            {cert.issue_date && ` (${new Date(cert.issue_date).getFullYear()})`}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Awards & Honors */}
+                  {viewingResume.tailored_bullets?.awards && viewingResume.tailored_bullets.awards.length > 0 && (
+                    <div>
+                      <h3 className="text-base font-bold text-gray-900 dark:text-white uppercase tracking-wide mb-1">
+                        Awards & Honors
+                      </h3>
+                      <div className="space-y-2">
+                        {viewingResume.tailored_bullets.awards.map((award: any, idx: number) => (
+                          <div key={idx} className="text-gray-800 dark:text-gray-200">
+                            <strong>{award.certification_name || award.name}</strong>
+                            {award.issuing_organization && ` — ${award.issuing_organization}`}
+                            {award.issue_date && ` (${new Date(award.issue_date).getFullYear()})`}
+                          </div>
+                        ))}
                       </div>
                     </div>
                   )}
