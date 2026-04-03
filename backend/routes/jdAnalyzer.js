@@ -333,75 +333,76 @@ router.post('/export', async (req, res) => {
               }),
             ],
           }),
-          ...(par_stories && par_stories.length > 0 ? [
-            new Paragraph({
-              text: 'Key Accomplishments',
-              heading: HeadingLevel.HEADING_2,
-              border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
-            }),
-            ...par_stories.flatMap(story => [
-              new Paragraph({
-                spacing: { before: 200 },
-                children: [
-                  new TextRun({ text: 'Problem/Challenge: ', bold: true, size: 22, font: 'Georgia' }),
-                  new TextRun({ text: story.problem_challenge || '', size: 22, font: 'Georgia' })
-                ]
-              }),
-              new Paragraph({
-                children: [
-                  new TextRun({ text: 'Actions: ', bold: true, size: 22, font: 'Georgia' })
-                ]
-              }),
-              ...(Array.isArray(story.actions) ? story.actions : [story.actions]).map(action =>
-                new Paragraph({
-                  bullet: { level: 0 },
-                  children: [new TextRun({ text: action || '', size: 22, font: 'Georgia' })]
-                })
-              ),
-              new Paragraph({
-                spacing: { after: 100 },
-                children: [
-                  new TextRun({ text: 'Results: ', bold: true, size: 22, font: 'Georgia' }),
-                  new TextRun({ text: story.result || '', size: 22, font: 'Georgia' })
-                ]
-              })
-            ])
-          ] : []),
           new Paragraph({
-            text: 'Work Experience',
+            text: 'Work History',
             heading: HeadingLevel.HEADING_2,
             border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
           }),
-          ...(work_experience || []).flatMap(exp => {
-            const dateRange = (exp.start_date || '') + ' - ' + (exp.is_current ? 'Present' : (exp.end_date || ''));
+          ...(work_experience || []).flatMap((exp, expIdx) => {
+            const startYear = (exp.start_date || '').replace(/^(\d{2})\/(\d{4})$/, '$2').replace(/^(\d{4}).*/, '$1')
+            const endYear = exp.is_current ? 'Present' : (exp.end_date || '').replace(/^(\d{2})\/(\d{4})$/, '$2').replace(/^(\d{4}).*/, '$1')
+            const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : (startYear || endYear || '')
+
             const paragraphs = [
+              // Job Title + Date (tab-aligned right)
               new Paragraph({
-                spacing: { before: 200 },
+                spacing: { before: 250 },
                 children: [
                   new TextRun({ text: exp.job_title || 'Untitled Role', bold: true, size: 24, font: 'Georgia' }),
                   new TextRun({ text: `\t${dateRange}`, bold: true, size: 22, font: 'Georgia' })
                 ],
                 tabStops: [{ type: 'right', position: 9000 }]
               }),
+              // Company name
               new Paragraph({
-                children: [new TextRun({ text: exp.company_name || 'Generic Company', bold: true, color: '333333', size: 22, font: 'Georgia' })]
+                spacing: { after: 100 },
+                children: [new TextRun({ text: exp.company_name || '', bold: true, color: '333333', size: 22, font: 'Georgia' })]
               })
             ];
 
+            // Scope description paragraph (chronological only)
             if (format_type !== 'functional' && exp.scope_description) {
               paragraphs.push(
                 new Paragraph({
-                  spacing: { after: 200 },
-                  children: [new TextRun({ text: exp.scope_description || '', size: 22, font: 'Georgia' })],
+                  spacing: { after: 120 },
+                  children: [new TextRun({ text: exp.scope_description, size: 22, font: 'Georgia' })],
                   alignment: AlignmentType.JUSTIFIED
                 })
               );
-            } else {
-              paragraphs[paragraphs.length - 1] = new Paragraph({
-                spacing: { after: 200 },
-                children: [new TextRun({ text: exp.company_name || 'Generic Company', bold: true, color: '333333', size: 22, font: 'Georgia' })]
-              });
             }
+
+            // Add PAR story bullets to the first (most recent) job only
+            if (expIdx === 0 && par_stories && par_stories.length > 0) {
+              par_stories.forEach(story => {
+                const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
+                actions.forEach(action => {
+                  if (action) {
+                    paragraphs.push(
+                      new Paragraph({
+                        bullet: { level: 0 },
+                        spacing: { after: 60 },
+                        children: [new TextRun({ text: action, size: 22, font: 'Georgia' })],
+                        alignment: AlignmentType.JUSTIFIED
+                      })
+                    )
+                  }
+                })
+                // Add result as a bullet too if present
+                if (story.result) {
+                  paragraphs.push(
+                    new Paragraph({
+                      bullet: { level: 0 },
+                      spacing: { after: 60 },
+                      children: [new TextRun({ text: story.result, size: 22, font: 'Georgia' })],
+                      alignment: AlignmentType.JUSTIFIED
+                    })
+                  )
+                }
+              })
+            }
+
+            // Spacing after each job block
+            paragraphs.push(new Paragraph({ spacing: { after: 150 }, children: [] }))
 
             return paragraphs;
           })
