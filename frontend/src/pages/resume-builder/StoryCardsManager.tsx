@@ -198,33 +198,46 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                 setAllAccomplishments([])
             }
 
-            const { data: resumes } = await supabase
+            // Load only from master resume to avoid duplicates
+            const { data: masterResume } = await supabase
                 .from('user_resumes')
                 .select('id')
                 .eq('user_id', user.id)
+                .eq('is_master', true)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single()
 
             let allWorkExps: any[] = []
-            if (resumes && resumes.length > 0) {
-                for (const resume of resumes) {
-                    const { data: weData } = await supabase
-                        .from('work_experience')
-                        .select('id, job_title, company_name, start_date, end_date')
-                        .eq('resume_id', resume.id)
-                        .order('start_date', { ascending: false })
+            if (masterResume) {
+                const { data: weData } = await supabase
+                    .from('work_experience')
+                    .select('id, job_title, company_name, start_date, end_date, is_current')
+                    .eq('resume_id', masterResume.id)
+                    .order('start_date', { ascending: false })
 
-                    if (weData) allWorkExps = [...allWorkExps, ...weData]
-                }
+                if (weData) allWorkExps = weData
             }
 
+            // Fallback: try legacy format
             if (allWorkExps.length === 0) {
                 const { data: legacyWE } = await supabase
                     .from('work_experience')
-                    .select('id, job_title, company_name, start_date, end_date')
+                    .select('id, job_title, company_name, start_date, end_date, is_current')
                     .eq('resume_id', user.id)
                     .order('start_date', { ascending: false })
 
                 if (legacyWE) allWorkExps = legacyWE
             }
+
+            // Sort: current first, then by start_date descending
+            allWorkExps.sort((a, b) => {
+                if (a.is_current && !b.is_current) return -1
+                if (!a.is_current && b.is_current) return 1
+                const dateA = a.start_date ? new Date(a.start_date).getTime() : 0
+                const dateB = b.start_date ? new Date(b.start_date).getTime() : 0
+                return dateB - dateA
+            })
 
             setWorkExperiences(allWorkExps)
             setStories(mergedStories)
@@ -1246,27 +1259,6 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                     </option>
                                                 ))}
                                             </select>
-                                        </div>
-                                    )}
-
-                                    {/* Related Accomplishments from Bank */}
-                                    {form.role_title && form.company_name && allAccomplishments.filter(a => a.role_title === form.role_title && a.company_name === form.company_name).length > 0 && (
-                                        <div className="bg-[#EEF2FF] dark:bg-indigo-900/10 p-4 rounded-xl border border-[#C7D2FE] dark:border-indigo-800">
-                                            <h4 className="text-[11px] font-bold text-[#4F46E5] dark:text-indigo-400 uppercase tracking-wider mb-3 flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> Accomplishments from this role</h4>
-                                            <div className="space-y-2 max-h-40 overflow-y-auto pr-2 custom-scrollbar">
-                                                {allAccomplishments.filter(a => a.role_title === form.role_title && a.company_name === form.company_name).map(acc => (
-                                                    <div key={acc.id} className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-indigo-100 dark:border-indigo-800/50 flex items-start gap-3 group relative hover:border-[#4F46E5] transition-colors">
-                                                        <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{acc.bullet_text}</p>
-                                                        <button 
-                                                            onClick={(e) => { e.preventDefault(); copyToClipboard(acc.bullet_text); }} 
-                                                            className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity"
-                                                            title="Copy to clipboard"
-                                                        >
-                                                            <Copy className="w-3.5 h-3.5" />
-                                                        </button>
-                                                    </div>
-                                                ))}
-                                            </div>
                                         </div>
                                     )}
 

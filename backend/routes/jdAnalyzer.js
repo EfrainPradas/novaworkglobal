@@ -5,9 +5,7 @@ import {
   Packer,
   Paragraph,
   TextRun,
-  HeadingLevel,
   AlignmentType,
-  BorderStyle
 } from 'docx';
 
 const router = express.Router();
@@ -269,9 +267,22 @@ router.post('/export', async (req, res) => {
       return res.status(400).json({ error: 'Missing resume data' });
     }
 
-    const { user_info, profile_summary, areas_of_excellence, work_experience = [], par_stories = [], format_type = 'chronological' } = resumeData;
+    const { user_info, profile_summary, areas_of_excellence, work_experience = [], format_type = 'chronological', education = [], certifications = [], awards = [] } = resumeData;
 
     const doc = new Document({
+      styles: {
+        default: {
+          document: {
+            run: {
+              font: 'Calibri',
+              size: 22,  // 11pt
+            },
+            paragraph: {
+              spacing: { line: 276, before: 0, after: 0 },  // 1.15 line spacing (240=single, 276=1.15)
+            }
+          }
+        }
+      },
       sections: [{
         children: [
           new Paragraph({
@@ -281,14 +292,14 @@ router.post('/export', async (req, res) => {
                 text: (user_info?.full_name || 'Your Name').trim(),
                 bold: true,
                 size: 32,
-                font: 'Georgia'
+                font: 'Calibri'
               }),
             ],
           }),
           // ... Header: Contact Info ...
           new Paragraph({
             alignment: AlignmentType.CENTER,
-            spacing: { before: 100, after: 300 },
+            spacing: { before: 40, after: 80 },
             children: [
               new TextRun({
                 text: [
@@ -298,45 +309,42 @@ router.post('/export', async (req, res) => {
                   user_info?.linkedin_url || null
                 ].filter(Boolean).join('  •  '),
                 size: 20,
-                font: 'Georgia'
+                font: 'Calibri'
               }),
             ],
           }),
           // ... rest of sections ...
           new Paragraph({
-            text: 'Professional Profile',
-            heading: HeadingLevel.HEADING_2,
-            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+            spacing: { before: 120, after: 40 },
+            children: [new TextRun({ text: 'PROFESSIONAL PROFILE', bold: true, size: 24, font: 'Calibri' })]
           }),
           new Paragraph({
-            spacing: { before: 200, after: 200 },
+            spacing: { before: 40, after: 40 },
             children: [
               new TextRun({
                 text: profile_summary || 'N/A',
                 size: 22,
-                font: 'Georgia'
+                font: 'Calibri'
               }),
             ],
           }),
           new Paragraph({
-            text: 'Areas of Excellence',
-            heading: HeadingLevel.HEADING_2,
-            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+            spacing: { before: 120, after: 40 },
+            children: [new TextRun({ text: 'AREAS OF EXCELLENCE', bold: true, size: 24, font: 'Calibri' })]
           }),
           new Paragraph({
-            spacing: { before: 200, after: 300 },
+            spacing: { before: 40, after: 40 },
             children: [
               new TextRun({
                 text: (areas_of_excellence || []).join('  |  '),
                 size: 22,
-                font: 'Georgia'
+                font: 'Calibri'
               }),
             ],
           }),
           new Paragraph({
-            text: 'Work History',
-            heading: HeadingLevel.HEADING_2,
-            border: { bottom: { color: '2563eb', space: 1, style: BorderStyle.SINGLE, size: 12 } }
+            spacing: { before: 120, after: 40 },
+            children: [new TextRun({ text: 'WORK HISTORY', bold: true, size: 24, font: 'Calibri' })]
           }),
           ...(work_experience || []).flatMap((exp, expIdx) => {
             const startYear = (exp.start_date || '').replace(/^(\d{2})\/(\d{4})$/, '$2').replace(/^(\d{4}).*/, '$1')
@@ -346,17 +354,17 @@ router.post('/export', async (req, res) => {
             const paragraphs = [
               // Job Title + Date (tab-aligned right)
               new Paragraph({
-                spacing: { before: 250 },
+                spacing: { before: 120 },
                 children: [
-                  new TextRun({ text: exp.job_title || 'Untitled Role', bold: true, size: 24, font: 'Georgia' }),
-                  new TextRun({ text: `\t${dateRange}`, bold: true, size: 22, font: 'Georgia' })
+                  new TextRun({ text: exp.job_title || 'Untitled Role', bold: true, size: 22, font: 'Calibri' }),
+                  new TextRun({ text: `\t${dateRange}`, bold: true, size: 22, font: 'Calibri' })
                 ],
                 tabStops: [{ type: 'right', position: 9000 }]
               }),
               // Company name
               new Paragraph({
-                spacing: { after: 100 },
-                children: [new TextRun({ text: exp.company_name || '', bold: true, color: '333333', size: 22, font: 'Georgia' })]
+                spacing: { after: 20 },
+                children: [new TextRun({ text: exp.company_name || '', bold: true, color: '333333', size: 22, font: 'Calibri' })]
               })
             ];
 
@@ -364,36 +372,23 @@ router.post('/export', async (req, res) => {
             if (format_type !== 'functional' && exp.scope_description) {
               paragraphs.push(
                 new Paragraph({
-                  spacing: { after: 120 },
-                  children: [new TextRun({ text: exp.scope_description, size: 22, font: 'Georgia' })],
+                  spacing: { after: 20 },
+                  children: [new TextRun({ text: exp.scope_description, size: 22, font: 'Calibri' })],
                   alignment: AlignmentType.JUSTIFIED
                 })
               );
             }
 
-            // Add PAR story bullets to the first (most recent) job only
-            if (expIdx === 0 && par_stories && par_stories.length > 0) {
-              par_stories.forEach(story => {
-                const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
-                actions.forEach(action => {
-                  if (action) {
-                    paragraphs.push(
-                      new Paragraph({
-                        bullet: { level: 0 },
-                        spacing: { after: 60 },
-                        children: [new TextRun({ text: action, size: 22, font: 'Georgia' })],
-                        alignment: AlignmentType.JUSTIFIED
-                      })
-                    )
-                  }
-                })
-                // Add result as a bullet too if present
-                if (story.result) {
+            // Add accomplishment bullets for THIS job
+            const accomplishments = exp.accomplishments || []
+            if (accomplishments.length > 0) {
+              accomplishments.forEach(acc => {
+                if (acc.bullet_text) {
                   paragraphs.push(
                     new Paragraph({
                       bullet: { level: 0 },
                       spacing: { after: 60 },
-                      children: [new TextRun({ text: story.result, size: 22, font: 'Georgia' })],
+                      children: [new TextRun({ text: acc.bullet_text, size: 22, font: 'Calibri' })],
                       alignment: AlignmentType.JUSTIFIED
                     })
                   )
@@ -402,10 +397,60 @@ router.post('/export', async (req, res) => {
             }
 
             // Spacing after each job block
-            paragraphs.push(new Paragraph({ spacing: { after: 150 }, children: [] }))
+            paragraphs.push(new Paragraph({ spacing: { after: 40 }, children: [] }))
 
             return paragraphs;
-          })
+          }),
+          ...(education.length > 0 ? [
+            new Paragraph({
+              spacing: { before: 120, after: 40 },
+              children: [new TextRun({ text: 'EDUCATION', bold: true, size: 24, font: 'Calibri' })]
+            }),
+            ...education.flatMap(edu => [
+              new Paragraph({
+                spacing: { before: 150 },
+                tabStops: [{ type: 'right', position: 9000 }],
+                children: [
+                  new TextRun({ text: `${edu.degree_type || ''}${edu.degree_type && edu.field_of_study ? ' in ' : ''}${edu.field_of_study || ''}`, bold: true, size: 22, font: 'Calibri' }),
+                  new TextRun({ text: `\t${edu.graduation_year || ''}`, size: 22, font: 'Calibri' })
+                ]
+              }),
+              new Paragraph({
+                children: [new TextRun({ text: edu.institution_name || '', size: 22, font: 'Calibri', color: '333333' })]
+              }),
+              ...(edu.gpa ? [new Paragraph({ children: [new TextRun({ text: `GPA: ${edu.gpa}`, size: 20, font: 'Calibri', color: '666666' })] })] : []),
+              ...(edu.honors ? [new Paragraph({ children: [new TextRun({ text: edu.honors, size: 20, font: 'Calibri', color: '666666' })] })] : []),
+              new Paragraph({ spacing: { after: 100 }, children: [] })
+            ])
+          ] : []),
+          ...(certifications.length > 0 ? [
+            new Paragraph({
+              spacing: { before: 120, after: 40 },
+              children: [new TextRun({ text: 'CERTIFICATIONS', bold: true, size: 24, font: 'Calibri' })]
+            }),
+            ...certifications.map(cert => new Paragraph({
+              spacing: { before: 80, after: 80 },
+              children: [
+                new TextRun({ text: cert.certification_name || cert.name || '', bold: true, size: 22, font: 'Calibri' }),
+                new TextRun({ text: cert.issuing_organization ? ` — ${cert.issuing_organization}` : '', size: 22, font: 'Calibri' }),
+                new TextRun({ text: cert.issue_date ? ` (${new Date(cert.issue_date).getFullYear()})` : '', size: 22, font: 'Calibri', color: '666666' })
+              ]
+            }))
+          ] : []),
+          ...(awards.length > 0 ? [
+            new Paragraph({
+              spacing: { before: 120, after: 40 },
+              children: [new TextRun({ text: 'AWARDS & HONORS', bold: true, size: 24, font: 'Calibri' })]
+            }),
+            ...awards.map(award => new Paragraph({
+              spacing: { before: 80, after: 80 },
+              children: [
+                new TextRun({ text: award.certification_name || award.name || '', bold: true, size: 22, font: 'Calibri' }),
+                new TextRun({ text: award.issuing_organization ? ` — ${award.issuing_organization}` : '', size: 22, font: 'Calibri' }),
+                new TextRun({ text: award.issue_date ? ` (${new Date(award.issue_date).getFullYear()})` : '', size: 22, font: 'Calibri', color: '666666' })
+              ]
+            }))
+          ] : []),
         ]
       }]
     });
