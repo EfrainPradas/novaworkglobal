@@ -91,27 +91,35 @@ const JDAnalyzer: React.FC = () => {
       // Check if job data was passed from AI Recommendations (legacy key)
       let jobDataStr = localStorage.getItem('jd-analyzer-job-data')
       let source = 'ai-recommendations'
+      let storageKey = 'jd-analyzer-job-data'
 
       // If not found, check for new company shortlist data
       if (!jobDataStr) {
         jobDataStr = localStorage.getItem('jobAnalysisData')
         source = 'company-shortlist'
+        storageKey = 'jobAnalysisData'
       }
 
       if (jobDataStr) {
         const jobData = JSON.parse(jobDataStr)
+
+        // React StrictMode mounts components twice in dev — if already consumed,
+        // just return true so checkClipboard is skipped, then remove the entry.
+        if (jobData._consumed) {
+          localStorage.removeItem(storageKey)
+          return true
+        }
 
         // Auto-fill the form with job data (handle both naming conventions)
         if (jobData.jobTitle || jobData.title) setJobTitle(jobData.jobTitle || jobData.title)
         if (jobData.companyName || jobData.company) setCompanyName(jobData.companyName || jobData.company)
         if (jobData.jobDescription || jobData.description) setJdText(jobData.jobDescription || jobData.description)
 
-        // Clear the localStorage so it doesn't persist on page reload
-        if (source === 'ai-recommendations') {
-          localStorage.removeItem('jd-analyzer-job-data')
-        } else {
-          localStorage.removeItem('jobAnalysisData')
-        }
+        // Mark as consumed and persist (don't delete yet — StrictMode may re-run this)
+        jobData._consumed = true
+        localStorage.setItem(storageKey, JSON.stringify(jobData))
+        // Remove after a short delay so the second StrictMode mount can still see it
+        setTimeout(() => localStorage.removeItem(storageKey), 3000)
 
         console.log(`✅ Auto-filled from ${source}:`, {
           company: jobData.companyName || jobData.company,
