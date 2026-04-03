@@ -64,15 +64,15 @@ export default function ServiceAddOns() {
     }
 
     return (
-        <section className="py-12 bg-gradient-to-br from-indigo-50 to-white rounded-2xl border border-indigo-100 p-8 shadow-sm my-16">
+        <section className="py-12 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-2xl border border-indigo-100 dark:border-gray-700 p-8 shadow-sm my-16">
             <div className="text-center max-w-3xl mx-auto mb-12">
-                <span className="bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                     {t('resumeBuilder.menu.accelerateResults', 'ACCELERATE YOUR RESULTS')}
                 </span>
-                <h2 className="text-3xl font-bold text-gray-900 mt-4 mb-4">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-4 mb-4">
                     {t('resumeBuilder.menu.needGuidance', 'Need Personalized Guidance?')}
                 </h2>
-                <p className="text-lg text-gray-600">
+                <p className="text-lg text-gray-600 dark:text-gray-400">
                     While our AI tools are powerful, sometimes you need a human expert.
                     Book a 1:1 session with our world-class coaches to breakthrough faster.
                 </p>
@@ -83,8 +83,8 @@ export default function ServiceAddOns() {
                     <div
                         key={service.id}
                         className={`
-                            relative bg-white rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1
-                            ${service.recommended ? 'border-primary-500 ring-1 ring-primary-500' : 'border-gray-200'}
+                            relative bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1
+                            ${service.recommended ? 'border-primary-500 ring-1 ring-primary-500' : 'border-gray-200 dark:border-gray-700'}
                         `}
                     >
                         {service.recommended && (
@@ -95,19 +95,19 @@ export default function ServiceAddOns() {
                         )}
 
                         <div className="mb-4">
-                            <h3 className="text-xl font-bold text-gray-900">{service.title}</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{service.title}</h3>
                             <div className="mt-2 flex items-baseline gap-1">
-                                <span className="text-3xl font-bold text-gray-900">${service.price}</span>
-                                <span className="text-gray-500 text-sm">/session</span>
+                                <span className="text-3xl font-bold text-gray-900 dark:text-white">${service.price}</span>
+                                <span className="text-gray-500 dark:text-gray-400 text-sm">/session</span>
                             </div>
-                            <p className="text-gray-600 text-sm mt-3 min-h-[60px]">
+                            <p className="text-gray-600 dark:text-gray-400 text-sm mt-3 min-h-[60px]">
                                 {service.description}
                             </p>
                         </div>
 
                         <ul className="space-y-3 mb-8">
                             {service.features.map((feature, idx) => (
-                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
                                     <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                                     <span>{feature}</span>
                                 </li>
@@ -120,7 +120,7 @@ export default function ServiceAddOns() {
                                 w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors
                                 ${service.recommended
                                     ? 'bg-primary-600 text-white hover:bg-primary-700'
-                                    : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
+                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
                                 }
                             `}
                         >
