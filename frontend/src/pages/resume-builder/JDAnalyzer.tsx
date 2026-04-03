@@ -51,16 +51,12 @@ const JDAnalyzer: React.FC = () => {
 
   useEffect(() => {
     checkUser()
-    checkForJobData()
-    checkClipboard()
+    const hadJobData = checkForJobData()
+    if (!hadJobData) checkClipboard()
   }, [])
 
   const checkClipboard = async () => {
     try {
-      // Skip clipboard if localStorage already has job data for this page
-      const hasStoredJobData = !!(localStorage.getItem('jd-analyzer-job-data') || localStorage.getItem('jobAnalysisData'))
-      if (hasStoredJobData) return
-
       // Check if clipboard API is available
       if (navigator.clipboard && navigator.clipboard.readText) {
         const text = await navigator.clipboard.readText()
@@ -90,7 +86,7 @@ const JDAnalyzer: React.FC = () => {
     }
   }
 
-  const checkForJobData = () => {
+  const checkForJobData = (): boolean => {
     try {
       // Check if job data was passed from AI Recommendations (legacy key)
       let jobDataStr = localStorage.getItem('jd-analyzer-job-data')
@@ -122,10 +118,12 @@ const JDAnalyzer: React.FC = () => {
           position: jobData.jobTitle || jobData.title,
           hasDescription: !!(jobData.jobDescription || jobData.description)
         })
+        return true
       }
     } catch (error) {
       console.error('Error loading job data:', error)
     }
+    return false
   }
 
   const checkUser = async () => {
