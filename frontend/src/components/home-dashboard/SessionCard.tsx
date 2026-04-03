@@ -32,7 +32,7 @@ export default function SessionCard({ session, onRegister, onCancel, registering
 
   return (
     <div
-      className="bg-white rounded-2xl border border-slate-100 p-4 flex flex-col gap-3 transition-all hover:shadow-md"
+      className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-4 flex flex-col gap-3 transition-all hover:shadow-md"
       style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
     >
       {/* Header */}
@@ -46,21 +46,21 @@ export default function SessionCard({ session, onRegister, onCancel, registering
               {t(`dashboard.sessions.${session.session_type}` as any, session.session_type)}
             </span>
             {isRegistered && (
-              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-50 text-green-700">
+              <span className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400">
                 <CheckCircle size={11} />
                 {t('dashboard.sessions.registered')}
               </span>
             )}
           </div>
-          <h3 className="text-sm font-semibold text-slate-800 leading-snug">{session.title}</h3>
+          <h3 className="text-sm font-semibold text-slate-800 dark:text-white leading-snug">{session.title}</h3>
           {session.description && (
-            <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{session.description}</p>
+            <p className="text-xs text-slate-400 dark:text-gray-400 mt-0.5 line-clamp-2">{session.description}</p>
           )}
         </div>
       </div>
 
       {/* Meta row */}
-      <div className="flex flex-wrap gap-3 text-xs text-slate-500">
+      <div className="flex flex-wrap gap-3 text-xs text-slate-500 dark:text-gray-400">
         <span className="flex items-center gap-1"><Calendar size={12} />{formattedDate}</span>
         <span className="flex items-center gap-1"><Clock size={12} />{formattedTime}</span>
         <span className="flex items-center gap-1">
@@ -88,7 +88,7 @@ export default function SessionCard({ session, onRegister, onCancel, registering
           <button
             onClick={() => onCancel(session.id)}
             disabled={registering}
-            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-all hover:bg-red-50 text-red-500 border border-red-100 disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-medium transition-all hover:bg-red-50 dark:hover:bg-red-900/20 text-red-500 border border-red-100 dark:border-red-900/30 disabled:opacity-50"
           >
             {registering ? <Loader2 size={14} className="animate-spin" /> : null}
             {t('dashboard.sessions.cancelRegistration')}

@@ -98,20 +98,20 @@ export default function NetworkingSessionsPage() {
 
   return (
     <div
-      className="min-h-screen"
-      style={{ background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
+      className="min-h-screen bg-[#F0F3F8] dark:bg-gray-900"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       {/* Breadcrumb */}
-      <div className="flex items-center gap-3 px-5 py-3 border-b border-slate-100 bg-white">
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-slate-100 dark:border-gray-700 bg-white dark:bg-gray-800">
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors"
         >
           <ArrowLeft size={16} />
           {t('sidebarOverview.dashboard')}
         </button>
-        <span className="text-slate-300">/</span>
-        <h1 className="text-sm font-semibold text-slate-800">
+        <span className="text-slate-300 dark:text-gray-600">/</span>
+        <h1 className="text-sm font-semibold text-slate-800 dark:text-white">
           {t('sidebarCommunity.networkingSessions')}
         </h1>
       </div>
@@ -119,12 +119,12 @@ export default function NetworkingSessionsPage() {
       <div className="max-w-5xl mx-auto px-5 py-6">
         {/* Filters */}
         <div className="flex flex-wrap items-center gap-2 mb-5">
-          <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 uppercase tracking-wide">
+          <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
             <Filter size={13} /> Topic
           </span>
           <button
             onClick={() => handleTopicChange(undefined)}
-            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${!topicFilter ? 'text-white' : 'bg-white text-slate-500 border border-slate-200 hover:border-blue-300'}`}
+            className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${!topicFilter ? 'text-white' : 'bg-white dark:bg-gray-700 text-slate-500 dark:text-gray-300 border border-slate-200 dark:border-gray-600 hover:border-blue-300'}`}
             style={!topicFilter ? { background: '#1976D2' } : {}}
           >
             {t('common.all')}
@@ -133,7 +133,7 @@ export default function NetworkingSessionsPage() {
             <button
               key={topic}
               onClick={() => handleTopicChange(topic)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-all ${topicFilter === topic ? 'text-white' : 'bg-white text-slate-500 border border-slate-200 hover:border-blue-300'}`}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-all ${topicFilter === topic ? 'text-white' : 'bg-white dark:bg-gray-700 text-slate-500 dark:text-gray-300 border border-slate-200 dark:border-gray-600 hover:border-blue-300'}`}
               style={topicFilter === topic ? { background: '#1976D2' } : {}}
             >
               {topic.replace('_', ' ')}

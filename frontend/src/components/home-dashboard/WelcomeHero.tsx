@@ -18,11 +18,11 @@ interface StatCardProps {
 function StatCard({ label, value, sub, subColor = '#16A34A' }: StatCardProps) {
   return (
     <div
-      className="rounded-2xl p-4 flex flex-col gap-1"
-      style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+      className="rounded-2xl p-4 flex flex-col gap-1 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
+      style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
     >
-      <p className="text-xs text-slate-400 font-medium">{label}</p>
-      <p className="text-2xl font-bold text-slate-800 leading-tight">{value}</p>
+      <p className="text-xs text-slate-400 dark:text-gray-400 font-medium">{label}</p>
+      <p className="text-2xl font-bold text-slate-800 dark:text-white leading-tight">{value}</p>
       <p className="text-xs font-semibold" style={{ color: subColor }}>{sub}</p>
     </div>
   )
@@ -41,10 +41,10 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
   return (
     <div className="mb-5">
       {/* Date + Greeting */}
-      <p className="text-xs text-slate-400 mb-0.5">
+      <p className="text-xs text-slate-400 dark:text-gray-400 mb-0.5">
         {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
       </p>
-      <h1 className="text-2xl font-bold text-slate-800 mb-4">
+      <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-4">
         {firstName
           ? t('dashboard.home.greeting', { name: firstName })
           : t('dashboard.home.title')}
@@ -52,8 +52,8 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
 
       {/* Card: Market Pulse (left) + Stats (right) */}
       <div
-        className="rounded-2xl p-6 flex flex-col lg:flex-row gap-6"
-        style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
+        className="rounded-2xl p-6 flex flex-col lg:flex-row gap-6 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
+        style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
       >
         {/* Left: Market Pulse news */}
         <div className="flex-1 min-w-0">
@@ -61,7 +61,7 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
         </div>
 
         {/* Divider */}
-        <div className="hidden lg:block w-px bg-slate-100 flex-shrink-0" />
+        <div className="hidden lg:block w-px bg-slate-100 dark:bg-gray-700 flex-shrink-0" />
 
         {/* Right: 2×2 stats grid */}
         <div className="grid grid-cols-2 gap-3 lg:w-72 flex-shrink-0">
@@ -69,8 +69,8 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
             Array.from({ length: 4 }).map((_, i) => (
               <div
                 key={i}
-                className="rounded-2xl p-4 animate-pulse"
-                style={{ background: '#F8FAFC', border: '1px solid #E2E8F0', height: 88 }}
+                className="rounded-2xl p-4 animate-pulse bg-slate-50 dark:bg-gray-900 border border-slate-200 dark:border-gray-700"
+                style={{ height: 88 }}
               />
             ))
           ) : (

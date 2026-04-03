@@ -309,7 +309,7 @@ export default function ClientCoaching() {
 
     if (loading) {
         return (
-            <div style={{ minHeight: '100vh', background: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex items-center justify-center">
                 <div style={{ width: 40, height: 40, border: '3px solid #e2e8f0', borderTopColor: '#0f172a', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                 <style dangerouslySetInnerHTML={{ __html: `@keyframes spin { 100% { transform: rotate(360deg); } }` }} />
             </div>
@@ -317,21 +317,19 @@ export default function ClientCoaching() {
     }
 
     return (
-        <div style={{ minHeight: '100vh', background: '#f8fafc', fontFamily: 'Inter, system-ui, sans-serif' }}>
+        <div className="min-h-screen bg-slate-50 dark:bg-gray-900" style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
             {/* Minimal Header */}
-            <header style={{ background: '#fff', borderBottom: '1px solid #e2e8f0', position: 'sticky', top: 0, zIndex: 40, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)' }}>
+            <header className="bg-white dark:bg-gray-800 border-b border-slate-200 dark:border-gray-700 sticky top-0 z-40" style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)' }}>
                 <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 72, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
                         <button
                             onClick={() => navigate('/dashboard')}
-                            style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#64748b', fontSize: 13, fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', padding: '8px 12px', borderRadius: 8 }}
-                            onMouseOver={(e) => e.currentTarget.style.background = '#f1f5f9'}
-                            onMouseOut={(e) => e.currentTarget.style.background = 'none'}
+                            className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-sm font-semibold bg-transparent hover:bg-slate-100 dark:hover:bg-gray-700 border-none cursor-pointer px-3 py-2 rounded-lg transition-colors"
                         >
                             <ArrowLeft size={16} /> Dashboard
                         </button>
-                        <div style={{ width: 1, height: 24, background: '#e2e8f0' }} />
-                        <h1 style={{ fontSize: 18, fontWeight: 800, color: '#0f172a', margin: 0 }}>My Coaches</h1>
+                        <div className="w-px h-6 bg-slate-200 dark:bg-gray-600" />
+                        <h1 className="text-lg font-extrabold text-slate-900 dark:text-white m-0">My Coaches</h1>
                     </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 </div>
@@ -344,24 +342,24 @@ export default function ClientCoaching() {
 
                     {/* Section 1: All Coaches */}
                     <div>
-                        <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
                             <Star size={20} color="#0ea5e9" /> Our Coaching Team
                         </h2>
 
                         {assignedCoaches.length === 0 ? (
-                            <div style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: '40px 24px', textAlign: 'center' }}>
+                            <div className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-2xl p-10 text-center">
                                 <div style={{ width: 64, height: 64, background: '#f1f5f9', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', color: '#94a3b8' }}>
                                     <User size={32} />
                                 </div>
-                                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', margin: '0 0 8px 0' }}>No coaches available</h3>
-                                <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 24px 0', maxWidth: 400, marginInline: 'auto' }}>
+                                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">No coaches available</h3>
+                                <p className="text-sm text-slate-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
                                     There are currently no coaches available in the network.
                                 </p>
                             </div>
                         ) : (
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
                                 {assignedCoaches.map(rel => (
-                                    <div key={rel.coach_id} style={{ background: '#fff', border: '1px solid #e2e8f0', borderRadius: 16, padding: 24, boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)', display: 'flex', flexDirection: 'column' }}>
+                                    <div key={rel.coach_id} className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col" style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)' }}>
                                         <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
                                             <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 800, flexShrink: 0, overflow: 'hidden' }}>
                                                 {rel.coach_user?.avatar_url ? (
@@ -371,19 +369,19 @@ export default function ClientCoaching() {
                                                 )}
                                             </div>
                                             <div style={{ alignSelf: 'center' }}>
-                                                <h3 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: '0 0 4px 0' }}>{rel.coach_user?.full_name}</h3>
-                                                <p style={{ fontSize: 13, color: '#64748b', margin: 0 }}>{rel.coach_profile?.title || 'Executive Career Coach'}</p>
+                                                <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-1">{rel.coach_user?.full_name}</h3>
+                                                <p className="text-sm text-slate-500 dark:text-gray-400 m-0">{rel.coach_profile?.title || 'Executive Career Coach'}</p>
                                                 {rel.coach_profile?.company && (
                                                     <p style={{ fontSize: 13, color: '#0ea5e9', fontWeight: 600, margin: '2px 0 0 0' }}>{rel.coach_profile.company}</p>
                                                 )}
                                             </div>
                                         </div>
 
-                                        <p style={{ fontSize: 13, color: '#475569', lineHeight: 1.6, margin: '0 0 24px 0', flex: 1 }}>
+                                        <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed mb-6 flex-1">
                                             {rel.coach_profile?.bio || 'Ready to support your career transition and professional development goals.'}
                                         </p>
 
-                                        <div style={{ borderTop: '1px solid #f1f5f9', paddingTop: 20 }}>
+                                        <div className="border-t border-slate-100 dark:border-gray-700 pt-5">
                                             <button
                                                 onClick={() => handleOpenBooking(rel.coach_id, rel.id)}
                                                 style={{ width: '100%', padding: '10px', borderRadius: 10, fontSize: 14, fontWeight: 700, color: '#fff', background: '#0f172a', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.2s' }}
@@ -399,16 +397,16 @@ export default function ClientCoaching() {
                         )}
                     </div>
 
-                    <div style={{ height: 1, background: '#e2e8f0', margin: '16px 0' }} />
+                    <div className="h-px bg-slate-200 dark:bg-gray-700 my-4" />
 
                     {/* Section 2: Upcoming Sessions */}
                     <div>
-                        <h2 style={{ fontSize: 20, fontWeight: 800, color: '#0f172a', margin: '0 0 20px 0', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
                             <Clock size={20} color="#0ea5e9" /> Upcoming Sessions
                         </h2>
 
                         {upcomingSessions.length === 0 ? (
-                            <p style={{ fontSize: 14, color: '#64748b', background: '#fff', padding: 24, borderRadius: 12, border: '1px dashed #cbd5e1', textAlign: 'center' }}>
+                            <p className="text-sm text-slate-500 dark:text-gray-400 bg-white dark:bg-gray-800 p-6 rounded-xl border border-dashed border-slate-300 dark:border-gray-600 text-center">
                                 You have no upcoming coaching sessions scheduled.
                             </p>
                         ) : (
@@ -422,15 +420,15 @@ export default function ClientCoaching() {
                                     const iconColor = isPending ? '#f59e0b' : isDeclined ? '#ef4444' : '#0ea5e9'
 
                                     return (
-                                        <div key={session.id} style={{ background: '#fff', border: `1.5px solid ${borderColor}`, borderRadius: 12, padding: 20, display: 'flex', gap: 16 }}>
+                                        <div key={session.id} className="bg-white dark:bg-gray-800 rounded-xl p-5 flex gap-4" style={{ border: `1.5px solid ${borderColor}` }}>
                                             <div style={{ width: 44, height: 44, borderRadius: 10, background: bgIcon, display: 'flex', alignItems: 'center', justifyContent: 'center', color: iconColor, flexShrink: 0 }}>
                                                 {isPending ? '⏳' : isDeclined ? '❌' : <Calendar size={20} />}
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                                     <div>
-                                                        <h4 style={{ fontSize: 14, fontWeight: 800, color: '#0f172a', margin: '0 0 2px 0' }}>{session.session_type}</h4>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#64748b', margin: '6px 0 0 0' }}>
+                                                        <h4 className="text-sm font-extrabold text-slate-900 dark:text-white mb-0.5">{session.session_type}</h4>
+                                                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-gray-400 mt-1.5">
                                                             <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 9, fontWeight: 800, overflow: 'hidden' }}>
                                                                 {session.coach_user?.avatar_url ? (
                                                                     <img src={session.coach_user.avatar_url} alt={session.coach_user.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -457,7 +455,7 @@ export default function ClientCoaching() {
                                                     </div>
                                                 </div>
 
-                                                <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid #f0f4f8' }}>
+                                                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-gray-700">
                                                     {isPending ? (
                                                         <p style={{ fontSize: 12, color: '#92400e', background: '#fef9c3', padding: '8px 12px', borderRadius: 8, margin: 0 }}>
                                                             ⏳ Waiting for coach to confirm your request.
@@ -510,13 +508,13 @@ export default function ClientCoaching() {
                     {/* Section 3: Past Sessions (Optional context) */}
                     {pastSessions.length > 0 && (
                         <div>
-                            <h3 style={{ fontSize: 16, fontWeight: 700, color: '#64748b', margin: '20px 0 16px 0' }}>Past Sessions</h3>
+                            <h3 className="text-base font-bold text-slate-500 dark:text-gray-400 mt-5 mb-4">Past Sessions</h3>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                                 {pastSessions.map(session => (
-                                    <div key={session.id} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: 10, padding: '12px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                    <div key={session.id} className="bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-3 flex justify-between items-center">
                                         <div>
-                                            <div style={{ fontSize: 13, fontWeight: 600, color: '#334155' }}>{session.session_type}</div>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: '#94a3b8', margin: '6px 0 4px 0' }}>
+                                            <div className="text-sm font-semibold text-slate-700 dark:text-gray-200">{session.session_type}</div>
+                                            <div className="flex items-center gap-1.5 text-xs text-slate-400 dark:text-gray-500 mt-1.5 mb-1">
                                                 <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'linear-gradient(135deg, #94a3b8 0%, #cbd5e1 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 8, fontWeight: 800, overflow: 'hidden' }}>
                                                     {session.coach_user?.avatar_url ? (
                                                         <img src={session.coach_user.avatar_url} alt={session.coach_user.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -526,7 +524,7 @@ export default function ClientCoaching() {
                                                 </div>
                                                 <span>with {session.coach_user?.full_name}</span>
                                             </div>
-                                            <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 4 }}>{formatDate(session.scheduled_at)}</div>
+                                            <div className="text-xs text-slate-400 dark:text-gray-500 mt-1">{formatDate(session.scheduled_at)}</div>
                                         </div>
                                         <Badge color={session.status === 'completed' ? '#059669' : '#64748b'} bg={session.status === 'completed' ? '#d1fae5' : '#e2e8f0'}>
                                             {session.status}
@@ -543,8 +541,8 @@ export default function ClientCoaching() {
             {isBookingModalOpen && (
                 <div style={{ position: 'fixed', inset: 0, zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <div style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.4)', backdropFilter: 'blur(4px)' }} onClick={() => setIsBookingModalOpen(false)} />
-                    <div style={{ position: 'relative', width: '100%', maxWidth: 440, background: '#fff', borderRadius: 24, padding: 32, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
-                        <button onClick={() => setIsBookingModalOpen(false)} style={{ position: 'absolute', top: 24, right: 24, background: '#f1f5f9', border: 'none', width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#64748b', cursor: 'pointer' }}>
+                    <div className="relative w-full max-w-[440px] bg-white dark:bg-gray-800 rounded-3xl p-8" style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)' }}>
+                        <button onClick={() => setIsBookingModalOpen(false)} className="absolute top-6 right-6 bg-slate-100 dark:bg-gray-700 border-none w-8 h-8 rounded-full flex items-center justify-center text-slate-500 dark:text-gray-400 cursor-pointer hover:bg-slate-200 dark:hover:bg-gray-600 transition-colors">
                             <X size={16} />
                         </button>
 
@@ -552,16 +550,16 @@ export default function ClientCoaching() {
                             <CalendarPlus size={24} />
                         </div>
 
-                        <h2 style={{ fontSize: 24, fontWeight: 800, color: '#0f172a', margin: '0 0 8px 0' }}>Book a Session</h2>
-                        <p style={{ fontSize: 14, color: '#64748b', margin: '0 0 24px 0' }}>Select a date and time to schedule your next coaching call.</p>
+                        <h2 className="text-2xl font-extrabold text-slate-900 dark:text-white mb-2">Book a Session</h2>
+                        <p className="text-sm text-slate-500 dark:text-gray-400 mb-6">Select a date and time to schedule your next coaching call.</p>
 
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                             <div>
-                                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 8 }}>Session Type</label>
+                                <label className="block text-sm font-bold text-slate-700 dark:text-gray-300 mb-2">Session Type</label>
                                 <select
                                     value={bookingType}
                                     onChange={(e) => setBookingType(e.target.value)}
-                                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1.5px solid #e2e8f0', fontSize: 14, color: '#0f172a', outline: 'none', background: '#fff' }}
+                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-gray-600 text-sm text-slate-900 dark:text-white bg-white dark:bg-gray-700 outline-none"
                                 >
                                     <option>Career Vision Review</option>
                                     <option>Resume Strategy & Review</option>
@@ -572,12 +570,12 @@ export default function ClientCoaching() {
                             </div>
 
                             <div>
-                                <label style={{ display: 'block', fontSize: 13, fontWeight: 700, color: '#334155', marginBottom: 8 }}>Date and Time</label>
+                                <label className="block text-sm font-bold text-slate-700 dark:text-gray-300 mb-2">Date and Time</label>
                                 <input
                                     type="datetime-local"
                                     value={bookingDate}
                                     onChange={(e) => setBookingDate(e.target.value)}
-                                    style={{ width: '100%', padding: '12px 16px', borderRadius: 12, border: '1.5px solid #e2e8f0', fontSize: 14, color: '#0f172a', outline: 'none' }}
+                                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-gray-600 text-sm text-slate-900 dark:text-white bg-white dark:bg-gray-700 outline-none"
                                 />
                                 <p style={{ fontSize: 11, color: '#94a3b8', marginTop: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
                                     <AlertCircle size={12} /> Times are in your device's local timezone.

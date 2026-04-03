@@ -38,10 +38,9 @@ const actions = [
 export default function QuickActions({ onNavigate }: QuickActionsProps) {
   return (
     <div
-      className="mx-4 mb-4 rounded-2xl border p-5"
-      style={{ background: '#fff', borderColor: '#E2E8F0', borderWidth: '0.5px' }}
+      className="mx-4 mb-4 rounded-2xl border border-slate-200 dark:border-gray-700 p-5 bg-white dark:bg-gray-800"
     >
-      <p className="text-xs font-semibold mb-3" style={{ color: '#6B7A90', fontFamily: "'DM Sans', sans-serif" }}>
+      <p className="text-xs font-semibold mb-3 text-[#6B7A90] dark:text-gray-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         Quick Actions
       </p>
       <div className="space-y-1.5">
@@ -49,7 +48,7 @@ export default function QuickActions({ onNavigate }: QuickActionsProps) {
           <button
             key={a.route}
             onClick={() => onNavigate(a.route)}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-gray-50 group text-left"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 group text-left"
           >
             <span
               className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -57,7 +56,7 @@ export default function QuickActions({ onNavigate }: QuickActionsProps) {
             >
               {a.icon}
             </span>
-            <span className="flex-1 text-xs font-medium" style={{ color: '#0F2A45', fontFamily: "'DM Sans', sans-serif" }}>
+            <span className="flex-1 text-xs font-medium text-[#0F2A45] dark:text-gray-200" style={{ fontFamily: "'DM Sans', sans-serif" }}>
               {a.label}
             </span>
             <ArrowRight size={13} className="text-gray-300 group-hover:text-gray-500 transition-colors flex-shrink-0" />

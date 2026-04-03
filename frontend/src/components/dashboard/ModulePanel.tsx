@@ -70,10 +70,10 @@ function ProgressRing({ percent, size = 72 }: { percent: number; size?: number }
         />
       </svg>
       <div className="flex flex-col items-center z-10">
-        <span className="text-sm font-bold leading-none" style={{ color: '#0F2A45', fontFamily: "'Outfit', sans-serif" }}>
+        <span className="text-sm font-bold leading-none text-[#0F2A45] dark:text-white" style={{ fontFamily: "'Outfit', sans-serif" }}>
           {percent}%
         </span>
-        <span className="text-[9px] text-center leading-tight mt-0.5" style={{ color: '#8A99B2' }}>
+        <span className="text-[9px] text-center leading-tight mt-0.5 text-[#8A99B2] dark:text-gray-400">
           Your<br />Progress
         </span>
       </div>
@@ -97,39 +97,38 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
     <div className="p-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Welcome row */}
       <div className="mb-5">
-        <p className="text-xs mb-0.5" style={{ color: '#8A99B2' }}>{getTodayLabel()}</p>
-        <h2 className="text-lg font-semibold" style={{ color: '#0F2A45', fontFamily: "'Outfit', sans-serif" }}>
+        <p className="text-xs mb-0.5 text-[#8A99B2] dark:text-gray-400">{getTodayLabel()}</p>
+        <h2 className="text-lg font-semibold text-[#0F2A45] dark:text-white" style={{ fontFamily: "'Outfit', sans-serif" }}>
           {userName ? `Welcome back, ${userName.split(' ')[0]}` : 'Welcome back'}
         </h2>
       </div>
 
       {/* Module header card */}
       <div
-        className="rounded-2xl border p-5 mb-5"
-        style={{ background: '#fff', borderColor: '#E2E8F0', borderWidth: '0.5px' }}
+        className="rounded-2xl border border-slate-200 dark:border-gray-700 p-5 mb-5 bg-white dark:bg-gray-800"
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
             {/* Module · Tier */}
-            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1" style={{ color: '#8A99B2' }}>
+            <p className="text-[10px] font-semibold uppercase tracking-widest mb-1 text-[#8A99B2] dark:text-gray-400">
               Module ·{' '}
               <span style={{ color: tier.text }}>{module.tier}</span>
             </p>
 
             {/* Title + description */}
             <h2
-              className="text-2xl font-bold mb-1 leading-tight"
-              style={{ color: '#0F2A45', fontFamily: "'Outfit', sans-serif" }}
+              className="text-2xl font-bold mb-1 leading-tight text-[#0F2A45] dark:text-white"
+              style={{ fontFamily: "'Outfit', sans-serif" }}
             >
               {module.title}
             </h2>
-            <p className="text-sm mb-4" style={{ color: '#6B7A90' }}>{module.description}</p>
+            <p className="text-sm mb-4 text-[#6B7A90] dark:text-gray-400">{module.description}</p>
 
             {/* Steps completed */}
             {loading ? (
               <div className="h-3 w-32 rounded animate-pulse" style={{ background: '#F0F3F8' }} />
             ) : (
-              <p className="text-xs mb-4" style={{ color: '#8A99B2' }}>
+              <p className="text-xs mb-4 text-[#8A99B2] dark:text-gray-400">
                 {module.completedSteps} of {module.totalSteps} steps completed
               </p>
             )}

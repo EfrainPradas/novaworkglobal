@@ -84,30 +84,30 @@ export default function ClientSharedResources() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
+      <div className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
         <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-8">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 p-6 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
           <div>
             <button 
               onClick={() => navigate('/dashboard')}
-              className="flex items-center text-sm text-gray-500 hover:text-gray-800 transition-colors mb-2"
+              className="flex items-center text-sm text-gray-500 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white transition-colors mb-2"
             >
               <ArrowLeft className="w-4 h-4 mr-1" /> Back to Dashboard
             </button>
-            <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900">
+            <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900 dark:text-white">
               <Library className="w-6 h-6 text-primary-600" />
               Shared Resources
             </h1>
-            <p className="text-gray-500 text-sm mt-1">
+            <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">
               Materials, guides, and templates shared by your coach
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function ClientSharedResources() {
 
         {/* Resources Grid */}
         {activeShares.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-12 text-center">
             <div className="w-16 h-16 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <Library className="w-8 h-8" />
             </div>
@@ -136,7 +136,7 @@ export default function ClientSharedResources() {
             </p>
           </div>
         ) : filteredShares.length === 0 ? (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-12 text-center">
             <h3 className="text-lg font-bold text-gray-900 mb-2">No results found</h3>
             <p className="text-gray-500">Try adjusting your search or category filter.</p>
             <button 

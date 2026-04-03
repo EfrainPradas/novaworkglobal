@@ -54,7 +54,7 @@ export default function ResourcesFeed({ userLevel }: ResourcesFeedProps) {
   return (
     <div className="mb-5">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-slate-700">{t('dashboard.resources.title')}</h2>
+        <h2 className="text-sm font-semibold text-slate-700 dark:text-gray-200">{t('dashboard.resources.title')}</h2>
         <button
           onClick={() => navigate('/shared-resources')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"
@@ -92,7 +92,7 @@ export default function ResourcesFeed({ userLevel }: ResourcesFeedProps) {
                 key={resource.id}
                 onClick={() => handleOpen(resource)}
                 disabled={!resource.url}
-                className="group bg-white rounded-2xl border border-slate-100 p-4 flex items-start gap-3 text-left transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 disabled:cursor-default"
+                className="group bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-4 flex items-start gap-3 text-left transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] disabled:opacity-60 disabled:cursor-default"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
               >
                 <span
@@ -103,13 +103,13 @@ export default function ResourcesFeed({ userLevel }: ResourcesFeedProps) {
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-slate-800 leading-snug flex-1">{resource.title}</p>
+                    <p className="text-sm font-semibold text-slate-800 dark:text-white leading-snug flex-1">{resource.title}</p>
                     {resource.url && (
-                      <ExternalLink size={13} className="flex-shrink-0 text-slate-300 group-hover:text-slate-500 transition-colors" />
+                      <ExternalLink size={13} className="flex-shrink-0 text-slate-300 dark:text-gray-500 group-hover:text-slate-500 dark:group-hover:text-gray-300 transition-colors" />
                     )}
                   </div>
                   {resource.description && (
-                    <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{resource.description}</p>
+                    <p className="text-xs text-slate-400 dark:text-gray-400 mt-0.5 line-clamp-2">{resource.description}</p>
                   )}
                   <span
                     className="inline-block mt-1.5 px-2 py-0.5 rounded-full text-xs font-semibold"

@@ -55,13 +55,13 @@ export default function MarketPulse() {
               </span>
             )}
           </div>
-          <h2 className="text-base font-bold text-slate-800 leading-snug">
+          <h2 className="text-base font-bold text-slate-800 dark:text-white leading-snug">
             {t('dashboard.marketPulse.title')}
           </h2>
         </div>
         <button
           onClick={fetchNews}
-          className="p-1.5 rounded-lg text-slate-300 hover:text-slate-500 hover:bg-slate-50 transition-colors"
+          className="p-1.5 rounded-lg text-slate-300 dark:text-gray-500 hover:text-slate-500 dark:hover:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors"
           title="Refresh"
         >
           <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
@@ -73,11 +73,11 @@ export default function MarketPulse() {
         {loading ? (
           Array.from({ length: 3 }).map((_, i) => (
             <div key={i} className="flex gap-3 animate-pulse">
-              <div className="w-7 h-7 rounded-lg flex-shrink-0 mt-0.5" style={{ background: '#F1F5F9' }} />
+              <div className="w-7 h-7 rounded-lg flex-shrink-0 mt-0.5 bg-slate-100 dark:bg-gray-700" />
               <div className="flex-1 space-y-1.5">
-                <div className="h-2.5 rounded" style={{ background: '#F1F5F9', width: '60%' }} />
-                <div className="h-3 rounded" style={{ background: '#F1F5F9' }} />
-                <div className="h-2.5 rounded" style={{ background: '#F1F5F9', width: '80%' }} />
+                <div className="h-2.5 rounded bg-slate-100 dark:bg-gray-700" style={{ width: '60%' }} />
+                <div className="h-3 rounded bg-slate-100 dark:bg-gray-700" />
+                <div className="h-2.5 rounded bg-slate-100 dark:bg-gray-700" style={{ width: '80%' }} />
               </div>
             </div>
           ))
@@ -93,7 +93,7 @@ export default function MarketPulse() {
               <Wrapper
                 key={i}
                 {...wrapperProps}
-                className="flex gap-3 items-start group cursor-pointer rounded-xl p-2 -mx-2 transition-colors hover:bg-slate-50 no-underline"
+                className="flex gap-3 items-start group cursor-pointer rounded-xl p-2 -mx-2 transition-colors hover:bg-slate-50 dark:hover:bg-gray-700 no-underline"
               >
                 <span
                   className="flex-shrink-0 flex items-center justify-center rounded-lg mt-0.5"
@@ -108,14 +108,14 @@ export default function MarketPulse() {
                   >
                     {label}
                   </span>
-                  <p className="text-sm font-semibold text-slate-700 leading-snug group-hover:text-blue-700 transition-colors">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 leading-snug group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
                     {item.title}
                   </p>
-                  <p className="text-xs text-slate-400 leading-relaxed mt-0.5 line-clamp-2">
+                  <p className="text-xs text-slate-400 dark:text-gray-400 leading-relaxed mt-0.5 line-clamp-2">
                     {item.excerpt}
                   </p>
                   {item.source && (
-                    <p className="text-[10px] text-slate-300 mt-0.5">{item.source}</p>
+                    <p className="text-[10px] text-slate-300 dark:text-gray-500 mt-0.5">{item.source}</p>
                   )}
                 </div>
               </Wrapper>
@@ -125,13 +125,13 @@ export default function MarketPulse() {
       </div>
 
       {/* Footer */}
-      <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between">
+      <div className="mt-3 pt-3 border-t border-slate-100 dark:border-gray-700 flex items-center justify-between">
         <button className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors">
           <ExternalLink size={12} />
           {t('dashboard.marketPulse.viewMore')}
         </button>
         {source === 'fallback' && (
-          <span className="text-[10px] text-slate-300">Add NEWS_API_KEY for live news</span>
+          <span className="text-[10px] text-slate-300 dark:text-gray-500">Add NEWS_API_KEY for live news</span>
         )}
       </div>
     </div>

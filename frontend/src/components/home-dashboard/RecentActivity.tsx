@@ -75,7 +75,7 @@ export default function RecentActivity({ userId }: RecentActivityProps) {
 
   return (
     <div className="mb-5">
-      <h2 className="text-sm font-semibold text-slate-700 mb-3">{t('dashboard.activity.title')}</h2>
+      <h2 className="text-sm font-semibold text-slate-700 dark:text-gray-200 mb-3">{t('dashboard.activity.title')}</h2>
 
       {loading && <LoadingCard lines={5} />}
 
@@ -93,7 +93,7 @@ export default function RecentActivity({ userId }: RecentActivityProps) {
 
       {!loading && !error && entries.length > 0 && (
         <div
-          className="bg-white rounded-2xl border border-slate-100 divide-y divide-slate-50"
+          className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 divide-y divide-slate-50 dark:divide-gray-700"
           style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
         >
           {entries.map(entry => {
@@ -109,11 +109,11 @@ export default function RecentActivity({ userId }: RecentActivityProps) {
                   {activityIcon(entry.action_type)}
                 </span>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-slate-700 font-medium truncate">
+                  <p className="text-sm text-slate-700 dark:text-gray-200 font-medium truncate">
                     {entry.description ?? label}
                   </p>
                 </div>
-                <span className="flex-shrink-0 text-xs text-slate-400">{timeAgo(entry.created_at)}</span>
+                <span className="flex-shrink-0 text-xs text-slate-400 dark:text-gray-500">{timeAgo(entry.created_at)}</span>
               </div>
             )
           })}

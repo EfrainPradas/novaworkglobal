@@ -54,14 +54,14 @@ export default function SidebarCardButton({
       </span>
 
       <div className="flex-1 text-left min-w-0">
-        <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 leading-tight">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 leading-tight">
           {title}
         </p>
-        <p className="text-sm font-semibold text-slate-700 leading-tight truncate group-hover:text-slate-900">
+        <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 leading-tight truncate group-hover:text-slate-900 dark:group-hover:text-white">
           {label}
         </p>
         {subtitle && (
-          <p className="text-[11px] text-slate-400 leading-tight mt-0.5 truncate">
+          <p className="text-[11px] text-slate-400 dark:text-gray-400 leading-tight mt-0.5 truncate">
             {subtitle}
           </p>
         )}

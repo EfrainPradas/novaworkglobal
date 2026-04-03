@@ -183,18 +183,18 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
     const start = new Date(s.scheduled_at)
     return (
       <div
-        className="absolute z-50 bg-white rounded-2xl shadow-2xl border border-slate-100 p-5 w-72"
+        className="absolute z-50 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-slate-100 dark:border-gray-700 p-5 w-72"
         style={{ top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
       >
         <div className="flex items-start justify-between mb-3">
           <div>
-            <p className="font-bold text-slate-800 text-sm">{s.coach_name}</p>
-            <p className="text-xs text-slate-500 mt-0.5">{s.session_type || 'Coaching Session'}</p>
+            <p className="font-bold text-slate-800 dark:text-white text-sm">{s.coach_name}</p>
+            <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">{s.session_type || 'Coaching Session'}</p>
           </div>
-          <button onClick={() => setSelected(null)} className="text-slate-400 hover:text-slate-600 text-lg leading-none">&times;</button>
+          <button onClick={() => setSelected(null)} className="text-slate-400 dark:text-gray-400 hover:text-slate-600 dark:hover:text-gray-200 text-lg leading-none">&times;</button>
         </div>
         <Badge color={badgeColor} bg={badgeBg}>{s.status}</Badge>
-        <div className="mt-3 space-y-1.5 text-xs text-slate-600">
+        <div className="mt-3 space-y-1.5 text-xs text-slate-600 dark:text-gray-300">
           <p>📅 {start.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
           <p>🕐 {start.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })} · {s.duration_minutes || 60} min</p>
         </div>
@@ -216,7 +216,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-20 text-slate-400 text-sm">
+      <div className="flex items-center justify-center py-20 text-slate-400 dark:text-gray-400 text-sm">
         <span className="animate-pulse">Loading your sessions…</span>
       </div>
     )
@@ -242,6 +242,17 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
         .rbc-now { color: #1976D2; font-weight: 900; }
         .rbc-current-time-indicator { background-color: #1976D2; }
         .rbc-button-link { color: inherit; font-weight: bold; }
+        .dark .rbc-calendar { color: #e2e8f0; }
+        .dark .rbc-header { color: #94a3b8; border-bottom-color: #374151; }
+        .dark .rbc-header + .rbc-header { border-left-color: #374151; }
+        .dark .rbc-date-cell { color: #94a3b8; }
+        .dark .rbc-today { background-color: #1e293b !important; }
+        .dark .rbc-off-range-bg { background-color: #111827; }
+        .dark .rbc-month-view, .dark .rbc-time-view { border-color: #374151; background: #1f2937; }
+        .dark .rbc-day-bg { border-left-color: #374151; }
+        .dark .rbc-month-row { border-top-color: #374151; }
+        .dark .rbc-timeslot-group { border-bottom-color: #374151 !important; }
+        .dark .rbc-time-slot { border-top-color: #1f2937; }
       `}</style>
 
       <Calendar
@@ -279,10 +290,10 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
 
       {/* No sessions state */}
       {events.length === 0 && (
-        <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', textAlign: 'center', color: '#94a3b8', background: '#ffffffee', padding: '24px 40px', borderRadius: 16, border: '1px dashed #cbd5e1', zIndex: 10 }}>
+        <div className="absolute z-10 text-center text-slate-400 dark:text-gray-400 bg-white/95 dark:bg-gray-800/95 border border-dashed border-slate-300 dark:border-gray-600 rounded-2xl px-10 py-6" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>📅</div>
-          <div style={{ fontWeight: 700, fontSize: 15, marginBottom: 4 }}>No coaching sessions yet</div>
-          <div style={{ fontSize: 13 }}>Book a session with your coach to see it here.</div>
+          <div className="font-bold text-[15px] mb-1">No coaching sessions yet</div>
+          <div className="text-[13px]">Book a session with your coach to see it here.</div>
         </div>
       )}
 
