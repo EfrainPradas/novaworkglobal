@@ -6,10 +6,14 @@
 - **Backend:** `backend/` (Node.js + Express)
 
 ## Running the App
-- Frontend MUST run on **port 5173**. Before starting, kill any process using that port.
-- Backend runs on its default port (check `backend/server.js`).
-- To start frontend: `cd frontend && npm run dev`
-- To start backend: `cd backend && npm run dev`
+- Frontend MUST run on **port 5173**. Backend runs on **port 5001**.
+- **ALWAYS kill both ports before starting** — ports are often already in use:
+  ```
+  netstat -ano | grep ':5001' | awk '{print $5}' | sort -u | xargs -I{} taskkill //F //PID {} 2>&1
+  netstat -ano | grep ':5173' | awk '{print $5}' | sort -u | xargs -I{} taskkill //F //PID {} 2>&1
+  ```
+- To start frontend: use `preview_start` with name `Frontend (Vite)`
+- To start backend: use `preview_start` with name `Backend (Express + nodemon)`
 - When running in a worktree, always copy `.env` files from the main repo first.
 
 ## Permissions - Allowed Actions
