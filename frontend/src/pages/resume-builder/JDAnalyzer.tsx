@@ -798,7 +798,7 @@ const JDAnalyzer: React.FC = () => {
 
       if (userInfo.phone) contactParts.push(userInfo.phone)
       if (userInfo.email) contactParts.push(userInfo.email)
-      if (userInfo.linkedin_url) contactParts.push(`<a href="${userInfo.linkedin_url}" style="color: #2563eb; text-decoration: none;">LinkedIn</a>`)
+      if (userInfo.linkedin_url) contactParts.push(userInfo.linkedin_url)
       const contactLine = contactParts.join(' • ')
 
       const headerHTML = userInfo.full_name ? `
@@ -1434,7 +1434,7 @@ const JDAnalyzer: React.FC = () => {
                         {viewingResume.tailored_bullets.user_info.linkedin_url && (
                           <span>
                             <a href={viewingResume.tailored_bullets.user_info.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary-600 hover:underline">
-                              LinkedIn
+                              {viewingResume.tailored_bullets.user_info.linkedin_url}
                             </a>
                           </span>
                         )}
@@ -1462,76 +1462,29 @@ const JDAnalyzer: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Key Accomplishments (PAR Stories) */}
-                  {viewingResume.tailored_bullets?.par_stories && viewingResume.tailored_bullets.par_stories.length > 0 && (
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                        Key Accomplishments
-                      </h3>
-                      <div className="space-y-5">
-                        {viewingResume.tailored_bullets.par_stories.map((story: any, idx: number) => {
-                          const actions = Array.isArray(story.actions) ? story.actions : [story.actions]
-                          return (
-                            <div key={idx} className="space-y-2">
-                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                                <span className="font-semibold text-gray-900 dark:text-white">Problem/Challenge: </span>
-                                {story.problem_challenge}
-                              </p>
-                              <div className="pl-4">
-                                <p className="font-semibold text-gray-900 dark:text-white mb-1">Actions:</p>
-                                <ul className="list-none space-y-1">
-                                  {actions.map((action: string, aidx: number) => (
-                                    <li key={aidx} className="text-gray-800 dark:text-gray-200 leading-relaxed flex">
-                                      <span className="mr-2">•</span>
-                                      <span>{action}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <p className="text-gray-800 dark:text-gray-200 leading-relaxed">
-                                <span className="font-semibold text-gray-900 dark:text-white">Results: </span>
-                                {story.result}
-                              </p>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Work Experience */}
+                  {/* Work History (with PAR bullets inside first job) */}
                   {viewingResume.tailored_bullets?.work_experience && viewingResume.tailored_bullets.work_experience.length > 0 && (
                     <div>
                       <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 pb-2 border-b-2 border-primary-600 dark:border-primary-500">
-                        Work Experience
+                        Work History
                       </h3>
                       <div className="space-y-5">
-                        {viewingResume.tailored_bullets.work_experience.map((exp: any, idx: number) => {
+                        {viewingResume.tailored_bullets.work_experience.map((exp: any, expIdx: number) => {
                           const formatDate = (dateStr: string | undefined) => {
                             if (!dateStr) return ''
-
-                            // Handle "YYYY" format (e.g., "2020")
-                            if (/^\d{4}$/.test(dateStr)) {
-                              return dateStr
-                            }
-
-                            // Handle "MM/YYYY" format (e.g., "01/2020")
-                            if (/^\d{2}\/\d{4}$/.test(dateStr)) {
-                              return dateStr.split('/')[1]  // Extract year part
-                            }
-
-                            // Handle other potential formats or return as-is
+                            if (/^\d{4}$/.test(dateStr)) return dateStr
+                            if (/^\d{2}\/\d{4}$/.test(dateStr)) return dateStr.split('/')[1]
                             return dateStr
                           }
 
                           const startYear = formatDate(exp.start_date)
                           const endYear = exp.is_current ? 'Present' : formatDate(exp.end_date)
                           const dateRange = startYear && endYear ? `${startYear} – ${endYear}` : ''
-
                           const isFunctional = viewingResume.tailored_bullets?.format_type === 'functional'
+                          const parStories = viewingResume.tailored_bullets?.par_stories || []
 
                           return (
-                            <div key={idx} className={isFunctional ? "mb-6" : ""}>
+                            <div key={expIdx} className={isFunctional ? "mb-6" : "mb-4"}>
                               <div className="flex items-start justify-between mb-1">
                                 <h4 className="font-bold text-gray-900 dark:text-white text-lg">
                                   {exp.job_title}
@@ -1543,10 +1496,36 @@ const JDAnalyzer: React.FC = () => {
                                 )}
                               </div>
                               <p className="text-gray-700 dark:text-gray-300 font-semibold mb-2">{exp.company_name}</p>
-                              {!isFunctional && (
-                                <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                              {!isFunctional && exp.scope_description && (
+                                <p className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify mb-2">
                                   {exp.scope_description}
                                 </p>
+                              )}
+                              {/* PAR bullets inside first (most recent) job */}
+                              {expIdx === 0 && parStories.length > 0 && (
+                                <ul className="list-disc pl-5 space-y-1 mt-2">
+                                  {parStories.flatMap((story: any, sIdx: number) => {
+                                    const actions = Array.isArray(story.actions) ? story.actions : (story.actions ? [story.actions] : [])
+                                    const bullets: React.ReactNode[] = []
+                                    actions.forEach((action: string, aIdx: number) => {
+                                      if (action) {
+                                        bullets.push(
+                                          <li key={`s${sIdx}-a${aIdx}`} className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                                            {action}
+                                          </li>
+                                        )
+                                      }
+                                    })
+                                    if (story.result) {
+                                      bullets.push(
+                                        <li key={`s${sIdx}-r`} className="text-gray-800 dark:text-gray-200 leading-relaxed text-justify">
+                                          {story.result}
+                                        </li>
+                                      )
+                                    }
+                                    return bullets
+                                  })}
+                                </ul>
                               )}
                             </div>
                           )

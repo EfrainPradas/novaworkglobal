@@ -295,7 +295,7 @@ router.post('/export', async (req, res) => {
                   user_info?.location_city && user_info?.location_country ? `${user_info.location_city}, ${user_info.location_country}` : null,
                   user_info?.phone,
                   user_info?.email,
-                  user_info?.linkedin_url ? 'LinkedIn' : null
+                  user_info?.linkedin_url || null
                 ].filter(Boolean).join('  •  '),
                 size: 20,
                 font: 'Georgia'
