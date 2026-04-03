@@ -57,6 +57,10 @@ const JDAnalyzer: React.FC = () => {
 
   const checkClipboard = async () => {
     try {
+      // Skip clipboard if localStorage already has job data for this page
+      const hasStoredJobData = !!(localStorage.getItem('jd-analyzer-job-data') || localStorage.getItem('jobAnalysisData'))
+      if (hasStoredJobData) return
+
       // Check if clipboard API is available
       if (navigator.clipboard && navigator.clipboard.readText) {
         const text = await navigator.clipboard.readText()
