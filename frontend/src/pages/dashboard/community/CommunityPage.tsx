@@ -46,20 +46,20 @@ export default function CommunityPage() {
 
   return (
     <div
-      className="min-h-screen"
-      style={{ background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
+      className="min-h-screen bg-[#F0F3F8] dark:bg-gray-900"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
     >
       {/* Breadcrumb */}
-      <div className="flex items-center gap-3 px-5 py-3 border-b border-slate-100 bg-white">
+      <div className="flex items-center gap-3 px-5 py-3 border-b border-slate-100 dark:border-gray-700 bg-white dark:bg-gray-800">
         <button
           onClick={() => navigate('/dashboard')}
-          className="flex items-center gap-1.5 text-sm font-medium text-slate-500 hover:text-slate-800 transition-colors"
+          className="flex items-center gap-1.5 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white transition-colors"
         >
           <ArrowLeft size={16} />
           {t('sidebarOverview.dashboard')}
         </button>
-        <span className="text-slate-300">/</span>
-        <h1 className="text-sm font-semibold text-slate-800">
+        <span className="text-slate-300 dark:text-gray-600">/</span>
+        <h1 className="text-sm font-semibold text-slate-800 dark:text-white">
           {t('sidebarCommunity.community')}
         </h1>
       </div>
@@ -67,8 +67,8 @@ export default function CommunityPage() {
       <div className="max-w-4xl mx-auto px-5 py-6">
         {/* Header */}
         <div className="mb-6">
-          <h2 className="text-xl font-bold text-slate-800">{t('dashboard.community.title')}</h2>
-          <p className="text-sm text-slate-400 mt-1">
+          <h2 className="text-xl font-bold text-slate-800 dark:text-white">{t('dashboard.community.title')}</h2>
+          <p className="text-sm text-slate-400 dark:text-gray-400 mt-1">
             Connect with fellow NovaWork members on shared career goals and topics.
           </p>
         </div>
@@ -96,7 +96,7 @@ export default function CommunityPage() {
             {groups.map(group => (
               <div
                 key={group.id}
-                className="bg-white rounded-2xl border border-slate-100 p-5 flex flex-col gap-3 transition-all hover:shadow-md"
+                className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-5 flex flex-col gap-3 transition-all hover:shadow-md"
                 style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
               >
                 <div className="flex items-start gap-3">
@@ -112,15 +112,15 @@ export default function CommunityPage() {
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-semibold text-slate-800">{group.name}</h3>
+                      <h3 className="text-sm font-semibold text-slate-800 dark:text-white">{group.name}</h3>
                       {group.is_featured && (
                         <Star size={13} className="flex-shrink-0 text-amber-400 fill-amber-400" />
                       )}
                     </div>
                     {group.description && (
-                      <p className="text-xs text-slate-400 mt-0.5">{group.description}</p>
+                      <p className="text-xs text-slate-400 dark:text-gray-400 mt-0.5">{group.description}</p>
                     )}
-                    <p className="text-xs text-slate-400 mt-1 flex items-center gap-1">
+                    <p className="text-xs text-slate-400 dark:text-gray-400 mt-1 flex items-center gap-1">
                       <Users size={11} />
                       {t('dashboard.community.members', {
                         count: group.member_count,

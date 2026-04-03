@@ -14,7 +14,7 @@ interface StepCardProps {
 export default function StepCard({ step, loading, onLearnMore, icon, iconBg, iconColor, stepNumber }: StepCardProps) {
   if (loading) {
     return (
-      <div className="rounded-2xl border p-5 animate-pulse" style={{ background: '#fff', borderColor: '#E2E8F0' }}>
+      <div className="rounded-2xl border border-slate-200 dark:border-gray-700 p-5 animate-pulse bg-white dark:bg-gray-800">
         <div className="flex items-start justify-between mb-3">
           <div className="w-9 h-9 rounded-xl" style={{ background: '#F0F3F8' }} />
           <div className="w-5 h-5 rounded-full" style={{ background: '#F0F3F8' }} />
@@ -31,8 +31,7 @@ export default function StepCard({ step, loading, onLearnMore, icon, iconBg, ico
 
   return (
     <div
-      className="rounded-2xl border p-5 relative transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-      style={{ background: '#fff', borderColor: '#E2E8F0', borderWidth: '0.5px' }}
+      className="rounded-2xl border border-slate-200 dark:border-gray-700 p-5 relative transition-all hover:shadow-md hover:-translate-y-0.5 cursor-pointer bg-white dark:bg-gray-800"
       onClick={() => onLearnMore(step.route)}
     >
       {/* Completed checkmark */}
@@ -52,19 +51,19 @@ export default function StepCard({ step, loading, onLearnMore, icon, iconBg, ico
 
       {/* Step number */}
       {stepNumber !== undefined && (
-        <p className="text-[10px] font-semibold uppercase tracking-wide mb-1" style={{ color: '#8A99B2' }}>
+        <p className="text-[10px] font-semibold uppercase tracking-wide mb-1 text-[#8A99B2] dark:text-gray-400">
           Step {stepNumber}
         </p>
       )}
 
       {/* Title + description */}
       <h4
-        className="text-sm font-semibold mb-1 pr-6"
-        style={{ color: '#0F2A45', fontFamily: "'Outfit', sans-serif" }}
+        className="text-sm font-semibold mb-1 pr-6 text-[#0F2A45] dark:text-white"
+        style={{ fontFamily: "'Outfit', sans-serif" }}
       >
         {step.title}
       </h4>
-      <p className="text-xs leading-relaxed mb-3" style={{ color: '#6B7A90', fontFamily: "'DM Sans', sans-serif" }}>
+      <p className="text-xs leading-relaxed mb-3 text-[#6B7A90] dark:text-gray-400" style={{ fontFamily: "'DM Sans', sans-serif" }}>
         {step.description}
       </p>
 

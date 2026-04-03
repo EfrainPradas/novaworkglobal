@@ -85,13 +85,13 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
 
   return (
     <div className="mb-5">
-      <h2 className="text-sm font-semibold text-slate-700 mb-3">{t('dashboard.nextActions.title')}</h2>
+      <h2 className="text-sm font-semibold text-slate-700 dark:text-gray-200 mb-3">{t('dashboard.nextActions.title')}</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {visible.map(action => (
           <button
             key={action.id}
             onClick={() => navigate(action.route)}
-            className="group bg-white rounded-2xl border border-slate-100 p-4 flex items-center gap-4 text-left transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
+            className="group bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-4 flex items-center gap-4 text-left transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98]"
             style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
           >
             <span
@@ -101,11 +101,11 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
               {action.icon}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-slate-800 leading-snug">{action.label}</p>
+              <p className="text-sm font-semibold text-slate-800 dark:text-white leading-snug">{action.label}</p>
             </div>
             <ArrowRight
               size={16}
-              className="flex-shrink-0 text-slate-300 group-hover:text-slate-500 transition-colors"
+              className="flex-shrink-0 text-slate-300 dark:text-gray-500 group-hover:text-slate-500 dark:group-hover:text-gray-300 transition-colors"
             />
           </button>
         ))}

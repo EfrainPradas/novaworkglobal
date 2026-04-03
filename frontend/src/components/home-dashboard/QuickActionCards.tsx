@@ -26,14 +26,14 @@ function MiniCalendar() {
   return (
     <div className="w-full">
       {/* Month header */}
-      <p className="text-xs font-semibold text-slate-600 text-center mb-2 capitalize">
+      <p className="text-xs font-semibold text-slate-600 dark:text-gray-300 text-center mb-2 capitalize">
         {monthName}
       </p>
 
       {/* Day headers */}
       <div className="grid grid-cols-7 mb-1">
         {DAY_HEADERS.map(d => (
-          <div key={d} className="text-center text-[10px] font-bold text-slate-300">
+          <div key={d} className="text-center text-[10px] font-bold text-slate-300 dark:text-gray-500">
             {d}
           </div>
         ))}
@@ -75,8 +75,8 @@ export default function QuickActionCards() {
       {/* Card 1 — Continue Program */}
       <button
         onClick={() => navigate('/dashboard/resume-builder')}
-        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group"
-        style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
       >
         <div className="flex items-start justify-between">
           <span
@@ -85,19 +85,19 @@ export default function QuickActionCards() {
           >
             <Zap size={18} />
           </span>
-          <ChevronRight size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors mt-1" />
+          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors mt-1" />
         </div>
         <div>
-          <p className="text-sm font-bold text-slate-800 mb-0.5">{t('dashboard.cta.continueProgram')}</p>
-          <p className="text-xs text-slate-400 leading-relaxed">{t('dashboard.quickActions.continueDesc')}</p>
+          <p className="text-sm font-bold text-slate-800 dark:text-white mb-0.5">{t('dashboard.cta.continueProgram')}</p>
+          <p className="text-xs text-slate-400 dark:text-gray-400 leading-relaxed">{t('dashboard.quickActions.continueDesc')}</p>
         </div>
       </button>
 
       {/* Card 2 — Explore Networking */}
       <button
         onClick={() => navigate('/dashboard/networking-sessions')}
-        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group"
-        style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
       >
         <div className="flex items-start justify-between">
           <span
@@ -106,23 +106,23 @@ export default function QuickActionCards() {
           >
             <Network size={18} />
           </span>
-          <ChevronRight size={16} className="text-slate-300 group-hover:text-green-500 transition-colors mt-1" />
+          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-green-500 transition-colors mt-1" />
         </div>
         <div>
-          <p className="text-sm font-bold text-slate-800 mb-0.5">{t('dashboard.cta.exploreNetworking')}</p>
-          <p className="text-xs text-slate-400 leading-relaxed">{t('dashboard.quickActions.networkingDesc')}</p>
+          <p className="text-sm font-bold text-slate-800 dark:text-white mb-0.5">{t('dashboard.cta.exploreNetworking')}</p>
+          <p className="text-xs text-slate-400 dark:text-gray-400 leading-relaxed">{t('dashboard.quickActions.networkingDesc')}</p>
         </div>
       </button>
 
       {/* Card 3 — Member Calendar (mini calendar) */}
       <button
         onClick={() => navigate('/dashboard/member-calendar')}
-        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group"
-        style={{ background: '#fff', border: '1px solid #E2E8F0', boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
+        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
+        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
       >
         <div className="flex items-start justify-between mb-1">
-          <p className="text-sm font-bold text-slate-800">{t('dashboard.cta.viewCalendar')}</p>
-          <ChevronRight size={16} className="text-slate-300 group-hover:text-blue-500 transition-colors mt-0.5" />
+          <p className="text-sm font-bold text-slate-800 dark:text-white">{t('dashboard.cta.viewCalendar')}</p>
+          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors mt-0.5" />
         </div>
         <MiniCalendar />
       </button>

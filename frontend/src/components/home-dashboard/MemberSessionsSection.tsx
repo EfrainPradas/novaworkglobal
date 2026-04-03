@@ -79,7 +79,7 @@ export default function MemberSessionsSection({ userId }: MemberSessionsSectionP
   return (
     <div className="mb-5">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-slate-700">{t('dashboard.sessions.title')}</h2>
+        <h2 className="text-sm font-semibold text-slate-700 dark:text-gray-200">{t('dashboard.sessions.title')}</h2>
         <button
           onClick={() => navigate('/dashboard/networking-sessions')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"

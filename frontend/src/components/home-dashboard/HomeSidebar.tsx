@@ -72,8 +72,8 @@ export default function HomeSidebar({
           ${active
             ? 'text-white shadow-sm'
             : locked
-            ? 'text-slate-300 cursor-not-allowed'
-            : 'text-slate-600 hover:bg-slate-50 hover:text-slate-800'}
+            ? 'text-slate-300 dark:text-gray-500 cursor-not-allowed'
+            : 'text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-slate-800 dark:hover:text-white'}
         `}
         style={active ? { background: '#1976D2' } : {}}
       >
@@ -106,7 +106,7 @@ export default function HomeSidebar({
           </span>
         )}
         {!collapsed && locked && (
-          <span className="flex-shrink-0 text-xs text-slate-300">🔒</span>
+          <span className="flex-shrink-0 text-xs text-slate-300 dark:text-gray-500">🔒</span>
         )}
       </button>
     )
@@ -116,19 +116,17 @@ export default function HomeSidebar({
     if (collapsed) return null
     return (
       <div className="px-3 pt-4 pb-1">
-        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400">{label}</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-gray-500">{label}</p>
       </div>
     )
   }
 
   return (
     <aside
-      className="flex-shrink-0 relative flex flex-col overflow-hidden"
+      className="flex-shrink-0 relative flex flex-col overflow-hidden bg-white dark:bg-gray-800 border-r border-slate-200 dark:border-gray-700"
       style={{
         width,
         minWidth: width,
-        background: '#FFFFFF',
-        borderRight: '1px solid #E2E8F0',
         transition: 'width 0.15s ease',
         height: '100dvh',
       }}
@@ -166,11 +164,11 @@ export default function HomeSidebar({
 
       {/* Tier badge */}
       {!collapsed && (
-        <div className="mx-3 mb-1 px-3 py-1.5 rounded-xl" style={{ background: '#EFF6FF' }}>
+        <div className="mx-3 mb-1 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-gray-700">
           <p className="text-sm font-bold leading-tight" style={{ color: '#1976D2' }}>
             NovaNext
           </p>
-          <p className="text-xs text-slate-500 leading-tight">{tierLabel}</p>
+          <p className="text-xs text-slate-500 dark:text-gray-400 leading-tight">{tierLabel}</p>
         </div>
       )}
 
@@ -220,7 +218,7 @@ export default function HomeSidebar({
         {/* NovaNext Academy */}
         {!collapsed && (
           <div className="px-3 pt-4 pb-1">
-            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600">{t('novaNextAcademy.title')}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">{t('novaNextAcademy.title')}</p>
           </div>
         )}
         {!collapsed && (

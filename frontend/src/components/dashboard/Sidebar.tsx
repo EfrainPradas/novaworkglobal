@@ -44,12 +44,10 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
 
   return (
     <aside
-      className="flex flex-col flex-shrink-0 overflow-y-auto relative"
+      className="flex flex-col flex-shrink-0 overflow-y-auto relative bg-white dark:bg-gray-800 border-r border-slate-200 dark:border-gray-700"
       style={{
         width,
         minWidth: width,
-        background: '#FFFFFF',
-        borderRight: '1px solid #E2E8F0',
         fontFamily: "'DM Sans', sans-serif",
       }}
     >
@@ -91,18 +89,16 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
       {/* Overview */}
       <div className={`px-2 mb-1 ${collapsed ? '' : 'px-3'}`}>
         {!collapsed && (
-          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#8A99B2' }}>
+          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#8A99B2] dark:text-gray-500">
             Overview
           </p>
         )}
         <button
           title="Dashboard"
-          className="w-full flex items-center gap-2.5 rounded-lg py-2 transition-colors"
+          className="w-full flex items-center gap-2.5 rounded-lg py-2 transition-colors text-[#0F2A45] dark:text-white bg-[#EEF5FF] dark:bg-blue-900/30"
           style={{
             paddingLeft: collapsed ? 0 : 12,
             justifyContent: collapsed ? 'center' : 'flex-start',
-            color: '#0F2A45',
-            background: '#EEF5FF',
             borderLeft: collapsed ? 'none' : '3px solid #1976D2',
           }}
         >
@@ -116,7 +112,7 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
       {/* Learning Modules */}
       <div className={`mb-1 ${collapsed ? 'px-2' : 'px-3'}`}>
         {!collapsed && (
-          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#8A99B2' }}>
+          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#8A99B2] dark:text-gray-500">
             Learning Modules
           </p>
         )}
@@ -130,13 +126,11 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
                 key={item.id}
                 onClick={() => onSelect(item.id)}
                 title={item.label}
-                className="w-full flex items-center rounded-lg py-2 transition-colors hover:bg-gray-50"
+                className={`w-full flex items-center rounded-lg py-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 ${isActive ? 'bg-[#EEF5FF] dark:bg-blue-900/30 text-[#0F2A45] dark:text-white font-semibold' : 'text-[#6B7A90] dark:text-gray-400'}`}
                 style={{
                   gap: collapsed ? 0 : 10,
                   paddingLeft: collapsed ? 0 : 9,
                   justifyContent: collapsed ? 'center' : 'flex-start',
-                  color: isActive ? '#0F2A45' : '#6B7A90',
-                  background: isActive ? '#EEF5FF' : 'transparent',
                   borderLeft: collapsed ? 'none' : (isActive ? '3px solid #1976D2' : '3px solid transparent'),
                   fontWeight: isActive ? 600 : 400,
                   opacity: locked ? 0.5 : 1,
@@ -168,7 +162,7 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
       {/* Tools */}
       <div className={`mt-2 ${collapsed ? 'px-2' : 'px-3'}`}>
         {!collapsed && (
-          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#8A99B2' }}>
+          <p className="px-2 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#8A99B2] dark:text-gray-500">
             Tools
           </p>
         )}
@@ -178,12 +172,11 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
               key={t.route}
               onClick={() => navigate(t.route)}
               title={t.label}
-              className="w-full flex items-center rounded-lg py-2 transition-colors hover:bg-gray-50"
+              className="w-full flex items-center rounded-lg py-2 transition-colors hover:bg-gray-50 dark:hover:bg-gray-700 text-[#6B7A90] dark:text-gray-400"
               style={{
                 gap: collapsed ? 0 : 10,
                 paddingLeft: collapsed ? 0 : 9,
                 justifyContent: collapsed ? 'center' : 'flex-start',
-                color: '#6B7A90',
                 borderLeft: collapsed ? 'none' : '3px solid transparent',
               }}
             >

@@ -2,8 +2,38 @@
   "permissions": {
     "allow": [
       "mcp__Claude_Preview__preview_start",
-      "Read(//mnt/c/Ubuntu/home/efraiprada/novaworkglobal/active/**)",
-      "Bash(npx tsc:*)"
+      "Read(**)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(rm:*)",
+      "Bash(mkdir:*)",
+      "Bash(sleep:*)",
+      "Bash(cd:*)",
+      "Bash(pwd:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)",
+      "Bash(sort:*)",
+      "Bash(xargs:*)",
+      "Bash(git:*)",
+      "Bash(cmd.exe:*)",
+      "Bash(taskkill:*)",
+      "Bash(tasklist:*)",
+      "Bash(netstat:*)",
+      "Bash(wsl:*)",
+      "Bash(kill:*)",
+      "Bash(lsof:*)",
+      "Bash(start:*)",
+      "Bash(pip:*)",
+      "Bash(python:*)",
+      "Bash(PYTHONIOENCODING=utf-8:*)"
     ]
   }
 }

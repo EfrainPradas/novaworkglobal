@@ -37,7 +37,7 @@ export default function CommunityHighlights({ userLevel }: CommunityHighlightsPr
   return (
     <div className="mb-5">
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-slate-700">{t('dashboard.community.title')}</h2>
+        <h2 className="text-sm font-semibold text-slate-700 dark:text-gray-200">{t('dashboard.community.title')}</h2>
         <button
           onClick={() => navigate('/dashboard/community')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"
@@ -71,7 +71,7 @@ export default function CommunityHighlights({ userLevel }: CommunityHighlightsPr
           {groups.map(group => (
             <div
               key={group.id}
-              className="bg-white rounded-2xl border border-slate-100 p-4 flex items-start gap-3 transition-all hover:shadow-md cursor-pointer"
+              className="bg-white dark:bg-gray-800 rounded-2xl border border-slate-100 dark:border-gray-700 p-4 flex items-start gap-3 transition-all hover:shadow-md cursor-pointer"
               style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.04)' }}
               onClick={() => navigate('/dashboard/community')}
             >
@@ -88,17 +88,17 @@ export default function CommunityHighlights({ userLevel }: CommunityHighlightsPr
               </span>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="text-sm font-semibold text-slate-800 truncate">{group.name}</p>
+                  <p className="text-sm font-semibold text-slate-800 dark:text-white truncate">{group.name}</p>
                   {group.is_featured && (
-                    <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-xs bg-amber-50 text-amber-600 font-semibold" style={{ fontSize: 10 }}>
+                    <span className="flex-shrink-0 px-1.5 py-0.5 rounded-full text-xs bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 font-semibold" style={{ fontSize: 10 }}>
                       ★
                     </span>
                   )}
                 </div>
                 {group.description && (
-                  <p className="text-xs text-slate-400 mt-0.5 line-clamp-2">{group.description}</p>
+                  <p className="text-xs text-slate-400 dark:text-gray-400 mt-0.5 line-clamp-2">{group.description}</p>
                 )}
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-400 dark:text-gray-400 mt-1">
                   {t('dashboard.community.members', {
                     count: group.member_count,
                     defaultValue: `${group.member_count} members`,

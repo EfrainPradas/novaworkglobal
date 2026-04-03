@@ -310,8 +310,8 @@ export default function Dashboard() {
 
   return (
     <div
-      className="flex overflow-hidden"
-      style={{ height: '100dvh', background: '#F0F3F8', fontFamily: "'DM Sans', sans-serif" }}
+      className="flex overflow-hidden bg-[#F0F3F8] dark:bg-gray-900"
+      style={{ height: '100dvh', fontFamily: "'DM Sans', sans-serif" }}
     >
       {/* ── MOBILE LEFT DRAWER BACKDROP ── */}
       {isMobile && mobileLeftOpen && (
@@ -333,17 +333,15 @@ export default function Dashboard() {
       {isMobile ? (
         mobileLeftOpen && (
           <aside
-            className="fixed left-0 top-0 bottom-0 z-50 flex flex-col"
+            className="fixed left-0 top-0 bottom-0 z-50 flex flex-col bg-white dark:bg-gray-800"
             style={{
               width: 300,
-              background: '#FFFFFF',
               boxShadow: '4px 0 20px rgba(0,0,0,0.15)',
             }}
           >
             <button
               onClick={() => setMobileLeftOpen(false)}
-              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
-              style={{ color: '#64748B' }}
+              className="absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors z-10 text-slate-500 dark:text-slate-400"
             >
               <X size={18} />
             </button>
@@ -376,14 +374,12 @@ export default function Dashboard() {
       <main className="flex-1 flex flex-col overflow-hidden min-w-0">
         {/* Top bar with user controls */}
         <div
-          className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2 flex-shrink-0"
-          style={{ background: '#F0F3F8' }}
+          className="flex items-center justify-between gap-2 px-3 sm:px-4 py-2 flex-shrink-0 bg-[#F0F3F8] dark:bg-gray-900"
         >
           {isMobile ? (
             <button
               onClick={() => setMobileLeftOpen(true)}
-              className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/50 transition-colors"
-              style={{ color: '#475569' }}
+              className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/50 dark:hover:bg-gray-700 transition-colors text-slate-600 dark:text-slate-300"
             >
               <Menu size={20} />
             </button>
@@ -410,17 +406,15 @@ export default function Dashboard() {
       {isMobile ? (
         mobileRightOpen && (
           <aside
-            className="fixed right-0 top-0 bottom-0 z-50 overflow-y-auto"
+            className="fixed right-0 top-0 bottom-0 z-50 overflow-y-auto bg-white dark:bg-gray-800"
             style={{
               width: 300,
-              background: '#FFFFFF',
               boxShadow: '-4px 0 20px rgba(0,0,0,0.15)',
             }}
           >
             <button
               onClick={() => setMobileRightOpen(false)}
-              className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 transition-colors z-10"
-              style={{ color: '#64748B' }}
+              className="absolute top-3 left-3 w-8 h-8 rounded-full flex items-center justify-center hover:bg-slate-100 dark:hover:bg-gray-700 transition-colors z-10 text-slate-500 dark:text-slate-400"
             >
               <X size={18} />
             </button>
@@ -432,8 +426,8 @@ export default function Dashboard() {
         )
       ) : rightVisible ? (
         <aside
-          className="flex-shrink-0 overflow-y-auto relative"
-          style={{ width: rightWidth, minWidth: rightWidth, background: '#FFFFFF', borderLeft: '1px solid #E2E8F0' }}
+          className="flex-shrink-0 overflow-y-auto relative bg-white dark:bg-gray-800 border-l border-slate-200 dark:border-gray-700"
+          style={{ width: rightWidth, minWidth: rightWidth }}
         >
           {/* Drag-resize handle (left edge) */}
           <div
@@ -466,8 +460,8 @@ export default function Dashboard() {
       ) : (
         /* Collapsed right sidebar — thin strip with toggle */
         <div
-          className="flex-shrink-0 border-l flex flex-col items-center pt-4 transition-all duration-200"
-          style={{ width: 32, background: '#FFFFFF', borderColor: '#E2E8F0' }}
+          className="flex-shrink-0 border-l border-slate-200 dark:border-gray-700 flex flex-col items-center pt-4 transition-all duration-200 bg-white dark:bg-gray-800"
+          style={{ width: 32 }}
         >
           <button
             onClick={() => setRightVisible(true)}
