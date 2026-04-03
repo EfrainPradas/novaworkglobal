@@ -59,11 +59,17 @@ export default function AIJobSearch() {
     const [editingLocation, setEditingLocation] = useState(false)
     const [roleInput, setRoleInput] = useState('')
     const [locationInput, setLocationInput] = useState('')
+    const [resultsExpanded, setResultsExpanded] = useState(false)
 
     useEffect(() => {
         checkUser()
         checkForSavedRecommendations()
     }, [])
+
+    // Auto-expand results panel when results arrive
+    useEffect(() => {
+        if (recommendations.length > 0) setResultsExpanded(true)
+    }, [recommendations.length])
 
     const checkForSavedRecommendations = () => {
         const savedData = loadRecommendationsFromStorage()
@@ -315,13 +321,6 @@ export default function AIJobSearch() {
             </div>
         )
     }
-
-    const [resultsExpanded, setResultsExpanded] = React.useState(false)
-
-    // Auto-expand when results arrive
-    React.useEffect(() => {
-        if (recommendations.length > 0) setResultsExpanded(true)
-    }, [recommendations.length])
 
     return (
         <div className="space-y-0">
