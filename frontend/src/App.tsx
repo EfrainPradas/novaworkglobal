@@ -184,6 +184,26 @@ function App() {
             <Route path="resume/awards" element={<AwardsBuilder />} />
             <Route path="resume/questionnaire" element={<PositioningQuestionnaire />} />
 
+            {/* Redirects: old resume-builder/* URLs → new resume/* paths */}
+            <Route path="resume-builder/contact-info" element={<Navigate to="/dashboard/resume/contact-info" replace />} />
+            <Route path="resume-builder/work-experience" element={<Navigate to="/dashboard/resume/work-experience" replace />} />
+            <Route path="resume-builder/work-history" element={<Navigate to="/dashboard/resume/work-history" replace />} />
+            <Route path="resume-builder/car-stories" element={<Navigate to="/dashboard/resume/car-stories" replace />} />
+            <Route path="resume-builder/story-cards" element={<Navigate to="/dashboard/resume/story-cards" replace />} />
+            <Route path="resume-builder/accomplishment-library" element={<Navigate to="/dashboard/resume/accomplishment-library" replace />} />
+            <Route path="resume-builder/accomplishments-hub" element={<Navigate to="/dashboard/resume/accomplishments-hub" replace />} />
+            <Route path="resume-builder/accomplishment-bank-learn-more" element={<Navigate to="/dashboard/resume/accomplishment-bank-learn-more" replace />} />
+            <Route path="resume-builder/education" element={<Navigate to="/dashboard/resume/education" replace />} />
+            <Route path="resume-builder/awards" element={<Navigate to="/dashboard/resume/awards" replace />} />
+            <Route path="resume-builder/questionnaire" element={<Navigate to="/dashboard/resume/questionnaire" replace />} />
+            <Route path="resume-builder/type-selection" element={<Navigate to="/dashboard/resume/type-selection" replace />} />
+            <Route path="resume-builder/type-selection/learn-more" element={<Navigate to="/dashboard/resume/type-selection/learn-more" replace />} />
+            <Route path="resume-builder/work-experience/learn-more" element={<Navigate to="/dashboard/resume/work-experience/learn-more" replace />} />
+            <Route path="resume-builder/profile/learn-more" element={<Navigate to="/dashboard/resume/profile/learn-more" replace />} />
+            <Route path="resume-builder/final-preview" element={<Navigate to="/dashboard/resume/final-preview" replace />} />
+            <Route path="resume-builder/cover-letter" element={<Navigate to="/dashboard/resume/cover-letter" replace />} />
+            <Route path="resume-builder/tracking" element={<Navigate to="/dashboard/job-search/online-applications?tab=resumes" replace />} />
+
             {/* Job Search Routes - nested inside /dashboard (momentum tier only) */}
             <Route path="job-search-hub" element={<JobSearchHub />} />
             <Route path="job-search/learn-more" element={<StrategicJobSearchLearnMore />} />
