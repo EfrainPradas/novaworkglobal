@@ -102,7 +102,7 @@ function buildModules(
       description: 'Use these techniques and get called for an interview 75% faster than others.',
       tier: 'Momentum', requiredLevel: 'momentum', iconBg: '#FFF3E0',
       completedSteps: jsCompleted, totalSteps: 5, steps: jsSteps,
-      videoSrc: '/videos/IMR-EN.mp4',
+      videoSrc: undefined,
       learnMoreRoute: '/fast-track/plan-your-search',
       locked: !can('momentum'),
     },

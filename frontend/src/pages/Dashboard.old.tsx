@@ -257,7 +257,7 @@ export default function Dashboard() {
       locked: !canAccess('momentum'),
       started: tailoredResumesCount > 0,
       completed: sentResumesCount > 0,
-      videoSrc: '/videos/IMR-EN.mp4'
+      videoSrc: undefined
     },
     {
       id: 'interview',

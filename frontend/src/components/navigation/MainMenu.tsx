@@ -247,14 +247,7 @@ export default function MainMenu() {
           className="text-sm"
         />
       ),
-      'job-search': (
-        <VideoLink
-          videoSrc={`${import.meta.env.BASE_URL}videos/IMR-EN.mp4`}
-          title="🎥 Watch"
-          description="Identify Market & Research"
-          className="text-sm"
-        />
-      ),
+      'job-search': null,
       'interview': (
         <VideoLink
           videoSrc={`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`}

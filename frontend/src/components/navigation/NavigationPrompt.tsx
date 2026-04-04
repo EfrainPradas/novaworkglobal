@@ -82,7 +82,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-teal-500/30',
       modules: ['Application Tracker', 'JD Analysis', 'Interviews'],
       requiredLevel: 'momentum',
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/IMR-EN.mp4`)
+      videoSrc: undefined
     },
     {
       id: 'interview-mastery',
