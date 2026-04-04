@@ -3,6 +3,7 @@ import {
     Search, Filter, Plus, FileDown, Star, LayoutGrid, List, Sparkles,
     RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy, FolderOpen
 } from 'lucide-react'
+import { getVideoUrl } from '@/config/videoUrls'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core'
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable'
@@ -832,7 +833,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         {/* Video Player */}
                         <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                             <video
-                                src={encodeURI(`${import.meta.env.BASE_URL}videos/NovaWork_Accomplishment_Bank.mp4`)}
+                                src={getVideoUrl('NovaWork_Accomplishment_Bank.mp4')}
                                 className="w-full h-full outline-none"
                                 controls
                                 controlsList="nodownload"

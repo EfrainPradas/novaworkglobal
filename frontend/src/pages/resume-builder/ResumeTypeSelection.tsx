@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FileText, Clock, Layers, ArrowLeft, ArrowRight, CheckCircle2, Play } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
+import { getVideoUrl } from '@/config/videoUrls'
 import { supabase } from '../../lib/supabase'
 import { BackButton } from '../../components/common/BackButton'
 
@@ -56,7 +57,7 @@ export default function ResumeTypeSelection() {
                     </p>
                     <div className="flex items-center justify-center gap-3 mt-6">
                         <button
-                            onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/The_Architecture_of_Access__Decoding_the_Résumé_Reality_Match.mp4`)}
+                            onClick={() => setActiveVideoSrc(getVideoUrl('The_Architecture_of_Access__Decoding_the_Résumé_Reality_Match.mp4'))}
                             className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                         >
                             <Play className="w-4 h-4" /> Watch video

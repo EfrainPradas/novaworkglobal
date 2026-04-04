@@ -3,6 +3,7 @@
  * Presents Career Vision with 2-circle design (Skills + Interests only)
  * Uses NovaWork brand colors
  */
+import { getVideoUrl } from '@/config/videoUrls'
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -173,7 +174,7 @@ export default function CareerVisionWelcome() {
           {/* Watch Video + Learn More Buttons */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <a
-              href={`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`}
+              href={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"

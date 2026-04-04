@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight, Trophy, Star, BookOpen, Play } from 'lucide-reac
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { trackEvent } from '../../lib/analytics'
+import { getVideoUrl } from '@/config/videoUrls'
 
 import AccomplishmentLibrary from './AccomplishmentLibrary'
 import StoryCardsManager from './StoryCardsManager'
@@ -137,7 +138,7 @@ export default function AccomplishmentsHub() {
                         </button>
                         <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                             <video
-                                src={encodeURI(`${import.meta.env.BASE_URL}videos/NovaWork_Accomplishment_Bank.mp4`)}
+                                src={getVideoUrl('NovaWork_Accomplishment_Bank.mp4')}
                                 className="w-full h-full outline-none"
                                 controls
                                 controlsList="nodownload"

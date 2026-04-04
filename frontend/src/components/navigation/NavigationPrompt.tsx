@@ -18,6 +18,7 @@ import {
   BookOpen,
   Smartphone
 } from 'lucide-react'
+import { getVideoUrl } from '@/config/videoUrls'
 
 interface ActionItem {
   id: string
@@ -58,7 +59,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-navy/30',
       modules: ['Career Direction', 'Market Fit'],
       requiredLevel: 'momentum',
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`)
+      videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
     },
     {
       id: 'build-resume',
@@ -70,7 +71,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
       requiredLevel: 'essentials',
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/The_NovaWork_Blueprint__resume_builder.mp4`)
+      videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')
     },
     {
       id: 'job-search-suite',
@@ -82,7 +83,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-teal-500/30',
       modules: ['Application Tracker', 'JD Analysis', 'Interviews'],
       requiredLevel: 'momentum',
-      videoSrc: undefined
+      videoSrc: undefined as any
     },
     {
       id: 'interview-mastery',
@@ -94,7 +95,7 @@ export default function NavigationPrompt() {
       shadow: 'shadow-accent-500/30',
       modules: ['Interview Prep', 'Question Bank'],
       requiredLevel: 'executive',
-      videoSrc: encodeURI(`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`)
+      videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4')
     },
   ]
 
@@ -349,7 +350,7 @@ export default function NavigationPrompt() {
                     {t('dashboard.continue')} <ArrowRight className="w-4 h-4" />
                   </button>
                   <button
-                    onClick={() => setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4?t=${Date.now()}`))}
+                    onClick={() => setActiveVideoSrc(getVideoUrl('Resume General.mp4') + `?t=${Date.now()}`)}
                     className="flex-1 sm:flex-none justify-center flex items-center gap-1.5 px-3 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> {t('dashboard.watchVideo', 'Watch video')}
@@ -481,7 +482,7 @@ export default function NavigationPrompt() {
                       <button
                         onClick={(e) => {
                           e.stopPropagation()
-                          setActiveVideoSrc(encodeURI(`${import.meta.env.BASE_URL}videos/Resume General.mp4?t=${Date.now()}`))
+                          setActiveVideoSrc(getVideoUrl('Resume General.mp4') + `?t=${Date.now()}`)
                         }}
                         className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                       >

@@ -3,6 +3,7 @@
  * Clean 2-circle version with INTERACTIVE hover tooltips
  * Shows skills/interests data when hovering over circles
  */
+import { getVideoUrl } from '@/config/videoUrls'
 
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -265,7 +266,7 @@ export default function SkillsValues() {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href={`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`}
+                href={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"

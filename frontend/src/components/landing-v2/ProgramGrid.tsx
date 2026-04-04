@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowUpRight, Play, X } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { getVideoUrl } from '@/config/videoUrls'
 import heroLoop2 from '../../assets/hero-loop-2.webp'
 
 const programs = [
@@ -141,7 +142,7 @@ export default function ProgramGrid() {
                                 <X className="w-6 h-6" />
                             </button>
                             <video
-                                src="/videos/Landing_Page_novawork.mp4"
+                                src={getVideoUrl('Landing_Page_novawork.mp4')}
                                 autoPlay
                                 controls
                                 poster={heroLoop2}

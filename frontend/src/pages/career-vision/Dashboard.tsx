@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
+import { getVideoUrl } from '@/config/videoUrls'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { PlayCircle, CheckCircle2, ChevronRight, Video } from 'lucide-react'
 
@@ -49,7 +50,7 @@ export default function CareerVisionDashboard() {
       icon: '🎯',
       route: '/dashboard/career-vision/skills-values',
       completed: sectionsStatus.skillsValues,
-      videoSrc: `${import.meta.env.BASE_URL}videos/The_Skills_&_Interests_Assessment.mp4`
+      videoSrc: getVideoUrl('The_Skills_&_Interests_Assessment.mp4')
     },
     {
       id: 'job-history',
@@ -58,7 +59,7 @@ export default function CareerVisionDashboard() {
       icon: '📋',
       route: '/dashboard/career-vision/job-history',
       completed: sectionsStatus.jobHistory,
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
+      videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
     },
     {
       id: 'preferences',
@@ -67,7 +68,7 @@ export default function CareerVisionDashboard() {
       icon: '⚙️',
       route: '/dashboard/career-vision/preferences',
       completed: sectionsStatus.preferences,
-      videoSrc: `${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`
+      videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
     }
   ]
 
@@ -91,7 +92,7 @@ export default function CareerVisionDashboard() {
                   onClick={() => navigate('/dashboard/career-vision/learn-more')} 
                 />
                 <button
-                  onClick={() => setActiveVideoSrc(`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`)}
+                  onClick={() => setActiveVideoSrc(getVideoUrl('AI_and_Your_Career_Path-EN.mp4'))}
                   className="flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 transition-colors"
                 >
                   <Video size={16} />

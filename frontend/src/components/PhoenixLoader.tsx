@@ -1,4 +1,5 @@
 import React from 'react'
+import { getVideoUrl } from '@/config/videoUrls'
 
 interface PhoenixLoaderProps {
     /** Optional message to display below the video */
@@ -24,7 +25,7 @@ export default function PhoenixLoader({ message, size = 'md' }: PhoenixLoaderPro
                     playsInline
                     className="absolute inset-0 w-full h-full object-cover p-2 rounded-full"
                 >
-                    <source src="/videos/novaworkglobal-flying.mp4" type="video/mp4" />
+                    <source src={getVideoUrl('novaworkglobal-flying.mp4')} type="video/mp4" />
                 </video>
             </div>
             {message && (

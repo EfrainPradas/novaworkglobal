@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
+import { getVideoUrl } from '@/config/videoUrls'
 import VisualGuide from '../../components/common/VisualGuide'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe, X, Play } from 'lucide-react'
@@ -246,9 +247,7 @@ export default function JobSearchHub() {
                         {/* Video Player */}
                         <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                             <video
-                                src={`/videos/The_Job_Search_&_Application_Suite.mp4`.startsWith('/') && !`/videos/The_Job_Search_&_Application_Suite.mp4`.startsWith(import.meta.env.BASE_URL)
-                                    ? `${import.meta.env.BASE_URL}${`/videos/The_Job_Search_&_Application_Suite.mp4`.slice(1)}`
-                                    : `/videos/The_Job_Search_&_Application_Suite.mp4`}
+                                src={getVideoUrl('The_Job_Search_&_Application_Suite.mp4')}
                                 className="w-full h-full outline-none"
                                 controls
                                 controlsList="nodownload"

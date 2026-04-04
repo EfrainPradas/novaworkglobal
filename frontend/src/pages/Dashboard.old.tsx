@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
 import NotificationBell from '../components/common/NotificationBell'
 import { FileText, Upload, Search, ArrowRight, Lock, Briefcase, Target, Users, Award, Play, BookOpen } from 'lucide-react'
+import { getVideoUrl } from '@/config/videoUrls'
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -231,7 +232,7 @@ export default function Dashboard() {
       locked: !canAccess('momentum'),
       started: careerVisionStatus.started,
       completed: careerVisionStatus.completed,
-      videoSrc: '/videos/AI_and_Your_Career_Path-EN.mp4'
+      videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
     },
     {
       id: 'resume-builder',
@@ -244,7 +245,7 @@ export default function Dashboard() {
       locked: false,
       started: hasProfile || workExperienceCount > 0,
       completed: hasProfile && workExperienceCount > 0 && parStoriesCount > 0,
-      videoSrc: '/videos/The_NovaWork_Blueprint__resume_builder.mp4'
+      videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')
     },
     {
       id: 'job-search',
@@ -270,7 +271,7 @@ export default function Dashboard() {
       locked: !canAccess('executive'),
       started: false,
       completed: false,
-      videoSrc: '/videos/Your_Interview_Playbook-EN.mp4'
+      videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4')
     }
   ]
 
@@ -335,7 +336,7 @@ export default function Dashboard() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation()
-                    setActiveVideoSrc(`/videos/Resume General.mp4?t=${Date.now()}`)
+                    setActiveVideoSrc(getVideoUrl('Resume General.mp4') + '?t=' + Date.now())
                   }}
                   className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-teal-700 hover:bg-teal-800 text-white font-bold rounded-xl transition-all shadow-md shadow-teal-500/20"
                 >

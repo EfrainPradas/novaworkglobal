@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
+import { getVideoUrl } from '@/config/videoUrls'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import ServiceAddOns from '../../components/services/ServiceAddOns'
@@ -462,7 +463,7 @@ export default function ResumeBuilderMenu() {
               {/* Video Player */}
               <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                 <video
-                  src={encodeURI(`${import.meta.env.BASE_URL}videos/The_NovaWork_Blueprint__resume_builder.mp4`)}
+                  src={getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')}
                   className="w-full h-full outline-none"
                   controls
                   controlsList="nodownload"

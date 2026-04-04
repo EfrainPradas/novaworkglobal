@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { WorkExperience, Accomplishment, CARStory } from '../../types/resume'
 import { WorkExperienceForm } from '../../components/resume-builder/WorkExperienceForm'
 import { AccomplishmentManager } from '../../components/resume-builder/AccomplishmentManager'
+import { getVideoUrl } from '@/config/videoUrls'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
@@ -836,7 +837,7 @@ const WorkExperienceBuilder: React.FC = () => {
                 </div>
                 <div className="flex items-center gap-2 pb-1 shrink-0">
                   <button
-                    onClick={() => setVideoModal({ url: `${import.meta.env.BASE_URL}videos/Engineering_Impact__The_NovaWork_Experience_Framework.mp4`, title: 'Work Experience Framework' })}
+                    onClick={() => setVideoModal({ url: getVideoUrl('Engineering_Impact__The_NovaWork_Experience_Framework.mp4'), title: 'Work Experience Framework' })}
                     className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
                     <Play className="w-3.5 h-3.5" /> Watch video
@@ -864,14 +865,14 @@ const WorkExperienceBuilder: React.FC = () => {
               </p>
               <div data-tour="video-chips" className="flex items-center gap-3 mt-3">
                 <button
-                  onClick={() => setVideoModal({ url: '/videos/Proposito_del_cargo.mp4', title: 'Job Purpose' })}
+                  onClick={() => setVideoModal({ url: getVideoUrl('Proposito_del_cargo.mp4'), title: 'Job Purpose' })}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors border border-teal-200 dark:border-teal-700"
                 >
                   <Play className="w-3 h-3" fill="currentColor" />
                   <span>Job Purpose</span>
                 </button>
                 <button
-                  onClick={() => setVideoModal({ url: '/videos/Work_Experience_Section.mp4', title: 'Work Experience' })}
+                  onClick={() => setVideoModal({ url: getVideoUrl('Work_Experience_Section.mp4'), title: 'Work Experience' })}
                   className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors border border-blue-200 dark:border-blue-700"
                 >
                   <Play className="w-3 h-3" fill="currentColor" />

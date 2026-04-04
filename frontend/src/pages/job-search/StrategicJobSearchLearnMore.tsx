@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Target, Cpu, Search, FileText, Zap, Users, Share2, MousePointer2 } from 'lucide-react'
+import { getVideoUrl } from '@/config/videoUrls'
 
 export default function StrategicJobSearchLearnMore() {
     const navigate = useNavigate()
@@ -164,7 +165,7 @@ export default function StrategicJobSearchLearnMore() {
                                         playsInline
                                         className="absolute inset-0 w-full h-full object-cover p-4 rounded-full"
                                     >
-                                        <source src="/videos/novaworkglobal-flying.mp4" type="video/mp4" />
+                                        <source src={getVideoUrl('novaworkglobal-flying.mp4')} type="video/mp4" />
                                     </video>
                                     <div className="absolute inset-0 bg-indigo-900/20 mix-blend-overlay" />
                                 </div>
@@ -239,7 +240,7 @@ export default function StrategicJobSearchLearnMore() {
                         <div className="rounded-3xl overflow-hidden shadow-2xl bg-slate-900 aspect-video relative">
                             <video
                                 className="w-full h-full object-cover"
-                                src="/videos/The_Job_Search_&_Application_Suite.mp4"
+                                src={getVideoUrl('The_Job_Search_&_Application_Suite.mp4')}
                                 controls
                                 autoPlay
                                 muted
