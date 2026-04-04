@@ -22,6 +22,7 @@ import {
   GraduationCap,
   Smartphone
 } from 'lucide-react'
+import { getVideoUrl } from '@/config/videoUrls'
 
 interface MenuItem {
   id: string
@@ -233,7 +234,7 @@ export default function MainMenu() {
     const videoMap = {
       'career-direction': (
         <VideoLink
-          videoSrc={`${import.meta.env.BASE_URL}videos/AI_and_Your_Career_Path-EN.mp4`}
+          videoSrc={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
           title="🎥 Watch"
           description="Career Vision Guide"
           className="text-sm"
@@ -241,7 +242,7 @@ export default function MainMenu() {
       ),
       'resume': (
         <VideoLink
-          videoSrc={`${import.meta.env.BASE_URL}videos/Master_Your_Resume_in_6_Steps.mp4`}
+          videoSrc={getVideoUrl('Master_Your_Resume_in_6_Steps.mp4')}
           title="🎥 Watch"
           description="Build Resume & Execute"
           className="text-sm"
@@ -250,7 +251,7 @@ export default function MainMenu() {
       'job-search': null,
       'interview': (
         <VideoLink
-          videoSrc={`${import.meta.env.BASE_URL}videos/Your_Interview_Playbook-EN.mp4`}
+          videoSrc={getVideoUrl('Your_Interview_Playbook-EN.mp4')}
           title="🎥 Watch"
           description="Interview Playbook"
           className="text-sm"

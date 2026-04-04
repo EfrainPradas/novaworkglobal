@@ -3,6 +3,7 @@ import { Check, ArrowLeft, Sparkles, Target, Wrench, Rocket, Map, BookOpen, Cloc
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { novaNextPlans } from '../../config/landingContent'
+import { getVideoUrl } from '@/config/videoUrls'
 
 export default function NovaNextPage() {
     const navigate = useNavigate()
@@ -336,7 +337,7 @@ export default function NovaNextPage() {
                         {/* Video Player */}
                         <div className="w-full aspect-video bg-black flex items-center justify-center relative">
                             <video
-                                src={`${import.meta.env.BASE_URL}videos/NovaNext™.mp4`}
+                                src={getVideoUrl('NovaNext™.mp4')}
                                 className="w-full h-full outline-none"
                                 controls
                                 controlsList="nodownload"

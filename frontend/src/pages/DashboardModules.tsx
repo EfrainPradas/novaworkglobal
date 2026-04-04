@@ -9,6 +9,7 @@ import StatsCard from '../components/dashboard/StatsCard'
 import QuickActions from '../components/dashboard/QuickActions'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { ModuleId, TierLevel, DashboardModule, DashboardStats, StepStatus } from '../types/dashboard'
+import { getVideoUrl } from '@/config/videoUrls'
 
 // ─── module definitions (static shape, dynamic status filled at runtime) ───
 function buildModules(
@@ -84,7 +85,7 @@ function buildModules(
       description: 'Build an interview-magnet resume and your personal accomplishment bank.',
       tier: 'Essentials', requiredLevel: 'essentials', iconBg: '#E3F2FD',
       completedSteps: rbCompleted, totalSteps: 4, steps: rbSteps,
-      videoSrc: '/videos/The_NovaWork_Blueprint__resume_builder.mp4',
+      videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4'),
       learnMoreRoute: '/resume-builder',
       locked: false,
     },
@@ -93,7 +94,7 @@ function buildModules(
       description: 'Get a clear understanding of who you are and what is your success formula.',
       tier: 'Momentum', requiredLevel: 'momentum', iconBg: '#E8F5E9',
       completedSteps: cvCompleted, totalSteps: 3, steps: cvSteps,
-      videoSrc: '/videos/AI_and_Your_Career_Path-EN.mp4',
+      videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4'),
       learnMoreRoute: '/career-vision/dashboard',
       locked: !can('momentum'),
     },
@@ -111,7 +112,7 @@ function buildModules(
       description: 'Be the one they choose. Understand and practice the interview to win.',
       tier: 'Executive', requiredLevel: 'executive', iconBg: '#F3E5F5',
       completedSteps: imCompleted, totalSteps: 4, steps: imSteps,
-      videoSrc: '/videos/Your_Interview_Playbook-EN.mp4',
+      videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4'),
       learnMoreRoute: '/interview',
       locked: !can('executive'),
     },
