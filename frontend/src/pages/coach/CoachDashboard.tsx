@@ -1803,57 +1803,54 @@ function PipelineView({ items }: { items: PipelineItem[] }) {
 // ─── ADD CLIENT MODAL ────────────────────────────────────────────────────────
 
 function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClose: () => void; onAdded: () => void }) {
-    const [email, setEmail] = useState('')
+    const [search, setSearch] = useState('')
     const [programType, setProgramType] = useState('custom')
     const [sessionsPlanned, setSessionsPlanned] = useState(12)
-    const [searchResult, setSearchResult] = useState<any>(null)
+    const [selectedUser, setSelectedUser] = useState<any>(null)
+    const [allUsers, setAllUsers] = useState<any[]>([])
+    const [existingClientIds, setExistingClientIds] = useState<Set<string>>(new Set())
+    const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const [saving, setSaving] = useState(false)
 
-    const searchUser = async () => {
-        setError('')
-        setSearchResult(null)
-        if (!email.trim()) return
+    useEffect(() => {
+        loadUsers()
+    }, [])
 
-        const { data, error: err } = await supabase
+    const loadUsers = async () => {
+        setLoading(true)
+        // Load all users except the coach
+        const { data: users } = await supabase
             .from('users')
             .select('id, email, full_name, avatar_url, subscription_tier')
-            .eq('email', email.trim().toLowerCase())
-            .single()
+            .neq('id', coachId)
+            .order('full_name', { ascending: true })
 
-        if (err || !data) {
-            setError('No user found with that email')
-            return
-        }
-
-        if (data.id === coachId) {
-            setError('You cannot add yourself as a client')
-            return
-        }
-
-        // Check if already assigned
+        // Load existing client IDs for this coach
         const { data: existing } = await supabase
             .from('coach_clients')
-            .select('id')
+            .select('client_id')
             .eq('coach_id', coachId)
-            .eq('client_id', data.id)
-            .limit(1)
 
-        if (existing && existing.length > 0) {
-            setError('This user is already assigned to you')
-            return
-        }
-
-        setSearchResult(data)
+        setAllUsers(users || [])
+        setExistingClientIds(new Set((existing || []).map((r: any) => r.client_id)))
+        setLoading(false)
     }
 
+    const filteredUsers = allUsers.filter(u => {
+        const q = search.toLowerCase()
+        if (!q) return true
+        return (u.full_name || '').toLowerCase().includes(q) || (u.email || '').toLowerCase().includes(q)
+    })
+
     const assignClient = async () => {
-        if (!searchResult) return
+        if (!selectedUser) return
         setSaving(true)
+        setError('')
 
         const { error: err } = await supabase.from('coach_clients').insert({
             coach_id: coachId,
-            client_id: searchResult.id,
+            client_id: selectedUser.id,
             status: 'active',
             program_type: programType,
             sessions_planned: sessionsPlanned,
@@ -1869,41 +1866,99 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
         onAdded()
     }
 
+    const tierColors: Record<string, string> = {
+        free: '#94a3b8',
+        pro: '#3b82f6',
+        executive: '#8b5cf6',
+        corporate: '#f59e0b',
+    }
+
     return (
         <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={onClose}>
             <div style={{ position: 'absolute', inset: 0, background: '#00000060', backdropFilter: 'blur(4px)' }} />
-            <div style={{ position: 'relative', background: '#fff', borderRadius: 20, padding: '32px', maxWidth: 480, width: '100%', boxShadow: '0 20px 60px #00000030' }} onClick={e => e.stopPropagation()}>
+            <div style={{ position: 'relative', background: '#fff', borderRadius: 20, padding: '32px', maxWidth: 540, width: '100%', boxShadow: '0 20px 60px #00000030', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
                 <div style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', marginBottom: 4 }}>Add New Client</div>
-                <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 24 }}>Search by email to assign a NovaWork user to your coaching practice</div>
+                <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>Search and select a NovaWork user to assign to your coaching practice</div>
 
-                {/* Email Search */}
+                {/* Search Input */}
                 <div style={{ marginBottom: 16 }}>
-                    <label style={{ fontSize: 12, fontWeight: 700, color: '#374151', display: 'block', marginBottom: 6 }}>Client Email</label>
-                    <div style={{ display: 'flex', gap: 8 }}>
+                    <div style={{ position: 'relative' }}>
+                        <svg style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
                         <input
-                            type="email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            onKeyDown={e => e.key === 'Enter' && searchUser()}
-                            placeholder="client@example.com"
-                            style={{ flex: 1, padding: '10px 14px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, color: '#0f172a', outline: 'none' }}
+                            type="text"
+                            value={search}
+                            onChange={e => { setSearch(e.target.value); setSelectedUser(null) }}
+                            placeholder="Search by name or email..."
+                            autoFocus
+                            style={{ width: '100%', padding: '10px 14px 10px 36px', borderRadius: 10, border: '1.5px solid #e2e8f0', fontSize: 14, color: '#0f172a', outline: 'none', boxSizing: 'border-box' }}
                         />
-                        <button onClick={searchUser} style={{ padding: '10px 18px', borderRadius: 10, border: 'none', background: '#0f172a', color: '#fff', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>Search</button>
                     </div>
                 </div>
 
-                {error && <div style={{ padding: '10px 14px', borderRadius: 8, background: '#fee2e2', color: '#dc2626', fontSize: 12, fontWeight: 600, marginBottom: 16 }}>{error}</div>}
+                {error && <div style={{ padding: '10px 14px', borderRadius: 8, background: '#fee2e2', color: '#dc2626', fontSize: 12, fontWeight: 600, marginBottom: 12 }}>{error}</div>}
 
-                {/* Search Result */}
-                {searchResult && (
-                    <div style={{ background: '#f0fdf4', border: '1.5px solid #bbf7d0', borderRadius: 14, padding: '16px 18px', marginBottom: 20 }}>
+                {/* User List */}
+                {!selectedUser && (
+                    <div style={{ flex: 1, overflowY: 'auto', minHeight: 0, maxHeight: 320, border: '1.5px solid #e2e8f0', borderRadius: 12, marginBottom: 16 }}>
+                        {loading ? (
+                            <div style={{ padding: 32, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>Loading users...</div>
+                        ) : filteredUsers.length === 0 ? (
+                            <div style={{ padding: 32, textAlign: 'center', color: '#94a3b8', fontSize: 13 }}>No users found</div>
+                        ) : (
+                            filteredUsers.map(user => {
+                                const isExisting = existingClientIds.has(user.id)
+                                return (
+                                    <div
+                                        key={user.id}
+                                        onClick={() => !isExisting && setSelectedUser(user)}
+                                        style={{
+                                            display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
+                                            cursor: isExisting ? 'default' : 'pointer',
+                                            opacity: isExisting ? 0.5 : 1,
+                                            borderBottom: '1px solid #f1f5f9',
+                                            background: isExisting ? '#f8fafc' : 'transparent',
+                                            transition: 'background 0.15s',
+                                        }}
+                                        onMouseEnter={e => { if (!isExisting) (e.currentTarget as HTMLDivElement).style.background = '#f0f9ff' }}
+                                        onMouseLeave={e => { if (!isExisting) (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
+                                    >
+                                        <Avatar initials={getInitials(user.full_name, user.email)} size={38} color={isExisting ? '#94a3b8' : '#4f46e5'} />
+                                        <div style={{ flex: 1, minWidth: 0 }}>
+                                            <div style={{ fontSize: 14, fontWeight: 700, color: '#0f172a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {user.full_name || 'No name'}
+                                            </div>
+                                            <div style={{ fontSize: 12, color: '#64748b', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                                {user.email}
+                                            </div>
+                                        </div>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                                            <span style={{ fontSize: 10, fontWeight: 700, color: tierColors[user.subscription_tier] || '#94a3b8', textTransform: 'uppercase', letterSpacing: 0.5 }}>
+                                                {user.subscription_tier || 'free'}
+                                            </span>
+                                            {isExisting && (
+                                                <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e', background: '#f0fdf4', padding: '2px 8px', borderRadius: 6 }}>
+                                                    Already assigned
+                                                </span>
+                                            )}
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        )}
+                    </div>
+                )}
+
+                {/* Selected User - Assignment Form */}
+                {selectedUser && (
+                    <div style={{ background: '#f0fdf4', border: '1.5px solid #bbf7d0', borderRadius: 14, padding: '16px 18px', marginBottom: 16 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                            <Avatar initials={getInitials(searchResult.full_name, searchResult.email)} size={44} color="#22c55e" />
-                            <div>
-                                <div style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>{searchResult.full_name || searchResult.email}</div>
-                                <div style={{ fontSize: 12, color: '#64748b' }}>{searchResult.email}</div>
-                                <div style={{ fontSize: 11, color: '#22c55e', fontWeight: 600, marginTop: 2 }}>✓ User found · {searchResult.subscription_tier} plan</div>
+                            <Avatar initials={getInitials(selectedUser.full_name, selectedUser.email)} size={44} color="#22c55e" />
+                            <div style={{ flex: 1 }}>
+                                <div style={{ fontSize: 15, fontWeight: 800, color: '#0f172a' }}>{selectedUser.full_name || selectedUser.email}</div>
+                                <div style={{ fontSize: 12, color: '#64748b' }}>{selectedUser.email}</div>
+                                <div style={{ fontSize: 11, color: '#22c55e', fontWeight: 600, marginTop: 2 }}>✓ Selected · {selectedUser.subscription_tier} plan</div>
                             </div>
+                            <button onClick={() => setSelectedUser(null)} style={{ padding: '4px 10px', borderRadius: 6, border: '1px solid #e2e8f0', background: '#fff', color: '#64748b', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>Change</button>
                         </div>
 
                         {/* Program Type */}
@@ -1926,7 +1981,7 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
 
                         <button onClick={assignClient} disabled={saving}
                             style={{ width: '100%', padding: '12px', borderRadius: 10, border: 'none', background: '#0f172a', color: '#fff', fontSize: 14, fontWeight: 700, cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.6 : 1 }}>
-                            {saving ? 'Assigning...' : `Assign ${searchResult.full_name?.split(' ')[0] || 'Client'} to Me`}
+                            {saving ? 'Assigning...' : `Assign ${selectedUser.full_name?.split(' ')[0] || 'Client'} to Me`}
                         </button>
                     </div>
                 )}
