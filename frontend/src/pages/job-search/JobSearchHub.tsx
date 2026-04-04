@@ -137,48 +137,47 @@ export default function JobSearchHub() {
                     </div>
                 </div>
 
-                {/* AI Job Search Engine Section */}
+                {/* AI Job Search & Tools Section */}
                 <div id="ai-search-engine" className="scroll-mt-6">
-                    <AIJobSearch />
-                </div>
+                    <AIJobSearch>
+                        {/* Tools Grid - Now injected between search and results */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's the wrapper
+                                const Icon = tool.icon
+                                return (
+                                    <div
+                                        key={tool.id}
+                                        onClick={() => navigate(tool.route)}
+                                        className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
+                                    >
+                                        <div className="flex justify-between items-start mb-3">
+                                            <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
+                                                <Icon className="w-6 h-6" />
+                                            </div>
+                                            {tool.badge && (
+                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white`}>
+                                                    {tool.badge}
+                                                </span>
+                                            )}
+                                        </div>
 
+                                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                            {tool.title}
+                                        </h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
+                                            {tool.description}
+                                        </p>
 
-
-                {/* Tools Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's now embedded above
-                        const Icon = tool.icon
-                        return (
-                            <div
-                                key={tool.id}
-                                onClick={() => navigate(tool.route)}
-                                className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
-                            >
-                                <div className="flex justify-between items-start mb-3">
-                                    <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
-                                        <Icon className="w-6 h-6" />
+                                        <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                                            {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
+                                        </div>
                                     </div>
-                                    {tool.badge && (
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white`}>
-                                            {tool.badge}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                    {tool.title}
-                                </h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
-                                    {tool.description}
-                                </p>
-
-                                <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                                    {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
-                                </div>
-                            </div>
-                        )
-                    })}
+                                )
+                            })}
+                        </div>
+                    </AIJobSearch>
                 </div>
+
             </div>
 
             {/* Visual Guide Overlay */}
