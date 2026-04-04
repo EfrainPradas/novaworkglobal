@@ -32,9 +32,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.aiMatchingDesc', 'Find personalized job matches based on your skills, career vision, and preferences using Google Jobs.'),
             icon: Brain,
             route: '/dashboard/job-search/ai-recommendations',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-purple-600',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-200',
             badge: t('jobSearch.hub.aiPowered', 'AI Powered'),
             className: 'md:col-span-full'
         },
@@ -44,9 +44,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.step1Desc', 'Define your target market (Companies, Industries, Roles) and strategy. Start here for focus.'),
             icon: Compass,
             route: '/dashboard/job-search/plan-your-search',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-blue-600',
+            bgColor: 'bg-blue-50',
+            borderColor: 'border-blue-200',
             badge: t('jobSearch.hub.startHere', 'Start Here'),
             className: ''
         },
@@ -56,9 +56,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.step2Desc', 'Track applications, leverage referrals, and analyze JDs in one place.'),
             icon: LayoutDashboard,
             route: '/dashboard/job-search/online-applications',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-purple-600',
+            bgColor: 'bg-purple-50',
+            borderColor: 'border-purple-200',
             badge: t('jobSearch.hub.dailyTool', 'Daily Tool'),
             className: ''
         },
@@ -68,9 +68,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.step3Desc', 'Target recruiters with smart filters and access top firm rankings.'),
             icon: Users,
             route: '/dashboard/job-search/headhunters',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-orange-600',
+            bgColor: 'bg-orange-50',
+            borderColor: 'border-orange-200',
             badge: null,
             className: ''
         },
@@ -80,9 +80,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.step4Desc', 'Access the hidden job market with the 60-Day Plan and 90-Sec Story.'),
             icon: Network,
             route: '/dashboard/job-search/networking',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-green-600',
+            bgColor: 'bg-green-50',
+            borderColor: 'border-green-200',
             badge: null,
             className: ''
         },
@@ -92,9 +92,9 @@ export default function JobSearchHub() {
             description: t('jobSearch.hub.step5Desc', 'Optimize your LinkedIn profile and personal brand to attract recruiters.'),
             icon: Globe,
             route: '/dashboard/job-search/social-positioning',
-            color: 'text-primary-600',
-            bgColor: 'bg-primary-50',
-            borderColor: 'border-primary-200',
+            color: 'text-cyan-600',
+            bgColor: 'bg-cyan-50',
+            borderColor: 'border-cyan-200',
             badge: null,
             className: ''
         }
@@ -110,7 +110,7 @@ export default function JobSearchHub() {
                     <div>
                         <BackButton to="/dashboard" label="Back to Dashboard" className="mb-2 pl-0" />
                         <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-3">
-                            <span className="p-2 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-lg">
+                            <span className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 rounded-lg">
                                 <Target className="w-8 h-8" />
                             </span>
                             {t('jobSearch.hub.title', 'Job Search & Application Suite')}
@@ -120,7 +120,7 @@ export default function JobSearchHub() {
                         </p>
                         <div
                             onClick={() => navigate('/dashboard/job-search/learn-more')}
-                            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
+                            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors"
                         >
                             <span className="font-bold">{t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}</span>
                             <span>{t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}</span>
@@ -130,55 +130,54 @@ export default function JobSearchHub() {
                     <div className="flex gap-3">
                         <button
                             onClick={() => setShowVideoModal(true)}
-                            className="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors flex items-center gap-2"
+                            className="px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2"
                         >
                             <Play fill="currentColor" className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
                         </button>
                     </div>
                 </div>
 
-                {/* AI Job Search Engine Section */}
+                {/* AI Job Search & Tools Section */}
                 <div id="ai-search-engine" className="scroll-mt-6">
-                    <AIJobSearch />
-                </div>
+                    <AIJobSearch>
+                        {/* Tools Grid - Now injected between search and results */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                            {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's the wrapper
+                                const Icon = tool.icon
+                                return (
+                                    <div
+                                        key={tool.id}
+                                        onClick={() => navigate(tool.route)}
+                                        className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-indigo-100 dark:hover:border-indigo-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
+                                    >
+                                        <div className="flex justify-between items-start mb-3">
+                                            <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
+                                                <Icon className="w-6 h-6" />
+                                            </div>
+                                            {tool.badge && (
+                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white`}>
+                                                    {tool.badge}
+                                                </span>
+                                            )}
+                                        </div>
 
+                                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                                            {tool.title}
+                                        </h3>
+                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
+                                            {tool.description}
+                                        </p>
 
-
-                {/* Tools Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's now embedded above
-                        const Icon = tool.icon
-                        return (
-                            <div
-                                key={tool.id}
-                                onClick={() => navigate(tool.route)}
-                                className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
-                            >
-                                <div className="flex justify-between items-start mb-3">
-                                    <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white group-hover:scale-110 transition-transform duration-300`}>
-                                        <Icon className="w-6 h-6" />
+                                        <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
+                                            {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
+                                        </div>
                                     </div>
-                                    {tool.badge && (
-                                        <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-gray-700 ${tool.color} dark:text-white`}>
-                                            {tool.badge}
-                                        </span>
-                                    )}
-                                </div>
-
-                                <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                                    {tool.title}
-                                </h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
-                                    {tool.description}
-                                </p>
-
-                                <div className="flex items-center text-indigo-600 dark:text-indigo-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                                    {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
-                                </div>
-                            </div>
-                        )
-                    })}
+                                )
+                            })}
+                        </div>
+                    </AIJobSearch>
                 </div>
+
             </div>
 
             {/* Visual Guide Overlay */}

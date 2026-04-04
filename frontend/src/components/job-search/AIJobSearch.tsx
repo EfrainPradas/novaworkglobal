@@ -40,7 +40,7 @@ interface RecommendationsResponse {
     }
 }
 
-export default function AIJobSearch() {
+export default function AIJobSearch({ children }: { children?: React.ReactNode }) {
     const navigate = useNavigate()
     const { t } = useTranslation()
     const [user, setUser] = useState<any>(null)
@@ -59,17 +59,11 @@ export default function AIJobSearch() {
     const [editingLocation, setEditingLocation] = useState(false)
     const [roleInput, setRoleInput] = useState('')
     const [locationInput, setLocationInput] = useState('')
-    const [resultsExpanded, setResultsExpanded] = useState(false)
 
     useEffect(() => {
         checkUser()
         checkForSavedRecommendations()
     }, [])
-
-    // Auto-expand results panel when results arrive
-    useEffect(() => {
-        if (recommendations.length > 0) setResultsExpanded(true)
-    }, [recommendations.length])
 
     const checkForSavedRecommendations = () => {
         const savedData = loadRecommendationsFromStorage()
@@ -316,19 +310,19 @@ export default function AIJobSearch() {
     if (profileLoading) {
         return (
             <div className="py-12 text-center">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4"></div>
                 <p className="text-gray-500">Loading profile data...</p>
             </div>
         )
     }
 
     return (
-        <div className="space-y-0">
-            {/* ── Compact search bar ── always visible */}
+        <div className="space-y-6">
+            {/* Search Bar - Always visible */}
             <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 transition-colors duration-200 flex flex-col md:flex-row items-center justify-between gap-4">
                 <div className="flex items-center gap-4 flex-1">
-                    <div className="flex-shrink-0 bg-primary-100 dark:bg-primary-900/30 w-10 h-10 rounded-full flex items-center justify-center">
-                        <Search className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                    <div className="flex-shrink-0 bg-purple-100 dark:bg-purple-900/30 w-10 h-10 rounded-full flex items-center justify-center">
+                        <Search className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                     </div>
                     <div>
                         <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
@@ -359,7 +353,7 @@ export default function AIJobSearch() {
                                         )}
                                         <button
                                             onClick={() => { setRoleInput(userProfile.career_vision.target_roles[0] || ''); setEditingRole(true) }}
-                                            className="text-gray-400 hover:text-primary-600 transition-colors text-xs"
+                                            className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
                                             title="Edit role"
                                         >✏️</button>
                                     </div>
@@ -389,22 +383,10 @@ export default function AIJobSearch() {
                                         )}
                                         <button
                                             onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
-                                            className="text-gray-400 hover:text-primary-600 transition-colors text-xs"
+                                            className="text-gray-400 hover:text-indigo-600 transition-colors text-xs"
                                             title="Edit location"
                                         >✏️</button>
                                     </div>
-
-                                    {/* Results badge + toggle */}
-                                    {recommendations.length > 0 && (
-                                        <button
-                                            onClick={() => setResultsExpanded(v => !v)}
-                                            className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full border border-primary-200 dark:border-primary-700 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
-                                        >
-                                            <TrendingUp className="w-3 h-3" />
-                                            {metadata?.jobsRecommended ?? recommendations.length} matches
-                                            <span className="ml-0.5">{resultsExpanded ? '▲' : '▼'}</span>
-                                        </button>
-                                    )}
                                 </div>
                             )}
                         </div>
@@ -414,76 +396,73 @@ export default function AIJobSearch() {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2 flex-shrink-0">
-                    {recommendations.length > 0 && (
+                <button
+                    onClick={generateRecommendations}
+                    disabled={loading}
+                    className="flex-shrink-0 px-5 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-all shadow-sm hover:shadow"
+                >
+                    {loading ? (
                         <>
-                            <button
-                                onClick={generateRecommendations}
-                                disabled={loading}
-                                className="px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center gap-1.5"
-                            >
-                                <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
-                                Refresh
-                            </button>
-                            <button
-                                onClick={() => { clearSavedRecommendations(); setResultsExpanded(false) }}
-                                className="px-3 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors"
-                            >
-                                Clear
-                            </button>
+                            <RefreshCw className="w-4 h-4 animate-spin" />
+                            Analyzing...
+                        </>
+                    ) : (
+                        <>
+                            <Target className="w-4 h-4" />
+                            {t('jobSearch.hub.findMyJob', 'Find My Job')}
                         </>
                     )}
-                    <button
-                        onClick={generateRecommendations}
-                        disabled={loading}
-                        className="px-5 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 text-sm transition-all shadow-sm hover:shadow"
-                    >
-                        {loading ? (
-                            <>
-                                <RefreshCw className="w-4 h-4 animate-spin" />
-                                Analyzing...
-                            </>
-                        ) : (
-                            <>
-                                <Target className="w-4 h-4" />
-                                {t('jobSearch.hub.findMyJob', 'Find My Job')}
-                            </>
-                        )}
-                    </button>
-                </div>
+                </button>
             </div>
 
+            {/* Modules Grid Slot */}
+            {children}
+
             {error && (
-                <div className="mt-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                    <div className="flex items-center gap-2 text-red-800 dark:text-red-300">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                    <div className="flex items-center gap-2 text-red-800">
                         <AlertCircle className="w-5 h-5" />
                         <span>{error}</span>
                     </div>
                 </div>
             )}
 
-            {/* ── Collapsible results panel ── */}
-            {recommendations.length > 0 && resultsExpanded && (
-                <div className="mt-3 grid grid-cols-1 gap-4">
-                    {/* Metadata summary */}
-                    {metadata && (
-                        <div className="bg-primary-50 dark:bg-primary-900/20 rounded-xl border border-primary-100 dark:border-primary-800 px-5 py-3 flex items-center justify-between">
-                            <p className="text-sm font-medium text-primary-800 dark:text-primary-200">
-                                Found <span className="font-bold">{metadata.totalJobsFound}</span> jobs · AI selected top <span className="font-bold">{metadata.jobsRecommended}</span> matches (avg score: {metadata.averageScore}%)
-                            </p>
-                            <button onClick={() => setResultsExpanded(false)} className="text-primary-500 hover:text-primary-700 dark:hover:text-primary-300 text-xs font-medium">
-                                Collapse ▲
+            {metadata && (
+                <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-2">
+                        <div>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Found {metadata.totalJobsFound} Jobs</h3>
+                            <p className="text-sm text-gray-500"> AI Curated Top {metadata.jobsRecommended} Matches (Avg Score: {metadata.averageScore}%)</p>
+                        </div>
+                        <div className="flex gap-2">
+                            <button
+                                onClick={generateRecommendations}
+                                disabled={loading}
+                                className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center gap-2"
+                            >
+                                <RefreshCw className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`} />
+                                Refresh
+                            </button>
+                            <button
+                                onClick={clearSavedRecommendations}
+                                className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors"
+                            >
+                                Clear Results
                             </button>
                         </div>
-                    )}
+                    </div>
+                </div>
+            )}
 
+            {recommendations.length > 0 && (
+                <div className="grid grid-cols-1 gap-6">
                     {recommendations.map((job) => (
                         <div key={job.id} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow duration-200">
                             <div className="p-6">
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex-1">
                                         <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                            <h3 className="text-lg font-bold text-gray-900 dark:text-white cursor-pointer hover:text-primary-600 dark:hover:text-primary-400" onClick={() => toggleJobExpansion(job.id)}>
+                                            <h3 className="text-lg font-bold text-gray-900 dark:text-white cursor-pointer hover:text-indigo-600 dark:hover:text-indigo-400" onClick={() => toggleJobExpansion(job.id)}>
                                                 {job.title}
                                             </h3>
                                             <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${getMatchScoreColor(job.matchScore)}`}>
@@ -520,17 +499,17 @@ export default function AIJobSearch() {
                                 </div>
 
                                 {job.aiAnalysis && (
-                                    <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-900/10 rounded-lg p-4 mb-4 border border-primary-100 dark:border-primary-800/50">
+                                    <div className="bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-indigo-900/20 dark:to-purple-900/20 rounded-lg p-4 mb-4 border border-indigo-100 dark:border-indigo-800/50">
                                         <div className="flex items-start gap-3">
                                             <div className="mt-1">
-                                                <Brain className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+                                                <Brain className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
                                             </div>
                                             <div>
-                                                <p className="text-sm font-medium text-primary-900 dark:text-primary-200 mb-2">{job.aiAnalysis.reasoning}</p>
+                                                <p className="text-sm font-medium text-indigo-900 dark:text-indigo-200 mb-2">{job.aiAnalysis.reasoning}</p>
                                                 {job.aiAnalysis.keyMatches.length > 0 && (
                                                     <div className="flex flex-wrap gap-2">
                                                         {job.aiAnalysis.keyMatches.slice(0, 3).map((match, i) => (
-                                                            <span key={i} className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-white/60 dark:bg-black/20 text-primary-700 dark:text-primary-300 rounded-md">
+                                                            <span key={i} className="inline-flex items-center gap-1 text-xs px-2 py-1 bg-white/60 dark:bg-black/20 text-indigo-700 dark:text-indigo-300 rounded-md">
                                                                 <CheckCircle className="w-3 h-3" /> {match}
                                                             </span>
                                                         ))}
@@ -551,7 +530,7 @@ export default function AIJobSearch() {
 
                                     <button
                                         onClick={() => handleJobAnalysis(job)}
-                                        className="px-4 py-2 bg-primary-100 text-primary-700 hover:bg-primary-200 dark:bg-primary-900/40 dark:text-primary-300 dark:hover:bg-primary-900/60 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors"
+                                        className="px-4 py-2 bg-purple-100 text-purple-700 hover:bg-purple-200 dark:bg-purple-900/40 dark:text-purple-300 dark:hover:bg-purple-900/60 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors"
                                     >
                                         <Settings className="w-4 h-4" />
                                         Analyze JD
@@ -562,7 +541,7 @@ export default function AIJobSearch() {
                                             href={job.applyLink}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="px-4 py-2 bg-primary-600 text-white hover:bg-primary-700 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors shadow-sm hover:shadow"
+                                            className="px-4 py-2 bg-indigo-600 text-white hover:bg-indigo-700 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors shadow-sm hover:shadow"
                                         >
                                             Apply Now
                                             <ExternalLink className="w-4 h-4" />
