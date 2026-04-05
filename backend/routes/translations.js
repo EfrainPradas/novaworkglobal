@@ -48,26 +48,36 @@ const supportedLanguages = ['en', 'es', 'fr', 'it', 'pt'];
  * PAGE GROUPING: Maps top-level JSON keys to human-readable page names.
  */
 const PAGE_GROUPS = {
-    // 1. PANEL PRINCIPAL
-    'Panel Principal': ['dashboard', 'home', 'sidebarOverview', 'panel', 'tour'],
+    // Dashboard & Navigation
+    'Dashboard': ['dashboard', 'home', 'sidebarOverview', 'panel'],
+    'Tour': ['tour'],
 
-    // 2. PROGRAMAS NOVANEXT
-    'Programas NovaNext': ['resumeBuilder', 'careerVision', 'jobSearch', 'onlineApplications', 'checklist', 'interview', 'resumeChecklist', 'onlineJobApplications', 'resumeBuilderLearnMore'],
+    // Core Modules
+    'Resume Builder': ['resumeBuilder', 'resumeBuilderLearnMore'],
+    'Resume Checklist': ['resumeChecklist', 'checklist'],
+    'Career Vision': ['careerVision'],
+    'Job Search': ['jobSearch'],
+    'Online Applications': ['onlineApplications', 'onlineJobApplications'],
+    'Interview Mastery': ['interview'],
+    'Accomplishment Bank': ['accomplishmentBankLearnMore'],
+    'Services': ['services'],
 
-    // 3. SERVICIOS
-    'Servicios': ['services', 'accomplishmentBankLearnMore'],
+    // Community & Membership
+    'Community': ['sidebarCommunity', 'membership'],
 
-    // 4. COMUNIDAD
-    'Comunidad': ['sidebarCommunity', 'membership'],
-
-    // 5. NOVANEXT ACADEMY
+    // Academy
     'NovaNext Academy': ['novaNextAcademy', 'academy', 'topics', 'learningModules', 'nodes', 'resources'],
 
-    // 6. HERRAMIENTAS
+    // Tools
     'Herramientas': ['sidebarTools', 'sharedResources'],
 
-    // 7. SISTEMA Y LANDING (Common/Auth/Global)
-    'Sitio Web y Sistema': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta', 'nav', 'footer', 'auth', 'onboarding', 'common'],
+    // Landing Page
+    'Landing Page': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta'],
+
+    // System
+    'Auth': ['auth', 'onboarding'],
+    'Navigation & Footer': ['nav', 'footer'],
+    'Common': ['common'],
 };
 
 // Build reverse lookup: jsonKey -> pageName
