@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { DashboardOverview } from '../../types/home-dashboard'
-import MarketPulse from './MarketPulse'
+import CareerIntelligenceCompact from './CareerIntelligenceCompact'
 
 interface WelcomeHeroProps {
   userName: string | null
@@ -55,9 +55,9 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
         className="rounded-2xl p-6 flex flex-col lg:flex-row gap-6 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
         style={{ boxShadow: '0 1px 4px rgba(0,0,0,0.05)' }}
       >
-        {/* Left: Market Pulse news */}
+        {/* Left: Career Intelligence Feed */}
         <div className="flex-1 min-w-0">
-          <MarketPulse />
+          <CareerIntelligenceCompact />
         </div>
 
         {/* Divider */}

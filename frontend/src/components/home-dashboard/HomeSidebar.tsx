@@ -10,12 +10,15 @@ import {
   Network,
   UserCheck,
   FolderOpen,
+  Newspaper,
   ChevronRight,
   ChevronLeft,
   Sparkles,
 } from 'lucide-react'
+import { useState, useEffect } from 'react'
 import type { TierLevel } from '../../types/home-dashboard'
 import SidebarCardButton from './SidebarCardButton'
+import { checkCuratorAccess } from '../../services/careerFeed.service'
 
 interface HomeSidebarProps {
   userLevel: TierLevel
@@ -37,6 +40,11 @@ export default function HomeSidebar({
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
+  const [isCurator, setIsCurator] = useState(false)
+
+  useEffect(() => {
+    checkCuratorAccess().then(setIsCurator).catch(() => setIsCurator(false))
+  }, [])
 
   const currentPath = location.pathname
   const canAccess = (required: TierLevel) => TIER_ORDER[userLevel] >= TIER_ORDER[required]
@@ -243,6 +251,9 @@ export default function HomeSidebar({
         })}
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {
           iconBg: '#E8F5E9', iconColor: '#2E7D32',
+        })}
+        {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {
+          iconBg: '#E3F2FD', iconColor: '#1565C0',
         })}
       </nav>
     </aside>
