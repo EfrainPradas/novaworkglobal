@@ -3,9 +3,10 @@ import { useOutletContext } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import WelcomeHero from '../components/home-dashboard/WelcomeHero'
 import QuickActionCards from '../components/home-dashboard/QuickActionCards'
-import MemberSessionsSection from '../components/home-dashboard/MemberSessionsSection'
-import CommunityHighlights from '../components/home-dashboard/CommunityHighlights'
-import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
+// TODO: Re-enable when ready
+// import MemberSessionsSection from '../components/home-dashboard/MemberSessionsSection'
+// import CommunityHighlights from '../components/home-dashboard/CommunityHighlights'
+// import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
 import RecentActivity from '../components/home-dashboard/RecentActivity'
 import { SmartGuidedBanner, NextStepCard, SmartGuideWelcome } from '../components/guided-path'
 import { getDashboardOverview, getUserTier } from '../services/home-dashboard/dashboard.service'
@@ -45,14 +46,10 @@ export default function HomeDashboardIndex() {
       {/* Next Best Action (Guided Path) */}
       <NextStepCard />
 
-      {/* Member Sessions */}
-      {user && <MemberSessionsSection userId={user.id} />}
-
-      {/* Community */}
-      <CommunityHighlights userLevel={userLevel} />
-
-      {/* Resources */}
-      <ResourcesFeed userLevel={userLevel} />
+      {/* TODO: Re-enable when ready */}
+      {/* {user && <MemberSessionsSection userId={user.id} />} */}
+      {/* <CommunityHighlights userLevel={userLevel} /> */}
+      {/* <ResourcesFeed userLevel={userLevel} /> */}
 
       {/* Recent Activity */}
       {user && <RecentActivity userId={user.id} />}
