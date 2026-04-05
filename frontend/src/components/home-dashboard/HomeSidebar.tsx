@@ -252,9 +252,10 @@ export default function HomeSidebar({
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {
           iconBg: '#E8F5E9', iconColor: '#2E7D32',
         })}
-        {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {
+        {/* Career feed curation — temporarily hidden */}
+        {/* {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
-        })}
+        })} */}
       </nav>
     </aside>
   )
