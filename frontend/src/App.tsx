@@ -24,6 +24,7 @@ import DashboardModules from './pages/DashboardModules'
 import NetworkingSessionsPage from './pages/dashboard/networking-sessions/NetworkingSessionsPage'
 import MemberCalendarPage from './pages/dashboard/member-calendar/MemberCalendarPage'
 import CommunityPage from './pages/dashboard/community/CommunityPage'
+import CurationPage from './pages/dashboard/career-feed-curation/CurationPage'
 import AcademyPage from './pages/Academy'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
@@ -157,6 +158,7 @@ function App() {
             <Route path="networking-sessions" element={<NetworkingSessionsPage />} />
             <Route path="member-calendar" element={<MemberCalendarPage />} />
             <Route path="community" element={<CommunityPage />} />
+            <Route path="career-feed-curation" element={<CurationPage />} />
 
             {/* Resume Builder Routes - nested inside /dashboard */}
             <Route path="resume-builder" element={<ResumeBuilderMenu />} />
