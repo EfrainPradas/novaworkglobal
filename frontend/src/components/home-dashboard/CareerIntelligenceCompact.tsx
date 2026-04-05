@@ -21,48 +21,48 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   {
-    title: 'Global Hiring & Workforce Moves',
+    title: 'Global Hiring and Workforce Moves',
     links: [
       { label: 'Read Reuters Business News', url: 'https://www.reuters.com/business/' },
-      { label: 'Explore Bloomberg Careers & Economy', url: 'https://www.bloomberg.com/economics' },
-      { label: 'Follow CNBC Work & Careers', url: 'https://www.cnbc.com/work/' },
+      { label: 'Explore Bloomberg Careers and Economy', url: 'https://www.bloomberg.com/economics' },
+      { label: 'Follow CNBC Work and Careers', url: 'https://www.cnbc.com/work/' },
     ],
     whyItMatters: 'Layoffs in one company often signal hiring in another. This is early warning + opportunity detection.',
   },
   {
-    title: 'Economy & Job Market Signals',
+    title: 'Economy and Job Market Signals',
     links: [
       { label: 'Track U.S. Labor Market Data (BLS)', url: 'https://www.bls.gov/' },
       { label: 'Read Federal Reserve Economic Insights', url: 'https://www.federalreserve.gov/data.htm' },
       { label: 'Explore OECD Employment Outlook', url: 'https://www.oecd.org/employment/' },
     ],
-    whyItMatters: 'Hiring is driven by economics\u2014not just resumes.',
+    whyItMatters: 'Hiring is driven by economics, not just resumes.',
   },
   {
-    title: 'AI, Automation & Job Disruption',
+    title: 'AI, Automation and Job Disruption',
     links: [
       { label: 'Read MIT Technology Review (Work & AI)', url: 'https://www.technologyreview.com/topic/artificial-intelligence/' },
-      { label: 'Explore OpenAI News & Updates', url: 'https://openai.com/blog/' },
+      { label: 'Explore OpenAI News and Updates', url: 'https://openai.com/blog/' },
       { label: 'Follow Google AI Developments', url: 'https://ai.google/' },
     ],
     whyItMatters: 'This is the fastest-moving risk and opportunity zone in your career.',
   },
   {
-    title: 'Companies Hiring & Industry Moves',
+    title: 'Companies Hiring and Industry Moves',
     links: [
       { label: 'Read TechCrunch Startup News', url: 'https://techcrunch.com/' },
       { label: 'Explore Crunchbase News', url: 'https://news.crunchbase.com/' },
-      { label: 'Follow VentureBeat AI & Tech Hiring', url: 'https://venturebeat.com/' },
+      { label: 'Follow VentureBeat AI and Tech Hiring', url: 'https://venturebeat.com/' },
     ],
     whyItMatters: 'Funding = hiring (often before jobs are posted).',
   },
   {
-    title: 'Industry-Specific Signals',
+    title: 'Industry Specific Signals',
     links: [
       { label: 'Read The Wall Street Journal Careers', url: 'https://www.wsj.com/news/business' },
-      { label: 'Explore Financial Times Work & Careers', url: 'https://www.ft.com/work-careers' },
+      { label: 'Explore Financial Times Work and Careers', url: 'https://www.ft.com/work-careers' },
     ],
-    whyItMatters: 'Deep dives by sector\u2014tech, healthcare, finance, energy, and more.',
+    whyItMatters: 'Deep dives by sector: tech, healthcare, finance, energy, and more.',
   },
 ]
 
