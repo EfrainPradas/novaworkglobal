@@ -167,7 +167,6 @@ export default function CareerIntelligenceCompact() {
           {/* Why it matters */}
           <div className="rounded-lg px-3 py-2" style={{ background: '#F8FAFC' }}>
             <p className="text-[11px] text-slate-500 leading-relaxed">
-              <span className="font-bold text-slate-600">Why it matters: </span>
               {cat.whyItMatters}
             </p>
           </div>
