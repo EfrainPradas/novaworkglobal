@@ -211,8 +211,8 @@ export default function HomeSidebar({
           iconBg: '#F3E5F5', iconColor: '#6A1B9A',
         })}
 
-        {/* Community */}
-        {sectionLabel(t('sidebarCommunity.title'))}
+        {/* Community — temporarily hidden, not functional yet */}
+        {/* {sectionLabel(t('sidebarCommunity.title'))}
         {navItem('/dashboard/networking-sessions', <Network size={15} />, t('sidebarCommunity.networkingSessions'), {
           iconBg: '#EFF6FF', iconColor: '#1976D2',
         })}
@@ -221,7 +221,7 @@ export default function HomeSidebar({
         })}
         {navItem('/dashboard/community', <Users size={15} />, t('sidebarCommunity.community'), {
           iconBg: '#EFF6FF', iconColor: '#1976D2',
-        })}
+        })} */}
 
         {/* NovaNext Academy */}
         {!collapsed && (
