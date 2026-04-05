@@ -49,21 +49,24 @@ const supportedLanguages = ['en', 'es', 'fr', 'it', 'pt'];
  */
 const PAGE_GROUPS = {
     // 1. PANEL PRINCIPAL
-    'Panel Principal': ['dashboard', 'home', 'sidebarOverview'],
+    'Panel Principal': ['dashboard', 'home', 'sidebarOverview', 'panel', 'tour'],
 
     // 2. PROGRAMAS NOVANEXT
-    'Programas NovaNext': ['resumeBuilder', 'careerVision', 'jobSearch', 'onlineApplications', 'checklist', 'interview'],
+    'Programas NovaNext': ['resumeBuilder', 'careerVision', 'jobSearch', 'onlineApplications', 'checklist', 'interview', 'resumeChecklist', 'onlineJobApplications', 'resumeBuilderLearnMore'],
 
-    // 3. COMUNIDAD
+    // 3. SERVICIOS
+    'Servicios': ['services', 'accomplishmentBankLearnMore'],
+
+    // 4. COMUNIDAD
     'Comunidad': ['sidebarCommunity', 'membership'],
 
-    // 4. NOVANEXT ACADEMY
-    'NovaNext Academy': ['novaNextAcademy', 'topics', 'learningModules'],
+    // 5. NOVANEXT ACADEMY
+    'NovaNext Academy': ['novaNextAcademy', 'academy', 'topics', 'learningModules', 'nodes', 'resources'],
 
-    // 5. HERRAMIENTAS
+    // 6. HERRAMIENTAS
     'Herramientas': ['sidebarTools', 'sharedResources'],
 
-    // 6. SISTEMA Y LANDING (Common/Auth/Global)
+    // 7. SISTEMA Y LANDING (Common/Auth/Global)
     'Sitio Web y Sistema': ['hero', 'trust', 'problem', 'philosophy', 'differentiator', 'programs', 'cta', 'nav', 'footer', 'auth', 'onboarding', 'common'],
 };
 
