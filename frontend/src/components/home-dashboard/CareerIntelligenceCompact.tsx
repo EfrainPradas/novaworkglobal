@@ -14,7 +14,6 @@ interface ResourceLink {
 }
 
 interface Category {
-  emoji: string
   title: string
   links: ResourceLink[]
   whyItMatters: string
@@ -22,7 +21,6 @@ interface Category {
 
 const CATEGORIES: Category[] = [
   {
-    emoji: '\u{1F310}',
     title: 'Global Hiring & Workforce Moves',
     links: [
       { label: 'Read Reuters Business News', url: 'https://www.reuters.com/business/' },
@@ -32,7 +30,6 @@ const CATEGORIES: Category[] = [
     whyItMatters: 'Layoffs in one company often signal hiring in another. This is early warning + opportunity detection.',
   },
   {
-    emoji: '\u{1F4C9}',
     title: 'Economy & Job Market Signals',
     links: [
       { label: 'Track U.S. Labor Market Data (BLS)', url: 'https://www.bls.gov/' },
@@ -42,7 +39,6 @@ const CATEGORIES: Category[] = [
     whyItMatters: 'Hiring is driven by economics\u2014not just resumes.',
   },
   {
-    emoji: '\u{1F916}',
     title: 'AI, Automation & Job Disruption',
     links: [
       { label: 'Read MIT Technology Review (Work & AI)', url: 'https://www.technologyreview.com/topic/artificial-intelligence/' },
@@ -52,7 +48,6 @@ const CATEGORIES: Category[] = [
     whyItMatters: 'This is the fastest-moving risk and opportunity zone in your career.',
   },
   {
-    emoji: '\u{1F680}',
     title: 'Companies Hiring & Industry Moves',
     links: [
       { label: 'Read TechCrunch Startup News', url: 'https://techcrunch.com/' },
@@ -62,7 +57,6 @@ const CATEGORIES: Category[] = [
     whyItMatters: 'Funding = hiring (often before jobs are posted).',
   },
   {
-    emoji: '\u{1F30D}',
     title: 'Industry-Specific Signals',
     links: [
       { label: 'Read The Wall Street Journal Careers', url: 'https://www.wsj.com/news/business' },
@@ -120,7 +114,7 @@ export default function CareerIntelligenceCompact() {
             CAREER INTELLIGENCE
           </p>
           <h2 className="text-base font-bold text-slate-800 leading-snug">
-            Curated market insights for your career
+            Market insights for your career
           </h2>
         </div>
         {/* Nav arrows */}
@@ -150,10 +144,7 @@ export default function CareerIntelligenceCompact() {
           }}
         >
           {/* Category title */}
-          <div className="flex items-center gap-2 mb-2.5">
-            <span className="text-base">{cat.emoji}</span>
-            <h3 className="text-sm font-bold text-slate-700">{cat.title}</h3>
-          </div>
+          <h3 className="text-sm font-bold text-slate-700 mb-2.5">{cat.title}</h3>
 
           {/* Links */}
           <div className="flex flex-col gap-1.5 mb-3">

@@ -139,7 +139,7 @@ export default function CompletionCelebration({ onDismiss }: CompletionCelebrati
 
             <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
               <button
-                onClick={() => { handleDismiss(); navigate('/home/resume-builder/finalize') }}
+                onClick={() => { handleDismiss(); navigate('/dashboard/resume/final-preview') }}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
