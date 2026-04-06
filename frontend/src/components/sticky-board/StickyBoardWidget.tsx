@@ -89,7 +89,6 @@ export default function StickyBoardWidget() {
         <DraggableNote
           key={note.id}
           note={note}
-          onMove={(x, y) => handleUpdate(note.id, { position_x: x, position_y: y })}
           onEdit={() => setEditingId(note.id)}
           onPin={() => handleUpdate(note.id, { pinned: !note.pinned })}
           onArchive={() => handleUpdate(note.id, { archived: true })}
@@ -134,86 +133,81 @@ export default function StickyBoardWidget() {
    ════════════════════════════════════════════════════════════ */
 function DraggableNote({
   note,
-  onMove,
   onEdit,
   onPin,
   onArchive,
   onDelete,
 }: {
   note: StickyNote
-  onMove: (x: number, y: number) => void
   onEdit: () => void
   onPin: () => void
   onArchive: () => void
   onDelete: () => void
 }) {
   const c = COLORS[note.color] || COLORS.yellow
-  const ref = useRef<HTMLDivElement>(null)
+  const elRef = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
-  const offset = useRef({ x: 0, y: 0 })
-  const posRef = useRef({ x: note.position_x, y: note.position_y })
-  const [pos, setPos] = useState({ x: note.position_x, y: note.position_y })
+  const dragOffset = useRef({ x: 0, y: 0 })
 
-  // Sync if note position changes externally
-  useEffect(() => {
-    if (!dragging.current) {
-      posRef.current = { x: note.position_x, y: note.position_y }
-      setPos({ x: note.position_x, y: note.position_y })
+  // Compute initial position: use saved, or random default
+  const [pos, setPos] = useState(() => {
+    if (note.position_x !== 0 || note.position_y !== 0) {
+      return { x: note.position_x, y: note.position_y }
     }
-  }, [note.position_x, note.position_y])
+    return {
+      x: Math.round(window.innerWidth / 2 - 110 + (Math.random() - 0.5) * 200),
+      y: Math.round(window.innerHeight / 3 + (Math.random() - 0.5) * 100),
+    }
+  })
 
-  const onPointerDown = useCallback((e: React.PointerEvent) => {
+  // Save position directly to Supabase (fire-and-forget, no parent re-render needed)
+  const savePosition = useCallback((x: number, y: number) => {
+    svc.updateNote(note.id, { position_x: x, position_y: y }).catch(() => {})
+  }, [note.id])
+
+  // If note had (0,0), persist the random default on mount
+  useEffect(() => {
+    if (note.position_x === 0 && note.position_y === 0) {
+      savePosition(pos.x, pos.y)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  const onPointerDown = (e: React.PointerEvent) => {
     if (!(e.target as HTMLElement).closest('[data-grip]')) return
     e.preventDefault()
     dragging.current = true
-    const rect = ref.current!.getBoundingClientRect()
-    offset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
+    const rect = elRef.current!.getBoundingClientRect()
+    dragOffset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
     ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
-  }, [])
+  }
 
-  const onPointerMove = useCallback((e: React.PointerEvent) => {
+  const onPointerMove = (e: React.PointerEvent) => {
     if (!dragging.current) return
-    const newX = Math.max(0, Math.min(window.innerWidth - 220, e.clientX - offset.current.x))
-    const newY = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - offset.current.y))
-    posRef.current = { x: newX, y: newY }
-    setPos({ x: newX, y: newY })
-  }, [])
+    const x = Math.max(0, Math.min(window.innerWidth - 220, e.clientX - dragOffset.current.x))
+    const y = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - dragOffset.current.y))
+    setPos({ x, y })
+  }
 
-  const onPointerUp = useCallback(() => {
+  const onPointerUp = () => {
     if (!dragging.current) return
     dragging.current = false
-    // Save final position from ref (avoids stale closure)
-    const { x, y } = posRef.current
-    onMove(x, y)
-  }, [onMove])
-
-  // On first mount, if position is (0,0), assign a default and persist it
-  const initialized = useRef(false)
-  useEffect(() => {
-    if (initialized.current) return
-    initialized.current = true
-    if (note.position_x === 0 && note.position_y === 0) {
-      const defX = Math.round(window.innerWidth / 2 - 110 + (Math.random() - 0.5) * 200)
-      const defY = Math.round(window.innerHeight / 3 + (Math.random() - 0.5) * 100)
-      posRef.current = { x: defX, y: defY }
-      setPos({ x: defX, y: defY })
-      onMove(defX, defY)
-    }
-  }, [])
-
-  const displayX = pos.x
-  const displayY = pos.y
+    // Read position directly from state updater to guarantee fresh value
+    setPos(current => {
+      savePosition(current.x, current.y)
+      return current
+    })
+  }
 
   return (
     <div
-      ref={ref}
+      ref={elRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
       className="fixed z-30 group select-none"
       style={{
-        left: displayX,
-        top: displayY,
+        left: pos.x,
+        top: pos.y,
         width: 220,
         touchAction: 'none',
       }}
