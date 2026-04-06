@@ -180,44 +180,49 @@ function DraggableNote({
     }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const onPointerDown = (e: React.PointerEvent) => {
+  // Use document-level mousemove/mouseup to avoid pointer capture issues
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!dragging.current) return
+      const x = Math.max(0, Math.min(window.innerWidth - 220, e.clientX - dragOffset.current.x))
+      const y = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - dragOffset.current.y))
+      setPos({ x, y })
+    }
+
+    const handleMouseUp = () => {
+      if (!dragging.current) return
+      dragging.current = false
+      setPos(current => {
+        savePosition(current.x, current.y)
+        return current
+      })
+    }
+
+    document.addEventListener('mousemove', handleMouseMove)
+    document.addEventListener('mouseup', handleMouseUp)
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+  }, [savePosition])
+
+  const onMouseDown = (e: React.MouseEvent) => {
     if (!(e.target as HTMLElement).closest('[data-grip]')) return
     e.preventDefault()
     dragging.current = true
     const rect = elRef.current!.getBoundingClientRect()
     dragOffset.current = { x: e.clientX - rect.left, y: e.clientY - rect.top }
-    ;(e.target as HTMLElement).setPointerCapture(e.pointerId)
-  }
-
-  const onPointerMove = (e: React.PointerEvent) => {
-    if (!dragging.current) return
-    const x = Math.max(0, Math.min(window.innerWidth - 220, e.clientX - dragOffset.current.x))
-    const y = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - dragOffset.current.y))
-    setPos({ x, y })
-  }
-
-  const onPointerUp = () => {
-    if (!dragging.current) return
-    dragging.current = false
-    // Read position directly from state updater to guarantee fresh value
-    setPos(current => {
-      savePosition(current.x, current.y)
-      return current
-    })
   }
 
   return (
     <div
       ref={elRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
+      onMouseDown={onMouseDown}
       className="fixed z-30 group select-none"
       style={{
         left: pos.x,
         top: pos.y,
         width: 220,
-        touchAction: 'none',
       }}
     >
       <div
