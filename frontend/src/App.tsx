@@ -28,6 +28,7 @@ import CurationPage from './pages/dashboard/career-feed-curation/CurationPage'
 import AcademyPage from './pages/Academy'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
+import StickyBoard from './pages/dashboard/StickyBoard'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
 
 // Career Vision Routes
@@ -245,6 +246,7 @@ function App() {
             <Route path="weekly-reinvention/progress" element={<ProgressDashboard />} />
             <Route path="settings/data" element={<DataManagement />} />
             <Route path="coaching" element={<ClientCoaching />} />
+            <Route path="sticky-board" element={<StickyBoard />} />
           </Route>
           
           {/* Academy - Standalone page with its own sidebar */}
