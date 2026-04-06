@@ -151,16 +151,18 @@ function DraggableNote({
   const ref = useRef<HTMLDivElement>(null)
   const dragging = useRef(false)
   const offset = useRef({ x: 0, y: 0 })
+  const posRef = useRef({ x: note.position_x, y: note.position_y })
   const [pos, setPos] = useState({ x: note.position_x, y: note.position_y })
-  const saveTimeout = useRef<ReturnType<typeof setTimeout>>()
 
   // Sync if note position changes externally
   useEffect(() => {
-    if (!dragging.current) setPos({ x: note.position_x, y: note.position_y })
+    if (!dragging.current) {
+      posRef.current = { x: note.position_x, y: note.position_y }
+      setPos({ x: note.position_x, y: note.position_y })
+    }
   }, [note.position_x, note.position_y])
 
   const onPointerDown = useCallback((e: React.PointerEvent) => {
-    // Only drag from the grip handle
     if (!(e.target as HTMLElement).closest('[data-grip]')) return
     e.preventDefault()
     dragging.current = true
@@ -173,16 +175,17 @@ function DraggableNote({
     if (!dragging.current) return
     const newX = Math.max(0, Math.min(window.innerWidth - 220, e.clientX - offset.current.x))
     const newY = Math.max(0, Math.min(window.innerHeight - 60, e.clientY - offset.current.y))
+    posRef.current = { x: newX, y: newY }
     setPos({ x: newX, y: newY })
   }, [])
 
   const onPointerUp = useCallback(() => {
     if (!dragging.current) return
     dragging.current = false
-    // Debounce save to DB
-    clearTimeout(saveTimeout.current)
-    saveTimeout.current = setTimeout(() => onMove(pos.x, pos.y), 300)
-  }, [pos, onMove])
+    // Save final position from ref (avoids stale closure)
+    const { x, y } = posRef.current
+    onMove(x, y)
+  }, [onMove])
 
   // Ensure position is valid (default to center if 0,0)
   const displayX = pos.x || Math.round(window.innerWidth / 2 - 110)
