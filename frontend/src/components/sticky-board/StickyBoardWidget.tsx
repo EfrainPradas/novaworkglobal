@@ -47,11 +47,17 @@ export default function StickyBoardWidget() {
 
   const visible = notes.filter(n => !n.archived && (n.module === currentModule || n.module === 'global'))
 
+  // Counter to stagger new notes so they don't overlap
+  const noteCounter = useRef(0)
+
   const handleCreate = async (title: string, content: string, color: NoteColor) => {
     if (!userId) return
-    // Place new note near center with slight random offset
-    const x = Math.round(window.innerWidth / 2 - 110 + (Math.random() - 0.5) * 100)
-    const y = Math.round(window.innerHeight / 2 - 80 + (Math.random() - 0.5) * 100)
+    // Stagger each new note by 240px horizontally, wrap after 3
+    const col = noteCounter.current % 3
+    const row = Math.floor(noteCounter.current / 3)
+    noteCounter.current++
+    const x = 200 + col * 250
+    const y = 150 + row * 180
     try {
       const note = await svc.createNote({
         user_id: userId, title, content, color, module: currentModule,
@@ -85,10 +91,11 @@ export default function StickyBoardWidget() {
   return (
     <>
       {/* ── Free-floating notes on workspace ───────────── */}
-      {visible.map(note => (
+      {visible.map((note, idx) => (
         <DraggableNote
           key={note.id}
           note={note}
+          index={idx}
           onEdit={() => setEditingId(note.id)}
           onPin={() => handleUpdate(note.id, { pinned: !note.pinned })}
           onArchive={() => handleUpdate(note.id, { archived: true })}
@@ -133,12 +140,14 @@ export default function StickyBoardWidget() {
    ════════════════════════════════════════════════════════════ */
 function DraggableNote({
   note,
+  index,
   onEdit,
   onPin,
   onArchive,
   onDelete,
 }: {
   note: StickyNote
+  index: number
   onEdit: () => void
   onPin: () => void
   onArchive: () => void
@@ -149,15 +158,14 @@ function DraggableNote({
   const dragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
 
-  // Compute initial position: use saved, or random default
+  // Compute initial position: use saved, or stagger by index
   const [pos, setPos] = useState(() => {
     if (note.position_x !== 0 || note.position_y !== 0) {
       return { x: note.position_x, y: note.position_y }
     }
-    return {
-      x: Math.round(window.innerWidth / 2 - 110 + (Math.random() - 0.5) * 200),
-      y: Math.round(window.innerHeight / 3 + (Math.random() - 0.5) * 100),
-    }
+    const col = index % 3
+    const row = Math.floor(index / 3)
+    return { x: 200 + col * 250, y: 150 + row * 180 }
   })
 
   // Save position directly to Supabase (fire-and-forget, no parent re-render needed)
