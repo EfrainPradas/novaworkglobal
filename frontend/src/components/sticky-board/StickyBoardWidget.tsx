@@ -5,16 +5,22 @@ import { supabase } from '../../lib/supabase'
 import type { StickyNote, NoteColor, NoteModule } from '../../types/sticky-board'
 import * as svc from '../../services/sticky-board.service'
 
-/* ── Colors ────────────────────────────────────────────────── */
-const COLORS: Record<NoteColor, { bg: string; border: string; text: string; shadow: string }> = {
-  yellow: { bg: '#FFF9C4', border: '#F9A825', text: '#F57F17', shadow: 'rgba(249,168,37,0.25)' },
-  blue:   { bg: '#E3F2FD', border: '#42A5F5', text: '#1565C0', shadow: 'rgba(66,165,245,0.25)' },
-  green:  { bg: '#E8F5E9', border: '#66BB6A', text: '#2E7D32', shadow: 'rgba(102,187,106,0.25)' },
-  pink:   { bg: '#FCE4EC', border: '#EC407A', text: '#AD1457', shadow: 'rgba(236,64,122,0.25)' },
-  purple: { bg: '#F3E5F5', border: '#AB47BC', text: '#6A1B9A', shadow: 'rgba(171,71,188,0.25)' },
-  orange: { bg: '#FFF3E0', border: '#FFA726', text: '#E65100', shadow: 'rgba(255,167,38,0.25)' },
+/* ── Colors (realistic paper palette) ─────────────────────── */
+const COLORS: Record<NoteColor, {
+  bg: string; header: string; border: string; text: string
+  stack1: string; stack2: string; stack3: string; shadow: string
+}> = {
+  yellow: { bg: '#FFF9C4', header: '#FFF176', border: '#F9A825', text: '#F57F17', stack1: '#FFEE58', stack2: '#FFD54F', stack3: '#F9A825', shadow: 'rgba(180,130,20,0.35)' },
+  blue:   { bg: '#E3F2FD', header: '#BBDEFB', border: '#42A5F5', text: '#1565C0', stack1: '#90CAF9', stack2: '#64B5F6', stack3: '#42A5F5', shadow: 'rgba(30,100,180,0.30)' },
+  green:  { bg: '#E8F5E9', header: '#C8E6C9', border: '#66BB6A', text: '#2E7D32', stack1: '#A5D6A7', stack2: '#81C784', stack3: '#66BB6A', shadow: 'rgba(40,120,50,0.30)' },
+  pink:   { bg: '#FCE4EC', header: '#F8BBD0', border: '#EC407A', text: '#AD1457', stack1: '#F48FB1', stack2: '#F06292', stack3: '#EC407A', shadow: 'rgba(180,30,80,0.30)' },
+  purple: { bg: '#F3E5F5', header: '#E1BEE7', border: '#AB47BC', text: '#6A1B9A', stack1: '#CE93D8', stack2: '#BA68C8', stack3: '#AB47BC', shadow: 'rgba(100,30,150,0.30)' },
+  orange: { bg: '#FFF3E0', header: '#FFE0B2', border: '#FFA726', text: '#E65100', stack1: '#FFCC80', stack2: '#FFB74D', stack3: '#FFA726', shadow: 'rgba(200,100,0,0.30)' },
 }
 const COLOR_KEYS = Object.keys(COLORS) as NoteColor[]
+
+/* Paper texture as inline SVG data URI (subtle noise) */
+const PAPER_TEXTURE = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E")`
 
 /* ── Module detection ──────────────────────────────────────── */
 function useCurrentModule(): NoteModule {
@@ -107,8 +113,11 @@ export default function StickyBoardWidget() {
       {/* ── Floating "+" button ────────────────────────── */}
       <button
         onClick={() => setShowNew(true)}
-        className="fixed bottom-6 right-24 z-40 w-14 h-14 rounded-full shadow-2xl hover:scale-110 transition-all duration-200 flex items-center justify-center group"
-        style={{ background: 'linear-gradient(135deg, #FFF9C4, #FFD54F)', border: '2px solid #F9A825' }}
+        className="fixed bottom-6 right-24 z-40 w-14 h-14 rounded-2xl shadow-2xl hover:scale-110 transition-all duration-200 flex items-center justify-center group"
+        style={{
+          background: 'linear-gradient(135deg, #FFF9C4, #FFD54F)',
+          boxShadow: '0 6px 24px rgba(180,130,20,0.35), 0 2px 8px rgba(0,0,0,0.08)',
+        }}
         title="New Sticky Note"
       >
         <StickyNoteIcon className="w-6 h-6 group-hover:hidden" style={{ color: '#F57F17' }} />
@@ -163,8 +172,10 @@ function DraggableNote({
 
   // Compute initial position: use saved, or stagger by index
   const [pos, setPos] = useState(() => {
-    if (note.position_x !== 0 || note.position_y !== 0) {
-      return { x: note.position_x, y: note.position_y }
+    const sx = Number(note.position_x)
+    const sy = Number(note.position_y)
+    if (Number.isFinite(sx) && Number.isFinite(sy) && (sx !== 0 || sy !== 0)) {
+      return { x: sx, y: sy }
     }
     const col = index % 3
     const row = Math.floor(index / 3)
@@ -174,7 +185,8 @@ function DraggableNote({
   // Save position to Supabase AND sync parent state so remount preserves it
   const savePosition = useCallback((x: number, y: number) => {
     onMove(x, y)
-    svc.updateNote(note.id, { position_x: x, position_y: y }).catch(() => {})
+    svc.updateNote(note.id, { position_x: x, position_y: y })
+      .catch(err => console.warn('[StickyNote] position save failed:', err))
   }, [note.id, onMove])
 
   // If note had (0,0), persist the random default on mount
@@ -226,46 +238,83 @@ function DraggableNote({
       style={{
         left: pos.x,
         top: pos.y,
-        width: 220,
+        width: 240,
       }}
     >
+      {/* ── Stacked paper layers (3D pad effect) ──────── */}
+      <div className="absolute rounded-2xl" style={{
+        inset: 0,
+        top: 6,
+        left: 3,
+        right: -3,
+        background: c.stack3,
+        borderRadius: 16,
+        transform: 'rotate(0.5deg)',
+      }} />
+      <div className="absolute rounded-2xl" style={{
+        inset: 0,
+        top: 4,
+        left: 2,
+        right: -2,
+        background: c.stack2,
+        borderRadius: 16,
+        transform: 'rotate(0.3deg)',
+      }} />
+      <div className="absolute rounded-2xl" style={{
+        inset: 0,
+        top: 2,
+        left: 1,
+        right: -1,
+        background: c.stack1,
+        borderRadius: 16,
+      }} />
+
+      {/* ── Main note card ────────────────────────────── */}
       <div
-        className="rounded-xl overflow-hidden transition-shadow duration-200"
+        className="relative rounded-2xl overflow-hidden"
         style={{
           background: c.bg,
-          boxShadow: `0 2px 12px ${c.shadow}, 0 1px 3px rgba(0,0,0,0.08)`,
-          border: `1px solid ${c.border}40`,
+          backgroundImage: PAPER_TEXTURE,
+          boxShadow: `
+            0 8px 32px ${c.shadow},
+            0 2px 8px rgba(0,0,0,0.08),
+            inset 0 1px 0 rgba(255,255,255,0.5)
+          `,
         }}
       >
-        {/* Drag handle + actions bar */}
+        {/* Header / drag handle bar */}
         <div
-          className="flex items-center justify-between px-2.5 py-1.5"
-          style={{ background: `${c.border}18` }}
+          className="flex items-center justify-between px-3 py-2"
+          style={{
+            background: c.header,
+            backgroundImage: PAPER_TEXTURE,
+            borderBottom: `1px solid ${c.border}20`,
+          }}
         >
-          <div data-grip className="cursor-grab active:cursor-grabbing flex items-center gap-1 flex-1">
-            <GripHorizontal size={14} style={{ color: `${c.border}90` }} />
-            {note.pinned && <Pin size={10} className="-rotate-45" style={{ color: '#1e293b' }} />}
+          <div data-grip className="cursor-grab active:cursor-grabbing flex items-center gap-1.5 flex-1">
+            <GripHorizontal size={16} style={{ color: `${c.border}90` }} />
+            {note.pinned && <Pin size={12} className="-rotate-45" style={{ color: c.text }} />}
           </div>
           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={onPin} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/50" title={note.pinned ? 'Unpin' : 'Pin'}>
-              <Pin size={11} style={{ color: c.border }} />
+            <button onClick={onPin} className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-white/40" title={note.pinned ? 'Unpin' : 'Pin'}>
+              <Pin size={12} style={{ color: c.border }} />
             </button>
-            <button onClick={onArchive} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/50" title="Archive">
-              <Archive size={11} style={{ color: c.border }} />
+            <button onClick={onArchive} className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-white/40" title="Archive">
+              <Archive size={12} style={{ color: c.border }} />
             </button>
-            <button onClick={onDelete} className="w-6 h-6 flex items-center justify-center rounded hover:bg-red-100" title="Delete">
-              <Trash2 size={11} className="text-red-400" />
+            <button onClick={onDelete} className="w-6 h-6 flex items-center justify-center rounded-lg hover:bg-red-100/60" title="Delete">
+              <Trash2 size={12} className="text-red-400" />
             </button>
           </div>
         </div>
 
         {/* Note body — click to edit */}
-        <div className="px-3 py-2.5 cursor-pointer" onClick={onEdit}>
-          <h4 className="text-xs font-bold leading-snug mb-1 line-clamp-2" style={{ color: '#1e293b' }}>
+        <div className="px-4 py-3 cursor-pointer" onClick={onEdit}>
+          <h4 className="text-sm font-bold leading-snug mb-1 line-clamp-2" style={{ color: '#1e293b' }}>
             {note.title || 'Untitled'}
           </h4>
           {note.content && (
-            <p className="text-[11px] leading-relaxed line-clamp-5 whitespace-pre-wrap" style={{ color: '#334155' }}>
+            <p className="text-xs leading-relaxed line-clamp-5 whitespace-pre-wrap" style={{ color: '#334155' }}>
               {note.content}
             </p>
           )}
