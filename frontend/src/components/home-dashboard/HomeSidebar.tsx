@@ -14,7 +14,6 @@ import {
   ChevronRight,
   ChevronLeft,
   Sparkles,
-  StickyNote,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import type { TierLevel } from '../../types/home-dashboard'
@@ -252,10 +251,6 @@ export default function HomeSidebar({
         })}
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {
           iconBg: '#E8F5E9', iconColor: '#2E7D32',
-        })}
-        {navItem('/dashboard/sticky-board', <StickyNote size={15} />, 'StickyBoard', {
-          iconBg: '#FFF9C4', iconColor: '#F57F17',
-          badge: 'NEW', badgeColor: '#F57F17',
         })}
         {/* Career feed curation — temporarily hidden */}
         {/* {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {

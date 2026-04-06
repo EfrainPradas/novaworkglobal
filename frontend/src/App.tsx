@@ -30,6 +30,7 @@ import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
 import StickyBoard from './pages/dashboard/StickyBoard'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
+import StickyBoardWidget from './components/sticky-board/StickyBoardWidget'
 
 // Career Vision Routes
 import CareerVisionDashboard from './pages/career-vision/Dashboard'
@@ -290,6 +291,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <SupportAgentWidget />
+      <StickyBoardWidget />
     </Router>
     </GuidedTourProvider>
   )
