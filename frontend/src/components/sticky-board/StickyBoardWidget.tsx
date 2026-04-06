@@ -45,7 +45,7 @@ export default function StickyBoardWidget() {
     })()
   }, [])
 
-  const visible = notes.filter(n => !n.archived && (n.module === currentModule || n.module === 'global'))
+  const visible = notes.filter(n => !n.archived && n.module === currentModule)
 
   // Counter to stagger new notes so they don't overlap
   const noteCounter = useRef(0)
