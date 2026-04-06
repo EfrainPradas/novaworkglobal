@@ -187,9 +187,22 @@ function DraggableNote({
     onMove(x, y)
   }, [onMove])
 
-  // Ensure position is valid (default to center if 0,0)
-  const displayX = pos.x || Math.round(window.innerWidth / 2 - 110)
-  const displayY = pos.y || Math.round(window.innerHeight / 3)
+  // On first mount, if position is (0,0), assign a default and persist it
+  const initialized = useRef(false)
+  useEffect(() => {
+    if (initialized.current) return
+    initialized.current = true
+    if (note.position_x === 0 && note.position_y === 0) {
+      const defX = Math.round(window.innerWidth / 2 - 110 + (Math.random() - 0.5) * 200)
+      const defY = Math.round(window.innerHeight / 3 + (Math.random() - 0.5) * 100)
+      posRef.current = { x: defX, y: defY }
+      setPos({ x: defX, y: defY })
+      onMove(defX, defY)
+    }
+  }, [])
+
+  const displayX = pos.x
+  const displayY = pos.y
 
   return (
     <div
