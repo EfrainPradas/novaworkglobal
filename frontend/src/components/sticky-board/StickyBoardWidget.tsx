@@ -216,15 +216,15 @@ function DraggableNote({
           style={{ background: `${c.border}18` }}
         >
           <div data-grip className="cursor-grab active:cursor-grabbing flex items-center gap-1 flex-1">
-            <GripHorizontal size={14} style={{ color: `${c.text}80` }} />
-            {note.pinned && <Pin size={10} className="-rotate-45" style={{ color: c.text }} />}
+            <GripHorizontal size={14} style={{ color: `${c.border}90` }} />
+            {note.pinned && <Pin size={10} className="-rotate-45" style={{ color: '#1e293b' }} />}
           </div>
           <div className="flex gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
             <button onClick={onPin} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/50" title={note.pinned ? 'Unpin' : 'Pin'}>
-              <Pin size={11} style={{ color: c.text }} />
+              <Pin size={11} style={{ color: c.border }} />
             </button>
             <button onClick={onArchive} className="w-6 h-6 flex items-center justify-center rounded hover:bg-white/50" title="Archive">
-              <Archive size={11} style={{ color: c.text }} />
+              <Archive size={11} style={{ color: c.border }} />
             </button>
             <button onClick={onDelete} className="w-6 h-6 flex items-center justify-center rounded hover:bg-red-100" title="Delete">
               <Trash2 size={11} className="text-red-400" />
@@ -234,11 +234,11 @@ function DraggableNote({
 
         {/* Note body — click to edit */}
         <div className="px-3 py-2.5 cursor-pointer" onClick={onEdit}>
-          <h4 className="text-xs font-bold leading-snug mb-1 line-clamp-2" style={{ color: c.text }}>
+          <h4 className="text-xs font-bold leading-snug mb-1 line-clamp-2" style={{ color: '#1e293b' }}>
             {note.title || 'Untitled'}
           </h4>
           {note.content && (
-            <p className="text-[11px] leading-relaxed line-clamp-5 whitespace-pre-wrap" style={{ color: `${c.text}bb` }}>
+            <p className="text-[11px] leading-relaxed line-clamp-5 whitespace-pre-wrap" style={{ color: '#334155' }}>
               {note.content}
             </p>
           )}
@@ -275,9 +275,9 @@ function NewNoteModal({
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <h2 className="text-base font-bold" style={{ color: c.text }}>New Sticky Note</h2>
+          <h2 className="text-base font-bold" style={{ color: '#1e293b' }}>New Sticky Note</h2>
           <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white/40">
-            <X size={16} style={{ color: c.text }} />
+            <X size={16} style={{ color: '#1e293b' }} />
           </button>
         </div>
         <div className="px-5 pb-5 space-y-3">
@@ -287,7 +287,7 @@ function NewNoteModal({
             onChange={e => setTitle(e.target.value)}
             placeholder="Title..."
             className="w-full bg-transparent text-sm font-semibold placeholder:opacity-40 focus:outline-none"
-            style={{ color: c.text }}
+            style={{ color: '#1e293b' }}
           />
           <textarea
             value={content}
@@ -295,7 +295,7 @@ function NewNoteModal({
             placeholder="Write something..."
             rows={4}
             className="w-full bg-white/30 rounded-xl p-3 text-xs placeholder:opacity-40 focus:outline-none resize-none"
-            style={{ color: c.text }}
+            style={{ color: '#1e293b' }}
           />
           <div className="flex gap-2">
             {COLOR_KEYS.map(ck => (
@@ -308,7 +308,7 @@ function NewNoteModal({
             ))}
           </div>
           <div className="flex justify-end gap-2 pt-1">
-            <button onClick={onClose} className="px-3 py-1.5 text-xs rounded-lg hover:bg-white/40" style={{ color: c.text }}>
+            <button onClick={onClose} className="px-3 py-1.5 text-xs rounded-lg hover:bg-white/40" style={{ color: '#1e293b' }}>
               Cancel
             </button>
             <button
@@ -351,9 +351,9 @@ function EditNoteModal({
         onClick={e => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-5 pt-4 pb-2">
-          <h2 className="text-base font-bold" style={{ color: c.text }}>Edit Note</h2>
+          <h2 className="text-base font-bold" style={{ color: '#1e293b' }}>Edit Note</h2>
           <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white/40">
-            <X size={16} style={{ color: c.text }} />
+            <X size={16} style={{ color: '#1e293b' }} />
           </button>
         </div>
         <div className="px-5 pb-5 space-y-3">
@@ -362,7 +362,7 @@ function EditNoteModal({
             onChange={e => setTitle(e.target.value)}
             placeholder="Title..."
             className="w-full bg-transparent text-sm font-semibold placeholder:opacity-40 focus:outline-none"
-            style={{ color: c.text }}
+            style={{ color: '#1e293b' }}
           />
           <textarea
             value={content}
@@ -370,7 +370,7 @@ function EditNoteModal({
             placeholder="Write something..."
             rows={5}
             className="w-full bg-white/30 rounded-xl p-3 text-xs placeholder:opacity-40 focus:outline-none resize-none"
-            style={{ color: c.text }}
+            style={{ color: '#1e293b' }}
           />
           <div className="flex gap-2">
             {COLOR_KEYS.map(ck => (
@@ -383,7 +383,7 @@ function EditNoteModal({
             ))}
           </div>
           <div className="flex justify-end gap-2 pt-1">
-            <button onClick={onClose} className="px-3 py-1.5 text-xs rounded-lg hover:bg-white/40" style={{ color: c.text }}>
+            <button onClick={onClose} className="px-3 py-1.5 text-xs rounded-lg hover:bg-white/40" style={{ color: '#1e293b' }}>
               Cancel
             </button>
             <button
