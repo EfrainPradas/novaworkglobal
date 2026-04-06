@@ -7,7 +7,7 @@ import { getVideoUrl } from '@/config/videoUrls'
 
 export default function NovaNextPage() {
     const navigate = useNavigate()
-    const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('annual')
+    const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly')
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
 
     useEffect(() => {
@@ -242,18 +242,18 @@ export default function NovaNextPage() {
                     {/* Plans Grid */}
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {novaNextPlans.map((plan) => {
-                            const isMostPopular = plan.badge === 'Most Popular'
+                            const hasBadge = !!plan.badge
                             const price = calculatePrice(plan.monthly, plan.annual)
 
                             return (
                                 <div
                                     key={plan.name}
-                                    className={`relative bg-white rounded-2xl p-8 shadow-xl transition-all hover:shadow-2xl ${isMostPopular ? 'border-2 border-primary-500 transform scale-105' : 'border border-gray-200'
+                                    className={`relative bg-white rounded-2xl p-8 shadow-xl transition-all hover:shadow-2xl ${hasBadge ? 'border-2 border-primary-500 transform scale-105' : 'border border-gray-200'
                                         }`}
                                 >
-                                    {isMostPopular && (
+                                    {hasBadge && (
                                         <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary-600 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
-                                            <Sparkles className="w-4 h-4" />
+                                            {plan.badge === 'Most Popular' && <Sparkles className="w-4 h-4" />}
                                             {plan.badge}
                                         </div>
                                     )}
@@ -295,12 +295,12 @@ export default function NovaNextPage() {
 
                                     <button
                                         onClick={() => navigate(`/signup?program=novanext&plan=${plan.name}`)}
-                                        className={`w-full py-4 rounded-xl font-bold transition-all ${isMostPopular
+                                        className={`w-full py-4 rounded-xl font-bold transition-all ${hasBadge
                                             ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg'
                                             : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                                             }`}
                                     >
-                                        Get Started
+                                        {plan.cta || 'Get Started'}
                                     </button>
                                 </div>
                             )

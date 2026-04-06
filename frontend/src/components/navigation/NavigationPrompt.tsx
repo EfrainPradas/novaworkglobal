@@ -224,7 +224,7 @@ export default function NavigationPrompt() {
       },
       executive: {
         icon: Crown,
-        label: 'Executive',
+        label: 'Vanguard',
         className: 'bg-amber-100 text-amber-700 ring-1 ring-amber-500/20'
       }
     }
@@ -242,7 +242,7 @@ export default function NavigationPrompt() {
 
   const handleActionClick = (action: ActionItem) => {
     if (!canAccess(action.requiredLevel)) {
-      alert(`This feature requires ${action.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${action.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -461,7 +461,7 @@ export default function NavigationPrompt() {
                         )
                       ) : (
                         <span className="text-sm font-medium text-amber-600 hover:text-amber-700">
-                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'executive' ? 'Executive' : 'Momentum'}
+                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'executive' ? 'Vanguard' : 'Momentum'}
                         </span>
                       )}
 

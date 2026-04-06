@@ -19,14 +19,14 @@ interface SidebarProps {
 const TIER_BADGE: Record<string, { bg: string; text: string; border: string; label: string }> = {
   Momentum:  { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7', label: 'Momentum' },
   Essentials:{ bg: '#E3F2FD', text: '#1565C0', border: '#90CAF9', label: 'Essentials' },
-  Executive: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80', label: 'Executive' },
+  Vanguard: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80', label: 'Vanguard' },
 }
 
 const modules = [
   { id: 'career-vision'     as ModuleId, label: 'Career Vision',    icon: <Target size={16} />,   tier: 'Momentum',   iconBg: '#E8F5E9', iconColor: '#2E7D32' },
   { id: 'resume-builder'    as ModuleId, label: 'Resume Builder',   icon: <FileText size={16} />, tier: 'Essentials', iconBg: '#E3F2FD', iconColor: '#1565C0' },
   { id: 'job-search'        as ModuleId, label: 'Job Search',       icon: <Briefcase size={16} />,tier: 'Momentum',   iconBg: '#FFF3E0', iconColor: '#E65100' },
-  { id: 'interview-mastery' as ModuleId, label: 'Interview Mastery',icon: <Users size={16} />,    tier: 'Executive',  iconBg: '#F3E5F5', iconColor: '#7B1FA2' },
+  { id: 'interview-mastery' as ModuleId, label: 'Interview Mastery',icon: <Users size={16} />,    tier: 'Vanguard',  iconBg: '#F3E5F5', iconColor: '#7B1FA2' },
 ]
 
 const tools = [

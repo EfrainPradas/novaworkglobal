@@ -13,6 +13,7 @@ export interface PricingPlan {
     emailSupport: string
     liveSessions: string
     badge?: string
+    cta?: string
 }
 
 export interface AddOn {
@@ -138,116 +139,119 @@ export const howItWorksSteps = [
 export const novaNextPlans: PricingPlan[] = [
     {
         name: 'essentials',
-        displayName: 'NovaNext Essentials',
+        displayName: 'Essentials',
         monthly: 29,
         annual: 290,
-        positioning: 'Build your resume, clarify your lane, and start moving.',
+        positioning: 'Build your base',
         features: [
-            '12-month access',
-            'Video training',
-            'AI Resume Builder',
-            'Templates & scripts',
-            'Positioning basics'
+            'Resume Builder',
+            'Accomplishment Bank',
+            'Professional Profile (AI)'
         ],
-        emailSupport: '3 replies/year',
-        liveSessions: 'Not included (paid add-on)'
+        emailSupport: 'Standard support',
+        liveSessions: 'Not included',
+        cta: 'Start Here'
     },
     {
         name: 'momentum',
-        displayName: 'NovaNext Momentum',
-        monthly: 59,
-        annual: 590,
-        positioning: 'Everything in Essentials plus accelerated job search tools.',
+        displayName: 'Momentum',
+        monthly: 49,
+        annual: 490,
+        positioning: 'Active job search',
         features: [
-            'Everything in Essentials',
-            'ATS optimization',
-            'LinkedIn rebuild',
-            'Proof Library',
-            'Search Kit',
-            '2-week activation plan'
+            'Resume Builder',
+            'Accomplishment Bank',
+            'Professional Profile (AI)',
+            'Job Application System'
         ],
-        emailSupport: '1 reply every 2 months (6/year)',
-        liveSessions: 'Not included (paid add-on)',
-        badge: 'Most Popular'
+        emailSupport: 'Standard support',
+        liveSessions: 'Not included',
+        badge: 'Most Popular',
+        cta: 'Get Momentum'
     },
     {
         name: 'executive',
-        displayName: 'NovaNext Executive',
-        monthly: 199,
-        annual: 1990,
-        positioning: 'Everything in Momentum plus executive-level positioning and live support.',
+        displayName: 'Vanguard',
+        monthly: 149,
+        annual: 1490,
+        positioning: "Don't navigate alone",
         features: [
-            'Everything in Momentum',
-            'Executive positioning',
-            'Interview conversion',
-            'Negotiation scripts',
-            'Priority access to extra sessions'
+            'Resume Builder',
+            'Accomplishment Bank',
+            'Professional Profile (AI)',
+            'Job Application System',
+            'Career Vision',
+            'Interview Mastery',
+            'Monthly Strategy Session',
+            'Priority Support'
         ],
-        emailSupport: '1 reply/month (12/year)',
-        liveSessions: '1 x 45-min session every 2 months (6/year)'
+        emailSupport: 'Priority support',
+        liveSessions: '1 monthly strategy session',
+        badge: '⭐',
+        cta: 'Go Vanguard'
     }
 ]
 
-// Add-Ons Configuration
-export const addOnsConfig: Record<AddOnPricingMode, AddOn[]> = {
-    standard: [
-        {
-            id: 'standard_session_45m',
-            name: 'Standard 1:1 Session (45 min)',
-            pricing: {
-                single: 199,
-                bundle_3: 549,
-                bundle_6: 999,
-                bundle_10: 1590
-            }
-        },
-        {
-            id: 'executive_advisory_45m',
-            name: 'Executive Advisory (45 min)',
-            pricing: {
-                single: 299,
-                bundle_3: 849,
-                bundle_6: 1599,
-                bundle_10: 2490
-            }
-        },
-        {
-            id: 'offer_review_counteroffer',
-            name: 'Offer Review & Counteroffer Prep',
-            description: 'Recommended for Essentials & Momentum (Included in Executive)',
-            pricing: {
-                single: 349
-            }
-        }
-    ],
-    premium: [
-        {
-            id: 'strategy_session_45m',
-            name: 'Strategy Session (45 min)',
-            pricing: {
-                single: 249,
-                bundle_3: 699,
-                bundle_6: 1299,
-                bundle_10: 1999
-            }
-        },
-        {
-            id: 'linkedin_review_async',
-            name: 'LinkedIn Review (Async)',
-            pricing: {
-                single: 299
-            }
-        },
-        {
-            id: 'offer_review_counteroffer',
-            name: 'Offer Review & Counteroffer Prep',
-            description: 'Recommended for Essentials & Momentum (Included in Executive)',
-            pricing: {
-                single: 349
-            }
-        }
-    ]
+// Coaching Services
+export interface CoachingService {
+    id: string
+    name: string
+    price: string
+    format: string
+    bestFor: string
+    valueLogic: string
+    cta: string
+    featured?: boolean
 }
 
-// Default add-on mode (can be changed via config/admin panel later)
-export const defaultAddOnMode: AddOnPricingMode = 'standard'
+export const coachingServices: CoachingService[] = [
+    {
+        id: 'one-on-one-session',
+        name: '1:1 Session',
+        price: '$149 / session',
+        format: '45-min live session',
+        bestFor: 'Deep clarity & strategy',
+        valueLogic: 'Premium, one-time',
+        cta: 'Book Session'
+    },
+    {
+        id: 'email-coaching',
+        name: 'Email Coaching',
+        price: '$39 / month',
+        format: '3 emails/month',
+        bestFor: 'Ongoing guidance',
+        valueLogic: 'Lightweight support',
+        cta: 'Get Email Support'
+    },
+    {
+        id: 'coach-plus-email',
+        name: 'Coach + Email',
+        price: '$179 / month',
+        format: '1 session + 3 emails/month',
+        bestFor: 'Strategy + continuity',
+        valueLogic: 'Discounted bundle',
+        cta: 'Get Support',
+        featured: true
+    }
+]
+
+// Individual Module Pricing
+export interface ModulePricing {
+    id: string
+    name: string
+    monthly: number
+    oneTime: number
+}
+
+export const modulePricing: ModulePricing[] = [
+    { id: 'interview-mastery', name: 'Interview Mastery', monthly: 15, oneTime: 59 },
+    { id: 'career-vision', name: 'Career Vision', monthly: 19, oneTime: 89 },
+    { id: 'job-application-system', name: 'Job Application System', monthly: 19, oneTime: 89 }
+]
+
+// Maintenance Plan
+export const maintenancePlan = {
+    price: 9,
+    includes: 'Accomplishment Bank + updates + light AI support',
+    positioning: "Stay ready, even when you're not searching"
+}

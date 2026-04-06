@@ -120,7 +120,7 @@ export default function PricingSection({ plans }: PricingSectionProps) {
                                         : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
                                         }`}
                                 >
-                                    Get Started
+                                    {plan.cta || 'Get Started'}
                                 </button>
                             </div>
                         )

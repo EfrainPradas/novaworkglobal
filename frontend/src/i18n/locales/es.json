@@ -582,7 +582,7 @@
     "welcomeBack": "Bienvenido de nuevo,",
     "whatToAchieve": "¿Qué quieres lograr hoy?",
     "pickFocus": "Elige un enfoque — te guiaremos paso a paso con el camino más rápido a los resultados.",
-    "executiveMember": "Miembro Ejecutivo",
+    "executiveMember": "Miembro Vanguard",
     "momentumMember": "Miembro Momentum",
     "essentialsPlan": "Plan Essentials",
     "recommendedNext": "Siguiente Paso Recomendado",
@@ -1013,7 +1013,7 @@
     "title": "Programas NovaNext",
     "essential": "Esencial",
     "momentum": "Momentum",
-    "executive": "Ejecutivo",
+    "executive": "Vanguard",
     "upgradeTo": "Actualizar a {{tier}}",
     "availableIn": "Disponible en {{tier}}",
     "currentPlan": "Plan Actual"

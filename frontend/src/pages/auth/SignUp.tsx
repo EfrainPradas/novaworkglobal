@@ -155,7 +155,7 @@ export default function SignUp() {
             <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
-            {isTrial ? `Start Your ${trialTier === 'executive' ? 'Executive' : 'Pro'} Trial` : t('auth.signUp.title')}
+            {isTrial ? `Start Your ${trialTier === 'executive' ? 'Vanguard' : 'Pro'} Trial` : t('auth.signUp.title')}
           </h1>
           <p className="text-gray-600">
             {isTrial ? 'Create your account to activate your 7-day free trial' : t('auth.signUp.subtitle')}

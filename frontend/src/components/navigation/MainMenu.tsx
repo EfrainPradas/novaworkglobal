@@ -296,7 +296,7 @@ export default function MainMenu() {
   const handleMenuClick = (item: MenuItem) => {
     if (!canAccess(item.requiredLevel)) {
       // Show upgrade modal
-      alert(`This feature requires ${item.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${item.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -306,7 +306,7 @@ export default function MainMenu() {
 
   const handleQuickAccess = (route: string, requiredLevel: 'essentials' | 'momentum' | 'executive') => {
     if (!canAccess(requiredLevel)) {
-      alert(`This feature requires ${requiredLevel === 'momentum' ? 'Momentum' : 'Executive'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
       return
     }
     navigate(route)
@@ -512,7 +512,7 @@ export default function MainMenu() {
                                 navigate('/upgrade')
                               }}
                             >
-                              Upgrade to {item.requiredLevel === 'momentum' ? 'Momentum' : 'Executive'}
+                              Upgrade to {item.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'}
                             </button>
                           )}
                         </div>

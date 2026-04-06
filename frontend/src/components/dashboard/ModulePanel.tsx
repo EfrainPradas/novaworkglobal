@@ -46,7 +46,7 @@ const STEP_ICONS: Record<ModuleId, Array<{ icon: React.ReactNode; bg: string; co
 const TIER_BADGE: Record<string, { bg: string; text: string; border: string }> = {
   Momentum:  { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
   Essentials:{ bg: '#E3F2FD', text: '#1565C0', border: '#90CAF9' },
-  Executive: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
+  Vanguard: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
 }
 
 function ProgressRing({ percent, size = 72 }: { percent: number; size?: number }) {

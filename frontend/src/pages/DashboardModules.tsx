@@ -110,7 +110,7 @@ function buildModules(
     'interview-mastery': {
       id: 'interview-mastery', title: 'Interview Mastery',
       description: 'Be the one they choose. Understand and practice the interview to win.',
-      tier: 'Executive', requiredLevel: 'executive', iconBg: '#F3E5F5',
+      tier: 'Vanguard', requiredLevel: 'executive', iconBg: '#F3E5F5',
       completedSteps: imCompleted, totalSteps: 4, steps: imSteps,
       videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4'),
       learnMoreRoute: '/interview',

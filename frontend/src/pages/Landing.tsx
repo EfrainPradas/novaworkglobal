@@ -15,8 +15,6 @@ import {
   programCards,
   howItWorksSteps,
   novaNextPlans,
-  addOnsConfig,
-  defaultAddOnMode
 } from '../config/landingContent'
 import TestimonialsSection from '../components/landing/TestimonialsSection'
 
@@ -78,8 +76,8 @@ export default function Landing() {
       {/* 7. NovaNext Pricing Section */}
       <PricingSection plans={novaNextPlans} />
 
-      {/* 8. Add-Ons Section */}
-      <AddOnSection addOns={addOnsConfig[defaultAddOnMode]} mode={defaultAddOnMode} />
+      {/* 8. Coaching, Modules & Maintenance Pricing */}
+      <AddOnSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />
