@@ -100,6 +100,7 @@ export default function StickyBoardWidget() {
           onPin={() => handleUpdate(note.id, { pinned: !note.pinned })}
           onArchive={() => handleUpdate(note.id, { archived: true })}
           onDelete={() => handleDelete(note.id)}
+          onMove={(x, y) => setNotes(prev => prev.map(n => n.id === note.id ? { ...n, position_x: x, position_y: y } : n))}
         />
       ))}
 
@@ -145,6 +146,7 @@ function DraggableNote({
   onPin,
   onArchive,
   onDelete,
+  onMove,
 }: {
   note: StickyNote
   index: number
@@ -152,6 +154,7 @@ function DraggableNote({
   onPin: () => void
   onArchive: () => void
   onDelete: () => void
+  onMove: (x: number, y: number) => void
 }) {
   const c = COLORS[note.color] || COLORS.yellow
   const elRef = useRef<HTMLDivElement>(null)
@@ -168,10 +171,11 @@ function DraggableNote({
     return { x: 200 + col * 250, y: 150 + row * 180 }
   })
 
-  // Save position directly to Supabase (fire-and-forget, no parent re-render needed)
+  // Save position to Supabase AND sync parent state so remount preserves it
   const savePosition = useCallback((x: number, y: number) => {
+    onMove(x, y)
     svc.updateNote(note.id, { position_x: x, position_y: y }).catch(() => {})
-  }, [note.id])
+  }, [note.id, onMove])
 
   // If note had (0,0), persist the random default on mount
   useEffect(() => {
