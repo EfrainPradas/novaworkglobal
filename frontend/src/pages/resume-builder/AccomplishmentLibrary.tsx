@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
     Search, Filter, Plus, FileDown, Star, LayoutGrid, List, Sparkles,
-    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy, FolderOpen
+    RefreshCw, ChevronDown, CheckSquare, Settings, ArrowLeft, ArrowRight, Play, BookOpen, Wand2, Tag, RotateCw, X, Briefcase, Loader2, Copy, FolderOpen, Trash2
 } from 'lucide-react'
 import { getVideoUrl } from '@/config/videoUrls'
 import { useNavigate, useSearchParams } from 'react-router-dom'
@@ -43,6 +43,9 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
     const [customPrompt, setCustomPrompt] = useState('')
     const [isCustomGrouping, setIsCustomGrouping] = useState(false)
     const [chatHistory, setChatHistory] = useState<{ role: 'user' | 'assistant', content: string, groups?: { theme: string, storyIds: string[] }[] }[]>([])
+
+    // Bulk selection state
+    const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
     // Save Group Modal State
     const [isSaveModalOpen, setIsSaveModalOpen] = useState(false)
@@ -375,6 +378,38 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
         }
     }
 
+    const handleBulkDelete = async () => {
+        if (selectedIds.size === 0) return
+        if (!window.confirm(t('common.deleteConfirm', `Are you sure you want to delete ${selectedIds.size} accomplishment(s)?`))) return
+
+        try {
+            const ids = Array.from(selectedIds)
+            await supabase.from('accomplishment_bank').delete().in('id', ids)
+            trackEvent('audit', 'accomplishments_bulk_deleted', { count: ids.length }, 'accomplishment_bank')
+            setItems(prev => prev.filter(i => !selectedIds.has(i.id!)))
+            setSelectedIds(new Set())
+        } catch (error) {
+            console.error('Bulk delete error:', error)
+        }
+    }
+
+    const toggleSelectAll = () => {
+        if (selectedIds.size === filteredItems.length) {
+            setSelectedIds(new Set())
+        } else {
+            setSelectedIds(new Set(filteredItems.map(i => i.id!)))
+        }
+    }
+
+    const toggleSelect = (id: string) => {
+        setSelectedIds(prev => {
+            const next = new Set(prev)
+            if (next.has(id)) next.delete(id)
+            else next.add(id)
+            return next
+        })
+    }
+
     const handleUpdate = async (id: string, updates: Partial<AccomplishmentBankItem>) => {
         try {
             const { error } = await supabase
@@ -566,6 +601,31 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 {importing ? t('accomplishmentLibrary.importingAll', 'Importing...') : t('accomplishmentLibrary.importExisting', 'Import from Work Experience')}
                             </button>
                         </div>
+                    </div>
+
+                    {/* Bulk Selection Bar */}
+                    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 px-4 py-2.5 flex items-center justify-between">
+                        <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
+                            <input
+                                type="checkbox"
+                                checked={filteredItems.length > 0 && selectedIds.size === filteredItems.length}
+                                onChange={toggleSelectAll}
+                                className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                            />
+                            {selectedIds.size > 0
+                                ? `${selectedIds.size} of ${filteredItems.length} selected`
+                                : `Select All (${filteredItems.length})`}
+                        </label>
+
+                        {selectedIds.size > 0 && (
+                            <button
+                                onClick={handleBulkDelete}
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
+                            >
+                                <Trash2 size={14} />
+                                Delete Selected ({selectedIds.size})
+                            </button>
+                        )}
                     </div>
 
                     {/* AI Grouping Panel */}
@@ -789,12 +849,21 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <SortableContext items={filteredItems.map(i => i.id!)} strategy={verticalListSortingStrategy}>
                                 <div className="grid grid-cols-1 gap-4">
                                     {filteredItems.map(item => (
-                                        <AccomplishmentBankCard
-                                            key={item.id}
-                                            item={item}
-                                            onUpdate={handleUpdate}
-                                            onDelete={handleDelete}
-                                        />
+                                        <div key={item.id} className="flex items-start gap-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedIds.has(item.id!)}
+                                                onChange={() => toggleSelect(item.id!)}
+                                                className="mt-5 w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer flex-shrink-0"
+                                            />
+                                            <div className="flex-1 min-w-0">
+                                                <AccomplishmentBankCard
+                                                    item={item}
+                                                    onUpdate={handleUpdate}
+                                                    onDelete={handleDelete}
+                                                />
+                                            </div>
+                                        </div>
                                     ))}
                                 </div>
                             </SortableContext>

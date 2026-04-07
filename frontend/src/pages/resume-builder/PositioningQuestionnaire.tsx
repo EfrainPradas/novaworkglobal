@@ -433,10 +433,6 @@ export default function PositioningQuestionnairePage() {
                                 <input value={form.identity_current_title || ''} onChange={e => updateField('identity_current_title', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.currentJobTitlePlaceholder', 'e.g., Director of Supply Chain')} />
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.targetJobTitle', 'Target Job Title')}</label>
-                                <input value={form.identity_target_title || ''} onChange={e => updateField('identity_target_title', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.targetJobTitlePlaceholder', 'e.g., VP of Operations')} />
-                            </div>
-                            <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.questionnaire.onePhraseIdentity', 'One-Phrase Identity')}</label>
                                 <p className="text-xs text-gray-500 mb-1">{t('resumeBuilder.questionnaire.onePhraseIdentityHelper', 'How would you describe yourself in one powerful phrase?')}</p>
                                 <input value={form.identity_one_phrase || ''} onChange={e => updateField('identity_one_phrase', e.target.value)} className={inputClass} placeholder={t('resumeBuilder.questionnaire.onePhraseIdentityPlaceholder', 'e.g., Operational strategist who turns chaos into scalable systems')} />
