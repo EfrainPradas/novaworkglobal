@@ -40,7 +40,10 @@
     "allCompetencies": "Todas as Competências",
     "newest": "Mais Recentes",
     "strongestResults": "Melhores Resultados",
-    "byRole": "Por Cargo"
+    "byRole": "Por Cargo",
+    "completed": "Concluído",
+    "examples": "Exemplos",
+    "tryAgain": "Tentar novamente"
   },
   "nav": {
     "signIn": "Entrar",
@@ -950,7 +953,8 @@
     "executiveMember": "Membro Vanguard",
     "momentumMember": "Membro Momentum",
     "essentialsPlan": "Plano Essencial",
-    "tools": "Ferramentas"
+    "tools": "Ferramentas",
+    "quickActionsTitle": "Ações Rápidas"
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Saiba Mais · Banco de Conquistas",
@@ -1955,7 +1959,9 @@
     "list": {
       "result": "Resultado:",
       "bullet": "Bullet:"
-    }
+    },
+    "improve": "Melhorar",
+    "generate": "Gerar"
   },
   "sidebar": {
     "expand": "Expandir painel",
@@ -1972,5 +1978,26 @@
       "emptyTitle": "Sua Biblioteca está Vazia",
       "emptyDesc": "Comece a construir sua biblioteca de recursos."
     }
+  },
+  "coaching": {
+    "myCoaches": "Meus Coaches",
+    "ourTeam": "Nossa Equipe de Coaching",
+    "noCoaches": "Nenhum coach disponível",
+    "noCoachesDesc": "Não há coaches disponíveis no momento.",
+    "defaultTitle": "Coach de Carreira",
+    "defaultBio": "Pronto para apoiar sua transição de carreira.",
+    "bookSession": "Agendar Sessão",
+    "upcomingSessions": "Próximas Sessões",
+    "noUpcoming": "Nenhuma sessão agendada.",
+    "with": "com",
+    "pending": "Pendente",
+    "confirmed": "Confirmado",
+    "declined": "Recusado",
+    "waitingConfirm": "Aguardando confirmação do coach.",
+    "declinedMsg": "Esta sessão foi recusada.",
+    "addedToCalendar": "✅ Adicionado ao Calendário",
+    "addToGoogle": "📅 Adicionar ao Google Calendar",
+    "cancelBooking": "Cancelar Reserva",
+    "pastSessions": "Sessões Anteriores"
   }
 }

@@ -610,7 +610,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
                     <div className="bg-gray-50 dark:bg-gray-900/50 p-5 rounded-2xl border border-gray-100 dark:border-gray-700 min-w-[340px]">
                         <div className="flex justify-between items-center mb-2">
-                            <span className="font-semibold text-gray-900 dark:text-white text-sm">{t('dashboard.quickActions', 'Quick Actions')}</span>
+                            <span className="font-semibold text-gray-900 dark:text-white text-sm">{t('dashboard.quickActionsTitle', 'Quick Actions')}</span>
                             <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 tracking-wider uppercase bg-gray-200 dark:bg-gray-800 px-2 py-0.5 rounded">{t('dashboard.tools', 'Tools')}</span>
                         </div>
                         <p className="text-xs text-gray-500 dark:text-gray-400 mb-4 leading-relaxed">{t('resumeBuilder.par.toolsDescription', 'Keep the writing tools visible and grouped in one focused area.')}</p>
@@ -737,7 +737,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                 story.status === 'completed' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-500' :
                                                     'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                                                 }`}>
-                                                {story.status === 'completed' ? 'Completed' : (story.status || 'draft')}
+                                                {story.status === 'completed' ? t('common.completed', 'Completed') : story.status === 'draft' ? t('common.draft', 'Draft') : (story.status || t('common.draft', 'Draft'))}
                                             </span>
                                         </div>
                                     </div>
@@ -747,7 +747,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             className="px-3 py-1.5 rounded-lg border border-amber-200 text-amber-700 font-semibold hover:bg-amber-50 transition-colors flex items-center gap-1.5 text-xs"
                                             title="Improve this CAR with AI using CAR methodology"
                                         >
-                                            <Zap className="w-3.5 h-3.5" /> Improve
+                                            <Zap className="w-3.5 h-3.5" /> {t('carStories.improve', 'Improve')}
                                         </button>
                                         <button
                                             onClick={() => {
@@ -757,7 +757,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             className="px-3 py-1.5 rounded-lg border border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/40 transition-colors flex items-center gap-1.5 text-xs mr-2"
                                             title="Generate AI Accomplishments from this CAR"
                                         >
-                                            <Sparkles className="w-3.5 h-3.5" /> Generate
+                                            <Sparkles className="w-3.5 h-3.5" /> {t('carStories.generate', 'Generate')}
                                         </button>
                                         <button onClick={() => setLinkingStoryId(linkingStoryId === story.id ? null : (story.id || null))} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"><Link2 className="w-4 h-4" /></button>
                                         <button onClick={() => handleEdit(story)} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"><Pencil className="w-4 h-4" /></button>

@@ -40,7 +40,10 @@
     "allCompetencies": "Toutes les Compétences",
     "newest": "Plus Récents",
     "strongestResults": "Meilleurs Résultats",
-    "byRole": "Par Rôle"
+    "byRole": "Par Rôle",
+    "completed": "Terminé",
+    "examples": "Exemples",
+    "tryAgain": "Réessayer"
   },
   "nav": {
     "signIn": "Se Connecter",
@@ -950,7 +953,8 @@
     "executiveMember": "Membre Vanguard",
     "momentumMember": "Membre Momentum",
     "essentialsPlan": "Plan Essentiel",
-    "tools": "Outils"
+    "tools": "Outils",
+    "quickActionsTitle": "Actions Rapides"
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "En savoir plus · Banque de Réalisations",
@@ -1955,7 +1959,9 @@
     "list": {
       "result": "Résultat :",
       "bullet": "Bullet :"
-    }
+    },
+    "improve": "Améliorer",
+    "generate": "Générer"
   },
   "sidebar": {
     "expand": "Développer le panneau",
@@ -1972,5 +1978,26 @@
       "emptyTitle": "Votre Bibliothèque est Vide",
       "emptyDesc": "Commencez à construire votre bibliothèque de ressources."
     }
+  },
+  "coaching": {
+    "myCoaches": "Mes Coaches",
+    "ourTeam": "Notre Équipe de Coaching",
+    "noCoaches": "Aucun coach disponible",
+    "noCoachesDesc": "Aucun coach n'est disponible actuellement.",
+    "defaultTitle": "Coach de Carrière",
+    "defaultBio": "Prêt à soutenir votre transition de carrière.",
+    "bookSession": "Réserver une Séance",
+    "upcomingSessions": "Prochaines Séances",
+    "noUpcoming": "Aucune séance programmée.",
+    "with": "avec",
+    "pending": "En attente",
+    "confirmed": "Confirmé",
+    "declined": "Refusé",
+    "waitingConfirm": "En attente de confirmation du coach.",
+    "declinedMsg": "Cette séance a été refusée.",
+    "addedToCalendar": "✅ Ajouté au Calendrier",
+    "addToGoogle": "📅 Ajouter à Google Calendar",
+    "cancelBooking": "Annuler la Réservation",
+    "pastSessions": "Séances Passées"
   }
 }

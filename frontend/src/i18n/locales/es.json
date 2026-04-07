@@ -40,7 +40,10 @@
     "allCompetencies": "Todas las Competencias",
     "newest": "Más Nuevos",
     "strongestResults": "Mejores Resultados",
-    "byRole": "Por Rol"
+    "byRole": "Por Rol",
+    "completed": "Completado",
+    "examples": "Ejemplos",
+    "tryAgain": "Intentar de nuevo"
   },
   "nav": {
     "signIn": "Iniciar Sesión",
@@ -952,7 +955,8 @@
         "filterByCategory": "Filtrar por tema",
         "novaworkExclusive": "Análisis exclusivo de NovaWork"
       }
-    }
+    },
+    "quickActionsTitle": "Acciones Rápidas"
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Más Info · Banco de Logros",
@@ -1957,7 +1961,9 @@
     "list": {
       "result": "Resultado:",
       "bullet": "Viñeta:"
-    }
+    },
+    "improve": "Mejorar",
+    "generate": "Generar"
   },
   "sidebar": {
     "expand": "Expandir barra lateral",
@@ -1974,5 +1980,26 @@
       "emptyTitle": "Tu Biblioteca está Vacía",
       "emptyDesc": "Comienza a construir tu biblioteca de recursos añadiendo guías de entrevista, plantillas de CV o videos útiles."
     }
+  },
+  "coaching": {
+    "myCoaches": "Mis Coaches",
+    "ourTeam": "Nuestro Equipo de Coaching",
+    "noCoaches": "No hay coaches disponibles",
+    "noCoachesDesc": "Actualmente no hay coaches disponibles en la red.",
+    "defaultTitle": "Coach de Carrera Ejecutivo",
+    "defaultBio": "Listo para apoyar tu transición de carrera y metas de desarrollo profesional.",
+    "bookSession": "Reservar Sesión",
+    "upcomingSessions": "Próximas Sesiones",
+    "noUpcoming": "No tienes sesiones de coaching programadas.",
+    "with": "con",
+    "pending": "Pendiente",
+    "confirmed": "Confirmado",
+    "declined": "Rechazado",
+    "waitingConfirm": "Esperando que el coach confirme tu solicitud.",
+    "declinedMsg": "Esta sesión fue rechazada. Puedes reservar un nuevo horario.",
+    "addedToCalendar": "✅ Añadido al Calendario",
+    "addToGoogle": "📅 Añadir a Google Calendar",
+    "cancelBooking": "Cancelar Reserva",
+    "pastSessions": "Sesiones Pasadas"
   }
 }

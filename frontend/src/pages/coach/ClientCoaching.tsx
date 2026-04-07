@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
 import NotificationBell from '../../components/common/NotificationBell'
@@ -89,6 +90,7 @@ function Badge({ children, color, bg = '#f1f5f9' }: { children: React.ReactNode;
 
 export default function ClientCoaching() {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [userAuth, setUserAuth] = useState<any>(null)
     const [userProfile, setUserProfile] = useState<any>(null)
     const [calendarAdded, setCalendarAdded] = useState<Record<string, boolean>>({})
@@ -329,7 +331,7 @@ export default function ClientCoaching() {
                             <ArrowLeft size={16} /> Dashboard
                         </button>
                         <div className="w-px h-6 bg-slate-200 dark:bg-gray-600" />
-                        <h1 className="text-lg font-extrabold text-slate-900 dark:text-white m-0">My Coaches</h1>
+                        <h1 className="text-lg font-extrabold text-slate-900 dark:text-white m-0">{t('coaching.myCoaches', 'My Coaches')}</h1>
                     </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 </div>
@@ -343,7 +345,7 @@ export default function ClientCoaching() {
                     {/* Section 1: All Coaches */}
                     <div>
                         <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
-                            <Star size={20} color="#4DA8DA" /> Our Coaching Team
+                            <Star size={20} color="#4DA8DA" /> {t('coaching.ourTeam', 'Our Coaching Team')}
                         </h2>
 
                         {assignedCoaches.length === 0 ? (
@@ -351,9 +353,9 @@ export default function ClientCoaching() {
                                 <div style={{ width: 64, height: 64, background: '#f1f5f9', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', color: '#94a3b8' }}>
                                     <User size={32} />
                                 </div>
-                                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">No coaches available</h3>
+                                <h3 className="text-base font-bold text-slate-900 dark:text-white mb-2">{t('coaching.noCoaches', 'No coaches available')}</h3>
                                 <p className="text-sm text-slate-500 dark:text-gray-400 mb-6 max-w-sm mx-auto">
-                                    There are currently no coaches available in the network.
+                                    {t('coaching.noCoachesDesc', 'There are currently no coaches available in the network.')}
                                 </p>
                             </div>
                         ) : (
@@ -370,7 +372,7 @@ export default function ClientCoaching() {
                                             </div>
                                             <div style={{ alignSelf: 'center' }}>
                                                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-1">{rel.coach_user?.full_name}</h3>
-                                                <p className="text-sm text-slate-500 dark:text-gray-400 m-0">{rel.coach_profile?.title || 'Executive Career Coach'}</p>
+                                                <p className="text-sm text-slate-500 dark:text-gray-400 m-0">{rel.coach_profile?.title || t('coaching.defaultTitle', 'Executive Career Coach')}</p>
                                                 {rel.coach_profile?.company && (
                                                     <p style={{ fontSize: 13, color: '#4DA8DA', fontWeight: 600, margin: '2px 0 0 0' }}>{rel.coach_profile.company}</p>
                                                 )}
@@ -378,7 +380,7 @@ export default function ClientCoaching() {
                                         </div>
 
                                         <p className="text-sm text-slate-600 dark:text-gray-300 leading-relaxed mb-6 flex-1">
-                                            {rel.coach_profile?.bio || 'Ready to support your career transition and professional development goals.'}
+                                            {rel.coach_profile?.bio || t('coaching.defaultBio', 'Ready to support your career transition and professional development goals.')}
                                         </p>
 
                                         <div className="border-t border-slate-100 dark:border-gray-700 pt-5">
@@ -388,7 +390,7 @@ export default function ClientCoaching() {
                                                 onMouseOver={(e) => Object.assign(e.currentTarget.style, { background: '#1a488a', transform: 'translateY(-1px)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' })}
                                                 onMouseOut={(e) => Object.assign(e.currentTarget.style, { background: '#1F5BAA', transform: 'none', boxShadow: 'none' })}
                                             >
-                                                <Calendar size={16} /> Book Session
+                                                <Calendar size={16} /> {t('coaching.bookSession', 'Book Session')}
                                             </button>
                                         </div>
                                     </div>
@@ -402,12 +404,12 @@ export default function ClientCoaching() {
                     {/* Section 2: Upcoming Sessions */}
                     <div>
                         <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
-                            <Clock size={20} color="#4DA8DA" /> Upcoming Sessions
+                            <Clock size={20} color="#4DA8DA" /> {t('coaching.upcomingSessions', 'Upcoming Sessions')}
                         </h2>
 
                         {upcomingSessions.length === 0 ? (
                             <p className="text-sm text-slate-500 dark:text-gray-400 bg-white dark:bg-gray-800 p-6 rounded-xl border border-dashed border-slate-300 dark:border-gray-600 text-center">
-                                You have no upcoming coaching sessions scheduled.
+                                {t('coaching.noUpcoming', 'You have no upcoming coaching sessions scheduled.')}
                             </p>
                         ) : (
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
@@ -436,17 +438,17 @@ export default function ClientCoaching() {
                                                                     session.coach_user?.full_name?.charAt(0) || 'C'
                                                                 )}
                                                             </div>
-                                                            <span>with {session.coach_user?.full_name}</span>
+                                                            <span>{t('coaching.with', 'with')} {session.coach_user?.full_name}</span>
                                                         </div>
                                                     </div>
                                                     {isPending && (
-                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#b45309', padding: '3px 8px', borderRadius: 6 }}>⏳ Pending</span>
+                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#fef3c7', color: '#b45309', padding: '3px 8px', borderRadius: 6 }}>⏳ {t('coaching.pending', 'Pending')}</span>
                                                     )}
                                                     {isConfirmed && (
-                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#166534', padding: '3px 8px', borderRadius: 6 }}>✅ Confirmed</span>
+                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#dcfce7', color: '#166534', padding: '3px 8px', borderRadius: 6 }}>✅ {t('coaching.confirmed', 'Confirmed')}</span>
                                                     )}
                                                     {isDeclined && (
-                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#fee2e2', color: '#ef4444', padding: '3px 8px', borderRadius: 6 }}>❌ Declined</span>
+                                                        <span style={{ fontSize: 11, fontWeight: 700, background: '#fee2e2', color: '#ef4444', padding: '3px 8px', borderRadius: 6 }}>❌ {t('coaching.declined', 'Declined')}</span>
                                                     )}
                                                 </div>
                                                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 12 }}>
@@ -458,11 +460,11 @@ export default function ClientCoaching() {
                                                 <div className="mt-4 pt-3 border-t border-slate-100 dark:border-gray-700">
                                                     {isPending ? (
                                                         <p style={{ fontSize: 12, color: '#92400e', background: '#fef9c3', padding: '8px 12px', borderRadius: 8, margin: 0 }}>
-                                                            ⏳ Waiting for coach to confirm your request.
+                                                            ⏳ {t('coaching.waitingConfirm', 'Waiting for coach to confirm your request.')}
                                                         </p>
                                                     ) : isDeclined ? (
                                                         <p style={{ fontSize: 12, color: '#991b1b', background: '#fff1f2', padding: '8px 12px', borderRadius: 8, margin: 0 }}>
-                                                            ❌ This session was declined. You can book a new time.
+                                                            ❌ {t('coaching.declinedMsg', 'This session was declined. You can book a new time.')}
                                                         </p>
                                                     ) : (
                                                         <div style={{ display: 'flex', gap: 12 }}>
@@ -486,13 +488,13 @@ export default function ClientCoaching() {
                                                                     cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
                                                                 }}
                                                             >
-                                                                {calendarAdded[session.id] ? '✅ Added to Calendar' : '📅 Add to Google Calendar'}
+                                                                {calendarAdded[session.id] ? t('coaching.addedToCalendar', '✅ Added to Calendar') : t('coaching.addToGoogle', '📅 Add to Google Calendar')}
                                                             </button>
                                                             <button
                                                                 onClick={() => handleCancelSession(session.id)}
                                                                 style={{ flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, color: '#ef4444', background: '#fef2f2', border: '1px solid #fecaca', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
                                                             >
-                                                                <X size={14} /> Cancel Booking
+                                                                <X size={14} /> {t('coaching.cancelBooking', 'Cancel Booking')}
                                                             </button>
                                                         </div>
                                                     )}
@@ -508,7 +510,7 @@ export default function ClientCoaching() {
                     {/* Section 3: Past Sessions (Optional context) */}
                     {pastSessions.length > 0 && (
                         <div>
-                            <h3 className="text-base font-bold text-slate-500 dark:text-gray-400 mt-5 mb-4">Past Sessions</h3>
+                            <h3 className="text-base font-bold text-slate-500 dark:text-gray-400 mt-5 mb-4">{t('coaching.pastSessions', 'Past Sessions')}</h3>
                             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                                 {pastSessions.map(session => (
                                     <div key={session.id} className="bg-slate-50 dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-xl px-4 py-3 flex justify-between items-center">
@@ -522,7 +524,7 @@ export default function ClientCoaching() {
                                                         session.coach_user?.full_name?.charAt(0) || 'C'
                                                     )}
                                                 </div>
-                                                <span>with {session.coach_user?.full_name}</span>
+                                                <span>{t('coaching.with', 'with')} {session.coach_user?.full_name}</span>
                                             </div>
                                             <div className="text-xs text-slate-400 dark:text-gray-500 mt-1">{formatDate(session.scheduled_at)}</div>
                                         </div>

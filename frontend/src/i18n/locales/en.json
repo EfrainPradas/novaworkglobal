@@ -39,7 +39,10 @@
     "strongestResults": "Strongest Results",
     "byRole": "By Role",
     "watchVideo": "Watch video",
-    "backToDashboard": "Back"
+    "backToDashboard": "Back",
+    "completed": "Completed",
+    "examples": "Examples",
+    "tryAgain": "Try again"
   },
   "nav": {
     "signIn": "Sign In",
@@ -879,7 +882,8 @@
         "filterByCategory": "Filter by topic",
         "novaworkExclusive": "NovaWork exclusive insight"
       }
-    }
+    },
+    "quickActionsTitle": "Quick Actions"
   },
   "services": {
     "title": "Services",
@@ -1806,7 +1810,9 @@
     "list": {
       "result": "Result:",
       "bullet": "Bullet:"
-    }
+    },
+    "improve": "Improve",
+    "generate": "Generate"
   },
   "sidebar": {
     "expand": "Expand sidebar",
@@ -1847,5 +1853,26 @@
       "emptyTitle": "Your Library is Empty",
       "emptyDesc": "Start building your resource library by adding interview guides, resume templates, or helpful videos."
     }
+  },
+  "coaching": {
+    "myCoaches": "My Coaches",
+    "ourTeam": "Our Coaching Team",
+    "noCoaches": "No coaches available",
+    "noCoachesDesc": "There are currently no coaches available in the network.",
+    "defaultTitle": "Executive Career Coach",
+    "defaultBio": "Ready to support your career transition and professional development goals.",
+    "bookSession": "Book Session",
+    "upcomingSessions": "Upcoming Sessions",
+    "noUpcoming": "You have no upcoming coaching sessions scheduled.",
+    "with": "with",
+    "pending": "Pending",
+    "confirmed": "Confirmed",
+    "declined": "Declined",
+    "waitingConfirm": "Waiting for coach to confirm your request.",
+    "declinedMsg": "This session was declined. You can book a new time.",
+    "addedToCalendar": "✅ Added to Calendar",
+    "addToGoogle": "📅 Add to Google Calendar",
+    "cancelBooking": "Cancel Booking",
+    "pastSessions": "Past Sessions"
   }
 }
