@@ -514,7 +514,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         onClick={handleContinue}
                                         className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
                                     >
-                                        Next: CARs <ArrowRight className="w-4 h-4" />
+                                        {t('accomplishmentLibrary.nextCars', 'Next: CARs')} <ArrowRight className="w-4 h-4" />
                                     </button>
                                 )}
                             </>
@@ -548,7 +548,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 className={`flex items-center gap-1.5 px-4 py-2 text-white rounded-lg shadow-sm transition-colors ${isGroupingPanelOpen ? 'bg-indigo-700 hover:bg-indigo-800' : 'bg-[#4F46E5] hover:bg-[#4338CA]'}`}
                             >
                                 <Wand2 size={18} />
-                                Area of Expertise Grouping. (AI)
+                                {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
                             </button>
                         </div>
                     </div>
@@ -561,7 +561,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                                 <input
                                     type="text"
-                                    placeholder="Search accomplishments..."
+                                    placeholder={t('accomplishmentLibrary.searchPlaceholder', 'Search accomplishments...')}
                                     value={filterText}
                                     onChange={(e) => setFilterText(e.target.value)}
                                     className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 transition-colors"
@@ -613,8 +613,8 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                             />
                             {selectedIds.size > 0
-                                ? `${selectedIds.size} of ${filteredItems.length} selected`
-                                : `Select All (${filteredItems.length})`}
+                                ? `${selectedIds.size} ${t('accomplishmentLibrary.selectedOf', 'of')} ${filteredItems.length} ${t('accomplishmentLibrary.selected', 'selected')}`
+                                : `${t('accomplishmentLibrary.selectAll', 'Select All')} (${filteredItems.length})`}
                         </label>
 
                         {selectedIds.size > 0 && (
@@ -623,7 +623,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
                             >
                                 <Trash2 size={14} />
-                                Delete Selected ({selectedIds.size})
+                                {t('accomplishmentLibrary.deleteSelected', 'Delete Selected')} ({selectedIds.size})
                             </button>
                         )}
                     </div>
@@ -633,7 +633,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-indigo-200 dark:border-indigo-800/50 p-4 md:p-6 mb-6">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                    <Wand2 className="w-5 h-5 text-[#4F46E5] dark:text-indigo-400" /> Area of Expertise Grouping. (AI)
+                                    <Wand2 className="w-5 h-5 text-[#4F46E5] dark:text-indigo-400" /> {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
                                 </h3>
                                 <button onClick={() => setIsGroupingPanelOpen(false)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                                     <X className="w-5 h-5" />
@@ -642,14 +642,14 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <div className="flex flex-col">
                                 {/* Quick Action Buttons */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><Tag className="w-4 h-4" /> By Competencies</button>
-                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><RotateCw className="w-4 h-4" /> Reclassify</button>
+                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><Tag className="w-4 h-4" /> {t('accomplishmentLibrary.byCompetencies', 'By Competencies')}</button>
+                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><RotateCw className="w-4 h-4" /> {t('accomplishmentLibrary.reclassify', 'Reclassify')}</button>
                                 </div>
 
                                 {chatHistory.length > 0 && (
                                     <div className="flex justify-end mb-2">
                                         <button onClick={() => setChatHistory([])} className="text-xs text-red-400 hover:text-red-500 transition-colors flex items-center gap-1 font-medium">
-                                            <X className="w-4 h-4" /> Clear results
+                                            <X className="w-4 h-4" /> {t('accomplishmentLibrary.clearResults', 'Clear results')}
                                         </button>
                                     </div>
                                 )}
@@ -700,7 +700,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                             onClick={() => openSaveModal(msg.groups!)}
                                                             className="flex items-center gap-1.5 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-bold rounded-lg border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors shadow-sm text-sm"
                                                         >
-                                                            <FolderOpen size={16} /> Save This Group
+                                                            <FolderOpen size={16} /> {t('accomplishmentLibrary.saveGroup', 'Save This Group')}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -711,7 +711,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         <div className="flex justify-start">
                                             <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-3">
                                                 <Loader2 className="w-4 h-4 animate-spin text-[#10B981]" />
-                                                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Analyzing your accomplishments...</span>
+                                                <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('accomplishmentLibrary.analyzing', 'Analyzing your accomplishments...')}</span>
                                             </div>
                                         </div>
                                     )}
@@ -724,7 +724,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         type="text"
                                         value={customPrompt}
                                         onChange={e => setCustomPrompt(e.target.value)}
-                                        placeholder="Type a custom instruction..."
+                                        placeholder={t('accomplishmentLibrary.customInstruction', 'Type a custom instruction...')}
                                         className="w-full text-sm py-2 px-2 border-none dark:text-gray-200 bg-transparent focus:ring-0 outline-none"
                                         onKeyDown={e => {
                                             if (e.key === 'Enter') {
@@ -738,7 +738,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         disabled={!customPrompt.trim() || isCustomGrouping}
                                         className="bg-[#4F46E5] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#4338CA] disabled:opacity-50 transition-colors shadow-sm"
                                     >
-                                        Send
+                                        {t('accomplishmentLibrary.send', 'Send')}
                                     </button>
                                 </div>
                             </div>
@@ -939,13 +939,13 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         {/* Content */}
                         <div className="p-6">
                             <label className="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">
-                                Group Name
+                                {t('accomplishmentLibrary.groupName', 'Group Name')}
                             </label>
                             <input
                                 type="text"
                                 value={saveGroupName}
                                 onChange={(e) => setSaveGroupName(e.target.value)}
-                                placeholder="e.g. Executive Summary Format"
+                                placeholder={t('accomplishmentLibrary.groupNamePlaceholder', 'e.g. Executive Summary Format')}
                                 className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
                                 autoFocus
                                 onKeyDown={(e) => {
@@ -974,9 +974,9 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isSavingGroup ? (
-                                    <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</>
+                                    <><Loader2 className="w-4 h-4 animate-spin" /> {t('accomplishmentLibrary.saving', 'Saving...')}</>
                                 ) : (
-                                    'Save Group'
+                                    t('accomplishmentLibrary.saveGroupBtn', 'Save Group')
                                 )}
                             </button>
                         </div>

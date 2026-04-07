@@ -60,10 +60,10 @@ export default function InterviewMastery() {
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      preparing: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300', label: 'Preparing' },
-      scheduled: { color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300', label: 'Scheduled' },
-      completed: { color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300', label: 'Completed' },
-      cancelled: { color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300', label: 'Cancelled' }
+      preparing: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300', label: t('interviewMastery.statusPreparing', 'Preparing') },
+      scheduled: { color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300', label: t('interviewMastery.statusScheduled', 'Scheduled') },
+      completed: { color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300', label: t('interviewMastery.statusCompleted', 'Completed') },
+      cancelled: { color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300', label: t('interviewMastery.statusCancelled', 'Cancelled') }
     }
     const badge = badges[status as keyof typeof badges] || badges.preparing
     return (
@@ -88,7 +88,7 @@ export default function InterviewMastery() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading interviews...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">{t('interviewMastery.loading', 'Loading interviews...')}</p>
         </div>
       </div>
     )
@@ -99,7 +99,7 @@ export default function InterviewMastery() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" className="mb-4 pl-0" />
+          <BackButton to="/dashboard/job-search-hub" label={t('interviewMastery.backToJobSearch', 'Back to Job Search')} className="mb-4 pl-0" />
 
           <div className="flex items-start justify-between">
             <div>
@@ -107,17 +107,17 @@ export default function InterviewMastery() {
                 <span className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center">
                   <Crosshair className="w-7 h-7" />
                 </span>
-                Interview Mastery System™
+                {t('interviewMastery.title', 'Interview Mastery System™')}
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-400">
-                Master your interview preparation with the 3-phase methodology
+                {t('interviewMastery.subtitle', 'Master your interview preparation with the 3-phase methodology')}
               </p>
             </div>
             <button
               onClick={handleCreateInterview}
               className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium shadow-lg hover:shadow-xl"
             >
-              + New Interview Prep
+              {t('interviewMastery.newPrep', '+ New Interview Prep')}
             </button>
           </div>
         </div>
@@ -127,7 +127,7 @@ export default function InterviewMastery() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Interviews</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.totalInterviews', 'Total Interviews')}</p>
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{interviews.length}</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
@@ -139,7 +139,7 @@ export default function InterviewMastery() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Upcoming</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.upcoming', 'Upcoming')}</p>
                 <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
                   {interviews.filter(i => i.status === 'scheduled').length}
                 </p>
@@ -153,7 +153,7 @@ export default function InterviewMastery() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Preparing</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.preparing', 'Preparing')}</p>
                 <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
                   {interviews.filter(i => i.status === 'preparing').length}
                 </p>
@@ -167,7 +167,7 @@ export default function InterviewMastery() {
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Completed</p>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.completed', 'Completed')}</p>
                 <p className="text-3xl font-bold text-green-600 dark:text-green-400">
                   {interviews.filter(i => i.status === 'completed').length}
                 </p>
@@ -186,18 +186,16 @@ export default function InterviewMastery() {
               <Crosshair className="w-12 h-12" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Ready to Master Your Interviews?
+              {t('interviewMastery.emptyTitle', 'Ready to Master Your Interviews?')}
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
-              The Interview Mastery System™ guides you through a proven 3-phase methodology:
-              <br />
-              <strong>Before</strong> (Prepare) → <strong>During</strong> (Execute) → <strong>After</strong> (Follow-up)
+              {t('interviewMastery.emptyDesc', 'The Interview Mastery System™ guides you through a proven 3-phase methodology: Before (Prepare) → During (Execute) → After (Follow-up)')}
             </p>
             <button
               onClick={handleCreateInterview}
               className="px-8 py-4 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium text-lg shadow-lg hover:shadow-xl"
             >
-              Create Your First Interview Prep
+              {t('interviewMastery.createFirst', 'Create Your First Interview Prep')}
             </button>
           </div>
         )}
@@ -205,7 +203,7 @@ export default function InterviewMastery() {
         {/* Interview List */}
         {interviews.length > 0 && (
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Interview Preparations</h2>
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('interviewMastery.yourPreps', 'Your Interview Preparations')}</h2>
 
             {interviews.map((interview) => {
               const daysUntil = getDaysUntilInterview(interview)
@@ -234,7 +232,7 @@ export default function InterviewMastery() {
                             {formatInterviewDate(interview.interview_date)}
                             {daysUntil !== null && daysUntil > 0 && (
                               <span className="ml-2 text-primary-600 dark:text-primary-400 font-medium">
-                                ({daysUntil} days to prepare)
+                                ({daysUntil} {t('interviewMastery.daysToPrepare', 'days to prepare')})
                               </span>
                             )}
                           </p>
@@ -244,7 +242,7 @@ export default function InterviewMastery() {
                         <div className="text-3xl font-bold text-primary-600 dark:text-primary-400 mb-1">
                           {progress}%
                         </div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">Complete</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{t('interviewMastery.complete', 'Complete')}</p>
                       </div>
                     </div>
 
@@ -265,7 +263,7 @@ export default function InterviewMastery() {
                           {interview.phase1_completed ? <CheckCircle2 className="w-5 h-5" /> : <PenSquare className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase1_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
-                          Phase 1: Prepare
+                          {t('interviewMastery.phase1', 'Phase 1: Prepare')}
                         </p>
                       </div>
                       <div className={`text-center p-3 rounded-lg ${interview.phase2_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
@@ -273,7 +271,7 @@ export default function InterviewMastery() {
                           {interview.phase2_completed ? <CheckCircle2 className="w-5 h-5" /> : <Briefcase className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase2_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
-                          Phase 2: Execute
+                          {t('interviewMastery.phase2', 'Phase 2: Execute')}
                         </p>
                       </div>
                       <div className={`text-center p-3 rounded-lg ${interview.phase3_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
@@ -281,7 +279,7 @@ export default function InterviewMastery() {
                           {interview.phase3_completed ? <CheckCircle2 className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase3_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
-                          Phase 3: Follow-up
+                          {t('interviewMastery.phase3', 'Phase 3: Follow-up')}
                         </p>
                       </div>
                     </div>
@@ -318,17 +316,17 @@ export default function InterviewMastery() {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-2xl font-bold mb-2 flex items-center gap-3">
-                <BookOpen className="w-7 h-7" /> Question Bank
+                <BookOpen className="w-7 h-7" /> {t('interviewMastery.questionBank', 'Question Bank')}
               </h3>
               <p className="text-white/90">
-                Access 70+ curated interview questions with answering tips
+                {t('interviewMastery.questionBankDesc', 'Access 70+ curated interview questions with answering tips')}
               </p>
             </div>
             <button
               onClick={() => navigate('/dashboard/interview/questions')}
               className="px-6 py-3 bg-white dark:bg-gray-800 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium shadow-lg"
             >
-              Browse Questions
+              {t('interviewMastery.browseQuestions', 'Browse Questions')}
             </button>
           </div>
         </div>
