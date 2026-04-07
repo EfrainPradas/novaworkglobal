@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { pdf } from '@react-pdf/renderer'
 import { CareerVisionPDF } from '../../components/CareerVisionPDF'
 import Preferences, { WorkPreferences } from './Preferences'
+import { ArrowLeft, Download, Loader2, Sparkles, Target, Heart, Briefcase } from 'lucide-react'
 
 interface CareerVisionData {
   skills: string[]
@@ -13,6 +15,7 @@ interface CareerVisionData {
 
 const CareerVisionSummary: React.FC = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const [loading, setLoading] = useState(true)
   const [careerData, setCareerData] = useState<CareerVisionData>({
     skills: [],
@@ -40,27 +43,23 @@ const CareerVisionSummary: React.FC = () => {
         return
       }
 
-      // Get user name
       const fullName = user.user_metadata?.full_name ||
         user.email?.split('@')[0]?.replace(/[._-]/g, ' ') ||
         'User'
       setUserName(fullName)
 
-      // Load skills
       const { data: skillsData } = await supabase
         .from('user_skills')
         .select('skill_name')
         .eq('user_id', user.id)
         .order('created_at', { ascending: true })
 
-      // Load interests
       const { data: interestsData } = await supabase
         .from('user_interests')
         .select('interest_name')
         .eq('user_id', user.id)
         .order('created_at', { ascending: true })
 
-      // Load preferences
       const { data: prefsData } = await supabase
         .from('ideal_work_preferences')
         .select('*')
@@ -70,7 +69,6 @@ const CareerVisionSummary: React.FC = () => {
       const skills = skillsData?.map((s: any) => s.skill_name) || []
       const interests = interestsData?.map((i: any) => i.interest_name) || []
 
-      // Calculate sweet spot
       const skillWords = skills.flatMap((s: string) =>
         s.toLowerCase().split(/\s+/).filter((w: string) => w.length > 3)
       )
@@ -116,232 +114,167 @@ const CareerVisionSummary: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/40 dark:via-gray-900 dark:to-purple-900/40 flex items-center justify-center transition-colors duration-200">
-        <div className="text-gray-600 dark:text-gray-400">Loading your career vision...</div>
+      <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex items-center justify-center">
+        <div className="flex items-center gap-3 text-gray-500">
+          <Loader2 className="w-5 h-5 animate-spin" />
+          {t('common.loading', 'Loading...')}
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/40 dark:via-gray-900 dark:to-purple-900/40 py-12 px-4 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 pb-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            The "Sweet Spot": Where Capability Meets Passion
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
-            {userName} • {generatedDate}
-          </p>
+        <div className="mb-10">
+          <button
+            onClick={() => navigate('/dashboard/career-vision')}
+            className="flex items-center gap-2 text-sm text-gray-500 hover:text-primary-600 transition-colors mb-6"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            {t('careerVision.dashboard.backToDashboard', 'Back to Career Vision')}
+          </button>
+
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
+                <span className="w-12 h-12 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center">
+                  <Sparkles className="w-6 h-6" />
+                </span>
+                {t('careerVision.summary.title', 'Your Career Vision Profile')}
+              </h1>
+              <p className="text-gray-600 dark:text-gray-400">
+                {userName} &middot; {generatedDate}
+              </p>
+            </div>
+            <button
+              onClick={handleDownloadPDF}
+              disabled={downloading}
+              className="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-all font-semibold flex items-center gap-2 shadow-md hover:shadow-lg disabled:opacity-50"
+            >
+              {downloading ? (
+                <><Loader2 className="w-4 h-4 animate-spin" /> {t('careerVision.summary.generating', 'Generating PDF...')}</>
+              ) : (
+                <><Download className="w-4 h-4" /> {t('careerVision.summary.downloadPdf', 'Download PDF')}</>
+              )}
+            </button>
+          </div>
         </div>
 
-        {/* Main Venn Diagram Section */}
-        <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-12 mb-8 transition-colors duration-200">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+        {/* Sweet Spot Section */}
+        <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-8 mb-8">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2 text-center">
+            {t('careerVision.summary.sweetSpotTitle', 'The "Sweet Spot": Where Capability Meets Passion')}
+          </h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-8">
+            {t('careerVision.summary.sweetSpotDesc', 'The intersection of your skills and interests defines your unique professional value.')}
+          </p>
 
-            {/* Venn Diagram */}
-            <div className="lg:col-span-2">
-              <div className="relative h-[500px] flex items-center justify-center">
-                <svg width="700" height="500" viewBox="0 0 700 500" className="mx-auto">
-                  {/* Skills Circle (Left) */}
-                  <circle
-                    cx="250"
-                    cy="250"
-                    r="180"
-                    className="fill-slate-50/95 dark:fill-slate-800/95 stroke-gray-800 dark:stroke-gray-200 transition-colors duration-200"
-                    strokeWidth="3"
-                  />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                  {/* Interests Circle (Right) */}
-                  <circle
-                    cx="450"
-                    cy="250"
-                    r="180"
-                    className="fill-slate-50/95 dark:fill-slate-800/95 stroke-orange-400 dark:stroke-orange-500 transition-colors duration-200"
-                    strokeWidth="3"
-                  />
-
-                  {/* Skills Label */}
-                  <text x="150" y="150" fontSize="18" fontWeight="bold" className="fill-gray-800 dark:fill-gray-100">
-                    Skills
-                  </text>
-
-                  {/* Skills Items */}
-                  {careerData.skills.slice(0, 4).map((skill, idx) => (
-                    <text
-                      key={`skill-${idx}`}
-                      x="150"
-                      y={190 + idx * 30}
-                      fontSize="14"
-                      className="fill-gray-700 dark:fill-gray-300"
-                    >
-                      {skill}
-                    </text>
-                  ))}
-
-                  {/* Interests Label */}
-                  <text x="480" y="150" fontSize="18" fontWeight="bold" className="fill-orange-600 dark:fill-orange-400">
-                    Interests
-                  </text>
-
-                  {/* Interests Items */}
-                  {careerData.interests.slice(0, 4).map((interest, idx) => (
-                    <text
-                      key={`interest-${idx}`}
-                      x="480"
-                      y={190 + idx * 30}
-                      fontSize="14"
-                      className="fill-gray-700 dark:fill-gray-300"
-                    >
-                      {interest}
-                    </text>
-                  ))}
-
-                  {/* Sweet Spot Center */}
-                  <ellipse
-                    cx="350"
-                    cy="250"
-                    rx="100"
-                    ry="120"
-                    className="fill-gray-700/95 dark:fill-gray-900/95 stroke-gray-600 dark:stroke-gray-500"
-                    strokeWidth="2"
-                  />
-
-                  {/* Sweet Spot Name */}
-                  <text
-                    x="350"
-                    y="230"
-                    fontSize="24"
-                    fontWeight="bold"
-                    fill="white"
-                    textAnchor="middle"
-                  >
-                    {userName.toUpperCase()}
-                  </text>
-
-                  {/* Sweet Spot Words */}
-                  {careerData.sweetSpot.slice(0, 2).map((word, idx) => (
-                    <text
-                      key={`sweet-${idx}`}
-                      x="350"
-                      y={260 + idx * 24}
-                      fontSize="13"
-                      fill="white"
-                      textAnchor="middle"
-                    >
-                      {word.charAt(0).toUpperCase() + word.slice(1)}
-                    </text>
-                  ))}
-
-                  {/* Data Process Label */}
-                  {careerData.sweetSpot.length > 0 && (
-                    <>
-                      <text
-                        x="520"
-                        y="180"
-                        fontSize="14"
-                        className="fill-gray-500 dark:fill-gray-400"
-                        fontStyle="italic"
-                      >
-                        {careerData.sweetSpot.slice(0, 2).join(' & ')}
-                      </text>
-                      <line
-                        x1="510"
-                        y1="175"
-                        x2="420"
-                        y2="230"
-                        className="stroke-gray-500 dark:stroke-gray-400"
-                        strokeWidth="2"
-                        markerEnd="url(#arrowhead)"
-                      />
-                    </>
-                  )}
-                  <defs>
-                    <marker
-                      id="arrowhead"
-                      markerWidth="10"
-                      markerHeight="10"
-                      refX="5"
-                      refY="3"
-                      orient="auto"
-                    >
-                      <polygon points="0 0, 10 3, 0 6" className="fill-gray-500 dark:fill-gray-400" />
-                    </marker>
-                  </defs>
-                </svg>
+            {/* Skills Card */}
+            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-2xl p-6 border border-primary-100 dark:border-primary-800">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center">
+                  <Briefcase className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">{t('careerVision.summary.skills', 'Skills')}</h3>
+                  <p className="text-xs text-gray-500">{careerData.skills.length} {t('careerVision.summary.identified', 'identified')}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {careerData.skills.map((skill, idx) => (
+                  <span key={idx} className="px-3 py-1.5 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg border border-primary-200 dark:border-primary-800">
+                    {skill}
+                  </span>
+                ))}
+                {careerData.skills.length === 0 && (
+                  <p className="text-sm text-gray-400 italic">{t('careerVision.summary.noData', 'No data yet')}</p>
+                )}
               </div>
             </div>
 
-            {/* Profile Description - Dynamic Insight */}
-            <div className="lg:col-span-1 space-y-4">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                My Professional Profile
-              </h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-                {careerData.sweetSpot.length > 0 ? (
-                  <>
-                    Thrives at the intersection of <strong>{careerData.sweetSpot.slice(0, 2).join(' and ')}</strong>.
-                    It's not just technical analysis; it's the application of data intelligence
-                    to develop people and sustainable solutions.
-                  </>
-                ) : (
-                  <>
-                    My professional profile combines expertise in <strong>{careerData.skills.slice(0, 2).join(' and ')}</strong> with
-                    a passion for <strong>{careerData.interests.slice(0, 2).join(' and ')}</strong>, creating unique value
-                    through the integration of technical skills and personal interests.
-                  </>
-                )}
-              </p>
-              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <strong>{careerData.skills.length}</strong> Skills •
-                  <strong className="ml-2">{careerData.interests.length}</strong> Interests
-                </p>
+            {/* Sweet Spot Center */}
+            <div className="bg-primary-600 rounded-2xl p-6 text-white flex flex-col items-center justify-center text-center">
+              <div className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center mb-4">
+                <Target className="w-7 h-7" />
               </div>
+              <h3 className="text-lg font-bold mb-2">{userName}</h3>
+              <p className="text-sm text-white/80 mb-4">{t('careerVision.summary.sweetSpotLabel', 'Your Sweet Spot')}</p>
+              {careerData.sweetSpot.length > 0 ? (
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {careerData.sweetSpot.slice(0, 5).map((word, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-white/20 rounded-full text-sm font-medium">
+                      {word.charAt(0).toUpperCase() + word.slice(1)}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-sm text-white/60 italic">{t('careerVision.summary.completeModules', 'Complete Skills & Interests to discover your sweet spot')}</p>
+              )}
+            </div>
+
+            {/* Interests Card */}
+            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-2xl p-6 border border-primary-100 dark:border-primary-800">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center">
+                  <Heart className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 dark:text-white">{t('careerVision.summary.interests', 'Interests')}</h3>
+                  <p className="text-xs text-gray-500">{careerData.interests.length} {t('careerVision.summary.identified', 'identified')}</p>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {careerData.interests.map((interest, idx) => (
+                  <span key={idx} className="px-3 py-1.5 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 rounded-lg border border-primary-200 dark:border-primary-800">
+                    {interest}
+                  </span>
+                ))}
+                {careerData.interests.length === 0 && (
+                  <p className="text-sm text-gray-400 italic">{t('careerVision.summary.noData', 'No data yet')}</p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Profile Insight */}
+          <div className="mt-8 bg-gray-50 dark:bg-gray-700/50 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-2">{t('careerVision.summary.profileInsight', 'Professional Profile Insight')}</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+              {careerData.sweetSpot.length > 0 ? (
+                <>
+                  {t('careerVision.summary.insightWithSweet', 'Thrives at the intersection of')}{' '}
+                  <strong>{careerData.sweetSpot.slice(0, 2).join(` ${t('common.and', 'and')} `)}</strong>.{' '}
+                  {t('careerVision.summary.insightCont', 'This unique combination creates differentiated value in the market.')}
+                </>
+              ) : (
+                <>
+                  {t('careerVision.summary.insightGeneric', 'Combines expertise in')}{' '}
+                  <strong>{careerData.skills.slice(0, 2).join(` ${t('common.and', 'and')} `)}</strong>{' '}
+                  {t('careerVision.summary.insightWith', 'with a passion for')}{' '}
+                  <strong>{careerData.interests.slice(0, 2).join(` ${t('common.and', 'and')} `)}</strong>.
+                </>
+              )}
+            </p>
+            <div className="flex gap-6 mt-4 text-sm text-gray-500 dark:text-gray-400">
+              <span><strong className="text-primary-600">{careerData.skills.length}</strong> {t('careerVision.summary.skills', 'Skills')}</span>
+              <span><strong className="text-primary-600">{careerData.interests.length}</strong> {t('careerVision.summary.interests', 'Interests')}</span>
+              <span><strong className="text-primary-600">{careerData.sweetSpot.length}</strong> {t('careerVision.summary.overlaps', 'Overlaps')}</span>
             </div>
           </div>
         </div>
 
-
-        {/* Ideal Work Preferences Dashboard */}
+        {/* Ideal Work Preferences */}
         {preferences && (
-          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-8 mb-8 transition-colors duration-200">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-8 mb-8">
             <Preferences embedded initialData={preferences} />
           </div>
         )}
 
-        {/* Action Buttons */}
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={() => navigate('/dashboard/career-vision')}
-            className="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium"
-          >
-            ← Back
-          </button>
-          <button
-            onClick={handleDownloadPDF}
-            disabled={downloading}
-            className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium flex items-center gap-2 shadow-lg"
-          >
-            {downloading ? (
-              <>
-                <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Generating PDF...
-              </>
-            ) : (
-              <>
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-                Download PDF
-              </>
-            )
-            }
-          </button>
-        </div>
       </div>
     </div>
   )

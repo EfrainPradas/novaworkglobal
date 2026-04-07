@@ -23,20 +23,18 @@ export default function CareerVisionDashboard() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      const { data: progress } = await supabase
-        .from('user_progress')
-        .select('step_id')
-        .eq('user_id', user.id)
-        .eq('module_id', 'career-vision')
+      // Check completion by querying actual data tables
+      const [{ data: skills }, { data: jobs }, { data: prefs }] = await Promise.all([
+        supabase.from('user_skills').select('id').eq('user_id', user.id).limit(1),
+        supabase.from('job_history_analysis').select('id').eq('user_id', user.id).limit(1),
+        supabase.from('ideal_work_preferences').select('id').eq('user_id', user.id).limit(1),
+      ])
 
-      if (progress) {
-        const completed = progress.map(p => p.step_id)
-        setSectionsStatus({
-          skillsValues: completed.includes('skills-values'),
-          jobHistory: completed.includes('job-history'),
-          preferences: completed.includes('preferences')
-        })
-      }
+      setSectionsStatus({
+        skillsValues: (skills?.length ?? 0) > 0,
+        jobHistory: (jobs?.length ?? 0) > 0,
+        preferences: (prefs?.length ?? 0) > 0
+      })
       setLoading(false)
     }
     loadStatus()
@@ -121,7 +119,7 @@ export default function CareerVisionDashboard() {
             <div
               key={section.id}
               onClick={() => navigate(section.route)}
-              className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group"
+              className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group flex flex-col"
             >
               <div className="w-14 h-14 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300">
                 <section.Icon className="w-7 h-7" />
@@ -130,11 +128,11 @@ export default function CareerVisionDashboard() {
                 {section.title}
                 {section.completed && <CheckCircle2 className="text-green-500" size={20} />}
               </h3>
-              <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed flex-1">
                 {section.description}
               </p>
-              
-              <div className="flex flex-col gap-3">
+
+              <div className="flex flex-col gap-3 mt-6">
                 <button 
                   className={`w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                     section.completed 

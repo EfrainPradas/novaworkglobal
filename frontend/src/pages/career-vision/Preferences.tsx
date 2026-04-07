@@ -35,13 +35,13 @@ export interface WorkPreferences {
 }
 
 const WEIGHT_OPTIONS = [
-  { value: 'M', label: 'Must-have', color: 'text-red-600 font-bold' },
+  { value: 'M', label: 'Must-have', color: 'text-primary-800 font-bold' },
   { value: '10', label: '10 - Extremely Important', color: 'text-primary-600' },
   { value: '9', label: '9', color: 'text-primary-500' },
-  { value: '8', label: '8', color: 'text-yellow-600' },
-  { value: '7', label: '7', color: 'text-yellow-500' },
-  { value: '6', label: '6', color: 'text-green-600' },
-  { value: '5', label: '5 - Moderately Important', color: 'text-green-500' },
+  { value: '8', label: '8', color: 'text-primary-700' },
+  { value: '7', label: '7', color: 'text-primary-600' },
+  { value: '6', label: '6', color: 'text-primary-500' },
+  { value: '5', label: '5 - Moderately Important', color: 'text-primary-400' },
   { value: '4', label: '4', color: 'text-primary-600' },
   { value: '3', label: '3', color: 'text-primary-500' },
   { value: '2', label: '2', color: 'text-gray-600' },
@@ -370,13 +370,13 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {/* Must Haves */}
-            <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-6 border border-red-100 dark:border-red-900/30">
-              <h2 className="text-lg font-bold text-red-700 dark:text-red-400 mb-4 flex items-center gap-2">
+            <div className="bg-primary-50 dark:bg-primary-900/10 rounded-xl p-6 border border-primary-100 dark:border-primary-900/30">
+              <h2 className="text-lg font-bold text-primary-700 dark:text-primary-400 mb-4 flex items-center gap-2">
                 <span className="text-xl">🔥</span> Must Haves (Non-negotiables)
               </h2>
               <div className="space-y-4">
                 {categories.filter(c => preferences[c.weightField] === 'M').map(c => (
-                  <div key={c.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border-l-4 border-red-500">
+                  <div key={c.id} className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm border-l-4 border-primary-500">
                     <div className="flex items-center gap-2 mb-2">
                       <span>{c.icon}</span>
                       <h3 className="font-semibold text-gray-900 dark:text-white">{c.title}</h3>
@@ -480,14 +480,14 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
               <strong>Priority Scale:</strong>
             </p>
             <div className="flex flex-wrap gap-2 text-xs">
-              <span className="bg-white dark:bg-gray-800 px-2 py-1 rounded border border-red-200 dark:border-red-900 text-gray-700 dark:text-gray-300">
-                <strong className="text-red-600 dark:text-red-400">M</strong> = Must-have
+              <span className="bg-white dark:bg-gray-800 px-2 py-1 rounded border border-primary-200 dark:border-primary-900 text-gray-700 dark:text-gray-300">
+                <strong className="text-primary-800 dark:text-primary-400">M</strong> = Must-have
               </span>
               <span className="bg-white dark:bg-gray-800 px-2 py-1 rounded border dark:border-gray-700 text-gray-700 dark:text-gray-300">
                 <strong className="text-primary-600 dark:text-primary-400">10</strong> = Extremely Important
               </span>
               <span className="bg-white dark:bg-gray-800 px-2 py-1 rounded border dark:border-gray-700 text-gray-700 dark:text-gray-300">
-                <strong className="text-green-600 dark:text-green-400">5</strong> = Moderately Important
+                <strong className="text-primary-400 dark:text-primary-400">5</strong> = Moderately Important
               </span>
               <span className="bg-white dark:bg-gray-800 px-2 py-1 rounded border dark:border-gray-700 text-gray-700 dark:text-gray-300">
                 <strong className="text-gray-600 dark:text-gray-400">1</strong> = Least Important
@@ -560,7 +560,7 @@ export default function Preferences({ embedded = false, initialData }: Preferenc
               onClick={handleSave}
               disabled={saving}
               className={`flex items-center gap-2 px-8 py-3 rounded-lg font-semibold transition-colors ${saved
-                ? 'bg-green-600 text-white'
+                ? 'bg-primary-600 text-white'
                 : saving
                   ? 'bg-gray-400 dark:bg-gray-600 text-white cursor-not-allowed'
                   : 'bg-primary-600 text-white hover:bg-primary-700'
