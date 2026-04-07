@@ -228,14 +228,14 @@ export default function NewInterview() {
             onClick={() => navigate('/dashboard/interview')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-4 flex items-center gap-2"
           >
-            ← Back to Interviews
+            {t('newInterview.backToInterviews', '← Back to Interviews')}
           </button>
 
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-            🎯 New Interview Preparation
+            {t('newInterview.title', 'New Interview Preparation')}
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Start preparing for your upcoming interview
+            {t('newInterview.subtitle', 'Start preparing for your upcoming interview')}
           </p>
         </div>
 
@@ -247,17 +247,17 @@ export default function NewInterview() {
           /* Application Selector */
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-8 transition-colors duration-200">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              📋 Choose an Application to Prepare For
+              {t('newInterview.chooseApplication', 'Choose an Application to Prepare For')}
             </h2>
 
             {applications.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-600 mb-4">No sent applications found.</p>
+                <p className="text-gray-600 mb-4">{t('newInterview.noApplications', 'No sent applications found.')}</p>
                 <button
                   onClick={handleCreateManual}
                   className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                 >
-                  Create Manual Interview Prep
+                  {t('newInterview.createManual', 'Create Manual Interview Prep')}
                 </button>
               </div>
             ) : (
@@ -275,7 +275,7 @@ export default function NewInterview() {
                         </h3>
                         <p className="text-gray-600 dark:text-gray-400">{app.company_name}</p>
                         <p className="text-sm text-gray-500 mt-1">
-                          Applied: {new Date(app.sent_at).toLocaleDateString()}
+                          {t('newInterview.applied', 'Applied:')} {new Date(app.sent_at).toLocaleDateString()}
                         </p>
                       </div>
                       <div className="text-right">
@@ -284,7 +284,7 @@ export default function NewInterview() {
                               app.match_score >= 60 ? 'bg-yellow-100 text-yellow-800' :
                                 'bg-red-100 text-red-800'
                             }`}>
-                            {app.match_score}% Match
+                            {app.match_score}% {t('newInterview.match', 'Match')}
                           </span>
                         </div>
                         <button className="text-primary-600 hover:text-primary-700 text-sm font-medium">
@@ -300,7 +300,7 @@ export default function NewInterview() {
                     onClick={handleCreateManual}
                     className="text-gray-600 hover:text-gray-800 text-sm"
                   >
-                    Or create manual interview prep
+                    {t('newInterview.orCreateManual', 'Or create manual interview prep')}
                   </button>
                 </div>
               </div>
@@ -311,13 +311,13 @@ export default function NewInterview() {
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 mb-6 transition-colors duration-200">
             <div className="flex justify-between items-center">
               <div>
-                <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">Preparing for:</p>
+                <p className="text-sm text-blue-600 dark:text-blue-400 font-medium">{t('newInterview.preparingFor', 'Preparing for:')}</p>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                   {formData.position_title} at {formData.company_name}
                 </h3>
                 {selectedApplication && (
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Match Score: <span className="font-medium">{selectedApplication.match_score}%</span>
+                    {t('newInterview.matchScore', 'Match Score:')} <span className="font-medium">{selectedApplication.match_score}%</span>
                   </p>
                 )}
               </div>
@@ -325,7 +325,7 @@ export default function NewInterview() {
                 onClick={handleBackToApplications}
                 className="text-blue-600 hover:text-blue-700 text-sm"
               >
-                ← Change Application
+                {t('newInterview.changeApplication', '← Change Application')}
               </button>
             </div>
           </div>
@@ -344,33 +344,33 @@ export default function NewInterview() {
               <div className="space-y-6">
                 {/* Basic Info */}
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Basic Information</h2>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('newInterview.basicInfo', 'Basic Information')}</h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Company Name *
+                        {t('newInterview.companyName', 'Company Name *')}
                       </label>
                       <input
                         type="text"
                         value={formData.company_name}
                         onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Google, Microsoft, etc."
+                        placeholder={t('newInterview.companyNamePlaceholder', 'Google, Microsoft, etc.')}
                         required
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Position Title *
+                        {t('newInterview.positionTitle', 'Position Title *')}
                       </label>
                       <input
                         type="text"
                         value={formData.position_title}
                         onChange={(e) => setFormData({ ...formData, position_title: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Senior Product Manager"
+                        placeholder={t('newInterview.positionTitlePlaceholder', 'Senior Product Manager')}
                         required
                       />
                     </div>
@@ -378,39 +378,39 @@ export default function NewInterview() {
 
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Job Description
+                      {t('newInterview.jobDescription', 'Job Description')}
                     </label>
                     <textarea
                       value={formData.job_description}
                       onChange={(e) => setFormData({ ...formData, job_description: e.target.value })}
                       rows={6}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                      placeholder="Paste the full job description here..."
+                      placeholder={t('newInterview.jobDescriptionPlaceholder', 'Paste the full job description here...')}
                     />
                   </div>
 
                   <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Job Description URL
+                      {t('newInterview.jobDescriptionUrl', 'Job Description URL')}
                     </label>
                     <input
                       type="url"
                       value={formData.jd_url}
                       onChange={(e) => setFormData({ ...formData, jd_url: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                      placeholder="https://..."
+                      placeholder={t('newInterview.jobDescriptionUrlPlaceholder', 'https://...')}
                     />
                   </div>
                 </div>
 
                 {/* Interview Details */}
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Interview Details</h2>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('newInterview.interviewDetails', 'Interview Details')}</h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Interview Date & Time
+                        {t('newInterview.interviewDateTime', 'Interview Date & Time')}
                       </label>
                       <input
                         type="datetime-local"
@@ -422,14 +422,14 @@ export default function NewInterview() {
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Location
+                        {t('newInterview.location', 'Location')}
                       </label>
                       <input
                         type="text"
                         value={formData.interview_location}
                         onChange={(e) => setFormData({ ...formData, interview_location: e.target.value })}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
-                        placeholder="Virtual, Office address, etc."
+                        placeholder={t('newInterview.locationPlaceholder', 'Virtual, Office address, etc.')}
                       />
                     </div>
                   </div>
@@ -437,15 +437,15 @@ export default function NewInterview() {
 
                 {/* Interview Type Classification */}
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Interview Type Classification</h2>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">{t('newInterview.interviewTypeClassification', 'Interview Type Classification')}</h2>
                   <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
-                    Help us tailor your preparation by identifying the interview type across 4 dimensions
+                    {t('newInterview.interviewTypeDescription', 'Help us tailor your preparation by identifying the interview type across 4 dimensions')}
                   </p>
 
                   {/* WHO */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      WHO: Who will interview you?
+                      {t('newInterview.whoLabel', 'WHO: Who will interview you?')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {INTERVIEW_TYPE_WHO.map((type) => (
@@ -470,7 +470,7 @@ export default function NewInterview() {
                   {/* HOW */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      HOW: Interview format?
+                      {t('newInterview.howLabel', 'HOW: Interview format?')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {INTERVIEW_TYPE_HOW.map((type) => (
@@ -495,7 +495,7 @@ export default function NewInterview() {
                   {/* WHEN */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      WHEN: Stage in process?
+                      {t('newInterview.whenLabel', 'WHEN: Stage in process?')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {INTERVIEW_TYPE_WHEN.map((type) => (
@@ -520,7 +520,7 @@ export default function NewInterview() {
                   {/* HOW MANY */}
                   <div className="mb-6">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      HOW MANY: Number of participants?
+                      {t('newInterview.howManyLabel', 'HOW MANY: Number of participants?')}
                     </label>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                       {INTERVIEW_TYPE_HOW_MANY.map((type) => (
@@ -550,14 +550,14 @@ export default function NewInterview() {
                     onClick={() => navigate('/dashboard/interview')}
                     className="px-6 py-3 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
                   >
-                    Cancel
+                    {t('newInterview.cancel', 'Cancel')}
                   </button>
                   <button
                     type="submit"
                     disabled={saving}
                     className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 font-medium"
                   >
-                    {saving ? 'Creating...' : 'Create Interview Preparation'}
+                    {saving ? t('newInterview.creating', 'Creating...') : t('newInterview.createButton', 'Create Interview Preparation')}
                   </button>
                 </div>
               </div>

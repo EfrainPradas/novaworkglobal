@@ -71,7 +71,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                         {...attributes}
                         {...listeners}
                         className="mt-1 cursor-grab text-gray-300 hover:text-gray-500 dark:text-gray-600 dark:hover:text-gray-400 opacity-50 hover:opacity-100 flex-shrink-0 active:cursor-grabbing"
-                        title="Drag to reorder"
+                        title={t('accomplishmentCard.dragToReorder', 'Drag to reorder')}
                     >
                         <GripVertical size={18} />
                     </div>
@@ -94,7 +94,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                         value={editRole}
                                         onChange={e => setEditRole(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Sales Manager"
+                                        placeholder={t('accomplishmentCard.rolePlaceholder', 'e.g. Sales Manager')}
                                     />
                                 </div>
                                 <div>
@@ -104,7 +104,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                         value={editCompany}
                                         onChange={e => setEditCompany(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Modere"
+                                        placeholder={t('accomplishmentCard.companyPlaceholder', 'e.g. Modere')}
                                     />
                                 </div>
                                 <div>
@@ -114,7 +114,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                         value={editStart}
                                         onChange={e => setEditStart(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Jan 2020"
+                                        placeholder={t('accomplishmentCard.startDatePlaceholder', 'e.g. Jan 2020')}
                                     />
                                 </div>
                                 <div>
@@ -124,7 +124,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                         value={editEnd}
                                         onChange={e => setEditEnd(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Present"
+                                        placeholder={t('accomplishmentCard.endDatePlaceholder', 'e.g. Present')}
                                     />
                                 </div>
                             </div>
@@ -158,7 +158,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                 {/* Dates Badge */}
                                 {(item.start_date || item.end_date) && (
                                     <span className="text-xs font-medium text-gray-400 dark:text-gray-500 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 px-2 py-0.5 rounded">
-                                        {item.start_date || 'Unknown'} - {item.end_date || 'Present'}
+                                        {item.start_date || t('accomplishmentCard.unknown', 'Unknown')} - {item.end_date || t('accomplishmentCard.present', 'Present')}
                                     </span>
                                 )}
 

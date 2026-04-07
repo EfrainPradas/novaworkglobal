@@ -2,17 +2,19 @@ import { useState } from 'react'
 import { Network, Calendar, ChevronRight } from 'lucide-react'
 import { BackButton } from '../../components/common/BackButton'
 import { useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 export default function NetworkingStrategy() {
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [activeWeek, setActiveWeek] = useState(1)
+    const { t } = useTranslation()
 
     const weeks = [
-        { id: 1, title: 'Week 1-2', focus: 'Identification', goal: 'List 50 Contacts', checked: false },
-        { id: 2, title: 'Week 3-4', focus: 'Outreach', goal: 'Sent 20 Messages', checked: false },
-        { id: 3, title: 'Week 5-6', focus: 'Meetings', goal: 'Completed 10 Coffee Chats', checked: false },
-        { id: 4, title: 'Week 7-8', focus: 'Follow-up', goal: 'Secured 3 Referrals', checked: false },
+        { id: 1, title: t('networkingStrategy.week1Title', 'Week 1-2'), focus: t('networkingStrategy.week1Focus', 'Identification'), goal: t('networkingStrategy.week1Goal', 'List 50 Contacts'), checked: false },
+        { id: 2, title: t('networkingStrategy.week2Title', 'Week 3-4'), focus: t('networkingStrategy.week2Focus', 'Outreach'), goal: t('networkingStrategy.week2Goal', 'Sent 20 Messages'), checked: false },
+        { id: 3, title: t('networkingStrategy.week3Title', 'Week 5-6'), focus: t('networkingStrategy.week3Focus', 'Meetings'), goal: t('networkingStrategy.week3Goal', 'Completed 10 Coffee Chats'), checked: false },
+        { id: 4, title: t('networkingStrategy.week4Title', 'Week 7-8'), focus: t('networkingStrategy.week4Focus', 'Follow-up'), goal: t('networkingStrategy.week4Goal', 'Secured 3 Referrals'), checked: false },
     ]
 
     return (
@@ -21,15 +23,15 @@ export default function NetworkingStrategy() {
 
                 {/* Header */}
                 <div>
-                    <BackButton to="/dashboard/job-search-hub" label="Back to Job Search" className="mb-6 pl-0" />
+                    <BackButton to="/dashboard/job-search-hub" label={t('networkingStrategy.backToJobSearch', 'Back to Job Search')} className="mb-6 pl-0" />
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
                         <span className="p-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg">
                             <Network className="w-8 h-8" />
                         </span>
-                        Networking Strategy
+                        {t('networkingStrategy.heading', 'Networking Strategy')}
                     </h1>
                     <p className="text-gray-600 dark:text-gray-400 max-w-2xl text-lg">
-                        Access the hidden job market made up of 75% of the job opportunities
+                        {t('networkingStrategy.subtitle', 'Access the hidden job market made up of 75% of the job opportunities')}
                     </p>
                 </div>
 
@@ -37,10 +39,10 @@ export default function NetworkingStrategy() {
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 transition-colors duration-200">
                     <div className="flex items-center gap-3 mb-6 text-green-600 dark:text-green-400">
                         <Calendar className="w-6 h-6" />
-                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">60-Day Plan</h2>
+                        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('networkingStrategy.sixtyDayPlan', '60-Day Plan')}</h2>
                     </div>
                     <p className="text-gray-600 dark:text-gray-400 mb-6 text-sm">
-                        Success comes from consistency. Follow this bi-weekly sprint schedule.
+                        {t('networkingStrategy.consistencyMessage', 'Success comes from consistency. Follow this bi-weekly sprint schedule.')}
                     </p>
 
                     <div className="space-y-4">
@@ -66,7 +68,7 @@ export default function NetworkingStrategy() {
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="text-right hidden sm:block">
-                                            <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">Goal</p>
+                                            <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">{t('networkingStrategy.goalLabel', 'Goal')}</p>
                                             <p className={`text-sm font-medium ${activeWeek === week.id ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
                                                 {week.goal}
                                             </p>
@@ -80,7 +82,7 @@ export default function NetworkingStrategy() {
 
                     <div className="mt-8 pt-6 border-t border-gray-100 dark:border-gray-700 text-center">
                         <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                            "Your network is your net worth." — Porter Gale
+                            {t('networkingStrategy.quote', '"Your network is your net worth." — Porter Gale')}
                         </p>
                     </div>
                 </div>

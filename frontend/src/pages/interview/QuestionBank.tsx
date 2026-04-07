@@ -141,7 +141,7 @@ export default function QuestionBank() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 dark:text-gray-400">Loading questions & analyzing profile...</p>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">{t('questionBank.loading', 'Loading questions & analyzing profile...')}</p>
         </div>
       </div>
     )
@@ -158,15 +158,15 @@ export default function QuestionBank() {
             onClick={() => navigate('/dashboard/interview')}
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 mb-4 flex items-center gap-2"
           >
-            ← Back to Interviews
+            {t('questionBank.backToInterviews', '← Back to Interviews')}
           </button>
 
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-              📚 Interview Question Bank
+              {t('questionBank.title', 'Interview Question Bank')}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-400">
-              70+ curated questions with expert answering tips
+              {t('questionBank.subtitle', '70+ curated questions with expert answering tips')}
             </p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export default function QuestionBank() {
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
-                All ({questions.length})
+                {t('questionBank.all', 'All')} ({questions.length})
               </button>
               {QUESTION_CATEGORIES.map(category => {
                 const stats = categoryStats.find(s => s.category === category)
@@ -215,10 +215,10 @@ export default function QuestionBank() {
               {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].title}
             </h2>
             <p className="text-white/90 mb-2">
-              <strong>Purpose:</strong> {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].purpose}
+              <strong>{t('questionBank.purpose', 'Purpose')}:</strong> {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].purpose}
             </p>
             <p className="text-white/90">
-              <strong>Strategy:</strong> {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].strategy}
+              <strong>{t('questionBank.strategy', 'Strategy')}:</strong> {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].strategy}
             </p>
           </div>
         )}
@@ -273,7 +273,7 @@ export default function QuestionBank() {
                       </span>
                       {hasAnswer(question.id!) && (
                         <span className="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-300 rounded-full text-xs font-medium">
-                          ✓ Prepared
+                          {t('questionBank.prepared', 'Prepared')}
                         </span>
                       )}
                       {question.source !== 'general' && (
@@ -283,7 +283,7 @@ export default function QuestionBank() {
                       )}
                       {question.par_methodology_applicable && (
                         <span className="px-2 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-xs font-medium">
-                          PAR
+                          {t('questionBank.par', 'PAR')}
                         </span>
                       )}
                     </div>
@@ -307,7 +307,7 @@ export default function QuestionBank() {
                     {/* Answering Tips */}
                     {question.answering_tips && (
                       <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-100 dark:border-blue-800">
-                        <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">💡 Answering Tips:</h4>
+                        <h4 className="font-medium text-blue-900 dark:text-blue-200 mb-2">{t('questionBank.answeringTips', 'Answering Tips:')}</h4>
                         <p className="text-sm text-blue-800 dark:text-blue-300">{question.answering_tips}</p>
                       </div>
                     )}
@@ -316,14 +316,14 @@ export default function QuestionBank() {
                     {answer && (
                       <div className="mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-100 dark:border-green-800">
                         <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-medium text-green-900 dark:text-green-200">✓ Your Prepared Answer</h4>
+                          <h4 className="font-medium text-green-900 dark:text-green-200">{t('questionBank.yourPreparedAnswer', 'Your Prepared Answer')}</h4>
                           <div className="flex items-center gap-2">
                             <span className="text-xs text-green-700 dark:text-green-300">
-                              Confidence: {answer.confidence_level}/5
+                              {t('questionBank.confidence', 'Confidence')}: {answer.confidence_level}/5
                             </span>
                             {answer.times_practiced > 0 && (
                               <span className="text-xs text-green-700 dark:text-green-300">
-                                Practiced: {answer.times_practiced}x
+                                {t('questionBank.practiced', 'Practiced')}: {answer.times_practiced}x
                               </span>
                             )}
                           </div>
@@ -335,7 +335,7 @@ export default function QuestionBank() {
                           onClick={() => handlePrepareAnswer(question.id!)}
                           className="mt-3 text-sm text-green-700 dark:text-green-300 hover:text-green-800 font-medium"
                         >
-                          Edit Answer →
+                          {t('questionBank.editAnswer', 'Edit Answer →')}
                         </button>
                       </div>
                     )}
@@ -346,13 +346,13 @@ export default function QuestionBank() {
                         onClick={() => handlePrepareAnswer(question.id!)}
                         className="mt-4 w-full px-4 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium"
                       >
-                        Prepare Answer for This Question
+                        {t('questionBank.prepareAnswer', 'Prepare Answer for This Question')}
                       </button>
                     )}
 
                     {/* Question Metadata */}
                     <div className="mt-4 flex flex-wrap gap-2 text-xs text-gray-500 dark:text-gray-400">
-                      <span>Category: {question.question_category}</span>
+                      <span>{t('questionBank.category', 'Category')}: {question.question_category}</span>
                       {question.question_subcategory && (
                         <>
                           <span>•</span>
@@ -360,7 +360,7 @@ export default function QuestionBank() {
                         </>
                       )}
                       <span>•</span>
-                      <span>Difficulty: {question.difficulty_level}</span>
+                      <span>{t('questionBank.difficulty', 'Difficulty')}: {question.difficulty_level}</span>
                     </div>
                   </div>
                 )}
@@ -371,7 +371,7 @@ export default function QuestionBank() {
 
         {filteredQuestions.length === 0 && (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-12 text-center transition-colors duration-200">
-            <p className="text-gray-600 dark:text-gray-400">No questions found in this category.</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('questionBank.noQuestions', 'No questions found in this category.')}</p>
           </div>
         )}
       </div>

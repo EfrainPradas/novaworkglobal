@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { Check, Star, ArrowRight } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import BookingModal from '../booking/BookingModal'
@@ -11,59 +11,59 @@ interface AddOnService {
     description: string
     features: string[]
     recommended?: boolean
-    cta?: string
+    cta: string
 }
-
-const ADD_ONS: AddOnService[] = [
-    {
-        id: 'email-coaching',
-        title: 'Email Coaching',
-        price: 39,
-        unit: '/ month',
-        description: 'Ongoing guidance with lightweight support. Get 3 emails per month from your coach.',
-        features: [
-            '3 emails / month',
-            'Ongoing guidance',
-            'Lightweight support',
-            'Flexible schedule'
-        ],
-        cta: 'Get Email Support'
-    },
-    {
-        id: '1-1-session',
-        title: '1:1 Session',
-        price: 149,
-        unit: '/ session',
-        description: 'Deep clarity & strategy in a premium, one-time 45-min live session with a career coach.',
-        features: [
-            '45-minute live session',
-            'Deep clarity & strategy',
-            'Premium, one-time format',
-            'Action plan summary'
-        ],
-        cta: 'Book Session'
-    },
-    {
-        id: 'coach-email',
-        title: 'Coach + Email',
-        price: 179,
-        unit: '/ month',
-        description: 'Strategy + continuity with a discounted bundle. 1 session + 3 emails per month.',
-        features: [
-            '1 session + 3 emails / month',
-            'Strategy + continuity',
-            'Discounted bundle',
-            'Priority access'
-        ],
-        recommended: true,
-        cta: 'Get Support'
-    }
-]
 
 export default function ServiceAddOns() {
     const { t } = useTranslation()
     const [selectedService, setSelectedService] = useState<AddOnService | null>(null)
     const [isModalOpen, setIsModalOpen] = useState(false)
+
+    const addOns: AddOnService[] = useMemo(() => [
+        {
+            id: 'email-coaching',
+            title: t('serviceAddOns.emailCoaching.title', 'Email Coaching'),
+            price: 39,
+            unit: t('serviceAddOns.emailCoaching.unit', '/ month'),
+            description: t('serviceAddOns.emailCoaching.description', 'Ongoing guidance with lightweight support. Get 3 emails per month from your coach.'),
+            features: [
+                t('serviceAddOns.emailCoaching.feature1', '3 emails / month'),
+                t('serviceAddOns.emailCoaching.feature2', 'Ongoing guidance'),
+                t('serviceAddOns.emailCoaching.feature3', 'Lightweight support'),
+                t('serviceAddOns.emailCoaching.feature4', 'Flexible schedule')
+            ],
+            cta: t('serviceAddOns.emailCoaching.cta', 'Get Email Support')
+        },
+        {
+            id: '1-1-session',
+            title: t('serviceAddOns.oneOnOne.title', '1:1 Session'),
+            price: 149,
+            unit: t('serviceAddOns.oneOnOne.unit', '/ session'),
+            description: t('serviceAddOns.oneOnOne.description', 'Deep clarity & strategy in a premium, one-time 45-min live session with a career coach.'),
+            features: [
+                t('serviceAddOns.oneOnOne.feature1', '45-minute live session'),
+                t('serviceAddOns.oneOnOne.feature2', 'Deep clarity & strategy'),
+                t('serviceAddOns.oneOnOne.feature3', 'Premium, one-time format'),
+                t('serviceAddOns.oneOnOne.feature4', 'Action plan summary')
+            ],
+            cta: t('serviceAddOns.oneOnOne.cta', 'Book Session')
+        },
+        {
+            id: 'coach-email',
+            title: t('serviceAddOns.coachEmail.title', 'Coach + Email'),
+            price: 179,
+            unit: t('serviceAddOns.coachEmail.unit', '/ month'),
+            description: t('serviceAddOns.coachEmail.description', 'Strategy + continuity with a discounted bundle. 1 session + 3 emails per month.'),
+            features: [
+                t('serviceAddOns.coachEmail.feature1', '1 session + 3 emails / month'),
+                t('serviceAddOns.coachEmail.feature2', 'Strategy + continuity'),
+                t('serviceAddOns.coachEmail.feature3', 'Discounted bundle'),
+                t('serviceAddOns.coachEmail.feature4', 'Priority access')
+            ],
+            recommended: true,
+            cta: t('serviceAddOns.coachEmail.cta', 'Get Support')
+        }
+    ], [t])
 
     const handleBookClick = (service: AddOnService) => {
         setSelectedService(service)
@@ -74,19 +74,18 @@ export default function ServiceAddOns() {
         <section className="py-12 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-2xl border border-indigo-100 dark:border-gray-700 p-8 shadow-sm my-16">
             <div className="text-center max-w-3xl mx-auto mb-12">
                 <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
-                    {t('resumeBuilder.menu.accelerateResults', 'ACCELERATE YOUR RESULTS')}
+                    {t('serviceAddOns.accelerateResults', 'ACCELERATE YOUR RESULTS')}
                 </span>
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-4 mb-4">
-                    {t('resumeBuilder.menu.needGuidance', 'Need Personalized Guidance?')}
+                    {t('serviceAddOns.needGuidance', 'Need Personalized Guidance?')}
                 </h2>
                 <p className="text-lg text-gray-600 dark:text-gray-400">
-                    While our AI tools are powerful, sometimes you need a human expert.
-                    Book a 1:1 session with our world-class coaches to breakthrough faster.
+                    {t('serviceAddOns.subtitle', 'While our AI tools are powerful, sometimes you need a human expert. Book a 1:1 session with our world-class coaches to breakthrough faster.')}
                 </p>
             </div>
 
             <div className="grid md:grid-cols-3 gap-8">
-                {ADD_ONS.map((service) => (
+                {addOns.map((service) => (
                     <div
                         key={service.id}
                         className={`
@@ -97,7 +96,7 @@ export default function ServiceAddOns() {
                         {service.recommended && (
                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary-600 text-white px-4 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
                                 <Star className="w-3 h-3 fill-current" />
-                                MOST POPULAR
+                                {t('serviceAddOns.mostPopular', 'MOST POPULAR')}
                             </div>
                         )}
 
@@ -125,7 +124,7 @@ export default function ServiceAddOns() {
                             onClick={() => handleBookClick(service)}
                             className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors bg-primary-600 text-white hover:bg-primary-700"
                         >
-                            {service.cta || 'Book Now'} <ArrowRight className="w-4 h-4" />
+                            {service.cta} <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>
                 ))}
