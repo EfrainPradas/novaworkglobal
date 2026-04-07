@@ -244,21 +244,21 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
 
                       <button
                         onClick={(e) => { e.stopPropagation(); onResourceClick(resource) }}
-                        className="w-full flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/60 hover:border-indigo-200 hover:shadow-md transition-all text-left group"
+                        className="w-full flex items-center gap-3 p-3 bg-white rounded-xl border border-slate-200/60 hover:border-primary-200 hover:shadow-md transition-all text-left group"
                       >
                         <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                          resource.type === 'video' ? 'bg-rose-50 ring-1 ring-rose-200/50' :
-                          resource.type === 'audio' ? 'bg-purple-50 ring-1 ring-purple-200/50' :
-                          resource.type === 'document' ? 'bg-amber-50 ring-1 ring-amber-200/50' :
+                          resource.type === 'video' ? 'bg-primary-50 ring-1 ring-primary-200/50' :
+                          resource.type === 'audio' ? 'bg-primary-50 ring-1 ring-primary-200/50' :
+                          resource.type === 'document' ? 'bg-primary-50 ring-1 ring-primary-200/50' :
                           'bg-blue-50 ring-1 ring-blue-200/50'
                         }`}>
-                          {resource.type === 'video' && <Play size={15} className="text-rose-500" />}
-                          {resource.type === 'audio' && <Headphones size={15} className="text-purple-500" />}
-                          {resource.type === 'document' && <FileDown size={15} className="text-amber-600" />}
+                          {resource.type === 'video' && <Play size={15} className="text-primary-500" />}
+                          {resource.type === 'audio' && <Headphones size={15} className="text-primary-500" />}
+                          {resource.type === 'document' && <FileDown size={15} className="text-primary-600" />}
                           {resource.type === 'article' && <FileBadge size={15} className="text-blue-500" />}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-semibold text-slate-800 group-hover:text-indigo-600 transition-colors text-xs truncate">
+                          <h4 className="font-semibold text-slate-800 group-hover:text-primary-600 transition-colors text-xs truncate">
                             {cleanTitle(resource.title)}
                           </h4>
                           {resource.description && resource.description !== resource.title && (
@@ -272,7 +272,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
                             <span className="text-[11px] text-slate-400">{formatDuration(resource.durationMinutes)}</span>
                           )}
                           {resource.status === 'completed' && (
-                            <CheckCircle size={14} className="text-emerald-500" />
+                            <CheckCircle size={14} className="text-primary-500" />
                           )}
                         </div>
                       </button>
@@ -379,13 +379,13 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-primary-50/30 flex items-center justify-center">
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-center"
         >
-          <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
           <p className="text-slate-500 text-sm">Loading Academy...</p>
         </motion.div>
       </div>
@@ -399,25 +399,25 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
         <div className="flex items-center gap-4">
           <button
             onClick={() => navigate('/dashboard')}
-            className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-full px-3 py-1.5 text-sm transition-colors"
+            className="flex items-center gap-1.5 text-slate-500 hover:text-primary-600 hover:bg-primary-50 rounded-full px-3 py-1.5 text-sm transition-colors"
           >
             <ArrowLeft size={16} />
             <span className="hidden sm:inline">Back</span>
           </button>
-          <span className="text-xl font-bold bg-gradient-to-r from-indigo-700 to-violet-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold bg-gradient-to-r from-primary-700 to-primary-600 bg-clip-text text-transparent">
             NovaNext Academy
           </span>
           <nav className="hidden md:flex gap-1 ml-8">
-            <a className="text-indigo-700 bg-indigo-50 rounded-full px-4 py-1.5 text-sm font-medium" href="#">Explorer</a>
-            <a className="text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Collections</a>
-            <a className="text-slate-500 hover:text-indigo-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Network</a>
+            <a className="text-primary-700 bg-primary-50 rounded-full px-4 py-1.5 text-sm font-medium" href="#">Explorer</a>
+            <a className="text-slate-500 hover:text-primary-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Collections</a>
+            <a className="text-slate-500 hover:text-primary-600 hover:bg-slate-50 rounded-full px-4 py-1.5 text-sm transition-colors" href="#">Network</a>
           </nav>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={15} />
             <input
-              className="bg-slate-100/80 border border-slate-200/50 rounded-full pl-9 pr-4 py-1.5 text-xs w-56 focus:ring-2 focus:ring-indigo-400 focus:bg-white transition-all"
+              className="bg-slate-100/80 border border-slate-200/50 rounded-full pl-9 pr-4 py-1.5 text-xs w-56 focus:ring-2 focus:ring-primary-400 focus:bg-white transition-all"
               placeholder="Search knowledge..."
               type="text"
             />
@@ -430,7 +430,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
           </button>
           <img
             alt="User"
-            className="w-8 h-8 rounded-full ring-2 ring-indigo-100 ring-offset-1"
+            className="w-8 h-8 rounded-full ring-2 ring-primary-100 ring-offset-1"
             src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff"
           />
         </div>
@@ -441,7 +441,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
         <aside className="w-64 bg-white/80 backdrop-blur-sm border-r border-slate-200/40 flex flex-col py-6 px-3 fixed left-0 top-[57px] bottom-0">
           <div className="mb-8 px-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md shadow-indigo-500/20">N</div>
+              <div className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-600 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-md shadow-primary-500/20">N</div>
               <div>
                 <h2 className="font-bold text-slate-900 leading-tight">NovaNext</h2>
                 <p className="text-[10px] text-slate-400 uppercase tracking-widest">The Living Archive</p>
@@ -461,7 +461,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
                 key={item.label}
                 className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm transition-all duration-200 ${
                   item.active
-                    ? 'bg-gradient-to-r from-indigo-50 to-violet-50 text-indigo-700 font-semibold shadow-sm shadow-indigo-500/5'
+                    ? 'bg-gradient-to-r from-primary-50 to-primary-50 text-primary-700 font-semibold shadow-sm shadow-primary-500/5'
                     : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700 hover:translate-x-0.5'
                 }`}
                 href="#"
@@ -485,7 +485,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
             )}
             <button
               onClick={onNewNode}
-              className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white rounded-xl py-2.5 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-indigo-500/25 transition-all active:scale-[0.98]"
+              className="bg-gradient-to-r from-primary-600 to-primary-600 text-white rounded-xl py-2.5 px-4 font-semibold text-sm flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary-500/25 transition-all active:scale-[0.98]"
             >
               <Plus size={16} />
               <span>New Node</span>
@@ -517,15 +517,15 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
           >
             {/* ── Learning Map Hero (compact) ── */}
             <motion.div variants={itemVariants} className="mb-8">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg shadow-indigo-500/10">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg shadow-primary-500/10">
                 {/* Gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-600 to-primary-700" />
 
                 {/* Content */}
                 <div className="relative z-10 px-8 py-7 flex items-center justify-between">
                   <div className="flex items-center gap-5">
                     <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center flex-shrink-0">
-                      <Sparkles size={22} className="text-amber-300" />
+                      <Sparkles size={22} className="text-primary-300" />
                     </div>
                     <div>
                       <h1 className="text-xl font-bold text-white" style={{ fontFamily: "'Montserrat', sans-serif" }}>
@@ -595,8 +595,8 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
                     </div>
                   </div>
                 ) : (
-                  <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center">
-                    <BookOpen size={28} className="text-indigo-300" />
+                  <div className="w-16 h-16 rounded-2xl bg-primary-50 flex items-center justify-center">
+                    <BookOpen size={28} className="text-primary-300" />
                   </div>
                 )}
               </div>

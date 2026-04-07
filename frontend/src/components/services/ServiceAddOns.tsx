@@ -71,25 +71,25 @@ export default function ServiceAddOns() {
     }
 
     return (
-        <section className="py-12 bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-2xl border border-indigo-100 dark:border-gray-700 p-8 shadow-sm my-16">
-            <div className="text-center max-w-3xl mx-auto mb-12">
-                <span className="bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+        <section className="py-8 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-800 rounded-2xl border border-primary-100 dark:border-gray-700 px-6 pb-6 shadow-sm mt-10">
+            <div className="text-center max-w-2xl mx-auto mb-8">
+                <span className="bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
                     {t('serviceAddOns.accelerateResults', 'ACCELERATE YOUR RESULTS')}
                 </span>
-                <h2 className="text-3xl font-bold text-gray-900 dark:text-white mt-4 mb-4">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-white mt-3 mb-2">
                     {t('serviceAddOns.needGuidance', 'Need Personalized Guidance?')}
                 </h2>
-                <p className="text-lg text-gray-600 dark:text-gray-400">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                     {t('serviceAddOns.subtitle', 'While our AI tools are powerful, sometimes you need a human expert. Book a 1:1 session with our world-class coaches to breakthrough faster.')}
                 </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-5">
                 {addOns.map((service) => (
                     <div
                         key={service.id}
                         className={`
-                            relative bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg border transition-all hover:shadow-xl hover:-translate-y-1
+                            relative bg-white dark:bg-gray-900 rounded-xl p-5 shadow-sm border transition-all hover:shadow-md hover:-translate-y-0.5
                             ${service.recommended ? 'border-primary-500 ring-1 ring-primary-500' : 'border-gray-200 dark:border-gray-700'}
                         `}
                     >
@@ -100,21 +100,21 @@ export default function ServiceAddOns() {
                             </div>
                         )}
 
-                        <div className="mb-4">
-                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">{service.title}</h3>
-                            <div className="mt-2 flex items-baseline gap-1">
-                                <span className="text-3xl font-bold text-gray-900 dark:text-white">${service.price}</span>
-                                <span className="text-gray-500 dark:text-gray-400 text-sm">{service.unit}</span>
+                        <div className="mb-3">
+                            <h3 className="text-base font-bold text-gray-900 dark:text-white">{service.title}</h3>
+                            <div className="mt-1 flex items-baseline gap-1">
+                                <span className="text-2xl font-bold text-gray-900 dark:text-white">${service.price}</span>
+                                <span className="text-gray-500 dark:text-gray-400 text-xs">{service.unit}</span>
                             </div>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm mt-3 min-h-[60px]">
+                            <p className="text-gray-600 dark:text-gray-400 text-xs mt-2 min-h-[36px] leading-relaxed">
                                 {service.description}
                             </p>
                         </div>
 
-                        <ul className="space-y-3 mb-8">
+                        <ul className="space-y-2 mb-5">
                             {service.features.map((feature, idx) => (
-                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                                    <Check className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                                <li key={idx} className="flex items-start gap-2 text-xs text-gray-700 dark:text-gray-300">
+                                    <Check className="w-3.5 h-3.5 text-primary-600 flex-shrink-0 mt-0.5" />
                                     <span>{feature}</span>
                                 </li>
                             ))}
@@ -122,7 +122,7 @@ export default function ServiceAddOns() {
 
                         <button
                             onClick={() => handleBookClick(service)}
-                            className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors bg-primary-600 text-white hover:bg-primary-700"
+                            className="w-full py-2.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 transition-colors bg-primary-600 text-white hover:bg-primary-700"
                         >
                             {service.cta} <ArrowRight className="w-4 h-4" />
                         </button>

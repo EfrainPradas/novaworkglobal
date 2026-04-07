@@ -55,7 +55,7 @@ export default function ProgressSummary({ overview, loading, compact = false }: 
           <circle
             cx={28} cy={28} r={22}
             fill="none"
-            stroke="#1976D2"
+            stroke="#1F5BAA"
             strokeWidth={5}
             strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 22}`}
@@ -70,7 +70,7 @@ export default function ProgressSummary({ overview, loading, compact = false }: 
         <div>
           <p className="text-xs text-slate-400 dark:text-gray-400">{t('dashboard.statsSection.profileCompletion')}</p>
           {pct === 100
-            ? <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-0.5"><CheckCircle size={14} /> Complete</div>
+            ? <div className="flex items-center gap-1 text-primary-600 text-sm font-semibold mt-0.5"><CheckCircle size={14} /> Complete</div>
             : <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 mt-0.5">{pct}% done</p>
           }
         </div>
@@ -81,25 +81,25 @@ export default function ProgressSummary({ overview, loading, compact = false }: 
           icon={<FileText size={16} />}
           label={t('dashboard.statsSection.resumeVersions')}
           value={overview?.resume_versions_count ?? 0}
-          iconBg="#E3F2FD" iconColor="#1565C0"
+          iconBg="#eef6fc" iconColor="#1F5BAA"
         />
         <StatItem
           icon={<Briefcase size={16} />}
           label={t('dashboard.statsSection.applications')}
           value={overview?.applications_count ?? 0}
-          iconBg="#FFF3E0" iconColor="#E65100"
+          iconBg="#eef6fc" iconColor="#1F5BAA"
         />
         <StatItem
           icon={<Users size={16} />}
           label={t('dashboard.statsSection.interviews')}
           value={overview?.interviews_count ?? 0}
-          iconBg="#F3E5F5" iconColor="#7B1FA2"
+          iconBg="#eef6fc" iconColor="#1F5BAA"
         />
         <StatItem
           icon={<Monitor size={16} />}
           label={t('dashboard.statsSection.sessionsJoined')}
           value={overview?.sessions_joined_count ?? 0}
-          iconBg="#E8F5E9" iconColor="#2E7D32"
+          iconBg="#eef6fc" iconColor="#1F5BAA"
         />
       </div>
     </div>

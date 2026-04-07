@@ -60,9 +60,9 @@ export default function InterviewMastery() {
 
   const getStatusBadge = (status: string) => {
     const badges = {
-      preparing: { color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300', label: t('interviewMastery.statusPreparing', 'Preparing') },
-      scheduled: { color: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300', label: t('interviewMastery.statusScheduled', 'Scheduled') },
-      completed: { color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300', label: t('interviewMastery.statusCompleted', 'Completed') },
+      preparing: { color: 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300', label: t('interviewMastery.statusPreparing', 'Preparing') },
+      scheduled: { color: 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300', label: t('interviewMastery.statusScheduled', 'Scheduled') },
+      completed: { color: 'bg-primary-100 text-primary-800 dark:bg-primary-900/30 dark:text-primary-300', label: t('interviewMastery.statusCompleted', 'Completed') },
       cancelled: { color: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300', label: t('interviewMastery.statusCancelled', 'Cancelled') }
     }
     const badge = badges[status as keyof typeof badges] || badges.preparing
@@ -85,7 +85,7 @@ export default function InterviewMastery() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 flex items-center justify-center transition-colors duration-200">
+      <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex items-center justify-center transition-colors duration-200">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">{t('interviewMastery.loading', 'Loading interviews...')}</p>
@@ -95,7 +95,7 @@ export default function InterviewMastery() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
@@ -130,7 +130,7 @@ export default function InterviewMastery() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.totalInterviews', 'Total Interviews')}</p>
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{interviews.length}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
                 <ClipboardList className="w-6 h-6" />
               </div>
             </div>
@@ -144,7 +144,7 @@ export default function InterviewMastery() {
                   {interviews.filter(i => i.status === 'scheduled').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
                 <Calendar className="w-6 h-6" />
               </div>
             </div>
@@ -154,11 +154,11 @@ export default function InterviewMastery() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.preparing', 'Preparing')}</p>
-                <p className="text-3xl font-bold text-yellow-600 dark:text-yellow-400">
+                <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
                   {interviews.filter(i => i.status === 'preparing').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center text-yellow-600 dark:text-yellow-400">
+              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
                 <PenSquare className="w-6 h-6" />
               </div>
             </div>
@@ -168,11 +168,11 @@ export default function InterviewMastery() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.completed', 'Completed')}</p>
-                <p className="text-3xl font-bold text-green-600 dark:text-green-400">
+                <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
                   {interviews.filter(i => i.status === 'completed').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400">
+              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
                 <CheckCircle2 className="w-6 h-6" />
               </div>
             </div>
@@ -258,27 +258,27 @@ export default function InterviewMastery() {
 
                     {/* Phase Indicators */}
                     <div className="grid grid-cols-3 gap-4">
-                      <div className={`text-center p-3 rounded-lg ${interview.phase1_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase1_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                      <div className={`text-center p-3 rounded-lg ${interview.phase1_completed ? 'bg-primary-50 dark:bg-primary-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase1_completed ? 'bg-primary-100 text-primary-600 dark:bg-primary-800/40 dark:text-primary-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
                           {interview.phase1_completed ? <CheckCircle2 className="w-5 h-5" /> : <PenSquare className="w-5 h-5" />}
                         </div>
-                        <p className={`text-sm font-medium ${interview.phase1_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                        <p className={`text-sm font-medium ${interview.phase1_completed ? 'text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           {t('interviewMastery.phase1', 'Phase 1: Prepare')}
                         </p>
                       </div>
-                      <div className={`text-center p-3 rounded-lg ${interview.phase2_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase2_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                      <div className={`text-center p-3 rounded-lg ${interview.phase2_completed ? 'bg-primary-50 dark:bg-primary-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase2_completed ? 'bg-primary-100 text-primary-600 dark:bg-primary-800/40 dark:text-primary-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
                           {interview.phase2_completed ? <CheckCircle2 className="w-5 h-5" /> : <Briefcase className="w-5 h-5" />}
                         </div>
-                        <p className={`text-sm font-medium ${interview.phase2_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                        <p className={`text-sm font-medium ${interview.phase2_completed ? 'text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           {t('interviewMastery.phase2', 'Phase 2: Execute')}
                         </p>
                       </div>
-                      <div className={`text-center p-3 rounded-lg ${interview.phase3_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase3_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                      <div className={`text-center p-3 rounded-lg ${interview.phase3_completed ? 'bg-primary-50 dark:bg-primary-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase3_completed ? 'bg-primary-100 text-primary-600 dark:bg-primary-800/40 dark:text-primary-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
                           {interview.phase3_completed ? <CheckCircle2 className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
                         </div>
-                        <p className={`text-sm font-medium ${interview.phase3_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                        <p className={`text-sm font-medium ${interview.phase3_completed ? 'text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           {t('interviewMastery.phase3', 'Phase 3: Follow-up')}
                         </p>
                       </div>
@@ -288,17 +288,17 @@ export default function InterviewMastery() {
                     {(interview.interview_type_who || interview.interview_type_how) && (
                       <div className="flex flex-wrap gap-2 mt-4">
                         {interview.interview_type_who && (
-                          <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300 rounded-full text-xs font-medium">
+                          <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 rounded-full text-xs font-medium">
                             {interview.interview_type_who}
                           </span>
                         )}
                         {interview.interview_type_how && (
-                          <span className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 rounded-full text-xs font-medium">
+                          <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 rounded-full text-xs font-medium">
                             {interview.interview_type_how}
                           </span>
                         )}
                         {interview.interview_type_when && (
-                          <span className="px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-800 dark:text-teal-300 rounded-full text-xs font-medium">
+                          <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-300 rounded-full text-xs font-medium">
                             {interview.interview_type_when}
                           </span>
                         )}

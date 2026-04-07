@@ -41,10 +41,10 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
 
   const getStatusIcon = (status?: LearningStatus, progress?: number) => {
     if (status === 'completed') {
-      return <CheckCircle size={16} className="text-emerald-500" />
+      return <CheckCircle size={16} className="text-primary-500" />
     }
     if (progress && progress > 0) {
-      return <PlayCircle size={16} className="text-amber-500" />
+      return <PlayCircle size={16} className="text-primary-500" />
     }
     return <Circle size={16} className="text-slate-300" />
   }
@@ -99,9 +99,9 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
                 text-left transition-all duration-200
                 group
                 ${resource.status === 'completed' 
-                  ? 'bg-emerald-50 hover:bg-emerald-100 border border-emerald-200' 
+                  ? 'bg-primary-50 hover:bg-primary-100 border border-primary-200' 
                   : resource.progress && resource.progress > 0
-                    ? 'bg-amber-50 hover:bg-amber-100 border border-amber-200'
+                    ? 'bg-primary-50 hover:bg-primary-100 border border-primary-200'
                     : 'bg-slate-50 hover:bg-white border border-slate-200 hover:shadow-sm'
                 }
               `}
@@ -109,10 +109,10 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
               {/* Type Icon */}
               <div className={`
                 flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center
-                ${resource.type === 'video' ? 'bg-red-100 text-red-500' : ''}
-                ${resource.type === 'audio' ? 'bg-purple-100 text-purple-500' : ''}
+                ${resource.type === 'video' ? 'bg-primary-100 text-primary-500' : ''}
+                ${resource.type === 'audio' ? 'bg-primary-100 text-primary-500' : ''}
                 ${resource.type === 'article' ? 'bg-blue-100 text-blue-500' : ''}
-                ${resource.type === 'document' ? 'bg-amber-100 text-amber-600' : ''}
+                ${resource.type === 'document' ? 'bg-primary-100 text-primary-600' : ''}
               `}>
                 {resource.type === 'video' && <Video size={18} />}
                 {resource.type === 'audio' && <Headphones size={18} />}
@@ -144,7 +144,7 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
                   {resource.progress !== undefined && resource.progress > 0 && resource.progress < 100 && (
                     <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden">
                       <div 
-                        className="h-full bg-amber-500 rounded-full transition-all duration-300"
+                        className="h-full bg-primary-500 rounded-full transition-all duration-300"
                         style={{ width: `${resource.progress}%` }}
                       />
                     </div>
@@ -152,7 +152,7 @@ const ResourceTabs: React.FC<ResourceTabsProps> = ({
 
                   {/* Completion Badge */}
                   {resource.status === 'completed' && (
-                    <span className="text-[10px] font-semibold text-emerald-600">
+                    <span className="text-[10px] font-semibold text-primary-600">
                       {t('panel.completed')}
                     </span>
                   )}

@@ -196,19 +196,19 @@ export default function HomeSidebar({
         {/* NovaNext Programs — features for the user's plan */}
         {sectionLabel(t('membership.title'))}
         {navItem('/dashboard/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
-          iconBg: '#E3F2FD', iconColor: '#1565C0',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {navItem('/dashboard/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
           required: 'momentum',
-          iconBg: '#E8F5E9', iconColor: '#2E7D32',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {navItem('/dashboard/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
           required: 'momentum',
-          iconBg: '#FFF3E0', iconColor: '#E65100',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {navItem('/dashboard/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
           required: 'executive',
-          iconBg: '#F3E5F5', iconColor: '#6A1B9A',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
 
         {/* Community — temporarily hidden, not functional yet */}
@@ -226,7 +226,7 @@ export default function HomeSidebar({
         {/* NovaNext Academy */}
         {!collapsed && (
           <div className="px-3 pt-4 pb-1">
-            <p className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">{t('novaNextAcademy.title')}</p>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400">{t('novaNextAcademy.title')}</p>
           </div>
         )}
         {!collapsed && (
@@ -236,10 +236,10 @@ export default function HomeSidebar({
               label={t('novaNextAcademy.videosAudio')}
               subtitle={t('novaNextAcademy.subtitle')}
               path="/dashboard/academy"
-              iconBg="#E8F5E9"
-              iconColor="#16A34A"
-              cardBg="#F0FDF4"
-              cardHoverBg="#DCFCE7"
+              iconBg="#eef6fc"
+              iconColor="#1F5BAA"
+              cardBg="#eef6fc"
+              cardHoverBg="#d9e9f8"
             />
           </div>
         )}
@@ -247,10 +247,10 @@ export default function HomeSidebar({
         {/* Tools */}
         {sectionLabel(t('sidebarTools.title'))}
         {navItem('/dashboard/coaching', <UserCheck size={15} />, t('sidebarTools.myCoaches'), {
-          iconBg: '#F3E5F5', iconColor: '#7B1FA2',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {
-          iconBg: '#E8F5E9', iconColor: '#2E7D32',
+          iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {/* Career feed curation — temporarily hidden */}
         {/* {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {

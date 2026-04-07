@@ -269,7 +269,7 @@ export default function SkillsValues() {
                 href={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-primary-700 hover:bg-primary-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 <Play className="w-4 h-4" /> Watch video
               </a>
@@ -338,7 +338,7 @@ export default function SkillsValues() {
 
           {/* Interests Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors">
-            <h2 className="text-xl font-bold text-teal-600 dark:text-teal-400 mb-3">
+            <h2 className="text-xl font-bold text-primary-600 dark:text-primary-400 mb-3">
               ❤️ Interests & Passions
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
@@ -353,12 +353,12 @@ export default function SkillsValues() {
                 onChange={(e) => setInterestInput(e.target.value)}
                 onKeyPress={handleInterestKeyPress}
                 placeholder="e.g., Data Visualization"
-                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 outline-none"
+                className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
               <button
                 onClick={addInterest}
                 disabled={!interestInput.trim()}
-                className="p-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="p-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Plus className="w-5 h-5" />
               </button>
@@ -369,12 +369,12 @@ export default function SkillsValues() {
               {interests.map((interest, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium border border-teal-200 dark:border-teal-800"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium border border-primary-200 dark:border-primary-800"
                 >
                   {interest}
                   <button
                     onClick={() => removeInterest(interest)}
-                    className="hover:bg-teal-200 dark:hover:bg-teal-800 rounded-full p-0.5"
+                    className="hover:bg-primary-200 dark:hover:bg-primary-800 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" />
                   </button>
@@ -390,7 +390,7 @@ export default function SkillsValues() {
         </div>
 
         {/* AI Suggestions Section */}
-        <div className="bg-gradient-to-r from-primary-50 to-teal-50 dark:from-primary-900/10 dark:to-teal-900/10 border border-primary-100 dark:border-primary-900/30 rounded-xl shadow-lg p-6 mb-8 transition-colors">
+        <div className="bg-gradient-to-r from-primary-50 to-primary-50 dark:from-primary-900/10 dark:to-primary-900/10 border border-primary-100 dark:border-primary-900/30 rounded-xl shadow-lg p-6 mb-8 transition-colors">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
@@ -404,7 +404,7 @@ export default function SkillsValues() {
             <button
               onClick={generateAISuggestions}
               disabled={generating}
-              className="px-4 py-2 bg-gradient-to-r from-primary-600 to-teal-600 text-white rounded-lg font-semibold hover:from-primary-700 hover:to-teal-700 disabled:opacity-50 flex items-center gap-2 shadow-sm"
+              className="px-4 py-2 bg-gradient-to-r from-primary-600 to-primary-600 text-white rounded-lg font-semibold hover:from-primary-700 hover:to-primary-700 disabled:opacity-50 flex items-center gap-2 shadow-sm"
             >
               {generating ? (
                 <>
@@ -444,13 +444,13 @@ export default function SkillsValues() {
               {/* Interests Suggestions */}
               {aiSuggestions.interests.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-teal-600 dark:text-teal-400 mb-2">💡 INTERESTS SUGGESTIONS</p>
+                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 INTERESTS SUGGESTIONS</p>
                   <div className="flex flex-wrap gap-2">
                     {aiSuggestions.interests.map((interest, index) => (
                       <button
                         key={index}
                         onClick={() => addFromSuggestion('interests', interest)}
-                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-teal-300 dark:border-teal-700 text-teal-700 dark:text-teal-300 rounded-full text-sm font-medium hover:bg-teal-100 dark:hover:bg-teal-900/30 hover:border-teal-400 transition-colors"
+                        className="px-3 py-1 bg-white dark:bg-gray-800 border-2 border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium hover:bg-primary-100 dark:hover:bg-primary-900/30 hover:border-primary-400 transition-colors"
                       >
                         + {interest}
                       </button>
@@ -479,8 +479,8 @@ export default function SkillsValues() {
                       <stop offset="100%" style={{ stopColor: '#2563eb', stopOpacity: 0.25 }} />
                     </linearGradient>
                     <linearGradient id="interestsGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" style={{ stopColor: '#0d9488', stopOpacity: 0.15 }} />
-                      <stop offset="100%" style={{ stopColor: '#14b8a6', stopOpacity: 0.25 }} />
+                      <stop offset="0%" style={{ stopColor: '#1F5BAA', stopOpacity: 0.15 }} />
+                      <stop offset="100%" style={{ stopColor: '#2563eb', stopOpacity: 0.25 }} />
                     </linearGradient>
                     <linearGradient id="sweetGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" style={{ stopColor: '#1e3a5f', stopOpacity: 0.3 }} />
@@ -535,33 +535,33 @@ export default function SkillsValues() {
                       cy="150"
                       r="100"
                       fill="url(#interestsGrad)"
-                      stroke="#0d9488"
+                      stroke="#1F5BAA"
                       strokeWidth="3"
                       className="transition-all duration-300 group-hover:stroke-[5]"
-                      style={{ filter: 'drop-shadow(0 4px 6px rgba(13, 148, 136, 0.2))' }}
+                      style={{ filter: 'drop-shadow(0 4px 6px rgba(31, 91, 170, 0.2))' }}
                     />
-                    <text x="300" y="115" fill="#0d9488" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
+                    <text x="300" y="115" fill="#1F5BAA" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
                       Interests
                     </text>
-                    <text x="300" y="138" fill="#0d9488" fontSize="14" className="pointer-events-none" textAnchor="middle">
+                    <text x="300" y="138" fill="#1F5BAA" fontSize="14" className="pointer-events-none" textAnchor="middle">
                       ({interests.length})
                     </text>
 
                     {/* Tooltip - Interests */}
                     <foreignObject x="220" y="170" width="160" height="140" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-teal-400">
-                        <p className="text-[10px] font-bold text-teal-700 dark:text-teal-300 mb-1 flex items-center gap-1">
+                      <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-primary-400">
+                        <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
                           <span>💡</span> Interests:
                         </p>
                         <div className="max-h-24 overflow-y-auto space-y-1">
                           {interests.slice(0, 5).map((interest, idx) => (
                             <div key={idx} className="text-[9px] text-gray-700 dark:text-gray-200 flex items-center gap-1">
-                              <span className="w-1 h-1 bg-teal-500 rounded-full flex-shrink-0"></span>
+                              <span className="w-1 h-1 bg-primary-500 rounded-full flex-shrink-0"></span>
                               <span className="line-clamp-1">{interest}</span>
                             </div>
                           ))}
                           {interests.length > 5 && (
-                            <p className="text-[9px] text-teal-600 dark:text-teal-400 font-bold mt-1">+{interests.length - 5} more</p>
+                            <p className="text-[9px] text-primary-600 dark:text-primary-400 font-bold mt-1">+{interests.length - 5} more</p>
                           )}
                         </div>
                       </div>
@@ -591,7 +591,7 @@ export default function SkillsValues() {
 
                       {/* Tooltip - Sweet Spot */}
                       <foreignObject x="120" y="60" width="160" height="80" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <div className="bg-gradient-to-br from-primary-50 to-teal-100 dark:from-primary-900/80 dark:to-teal-900/80 rounded-lg shadow-2xl p-2 border-2 border-primary-500">
+                        <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/80 dark:to-primary-900/80 rounded-lg shadow-2xl p-2 border-2 border-primary-500">
                           <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
                             <span>✨</span> Career Vision:
                           </p>
@@ -613,7 +613,7 @@ export default function SkillsValues() {
 
           {/* Sweet Spot Words Section - Enhanced */}
           {sweetSpot.length > 0 && (
-            <div className="bg-gradient-to-r from-primary-50 via-teal-50 to-primary-50 dark:from-primary-900/20 dark:via-teal-900/20 dark:to-primary-900/20 border-2 border-primary-300 dark:border-primary-800 rounded-lg p-3 mb-3 shadow-sm">
+            <div className="bg-gradient-to-r from-primary-50 via-primary-50 to-primary-50 dark:from-primary-900/20 dark:via-primary-900/20 dark:to-primary-900/20 border-2 border-primary-300 dark:border-primary-800 rounded-lg p-3 mb-3 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">✨</span>
                 <p className="text-sm font-bold text-primary-700 dark:text-primary-400">Career Vision / Ideal Job:</p>
@@ -683,7 +683,7 @@ export default function SkillsValues() {
         </div>
 
         {!isComplete && (
-          <p className="text-center text-sm text-orange-600 dark:text-orange-400 mt-4">
+          <p className="text-center text-sm text-primary-600 dark:text-primary-400 mt-4">
             ⚠️ Please add at least 3 items to each category before saving
           </p>
         )}

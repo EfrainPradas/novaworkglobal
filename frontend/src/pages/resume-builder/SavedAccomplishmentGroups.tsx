@@ -93,7 +93,7 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="space-y-1">
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                            <span className="p-2 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-lg">
+                            <span className="p-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg">
                                 <FolderOpen size={24} />
                             </span>
                             Saved Accomplishment Groups
@@ -113,7 +113,7 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                             placeholder="Search saved groups..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-indigo-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
+                            className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
                         />
                     </div>
                 </div>
@@ -121,12 +121,12 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                 {/* Content Area */}
                 {loading ? (
                     <div className="flex justify-center items-center py-20 text-gray-500 dark:text-gray-400 space-x-2">
-                        <Loader2 className="w-5 h-5 animate-spin text-indigo-500" />
+                        <Loader2 className="w-5 h-5 animate-spin text-primary-500" />
                         <span>Loading your saved groups...</span>
                     </div>
                 ) : groups.length === 0 ? (
                     <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-dashed border-gray-300 dark:border-gray-700 mt-6 shadow-sm">
-                        <div className="bg-indigo-50 dark:bg-indigo-900/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-indigo-400 dark:text-indigo-500">
+                        <div className="bg-primary-50 dark:bg-primary-900/20 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-400 dark:text-primary-500">
                             <FolderOpen size={32} />
                         </div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">No saved groups yet</h3>
@@ -148,8 +148,8 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                                 <div
                                     key={group.id}
                                     className={`bg-white dark:bg-gray-800 border transition-all duration-200 rounded-xl overflow-hidden ${isExpanded
-                                            ? 'border-indigo-300 dark:border-indigo-700 shadow-md ring-1 ring-indigo-500/10'
-                                            : 'border-gray-200 dark:border-gray-700 shadow-sm hover:border-indigo-300 dark:hover:border-indigo-600 cursor-pointer'
+                                            ? 'border-primary-300 dark:border-primary-700 shadow-md ring-1 ring-primary-500/10'
+                                            : 'border-gray-200 dark:border-gray-700 shadow-sm hover:border-primary-300 dark:hover:border-primary-600 cursor-pointer'
                                         }`}
                                 >
                                     {/* Group Header (Clickable) */}
@@ -158,7 +158,7 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                                         className={`p-5 flex items-center justify-between ${isExpanded ? 'bg-gray-50/50 dark:bg-gray-800/80 border-b border-gray-100 dark:border-gray-700/50' : ''}`}
                                     >
                                         <div className="flex items-center gap-4">
-                                            <div className={`p-2.5 rounded-lg transition-colors ${isExpanded ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400' : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'}`}>
+                                            <div className={`p-2.5 rounded-lg transition-colors ${isExpanded ? 'bg-primary-100 text-primary-600 dark:bg-primary-900/40 dark:text-primary-400' : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400'}`}>
                                                 <List size={20} />
                                             </div>
                                             <div>
@@ -168,11 +168,11 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                                                         <Calendar size={12} />
                                                         {format(new Date(group.created_at), 'MMM d, yyyy')}
                                                     </span>
-                                                    <span className="flex items-center gap-1 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-2 py-0.5 rounded-full">
+                                                    <span className="flex items-center gap-1 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 px-2 py-0.5 rounded-full">
                                                         <Tag size={10} />
                                                         {group.grouped_data?.length || 0} Categories
                                                     </span>
-                                                    <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 px-2 py-0.5 rounded-full">
+                                                    <span className="flex items-center gap-1 text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 px-2 py-0.5 rounded-full">
                                                         <List size={10} />
                                                         {totalAccomplishments} Items
                                                     </span>
@@ -202,8 +202,8 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                                                     <div key={idx} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
 
                                                         {/* Category Header */}
-                                                        <div className="bg-gradient-to-r from-indigo-50 to-white dark:from-indigo-900/20 dark:to-gray-800 px-5 py-3 flex items-center justify-between border-b border-gray-100 dark:border-gray-700/50">
-                                                            <h5 className="font-bold text-indigo-700 dark:text-indigo-400 text-sm flex items-center gap-2">
+                                                        <div className="bg-gradient-to-r from-primary-50 to-white dark:from-primary-900/20 dark:to-gray-800 px-5 py-3 flex items-center justify-between border-b border-gray-100 dark:border-gray-700/50">
+                                                            <h5 className="font-bold text-primary-700 dark:text-primary-400 text-sm flex items-center gap-2">
                                                                 <Tag className="w-4 h-4" /> {themeGroup.theme}
                                                             </h5>
                                                             <span className="text-xs bg-white dark:bg-gray-900 text-gray-500 font-bold px-2.5 py-1 rounded-full border border-gray-100 dark:border-gray-700 shadow-sm">
@@ -218,7 +218,7 @@ export default function SavedAccomplishmentGroups({ isNested = false }: { isNest
                                                                 themeGroup.accomplishments.map((acc, aIdx) => (
                                                                     <div key={aIdx} className="px-5 py-4 hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                                                                         <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 mr-3 align-middle bg-glow"></span>
+                                                                            <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary-500 mr-3 align-middle bg-glow"></span>
                                                                             {acc.text}
                                                                         </p>
                                                                     </div>

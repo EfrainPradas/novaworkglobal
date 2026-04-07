@@ -242,8 +242,8 @@ export default function PositioningQuestionnairePage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-teal-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-teal-600 animate-spin" />
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
             </div>
         )
     }
@@ -252,8 +252,8 @@ export default function PositioningQuestionnairePage() {
         return (
             <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
-                    <Loader2 className="w-16 h-16 text-indigo-600 animate-spin" />
-                    <span className="text-indigo-900 font-semibold mt-2">{t('resumeBuilder.questionnaire.generatingProfile', 'Generating your Professional Profile...')}</span>
+                    <Loader2 className="w-16 h-16 text-primary-600 animate-spin" />
+                    <span className="text-primary-900 font-semibold mt-2">{t('resumeBuilder.questionnaire.generatingProfile', 'Generating your Professional Profile...')}</span>
                 </div>
             </div>
         )
@@ -275,7 +275,7 @@ export default function PositioningQuestionnairePage() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{label}</label>
             <div className="flex flex-wrap gap-2 mb-2">
                 {((form as any)[field] || []).map((item: string, idx: number) => (
-                    <span key={idx} className="px-3 py-1 bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs flex items-center gap-1">
+                    <span key={idx} className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs flex items-center gap-1">
                         {item}
                         <button onClick={() => removeTagItem(field, idx)} className="hover:text-red-500">×</button>
                     </span>
@@ -305,7 +305,7 @@ export default function PositioningQuestionnairePage() {
                             key={opt}
                             onClick={() => toggleArrayItem(field, opt)}
                             className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${selected
-                                ? 'bg-teal-100 text-teal-700 border border-teal-300 dark:bg-teal-900/30 dark:text-teal-300'
+                                ? 'bg-primary-100 text-primary-700 border border-primary-300 dark:bg-primary-900/30 dark:text-primary-300'
                                 : 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200'
                                 }`}
                         >
@@ -365,10 +365,10 @@ export default function PositioningQuestionnairePage() {
 
                 {/* Success Alert */}
                 {saved && (
-                    <div className="mb-6 p-4 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-700 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
+                    <div className="mb-6 p-4 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2">
+                        <CheckCircle2 className="w-5 h-5 text-primary-600 flex-shrink-0 mt-0.5" />
                         <div className="flex-1">
-                            <p className="text-sm font-medium text-emerald-800 dark:text-emerald-200">{t('common.saved', 'Saved!')}</p>
+                            <p className="text-sm font-medium text-primary-800 dark:text-primary-200">{t('common.saved', 'Saved!')}</p>
                         </div>
                     </div>
                 )}
@@ -413,7 +413,7 @@ export default function PositioningQuestionnairePage() {
                             <button
                                 onClick={handleGenerate}
                                 disabled={generating || saving}
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-primary-600 hover:from-blue-700 hover:to-primary-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
                             >
                                 {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                                 {t('common.generateProfile', 'Generate')}
@@ -445,7 +445,7 @@ export default function PositioningQuestionnairePage() {
                                             key={bucket}
                                             onClick={() => updateField('years_experience_bucket', bucket)}
                                             className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${form.years_experience_bucket === bucket
-                                                ? 'bg-teal-100 text-teal-700 border border-teal-300 dark:bg-teal-900/30 dark:text-teal-300'
+                                                ? 'bg-primary-100 text-primary-700 border border-primary-300 dark:bg-primary-900/30 dark:text-primary-300'
                                                 : 'bg-gray-100 text-gray-600 border border-gray-200 dark:bg-gray-700 dark:text-gray-400 hover:bg-gray-200'
                                                 }`}
                                         >
@@ -568,7 +568,7 @@ export default function PositioningQuestionnairePage() {
                         <button
                             onClick={handleGenerate}
                             disabled={generating || saving}
-                            className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                            className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-blue-600 to-primary-600 hover:from-blue-700 hover:to-primary-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
                         >
                             {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                             {t('common.generateProfile', 'Generate Professional Profile')}

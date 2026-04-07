@@ -47,7 +47,7 @@ export default function CareerVisionDashboard() {
       id: 'skills-values',
       title: t('careerVision.journey.skillsValues', 'Skills & Interests'),
       description: t('careerVision.journey.skillsValuesDesc', 'Identify your core competencies and what drives your professional satisfaction.'),
-      Icon: Crosshair, color: 'text-rose-600', bgColor: 'bg-rose-50',
+      Icon: Crosshair,
       route: '/dashboard/career-vision/skills-values',
       completed: sectionsStatus.skillsValues,
       videoSrc: getVideoUrl('The_Skills_&_Interests_Assessment.mp4')
@@ -56,7 +56,7 @@ export default function CareerVisionDashboard() {
       id: 'job-history',
       title: t('careerVision.journey.jobHistory', 'Job History Analysis'),
       description: t('careerVision.journey.jobHistoryDesc', 'Reflect on your past roles to identify patterns of success and areas for growth.'),
-      Icon: ClipboardList, color: 'text-amber-600', bgColor: 'bg-amber-50',
+      Icon: ClipboardList,
       route: '/dashboard/career-vision/job-history',
       completed: sectionsStatus.jobHistory,
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
@@ -65,7 +65,7 @@ export default function CareerVisionDashboard() {
       id: 'preferences',
       title: t('careerVision.journey.preferences', 'Ideal Work Preferences'),
       description: t('careerVision.journey.preferencesDesc', 'Define your must-haves, deal-breakers, and ideal organizational culture.'),
-      Icon: Settings, color: 'text-violet-600', bgColor: 'bg-violet-50',
+      Icon: Settings,
       route: '/dashboard/career-vision/preferences',
       completed: sectionsStatus.preferences,
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
@@ -93,7 +93,7 @@ export default function CareerVisionDashboard() {
                 />
                 <button
                   onClick={() => setActiveVideoSrc(getVideoUrl('AI_and_Your_Career_Path-EN.mp4'))}
-                  className="flex items-center gap-1.5 text-sm font-medium text-teal-600 hover:text-teal-700 dark:text-teal-400 transition-colors"
+                  className="flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 transition-colors"
                 >
                   <Video size={16} />
                   {t('common.watchVideo', 'Ver video')}
@@ -104,11 +104,11 @@ export default function CareerVisionDashboard() {
             <div className="w-full md:w-64 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
               <div className="flex items-center justify-between mb-2 text-sm font-medium">
                 <span className="text-slate-600 dark:text-slate-400">{t('careerVision.journey.progress', 'Progress')}</span>
-                <span className="text-teal-600 dark:text-teal-400">{progressPercent}%</span>
+                <span className="text-primary-600 dark:text-primary-400">{progressPercent}%</span>
               </div>
               <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                 <div 
-                  className="h-full bg-teal-500 transition-all duration-500"
+                  className="h-full bg-primary-600 transition-all duration-500"
                   style={{ width: `${progressPercent}%` }}
                 />
               </div>
@@ -123,12 +123,12 @@ export default function CareerVisionDashboard() {
               onClick={() => navigate(section.route)}
               className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group"
             >
-              <div className={`w-14 h-14 rounded-xl ${section.bgColor} ${section.color} flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300`}>
+              <div className="w-14 h-14 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300">
                 <section.Icon className="w-7 h-7" />
               </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                 {section.title}
-                {section.completed && <CheckCircle2 className="text-teal-500" size={20} />}
+                {section.completed && <CheckCircle2 className="text-green-500" size={20} />}
               </h3>
               <p className="text-slate-600 dark:text-slate-400 text-sm mb-6 leading-relaxed">
                 {section.description}
@@ -139,7 +139,7 @@ export default function CareerVisionDashboard() {
                   className={`w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
                     section.completed 
                       ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-white' 
-                      : 'bg-teal-600 text-white hover:bg-teal-700 shadow-md shadow-teal-600/20'
+                      : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20'
                   }`}
                 >
                   {section.completed ? t('common.review', 'Revisar') : t('common.start', 'Empezar')}
@@ -149,7 +149,7 @@ export default function CareerVisionDashboard() {
                 <div className="flex items-center justify-between px-1">
                   <button
                     onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(section.videoSrc) }}
-                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 transition-colors"
+                    className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400 transition-colors"
                   >
                     <PlayCircle size={14} />
                     {t('common.watchVideo', 'Ver video')}
@@ -161,7 +161,7 @@ export default function CareerVisionDashboard() {
         </div>
 
         {totalCompleted === 3 ? (
-          <div className="bg-gradient-to-r from-teal-500/10 to-blue-500/10 dark:from-teal-900/20 dark:to-blue-900/20 rounded-2xl p-8 border border-teal-200 dark:border-teal-800 text-center">
+          <div className="bg-gradient-to-r from-primary-500/10 to-blue-500/10 dark:from-primary-900/20 dark:to-blue-900/20 rounded-2xl p-8 border border-primary-200 dark:border-primary-800 text-center">
             <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               {t('careerVision.journey.completeTitle', '¡Visión de Carrera Completa!')}
             </h2>
@@ -170,7 +170,7 @@ export default function CareerVisionDashboard() {
             </p>
             <button
               onClick={() => navigate('/dashboard/career-vision/summary')}
-              className="bg-teal-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-teal-700 transition-all shadow-lg shadow-teal-600/20 active:scale-95"
+              className="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95"
             >
               {t('careerVision.journey.viewSummary', 'Ver tu Visión de Carrera →')}
             </button>

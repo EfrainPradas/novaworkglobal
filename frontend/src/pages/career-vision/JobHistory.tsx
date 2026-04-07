@@ -362,7 +362,7 @@ export default function JobHistory() {
                 href={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2.5 bg-primary-700 hover:bg-primary-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
                 <Play className="w-4 h-4" /> Watch video
               </a>
@@ -399,10 +399,10 @@ export default function JobHistory() {
             return (
               <div
                 key={job.id}
-                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-2 border-green-200 dark:border-green-800 relative transition-colors"
+                className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border-2 border-primary-200 dark:border-primary-800 relative transition-colors"
               >
                 {/* Job Order Badge */}
-                <div className="absolute top-4 right-4 bg-green-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
+                <div className="absolute top-4 right-4 bg-primary-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">
                   {order}
                 </div>
 
@@ -439,7 +439,7 @@ export default function JobHistory() {
                 <div className="flex gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <button
                     onClick={() => openEditModal(job)}
-                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-colors"
+                    className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors"
                   >
                     <Edit2 className="w-4 h-4" />
                     Edit
@@ -472,7 +472,7 @@ export default function JobHistory() {
 
         {/* AI Insights Section */}
         {jobs.length >= 2 && (
-          <div className="bg-gradient-to-br from-purple-50 to-blue-50 dark:from-purple-900/10 dark:to-blue-900/10 rounded-xl shadow-lg p-8 mb-8 border border-purple-100 dark:border-purple-900/30 transition-colors">
+          <div className="bg-gradient-to-br from-primary-50 to-primary-50 dark:from-primary-900/10 dark:to-primary-900/10 rounded-xl shadow-lg p-8 mb-8 border border-primary-100 dark:border-primary-900/30 transition-colors">
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2 mb-2">
@@ -486,7 +486,7 @@ export default function JobHistory() {
               <button
                 onClick={generateAIInsights}
                 disabled={generating}
-                className="px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 disabled:opacity-50 flex items-center gap-2 whitespace-nowrap shadow-md"
+                className="px-6 py-3 bg-gradient-to-r from-primary-600 to-primary-600 text-white rounded-lg font-semibold hover:from-primary-700 hover:to-primary-700 disabled:opacity-50 flex items-center gap-2 whitespace-nowrap shadow-md"
               >
                 {generating ? (
                   <>
@@ -538,10 +538,10 @@ export default function JobHistory() {
 
                 {/* Patterns */}
                 <div className="bg-white dark:bg-gray-800 rounded-lg p-6 md:col-span-2 border border-gray-100 dark:border-gray-700 transition-colors">
-                  <h3 className="text-lg font-bold text-blue-700 dark:text-blue-400 mb-4">📊 Patterns Identified</h3>
+                  <h3 className="text-lg font-bold text-primary-700 dark:text-primary-400 mb-4">📊 Patterns Identified</h3>
                   <p className="text-gray-700 dark:text-gray-300 mb-4">{aiInsights.patterns}</p>
 
-                  <h3 className="text-lg font-bold text-purple-700 dark:text-purple-400 mb-4">💡 Recommendations</h3>
+                  <h3 className="text-lg font-bold text-primary-700 dark:text-primary-400 mb-4">💡 Recommendations</h3>
                   <p className="text-gray-700 dark:text-gray-300">{aiInsights.recommendations}</p>
                 </div>
               </div>
@@ -841,7 +841,7 @@ export default function JobHistory() {
                   <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 disabled:opacity-50 flex items-center gap-2"
+                    className="px-6 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 flex items-center gap-2"
                   >
                     {saving ? (
                       <>

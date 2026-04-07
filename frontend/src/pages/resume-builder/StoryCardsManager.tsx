@@ -555,7 +555,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
     if (loading) {
         return (
             <div className="min-h-screen bg-[#F8FAFC] flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-[#4F46E5] animate-spin" />
+                <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
             </div>
         )
     }
@@ -578,7 +578,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     await trackEvent('analytics', 'step_completed', { step_name: 'car-stories', next_step: 'questionnaire' })
                                     navigate('/dashboard/resume/questionnaire')
                                 }}
-                                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
                             >
                                 {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
                                 <ArrowRight className="w-4 h-4" />
@@ -603,7 +603,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                 <span className="font-semibold text-gray-900 dark:text-white">{stats.draft}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.drafts', 'Drafts')}</span>
                             </div>
                             <div className="px-4 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-sm flex items-center gap-2">
-                                <span className="font-semibold text-[#059669] dark:text-[#10b981]">{stats.completed}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.completed', 'Completed')}</span>
+                                <span className="font-semibold text-primary-600 dark:text-primary-400">{stats.completed}</span> <span className="text-gray-500 dark:text-gray-400">{t('common.completed', 'Completed')}</span>
                             </div>
                         </div>
                     </div>
@@ -618,22 +618,22 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                         <div className="flex flex-col gap-2">
                             <button
                                 onClick={handleNewStory}
-                                className="w-full py-2.5 bg-[#4F46E5] text-white font-medium rounded-xl hover:bg-[#4338CA] transition-colors flex items-center justify-center gap-2"
+                                className="w-full py-2.5 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors flex items-center justify-center gap-2"
                             >
                                 <Plus className="w-4 h-4" /> {t('resumeBuilder.par.addNew', 'Add New CAR')}
                             </button>
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => setActivePanel(activePanel === 'verbs' ? null : 'verbs')}
-                                    className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'verbs' ? 'bg-[#EEF2FF] dark:bg-indigo-900/30 border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                                    className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'verbs' ? 'bg-primary-50 dark:bg-primary-900/30 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
                                 >
                                     <Sparkles className="w-4 h-4 text-amber-500" /> {t('resumeBuilder.par.actionVerbs', 'Action Verbs')}
                                 </button>
                                 <button
                                     onClick={() => setActivePanel(activePanel === 'examples' ? null : 'examples')}
-                                    className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'examples' ? 'bg-[#EEF2FF] dark:bg-indigo-900/30 border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
+                                    className={`flex-1 py-2 rounded-xl text-sm font-medium border flex items-center justify-center gap-2 transition-colors ${activePanel === 'examples' ? 'bg-primary-50 dark:bg-primary-900/30 border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400' : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}
                                 >
-                                    <BookOpen className="w-4 h-4 text-emerald-500" /> {t('common.examples', 'Examples')}
+                                    <BookOpen className="w-4 h-4 text-primary-500" /> {t('common.examples', 'Examples')}
                                 </button>
                             </div>
                         </div>
@@ -709,7 +709,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     <div className="flex justify-between items-center mt-3 px-2">
                         <p className="text-xs text-gray-500 font-medium">{t('resumeBuilder.par.storiesFoundCount', { count: filteredStories.length, defaultValue: `${filteredStories.length} stories found` })} {dbError && ` | Error: ${dbError}`}</p>
                         {lastInsertedVerb && (
-                            <p className="text-xs text-gray-500">{t('resumeBuilder.par.lastInsertedVerb', 'Last inserted action verb:')} <span className="font-semibold text-[#4F46E5]">{lastInsertedVerb}</span></p>
+                            <p className="text-xs text-gray-500">{t('resumeBuilder.par.lastInsertedVerb', 'Last inserted action verb:')} <span className="font-semibold text-primary-600">{lastInsertedVerb}</span></p>
                         )}
                     </div>
                     {dbError && (
@@ -734,7 +734,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <h3 className="text-lg font-bold text-gray-900 dark:text-white truncate">{story.title || `${story.role_title} at ${story.company_name}`}</h3>
                                             {/* Dynamic Status Pill */}
                                             <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold tracking-wide uppercase flex-shrink-0 ${story.status === 'draft' ? 'bg-[#FEF3C7] dark:bg-amber-900/30 text-[#D97706] dark:text-amber-500' :
-                                                story.status === 'completed' ? 'bg-[#D1FAE5] dark:bg-emerald-900/30 text-[#059669] dark:text-emerald-500' :
+                                                story.status === 'completed' ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-500' :
                                                     'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                                                 }`}>
                                                 {story.status === 'completed' ? 'Completed' : (story.status || 'draft')}
@@ -754,13 +754,13 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                 setExtractorStories([story])
                                                 setShowAIAccomplishmentExtractor(true)
                                             }}
-                                            className="px-3 py-1.5 rounded-lg border border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400 font-semibold hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center gap-1.5 text-xs mr-2"
+                                            className="px-3 py-1.5 rounded-lg border border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/40 transition-colors flex items-center gap-1.5 text-xs mr-2"
                                             title="Generate AI Accomplishments from this CAR"
                                         >
                                             <Sparkles className="w-3.5 h-3.5" /> Generate
                                         </button>
-                                        <button onClick={() => setLinkingStoryId(linkingStoryId === story.id ? null : (story.id || null))} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-[#4F46E5] hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition-colors"><Link2 className="w-4 h-4" /></button>
-                                        <button onClick={() => handleEdit(story)} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-[#4F46E5] hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/30 dark:hover:text-indigo-400 transition-colors"><Pencil className="w-4 h-4" /></button>
+                                        <button onClick={() => setLinkingStoryId(linkingStoryId === story.id ? null : (story.id || null))} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"><Link2 className="w-4 h-4" /></button>
+                                        <button onClick={() => handleEdit(story)} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/30 dark:hover:text-primary-400 transition-colors"><Pencil className="w-4 h-4" /></button>
                                         <button onClick={() => story.id && handleDelete(story.id, (story as any).is_bank_item)} className="p-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 dark:text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 dark:hover:text-red-400 transition-colors"><Trash2 className="w-4 h-4" /></button>
                                     </div>
                                 </div>
@@ -773,14 +773,14 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
 
                                 {/* Link to Role Dropdown */}
                                 {linkingStoryId === story.id && workExperiences.length > 0 && (
-                                    <div className="mb-5 p-3 bg-[#EEF2FF] rounded-xl border border-[#C7D2FE]">
-                                        <p className="text-xs font-semibold text-[#4F46E5] mb-2 uppercase tracking-wide">Link to a role:</p>
+                                    <div className="mb-5 p-3 bg-primary-50 rounded-xl border border-primary-200">
+                                        <p className="text-xs font-semibold text-primary-600 mb-2 uppercase tracking-wide">Link to a role:</p>
                                         <div className="space-y-1">
                                             {workExperiences.map(we => (
                                                 <button
                                                     key={we.id}
                                                     onClick={() => story.id && handleLinkToRole(story.id, we.id)}
-                                                    className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-[#E0E7FF] text-gray-700 transition-colors flex items-center gap-2"
+                                                    className="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-primary-100 text-gray-700 transition-colors flex items-center gap-2"
                                                 >
                                                     <Briefcase className="w-3.5 h-3.5" />{we.job_title} at {we.company_name}
                                                 </button>
@@ -816,39 +816,39 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     </div>
 
                                     {/* Result Block (High Contrast) */}
-                                    <div className="bg-[#EEF2FF] dark:bg-indigo-900/20 border border-[#C7D2FE] dark:border-indigo-800 rounded-xl p-4 flex flex-col min-h-[160px]">
-                                        <div className="flex items-center gap-2 mb-3 text-[#4F46E5] dark:text-indigo-400 font-semibold tracking-wider text-[11px] uppercase">
-                                            <span className="w-5 h-5 flex items-center justify-center rounded bg-[#E0E7FF] dark:bg-indigo-900/50 text-[#4F46E5] dark:text-indigo-400 text-xs">R</span>
+                                    <div className="bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800 rounded-xl p-4 flex flex-col min-h-[160px]">
+                                        <div className="flex items-center gap-2 mb-3 text-primary-600 dark:text-primary-400 font-semibold tracking-wider text-[11px] uppercase">
+                                            <span className="w-5 h-5 flex items-center justify-center rounded bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 text-xs">R</span>
                                             Result
                                         </div>
-                                        <p className="text-sm text-[#4F46E5] dark:text-indigo-300 font-medium leading-relaxed overflow-y-auto">{story.result || <span className="text-[#A5B4FC] dark:text-indigo-800 italic font-normal">No result defined...</span>}</p>
+                                        <p className="text-sm text-primary-600 dark:text-primary-300 font-medium leading-relaxed overflow-y-auto">{story.result || <span className="text-primary-300 dark:text-primary-800 italic font-normal">No result defined...</span>}</p>
                                     </div>
                                 </div>
 
                                 {/* Associated Accomplishments */}
                                 {((story as any).associated_accomplishments?.length > 0) && (
-                                    <div className="mt-5 p-4 bg-emerald-50/50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800/30 rounded-xl">
+                                    <div className="mt-5 p-4 bg-primary-50/50 dark:bg-primary-900/10 border border-primary-100 dark:border-primary-800/30 rounded-xl">
                                         <div
                                             className="flex items-center justify-between cursor-pointer group"
                                             onClick={() => setExpandedAccomplishments(prev => ({ ...prev, [story.id!]: !prev[story.id!] }))}
                                         >
-                                            <h4 className="text-xs font-bold text-emerald-800 dark:text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 group-hover:text-emerald-900 dark:group-hover:text-emerald-300 transition-colors">
+                                            <h4 className="text-xs font-bold text-primary-800 dark:text-primary-400 uppercase tracking-wider flex items-center gap-1.5 group-hover:text-primary-900 dark:group-hover:text-primary-300 transition-colors">
                                                 <Sparkles className="w-3.5 h-3.5" /> Associated Accomplishments
-                                                <span className="ml-1 bg-emerald-200 dark:bg-emerald-800/60 text-emerald-800 dark:text-emerald-300 py-0.5 px-2 rounded-full text-[10px]">{((story as any).associated_accomplishments).length}</span>
+                                                <span className="ml-1 bg-primary-200 dark:bg-primary-800/60 text-primary-800 dark:text-primary-300 py-0.5 px-2 rounded-full text-[10px]">{((story as any).associated_accomplishments).length}</span>
                                             </h4>
-                                            <ChevronDown className={`w-4 h-4 text-emerald-600 dark:text-emerald-500 transition-transform duration-200 ${expandedAccomplishments[story.id!] ? 'rotate-180' : ''}`} />
+                                            <ChevronDown className={`w-4 h-4 text-primary-600 dark:text-primary-500 transition-transform duration-200 ${expandedAccomplishments[story.id!] ? 'rotate-180' : ''}`} />
                                         </div>
 
                                         {expandedAccomplishments[story.id!] && (
                                             <ul className="space-y-2 mt-4 animate-in slide-in-from-top-2 duration-200">
                                                 {((story as any).associated_accomplishments).map((acc: any) => (
                                                     <li key={acc.id} className="text-sm text-gray-700 dark:text-gray-300 flex items-start gap-2">
-                                                        <span className="inline-block mt-1.5 w-1.5 h-1.5 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                                                        <span className="inline-block mt-1.5 w-1.5 h-1.5 rounded-full bg-primary-500 flex-shrink-0"></span>
                                                         <span className="leading-relaxed flex flex-wrap items-center gap-2 w-full">
                                                             <span>{acc.bullet_text}</span>
-                                                            {acc.source === 'imported' && <span className="text-[9px] bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Imported</span>}
+                                                            {acc.source === 'imported' && <span className="text-[9px] bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Imported</span>}
                                                             {acc.source === 'manual' && <span className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">Manual</span>}
-                                                            {acc.source === 'ai_generated' && acc.par_story_id !== story.id && <span className="text-[9px] bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">AI Generated</span>}
+                                                            {acc.source === 'ai_generated' && acc.par_story_id !== story.id && <span className="text-[9px] bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-400 font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">AI Generated</span>}
                                                         </span>
                                                     </li>
                                                 ))}
@@ -884,8 +884,8 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                         <div className="w-full lg:w-[380px] xl:w-[420px] flex-shrink-0 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden sticky top-8 h-fit flex flex-col animate-in slide-in-from-right duration-300 z-10">
                             <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 z-10 sticky top-0">
                                 <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                    {activePanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5] dark:text-indigo-400" /> Action Verbs</> :
-                                        activePanel === 'examples' && <><BookOpen className="w-4 h-4 text-[#4F46E5] dark:text-indigo-400" /> Verified Examples</>}
+                                    {activePanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-primary-600 dark:text-primary-400" /> Action Verbs</> :
+                                        activePanel === 'examples' && <><BookOpen className="w-4 h-4 text-primary-600 dark:text-primary-400" /> Verified Examples</>}
                                 </h3>
                                 <button onClick={() => setActivePanel(null)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                                     <X className="w-4 h-4" />
@@ -904,7 +904,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                         <button
                                                             key={verb}
                                                             onClick={() => copyToClipboard(verb, verb)}
-                                                            className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:border-[#4F46E5] dark:hover:border-indigo-500 hover:text-[#4F46E5] dark:hover:text-indigo-400 transition-colors shadow-sm"
+                                                            className="px-3 py-1.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 hover:border-primary-600 dark:hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-colors shadow-sm"
                                                         >
                                                             {verb}
                                                         </button>
@@ -919,20 +919,20 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                     <div className="space-y-4">
                                         <div className="flex items-center justify-between mb-4">
                                             <p className="text-sm text-gray-600 dark:text-gray-400">Strong examples formatted correctly with quantified metrics.</p>
-                                            {isFetchingExamples && <Loader2 className="w-4 h-4 text-[#4F46E5] animate-spin" />}
+                                            {isFetchingExamples && <Loader2 className="w-4 h-4 text-primary-600 animate-spin" />}
                                         </div>
 
                                         {personalizedExamples.length > 0 ? (
                                             personalizedExamples.map((ex, i) => (
-                                                <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-[#C7D2FE] dark:border-indigo-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                                <div key={i} className="bg-white dark:bg-gray-800 p-4 rounded-xl border border-primary-200 dark:border-primary-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-2 duration-300">
                                                     <div className="flex items-center justify-between mb-2">
-                                                        <span className="inline-block px-2.5 py-1 bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400 text-[10px] uppercase tracking-wider font-bold rounded">Personalized: {ex.role}</span>
+                                                        <span className="inline-block px-2.5 py-1 bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 text-[10px] uppercase tracking-wider font-bold rounded">Personalized: {ex.role}</span>
                                                         <Sparkles className="w-3 h-3 text-amber-500" />
                                                     </div>
                                                     <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{ex.text}</p>
                                                     <button
                                                         onClick={() => copyToClipboard(ex.text)}
-                                                        className="absolute top-4 right-4 text-gray-400 hover:text-[#4F46E5] dark:hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                        className="absolute top-4 right-4 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity"
                                                     >
                                                         <Copy className="w-4 h-4" />
                                                     </button>
@@ -945,7 +945,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                     <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed pr-6">{ex.text}</p>
                                                     <button
                                                         onClick={() => copyToClipboard(ex.text)}
-                                                        className="absolute top-4 right-4 text-gray-400 hover:text-[#4F46E5] dark:hover:text-indigo-400 opacity-0 group-hover:opacity-100 transition-opacity"
+                                                        className="absolute top-4 right-4 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 opacity-0 group-hover:opacity-100 transition-opacity"
                                                     >
                                                         <Copy className="w-4 h-4" />
                                                     </button>
@@ -965,7 +965,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     <div className="mt-8 flex justify-end border-t border-gray-200 dark:border-gray-700 pt-6">
                         <button
                             onClick={() => navigate('/dashboard/resume/questionnaire')}
-                            className="py-3 px-8 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                            className="py-3 px-8 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/25 flex items-center justify-center gap-2"
                         >
                             Continue to Next Step <ArrowRight className="w-5 h-5" />
                         </button>
@@ -979,7 +979,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                     <div className="pointer-events-auto w-[360px] max-h-[70vh] flex flex-col bg-white dark:bg-gray-800 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden animate-in slide-in-from-right duration-200">
                         <div className="px-5 py-3 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between bg-white dark:bg-gray-800 sticky top-0">
                             <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2 text-sm">
-                                {modalPanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-[#4F46E5]" /> Action Verbs</> : <><BookOpen className="w-4 h-4 text-[#4F46E5]" /> Verified Examples</>}
+                                {modalPanel === 'verbs' ? <><Sparkles className="w-4 h-4 text-primary-600" /> Action Verbs</> : <><BookOpen className="w-4 h-4 text-primary-600" /> Verified Examples</>}
                             </h3>
                             <button onClick={() => setModalPanel(null)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                                 <X className="w-4 h-4" />
@@ -995,7 +995,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <div className="flex flex-wrap gap-1.5">
                                                 {verbs.map(verb => (
                                                     <button key={verb} onClick={() => copyToClipboard(verb, verb)}
-                                                        className="px-2.5 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-700 dark:text-gray-300 hover:border-[#4F46E5] hover:text-[#4F46E5] transition-colors shadow-sm">
+                                                        className="px-2.5 py-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg text-xs text-gray-700 dark:text-gray-300 hover:border-primary-600 hover:text-primary-600 transition-colors shadow-sm">
                                                         {verb}
                                                     </button>
                                                 ))}
@@ -1008,18 +1008,18 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between mb-1">
                                         <p className="text-xs text-gray-500 dark:text-gray-400">Strong CAR examples with quantified metrics.</p>
-                                        {isFetchingExamples && <Loader2 className="w-3 h-3 text-[#4F46E5] animate-spin" />}
+                                        {isFetchingExamples && <Loader2 className="w-3 h-3 text-primary-600 animate-spin" />}
                                     </div>
 
                                     {personalizedExamples.length > 0 ? (
                                         personalizedExamples.map((ex, i) => (
-                                            <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-[#C7D2FE] dark:border-indigo-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-1 duration-200">
+                                            <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-primary-200 dark:border-primary-800 shadow-sm relative group animate-in fade-in slide-in-from-bottom-1 duration-200">
                                                 <div className="flex items-center justify-between mb-1">
-                                                    <span className="inline-block px-2 py-0.5 bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400 text-[9px] uppercase tracking-wider font-bold rounded">Tailored: {ex.role}</span>
+                                                    <span className="inline-block px-2 py-0.5 bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 text-[9px] uppercase tracking-wider font-bold rounded">Tailored: {ex.role}</span>
                                                     <Sparkles className="w-2.5 h-2.5 text-amber-500" />
                                                 </div>
                                                 <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
-                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-primary-600 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <Copy className="w-3.5 h-3.5" />
                                                 </button>
                                             </div>
@@ -1029,7 +1029,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <div key={i} className="bg-white dark:bg-gray-800 p-3 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm relative group">
                                                 <span className="inline-block px-2 py-0.5 bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 text-[9px] uppercase tracking-wider font-bold rounded mb-2">{ex.role}</span>
                                                 <p className="text-xs text-gray-700 dark:text-gray-300 leading-relaxed pr-5">{ex.text}</p>
-                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-[#4F46E5] opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => copyToClipboard(ex.text)} className="absolute top-3 right-3 text-gray-400 hover:text-primary-600 opacity-0 group-hover:opacity-100 transition-opacity">
                                                     <Copy className="w-3.5 h-3.5" />
                                                 </button>
                                             </div>
@@ -1081,8 +1081,8 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                         </ul>
                                     </div>
                                     <div>
-                                        <p className="text-[10px] font-bold text-[#4F46E5] uppercase mb-1.5">R · Results</p>
-                                        <p className="text-sm text-[#4F46E5] dark:text-indigo-300 font-medium leading-relaxed">{improveModalStory.result || <span className="italic font-normal text-gray-300">Empty</span>}</p>
+                                        <p className="text-[10px] font-bold text-primary-600 uppercase mb-1.5">R · Results</p>
+                                        <p className="text-sm text-primary-600 dark:text-primary-300 font-medium leading-relaxed">{improveModalStory.result || <span className="italic font-normal text-gray-300">Empty</span>}</p>
                                     </div>
                                 </div>
                             </div>
@@ -1132,12 +1132,12 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                     {improveResult.improved_actions.map((a, i) => <li key={i}>{a}</li>)}
                                                 </ul>
                                             </div>
-                                            <div className="bg-[#EEF2FF] dark:bg-indigo-900/20 rounded-xl p-3 border border-[#C7D2FE] dark:border-indigo-800">
-                                                <p className="text-[10px] font-bold text-[#4F46E5] dark:text-indigo-400 uppercase mb-1.5 flex items-center gap-1">
-                                                    <span className="w-4 h-4 rounded bg-[#E0E7FF] dark:bg-indigo-900/50 text-[#4F46E5] dark:text-indigo-400 flex items-center justify-center text-[10px] font-bold">R</span>
+                                            <div className="bg-primary-50 dark:bg-primary-900/20 rounded-xl p-3 border border-primary-200 dark:border-primary-800">
+                                                <p className="text-[10px] font-bold text-primary-600 dark:text-primary-400 uppercase mb-1.5 flex items-center gap-1">
+                                                    <span className="w-4 h-4 rounded bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-[10px] font-bold">R</span>
                                                     Results
                                                 </p>
-                                                <p className="text-sm text-[#4F46E5] dark:text-indigo-300 font-semibold leading-relaxed">{improveResult.improved_result}</p>
+                                                <p className="text-sm text-primary-600 dark:text-primary-300 font-semibold leading-relaxed">{improveResult.improved_result}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -1201,7 +1201,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                         {/* Modal Header */}
                         <div className="px-6 py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 rounded-t-2xl flex items-center justify-between sticky top-0 z-10">
                             <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-[#EEF2FF] dark:bg-indigo-900/40 flex items-center justify-center text-[#4F46E5] dark:text-indigo-400">
+                                <div className="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-primary-600 dark:text-primary-400">
                                     <Trophy className="w-5 h-5" />
                                 </div>
                                 {editingStory ? 'Edit CAR' : 'New CAR'}
@@ -1250,7 +1250,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                         setForm(prev => ({ ...prev, role_title: '', company_name: '', start_date: '', end_date: '' }))
                                                     }
                                                 }}
-                                                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow text-sm cursor-pointer"
+                                                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none transition-shadow text-sm cursor-pointer"
                                             >
                                                 <option value="">— Select a role or enter manually —</option>
                                                 {workExperiences.map(we => (
@@ -1269,7 +1269,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <input
                                                 value={form.role_title || ''}
                                                 onChange={e => setForm(prev => ({ ...prev, role_title: e.target.value }))}
-                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow"
+                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none transition-shadow"
                                                 placeholder="e.g., VP Operations"
                                             />
                                         </div>
@@ -1278,7 +1278,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <input
                                                 value={form.company_name || ''}
                                                 onChange={e => setForm(prev => ({ ...prev, company_name: e.target.value }))}
-                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow"
+                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none transition-shadow"
                                                 placeholder="e.g., Acme Corp"
                                             />
                                         </div>
@@ -1287,7 +1287,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <input
                                                 value={form.start_date || ''}
                                                 onChange={e => setForm(prev => ({ ...prev, start_date: e.target.value }))}
-                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow"
+                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none transition-shadow"
                                                 placeholder="Jan 2020"
                                             />
                                         </div>
@@ -1296,7 +1296,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <input
                                                 value={form.end_date || ''}
                                                 onChange={e => setForm(prev => ({ ...prev, end_date: e.target.value }))}
-                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none transition-shadow"
+                                                className="w-full px-4 py-2.5 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none transition-shadow"
                                                 placeholder="Present"
                                             />
                                         </div>
@@ -1311,8 +1311,8 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             <h3 className="font-semibold text-gray-900 dark:text-white">CAR Builder</h3>
                                         </div>
                                         <div className="flex gap-2">
-                                            <button onClick={() => setModalPanel(modalPanel === 'verbs' ? null : 'verbs')} className={`text-xs font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg transition-colors ${modalPanel === 'verbs' ? 'bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400' : 'text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40'}`}><Sparkles className="w-3.5 h-3.5" /> Action Verbs</button>
-                                            <button onClick={() => setModalPanel(modalPanel === 'examples' ? null : 'examples')} className={`text-xs font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg transition-colors ${modalPanel === 'examples' ? 'bg-[#EEF2FF] dark:bg-indigo-900/40 text-[#4F46E5] dark:text-indigo-400' : 'text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40'}`}><BookOpen className="w-3.5 h-3.5" /> Examples</button>
+                                            <button onClick={() => setModalPanel(modalPanel === 'verbs' ? null : 'verbs')} className={`text-xs font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg transition-colors ${modalPanel === 'verbs' ? 'bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400' : 'text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/40'}`}><Sparkles className="w-3.5 h-3.5" /> Action Verbs</button>
+                                            <button onClick={() => setModalPanel(modalPanel === 'examples' ? null : 'examples')} className={`text-xs font-semibold flex items-center gap-1 px-2.5 py-1.5 rounded-lg transition-colors ${modalPanel === 'examples' ? 'bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400' : 'text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/40'}`}><BookOpen className="w-3.5 h-3.5" /> Examples</button>
                                         </div>
                                     </div>
 
@@ -1324,7 +1324,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                             value={form.problem_challenge || ''}
                                             onChange={e => setForm(prev => ({ ...prev, problem_challenge: e.target.value }))}
                                             rows={2}
-                                            className="w-full p-3.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none resize-none text-sm transition-colors"
+                                            className="w-full p-3.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none resize-none text-sm transition-colors"
                                             placeholder="What specific problem or situation did you face?"
                                         />
                                     </div>
@@ -1339,25 +1339,25 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                     key={idx}
                                                     value={action}
                                                     onChange={e => updateAction(idx, e.target.value)}
-                                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none text-sm transition-colors"
+                                                    className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none text-sm transition-colors"
                                                     placeholder={`Action ${idx + 1}...`}
                                                 />
                                             ))}
-                                            <button onClick={addAction} className="text-sm font-semibold text-[#4F46E5] dark:text-indigo-400 hover:text-[#4338CA] dark:hover:text-indigo-300 flex items-center gap-1.5 px-2">
+                                            <button onClick={addAction} className="text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 flex items-center gap-1.5 px-2">
                                                 <Plus className="w-4 h-4" /> Add action
                                             </button>
                                         </div>
                                     </div>
 
                                     <div>
-                                        <label className="flex items-center gap-2 text-sm font-semibold text-[#4F46E5] dark:text-indigo-400 mb-3">
-                                            <span className="w-6 h-6 rounded-lg bg-[#EEF2FF] dark:bg-indigo-900/40 flex items-center justify-center text-xs">R</span> Result (Measured) <span className="text-red-500">*</span>
+                                        <label className="flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 mb-3">
+                                            <span className="w-6 h-6 rounded-lg bg-primary-50 dark:bg-primary-900/40 flex items-center justify-center text-xs">R</span> Result (Measured) <span className="text-red-500">*</span>
                                         </label>
                                         <textarea
                                             value={form.result || ''}
                                             onChange={e => setForm(prev => ({ ...prev, result: e.target.value }))}
                                             rows={2}
-                                            className="w-full p-3.5 rounded-xl border border-[#C7D2FE] dark:border-indigo-800 bg-[#EEF2FF] dark:bg-indigo-900/20 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-[#4F46E5] focus:border-transparent outline-none resize-none text-sm transition-colors"
+                                            className="w-full p-3.5 rounded-xl border border-primary-200 dark:border-primary-800 bg-primary-50 dark:bg-primary-900/20 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 focus:ring-2 focus:ring-primary-600 focus:border-transparent outline-none resize-none text-sm transition-colors"
                                             placeholder="What was the quantifiable outcome? (e.g. Increased revenue by 20%)"
                                         />
                                     </div>
@@ -1379,7 +1379,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                 <button
                                                     key={s}
                                                     onClick={() => setForm(prev => ({ ...prev, status: s as any }))}
-                                                    className={`py-2 px-3 rounded-lg text-xs font-bold tracking-wide uppercase border text-center transition-all ${form.status === s ? 'bg-[#4F46E5] text-white border-[#4F46E5] shadow-md shadow-indigo-500/20' : 'bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+                                                    className={`py-2 px-3 rounded-lg text-xs font-bold tracking-wide uppercase border text-center transition-all ${form.status === s ? 'bg-primary-600 text-white border-primary-600 shadow-md shadow-primary-500/20' : 'bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
                                                 >
                                                     {s}
                                                 </button>
@@ -1423,9 +1423,9 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                         <label className="block text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-3">Skills Tags</label>
                                         <div className="flex flex-wrap gap-2 mb-3">
                                             {(form.skills_tags || []).map((tag, idx) => (
-                                                <span key={idx} className="px-2.5 py-1.5 bg-[#EEF2FF] dark:bg-indigo-900/40 border border-[#C7D2FE] dark:border-indigo-800 text-[#4F46E5] dark:text-indigo-400 rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+                                                <span key={idx} className="px-2.5 py-1.5 bg-primary-50 dark:bg-primary-900/40 border border-primary-200 dark:border-primary-800 text-primary-600 dark:text-primary-400 rounded-lg text-xs font-semibold flex items-center gap-1.5 shadow-sm">
                                                     {tag}
-                                                    <button onClick={() => removeSkillTag(idx)} className="hover:bg-[#E0E7FF] dark:hover:bg-indigo-900/60 rounded-full p-0.5"><X className="w-3 h-3 hover:text-red-500" /></button>
+                                                    <button onClick={() => removeSkillTag(idx)} className="hover:bg-primary-100 dark:hover:bg-primary-900/60 rounded-full p-0.5"><X className="w-3 h-3 hover:text-red-500" /></button>
                                                 </span>
                                             ))}
                                         </div>
@@ -1434,7 +1434,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                                                 value={skillInput}
                                                 onChange={e => setSkillInput(e.target.value)}
                                                 onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSkillTag())}
-                                                className="flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#4F46E5] outline-none transition-shadow"
+                                                className="flex-1 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-primary-600 outline-none transition-shadow"
                                                 placeholder="Add tag..."
                                             />
                                             <button onClick={addSkillTag} className="px-3 py-2 bg-gray-900 dark:bg-white rounded-lg text-sm text-white dark:text-gray-900 font-semibold hover:bg-gray-800 dark:hover:bg-gray-100 transition-colors shadow-md">Add</button>
@@ -1450,7 +1450,7 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
                             <button
                                 onClick={handleSave}
                                 disabled={saving}
-                                className="px-8 py-3 bg-[#4F46E5] text-white font-bold rounded-xl hover:bg-[#4338CA] transition-colors disabled:opacity-50 shadow-lg shadow-indigo-500/25 flex items-center gap-2"
+                                className="px-8 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-colors disabled:opacity-50 shadow-lg shadow-primary-500/25 flex items-center gap-2"
                             >
                                 {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving...</> : editingStory ? 'Update CAR' : 'Save CAR'}
                             </button>

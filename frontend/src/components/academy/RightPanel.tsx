@@ -47,13 +47,13 @@ const RightPanel: React.FC<RightPanelProps> = ({
   const getResourceTypeIcon = (type: string) => {
     switch (type) {
       case 'video':
-        return <Play size={16} className="text-red-500" />
+        return <Play size={16} className="text-primary-500" />
       case 'audio':
-        return <Headphones size={16} className="text-purple-500" />
+        return <Headphones size={16} className="text-primary-500" />
       case 'article':
         return <FileText size={16} className="text-blue-500" />
       case 'document':
-        return <FileDown size={16} className="text-amber-600" />
+        return <FileDown size={16} className="text-primary-600" />
       default:
         return <FileText size={16} />
     }
@@ -101,21 +101,21 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {continueLearningResource && (
         <div className="flex-shrink-0 p-4 border-b border-slate-100">
           <div className="flex items-center gap-2 mb-3">
-            <RotateCcw size={14} className="text-amber-500" />
-            <p className="text-xs font-semibold text-amber-600 uppercase tracking-wider">
+            <RotateCcw size={14} className="text-primary-500" />
+            <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider">
               {t('panel.continueLearning')}
             </p>
           </div>
           
           <button
             onClick={onContinueLearning}
-            className="w-full flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 hover:border-amber-300 hover:shadow-sm transition-all duration-200 group"
+            className="w-full flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-primary-50 to-primary-50 border border-primary-200 hover:border-primary-300 hover:shadow-sm transition-all duration-200 group"
           >
-            <div className="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0">
               {getResourceTypeIcon(continueLearningResource.type)}
             </div>
             <div className="flex-1 min-w-0 text-left">
-              <p className="text-sm font-semibold text-slate-800 leading-tight truncate group-hover:text-amber-700 transition-colors">
+              <p className="text-sm font-semibold text-slate-800 leading-tight truncate group-hover:text-primary-700 transition-colors">
                 {continueLearningResource.title}
               </p>
               <div className="flex items-center gap-2 mt-1">
@@ -128,14 +128,14 @@ const RightPanel: React.FC<RightPanelProps> = ({
                 {continueLearningResource.progress !== undefined && (
                   <div className="flex-1 h-1.5 bg-slate-200 rounded-full overflow-hidden max-w-[60px]">
                     <div 
-                      className="h-full bg-amber-500 rounded-full"
+                      className="h-full bg-primary-500 rounded-full"
                       style={{ width: `${continueLearningResource.progress}%` }}
                     />
                   </div>
                 )}
               </div>
             </div>
-            <ArrowRight size={16} className="text-amber-500 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={16} className="text-primary-500 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       )}
@@ -144,15 +144,15 @@ const RightPanel: React.FC<RightPanelProps> = ({
       {selectedNode && resources.length > 0 && (
         <div className="flex-shrink-0 p-4 border-b border-slate-100">
           <div className="flex items-center gap-2 mb-3">
-            <Sparkles size={14} className="text-emerald-500" />
-            <p className="text-xs font-semibold text-emerald-600 uppercase tracking-wider">
+            <Sparkles size={14} className="text-primary-500" />
+            <p className="text-xs font-semibold text-primary-600 uppercase tracking-wider">
               {t('panel.recommended')}
             </p>
           </div>
           
-          <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200">
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0">
-              <Sparkles size={18} className="text-emerald-500" />
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-primary-50 to-primary-50 border border-primary-200">
+            <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center flex-shrink-0">
+              <Sparkles size={18} className="text-primary-500" />
             </div>
             <div className="flex-1">
               <p className="text-xs font-semibold text-slate-700 leading-tight">

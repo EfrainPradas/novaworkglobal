@@ -502,7 +502,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     
                                     <button
                                         onClick={() => setIsVideoModalOpen(true)}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-700 hover:bg-teal-800 text-white rounded-lg shadow-sm transition-colors text-xs font-semibold"
+                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-700 hover:bg-primary-800 text-white rounded-lg shadow-sm transition-colors text-xs font-semibold"
                                     >
                                         <Play size={14} />
                                         {t('common.watchVideo', 'Watch video')}
@@ -512,7 +512,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 {!isStandalone && (
                                     <button
                                         onClick={handleContinue}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                        className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
                                     >
                                         {t('accomplishmentLibrary.nextCars', 'Next: CARs')} <ArrowRight className="w-4 h-4" />
                                     </button>
@@ -524,7 +524,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div className="space-y-1">
                             <h1 className="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                <span className="p-2 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg">
+                                <span className="p-2 bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg">
                                     <LayoutGrid size={24} />
                                 </span>
                                 {t('accomplishmentLibrary.title', 'Accomplishment Bank')}
@@ -538,14 +538,14 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
                             <button
                                 onClick={() => setIsAdding(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 shadow-sm transition-colors"
+                                className="flex items-center gap-2 px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 shadow-sm transition-colors"
                             >
                                 <Plus size={18} />
                                 {t('accomplishmentLibrary.addNew', 'Add Accomplishment')}
                             </button>
                             <button
                                 onClick={() => setIsGroupingPanelOpen(!isGroupingPanelOpen)}
-                                className={`flex items-center gap-1.5 px-4 py-2 text-white rounded-lg shadow-sm transition-colors ${isGroupingPanelOpen ? 'bg-indigo-700 hover:bg-indigo-800' : 'bg-[#4F46E5] hover:bg-[#4338CA]'}`}
+                                className={`flex items-center gap-1.5 px-4 py-2 text-white rounded-lg shadow-sm transition-colors ${isGroupingPanelOpen ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-600 hover:bg-primary-700'}`}
                             >
                                 <Wand2 size={18} />
                                 {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
@@ -564,7 +564,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     placeholder={t('accomplishmentLibrary.searchPlaceholder', 'Search accomplishments...')}
                                     value={filterText}
                                     onChange={(e) => setFilterText(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 transition-colors"
+                                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white focus:bg-white dark:focus:bg-gray-800 transition-colors"
                                 />
                             </div>
 
@@ -572,7 +572,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 <select
                                     value={selectedRole}
                                     onChange={(e) => setSelectedRole(e.target.value)}
-                                    className="appearance-none pl-3 pr-8 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors focus:ring-2 focus:ring-emerald-500 text-sm max-w-[150px]"
+                                    className="appearance-none pl-3 pr-8 py-2 border border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white hover:bg-white dark:hover:bg-gray-800 transition-colors focus:ring-2 focus:ring-primary-500 text-sm max-w-[150px]"
                                 >
                                     <option value="all">{t('accomplishmentLibrary.allItems', 'All Items')}</option>
                                     {roles.map(r => <option key={r} value={r}>{r}</option>)}
@@ -595,7 +595,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <button
                                 onClick={importFromWorkExperience}
                                 disabled={importing}
-                                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors px-3 py-2 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
+                                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20"
                             >
                                 <FileDown size={18} />
                                 {importing ? t('accomplishmentLibrary.importingAll', 'Importing...') : t('accomplishmentLibrary.importExisting', 'Import from Work Experience')}
@@ -610,7 +610,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 type="checkbox"
                                 checked={filteredItems.length > 0 && selectedIds.size === filteredItems.length}
                                 onChange={toggleSelectAll}
-                                className="w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+                                className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                             />
                             {selectedIds.size > 0
                                 ? `${selectedIds.size} ${t('accomplishmentLibrary.selectedOf', 'of')} ${filteredItems.length} ${t('accomplishmentLibrary.selected', 'selected')}`
@@ -630,10 +630,10 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
                     {/* AI Grouping Panel */}
                     {isGroupingPanelOpen && (
-                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-indigo-200 dark:border-indigo-800/50 p-4 md:p-6 mb-6">
+                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-primary-200 dark:border-primary-800/50 p-4 md:p-6 mb-6">
                             <div className="flex items-center justify-between mb-4">
                                 <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                    <Wand2 className="w-5 h-5 text-[#4F46E5] dark:text-indigo-400" /> {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
+                                    <Wand2 className="w-5 h-5 text-primary-600 dark:text-primary-400" /> {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
                                 </h3>
                                 <button onClick={() => setIsGroupingPanelOpen(false)} className="text-gray-400 hover:text-gray-700 dark:hover:text-gray-300">
                                     <X className="w-5 h-5" />
@@ -642,8 +642,8 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <div className="flex flex-col">
                                 {/* Quick Action Buttons */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><Tag className="w-4 h-4" /> {t('accomplishmentLibrary.byCompetencies', 'By Competencies')}</button>
-                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-3 border border-[#C7D2FE] dark:border-indigo-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-[#4F46E5] dark:text-indigo-400 hover:bg-[#EEF2FF] dark:hover:bg-indigo-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><RotateCw className="w-4 h-4" /> {t('accomplishmentLibrary.reclassify', 'Reclassify')}</button>
+                                    <button onClick={() => handleAddCustomGroup("group these accomplishments in 4 groups of competencies without changing the way the accomplishments are written")} className="p-3 border border-primary-200 dark:border-primary-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><Tag className="w-4 h-4" /> {t('accomplishmentLibrary.byCompetencies', 'By Competencies')}</button>
+                                    <button onClick={() => handleAddCustomGroup("give me another classification")} className="p-3 border border-primary-200 dark:border-primary-800 bg-white dark:bg-gray-800 rounded-xl text-sm font-bold text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/40 transition-colors flex items-center justify-center gap-2 shadow-sm"><RotateCw className="w-4 h-4" /> {t('accomplishmentLibrary.reclassify', 'Reclassify')}</button>
                                 </div>
 
                                 {chatHistory.length > 0 && (
@@ -664,7 +664,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     )}
                                     {chatHistory.map((msg, i) => (
                                         <div key={i} className={`flex flex-col ${msg.role === 'user' ? 'items-end' : 'items-start'} gap-2`}>
-                                            <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-[#4F46E5] text-white rounded-tr-none shadow-md' : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-tl-none shadow-sm'}`}>
+                                            <div className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm ${msg.role === 'user' ? 'bg-primary-600 text-white rounded-tr-none shadow-md' : 'bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-tl-none shadow-sm'}`}>
                                                 {msg.content}
                                             </div>
                                             {msg.groups && (
@@ -672,11 +672,11 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                     {msg.groups.map((group, gi) => (
                                                         <div key={gi} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
                                                             {/* Group Header */}
-                                                            <div className="bg-gradient-to-r from-[#EEF2FF] to-[#E0E7FF] dark:from-indigo-900/40 dark:to-indigo-800/20 px-4 py-3 flex items-center justify-between">
-                                                                <h5 className="font-bold text-[#4F46E5] dark:text-indigo-400 text-sm flex items-center gap-2">
+                                                            <div className="bg-gradient-to-r from-primary-50 to-primary-100 dark:from-primary-900/40 dark:to-primary-800/20 px-4 py-3 flex items-center justify-between">
+                                                                <h5 className="font-bold text-primary-600 dark:text-primary-400 text-sm flex items-center gap-2">
                                                                     <Tag className="w-4 h-4" /> {group.theme}
                                                                 </h5>
-                                                                <span className="text-xs bg-white dark:bg-gray-900 text-[#4F46E5] dark:text-indigo-400 font-bold px-2.5 py-1 rounded-full shadow-sm">{group.storyIds.length} accomplishments</span>
+                                                                <span className="text-xs bg-white dark:bg-gray-900 text-primary-600 dark:text-primary-400 font-bold px-2.5 py-1 rounded-full shadow-sm">{group.storyIds.length} accomplishments</span>
                                                             </div>
                                                             {/* Accomplishment List */}
                                                             <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -686,7 +686,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                                     return (
                                                                         <div key={sid} className="px-4 py-3">
                                                                             <p className="text-sm text-gray-700 dark:text-gray-300">
-                                                                                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#10B981] mr-2"></span>
+                                                                                <span className="inline-block w-1.5 h-1.5 rounded-full bg-primary-600 mr-2"></span>
                                                                                 {s.bullet_text}
                                                                             </p>
                                                                         </div>
@@ -698,7 +698,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                     <div className="flex justify-end pt-2">
                                                         <button
                                                             onClick={() => openSaveModal(msg.groups!)}
-                                                            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400 font-bold rounded-lg border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition-colors shadow-sm text-sm"
+                                                            className="flex items-center gap-1.5 px-4 py-2 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 font-bold rounded-lg border border-primary-200 dark:border-primary-800 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors shadow-sm text-sm"
                                                         >
                                                             <FolderOpen size={16} /> {t('accomplishmentLibrary.saveGroup', 'Save This Group')}
                                                         </button>
@@ -710,7 +710,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     {isCustomGrouping && (
                                         <div className="flex justify-start">
                                             <div className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 px-4 py-3 rounded-2xl rounded-tl-none shadow-sm flex items-center gap-3">
-                                                <Loader2 className="w-4 h-4 animate-spin text-[#10B981]" />
+                                                <Loader2 className="w-4 h-4 animate-spin text-primary-600" />
                                                 <span className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('accomplishmentLibrary.analyzing', 'Analyzing your accomplishments...')}</span>
                                             </div>
                                         </div>
@@ -736,7 +736,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     <button
                                         onClick={() => handleAddCustomGroup()}
                                         disabled={!customPrompt.trim() || isCustomGrouping}
-                                        className="bg-[#4F46E5] text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#4338CA] disabled:opacity-50 transition-colors shadow-sm"
+                                        className="bg-primary-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-primary-700 disabled:opacity-50 transition-colors shadow-sm"
                                     >
                                         {t('accomplishmentLibrary.send', 'Send')}
                                     </button>
@@ -747,13 +747,13 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
                     {/* Add Manual Form */}
                     {isAdding && (
-                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-emerald-200 dark:border-emerald-800/50 p-4 animate-in slide-in-from-top duration-200">
-                            <h3 className="text-sm font-medium text-emerald-800 dark:text-emerald-400 mb-2">{t('accomplishmentLibrary.addNew', 'Add Accomplishment')}</h3>
+                        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-primary-200 dark:border-primary-800/50 p-4 animate-in slide-in-from-top duration-200">
+                            <h3 className="text-sm font-medium text-primary-800 dark:text-primary-400 mb-2">{t('accomplishmentLibrary.addNew', 'Add Accomplishment')}</h3>
                             <textarea
                                 value={newItemText}
                                 onChange={(e) => setNewItemText(e.target.value)}
                                 placeholder={t('accomplishmentLibrary.bulletPlaceholder', 'e.g., Led team of 5...')}
-                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px]"
+                                className="w-full p-3 border border-gray-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-[100px]"
                                 autoFocus
                             />
 
@@ -761,7 +761,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 <button
                                     onClick={handleImproveWithAI}
                                     disabled={isImprovingAI}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 mt-2 mb-3 text-sm font-semibold text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-700 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors disabled:opacity-60"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 mt-2 mb-3 text-sm font-semibold text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors disabled:opacity-60"
                                 >
                                     {isImprovingAI ? (
                                         <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Improving...</>
@@ -819,7 +819,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     <button onClick={() => setIsAdding(false)} className="px-3 py-1.5 text-sm text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded">
                                         {t('common.cancel', 'Cancel')}
                                     </button>
-                                    <button onClick={handleAddManual} className="px-3 py-1.5 text-sm bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-600">
+                                    <button onClick={handleAddManual} className="px-3 py-1.5 text-sm bg-primary-600 dark:bg-primary-500 text-white rounded hover:bg-primary-700 dark:hover:bg-primary-600">
                                         {t('common.save', 'Save')}
                                     </button>
                                 </div>
@@ -839,7 +839,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">{t('accomplishmentLibrary.noAccomplishmentsHelp', 'Start building your library by adding accomplishments or importing them from your work experience.')}</p>
                             <button
                                 onClick={importFromWorkExperience}
-                                className="mt-4 text-emerald-600 dark:text-emerald-400 font-medium hover:underline"
+                                className="mt-4 text-primary-600 dark:text-primary-400 font-medium hover:underline"
                             >
                                 {t('accomplishmentLibrary.importExisting', 'Import from Work Experience')}
                             </button>
@@ -854,7 +854,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                 type="checkbox"
                                                 checked={selectedIds.has(item.id!)}
                                                 onChange={() => toggleSelect(item.id!)}
-                                                className="mt-5 w-4 h-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 cursor-pointer flex-shrink-0"
+                                                className="mt-5 w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500 cursor-pointer flex-shrink-0"
                                             />
                                             <div className="flex-1 min-w-0">
                                                 <AccomplishmentBankCard
@@ -926,7 +926,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         {/* Header */}
                         <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
                             <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                <FolderOpen className="w-5 h-5 text-indigo-500" /> Save Accomplishment Group
+                                <FolderOpen className="w-5 h-5 text-primary-500" /> Save Accomplishment Group
                             </h3>
                             <button
                                 onClick={() => setIsSaveModalOpen(false)}
@@ -946,7 +946,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 value={saveGroupName}
                                 onChange={(e) => setSaveGroupName(e.target.value)}
                                 placeholder={t('accomplishmentLibrary.groupNamePlaceholder', 'e.g. Executive Summary Format')}
-                                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-indigo-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
+                                className="w-full px-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-primary-500 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors"
                                 autoFocus
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter' && saveGroupName.trim() && !isSavingGroup) {
@@ -971,7 +971,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             <button
                                 onClick={handleSaveGroup}
                                 disabled={!saveGroupName.trim() || isSavingGroup}
-                                className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="flex items-center gap-2 px-5 py-2.5 text-sm font-bold bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-sm transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isSavingGroup ? (
                                     <><Loader2 className="w-4 h-4 animate-spin" /> {t('accomplishmentLibrary.saving', 'Saving...')}</>

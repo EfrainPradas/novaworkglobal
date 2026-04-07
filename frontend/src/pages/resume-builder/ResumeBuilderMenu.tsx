@@ -222,14 +222,14 @@ export default function ResumeBuilderMenu() {
     {
       id: 'work-and-education',
       title: t('resumeBuilder.menu.workAndEducationTitle', 'Work Experience and Education'),
-      description: t('resumeBuilder.menu.workAndEducationDesc', 'Build your career history and academic record.'),
+      description: t('resumeBuilder.menu.workAndEducationDesc', 'Career and academic history.'),
       icon: Briefcase,
       route: '/dashboard/resume/work-experience?mode=standalone',
       completed: completedSteps.has('work-history') && completedSteps.has('education'),
       current: !completedSteps.has('work-history') || !completedSteps.has('education'),
-      color: 'text-emerald-600',
-      bgColor: 'bg-emerald-50',
-      borderColor: 'border-emerald-200',
+      color: 'text-primary-600',
+      bgColor: 'bg-primary-50',
+      borderColor: 'border-primary-200',
       expandedText: "In the first part, you'll outline your work experience. This is where you list the companies and roles you've held, along with the key details like the company name, position, years, and locations. Follow the steps carefully to ensure you capture all the essential information."
     },
     {
@@ -240,9 +240,9 @@ export default function ResumeBuilderMenu() {
       route: '/dashboard/resume/accomplishments-hub?mode=standalone',
       completed: completedSteps.has('accomplishment-bank') && completedSteps.has('story-cards'),
       current: (completedSteps.has('work-history') && completedSteps.has('education')) && (!completedSteps.has('accomplishment-bank') || !completedSteps.has('story-cards')),
-      color: 'text-amber-600',
-      bgColor: 'bg-amber-50',
-      borderColor: 'border-amber-200',
+      color: 'text-primary-600',
+      bgColor: 'bg-primary-50',
+      borderColor: 'border-primary-200',
       expandedText: "Next, you'll move on to the Accomplishment Bank, where you'll gather all the major achievements from your career. You can populate this section in two ways: either by uploading accomplishments from an older resume or by building them through our CAR system (Context/Challenge + Actions + Results). Once you've compiled your accomplishments, you can organize them either chronologically or by competencies. This serves as a lifetime repository of your achievements, making it easy to reference and update as your career progresses."
     },
     {
@@ -253,9 +253,9 @@ export default function ResumeBuilderMenu() {
       route: '/dashboard/resume/questionnaire?mode=standalone',
       completed: completedSteps.has('questionnaire'),
       current: completedSteps.has('story-cards') && !completedSteps.has('questionnaire'),
-      color: 'text-teal-600',
-      bgColor: 'bg-teal-50',
-      borderColor: 'border-teal-200',
+      color: 'text-primary-600',
+      bgColor: 'bg-primary-50',
+      borderColor: 'border-primary-200',
       expandedText: "Build the reader's first impression of who you are — a positioning paragraph that includes the main ATS keywords and showcases your professional identity. Create it by writing it yourself, following video instructions, or using our AI questionnaire for guidance."
     },
     {
@@ -266,9 +266,9 @@ export default function ResumeBuilderMenu() {
       route: '/dashboard/resume/type-selection?mode=standalone',
       completed: completedSteps.has('finalize'),
       current: completedSteps.has('questionnaire') && !completedSteps.has('finalize'),
-      color: 'text-blue-600',
-      bgColor: 'bg-blue-50',
-      borderColor: 'border-blue-200',
+      color: 'text-primary-600',
+      bgColor: 'bg-primary-50',
+      borderColor: 'border-primary-200',
       expandedText: "With the three parts complete, choose whether to create a chronological resume, a functional resume, or both. A chronological resume is ideal for continuing in a similar career path. A functional résumé is great for career changers, versatile careers, project-based work, or international moves. Having both can be a valuable asset in your job search strategy."
     }
   ]
@@ -310,7 +310,7 @@ export default function ResumeBuilderMenu() {
                 <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
                 <div>
                   <h1 className="text-2xl sm:text-3xl font-bold mb-1 flex items-center gap-3">
-                    <FileText className="w-8 h-8 text-blue-600 dark:text-blue-400 shrink-0" />
+                    <FileText className="w-8 h-8 text-primary-600 dark:text-blue-400 shrink-0" />
                     <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
                   <div className="flex items-center gap-3 mt-0.5">
@@ -318,7 +318,7 @@ export default function ResumeBuilderMenu() {
                     <span className="text-gray-300 text-xs">|</span>
                     <button
                       onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                      className="text-xs text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
+                      className="text-xs text-primary-600 hover:text-primary-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
                     >
                       Read this before starting to use this tool →
                     </button>
@@ -328,7 +328,7 @@ export default function ResumeBuilderMenu() {
               <div className="flex items-center w-full md:w-auto">
                 <button
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="flex items-center gap-1.5 px-4 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
+                  className="flex items-center gap-1.5 px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors"
                 >
                   <Play className="w-4 h-4" /> Watch video
                 </button>
@@ -358,7 +358,7 @@ export default function ResumeBuilderMenu() {
                   fill="none"
                   strokeDasharray={175}
                   strokeDashoffset={175 - (175 * progressPercentage) / 100}
-                  className="text-blue-600 dark:text-blue-400 transition-all duration-1000 ease-out"
+                  className="text-primary-600 dark:text-blue-400 transition-all duration-1000 ease-out"
                   strokeLinecap="round"
                 />
               </svg>
@@ -372,8 +372,8 @@ export default function ResumeBuilderMenu() {
         </div>
 
 
-        {/* Main Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        {/* Compact Cards Row */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {resumeOptions.map((option, index) => {
             const Icon = option.icon
             const tourStepId = `resume-step-${index + 1}`
@@ -384,61 +384,29 @@ export default function ResumeBuilderMenu() {
               <div
                 data-tour={tourStepId}
                 className={`
-                group relative p-8 rounded-2xl border transition-all duration-300
-                bg-white dark:bg-gray-800 hover:shadow-2xl cursor-pointer hover:-translate-y-1
+                group relative p-5 rounded-2xl border transition-all duration-300
+                bg-white dark:bg-gray-800 hover:shadow-lg cursor-pointer hover:-translate-y-0.5
                 border-gray-200 dark:border-gray-700
                 ${option.current ? `ring-2 ring-offset-2 dark:ring-offset-gray-900 ${option.color.replace('text-', 'ring-')}` : ''}
               `}
                 onClick={() => navigate(option.route)}
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`p-4 rounded-xl ${option.bgColor} dark:bg-gray-700 ${option.color} dark:text-white`}>
-                    <Icon className="w-8 h-8" />
+                <div className="flex items-start justify-between mb-3">
+                  <div className={`p-2.5 rounded-xl ${option.bgColor} dark:bg-gray-700 ${option.color} dark:text-white`}>
+                    <Icon className="w-5 h-5" />
                   </div>
-                  {option.completed ? (
-                    <CheckCircle className="w-6 h-6 text-green-500" />
-                  ) : (
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowRight className={`w-6 h-6 ${option.color} dark:text-white`} />
-                    </div>
+                  {option.completed && (
+                    <CheckCircle className="w-5 h-5 text-primary-600" />
                   )}
                 </div>
 
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-blue-400 transition-colors">
                   {option.title}
                 </h3>
-                
-                <p className="text-gray-600 dark:text-gray-300 mb-6">
+
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
                   {option.description}
                 </p>
-
-                <div className="flex items-center justify-end mt-4">
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setExpandedCards(prev => {
-                        const next = new Set(prev)
-                        if (next.has(option.id)) next.delete(option.id)
-                        else next.add(option.id)
-                        return next
-                      })
-                    }}
-                    className="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
-                  >
-                    {expandedCards.has(option.id) ? (
-                      <>{t('resumeBuilder.menu.showLess', 'Show less')} <ChevronUp className="w-4 h-4" /></>
-                    ) : (
-                      <>{t('resumeBuilder.menu.learnMore', 'Learn more')} <ChevronDown className="w-4 h-4" /></>
-                    )}
-                  </button>
-                </div>
-
-                {/* Expanded Content inside the Card */}
-                {expandedCards.has(option.id) && (
-                  <div className="mt-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed border-t border-gray-100 dark:border-gray-700/50 pt-4">
-                    {option.expandedText}
-                  </div>
-                )}
               </div>
               </ModuleCardEnhancement>
             )

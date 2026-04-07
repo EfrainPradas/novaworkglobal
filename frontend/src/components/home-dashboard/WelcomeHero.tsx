@@ -15,7 +15,7 @@ interface StatCardProps {
   subColor?: string
 }
 
-function StatCard({ label, value, sub, subColor = '#16A34A' }: StatCardProps) {
+function StatCard({ label, value, sub, subColor = '#1F5BAA' }: StatCardProps) {
   return (
     <div
       className="rounded-2xl p-4 flex flex-col gap-1 bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
@@ -89,13 +89,13 @@ export default function WelcomeHero({ userName, overview, loading = false }: Wel
                 label={t('dashboard.statsSection.applications')}
                 value={apps}
                 sub={apps > 0 ? `${Math.min(apps, 7)} this week` : 'Get started'}
-                subColor={apps > 0 ? '#16A34A' : '#94A3B8'}
+                subColor={apps > 0 ? '#1F5BAA' : '#94A3B8'}
               />
               <StatCard
                 label={t('dashboard.statsSection.interviews')}
                 value={interviews}
                 sub={interviews > 0 ? `${Math.min(interviews, 2)} upcoming` : 'None yet'}
-                subColor={interviews > 0 ? '#16A34A' : '#94A3B8'}
+                subColor={interviews > 0 ? '#1F5BAA' : '#94A3B8'}
               />
             </>
           )}

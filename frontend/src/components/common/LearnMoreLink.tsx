@@ -15,7 +15,7 @@ export default function LearnMoreLink({ label, description, onClick, className =
       role="button"
       tabIndex={0}
       aria-label={`${label}${description ? ': ' + description : ''}`}
-      className={`inline-flex items-center gap-2 px-3 py-1 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-900/40 transition-colors ${className}`}
+      className={`inline-flex items-center gap-2 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-lg text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 hover:text-primary-700 transition-colors ${className}`}
     >
       <span className="font-bold">{label}</span>
       {description && <span>{description}</span>}

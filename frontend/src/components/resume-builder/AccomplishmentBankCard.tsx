@@ -62,7 +62,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
         <div
             ref={setNodeRef}
             style={style}
-            className={`group relative bg-white dark:bg-gray-800 border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 dark:border-amber-700/50 bg-amber-50/30 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700'} ${isDragging ? 'shadow-xl border-emerald-500' : ''}`}
+            className={`group relative bg-white dark:bg-gray-800 border rounded-lg p-4 transition-all hover:shadow-md ${item.is_starred ? 'border-amber-200 dark:border-amber-700/50 bg-amber-50/30 dark:bg-amber-900/10' : 'border-gray-200 dark:border-gray-700'} ${isDragging ? 'shadow-xl border-primary-500' : ''}`}
         >
             <div className="flex justify-between items-start gap-4">
                 {/* Drag Handle */}
@@ -83,7 +83,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                             <textarea
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
-                                className="w-full p-2 text-sm text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 focus:border-emerald-500 focus:outline-none focus:ring-0 min-h-[60px] resize-y bg-gray-50/50 dark:bg-gray-900/50"
+                                className="w-full p-2 text-sm text-gray-800 dark:text-gray-200 border-b border-gray-200 dark:border-gray-700 focus:border-primary-500 focus:outline-none focus:ring-0 min-h-[60px] resize-y bg-gray-50/50 dark:bg-gray-900/50"
                                 autoFocus
                             />
                             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mt-3 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -137,7 +137,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                 </button>
                                 <button
                                     onClick={handleSave}
-                                    className="p-1 px-3 text-sm bg-emerald-600 text-white hover:bg-emerald-700 rounded flex items-center gap-1"
+                                    className="p-1 px-3 text-sm bg-primary-600 text-white hover:bg-primary-700 rounded flex items-center gap-1"
                                 >
                                     <Check size={14} /> {t('common.save', 'Save')}
                                 </button>
@@ -163,7 +163,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                                 )}
 
                                 {/* Source Badge */}
-                                <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.source === 'ai_generated' ? 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 border-purple-100 dark:border-purple-800/50' :
+                                <span className={`text-[10px] px-1.5 py-0.5 rounded border ${item.source === 'ai_generated' ? 'bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 border-primary-100 dark:border-primary-800/50' :
                                     item.source === 'car_story' ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 border-blue-100 dark:border-blue-800/50' :
                                         'bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border-slate-100 dark:border-slate-700'
                                     }`}>
@@ -182,7 +182,7 @@ export const AccomplishmentBankCard: React.FC<AccomplishmentBankCardProps> = ({ 
                             {item.skills && item.skills.length > 0 && (
                                 <div className="flex flex-wrap gap-1 mt-1">
                                     {item.skills.map((skill, i) => (
-                                        <span key={i} className="text-[10px] text-emerald-600 flex items-center gap-0.5">
+                                        <span key={i} className="text-[10px] text-primary-600 flex items-center gap-0.5">
                                             <Tag size={10} /> {skill}
                                         </span>
                                     ))}

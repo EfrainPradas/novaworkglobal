@@ -339,12 +339,12 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
           <div className="flex items-center gap-3">
             <button
               onClick={() => navigate('/dashboard')}
-              className="flex items-center gap-1.5 text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg px-2 py-1.5 text-sm transition-colors"
+              className="flex items-center gap-1.5 text-slate-500 hover:text-primary-600 hover:bg-primary-50 rounded-lg px-2 py-1.5 text-sm transition-colors"
             >
               <ArrowLeft size={16} />
             </button>
-            <div className="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
-              <FolderOpen size={20} className="text-emerald-600" />
+            <div className="w-10 h-10 rounded-xl bg-primary-100 flex items-center justify-center">
+              <FolderOpen size={20} className="text-primary-600" />
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-800">Academy Admin</h2>
@@ -394,7 +394,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                     <div className="flex gap-2">
                       <button
                         onClick={() => setShowNewNodeForm(!showNewNodeForm)}
-                        className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 flex items-center gap-2"
+                        className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 flex items-center gap-2"
                       >
                         <Plus size={14} />
                         Nuevo Módulo
@@ -403,7 +403,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                         <button
                           onClick={handleSeedData}
                           disabled={uploading}
-                          className="px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 flex items-center gap-2"
+                          className="px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 flex items-center gap-2"
                         >
                           {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
                           Inicializar Base
@@ -414,8 +414,8 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
 
                   {/* New Node Form */}
                   {showNewNodeForm && (
-                    <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-xl space-y-3">
-                      <h4 className="text-sm font-bold text-indigo-800">Nuevo Módulo</h4>
+                    <div className="p-4 bg-primary-50 border border-primary-200 rounded-xl space-y-3">
+                      <h4 className="text-sm font-bold text-primary-800">Nuevo Módulo</h4>
                       <div>
                         <label className="block text-xs font-semibold text-slate-700 mb-1">Nombre del módulo</label>
                         <input
@@ -423,7 +423,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           value={newNode.label}
                           onChange={(e) => setNewNode({ ...newNode, label: e.target.value })}
                           placeholder="ej. Marca Personal"
-                          className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                          className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                         />
                       </div>
                       <div className="grid grid-cols-2 gap-3">
@@ -432,7 +432,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           <select
                             value={newNode.icon}
                             onChange={(e) => setNewNode({ ...newNode, icon: e.target.value })}
-                            className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-indigo-500"
+                            className="w-full px-3 py-2 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-primary-500"
                           >
                             {iconOptions.map(opt => (
                               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -457,7 +457,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                         <button
                           onClick={handleAddNode}
                           disabled={uploading || !newNode.label.trim()}
-                          className="flex-1 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                          className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-semibold hover:bg-primary-700 disabled:opacity-50 flex items-center justify-center gap-2"
                         >
                           {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
                           Crear Módulo
@@ -476,7 +476,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                     {nodes.map((node) => (
                       <div key={node.id} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-sm group">
                         <span className={`px-2 py-0.5 rounded text-xs font-bold flex-shrink-0 ${
-                          node.level === 1 ? 'bg-emerald-500 text-white' :
+                          node.level === 1 ? 'bg-primary-500 text-white' :
                           node.level === 2 ? 'bg-blue-500 text-white' :
                           'bg-slate-400 text-white'
                         }`}>
@@ -489,7 +489,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           {node.label || t(node.label_key) || node.label_key}
                         </span>
                         <span className={`text-xs font-medium px-2 py-0.5 rounded flex-shrink-0 ${
-                          node.type === 'root' ? 'bg-emerald-100 text-emerald-700' :
+                          node.type === 'root' ? 'bg-primary-100 text-primary-700' :
                           node.type === 'topic' ? 'bg-blue-100 text-blue-700' :
                           'bg-slate-100 text-slate-600'
                         }`}>
@@ -498,7 +498,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                         {node.level === 2 && (
                           <button
                             onClick={() => handleDeleteNode(node.id, node.label_key)}
-                            className="opacity-0 group-hover:opacity-100 p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            className="opacity-0 group-hover:opacity-100 p-1.5 text-primary-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all"
                           >
                             <Trash2 size={14} />
                           </button>
@@ -514,7 +514,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                   {/* Add Resource Form */}
                   <div className="p-5 bg-white border border-slate-200 rounded-xl shadow-sm">
                     <h3 className="font-bold text-slate-800 mb-4 flex items-center gap-2">
-                      <Plus size={18} className="text-emerald-500" />
+                      <Plus size={18} className="text-primary-500" />
                       Agregar Nuevo Recurso
                     </h3>
                     
@@ -525,7 +525,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           <select
                             value={selectedTopic}
                             onChange={(e) => setSelectedTopic(e.target.value)}
-                            className="w-full px-3 py-3 border-2 border-slate-400 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 appearance-none cursor-pointer font-bold text-slate-900"
+                            className="w-full px-3 py-3 border-2 border-slate-400 rounded-lg text-sm bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 appearance-none cursor-pointer font-bold text-slate-900"
                             style={{ 
                               backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23333'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                               backgroundRepeat: 'no-repeat',
@@ -573,7 +573,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             value={newResource.url}
                             onChange={(e) => setNewResource({ ...newResource, url: e.target.value })}
                             placeholder="URL del video o audio..."
-                            className="flex-1 px-3 py-2.5 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 font-medium"
+                            className="flex-1 px-3 py-2.5 border-2 border-slate-300 rounded-lg text-sm bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 font-medium"
                           />
                           <input
                             ref={fileInputRef}
@@ -590,7 +590,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           <button
                             onClick={() => fileInputRef.current?.click()}
                             disabled={uploading}
-                            className="px-4 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-semibold hover:bg-emerald-700 disabled:opacity-50 flex items-center gap-2 transition-colors"
+                            className="px-4 py-2.5 bg-primary-600 text-white rounded-lg text-sm font-semibold hover:bg-primary-700 disabled:opacity-50 flex items-center gap-2 transition-colors"
                           >
                             {uploading ? (
                               <Loader2 size={16} className="animate-spin" />
@@ -601,7 +601,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           </button>
                         </div>
                         {uploadProgress && (
-                          <p className={`text-xs mt-2 font-medium ${uploadProgress.includes('Error') ? 'text-red-500' : uploadProgress.includes('¡') ? 'text-emerald-600' : 'text-slate-500'}`}>
+                          <p className={`text-xs mt-2 font-medium ${uploadProgress.includes('Error') ? 'text-primary-500' : uploadProgress.includes('¡') ? 'text-primary-600' : 'text-slate-500'}`}>
                             {uploadProgress}
                           </p>
                         )}
@@ -617,7 +617,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                           <select
                             value={newResource.language}
                             onChange={(e) => setNewResource({ ...newResource, language: e.target.value })}
-                            className="w-full px-3 py-3 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full px-3 py-3 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                           >
                             {languages.map((lang) => (
                               <option key={lang.code} value={lang.code}>
@@ -632,7 +632,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             type="number"
                             value={newResource.duration_minutes}
                             onChange={(e) => setNewResource({ ...newResource, duration_minutes: parseInt(e.target.value) || 0 })}
-                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                           />
                         </div>
                         <div className="col-span-2">
@@ -642,7 +642,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             value={newResource.title}
                             onChange={(e) => setNewResource({ ...newResource, title: e.target.value })}
                             placeholder="Título del video o audio..."
-                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-slate-400"
+                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-bold text-slate-900 bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-slate-400"
                           />
                         </div>
                         <div className="col-span-2">
@@ -652,7 +652,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             value={newResource.description}
                             onChange={(e) => setNewResource({ ...newResource, description: e.target.value })}
                             placeholder="Breve descripción del contenido..."
-                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-semibold text-slate-900 bg-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 placeholder-slate-400"
+                            className="w-full px-3 py-2.5 border-2 border-slate-400 rounded-lg text-sm font-semibold text-slate-900 bg-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 placeholder-slate-400"
                           />
                         </div>
                       </div>
@@ -660,7 +660,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                     <button
                       onClick={handleAddResource}
                       disabled={uploading || !selectedTopic || !newResource.url}
-                      className="w-full px-4 py-2 bg-emerald-600 text-white rounded-lg text-sm font-medium hover:bg-emerald-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                      className="w-full px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 flex items-center justify-center gap-2"
                     >
                       {uploading ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
                       Agregar Recurso
@@ -679,15 +679,15 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                         resources.map((resource) => (
                           <div key={resource.id} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-sm group">
                             <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                              resource.type === 'video' ? 'bg-red-100' :
-                              resource.type === 'audio' ? 'bg-purple-100' :
-                              resource.type === 'document' ? 'bg-amber-100' :
+                              resource.type === 'video' ? 'bg-primary-100' :
+                              resource.type === 'audio' ? 'bg-primary-100' :
+                              resource.type === 'document' ? 'bg-primary-100' :
                               'bg-blue-100'
                             }`}>
-                              {resource.type === 'video' && <Video size={18} className="text-red-500" />}
-                              {resource.type === 'audio' && <Headphones size={18} className="text-purple-500" />}
+                              {resource.type === 'video' && <Video size={18} className="text-primary-500" />}
+                              {resource.type === 'audio' && <Headphones size={18} className="text-primary-500" />}
                               {resource.type === 'article' && <FileText size={18} className="text-blue-500" />}
-                              {resource.type === 'document' && <FileDown size={18} className="text-amber-600" />}
+                              {resource.type === 'document' && <FileDown size={18} className="text-primary-600" />}
                             </div>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-slate-800 truncate">{resource.title}</p>
@@ -700,7 +700,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
                             )}
                             <button
                               onClick={() => handleDeleteResource(resource.id)}
-                              className="opacity-0 group-hover:opacity-100 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-opacity"
+                              className="opacity-0 group-hover:opacity-100 p-2 text-primary-500 hover:bg-primary-50 rounded-lg transition-opacity"
                             >
                               <Trash2 size={16} />
                             </button>

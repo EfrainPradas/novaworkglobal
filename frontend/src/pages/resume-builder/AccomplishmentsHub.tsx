@@ -56,7 +56,7 @@ export default function AccomplishmentsHub() {
                         {!isStandalone && (
                             <button
                                 onClick={handleContinue}
-                                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
                             >
                                 {t('resumeBuilder.menu.nextQuestionnaire', 'Next: Professional Profile')}
                                 <ArrowRight className="w-4 h-4" />
@@ -70,7 +70,7 @@ export default function AccomplishmentsHub() {
                         <button
                             onClick={() => setActiveTab('bank')}
                             className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'bank'
-                                ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                                 }`}
                         >
@@ -80,7 +80,7 @@ export default function AccomplishmentsHub() {
                         <button
                             onClick={() => setActiveTab('cars')}
                             className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'cars'
-                                ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                                 }`}
                         >
@@ -90,7 +90,7 @@ export default function AccomplishmentsHub() {
                         <button
                             onClick={() => setActiveTab('groups')}
                             className={`flex items-center justify-center gap-2 py-2.5 px-6 rounded-xl text-sm font-semibold transition-all ${activeTab === 'groups'
-                                ? 'bg-white dark:bg-gray-700 text-[#4F46E5] dark:text-indigo-400 shadow-sm'
+                                ? 'bg-white dark:bg-gray-700 text-primary-600 dark:text-primary-400 shadow-sm'
                                 : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                                 }`}
                         >
@@ -101,7 +101,7 @@ export default function AccomplishmentsHub() {
 
                     <button
                         onClick={() => setIsVideoModalOpen(true)}
-                        className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white rounded-xl shadow-sm transition-all text-sm font-bold hover:scale-[1.02] active:scale-[0.98]"
+                        className="flex items-center gap-1.5 px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white rounded-xl shadow-sm transition-all text-sm font-bold hover:scale-[1.02] active:scale-[0.98]"
                     >
                         <Play size={16} fill="currentColor" />
                         {t('common.watchVideo', 'Watch video')}

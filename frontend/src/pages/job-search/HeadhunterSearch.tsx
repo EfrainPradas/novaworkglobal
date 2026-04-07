@@ -49,15 +49,15 @@ export default function HeadhunterSearch() {
                             </p>
                             <ul className="space-y-3">
                                 <li className="flex items-start gap-3">
-                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xs font-bold">✓</div>
+                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xs font-bold">✓</div>
                                     <span className="text-gray-700 dark:text-gray-300">{t('headhunterSearch.bullet1', 'Target recruiters specializing in your industry/niche.')}</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xs font-bold">✓</div>
+                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xs font-bold">✓</div>
                                     <span className="text-gray-700 dark:text-gray-300">{t('headhunterSearch.bullet2', 'Connect BEFORE you need a job (build the relationship).')}</span>
                                 </li>
                                 <li className="flex items-start gap-3">
-                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 flex items-center justify-center text-xs font-bold">✓</div>
+                                    <div className="mt-1 min-w-5 min-h-5 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xs font-bold">✓</div>
                                     <span className="text-gray-700 dark:text-gray-300">{t('headhunterSearch.bullet3', 'Make your LinkedIn headline searchable (Keywords matter).')}</span>
                                 </li>
                             </ul>
@@ -83,7 +83,7 @@ export default function HeadhunterSearch() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Direct Search Generator */}
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 flex flex-col transition-colors duration-200">
-                        <div className="flex items-center gap-3 mb-4 text-indigo-600 dark:text-indigo-400">
+                        <div className="flex items-center gap-3 mb-4 text-primary-600 dark:text-primary-400">
                             <Search className="w-6 h-6" />
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white">{t('headhunterSearch.findRecruiters', 'Find Recruiters Now')}</h3>
                         </div>
@@ -96,9 +96,9 @@ export default function HeadhunterSearch() {
                                 <input
                                     type="text"
                                     placeholder={t('headhunterSearch.industryPlaceholder', 'e.g. Software Sales, Marketing...')}
-                                    className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                                    className="flex-1 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none"
                                 />
-                                <button className="px-4 py-2 bg-indigo-600 dark:bg-indigo-500 text-white rounded-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 font-medium">
+                                <button className="px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 font-medium">
                                     {t('headhunterSearch.searchButton', 'Search')}
                                 </button>
                             </div>

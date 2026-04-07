@@ -180,13 +180,13 @@ export default function DashboardRightPanel({ userId }: DashboardRightPanelProps
         ) : (
           <div>
             <StatRow icon={<FileText size={15} />} label={t('dashboard.statsSection.resumeVersions', 'Resume Versions')}
-              value={overview?.resume_versions_count ?? 0} iconBg="#E3F2FD" iconColor="#1565C0" />
+              value={overview?.resume_versions_count ?? 0} iconBg="#eef6fc" iconColor="#1F5BAA" />
             <StatRow icon={<Briefcase size={15} />} label={t('dashboard.statsSection.applications', 'Applications')}
-              value={overview?.applications_count ?? 0} iconBg="#FFF3E0" iconColor="#E65100" />
+              value={overview?.applications_count ?? 0} iconBg="#eef6fc" iconColor="#1F5BAA" />
             <StatRow icon={<Users size={15} />} label={t('dashboard.statsSection.interviews', 'Interviews')}
-              value={overview?.interviews_count ?? 0} iconBg="#F3E5F5" iconColor="#7B1FA2" />
+              value={overview?.interviews_count ?? 0} iconBg="#eef6fc" iconColor="#1F5BAA" />
             <StatRow icon={<Monitor size={15} />} label={t('dashboard.statsSection.sessionsJoined', 'Sessions Joined')}
-              value={overview?.sessions_joined_count ?? 0} iconBg="#E8F5E9" iconColor="#2E7D32" />
+              value={overview?.sessions_joined_count ?? 0} iconBg="#eef6fc" iconColor="#1F5BAA" />
           </div>
         )}
       </div>
@@ -198,17 +198,17 @@ export default function DashboardRightPanel({ userId }: DashboardRightPanelProps
         </p>
         <div className="flex flex-col">
           <ActionRow icon={<UserCheck size={15} />} label={t('dashboard.quickActionsPanel.myCoaches', 'My Coaches / Book Session')}
-            onClick={() => navigate('/dashboard/coaching')} iconBg="#F3E5F5" iconColor="#7B1FA2" />
+            onClick={() => navigate('/dashboard/coaching')} iconBg="#eef6fc" iconColor="#1F5BAA" />
           <ActionRow icon={<Upload size={15} />} label={t('dashboard.quickActionsPanel.uploadResume', 'Upload Resume')}
-            onClick={() => navigate('/dashboard/resume-builder')} iconBg="#E3F2FD" iconColor="#1565C0" />
+            onClick={() => navigate('/dashboard/resume-builder')} iconBg="#eef6fc" iconColor="#1F5BAA" />
           <ActionRow icon={<Search size={15} />} label={t('dashboard.quickActionsPanel.analyzeJD', 'Analyze Job Description')}
-            onClick={() => navigate('/dashboard/resume-builder/jd-analyzer')} iconBg="#E8F5E9" iconColor="#2E7D32" />
+            onClick={() => navigate('/dashboard/resume-builder/jd-analyzer')} iconBg="#eef6fc" iconColor="#1F5BAA" />
           <ActionRow icon={<Network size={15} />} label={t('dashboard.quickActionsPanel.joinNetworking', 'Join Networking')}
-            onClick={() => navigate('/dashboard/networking-sessions')} iconBg="#FFF3E0" iconColor="#E65100" />
+            onClick={() => navigate('/dashboard/networking-sessions')} iconBg="#eef6fc" iconColor="#1F5BAA" />
           <ActionRow icon={<Calendar size={15} />} label={t('dashboard.quickActionsPanel.viewCalendar', 'View Member Calendar')}
-            onClick={() => navigate('/dashboard/member-calendar')} iconBg="#EFF6FF" iconColor="#1976D2" />
+            onClick={() => navigate('/dashboard/member-calendar')} iconBg="#eef6fc" iconColor="#1F5BAA" />
           <ActionRow icon={<FolderOpen size={15} />} label={t('dashboard.quickActionsPanel.sharedResources', 'Shared Resources')}
-            onClick={() => navigate('/shared-resources')} iconBg="#F0FDF4" iconColor="#16A34A" />
+            onClick={() => navigate('/shared-resources')} iconBg="#eef6fc" iconColor="#1F5BAA" />
         </div>
       </div>
 

@@ -310,7 +310,7 @@ export default function ClientCoaching() {
     if (loading) {
         return (
             <div className="min-h-screen bg-slate-50 dark:bg-gray-900 flex items-center justify-center">
-                <div style={{ width: 40, height: 40, border: '3px solid #e2e8f0', borderTopColor: '#0f172a', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+                <div style={{ width: 40, height: 40, border: '3px solid #e2e8f0', borderTopColor: '#1F5BAA', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
                 <style dangerouslySetInnerHTML={{ __html: `@keyframes spin { 100% { transform: rotate(360deg); } }` }} />
             </div>
         )
@@ -343,7 +343,7 @@ export default function ClientCoaching() {
                     {/* Section 1: All Coaches */}
                     <div>
                         <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
-                            <Star size={20} color="#0ea5e9" /> Our Coaching Team
+                            <Star size={20} color="#4DA8DA" /> Our Coaching Team
                         </h2>
 
                         {assignedCoaches.length === 0 ? (
@@ -361,7 +361,7 @@ export default function ClientCoaching() {
                                 {assignedCoaches.map(rel => (
                                     <div key={rel.coach_id} className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col" style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)' }}>
                                         <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
-                                            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 800, flexShrink: 0, overflow: 'hidden' }}>
+                                            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #1F5BAA 0%, #1a488a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 800, flexShrink: 0, overflow: 'hidden' }}>
                                                 {rel.coach_user?.avatar_url ? (
                                                     <img src={rel.coach_user.avatar_url} alt={rel.coach_user?.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                 ) : (
@@ -372,7 +372,7 @@ export default function ClientCoaching() {
                                                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white mb-1">{rel.coach_user?.full_name}</h3>
                                                 <p className="text-sm text-slate-500 dark:text-gray-400 m-0">{rel.coach_profile?.title || 'Executive Career Coach'}</p>
                                                 {rel.coach_profile?.company && (
-                                                    <p style={{ fontSize: 13, color: '#0ea5e9', fontWeight: 600, margin: '2px 0 0 0' }}>{rel.coach_profile.company}</p>
+                                                    <p style={{ fontSize: 13, color: '#4DA8DA', fontWeight: 600, margin: '2px 0 0 0' }}>{rel.coach_profile.company}</p>
                                                 )}
                                             </div>
                                         </div>
@@ -384,9 +384,9 @@ export default function ClientCoaching() {
                                         <div className="border-t border-slate-100 dark:border-gray-700 pt-5">
                                             <button
                                                 onClick={() => handleOpenBooking(rel.coach_id, rel.id)}
-                                                style={{ width: '100%', padding: '10px', borderRadius: 10, fontSize: 14, fontWeight: 700, color: '#fff', background: '#0f172a', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.2s' }}
-                                                onMouseOver={(e) => Object.assign(e.currentTarget.style, { background: '#1e293b', transform: 'translateY(-1px)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' })}
-                                                onMouseOut={(e) => Object.assign(e.currentTarget.style, { background: '#0f172a', transform: 'none', boxShadow: 'none' })}
+                                                style={{ width: '100%', padding: '10px', borderRadius: 10, fontSize: 14, fontWeight: 700, color: '#fff', background: '#1F5BAA', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.2s' }}
+                                                onMouseOver={(e) => Object.assign(e.currentTarget.style, { background: '#1a488a', transform: 'translateY(-1px)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' })}
+                                                onMouseOut={(e) => Object.assign(e.currentTarget.style, { background: '#1F5BAA', transform: 'none', boxShadow: 'none' })}
                                             >
                                                 <Calendar size={16} /> Book Session
                                             </button>
@@ -402,7 +402,7 @@ export default function ClientCoaching() {
                     {/* Section 2: Upcoming Sessions */}
                     <div>
                         <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-5 flex items-center gap-2">
-                            <Clock size={20} color="#0ea5e9" /> Upcoming Sessions
+                            <Clock size={20} color="#4DA8DA" /> Upcoming Sessions
                         </h2>
 
                         {upcomingSessions.length === 0 ? (
@@ -417,7 +417,7 @@ export default function ClientCoaching() {
                                     const isDeclined = session.status === 'declined'
                                     const borderColor = isPending ? '#fde68a' : isDeclined ? '#fecaca' : '#f0f4f8'
                                     const bgIcon = isPending ? '#fef9c3' : isDeclined ? '#fff1f2' : '#eff6ff'
-                                    const iconColor = isPending ? '#f59e0b' : isDeclined ? '#ef4444' : '#0ea5e9'
+                                    const iconColor = isPending ? '#f59e0b' : isDeclined ? '#ef4444' : '#4DA8DA'
 
                                     return (
                                         <div key={session.id} className="bg-white dark:bg-gray-800 rounded-xl p-5 flex gap-4" style={{ border: `1.5px solid ${borderColor}` }}>
@@ -429,7 +429,7 @@ export default function ClientCoaching() {
                                                     <div>
                                                         <h4 className="text-sm font-extrabold text-slate-900 dark:text-white mb-0.5">{session.session_type}</h4>
                                                         <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-gray-400 mt-1.5">
-                                                            <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 9, fontWeight: 800, overflow: 'hidden' }}>
+                                                            <div style={{ width: 20, height: 20, borderRadius: '50%', background: 'linear-gradient(135deg, #1F5BAA 0%, #1a488a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 9, fontWeight: 800, overflow: 'hidden' }}>
                                                                 {session.coach_user?.avatar_url ? (
                                                                     <img src={session.coach_user.avatar_url} alt={session.coach_user.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                                                                 ) : (
@@ -546,7 +546,7 @@ export default function ClientCoaching() {
                             <X size={16} />
                         </button>
 
-                        <div style={{ width: 48, height: 48, borderRadius: 16, background: '#eff6ff', color: '#0ea5e9', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
+                        <div style={{ width: 48, height: 48, borderRadius: 16, background: '#eff6ff', color: '#4DA8DA', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
                             <CalendarPlus size={24} />
                         </div>
 
@@ -593,7 +593,7 @@ export default function ClientCoaching() {
                                     fontSize: 15,
                                     fontWeight: 700,
                                     color: '#fff',
-                                    background: (isSubmitting || !bookingDate) ? '#94a3b8' : '#0f172a',
+                                    background: (isSubmitting || !bookingDate) ? '#94a3b8' : '#1F5BAA',
                                     border: 'none',
                                     cursor: (isSubmitting || !bookingDate) ? 'not-allowed' : 'pointer',
                                     transition: 'background 0.2s'

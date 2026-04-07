@@ -25,7 +25,7 @@ export default function NetworkingStrategy() {
                 <div>
                     <BackButton to="/dashboard/job-search-hub" label={t('networkingStrategy.backToJobSearch', 'Back to Job Search')} className="mb-6 pl-0" />
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
-                        <span className="p-2 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 rounded-lg">
+                        <span className="p-2 bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 rounded-lg">
                             <Network className="w-8 h-8" />
                         </span>
                         {t('networkingStrategy.heading', 'Networking Strategy')}
@@ -37,7 +37,7 @@ export default function NetworkingStrategy() {
 
                 {/* 60-Day Networking Plan */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 p-8 transition-colors duration-200">
-                    <div className="flex items-center gap-3 mb-6 text-green-600 dark:text-green-400">
+                    <div className="flex items-center gap-3 mb-6 text-primary-600 dark:text-primary-400">
                         <Calendar className="w-6 h-6" />
                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('networkingStrategy.sixtyDayPlan', '60-Day Plan')}</h2>
                     </div>
@@ -51,29 +51,29 @@ export default function NetworkingStrategy() {
                                 key={week.id}
                                 onClick={() => setActiveWeek(week.id)}
                                 className={`p-4 rounded-xl border transition-all cursor-pointer ${activeWeek === week.id
-                                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20 dark:border-green-500 shadow-sm'
-                                    : 'border-gray-200 dark:border-gray-700 hover:border-green-200 dark:hover:border-green-800 hover:bg-gray-50 dark:hover:bg-gray-700'
+                                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 dark:border-primary-500 shadow-sm'
+                                    : 'border-gray-200 dark:border-gray-700 hover:border-primary-200 dark:hover:border-primary-800 hover:bg-gray-50 dark:hover:bg-gray-700'
                                     }`}
                             >
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-4">
-                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${activeWeek === week.id ? 'bg-green-500 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
+                                        <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${activeWeek === week.id ? 'bg-primary-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-500 dark:text-gray-400'
                                             }`}>
                                             {week.id}
                                         </div>
                                         <div>
-                                            <h4 className={`font-bold ${activeWeek === week.id ? 'text-green-900 dark:text-green-300' : 'text-gray-900 dark:text-white'}`}>{week.title}</h4>
+                                            <h4 className={`font-bold ${activeWeek === week.id ? 'text-primary-900 dark:text-primary-300' : 'text-gray-900 dark:text-white'}`}>{week.title}</h4>
                                             <p className="text-sm text-gray-500 dark:text-gray-400">{week.focus}</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <div className="text-right hidden sm:block">
                                             <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase">{t('networkingStrategy.goalLabel', 'Goal')}</p>
-                                            <p className={`text-sm font-medium ${activeWeek === week.id ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
+                                            <p className={`text-sm font-medium ${activeWeek === week.id ? 'text-primary-700 dark:text-primary-400' : 'text-gray-600 dark:text-gray-400'}`}>
                                                 {week.goal}
                                             </p>
                                         </div>
-                                        <ChevronRight className={`w-5 h-5 ${activeWeek === week.id ? 'text-green-500 dark:text-green-400' : 'text-gray-300 dark:text-gray-600'}`} />
+                                        <ChevronRight className={`w-5 h-5 ${activeWeek === week.id ? 'text-primary-500 dark:text-primary-400' : 'text-gray-300 dark:text-gray-600'}`} />
                                     </div>
                                 </div>
                             </div>
