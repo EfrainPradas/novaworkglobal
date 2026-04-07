@@ -51,8 +51,8 @@ export default function HomeDashboardIndex() {
       {/* <CommunityHighlights userLevel={userLevel} /> */}
       {/* <ResourcesFeed userLevel={userLevel} /> */}
 
-      {/* Recent Activity */}
-      {user && <RecentActivity userId={user.id} />}
+      {/* Recent Activity — disabled */}
+      {/* {user && <RecentActivity userId={user.id} />} */}
     </div>
   )
 }

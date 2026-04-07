@@ -70,7 +70,7 @@ export default function QuickActionCards() {
   const { t } = useTranslation()
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
 
       {/* Card 1 — Continue Program */}
       <button
@@ -93,28 +93,7 @@ export default function QuickActionCards() {
         </div>
       </button>
 
-      {/* Card 2 — Explore Networking */}
-      <button
-        onClick={() => navigate('/dashboard/networking-sessions')}
-        className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"
-        style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}
-      >
-        <div className="flex items-start justify-between">
-          <span
-            className="flex items-center justify-center rounded-xl"
-            style={{ width: 40, height: 40, background: '#F0FDF4', color: '#16A34A' }}
-          >
-            <Network size={18} />
-          </span>
-          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-green-500 transition-colors mt-1" />
-        </div>
-        <div>
-          <p className="text-sm font-bold text-slate-800 dark:text-white mb-0.5">{t('dashboard.cta.exploreNetworking')}</p>
-          <p className="text-xs text-slate-400 dark:text-gray-400 leading-relaxed">{t('dashboard.quickActions.networkingDesc')}</p>
-        </div>
-      </button>
-
-      {/* Card 3 — Member Calendar (mini calendar) */}
+      {/* Card 2 — Member Calendar (mini calendar) */}
       <button
         onClick={() => navigate('/dashboard/member-calendar')}
         className="text-left rounded-2xl p-5 flex flex-col gap-3 transition-all hover:shadow-md hover:-translate-y-0.5 active:scale-[0.98] group bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700"

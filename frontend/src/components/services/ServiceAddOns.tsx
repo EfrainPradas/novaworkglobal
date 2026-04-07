@@ -16,20 +16,6 @@ interface AddOnService {
 
 const ADD_ONS: AddOnService[] = [
     {
-        id: '1-1-session',
-        title: '1:1 Session',
-        price: 149,
-        unit: '/ session',
-        description: 'Deep clarity & strategy in a premium, one-time 45-min live session with a career coach.',
-        features: [
-            '45-minute live session',
-            'Deep clarity & strategy',
-            'Premium, one-time format',
-            'Action plan summary'
-        ],
-        cta: 'Book Session'
-    },
-    {
         id: 'email-coaching',
         title: 'Email Coaching',
         price: 39,
@@ -42,6 +28,20 @@ const ADD_ONS: AddOnService[] = [
             'Flexible schedule'
         ],
         cta: 'Get Email Support'
+    },
+    {
+        id: '1-1-session',
+        title: '1:1 Session',
+        price: 149,
+        unit: '/ session',
+        description: 'Deep clarity & strategy in a premium, one-time 45-min live session with a career coach.',
+        features: [
+            '45-minute live session',
+            'Deep clarity & strategy',
+            'Premium, one-time format',
+            'Action plan summary'
+        ],
+        cta: 'Book Session'
     },
     {
         id: 'coach-email',
@@ -123,13 +123,7 @@ export default function ServiceAddOns() {
 
                         <button
                             onClick={() => handleBookClick(service)}
-                            className={`
-                                w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors
-                                ${service.recommended
-                                    ? 'bg-primary-600 text-white hover:bg-primary-700'
-                                    : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
-                                }
-                            `}
+                            className="w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 transition-colors bg-primary-600 text-white hover:bg-primary-700"
                         >
                             {service.cta || 'Book Now'} <ArrowRight className="w-4 h-4" />
                         </button>
