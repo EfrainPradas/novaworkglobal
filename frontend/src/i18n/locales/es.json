@@ -1150,6 +1150,9 @@
     "benefitsDesc": "Cómo evaluar y negociar el paquete completo de beneficios más allá del salario base."
   },
   "careerVision": {
+    "dashboard": {
+      "backToDashboard": "Volver al Panel Principal"
+    },
     "journey": {
       "title": "Tu Viaje de Visión de Carrera",
       "subtitle": "Completa estas secciones para descubrir tu camino profesional ideal",
@@ -1158,11 +1161,19 @@
       "completed": "✓ Completado",
       "notStarted": "No iniciado",
       "skillsInterests": "Habilidades e Intereses",
+      "skillsValues": "Habilidades e Intereses",
       "skillsSubtitle": "Lista lo que sabes y lo que volverías a hacer",
+      "skillsValuesDesc": "Identifica tus competencias principales y lo que impulsa tu satisfacción profesional.",
       "jobHistoryAnalysis": "Análisis de Historial Laboral",
+      "jobHistory": "Análisis de Historial Laboral",
       "jobHistorySubtitle": "Reflexiona sobre roles pasados para identificar patrones",
+      "jobHistoryDesc": "Reflexiona sobre tus roles pasados para identificar patrones de éxito y áreas de crecimiento.",
       "idealWorkPreferences": "Preferencias de Trabajo Ideal",
+      "preferences": "Preferencias de Trabajo Ideal",
       "idealWorkSubtitle": "Define tus requisitos imprescindibles y prioridades",
+      "preferencesDesc": "Define tus imprescindibles, lo que no negociarías y la cultura organizacional ideal.",
+      "incomplete": "Completa estas secciones para descubrir tu camino profesional ideal",
+      "viewSummary": "Ver tu Visión de Carrera →",
       "review": "Revisar →",
       "start": "Comenzar →",
       "watchVideo": "Ver video",
