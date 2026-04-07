@@ -1703,7 +1703,6 @@
     "devSwitchTier": "Dev: Switch Tier",
     "essentials": "Essentials",
     "momentum": "Momentum",
-    "exec": "Exec",
     "signOut": "Sign Out",
     "back": "Back",
     "appearance": "Appearance",
@@ -1715,7 +1714,8 @@
     "dataPrivacy": "Data & Privacy",
     "exportMyData": "Export My Data",
     "coachDashboard": "Coach Dashboard",
-    "manageClients": "Manage your clients"
+    "manageClients": "Manage your clients",
+    "vanguard": "Vanguard"
   },
   "coverLetter": {
     "title": "Cover Letter Generator",

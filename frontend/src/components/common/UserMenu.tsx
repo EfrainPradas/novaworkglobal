@@ -322,7 +322,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-amber-100 dark:bg-amber-900/30 rounded hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-400"
                     >
-                      {t('userMenu.exec', 'Exec')}
+                      {t('userMenu.vanguard', 'Vanguard')}
                     </button>
                   </div>
                 </div>

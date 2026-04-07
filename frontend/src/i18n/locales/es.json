@@ -1854,7 +1854,6 @@
     "devSwitchTier": "Dev: Cambiar Nivel",
     "essentials": "Esenciales",
     "momentum": "Momentum",
-    "exec": "Exec",
     "signOut": "Cerrar Sesión",
     "back": "Volver",
     "appearance": "Apariencia",
@@ -1866,7 +1865,8 @@
     "dataPrivacy": "Datos y Privacidad",
     "exportMyData": "Exportar Mis Datos",
     "coachDashboard": "Panel de Coach",
-    "manageClients": "Gestiona tus clientes"
+    "manageClients": "Gestiona tus clientes",
+    "vanguard": "Vanguard"
   },
   "coverLetter": {
     "title": "Generador de Carta de Presentación",

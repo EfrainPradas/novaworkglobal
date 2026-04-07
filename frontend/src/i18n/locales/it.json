@@ -1852,7 +1852,6 @@
     "devSwitchTier": "Dev: Cambia Livello",
     "essentials": "Essenziali",
     "momentum": "Momentum",
-    "exec": "Exec",
     "signOut": "Esci",
     "back": "Indietro",
     "appearance": "Aspetto",
@@ -1864,7 +1863,8 @@
     "dataPrivacy": "Dati e Privacy",
     "exportMyData": "Esporta i Miei Dati",
     "coachDashboard": "Dashboard Coach",
-    "manageClients": "Gestisci i tuoi clienti"
+    "manageClients": "Gestisci i tuoi clienti",
+    "vanguard": "Vanguard"
   },
   "coverLetter": {
     "title": "Generatore di Lettera di Presentazione",

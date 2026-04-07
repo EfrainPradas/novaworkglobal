@@ -578,7 +578,7 @@
     "welcomeBack": "Welcome back,",
     "whatToAchieve": "What do you want to achieve today?",
     "pickFocus": "Pick a focus, we'll guide you step-by-step with the fastest path to results.",
-    "executiveMember": "Executive Member",
+    "executiveMember": "Vanguard Member",
     "momentumMember": "Momentum Member",
     "essentialsPlan": "Essentials Plan",
     "recommendedNext": "Recommended Next Step",
@@ -726,7 +726,7 @@
     "title": "Programs",
     "essential": "Essential",
     "momentum": "Momentum",
-    "executive": "Executive",
+    "executive": "Vanguard",
     "upgradeTo": "Upgrade to {{tier}}",
     "availableIn": "Available in {{tier}}",
     "currentPlan": "Current Plan"

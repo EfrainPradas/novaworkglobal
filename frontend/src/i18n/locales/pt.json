@@ -1852,7 +1852,6 @@
     "devSwitchTier": "Dev: Mudar Nível",
     "essentials": "Essenciais",
     "momentum": "Momentum",
-    "exec": "Exec",
     "signOut": "Sair",
     "back": "Voltar",
     "appearance": "Aparência",
@@ -1864,7 +1863,8 @@
     "dataPrivacy": "Dados e Privacidade",
     "exportMyData": "Exportar Meus Dados",
     "coachDashboard": "Painel do Coach",
-    "manageClients": "Gerencie seus clientes"
+    "manageClients": "Gerencie seus clientes",
+    "vanguard": "Vanguard"
   },
   "coverLetter": {
     "title": "Gerador de Carta de Apresentação",

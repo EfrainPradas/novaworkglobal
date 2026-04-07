@@ -833,7 +833,7 @@
     "title": "Programas NovaNext",
     "essential": "Essencial",
     "momentum": "Momentum",
-    "executive": "Executivo",
+    "executive": "Vanguard",
     "upgradeTo": "Atualizar para {{tier}}",
     "availableIn": "Disponível em {{tier}}",
     "currentPlan": "Plano Atual"
@@ -1057,38 +1057,89 @@
       "beforeYouStart": {
         "title": "Antes de Começar",
         "items": {
-          "readJD": { "title": "Leia a descrição completa do cargo 3 vezes", "desc": "Entenda os requisitos, responsabilidades e cultura da empresa" },
-          "keywords": { "title": "Identifique as 5-10 palavras-chave principais", "desc": "Use o Analisador JD ou extraia manualmente as habilidades-chave" },
-          "research": { "title": "Pesquise a empresa", "desc": "Conheça sua missão, notícias recentes e por que deseja trabalhar lá" }
+          "readJD": {
+            "title": "Leia a descrição completa do cargo 3 vezes",
+            "desc": "Entenda os requisitos, responsabilidades e cultura da empresa"
+          },
+          "keywords": {
+            "title": "Identifique as 5-10 palavras-chave principais",
+            "desc": "Use o Analisador JD ou extraia manualmente as habilidades-chave"
+          },
+          "research": {
+            "title": "Pesquise a empresa",
+            "desc": "Conheça sua missão, notícias recentes e por que deseja trabalhar lá"
+          }
         }
       },
       "resumeOptimization": {
         "title": "Otimização do Currículo",
         "items": {
-          "jobTitles": { "title": "Adapte seus títulos de cargo à linguagem deles", "desc": "Se dizem \"Gerente de Produto\", não use \"Líder de Produto\"" },
-          "allSkills": { "title": "Inclua TODAS as habilidades exigidas na vaga", "desc": "Se você tem a habilidade, ela DEVE estar no seu currículo" },
-          "exactKeywords": { "title": "Use as palavras-chave exatas deles (especialmente para ATS)", "desc": "Copie frases exatas como \"metodologia Agile\"" },
-          "quantify": { "title": "Quantifique suas conquistas", "desc": "Use métricas: \"Aumentei a receita em 40%\" não \"Melhorei a receita\"" },
-          "summary": { "title": "Personalize sua seção de resumo/perfil", "desc": "As primeiras 3 linhas devem espelhar os requisitos da vaga" },
-          "removeIrrelevant": { "title": "Remova experiências irrelevantes", "desc": "Se não ajuda a conseguir ESTE emprego, considere remover" }
+          "jobTitles": {
+            "title": "Adapte seus títulos de cargo à linguagem deles",
+            "desc": "Se dizem \"Gerente de Produto\", não use \"Líder de Produto\""
+          },
+          "allSkills": {
+            "title": "Inclua TODAS as habilidades exigidas na vaga",
+            "desc": "Se você tem a habilidade, ela DEVE estar no seu currículo"
+          },
+          "exactKeywords": {
+            "title": "Use as palavras-chave exatas deles (especialmente para ATS)",
+            "desc": "Copie frases exatas como \"metodologia Agile\""
+          },
+          "quantify": {
+            "title": "Quantifique suas conquistas",
+            "desc": "Use métricas: \"Aumentei a receita em 40%\" não \"Melhorei a receita\""
+          },
+          "summary": {
+            "title": "Personalize sua seção de resumo/perfil",
+            "desc": "As primeiras 3 linhas devem espelhar os requisitos da vaga"
+          },
+          "removeIrrelevant": {
+            "title": "Remova experiências irrelevantes",
+            "desc": "Se não ajuda a conseguir ESTE emprego, considere remover"
+          }
         }
       },
       "atsFormatting": {
         "title": "Formatação Compatível com ATS",
         "items": {
-          "standardHeaders": { "title": "Use cabeçalhos de seção padrão", "desc": "\"Experiência Profissional\" não \"Minha Trajetória\"" },
-          "saveFormat": { "title": "Salve como .docx ou .pdf", "desc": "PDF preferido, mas alguns ATS preferem .docx" },
-          "standardFonts": { "title": "Use fontes padrão (Arial, Calibri, Times)", "desc": "Evite fontes decorativas que o ATS não consegue ler" },
-          "avoidTables": { "title": "Evite tabelas, colunas, cabeçalhos/rodapés", "desc": "O ATS tem dificuldades com formatações complexas" },
-          "bulletPoints": { "title": "Use marcadores padrão", "desc": "Apenas símbolos simples • ou -" }
+          "standardHeaders": {
+            "title": "Use cabeçalhos de seção padrão",
+            "desc": "\"Experiência Profissional\" não \"Minha Trajetória\""
+          },
+          "saveFormat": {
+            "title": "Salve como .docx ou .pdf",
+            "desc": "PDF preferido, mas alguns ATS preferem .docx"
+          },
+          "standardFonts": {
+            "title": "Use fontes padrão (Arial, Calibri, Times)",
+            "desc": "Evite fontes decorativas que o ATS não consegue ler"
+          },
+          "avoidTables": {
+            "title": "Evite tabelas, colunas, cabeçalhos/rodapés",
+            "desc": "O ATS tem dificuldades com formatações complexas"
+          },
+          "bulletPoints": {
+            "title": "Use marcadores padrão",
+            "desc": "Apenas símbolos simples • ou -"
+          }
         }
       },
       "fileNaming": {
         "title": "Nome do Arquivo e Envio",
         "items": {
-          "nameFile": { "title": "Nomeie o arquivo corretamente", "desc": "Formato: SeuNome_Cargo_Empresa.pdf" },
-          "saveFolder": { "title": "Salve em pasta dedicada", "desc": "Mantenha organizado: Candidaturas/[Empresa]/[Data]/" },
-          "keepOriginal": { "title": "Mantenha a versão original", "desc": "Sempre mantenha seu currículo mestre separadamente" }
+          "nameFile": {
+            "title": "Nomeie o arquivo corretamente",
+            "desc": "Formato: SeuNome_Cargo_Empresa.pdf"
+          },
+          "saveFolder": {
+            "title": "Salve em pasta dedicada",
+            "desc": "Mantenha organizado: Candidaturas/[Empresa]/[Data]/"
+          },
+          "keepOriginal": {
+            "title": "Mantenha a versão original",
+            "desc": "Sempre mantenha seu currículo mestre separadamente"
+          }
         }
       }
     },

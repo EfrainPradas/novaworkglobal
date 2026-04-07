@@ -1852,7 +1852,6 @@
     "devSwitchTier": "Dev: Changer de Niveau",
     "essentials": "Essentiels",
     "momentum": "Momentum",
-    "exec": "Exec",
     "signOut": "Déconnexion",
     "back": "Retour",
     "appearance": "Apparence",
@@ -1864,7 +1863,8 @@
     "dataPrivacy": "Données et Confidentialité",
     "exportMyData": "Exporter Mes Données",
     "coachDashboard": "Tableau de Bord Coach",
-    "manageClients": "Gérez vos clients"
+    "manageClients": "Gérez vos clients",
+    "vanguard": "Vanguard"
   },
   "coverLetter": {
     "title": "Générateur de Lettre de Motivation",
