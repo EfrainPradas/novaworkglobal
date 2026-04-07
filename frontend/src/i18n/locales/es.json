@@ -287,7 +287,8 @@
       "accelerateResults": "ACELERA TUS RESULTADOS",
       "of": "de",
       "stepsLabel": "pasos completados",
-      "readBefore": "Lee esto antes de comenzar a usar esta herramienta"
+      "readBefore": "Lee esto antes de comenzar a usar esta herramienta",
+      "nextAccomplishments": "Siguiente: Banco de Logros"
     },
     "education": {
       "title": "Educación",
@@ -1900,7 +1901,7 @@
   },
   "contactInfo": {
     "personalDetails": "Datos Personales",
-    "subtitle": "Completa tu información de contacto para comenzar",
+    "subtitle": "Esta información aparecerá en la parte superior de tu currículum",
     "requiredFieldsNote": "Los campos marcados con",
     "requiredFieldsNote2": "son obligatorios antes de continuar.",
     "firstName": "Nombre",
@@ -1931,7 +1932,9 @@
     "skipForNow": "Omitir por ahora",
     "required": "Obligatorio",
     "saveFailed": "Error al guardar el perfil de contacto. Es posible que la migración de base de datos no se haya ejecutado.",
-    "saveRetry": "Error al guardar. Intenta de nuevo u omite por ahora."
+    "saveRetry": "Error al guardar. Intenta de nuevo u omite por ahora.",
+    "smartGuideStep": "Guía Inteligente — Paso {{current}} de {{total}}",
+    "title": "Información de Contacto"
   },
   "calendar": {
     "today": "Hoy",

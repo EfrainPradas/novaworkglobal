@@ -280,7 +280,8 @@
       "learnMore": "Learn more",
       "showLess": "Show less",
       "needGuidance": "Need Personalized Guidance?",
-      "accelerateResults": "ACCELERATE YOUR RESULTS"
+      "accelerateResults": "ACCELERATE YOUR RESULTS",
+      "nextAccomplishments": "Next: Accomplishment Bank"
     },
     "education": {
       "title": "Education",
@@ -1749,7 +1750,7 @@
   },
   "contactInfo": {
     "personalDetails": "Personal Details",
-    "subtitle": "Complete your contact information to get started",
+    "subtitle": "This information will appear at the top of your resume",
     "requiredFieldsNote": "Fields marked with",
     "requiredFieldsNote2": "are required before you can proceed.",
     "firstName": "First Name",
@@ -1780,7 +1781,9 @@
     "skipForNow": "Skip for now",
     "required": "Required",
     "saveFailed": "Failed to save contact profile. The database migration may not have been run yet.",
-    "saveRetry": "Failed to save. Please try again or skip for now."
+    "saveRetry": "Failed to save. Please try again or skip for now.",
+    "smartGuideStep": "Smart Guide — Step {{current}} of {{total}}",
+    "title": "Contact Information"
   },
   "calendar": {
     "today": "Today",

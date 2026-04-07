@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, User, Phone, MapPin, Globe, Linkedin, ExternalLink, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
@@ -11,6 +12,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || ''
 
 export default function ContactInfoPage() {
   const guided = useGuidedStep('profile_basic_info')
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const [loading, setLoading] = useState(true)
     const [saving, setSaving] = useState(false)
@@ -178,7 +180,7 @@ export default function ContactInfoPage() {
                     onClick={() => navigate('/dashboard')}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+                    <ArrowLeft className="w-4 h-4" /> {t('common.backToDashboard', 'Back to Dashboard')}
                 </button>
 
                 {/* Smart Guide context badge */}
@@ -186,7 +188,7 @@ export default function ContactInfoPage() {
                     <div className="flex items-center gap-2 mb-4">
                         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EFF6FF', color: '#1F5BAA' }}>
                             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1F5BAA', display: 'inline-block' }} />
-                            Smart Guide — Step 1 of 6
+                            {t('contactInfo.smartGuideStep', 'Smart Guide — Step {{current}} of {{total}}', { current: 1, total: 6 })}
                         </span>
                     </div>
                 )}
@@ -199,10 +201,10 @@ export default function ContactInfoPage() {
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                Contact Information
+                                {t('contactInfo.title', 'Contact Information')}
                             </h1>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                This information will appear at the top of your resume
+                                {t('contactInfo.subtitle', 'This information will appear at the top of your resume')}
                             </p>
                         </div>
                     </div>
@@ -216,7 +218,7 @@ export default function ContactInfoPage() {
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    First Name <span className="text-red-500">*</span>
+                                    {t('contactInfo.firstName', 'First Name')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -229,7 +231,7 @@ export default function ContactInfoPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Middle Name
+                                    {t('contactInfo.middleName', 'Middle Name')}
                                 </label>
                                 <input
                                     type="text"
@@ -241,7 +243,7 @@ export default function ContactInfoPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Last Name <span className="text-red-500">*</span>
+                                    {t('contactInfo.lastName', 'Last Name')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -259,7 +261,7 @@ export default function ContactInfoPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <Phone className="w-4 h-4 inline mr-1" />
-                                    Phone <span className="text-red-500">*</span>
+                                    {t('contactInfo.phone', 'Phone')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="tel"
@@ -272,7 +274,7 @@ export default function ContactInfoPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    Email <span className="text-red-500">*</span>
+                                    {t('contactInfo.email', 'Email')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="email"
@@ -290,7 +292,7 @@ export default function ContactInfoPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <Globe className="w-4 h-4 inline mr-1" />
-                                    Country <span className="text-red-500">*</span>
+                                    {t('contactInfo.country', 'Country')} <span className="text-red-500">*</span>
                                 </label>
                                 <select
                                     value={form.country}
@@ -304,7 +306,7 @@ export default function ContactInfoPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <MapPin className="w-4 h-4 inline mr-1" />
-                                    State / Province <span className="text-red-500">*</span>
+                                    {t('contactInfo.stateProvince', 'State / Province')} <span className="text-red-500">*</span>
                                 </label>
                                 {showUSStates ? (
                                     <select
@@ -327,7 +329,7 @@ export default function ContactInfoPage() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                    City <span className="text-red-500">*</span>
+                                    {t('contactInfo.city', 'City')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
@@ -345,7 +347,7 @@ export default function ContactInfoPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <Linkedin className="w-4 h-4 inline mr-1" />
-                                    LinkedIn URL <span className="text-red-500">*</span>
+                                    {t('contactInfo.linkedinUrl', 'LinkedIn URL')} <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="url"
@@ -359,7 +361,7 @@ export default function ContactInfoPage() {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                     <ExternalLink className="w-4 h-4 inline mr-1" />
-                                    Portfolio URL
+                                    {t('contactInfo.portfolioUrl', 'Portfolio URL')}
                                 </label>
                                 <input
                                     type="url"
@@ -386,9 +388,9 @@ export default function ContactInfoPage() {
                             className="w-full py-3.5 px-6 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg flex items-center justify-center gap-2"
                             style={{ background: '#1F5BAA' }}
                         >
-                            {saving ? 'Saving...' : (
+                            {saving ? t('common.saving', 'Saving...') : (
                                 <>
-                                    Save & Continue
+                                    {t('contactInfo.saveAndContinue', 'Save & Continue')}
                                     <ArrowRight className="w-5 h-5" />
                                 </>
                             )}
@@ -397,7 +399,7 @@ export default function ContactInfoPage() {
                             onClick={handleSkipToNext}
                             className="w-full py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium transition-colors"
                         >
-                            Skip for now →
+                            {t('contactInfo.skipForNow', 'Skip for now')} →
                         </button>
                     </div>
                 </div>

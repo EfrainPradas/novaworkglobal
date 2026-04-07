@@ -280,7 +280,8 @@
       "accelerateResults": "ACCELERA I TUOI RISULTATI",
       "of": "di",
       "stepsLabel": "passaggi completati",
-      "readBefore": "Leggi questo prima di iniziare a usare questo strumento"
+      "readBefore": "Leggi questo prima di iniziare a usare questo strumento",
+      "nextAccomplishments": "Successivo: Banca dei Risultati"
     },
     "profile": {
       "title": "Profilo Professionale",
@@ -1898,7 +1899,7 @@
   },
   "contactInfo": {
     "personalDetails": "Dati Personali",
-    "subtitle": "Completa le tue informazioni di contatto per iniziare",
+    "subtitle": "Queste informazioni appariranno in cima al tuo CV",
     "requiredFieldsNote": "I campi contrassegnati con",
     "requiredFieldsNote2": "sono obbligatori prima di procedere.",
     "firstName": "Nome",
@@ -1909,10 +1910,10 @@
     "lastNamePlaceholder": "Rossi",
     "phone": "Telefono",
     "phonePlaceholder": "+39 02 1234567",
-    "email": "E-mail",
+    "email": "Email",
     "emailPlaceholder": "marco@esempio.com",
     "country": "Paese",
-    "stateProvince": "Regione / Provincia",
+    "stateProvince": "Stato / Provincia",
     "statePlaceholder": "Regione o Provincia",
     "city": "Città",
     "cityPlaceholder": "Roma",
@@ -1922,14 +1923,16 @@
     "zipPlaceholder": "00100",
     "linkedinUrl": "URL LinkedIn",
     "linkedinPlaceholder": "https://linkedin.com/in/...",
-    "portfolioUrl": "URL del Portfolio",
+    "portfolioUrl": "URL Portfolio",
     "portfolioPlaceholder": "https://tuoportfolio.com",
     "saving": "Salvataggio...",
     "saveAndContinue": "Salva e Continua",
     "skipForNow": "Salta per ora",
     "required": "Obbligatorio",
     "saveFailed": "Impossibile salvare il profilo di contatto. La migrazione del database potrebbe non essere stata eseguita.",
-    "saveRetry": "Impossibile salvare. Riprova o salta per ora."
+    "saveRetry": "Impossibile salvare. Riprova o salta per ora.",
+    "smartGuideStep": "Guida Intelligente — Passo {{current}} di {{total}}",
+    "title": "Informazioni di Contatto"
   },
   "calendar": {
     "today": "Oggi",

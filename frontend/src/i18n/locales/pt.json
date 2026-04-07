@@ -280,7 +280,8 @@
       "accelerateResults": "ACELERE SEUS RESULTADOS",
       "of": "de",
       "stepsLabel": "passos completos",
-      "readBefore": "Leia isto antes de começar a usar esta ferramenta"
+      "readBefore": "Leia isto antes de começar a usar esta ferramenta",
+      "nextAccomplishments": "Próximo: Banco de Conquistas"
     },
     "profile": {
       "title": "Perfil Profissional",
@@ -1898,7 +1899,7 @@
   },
   "contactInfo": {
     "personalDetails": "Dados Pessoais",
-    "subtitle": "Complete suas informações de contato para começar",
+    "subtitle": "Estas informações aparecerão no topo do seu currículo",
     "requiredFieldsNote": "Os campos marcados com",
     "requiredFieldsNote2": "são obrigatórios antes de continuar.",
     "firstName": "Nome",
@@ -1909,7 +1910,7 @@
     "lastNamePlaceholder": "Silva",
     "phone": "Telefone",
     "phonePlaceholder": "+55 11 91234-5678",
-    "email": "E-mail",
+    "email": "Email",
     "emailPlaceholder": "joao@exemplo.com",
     "country": "País",
     "stateProvince": "Estado / Província",
@@ -1920,16 +1921,18 @@
     "addressPlaceholder": "Rua Principal 123",
     "zipPostalCode": "CEP / Código Postal",
     "zipPlaceholder": "01000-000",
-    "linkedinUrl": "URL do LinkedIn",
+    "linkedinUrl": "URL LinkedIn",
     "linkedinPlaceholder": "https://linkedin.com/in/...",
-    "portfolioUrl": "URL do Portfólio",
+    "portfolioUrl": "URL Portfólio",
     "portfolioPlaceholder": "https://seuportfolio.com",
     "saving": "Salvando...",
     "saveAndContinue": "Salvar e Continuar",
     "skipForNow": "Pular por enquanto",
     "required": "Obrigatório",
     "saveFailed": "Falha ao salvar o perfil de contato. A migração do banco de dados pode não ter sido executada.",
-    "saveRetry": "Falha ao salvar. Tente novamente ou pule por enquanto."
+    "saveRetry": "Falha ao salvar. Tente novamente ou pule por enquanto.",
+    "smartGuideStep": "Guia Inteligente — Passo {{current}} de {{total}}",
+    "title": "Informações de Contato"
   },
   "calendar": {
     "today": "Hoje",
