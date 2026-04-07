@@ -313,14 +313,14 @@ export default function ResumeBuilderMenu() {
                     <FileText className="w-8 h-8 text-primary-600 dark:text-blue-400 shrink-0" />
                     <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
-                  <div className="flex items-center gap-3 mt-0.5">
-                    <span className="text-gray-500 text-xs">{macroStepsCompleted} of {resumeOptions.length} steps completed</span>
+                  <div className="flex items-center gap-3 mt-1.5">
+                    <span className="text-gray-500 text-xs">{macroStepsCompleted} {t('resumeBuilder.menu.of', 'of')} {resumeOptions.length} {t('resumeBuilder.menu.stepsLabel', 'steps completed')}</span>
                     <span className="text-gray-300 text-xs">|</span>
                     <button
                       onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                      className="text-xs text-primary-600 hover:text-primary-800 dark:text-blue-400 dark:hover:text-blue-300 underline underline-offset-2 transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors whitespace-nowrap"
                     >
-                      Read this before starting to use this tool →
+                      {t('resumeBuilder.menu.readBefore', 'Read this before starting to use this tool')} →
                     </button>
                   </div>
                 </div>

@@ -267,7 +267,10 @@
       "learnMore": "Scopri di più",
       "showLess": "Mostra meno",
       "needGuidance": "Hai Bisogno di una Guida Personalizzata?",
-      "accelerateResults": "ACCELERA I TUOI RISULTATI"
+      "accelerateResults": "ACCELERA I TUOI RISULTATI",
+      "of": "di",
+      "stepsLabel": "passaggi completati",
+      "readBefore": "Leggi questo prima di iniziare a usare questo strumento"
     },
     "profile": {
       "title": "Profilo Professionale",
@@ -591,6 +594,45 @@
       "save": "Salva",
       "cancel": "Annulla"
     },
+    "tabs": {
+      "workExperience": "Esperienza Lavorativa",
+      "education": "Formazione",
+      "awardsAndCerts": "Premi e Certificazioni"
+    },
+    "awards": {
+      "backToEducation": "Torna alla Formazione",
+      "nextQuestionnaire": "Avanti: Questionario di Posizionamento",
+      "awardsTitle": "Premi",
+      "awardSingular": "premio",
+      "awardsPlural": "premi",
+      "certificationsTitle": "Certificazioni",
+      "certificationSingular": "certificazione",
+      "certificationsPlural": "certificazioni",
+      "addAward": "Aggiungi Premio",
+      "addCertification": "Aggiungi Certificazione",
+      "editAward": "Modifica Premio",
+      "editCertification": "Modifica Certificazione",
+      "awardName": "Nome del Premio",
+      "certificationName": "Nome della Certificazione",
+      "awardNamePlaceholder": "Impiegato dell'Anno",
+      "certificationNamePlaceholder": "AWS Solutions Architect",
+      "issuingOrganization": "Organizzazione Emittente",
+      "companyNamePlaceholder": "Nome dell'Azienda",
+      "awsPlaceholder": "Amazon Web Services",
+      "yearReceived": "Anno di Ricezione",
+      "issueDate": "Data di Emissione (AAAA)",
+      "selectYear": "Seleziona Anno",
+      "expirationDate": "Data di Scadenza (AAAA)",
+      "credentialId": "ID Credenziale",
+      "credentialUrl": "URL Credenziale",
+      "save": "Salva",
+      "update": "Aggiorna",
+      "cancel": "Annulla",
+      "deleteConfirm": "Eliminare questa voce?",
+      "required": "Obbligatorio",
+      "viewCredential": "Vedi Credenziale",
+      "unknownOrganization": "Organizzazione Sconosciuta"
+    },
     "accomplishmentCard": {
       "dragToReorder": "Trascina per riordinare",
       "rolePlaceholder": "es. Direttore Vendite",
@@ -599,6 +641,10 @@
       "endDatePlaceholder": "es. Presente",
       "unknown": "Sconosciuto",
       "present": "Presente"
+    },
+    "videos": {
+      "jobPurpose": "Scopo del Ruolo",
+      "workExperience": "Esperienza Lavorativa"
     }
   },
   "dashboard": {
@@ -1540,5 +1586,19 @@
       "feature4": "Accesso prioritario",
       "cta": "Ottieni Supporto"
     }
+  },
+  "guidedPath": {
+    "contactInfo": "Informazioni di Contatto",
+    "contactInfoDesc": "Configura il tuo profilo professionale con i dati di contatto.",
+    "workExperience": "Esperienza Lavorativa",
+    "workExperienceDesc": "Aggiungi i tuoi ruoli, aziende e responsabilità chiave.",
+    "educationCerts": "Istruzione e Certificazioni",
+    "educationCertsDesc": "Aggiungi il tuo percorso formativo e le certificazioni.",
+    "accomplishmentBank": "Banca dei Risultati",
+    "accomplishmentBankDesc": "Cattura i tuoi risultati professionali chiave.",
+    "carStories": "Storie CAR",
+    "carStoriesDesc": "Costruisci storie strutturate: Contesto, Azione, Risultato.",
+    "professionalPositioning": "Posizionamento Professionale",
+    "professionalPositioningDesc": "Definisci il tuo brand professionale e proposta di valore."
   }
 }

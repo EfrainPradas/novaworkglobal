@@ -6,6 +6,7 @@
  */
 
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { useGuidedPath } from '../../contexts/GuidedPathContext'
 import { STEP_DISPLAY_CONFIG, STEP_ROUTE_MAP } from '../../constants/guidedPath'
@@ -19,6 +20,7 @@ interface GuidedPathProgressProps {
 export default function GuidedPathProgress({ compact = false }: GuidedPathProgressProps) {
   const { state, stepStatuses, nextStep, isGuidedMode } = useGuidedPath()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   if (!isGuidedMode || !state?.steps) return null
 
@@ -105,7 +107,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                     lineHeight: 1.3,
                     flex: 1,
                   }}>
-                    {config?.title || step.display_name}
+                    {config?.titleKey ? t(config.titleKey, config.title) : (config?.title || step.display_name)}
                   </span>
 
                   {/* Completion badge */}

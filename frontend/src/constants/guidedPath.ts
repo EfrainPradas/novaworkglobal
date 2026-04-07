@@ -19,7 +19,9 @@ export interface StepDisplayConfig {
   color: string
   bgColor: string
   title: string
+  titleKey?: string
   description: string
+  descriptionKey?: string
   tips: string[]
 }
 
@@ -27,9 +29,11 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   profile_basic_info: {
     icon: User,
     color: '#1F5BAA',
-    bgColor: '#EFF6FF',
+    bgColor: '#eef6fc',
     title: 'Contact Information',
+    titleKey: 'guidedPath.contactInfo',
     description: 'Set up your professional profile with contact details.',
+    descriptionKey: 'guidedPath.contactInfoDesc',
     tips: [
       'Use a professional email address',
       'Include your LinkedIn URL',
@@ -38,10 +42,12 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   resume_experience_capture: {
     icon: Briefcase,
-    color: '#10B981',
-    bgColor: '#ECFDF5',
+    color: '#1F5BAA',
+    bgColor: '#eef6fc',
     title: 'Work Experience',
+    titleKey: 'guidedPath.workExperience',
     description: 'Add your roles, companies, and key responsibilities.',
+    descriptionKey: 'guidedPath.workExperienceDesc',
     tips: [
       'Start with your most recent position',
       'Include dates, company name, and title',
@@ -50,10 +56,12 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   experience_foundation: {
     icon: GraduationCap,
-    color: '#8B5CF6',
-    bgColor: '#F5F3FF',
+    color: '#1F5BAA',
+    bgColor: '#eef6fc',
     title: 'Education & Certifications',
+    titleKey: 'guidedPath.educationCerts',
     description: 'Add your educational background and certifications.',
+    descriptionKey: 'guidedPath.educationCertsDesc',
     tips: [
       'Include degree, institution, and graduation year',
       'Add relevant certifications',
@@ -62,10 +70,12 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   accomplishment_bank: {
     icon: Trophy,
-    color: '#D97706',
-    bgColor: '#FFFBEB',
+    color: '#1F5BAA',
+    bgColor: '#eef6fc',
     title: 'Accomplishment Bank',
+    titleKey: 'guidedPath.accomplishmentBank',
     description: 'Capture your key professional accomplishments.',
+    descriptionKey: 'guidedPath.accomplishmentBankDesc',
     tips: [
       'Quantify results whenever possible',
       'Use action verbs to start each accomplishment',
@@ -74,10 +84,12 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   car_stories: {
     icon: Star,
-    color: '#EF4444',
-    bgColor: '#FEF2F2',
+    color: '#1F5BAA',
+    bgColor: '#eef6fc',
     title: 'CAR Stories',
+    titleKey: 'guidedPath.carStories',
     description: 'Build structured stories using Challenge, Action, Result.',
+    descriptionKey: 'guidedPath.carStoriesDesc',
     tips: [
       'Challenge: What problem did you face?',
       'Action: What specific steps did you take?',
@@ -86,10 +98,12 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   professional_positioning: {
     icon: ClipboardList,
-    color: '#0D9488',
-    bgColor: '#F0FDFA',
+    color: '#1F5BAA',
+    bgColor: '#eef6fc',
     title: 'Professional Positioning',
+    titleKey: 'guidedPath.professionalPositioning',
     description: 'Define your professional brand and value proposition.',
+    descriptionKey: 'guidedPath.professionalPositioningDesc',
     tips: [
       'Think about what makes you unique',
       'Identify your target role and industry',

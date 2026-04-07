@@ -572,6 +572,10 @@
         "International Partners",
         "Union / Labor Groups"
       ]
+    },
+    "videos": {
+      "jobPurpose": "Job Purpose",
+      "workExperience": "Work Experience"
     }
   },
   "dashboard": {
@@ -1457,5 +1461,19 @@
       "title": "Print-Friendly Quick Checklist",
       "button": "Print Checklist"
     }
+  },
+  "guidedPath": {
+    "contactInfo": "Contact Information",
+    "contactInfoDesc": "Set up your professional profile with contact details.",
+    "workExperience": "Work Experience",
+    "workExperienceDesc": "Add your roles, companies, and key responsibilities.",
+    "educationCerts": "Education & Certifications",
+    "educationCertsDesc": "Add your educational background and certifications.",
+    "accomplishmentBank": "Accomplishment Bank",
+    "accomplishmentBankDesc": "Capture your key professional accomplishments.",
+    "carStories": "CAR Stories",
+    "carStoriesDesc": "Build structured stories using Challenge, Action, Result.",
+    "professionalPositioning": "Professional Positioning",
+    "professionalPositioningDesc": "Define your professional brand and value proposition."
   }
 }

@@ -273,7 +273,10 @@
       "learnMore": "Saber más",
       "showLess": "Ver menos",
       "needGuidance": "¿Necesitas Orientación Personalizada?",
-      "accelerateResults": "ACELERA TUS RESULTADOS"
+      "accelerateResults": "ACELERA TUS RESULTADOS",
+      "of": "de",
+      "stepsLabel": "pasos completados",
+      "readBefore": "Lee esto antes de comenzar a usar esta herramienta"
     },
     "education": {
       "title": "Educación",
@@ -299,6 +302,45 @@
       "update": "Actualizar",
       "save": "Guardar",
       "cancel": "Cancelar"
+    },
+    "tabs": {
+      "workExperience": "Experiencia Laboral",
+      "education": "Educación",
+      "awardsAndCerts": "Premios y Certificaciones"
+    },
+    "awards": {
+      "backToEducation": "Volver a Educación",
+      "nextQuestionnaire": "Siguiente: Cuestionario de Posicionamiento",
+      "awardsTitle": "Premios",
+      "awardSingular": "premio",
+      "awardsPlural": "premios",
+      "certificationsTitle": "Certificaciones",
+      "certificationSingular": "certificación",
+      "certificationsPlural": "certificaciones",
+      "addAward": "Agregar Premio",
+      "addCertification": "Agregar Certificación",
+      "editAward": "Editar Premio",
+      "editCertification": "Editar Certificación",
+      "awardName": "Nombre del Premio",
+      "certificationName": "Nombre de la Certificación",
+      "awardNamePlaceholder": "Empleado del Año",
+      "certificationNamePlaceholder": "AWS Solutions Architect",
+      "issuingOrganization": "Organización Emisora",
+      "companyNamePlaceholder": "Nombre de la Empresa",
+      "awsPlaceholder": "Amazon Web Services",
+      "yearReceived": "Año Recibido",
+      "issueDate": "Fecha de Emisión (AAAA)",
+      "selectYear": "Seleccionar Año",
+      "expirationDate": "Fecha de Vencimiento (AAAA)",
+      "credentialId": "ID de Credencial",
+      "credentialUrl": "URL de Credencial",
+      "save": "Guardar",
+      "update": "Actualizar",
+      "cancel": "Cancelar",
+      "deleteConfirm": "¿Eliminar esta entrada?",
+      "required": "Requerido",
+      "viewCredential": "Ver Credencial",
+      "unknownOrganization": "Organización Desconocida"
     },
     "profile": {
       "title": "Perfil Profesional",
@@ -603,6 +645,10 @@
         "Socios Internacionales",
         "Sindicatos / Grupos Laborales"
       ]
+    },
+    "videos": {
+      "jobPurpose": "Propósito del Cargo",
+      "workExperience": "Experiencia Laboral"
     }
   },
   "dashboard": {
@@ -1544,5 +1590,19 @@
     "huntScanlonDesc": "Ranking de reclutadores líderes.",
     "clearlyRated": "ClearlyRated's Best of Staffing",
     "clearlyRatedDesc": "Agencias de personal calificadas por clientes."
+  },
+  "guidedPath": {
+    "contactInfo": "Información de Contacto",
+    "contactInfoDesc": "Configura tu perfil profesional con datos de contacto.",
+    "workExperience": "Experiencia Laboral",
+    "workExperienceDesc": "Agrega tus roles, empresas y responsabilidades clave.",
+    "educationCerts": "Educación y Certificaciones",
+    "educationCertsDesc": "Agrega tu formación académica y certificaciones.",
+    "accomplishmentBank": "Banco de Logros",
+    "accomplishmentBankDesc": "Captura tus logros profesionales clave.",
+    "carStories": "Historias CAR",
+    "carStoriesDesc": "Construye historias estructuradas: Contexto, Acción, Resultado.",
+    "professionalPositioning": "Posicionamiento Profesional",
+    "professionalPositioningDesc": "Define tu marca profesional y propuesta de valor."
   }
 }

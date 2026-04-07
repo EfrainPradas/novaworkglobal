@@ -267,7 +267,10 @@
       "learnMore": "En savoir plus",
       "showLess": "Voir moins",
       "needGuidance": "Besoin d'un Accompagnement Personnalisé ?",
-      "accelerateResults": "ACCÉLÉREZ VOS RÉSULTATS"
+      "accelerateResults": "ACCÉLÉREZ VOS RÉSULTATS",
+      "of": "de",
+      "stepsLabel": "étapes complétées",
+      "readBefore": "Lisez ceci avant de commencer à utiliser cet outil"
     },
     "profile": {
       "title": "Profil Professionnel",
@@ -591,6 +594,45 @@
       "save": "Enregistrer",
       "cancel": "Annuler"
     },
+    "tabs": {
+      "workExperience": "Expérience Professionnelle",
+      "education": "Formation",
+      "awardsAndCerts": "Prix et Certifications"
+    },
+    "awards": {
+      "backToEducation": "Retour à la Formation",
+      "nextQuestionnaire": "Suivant : Questionnaire de Positionnement",
+      "awardsTitle": "Prix",
+      "awardSingular": "prix",
+      "awardsPlural": "prix",
+      "certificationsTitle": "Certifications",
+      "certificationSingular": "certification",
+      "certificationsPlural": "certifications",
+      "addAward": "Ajouter un Prix",
+      "addCertification": "Ajouter une Certification",
+      "editAward": "Modifier le Prix",
+      "editCertification": "Modifier la Certification",
+      "awardName": "Nom du Prix",
+      "certificationName": "Nom de la Certification",
+      "awardNamePlaceholder": "Employé de l'Année",
+      "certificationNamePlaceholder": "AWS Solutions Architect",
+      "issuingOrganization": "Organisation Émettrice",
+      "companyNamePlaceholder": "Nom de l'Entreprise",
+      "awsPlaceholder": "Amazon Web Services",
+      "yearReceived": "Année d'Obtention",
+      "issueDate": "Date d'Émission (AAAA)",
+      "selectYear": "Sélectionner l'Année",
+      "expirationDate": "Date d'Expiration (AAAA)",
+      "credentialId": "ID de Credential",
+      "credentialUrl": "URL de Credential",
+      "save": "Enregistrer",
+      "update": "Mettre à jour",
+      "cancel": "Annuler",
+      "deleteConfirm": "Supprimer cette entrée ?",
+      "required": "Requis",
+      "viewCredential": "Voir la Credential",
+      "unknownOrganization": "Organisation Inconnue"
+    },
     "accomplishmentCard": {
       "dragToReorder": "Glissez pour réorganiser",
       "rolePlaceholder": "ex. Directeur des Ventes",
@@ -599,6 +641,10 @@
       "endDatePlaceholder": "ex. Présent",
       "unknown": "Inconnu",
       "present": "Présent"
+    },
+    "videos": {
+      "jobPurpose": "Objectif du Poste",
+      "workExperience": "Expérience Professionnelle"
     }
   },
   "dashboard": {
@@ -1540,5 +1586,19 @@
       "feature4": "Accès prioritaire",
       "cta": "Obtenir le Support"
     }
+  },
+  "guidedPath": {
+    "contactInfo": "Coordonnées",
+    "contactInfoDesc": "Configurez votre profil professionnel avec vos coordonnées.",
+    "workExperience": "Expérience Professionnelle",
+    "workExperienceDesc": "Ajoutez vos rôles, entreprises et responsabilités clés.",
+    "educationCerts": "Formation et Certifications",
+    "educationCertsDesc": "Ajoutez votre parcours académique et certifications.",
+    "accomplishmentBank": "Banque de Réalisations",
+    "accomplishmentBankDesc": "Capturez vos réalisations professionnelles clés.",
+    "carStories": "Histoires CAR",
+    "carStoriesDesc": "Construisez des histoires structurées : Contexte, Action, Résultat.",
+    "professionalPositioning": "Positionnement Professionnel",
+    "professionalPositioningDesc": "Définissez votre marque professionnelle et proposition de valeur."
   }
 }

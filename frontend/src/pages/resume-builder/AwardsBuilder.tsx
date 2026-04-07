@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { trackEvent } from '../../lib/analytics'
 import { ArrowLeft, ArrowRight, Award, Trophy, Plus, Pencil, Trash2, Loader2, X, CheckCircle2, ExternalLink } from 'lucide-react'
@@ -25,6 +26,7 @@ const emptyEntry: EntryData = {
 
 export default function AwardsBuilder() {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [searchParams] = useSearchParams()
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [userId, setUserId] = useState<string | null>(null)
@@ -104,8 +106,8 @@ export default function AwardsBuilder() {
 
     const validate = () => {
         const newErrors: Record<string, string> = {}
-        if (!form.certification_name?.trim()) newErrors.certification_name = 'Required'
-        if (!form.issuing_organization?.trim()) newErrors.issuing_organization = 'Required'
+        if (!form.certification_name?.trim()) newErrors.certification_name = t('resumeBuilder.awards.required', 'Required')
+        if (!form.issuing_organization?.trim()) newErrors.issuing_organization = t('resumeBuilder.awards.required', 'Required')
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
@@ -142,7 +144,7 @@ export default function AwardsBuilder() {
     }
 
     const handleDelete = async (id: string, table: 'certifications' | 'awards') => {
-        if (!confirm('Delete this entry?')) return
+        if (!confirm(t('resumeBuilder.awards.deleteConfirm', 'Delete this entry?'))) return
         await supabase.from(table).delete().eq('id', id)
         await loadData()
     }
@@ -199,7 +201,7 @@ export default function AwardsBuilder() {
                             rel="noopener noreferrer"
                             className="text-sm text-blue-600 hover:text-blue-800 ml-7 mt-1 inline-flex items-center gap-1"
                         >
-                            <ExternalLink className="w-3 h-3" /> View Credential
+                            <ExternalLink className="w-3 h-3" /> {t('resumeBuilder.awards.viewCredential', 'View Credential')}
                         </a>
                     )}
                 </div>
@@ -225,15 +227,15 @@ export default function AwardsBuilder() {
                         onClick={() => navigate('/dashboard/resume/education')}
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? 'Back to Resume Builder' : 'Back to Education'}
+                        <ArrowLeft className="w-4 h-4" /> {isStandalone ? t('resumeBuilder.menu.backToResumeBuilder', 'Back to Resume Builder') : t('resumeBuilder.awards.backToEducation', 'Back to Education')}
                     </button>
 
                     {!isStandalone && (
                         <button
                             onClick={handleContinue}
-                            className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                            className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
                         >
-                            Next: Positioning Questionnaire <ArrowRight className="w-4 h-4" />
+                            {t('resumeBuilder.awards.nextQuestionnaire', 'Next: Positioning Questionnaire')} <ArrowRight className="w-4 h-4" />
                         </button>
                     )}
                 </div>
@@ -244,16 +246,16 @@ export default function AwardsBuilder() {
                             onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
-                            Work Experience
+                            {t('resumeBuilder.tabs.workExperience', 'Work Experience')}
                         </button>
                         <button
                             onClick={() => navigate('/dashboard/resume/education?mode=standalone')}
                             className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                         >
-                            Education
+                            {t('resumeBuilder.tabs.education', 'Education')}
                         </button>
-                        <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
-                            Awards & Certifications
+                        <button className="pb-3 border-b-2 border-primary-600 font-semibold text-primary-600 dark:text-primary-400 shrink-0">
+                            {t('resumeBuilder.tabs.awardsAndCerts', 'Awards & Certifications')}
                         </button>
                     </div>
                 )}
@@ -264,52 +266,52 @@ export default function AwardsBuilder() {
                     {/* ═══ AWARDS SECTION ═══ */}
                     <div>
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="p-2 bg-amber-100 dark:bg-amber-900/30 rounded-xl">
-                                <Trophy className="w-6 h-6 text-amber-600" />
+                            <div className="p-2 bg-primary-50 dark:bg-amber-900/30 rounded-xl">
+                                <Trophy className="w-6 h-6 text-primary-600" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Awards</h2>
-                                <p className="text-sm text-gray-500">{awards.length} award{awards.length !== 1 ? 's' : ''}</p>
+                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.awards.awardsTitle', 'Awards')}</h2>
+                                <p className="text-sm text-gray-500">{awards.length} {awards.length !== 1 ? t('resumeBuilder.awards.awardsPlural', 'awards') : t('resumeBuilder.awards.awardSingular', 'award')}</p>
                             </div>
                         </div>
 
                         {awards.length > 0 && (
                             <div className="space-y-4 mb-4">
-                                {awards.map(a => renderEntryCard(a, 'award', <Trophy className="w-5 h-5 text-amber-500" />))}
+                                {awards.map(a => renderEntryCard(a, 'award', <Trophy className="w-5 h-5 text-primary-500" />))}
                             </div>
                         )}
 
                         <button
                             onClick={() => { resetForm(); setFormType('award') }}
-                            className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl text-gray-500 dark:text-gray-400 hover:border-amber-500 hover:text-amber-600 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl text-gray-500 dark:text-gray-400 hover:border-primary-500 hover:text-primary-600 transition-all flex items-center justify-center gap-2"
                         >
-                            <Plus className="w-4 h-4" /> Add Award
+                            <Plus className="w-4 h-4" /> {t('resumeBuilder.awards.addAward', 'Add Award')}
                         </button>
                     </div>
 
                     {/* ═══ CERTIFICATIONS SECTION ═══ */}
                     <div>
                         <div className="flex items-center gap-3 mb-4">
-                            <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-xl">
-                                <Award className="w-6 h-6 text-blue-600" />
+                            <div className="p-2 bg-primary-50 dark:bg-blue-900/30 rounded-xl">
+                                <Award className="w-6 h-6 text-primary-600" />
                             </div>
                             <div>
-                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Certifications</h2>
-                                <p className="text-sm text-gray-500">{certifications.length} certification{certifications.length !== 1 ? 's' : ''}</p>
+                                <h2 className="text-2xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.awards.certificationsTitle', 'Certifications')}</h2>
+                                <p className="text-sm text-gray-500">{certifications.length} {certifications.length !== 1 ? t('resumeBuilder.awards.certificationsPlural', 'certifications') : t('resumeBuilder.awards.certificationSingular', 'certification')}</p>
                             </div>
                         </div>
 
                         {certifications.length > 0 && (
                             <div className="space-y-4 mb-4">
-                                {certifications.map(c => renderEntryCard(c, 'cert', <Award className="w-5 h-5 text-blue-500" />))}
+                                {certifications.map(c => renderEntryCard(c, 'cert', <Award className="w-5 h-5 text-primary-500" />))}
                             </div>
                         )}
 
                         <button
                             onClick={() => { resetForm(); setFormType('cert') }}
-                            className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl text-gray-500 dark:text-gray-400 hover:border-blue-500 hover:text-blue-600 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl text-gray-500 dark:text-gray-400 hover:border-primary-500 hover:text-primary-600 transition-all flex items-center justify-center gap-2"
                         >
-                            <Plus className="w-4 h-4" /> Add Certification
+                            <Plus className="w-4 h-4" /> {t('resumeBuilder.awards.addCertification', 'Add Certification')}
                         </button>
                     </div>
 
@@ -321,7 +323,9 @@ export default function AwardsBuilder() {
                         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full p-6 md:p-8">
                             <div className="flex items-center justify-between mb-6">
                                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                                    {editingId ? 'Edit' : 'Add'} {formType === 'award' ? 'Award' : 'Certification'}
+                                    {editingId
+                                        ? (formType === 'award' ? t('resumeBuilder.awards.editAward', 'Edit Award') : t('resumeBuilder.awards.editCertification', 'Edit Certification'))
+                                        : (formType === 'award' ? t('resumeBuilder.awards.addAward', 'Add Award') : t('resumeBuilder.awards.addCertification', 'Add Certification'))}
                                 </h2>
                                 <button onClick={resetForm} className="p-2 text-gray-400 hover:text-gray-600">
                                     <X className="w-5 h-5" />
@@ -332,27 +336,27 @@ export default function AwardsBuilder() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                            {formType === 'award' ? 'Award Name' : 'Certification Name'} <span className="text-red-500">*</span>
+                                            {formType === 'award' ? t('resumeBuilder.awards.awardName', 'Award Name') : t('resumeBuilder.awards.certificationName', 'Certification Name')} <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={form.certification_name}
                                             onChange={e => setForm(p => ({ ...p, certification_name: e.target.value }))}
                                             className={inputClass('certification_name')}
-                                            placeholder={formType === 'award' ? 'Employee of the Year' : 'AWS Solutions Architect'}
+                                            placeholder={formType === 'award' ? t('resumeBuilder.awards.awardNamePlaceholder', 'Employee of the Year') : t('resumeBuilder.awards.certificationNamePlaceholder', 'AWS Solutions Architect')}
                                         />
                                         {errors.certification_name && <p className="text-red-500 text-xs mt-1">{errors.certification_name}</p>}
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                            Issuing Organization <span className="text-red-500">*</span>
+                                            {t('resumeBuilder.awards.issuingOrganization', 'Issuing Organization')} <span className="text-red-500">*</span>
                                         </label>
                                         <input
                                             type="text"
                                             value={form.issuing_organization}
                                             onChange={e => setForm(p => ({ ...p, issuing_organization: e.target.value }))}
                                             className={inputClass('issuing_organization')}
-                                            placeholder={formType === 'award' ? 'Company Name' : 'Amazon Web Services'}
+                                            placeholder={formType === 'award' ? t('resumeBuilder.awards.companyNamePlaceholder', 'Company Name') : t('resumeBuilder.awards.awsPlaceholder', 'Amazon Web Services')}
                                         />
                                         {errors.issuing_organization && <p className="text-red-500 text-xs mt-1">{errors.issuing_organization}</p>}
                                     </div>
@@ -361,14 +365,14 @@ export default function AwardsBuilder() {
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                            {formType === 'award' ? 'Year Received' : 'Issue Date (YYYY)'}
+                                            {formType === 'award' ? t('resumeBuilder.awards.yearReceived', 'Year Received') : t('resumeBuilder.awards.issueDate', 'Issue Date (YYYY)')}
                                         </label>
                                         <select
                                             value={form.issue_date}
                                             onChange={e => setForm(p => ({ ...p, issue_date: e.target.value }))}
                                             className={inputClass('issue_date')}
                                         >
-                                            <option value="">Select Year</option>
+                                            <option value="">{t('resumeBuilder.awards.selectYear', 'Select Year')}</option>
                                             {years.map(year => (
                                                 <option key={year} value={year}>{year}</option>
                                             ))}
@@ -377,14 +381,14 @@ export default function AwardsBuilder() {
                                     {formType === 'cert' && (
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Expiration Date (YYYY)
+                                                {t('resumeBuilder.awards.expirationDate', 'Expiration Date (YYYY)')}
                                             </label>
                                             <select
                                                 value={form.expiration_date}
                                                 onChange={e => setForm(p => ({ ...p, expiration_date: e.target.value }))}
                                                 className={inputClass('expiration_date')}
                                             >
-                                                <option value="">Select Year</option>
+                                                <option value="">{t('resumeBuilder.awards.selectYear', 'Select Year')}</option>
                                                 {expirationYears.map(year => (
                                                     <option key={year} value={year}>{year}</option>
                                                 ))}
@@ -397,7 +401,7 @@ export default function AwardsBuilder() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Credential ID
+                                                {t('resumeBuilder.awards.credentialId', 'Credential ID')}
                                             </label>
                                             <input
                                                 type="text"
@@ -409,7 +413,7 @@ export default function AwardsBuilder() {
                                         </div>
                                         <div>
                                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                                Credential URL
+                                                {t('resumeBuilder.awards.credentialUrl', 'Credential URL')}
                                             </label>
                                             <input
                                                 type="url"
@@ -427,16 +431,16 @@ export default function AwardsBuilder() {
                                 <button
                                     onClick={handleSave}
                                     disabled={saving}
-                                    className={`flex-1 py-3 px-6 ${formType === 'award' ? 'bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600' : 'bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600'} text-white font-semibold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2`}
+                                    className="flex-1 py-3 px-6 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50 flex items-center justify-center gap-2"
                                 >
                                     {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-                                    {editingId ? 'Update' : 'Save'}
+                                    {editingId ? t('resumeBuilder.awards.update', 'Update') : t('resumeBuilder.awards.save', 'Save')}
                                 </button>
                                 <button
                                     onClick={resetForm}
                                     className="py-3 px-6 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                                 >
-                                    Cancel
+                                    {t('resumeBuilder.awards.cancel', 'Cancel')}
                                 </button>
                             </div>
                         </div>

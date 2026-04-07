@@ -822,31 +822,31 @@ const WorkExperienceBuilder: React.FC = () => {
             <div data-tour="nav-tabs" id="resume-tabs" className="flex flex-col mb-6 border-b border-gray-200 dark:border-gray-700">
               <div className="flex flex-wrap items-center justify-between gap-2 pb-1">
                 <div className="flex space-x-6 overflow-x-auto whitespace-nowrap scrollbar-hide">
-                  <button className="pb-3 border-b-2 border-blue-600 font-semibold text-blue-600 dark:text-blue-400 shrink-0">
-                    {t('resumeBuilder.menu.workExperience')}
+                  <button className="pb-3 border-b-2 border-primary-600 font-semibold text-primary-600 dark:text-primary-400 shrink-0">
+                    {t('resumeBuilder.tabs.workExperience', 'Work Experience')}
                   </button>
                   <button
                     onClick={() => navigate('/dashboard/resume/education?mode=standalone')}
                     className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                   >
-                    {t('resumeBuilder.menu.education') || 'Education'}
+                    {t('resumeBuilder.tabs.education', 'Education')}
                   </button>
                   <button
                     onClick={() => navigate('/dashboard/resume/awards?mode=standalone')}
                     className="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300 font-medium transition-colors shrink-0"
                   >
-                    {t('resumeBuilder.menu.awardsAndCerts', 'Awards & Certifications')}
+                    {t('resumeBuilder.tabs.awardsAndCerts', 'Awards & Certifications')}
                   </button>
                 </div>
                 <div className="flex items-center gap-2 pb-1 shrink-0">
                   <button
-                    onClick={() => setVideoModal({ url: getVideoUrl('Engineering_Impact__The_NovaWork_Experience_Framework.mp4'), title: 'Work Experience Framework' })}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-teal-700 hover:bg-teal-800 text-white text-xs font-semibold rounded-lg transition-colors"
+                    onClick={() => setVideoModal({ url: getVideoUrl('Engineering_Impact__The_NovaWork_Experience_Framework.mp4'), title: t('common.watchVideo', 'Watch video') })}
+                    className="flex items-center gap-1.5 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white text-xs font-semibold rounded-lg transition-colors"
                   >
-                    <Play className="w-3.5 h-3.5" /> Watch video
+                    <Play className="w-3.5 h-3.5" /> {t('common.watchVideo', 'Watch video')}
                   </button>
                     <LearnMoreLink
-                      label="Read this first"
+                      label={t('resumeBuilder.menu.readBefore', 'Read this first')}
                       description=""
                       onClick={() => navigate('/dashboard/resume/work-experience/learn-more')}
                     />
@@ -868,18 +868,18 @@ const WorkExperienceBuilder: React.FC = () => {
               </p>
               <div data-tour="video-chips" className="flex items-center gap-3 mt-3">
                 <button
-                  onClick={() => setVideoModal({ url: getVideoUrl('Proposito_del_cargo.mp4'), title: 'Job Purpose' })}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 rounded-full text-xs font-semibold hover:bg-teal-100 dark:hover:bg-teal-900/50 transition-colors border border-teal-200 dark:border-teal-700"
+                  onClick={() => setVideoModal({ url: getVideoUrl('Proposito_del_cargo.mp4'), title: t('resumeBuilder.videos.jobPurpose', 'Job Purpose') })}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors border border-primary-200 dark:border-primary-700"
                 >
                   <Play className="w-3 h-3" fill="currentColor" />
-                  <span>Job Purpose</span>
+                  <span>{t('resumeBuilder.videos.jobPurpose', 'Job Purpose')}</span>
                 </button>
                 <button
-                  onClick={() => setVideoModal({ url: getVideoUrl('Work_Experience_Section.mp4'), title: 'Work Experience' })}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-semibold hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors border border-blue-200 dark:border-blue-700"
+                  onClick={() => setVideoModal({ url: getVideoUrl('Work_Experience_Section.mp4'), title: t('resumeBuilder.videos.workExperience', 'Work Experience') })}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-xs font-semibold hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors border border-primary-200 dark:border-primary-700"
                 >
                   <Play className="w-3 h-3" fill="currentColor" />
-                  <span>Work Experience</span>
+                  <span>{t('resumeBuilder.videos.workExperience', 'Work Experience')}</span>
                 </button>
               </div>
             </div>
