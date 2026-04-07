@@ -75,10 +75,7 @@ export default function StickyBoardWidget() {
   // Counter to stagger new notes so they don't overlap
   const noteCounter = useRef(0)
 
-  // If not admin, render nothing (after all hooks)
-  if (!isAdmin) return null
-
-  const visible = notes.filter(n => !n.archived && n.module === currentModule)
+  const visible = isAdmin ? notes.filter(n => !n.archived && n.module === currentModule) : []
 
   const handleCreate = async (title: string, content: string, color: NoteColor) => {
     if (!userId) return
@@ -120,6 +117,7 @@ export default function StickyBoardWidget() {
 
   return (
     <>
+      {!isAdmin ? null : <>
       {/* ── Free-floating notes on workspace ───────────── */}
       {visible.map((note, idx) => (
         <DraggableNote
@@ -165,6 +163,7 @@ export default function StickyBoardWidget() {
           />
         )
       })()}
+      </>}
     </>
   )
 }
