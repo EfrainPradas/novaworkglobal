@@ -47,11 +47,11 @@ export default function MarketPulse() {
         <div>
           <div className="flex items-center gap-2 mb-0.5">
             <p className="text-xs font-bold tracking-widest" style={{ color: '#1976D2' }}>
-              MARKET PULSE
+              {t('dashboard.marketPulse.header', 'MARKET PULSE')}
             </p>
             {source === 'newsapi' && (
               <span className="text-[10px] px-1.5 py-0.5 rounded-full font-semibold" style={{ background: '#F0FDF4', color: '#16A34A' }}>
-                LIVE
+                {t('dashboard.marketPulse.live', 'LIVE')}
               </span>
             )}
           </div>
@@ -62,7 +62,7 @@ export default function MarketPulse() {
         <button
           onClick={fetchNews}
           className="p-1.5 rounded-lg text-slate-300 dark:text-gray-500 hover:text-slate-500 dark:hover:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 transition-colors"
-          title="Refresh"
+          title={t('dashboard.marketPulse.refresh', 'Refresh')}
         >
           <RefreshCw size={13} className={loading ? 'animate-spin' : ''} />
         </button>

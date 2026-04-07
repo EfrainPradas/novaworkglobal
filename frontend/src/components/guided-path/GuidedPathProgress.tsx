@@ -37,7 +37,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
           color: '#374151',
           margin: '0 0 14px',
         }}>
-          Your Progress
+          {t('guidedPath.yourProgress', 'Your Progress')}
         </h4>
       )}
 
@@ -154,7 +154,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                       borderRadius: '50%',
                       background: '#1F5BAA',
                     }} />
-                    Recommended next
+                    {t('guidedPath.recommendedNext', 'Recommended next')}
                   </div>
                 )}
               </motion.div>

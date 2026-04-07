@@ -156,7 +156,7 @@ export default function HomeSidebar({
         onClick={onToggle}
         className="absolute -right-4 top-6 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
         style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
-        title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        title={collapsed ? t('sidebar.expand', 'Expand sidebar') : t('sidebar.collapse', 'Collapse sidebar')}
       >
         {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
       </button>
@@ -187,9 +187,9 @@ export default function HomeSidebar({
         {navItem('/dashboard', <LayoutDashboard size={15} />, t('sidebarOverview.dashboard'), {
           iconBg: '#E3F2FD', iconColor: '#1565C0',
         })}
-        {navItem('/dashboard/resume/contact-info', <Sparkles size={15} />, 'Smart Guide', {
+        {navItem('/dashboard/resume/contact-info', <Sparkles size={15} />, t('sidebar.smartGuide', 'Smart Guide'), {
           iconBg: '#EFF6FF', iconColor: '#1F5BAA',
-          badge: 'NEW',
+          badge: t('sidebar.new', 'NEW'),
           badgeColor: '#1F5BAA',
         })}
 

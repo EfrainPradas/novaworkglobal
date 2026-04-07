@@ -63,7 +63,7 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
             localProfile.output_blended_value_sentence,
             localProfile.output_competency_paragraph,
             '',
-            'Areas of Excellence:',
+            t('resumeBuilder.profile.areasOfExcellenceLabel', 'Areas of Excellence:'),
             localProfile.output_areas_of_excellence
         ].join('\n\n')
 
@@ -109,16 +109,16 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                         )}
                         <div className="flex justify-end gap-2">
                             <button onClick={cancelEdit} className="px-3 py-1.5 rounded-lg text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 text-sm">
-                                <X className="w-4 h-4 inline mr-1" /> Cancel
+                                <X className="w-4 h-4 inline mr-1" /> {t('resumeBuilder.profile.cancel', 'Cancel')}
                             </button>
                             <button onClick={saveEdit} disabled={saving} className="px-3 py-1.5 rounded-lg bg-blue-600 text-white text-sm hover:bg-blue-700 disabled:opacity-50">
                                 {saving ? <Loader2 className="w-4 h-4 inline mr-1 animate-spin" /> : <Check className="w-4 h-4 inline mr-1" />}
-                                Save
+                                {t('resumeBuilder.profile.save', 'Save')}
                             </button>
                         </div>
                     </div>
                 ) : (
-                    <p className="text-gray-900 dark:text-white leading-relaxed">{value || <span className="text-gray-400 italic">Not generated</span>}</p>
+                    <p className="text-gray-900 dark:text-white leading-relaxed">{value || <span className="text-gray-400 italic">{t('resumeBuilder.profile.notGenerated', 'Not generated')}</span>}</p>
                 )}
             </div>
         )
@@ -133,17 +133,17 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                     onClick={onBack}
                     className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
                 >
-                    <ArrowLeft className="w-4 h-4" /> Back to Questionnaire
+                    <ArrowLeft className="w-4 h-4" /> {t('resumeBuilder.profile.backToQuestionnaire', 'Back to Questionnaire')}
                 </button>
 
                 {/* Header */}
                 <div className="flex items-start justify-between mb-8">
                     <div>
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium mb-3">
-                            <Sparkles className="w-4 h-4" /> AI Generated — Version {localProfile.version}
+                            <Sparkles className="w-4 h-4" /> {t('resumeBuilder.profile.aiGeneratedVersion', 'AI Generated — Version {{version}}', { version: localProfile.version })}
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Your Professional Profile</h1>
-                        <p className="text-gray-600 dark:text-gray-400 mt-1">Review and edit each section. Hover to edit.</p>
+                        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.profile.yourProfessionalProfile', 'Your Professional Profile')}</h1>
+                        <p className="text-gray-600 dark:text-gray-400 mt-1">{t('resumeBuilder.profile.reviewAndEdit', 'Review and edit each section. Hover to edit.')}</p>
                     </div>
                     <div className="flex gap-2">
                         <button
@@ -151,7 +151,7 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                             className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 flex items-center gap-2"
                         >
                             {copied ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                            {copied ? 'Copied!' : 'Copy All'}
+                            {copied ? t('resumeBuilder.profile.copied', 'Copied!') : t('resumeBuilder.profile.copyAll', 'Copy All')}
                         </button>
                         <button
                             onClick={onRegenerate}
@@ -159,40 +159,40 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                             className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-medium hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-purple-500/25"
                         >
                             {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-                            Regenerate
+                            {t('resumeBuilder.profile.regenerate', 'Regenerate')}
                         </button>
                     </div>
                 </div>
 
                 {localProfile.edited_by_user && (
                     <div className="mb-4 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 rounded-xl text-sm text-blue-700 dark:text-blue-300 flex items-center gap-2">
-                        <Pencil className="w-4 h-4" /> This profile has been manually edited.
+                        <Pencil className="w-4 h-4" /> {t('resumeBuilder.profile.manuallyEdited', 'This profile has been manually edited.')}
                     </div>
                 )}
 
                 {/* Profile Sections */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700 divide-y divide-gray-100 dark:divide-gray-700">
                     <div className="p-6 md:p-8">
-                        {renderField('Identity Sentence', 'output_identity_sentence', localProfile.output_identity_sentence)}
+                        {renderField(t('resumeBuilder.profile.identitySentence', 'Identity Sentence'), 'output_identity_sentence', localProfile.output_identity_sentence)}
                     </div>
                     <div className="p-6 md:p-8">
-                        {renderField('Blended Value Sentence', 'output_blended_value_sentence', localProfile.output_blended_value_sentence)}
+                        {renderField(t('resumeBuilder.profile.blendedValueSentence', 'Blended Value Sentence'), 'output_blended_value_sentence', localProfile.output_blended_value_sentence)}
                     </div>
                     <div className="p-6 md:p-8">
-                        {renderField('Competency Paragraph', 'output_competency_paragraph', localProfile.output_competency_paragraph, true)}
+                        {renderField(t('resumeBuilder.profile.competencyParagraph', 'Competency Paragraph'), 'output_competency_paragraph', localProfile.output_competency_paragraph, true)}
                     </div>
                     <div className="p-6 md:p-8">
-                        {renderField('Areas of Excellence (ATS Keywords)', 'output_areas_of_excellence', localProfile.output_areas_of_excellence)}
+                        {renderField(t('resumeBuilder.profile.areasOfExcellenceATS', 'Areas of Excellence (ATS Keywords)'), 'output_areas_of_excellence', localProfile.output_areas_of_excellence)}
                     </div>
 
                     {/* Skills Section */}
                     {localProfile.output_skills_section && (
                         <div className="p-6 md:p-8">
-                            <label className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 block">Skills Section</label>
+                            <label className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4 block">{t('resumeBuilder.profile.skillsSection', 'Skills Section')}</label>
                             <div className="space-y-4">
                                 {localProfile.output_skills_section.tools_platforms && localProfile.output_skills_section.tools_platforms.length > 0 && (
                                     <div>
-                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tools & Platforms</span>
+                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">{t('resumeBuilder.profile.toolsPlatforms', 'Tools & Platforms')}</span>
                                         <div className="flex flex-wrap gap-2 mt-1">
                                             {localProfile.output_skills_section.tools_platforms.map((s, i) => (
                                                 <span key={i} className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs">{s}</span>
@@ -202,7 +202,7 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                                 )}
                                 {localProfile.output_skills_section.methodologies && localProfile.output_skills_section.methodologies.length > 0 && (
                                     <div>
-                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Methodologies</span>
+                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">{t('resumeBuilder.profile.methodologies', 'Methodologies')}</span>
                                         <div className="flex flex-wrap gap-2 mt-1">
                                             {localProfile.output_skills_section.methodologies.map((s, i) => (
                                                 <span key={i} className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-xs">{s}</span>
@@ -212,7 +212,7 @@ export default function GeneratedProfileView({ profile, onBack, onRegenerate, ge
                                 )}
                                 {localProfile.output_skills_section.languages && localProfile.output_skills_section.languages.length > 0 && (
                                     <div>
-                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Languages</span>
+                                        <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">{t('resumeBuilder.profile.languages', 'Languages')}</span>
                                         <div className="flex flex-wrap gap-2 mt-1">
                                             {localProfile.output_skills_section.languages.map((s, i) => (
                                                 <span key={i} className="px-3 py-1 bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 rounded-full text-xs">{s}</span>

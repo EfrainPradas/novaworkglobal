@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { InterviewPreparation } from '../../types/interview'
 
@@ -21,6 +22,7 @@ const LANGUAGES = [
 
 export default function PracticeDashboard() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const [interview, setInterview] = useState<InterviewPreparation | null>(null)
   const [loading, setLoading] = useState(true)
@@ -84,7 +86,7 @@ export default function PracticeDashboard() {
 
   const initializeSpeechRecognition = () => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      setError('Your browser does not support voice recognition. Please use Chrome or Edge.')
+      setError(t('interviewMastery.practice.voiceNotSupported', 'Your browser does not support voice recognition. Please use Chrome or Edge.'))
       return
     }
 

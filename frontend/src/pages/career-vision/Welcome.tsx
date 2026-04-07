@@ -6,12 +6,14 @@
 import { getVideoUrl } from '@/config/videoUrls'
 
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { Play } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 export default function CareerVisionWelcome() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
 
@@ -61,10 +63,10 @@ export default function CareerVisionWelcome() {
           {/* Header */}
           <div className="text-center mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-              Discover Your Career Vision
+              {t('careerVision.welcome.title', 'Discover Your Career Vision')}
             </h1>
             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-              Find the intersection of what you're good at and what genuinely excites you
+              {t('careerVision.welcome.subtitle', "Find the intersection of what you're good at and what genuinely excites you")}
             </p>
           </div>
 
@@ -89,7 +91,7 @@ export default function CareerVisionWelcome() {
                   fontSize="16"
                   textAnchor="middle"
                 >
-                  Skills &amp;
+                  {t('careerVision.welcome.skillsAmp', 'Skills &')}
                 </text>
                 <text
                   x="100"
@@ -99,7 +101,7 @@ export default function CareerVisionWelcome() {
                   fontSize="16"
                   textAnchor="middle"
                 >
-                  Knowledge
+                  {t('careerVision.welcome.knowledge', 'Knowledge')}
                 </text>
 
                 {/* Interests Circle (Right - NovaWork Teal) */}
@@ -119,7 +121,7 @@ export default function CareerVisionWelcome() {
                   fontSize="16"
                   textAnchor="middle"
                 >
-                  Interests &amp;
+                  {t('careerVision.welcome.interestsAmp', 'Interests &')}
                 </text>
                 <text
                   x="300"
@@ -129,7 +131,7 @@ export default function CareerVisionWelcome() {
                   fontSize="16"
                   textAnchor="middle"
                 >
-                  Passions
+                  {t('careerVision.welcome.passions', 'Passions')}
                 </text>
 
                 {/* Center Intersection - Ideal Job / Career Vision */}
@@ -150,7 +152,7 @@ export default function CareerVisionWelcome() {
                   fontSize="12"
                   textAnchor="middle"
                 >
-                  Ideal Job
+                  {t('careerVision.welcome.idealJob', 'Ideal Job')}
                 </text>
                 <text
                   x="200"
@@ -160,14 +162,14 @@ export default function CareerVisionWelcome() {
                   fontSize="11"
                   textAnchor="middle"
                 >
-                  Career Vision
+                  {t('careerVision.welcome.careerVisionLabel', 'Career Vision')}
                 </text>
               </svg>
             </div>
 
             {/* Center text */}
             <div className="text-center text-base text-gray-700 dark:text-gray-300 font-medium mb-6">
-              When these two align, you find your <span className="text-primary-600 dark:text-primary-400 font-bold">Career Vision / Ideal Job</span>
+              {t('careerVision.welcome.whenAligned', 'When these two align, you find your')} <span className="text-primary-600 dark:text-primary-400 font-bold">{t('careerVision.welcome.careerVisionIdealJob', 'Career Vision / Ideal Job')}</span>
             </div>
           </div>
 
@@ -179,11 +181,11 @@ export default function CareerVisionWelcome() {
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
-              <Play className="w-4 h-4" /> Watch video
+              <Play className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
             </a>
             <LearnMoreLink
-              label="Start your Career Vision"
-              description="Clarity is the first step to landing the right job"
+              label={t('careerVision.welcome.startYourCareerVision', 'Start your Career Vision')}
+              description={t('careerVision.welcome.clarityFirstStep', 'Clarity is the first step to landing the right job')}
               onClick={() => navigate('/dashboard/career-vision/dashboard')}
             />
           </div>
@@ -195,13 +197,13 @@ export default function CareerVisionWelcome() {
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span className="text-sm text-gray-700 dark:text-gray-300">Takes 10-15 minutes</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{t('careerVision.welcome.takesTenFifteen', 'Takes 10-15 minutes')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                 </svg>
-                <span className="text-sm text-gray-700 dark:text-gray-300">Save progress anytime</span>
+                <span className="text-sm text-gray-700 dark:text-gray-300">{t('careerVision.welcome.saveProgress', 'Save progress anytime')}</span>
               </div>
             </div>
           </div>
@@ -213,13 +215,13 @@ export default function CareerVisionWelcome() {
               disabled={loading}
               className="px-8 py-4 bg-gradient-to-r from-primary-600 to-teal-600 text-white rounded-xl font-bold text-lg hover:from-primary-700 hover:to-teal-700 transition-all shadow-lg disabled:opacity-50"
             >
-              {loading ? 'Loading...' : 'Start Career Vision'}
+              {loading ? t('common.loading', 'Loading...') : t('careerVision.welcome.startCareerVision', 'Start Career Vision')}
             </button>
           </div>
 
           {/* Note */}
           <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-6">
-            You can always start or skip this later from your dashboard
+            {t('careerVision.welcome.skipNote', 'You can always start or skip this later from your dashboard')}
           </p>
 
         </div>

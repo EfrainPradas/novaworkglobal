@@ -113,7 +113,7 @@ export const CARStoryList: React.FC<CARStoryListProps> = ({
                     <button
                         onClick={() => setViewMode('grid')}
                         className={`p-2 rounded ${viewMode === 'grid' ? 'bg-primary-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}
-                        title="Grid view"
+                        title={t('carStories.list.gridView', 'Grid view')}
                     >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -122,7 +122,7 @@ export const CARStoryList: React.FC<CARStoryListProps> = ({
                     <button
                         onClick={() => setViewMode('list')}
                         className={`p-2 rounded ${viewMode === 'list' ? 'bg-primary-600 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'}`}
-                        title="List view"
+                        title={t('carStories.list.listView', 'List view')}
                     >
                         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
@@ -178,7 +178,7 @@ const CARStoryCard: React.FC<CARStoryCardProps> = ({
             <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                     <h3 className="font-semibold text-gray-900 dark:text-white">{story.role_title} • {story.company_name}</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">{story.start_date} - {story.end_date || 'Present'}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{story.start_date} - {story.end_date || t('carStories.list.present', 'Present')}</p>
                 </div>
                 <div className="flex gap-2">
                     {story.will_do_again && (
@@ -197,11 +197,11 @@ const CARStoryCard: React.FC<CARStoryCardProps> = ({
             {/* CAR Content */}
             <div className="space-y-2 mb-3">
                 <div>
-                    <span className="text-xs font-semibold text-orange-600 uppercase">Challenge:</span>
+                    <span className="text-xs font-semibold text-orange-600 uppercase">{t('carStories.list.challenge', 'Challenge:')}</span>
                     <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">{story.problem_challenge}</p>
                 </div>
                 <div>
-                    <span className="text-xs font-semibold text-blue-600 uppercase">Actions:</span>
+                    <span className="text-xs font-semibold text-blue-600 uppercase">{t('carStories.list.actions', 'Actions:')}</span>
                     <ul className="text-sm text-gray-700 dark:text-gray-300 mt-1 list-disc list-inside">
                         {story.actions.map((action, idx) => (
                             <li key={idx}>{action}</li>
@@ -209,7 +209,7 @@ const CARStoryCard: React.FC<CARStoryCardProps> = ({
                     </ul>
                 </div>
                 <div>
-                    <span className="text-xs font-semibold text-green-600 uppercase">Result:</span>
+                    <span className="text-xs font-semibold text-green-600 uppercase">{t('carStories.list.result', 'Result:')}</span>
                     <p className="text-sm text-gray-700 dark:text-gray-300 mt-1">{story.result}</p>
                 </div>
             </div>
@@ -239,7 +239,7 @@ const CARStoryCard: React.FC<CARStoryCardProps> = ({
             {/* Bullet Preview */}
             {story.converted_to_bullet && story.bullet_text && (
                 <div className="bg-blue-50 border border-blue-200 rounded p-2 mb-3">
-                    <span className="text-xs font-semibold text-blue-800 uppercase">Bullet:</span>
+                    <span className="text-xs font-semibold text-blue-800 uppercase">{t('carStories.list.bullet', 'Bullet:')}</span>
                     <p className="text-sm text-blue-900 mt-1">• {story.bullet_text}</p>
                 </div>
             )}

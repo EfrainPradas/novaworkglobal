@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { InterviewPreparation } from '../../types/interview'
 
@@ -25,6 +26,7 @@ interface PARStory {
 
 export default function JDComparisonForm() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { id } = useParams<{ id: string }>()
   const [interview, setInterview] = useState<InterviewPreparation | null>(null)
   const [comparisons, setComparisons] = useState<JDComparison[]>([])
@@ -147,7 +149,7 @@ export default function JDComparisonForm() {
         if (error) throw error
       }
 
-      alert('JD comparison saved successfully!')
+      alert(t('interviewMastery.jdComparison.savedSuccess', 'JD comparison saved successfully!'))
     } catch (error: any) {
       console.error('Error saving comparisons:', error)
       const errorMessage = error?.message || error?.error_description || 'Failed to save comparisons'

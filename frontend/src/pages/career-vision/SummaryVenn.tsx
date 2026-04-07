@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { pdf } from '@react-pdf/renderer'
 import { CareerVisionPDF } from '../../components/CareerVisionPDF'
@@ -37,6 +38,7 @@ interface WorkPreferences {
 
 const CareerVisionSummary: React.FC = () => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
     const [loading, setLoading] = useState(true)
     const [careerData, setCareerData] = useState<CareerVisionData>({
         skills: [],
@@ -141,7 +143,7 @@ const CareerVisionSummary: React.FC = () => {
     if (loading) {
         return (
             <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-indigo-900/40 dark:via-gray-900 dark:to-purple-900/40 flex items-center justify-center transition-colors duration-200">
-                <div className="text-gray-600 dark:text-gray-400">Loading your career vision...</div>
+                <div className="text-gray-600 dark:text-gray-400">{t('careerVision.summaryVenn.loading', 'Loading your career vision...')}</div>
             </div>
         )
     }
@@ -152,7 +154,7 @@ const CareerVisionSummary: React.FC = () => {
                 {/* Header */}
                 <div className="text-center mb-12">
                     <h1 className="text-5xl font-bold text-gray-900 dark:text-white mb-4">
-                        El "Sweet Spot": Donde la Capacidad encuentra la Pasión
+                        {t('careerVision.summaryVenn.title', 'The "Sweet Spot": Where Capability Meets Passion')}
                     </h1>
                     <p className="text-xl text-gray-600 dark:text-gray-400">
                         {userName} • {generatedDate}
@@ -187,7 +189,7 @@ const CareerVisionSummary: React.FC = () => {
 
                                     {/* Skills Label */}
                                     <text x="150" y="150" fontSize="18" fontWeight="bold" className="fill-blue-900 dark:fill-blue-300">
-                                        Habilidades
+                                        {t('careerVision.summaryVenn.skills', 'Skills')}
                                     </text>
 
                                     {/* Skills Items */}
@@ -205,7 +207,7 @@ const CareerVisionSummary: React.FC = () => {
 
                                     {/* Interests Label */}
                                     <text x="480" y="150" fontSize="18" fontWeight="bold" className="fill-orange-600 dark:fill-orange-400">
-                                        Intereses
+                                        {t('careerVision.summaryVenn.interests', 'Interests')}
                                     </text>
 
                                     {/* Interests Items */}
@@ -295,7 +297,7 @@ const CareerVisionSummary: React.FC = () => {
                         {/* Profile Description */}
                         <div className="lg:col-span-1 space-y-4">
                             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                                Mi perfil profesional
+                                {t('careerVision.summaryVenn.myProfile', 'My Professional Profile')}
                             </h3>
                             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
                                 prospera en la intersección de {careerData.sweetSpot.slice(0, 2).join(' y ')}.
@@ -304,8 +306,8 @@ const CareerVisionSummary: React.FC = () => {
                             </p>
                             <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
                                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                                    <strong>{careerData.skills.length}</strong> Habilidades •
-                                    <strong className="ml-2">{careerData.interests.length}</strong> Intereses
+                                    <strong>{careerData.skills.length}</strong> {t('careerVision.summaryVenn.skills', 'Skills')} •
+                                    <strong className="ml-2">{careerData.interests.length}</strong> {t('careerVision.summaryVenn.interests', 'Interests')}
                                 </p>
                             </div>
                         </div>
@@ -318,12 +320,12 @@ const CareerVisionSummary: React.FC = () => {
                         onClick={() => navigate('/dashboard/career-vision')}
                         className="px-8 py-3 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition font-medium"
                     >
-                        ← Volver
+                        ← {t('common.back', 'Back')}
                     </button>
                     <button
                         onClick={handleDownloadPDF}
                         disabled={downloading}
-                        className="px-8 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium flex items-center gap-2 shadow-lg"
+                        className="px-8 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition font-medium flex items-center gap-2 shadow-lg"
                     >
                         {downloading ? (
                             <>
@@ -331,14 +333,14 @@ const CareerVisionSummary: React.FC = () => {
                                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                                 </svg>
-                                Generando PDF...
+                                {t('careerVision.summaryVenn.generatingPdf', 'Generating PDF...')}
                             </>
                         ) : (
                             <>
                                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>
-                                Descargar PDF
+                                {t('careerVision.summaryVenn.downloadPdf', 'Download PDF')}
                             </>
                         )}
                     </button>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { X, User, Phone, MapPin, Globe, Linkedin, ExternalLink, AlertCircle } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { UserContactProfile } from '../../types/resume'
@@ -13,6 +14,7 @@ interface ContactInfoModalProps {
 }
 
 export default function ContactInfoModal({ userId, userEmail, onComplete }: ContactInfoModalProps) {
+    const { t } = useTranslation()
     const [form, setForm] = useState<Partial<UserContactProfile>>({
         first_name: '',
         middle_name: '',
@@ -59,12 +61,12 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
 
     const validate = () => {
         const newErrors: Record<string, string> = {}
-        if (!form.first_name?.trim()) newErrors.first_name = 'Required'
-        if (!form.last_name?.trim()) newErrors.last_name = 'Required'
-        if (!form.phone?.trim()) newErrors.phone = 'Required'
-        if (!form.country?.trim()) newErrors.country = 'Required'
-        if (!form.state?.trim()) newErrors.state = 'Required'
-        if (!form.city?.trim()) newErrors.city = 'Required'
+        if (!form.first_name?.trim()) newErrors.first_name = t('contactInfo.required', 'Required')
+        if (!form.last_name?.trim()) newErrors.last_name = t('contactInfo.required', 'Required')
+        if (!form.phone?.trim()) newErrors.phone = t('contactInfo.required', 'Required')
+        if (!form.country?.trim()) newErrors.country = t('contactInfo.required', 'Required')
+        if (!form.state?.trim()) newErrors.state = t('contactInfo.required', 'Required')
+        if (!form.city?.trim()) newErrors.city = t('contactInfo.required', 'Required')
         setErrors(newErrors)
         return Object.keys(newErrors).length === 0
     }
@@ -85,12 +87,12 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
             })
             if (!resp.ok) {
                 const body = await resp.json().catch(() => ({}))
-                throw new Error(body?.error || 'Failed to save contact profile. The database migration may not have been run yet.')
+                throw new Error(body?.error || t('contactInfo.saveFailed', 'Failed to save contact profile. The database migration may not have been run yet.'))
             }
             onComplete()
         } catch (err: any) {
             console.error('Error saving contact profile:', err)
-            setSaveError(err.message || 'Failed to save. Please try again or skip for now.')
+            setSaveError(err.message || t('contactInfo.saveRetry', 'Failed to save. Please try again or skip for now.'))
         }
         setSaving(false)
     }
@@ -128,8 +130,8 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                             <User className="w-6 h-6" />
                         </div>
                         <div>
-                            <h2 className="text-xl font-bold">Personal Details</h2>
-                            <p className="text-blue-100 text-sm">Complete your contact information to get started</p>
+                            <h2 className="text-xl font-bold">{t('contactInfo.personalDetails', 'Personal Details')}</h2>
+                            <p className="text-blue-100 text-sm">{t('contactInfo.subtitle', 'Complete your contact information to get started')}</p>
                         </div>
                     </div>
                 </div>
@@ -140,7 +142,7 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                     <div className="flex items-start gap-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-xl">
                         <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                         <p className="text-sm text-amber-800 dark:text-amber-200">
-                            Fields marked with <span className="text-red-500 font-bold">*</span> are required before you can proceed.
+                            {t('contactInfo.requiredFieldsNote', 'Fields marked with')} <span className="text-red-500 font-bold">*</span> {t('contactInfo.requiredFieldsNote2', 'are required before you can proceed.')}
                         </p>
                     </div>
 
@@ -148,39 +150,39 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                First Name <span className="text-red-500">*</span>
+                                {t('contactInfo.firstName', 'First Name')} <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={form.first_name || ''}
                                 onChange={e => updateField('first_name', e.target.value)}
                                 className={`w-full px-4 py-2.5 rounded-xl border ${errors.first_name ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
-                                placeholder="John"
+                                placeholder={t('contactInfo.firstNamePlaceholder', 'John')}
                             />
                             {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name}</p>}
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Middle Name
+                                {t('contactInfo.middleName', 'Middle Name')}
                             </label>
                             <input
                                 type="text"
                                 value={form.middle_name || ''}
                                 onChange={e => updateField('middle_name', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="M."
+                                placeholder={t('contactInfo.middleNamePlaceholder', 'M.')}
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Last Name <span className="text-red-500">*</span>
+                                {t('contactInfo.lastName', 'Last Name')} <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={form.last_name || ''}
                                 onChange={e => updateField('last_name', e.target.value)}
                                 className={`w-full px-4 py-2.5 rounded-xl border ${errors.last_name ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
-                                placeholder="Doe"
+                                placeholder={t('contactInfo.lastNamePlaceholder', 'Doe')}
                             />
                             {errors.last_name && <p className="text-red-500 text-xs mt-1">{errors.last_name}</p>}
                         </div>
@@ -191,27 +193,27 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 <Phone className="w-4 h-4 inline mr-1" />
-                                Phone <span className="text-red-500">*</span>
+                                {t('contactInfo.phone', 'Phone')} <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="tel"
                                 value={form.phone || ''}
                                 onChange={e => updateField('phone', e.target.value)}
                                 className={`w-full px-4 py-2.5 rounded-xl border ${errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
-                                placeholder="+1 (555) 123-4567"
+                                placeholder={t('contactInfo.phonePlaceholder', '+1 (555) 123-4567')}
                             />
                             {errors.phone && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Email
+                                {t('contactInfo.email', 'Email')}
                             </label>
                             <input
                                 type="email"
                                 value={form.email || ''}
                                 onChange={e => updateField('email', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="john@example.com"
+                                placeholder={t('contactInfo.emailPlaceholder', 'john@example.com')}
                                 readOnly={!!userEmail}
                             />
                         </div>
@@ -222,7 +224,7 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 <Globe className="w-4 h-4 inline mr-1" />
-                                Country <span className="text-red-500">*</span>
+                                {t('contactInfo.country', 'Country')} <span className="text-red-500">*</span>
                             </label>
                             <select
                                 value={form.country || ''}
@@ -236,7 +238,7 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 <MapPin className="w-4 h-4 inline mr-1" />
-                                State / Province <span className="text-red-500">*</span>
+                                {t('contactInfo.stateProvince', 'State / Province')} <span className="text-red-500">*</span>
                             </label>
                             {showUSStates ? (
                                 <select
@@ -252,21 +254,21 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                                     value={form.state || ''}
                                     onChange={e => updateField('state', e.target.value)}
                                     className={`w-full px-4 py-2.5 rounded-xl border ${errors.state ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
-                                    placeholder="State or Province"
+                                    placeholder={t('contactInfo.statePlaceholder', 'State or Province')}
                                 />
                             )}
                             {errors.state && <p className="text-red-500 text-xs mt-1">{errors.state}</p>}
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                City <span className="text-red-500">*</span>
+                                {t('contactInfo.city', 'City')} <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"
                                 value={form.city || ''}
                                 onChange={e => updateField('city', e.target.value)}
                                 className={`w-full px-4 py-2.5 rounded-xl border ${errors.city ? 'border-red-400 bg-red-50' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`}
-                                placeholder="San Francisco"
+                                placeholder={t('contactInfo.cityPlaceholder', 'San Francisco')}
                             />
                             {errors.city && <p className="text-red-500 text-xs mt-1">{errors.city}</p>}
                         </div>
@@ -276,26 +278,26 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                Address Line 1
+                                {t('contactInfo.addressLine1', 'Address Line 1')}
                             </label>
                             <input
                                 type="text"
                                 value={form.address_line1 || ''}
                                 onChange={e => updateField('address_line1', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="123 Main St"
+                                placeholder={t('contactInfo.addressPlaceholder', '123 Main St')}
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                                ZIP / Postal Code
+                                {t('contactInfo.zipPostalCode', 'ZIP / Postal Code')}
                             </label>
                             <input
                                 type="text"
                                 value={form.postal_code || ''}
                                 onChange={e => updateField('postal_code', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="94105"
+                                placeholder={t('contactInfo.zipPlaceholder', '94105')}
                             />
                         </div>
                     </div>
@@ -305,27 +307,27 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 <Linkedin className="w-4 h-4 inline mr-1" />
-                                LinkedIn URL
+                                {t('contactInfo.linkedinUrl', 'LinkedIn URL')}
                             </label>
                             <input
                                 type="url"
                                 value={form.linkedin_url || ''}
                                 onChange={e => updateField('linkedin_url', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="https://linkedin.com/in/..."
+                                placeholder={t('contactInfo.linkedinPlaceholder', 'https://linkedin.com/in/...')}
                             />
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                 <ExternalLink className="w-4 h-4 inline mr-1" />
-                                Portfolio URL
+                                {t('contactInfo.portfolioUrl', 'Portfolio URL')}
                             </label>
                             <input
                                 type="url"
                                 value={form.portfolio_url || ''}
                                 onChange={e => updateField('portfolio_url', e.target.value)}
                                 className="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
-                                placeholder="https://yourportfolio.com"
+                                placeholder={t('contactInfo.portfolioPlaceholder', 'https://yourportfolio.com')}
                             />
                         </div>
                     </div>
@@ -342,7 +344,7 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                                     onClick={onComplete}
                                     className="text-xs text-red-600 dark:text-red-400 underline mt-1 hover:text-red-800"
                                 >
-                                    Skip for now →
+                                    {t('contactInfo.skipForNow', 'Skip for now')} →
                                 </button>
                             </div>
                         </div>
@@ -352,13 +354,13 @@ export default function ContactInfoModal({ userId, userEmail, onComplete }: Cont
                         disabled={saving}
                         className="w-full py-3 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg shadow-blue-500/25"
                     >
-                        {saving ? 'Saving...' : 'Save & Continue'}
+                        {saving ? t('contactInfo.saving', 'Saving...') : t('contactInfo.saveAndContinue', 'Save & Continue')}
                     </button>
                     <button
                         onClick={onComplete}
                         className="w-full py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium transition-colors"
                     >
-                        Skip for now →
+                        {t('contactInfo.skipForNow', 'Skip for now')} →
                     </button>
                 </div>
             </div>

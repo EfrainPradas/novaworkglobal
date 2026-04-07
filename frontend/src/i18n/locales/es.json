@@ -130,6 +130,13 @@
         "subtitle": "Dirección de Carrera",
         "description": "Elige este camino si necesitas claridad antes de comprometerte con una dirección profesional."
       }
+    },
+    "comingSoon": {
+      "badge": "Próximamente",
+      "description": "Estamos trabajando para traerte este programa completo. ¡Mantente atento!",
+      "meanwhile": "Mientras tanto, explora",
+      "toStart": "para comenzar tu viaje profesional.",
+      "exploreNovaNext": "Explorar NovaNext →"
     }
   },
   "cta": {
@@ -233,7 +240,8 @@
       "jdAnalyzer": "Analizador de JD (Finalizar)"
     },
     "navigation": {
-      "continueToStep": "Continuar al {{step}}"
+      "continueToStep": "Continuar al {{step}}",
+      "continueToResumeBuilder": "Continuar al Constructor de Currículum"
     },
     "menu": {
       "title": "Resume Profesional",
@@ -354,7 +362,28 @@
       "areasOfExcellence": "Áreas de Excelencia: Esta es la lista de tus competencias técnicas",
       "areasOfExcellenceHelp": "Dominios clave donde actúas como experto en la materia.",
       "preview": "Vista Previa del Perfil",
-      "generateWithAI": "Generar con IA"
+      "generateWithAI": "Generar con IA",
+      "backToQuestionnaire": "Volver al Cuestionario",
+      "aiGeneratedVersion": "Generado por IA — Versión {{version}}",
+      "yourProfessionalProfile": "Tu Perfil Profesional",
+      "reviewAndEdit": "Revisa y edita cada sección. Pasa el cursor para editar.",
+      "copied": "¡Copiado!",
+      "copyAll": "Copiar Todo",
+      "regenerate": "Regenerar",
+      "manuallyEdited": "Este perfil ha sido editado manualmente.",
+      "identitySentence": "Frase de Identidad",
+      "blendedValueSentence": "Frase de Valor Combinado",
+      "competencyParagraph": "Párrafo de Competencias",
+      "areasOfExcellenceATS": "Áreas de Excelencia (Palabras Clave ATS)",
+      "areasOfExcellenceLabel": "Áreas de Excelencia:",
+      "skillsSection": "Sección de Habilidades",
+      "toolsPlatforms": "Herramientas y Plataformas",
+      "methodologies": "Metodologías",
+      "languages": "Idiomas",
+      "notGenerated": "No generado",
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "readyToBuildResume": "¿Listo para crear tu currículum basado en esta estrategia?"
     },
     "jdAnalyzer": {
       "profileIncomplete": "Tu perfil está incompleto. Por favor completa tu información de perfil obligatoria (Nombre Completo, Teléfono, y Ubicación) antes de exportar tu currículum."
@@ -400,7 +429,16 @@
       "pickFromBank": "Elegir del banco",
       "selectAccomplishments": "Seleccionar logros de tu banco",
       "addSelected": "Añadir Seleccionados ({{count}})",
-      "noBankItems": "Tu banco de logros está vacío. Añade elementos en la Biblioteca primero."
+      "noBankItems": "Tu banco de logros está vacío. Añade elementos en la Biblioteca primero.",
+      "stakeholdersEngaged": "Partes interesadas involucradas:",
+      "ecosystemComplexity": "5. Complejidad del Ecosistema",
+      "brandsCountPlaceholder": "Número de marcas/clientes/proveedores",
+      "importantBrandsPlaceholder": "Marcas/clientes más importantes",
+      "categoriesPlaceholder": "Categorías / líneas de producto",
+      "managedBrandsPlaceholder": "Nombres de marcas gestionadas (si aplica)",
+      "managedTechPlaceholder": "Tecnologías / metodologías gestionadas",
+      "complexityFactors": "6. Factores de Complejidad",
+      "generateScopeAI": "Generar Alcance con IA"
     },
     "par": {
       "step2": "Paso 2",
@@ -523,7 +561,8 @@
       "deleteSelected": "Eliminar Seleccionados",
       "selectedOf": "de",
       "selected": "seleccionados",
-      "searchPlaceholder": "Buscar logros..."
+      "searchPlaceholder": "Buscar logros...",
+      "savedGroups": "Grupos Guardados"
     },
     "accomplishmentCard": {
       "dragToReorder": "Arrastra para reordenar",
@@ -649,6 +688,33 @@
     "videos": {
       "jobPurpose": "Propósito del Cargo",
       "workExperience": "Experiencia Laboral"
+    },
+    "typeSelection": {
+      "title": "Elige tu currículum",
+      "subtitle": "Selecciona el formato estructural que mejor destaque tu trayectoria profesional y se alinee con tu rol objetivo.",
+      "watchVideo": "Ver video",
+      "learnMoreLabel": "¿Qué currículum es el adecuado para ti?",
+      "learnMoreText": "Un formato no se adapta a todos los roles",
+      "chronological": "Cronológico",
+      "chronologicalDesc": "El estándar de la industria. Ideal para mostrar una progresión constante en una trayectoria profesional específica. Destaca tus experiencias más recientes primero.",
+      "functional": "Funcional",
+      "functionalDesc": "Enfoque basado en habilidades. Ideal para quienes cambian de carrera o tienen brechas laborales, conectando logros pasados con nuevos campos al agrupar capacidades relacionadas.",
+      "generateResume": "Generar currículum",
+      "backToBuilder": "Volver al creador de currículum",
+      "videoNotSupported": "Tu navegador no soporta la etiqueta de video."
+    },
+    "aiExtractor": {
+      "title": "Viñetas de CV con IA",
+      "subtitle": "Revisa viñetas pulidas por IA de tus historias CAR",
+      "noSelection": "No se seleccionaron logros para guardar.",
+      "saveFailed": "Error al guardar los logros en el banco.",
+      "polishing": "Puliendo logros...",
+      "analyzing": "Analizando tus historias CAR para generar viñetas profesionales.",
+      "generationComplete": "Generación Completa",
+      "reviewInstructions": "Revisa las variaciones generadas por IA. Selecciona tus opciones favoritas para guardar en tu Banco de Logros.",
+      "story": "Historia",
+      "option": "Opción",
+      "saveToBank": "Guardar ({{count}}) al Banco"
     }
   },
   "dashboard": {
@@ -712,7 +778,9 @@
       "resumeVersions": "Versiones de CV",
       "applications": "Aplicaciones",
       "interviews": "Entrevistas",
-      "sessionsJoined": "Sesiones Asistidas"
+      "sessionsJoined": "Sesiones Asistidas",
+      "complete": "Completo",
+      "pctDone": "{{pct}}% completado"
     },
     "quickActionsPanel": {
       "title": "Acciones Rápidas",
@@ -781,7 +849,10 @@
     },
     "marketPulse": {
       "title": "Qué está pasando en el mercado laboral",
-      "viewMore": "Ver más tendencias"
+      "viewMore": "Ver más tendencias",
+      "header": "PULSO DEL MERCADO",
+      "live": "EN VIVO",
+      "refresh": "Actualizar"
     },
     "careerFeed": {
       "title": "Feed de Inteligencia Profesional",
@@ -1231,6 +1302,72 @@
       "backToDashboard": "Volver al Panel",
       "whatIsCareerVision": "¿Qué es Visión de Carrera?",
       "clarityHired": "La claridad te consigue trabajo 2x más rápido"
+    },
+    "welcome": {
+      "title": "Descubre Tu Vision de Carrera",
+      "subtitle": "Encuentra la interseccion entre lo que haces bien y lo que realmente te apasiona",
+      "skillsAmp": "Habilidades y",
+      "knowledge": "Conocimientos",
+      "interestsAmp": "Intereses y",
+      "passions": "Pasiones",
+      "idealJob": "Trabajo Ideal",
+      "careerVisionLabel": "Vision de Carrera",
+      "whenAligned": "Cuando estos dos se alinean, encuentras tu",
+      "careerVisionIdealJob": "Vision de Carrera / Trabajo Ideal",
+      "startYourCareerVision": "Comienza tu Vision de Carrera",
+      "clarityFirstStep": "La claridad es el primer paso para conseguir el trabajo correcto",
+      "takesTenFifteen": "Toma 10-15 minutos",
+      "saveProgress": "Guarda tu progreso en cualquier momento",
+      "startCareerVision": "Comenzar Vision de Carrera",
+      "skipNote": "Siempre puedes comenzar u omitir esto mas tarde desde tu panel"
+    },
+    "skillsValues": {
+      "title": "Habilidades e Intereses",
+      "subtitle": "Identifica en que eres bueno y que te entusiasma",
+      "backToCareerVision": "Volver a Vision de Carrera",
+      "discoverStrengths": "Descubre tus fortalezas",
+      "knowYourValue": "Conoce tu valor antes de la entrevista",
+      "skillsKnowledge": "Habilidades y Conocimientos",
+      "skillsDescription": "Haz una lista de tus habilidades, conocimientos y competencias. Aquellas cosas en las que eres muy bueno por practica o estudio. Menciona tantas como sea posible.",
+      "skillPlaceholder": "ej., Gestion de Proyectos",
+      "skillsCount": "{{count}} habilidad(es) agregada(s) (min. 3 recomendadas)",
+      "interestsPassions": "Intereses y Pasiones",
+      "interestsDescription": "Elige de tus habilidades y conocimientos los que mas disfrutas. Agrega otras habilidades y conocimientos que te gustaria tener pero que no tienes ahora.",
+      "interestPlaceholder": "ej., Visualizacion de Datos",
+      "interestsCount": "{{count}} interes(es) agregado(s) (min. 3 recomendados)",
+      "aiSuggestionsTitle": "Sugerencias con IA",
+      "aiSuggestionsDesc": "Obtene sugerencias personalizadas para ampliar tu perfil",
+      "generating": "Generando...",
+      "generateSuggestions": "Generar Sugerencias",
+      "skillsSuggestions": "SUGERENCIAS DE HABILIDADES",
+      "interestsSuggestions": "SUGERENCIAS DE INTERESES",
+      "yourCareerVisionIdealJob": "Tu Vision de Carrera / Trabajo Ideal",
+      "skills": "Habilidades",
+      "skillsLabel": "Habilidades:",
+      "interests": "Intereses",
+      "interestsLabel": "Intereses:",
+      "careerVisionLabel": "Vision de Carrera",
+      "idealJob": "Trabajo Ideal",
+      "careerVisionColon": "Vision de Carrera:",
+      "careerVisionIdealJobLabel": "Vision de Carrera / Trabajo Ideal:",
+      "careersFulfilling": "Las carreras aqui son las mas satisfactorias!",
+      "hoverInstruction": "Pasa el cursor sobre cada circulo",
+      "toSeeData": "para ver tus datos detallados",
+      "greatOverlap": "Excelente! Has identificado donde se cruzan tus habilidades e intereses!",
+      "addAtLeast3": "Agrega al menos 3 elementos a cada categoria para descubrir donde se cruzan.",
+      "saveContinue": "Guardar y Continuar",
+      "minItemsWarning": "Por favor agrega al menos 3 elementos a cada categoria antes de guardar",
+      "savedSuccess": "Tus habilidades e intereses han sido guardados!",
+      "savedError": "Error al guardar. Por favor intenta de nuevo."
+    },
+    "summaryVenn": {
+      "loading": "Cargando tu visión de carrera...",
+      "title": "El \"Sweet Spot\": Donde la Capacidad encuentra la Pasión",
+      "skills": "Habilidades",
+      "interests": "Intereses",
+      "myProfile": "Mi Perfil Profesional",
+      "generatingPdf": "Generando PDF...",
+      "downloadPdf": "Descargar PDF"
     }
   },
   "jobSearch": {
@@ -1283,7 +1420,29 @@
     "phase3": "Fase 3: Seguimiento",
     "questionBank": "Banco de Preguntas",
     "questionBankDesc": "Accede a 70+ preguntas curadas con consejos para responder",
-    "browseQuestions": "Explorar Preguntas"
+    "browseQuestions": "Explorar Preguntas",
+    "typeGuide": {
+      "backToInterview": "Volver a la Entrevista",
+      "title": "Identificar Tipo de Entrevista",
+      "subtitle": "Comprende tu tipo de entrevista para adaptar tu estrategia",
+      "notSet": "Tipo de Entrevista No Definido",
+      "notSetDesc": "Aún no has especificado el tipo de entrevista. ¡Configúralo para obtener estrategias personalizadas!",
+      "editDetails": "Editar Detalles de Entrevista",
+      "yourConfig": "Tu Configuración de Entrevista",
+      "tailoredStrategy": "Tu Estrategia Personalizada",
+      "dimensionBreakdown": "Desglose por Dimensión",
+      "who": "QUIÉN",
+      "how": "CÓMO",
+      "when": "CUÁNDO",
+      "howMany": "CUÁNTOS",
+      "characteristics": "Características:"
+    },
+    "jdComparison": {
+      "savedSuccess": "¡Comparación JD guardada exitosamente!"
+    },
+    "practice": {
+      "voiceNotSupported": "Tu navegador no soporta reconocimiento de voz. Por favor usa Chrome o Edge."
+    }
   },
   "interview": {
     "detail": {
@@ -1493,7 +1652,7 @@
     "quote": "\"Tu red de contactos es tu mayor activo.\" — Porter Gale"
   },
   "newInterview": {
-    "backToInterviews": "\u2190 Volver a Entrevistas",
+    "backToInterviews": "← Volver a Entrevistas",
     "title": "Nueva Preparación de Entrevista",
     "subtitle": "Comienza a prepararte para tu próxima entrevista",
     "chooseApplication": "Elige una Aplicación para Preparar",
@@ -1504,7 +1663,7 @@
     "orCreateManual": "O crear preparación manual de entrevista",
     "preparingFor": "Preparando para:",
     "matchScore": "Puntuación de Coincidencia:",
-    "changeApplication": "\u2190 Cambiar Aplicación",
+    "changeApplication": "← Cambiar Aplicación",
     "basicInfo": "Información Básica",
     "companyName": "Nombre de la Empresa *",
     "companyNamePlaceholder": "Google, Microsoft, etc.",
@@ -1603,6 +1762,217 @@
     "carStories": "Historias CAR",
     "carStoriesDesc": "Construye historias estructuradas: Contexto, Acción, Resultado.",
     "professionalPositioning": "Posicionamiento Profesional",
-    "professionalPositioningDesc": "Define tu marca profesional y propuesta de valor."
+    "professionalPositioningDesc": "Define tu marca profesional y propuesta de valor.",
+    "yourProgress": "Tu Progreso",
+    "recommendedNext": "Recomendado siguiente"
+  },
+  "accomplishmentLibrary": {
+    "title": "Biblioteca de Logros",
+    "subtitle": "Tu banco personal de logros — organizado, etiquetado y listo para cualquier currículum.",
+    "addNew": "Añadir Logro",
+    "importExisting": "Importar desde Experiencia Laboral",
+    "importingAll": "Importando...",
+    "importSuccess": "¡{{count}} logros importados!",
+    "importNone": "No hay nuevos logros para importar — todos ya están en tu biblioteca.",
+    "filterByRole": "Filtrar por rol",
+    "filterBySkill": "Filtrar por habilidad",
+    "starredOnly": "Solo destacados",
+    "allItems": "Todo",
+    "noAccomplishments": "Aún no hay logros",
+    "noAccomplishmentsHelp": "Comienza a construir tu biblioteca añadiendo logros o importándolos desde tu experiencia laboral.",
+    "noResults": "Ningún logro coincide con tus filtros.",
+    "autoAssemble": "Auto-Selección con IA",
+    "autoAssembleHelp": "Ingresa un título de trabajo objetivo y deja que la IA elija los mejores logros para tu currículum.",
+    "targetJobTitle": "Título de Trabajo Objetivo",
+    "targetJobPlaceholder": "ej., Gerente Senior de Producto",
+    "selectBullets": "¿Cuántas viñetas?",
+    "assembling": "La IA está seleccionando...",
+    "assemble": "Auto-Seleccionar",
+    "aiSelected": "La IA seleccionó {{count}} logros para \"{{job}}\"",
+    "timesUsed": "Usado {{count}} veces",
+    "source": "Fuente",
+    "sourceManual": "Manual",
+    "sourceImported": "Importado",
+    "sourceCarStory": "CAR",
+    "sourceAI": "Generado por IA",
+    "skills": "Habilidades",
+    "competencies": "Competencias",
+    "addSkill": "Añadir habilidad...",
+    "addCompetency": "Añadir competencia...",
+    "bulletPlaceholder": "ej., Lideré un equipo de 12 para entregar un sistema de pagos, reduciendo el tiempo de transacción en 40%",
+    "rolePlaceholder": "ej., Gerente Senior de Producto",
+    "companyPlaceholder": "ej., Google",
+    "backToResumeBuilder": "Volver a Resume Profesional",
+    "editBullet": "Editar logro",
+    "starred": "Destacado",
+    "groupedBy": "Agrupado por rol",
+    "aiGrouping": "Agrupación por Área de Expertise (AI)",
+    "byCompetencies": "Por Competencias",
+    "reclassify": "Reclasificar",
+    "clearResults": "Limpiar resultados",
+    "saveGroup": "Guardar Este Grupo",
+    "analyzing": "Analizando tus logros...",
+    "customInstruction": "Escribe una instrucción personalizada...",
+    "send": "Enviar",
+    "groupName": "Nombre del Grupo",
+    "groupNamePlaceholder": "ej. Formato Resumen Ejecutivo",
+    "saveGroupBtn": "Guardar Grupo",
+    "saving": "Guardando...",
+    "nextCars": "Siguiente: CARs",
+    "selectAll": "Seleccionar Todo",
+    "deleteSelected": "Eliminar Seleccionados",
+    "selectedOf": "de",
+    "selected": "seleccionados",
+    "searchPlaceholder": "Buscar logros...",
+    "savedGroups": "Grupos Guardados",
+    "groupingPlaceholder": "Haz clic en un botón arriba o escribe una instrucción abajo para agrupar tus logros.",
+    "accomplishments": "logros",
+    "saveGroupTitle": "Guardar Grupo de Logros",
+    "saveGroupDescription": "Esto guardará una captura de las {{count}} categorías y sus logros exactamente como fueron generados, para que puedas revisarlos después.",
+    "improving": "Mejorando...",
+    "improveWithAI": "Mejorar con IA",
+    "rolePlaceholderField": "ej. Gerente de Ventas",
+    "companyPlaceholderField": "ej. Modere",
+    "startPlaceholder": "ej. Ene 2020",
+    "endPlaceholder": "ej. Presente",
+    "groupSavedSuccess": "Grupo guardado exitosamente. Lo puedes encontrar en la pestaña \"Grupos Guardados\".",
+    "groupSaveError": "Hubo un error al guardar el grupo. Asegúrate de haber creado la tabla en la base de datos."
+  },
+  "userMenu": {
+    "myProfile": "Mi Perfil",
+    "translations": "Traducciones",
+    "settingsTheme": "Ajustes y Tema",
+    "quickActions": "Acciones Rápidas",
+    "copyEmail": "Copiar Email",
+    "copyProfileLink": "Copiar Enlace de Perfil",
+    "copyUserId": "Copiar ID de Usuario",
+    "devSwitchTier": "Dev: Cambiar Nivel",
+    "essentials": "Esenciales",
+    "momentum": "Momentum",
+    "exec": "Exec",
+    "signOut": "Cerrar Sesión",
+    "back": "Volver",
+    "appearance": "Apariencia",
+    "darkMode": "Modo Oscuro",
+    "lightMode": "Modo Claro",
+    "account": "Cuenta",
+    "editProfile": "Editar Perfil",
+    "changeAvatar": "Cambiar Avatar",
+    "dataPrivacy": "Datos y Privacidad",
+    "exportMyData": "Exportar Mis Datos",
+    "coachDashboard": "Panel de Coach",
+    "manageClients": "Gestiona tus clientes"
+  },
+  "coverLetter": {
+    "title": "Generador de Carta de Presentación",
+    "subtitle": "Cartas de presentación personalizadas con IA en segundos",
+    "backToResumeHub": "Volver al Hub de CV",
+    "jobDetails": "Detalles del Puesto",
+    "jobTitle": "Título del Puesto *",
+    "jobTitlePlaceholder": "ej. Ingeniero de Software Senior",
+    "companyName": "Nombre de la Empresa *",
+    "companyNamePlaceholder": "ej. Google",
+    "jobDescription": "Descripción del Puesto (Opcional)",
+    "jobDescriptionPlaceholder": "Pega la descripción del puesto aquí...",
+    "tone": "Tono",
+    "highlights": "Puntos Clave a Incluir (Opcional)",
+    "add": "Agregar",
+    "generating": "Generando...",
+    "generate": "Generar Carta de Presentación",
+    "yourCoverLetter": "Tu Carta de Presentación",
+    "copied": "¡Copiado!",
+    "copy": "Copiar",
+    "txt": ".TXT",
+    "docx": ".DOCX",
+    "saved": "¡Guardado!",
+    "save": "Guardar",
+    "metaJob": "Puesto:",
+    "metaTone": "Tono:",
+    "metaGenerated": "Generado:",
+    "emptyTitle": "Tu carta de presentación aparecerá aquí",
+    "emptySubtitle": "Completa los detalles del puesto y haz clic en Generar",
+    "errorBothFields": "Por favor ingresa tanto el título del puesto como el nombre de la empresa",
+    "errorWordDownload": "No se pudo descargar el documento Word en este momento."
+  },
+  "contactInfo": {
+    "personalDetails": "Datos Personales",
+    "subtitle": "Completa tu información de contacto para comenzar",
+    "requiredFieldsNote": "Los campos marcados con",
+    "requiredFieldsNote2": "son obligatorios antes de continuar.",
+    "firstName": "Nombre",
+    "firstNamePlaceholder": "Juan",
+    "middleName": "Segundo Nombre",
+    "middleNamePlaceholder": "M.",
+    "lastName": "Apellido",
+    "lastNamePlaceholder": "Pérez",
+    "phone": "Teléfono",
+    "phonePlaceholder": "+1 (555) 123-4567",
+    "email": "Correo Electrónico",
+    "emailPlaceholder": "juan@ejemplo.com",
+    "country": "País",
+    "stateProvince": "Estado / Provincia",
+    "statePlaceholder": "Estado o Provincia",
+    "city": "Ciudad",
+    "cityPlaceholder": "Ciudad de México",
+    "addressLine1": "Dirección Línea 1",
+    "addressPlaceholder": "Calle Principal 123",
+    "zipPostalCode": "Código Postal",
+    "zipPlaceholder": "06600",
+    "linkedinUrl": "URL de LinkedIn",
+    "linkedinPlaceholder": "https://linkedin.com/in/...",
+    "portfolioUrl": "URL de Portafolio",
+    "portfolioPlaceholder": "https://tuportafolio.com",
+    "saving": "Guardando...",
+    "saveAndContinue": "Guardar y Continuar",
+    "skipForNow": "Omitir por ahora",
+    "required": "Obligatorio",
+    "saveFailed": "Error al guardar el perfil de contacto. Es posible que la migración de base de datos no se haya ejecutado.",
+    "saveRetry": "Error al guardar. Intenta de nuevo u omite por ahora."
+  },
+  "calendar": {
+    "today": "Hoy",
+    "weekOf": "Semana del",
+    "month": "Mes",
+    "week": "Semana",
+    "day": "Día",
+    "coaching": "Coaching",
+    "coachingSession": "Sesión de Coaching",
+    "joinSession": "Unirse a la Sesión",
+    "yourCoach": "Tu Coach",
+    "noSessions": "Aún no hay sesiones de coaching",
+    "bookSession": "Reserva una sesión con tu coach para verla aquí.",
+    "loadingSessions": "Cargando tus sesiones...",
+    "min": "min",
+    "days": {
+      "su": "Do",
+      "mo": "Lu",
+      "tu": "Ma",
+      "we": "Mi",
+      "th": "Ju",
+      "fr": "Vi",
+      "sa": "Sá"
+    }
+  },
+  "carStories": {
+    "list": {
+      "result": "Resultado:",
+      "bullet": "Viñeta:"
+    }
+  },
+  "sidebar": {
+    "expand": "Expandir barra lateral",
+    "collapse": "Contraer barra lateral",
+    "smartGuide": "Guía Inteligente",
+    "new": "NUEVO"
+  },
+  "coach": {
+    "resources": {
+      "backToDashboard": "Volver al Panel",
+      "title": "Biblioteca de Recursos",
+      "subtitle": "Gestiona y comparte archivos, enlaces y plantillas con tus clientes",
+      "addResource": "Añadir Recurso",
+      "emptyTitle": "Tu Biblioteca está Vacía",
+      "emptyDesc": "Comienza a construir tu biblioteca de recursos añadiendo guías de entrevista, plantillas de CV o videos útiles."
+    }
   }
 }

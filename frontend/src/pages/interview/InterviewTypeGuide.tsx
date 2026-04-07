@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { InterviewPreparation, INTERVIEW_TYPE_DESCRIPTIONS } from '../../types/interview'
 
 export default function InterviewTypeGuide() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const [interview, setInterview] = useState<InterviewPreparation | null>(null)
@@ -135,14 +137,14 @@ export default function InterviewTypeGuide() {
             onClick={() => navigate(`/dashboard/interview/${id}`)}
             className="text-primary-600 hover:text-primary-700 mb-4 flex items-center gap-2"
           >
-            ← Back to Interview
+            ← {t('interviewMastery.typeGuide.backToInterview', 'Back to Interview')}
           </button>
 
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            🎭 Identify Interview Type
+            🎭 {t('interviewMastery.typeGuide.title', 'Identify Interview Type')}
           </h1>
           <p className="text-gray-600">
-            Understand your interview type to tailor your strategy
+            {t('interviewMastery.typeGuide.subtitle', 'Understand your interview type to tailor your strategy')}
           </p>
         </div>
 
@@ -151,16 +153,16 @@ export default function InterviewTypeGuide() {
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-8 text-center">
             <div className="text-6xl mb-4">⚠️</div>
             <h2 className="text-xl font-bold text-gray-900 mb-2">
-              Interview Type Not Set
+              {t('interviewMastery.typeGuide.notSet', 'Interview Type Not Set')}
             </h2>
             <p className="text-gray-600 mb-6">
-              You haven't specified the interview type yet. Set it up to get tailored strategies!
+              {t('interviewMastery.typeGuide.notSetDesc', "You haven't specified the interview type yet. Set it up to get tailored strategies!")}
             </p>
             <button
               onClick={() => navigate(`/dashboard/interview/${id}/edit`)}
               className="bg-primary-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700"
             >
-              Edit Interview Details
+              {t('interviewMastery.typeGuide.editDetails', 'Edit Interview Details')}
             </button>
           </div>
         ) : (
@@ -170,21 +172,21 @@ export default function InterviewTypeGuide() {
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-4">
-                    Your Interview Configuration
+                    {t('interviewMastery.typeGuide.yourConfig', 'Your Interview Configuration')}
                   </h2>
                 </div>
                 <button
                   onClick={() => navigate(`/dashboard/interview/${id}/edit`)}
                   className="text-primary-600 hover:text-primary-700 text-sm font-medium"
                 >
-                  Edit
+                  {t('common.edit', 'Edit')}
                 </button>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {interview.interview_type_who && (
                   <div className="bg-blue-50 rounded-lg p-4">
-                    <div className="text-sm font-medium text-blue-700 mb-1">WHO</div>
+                    <div className="text-sm font-medium text-blue-700 mb-1">{t('interviewMastery.typeGuide.who', 'WHO')}</div>
                     <div className="text-lg font-semibold text-gray-900">
                       {interview.interview_type_who}
                     </div>
@@ -193,7 +195,7 @@ export default function InterviewTypeGuide() {
 
                 {interview.interview_type_how && (
                   <div className="bg-green-50 rounded-lg p-4">
-                    <div className="text-sm font-medium text-green-700 mb-1">HOW</div>
+                    <div className="text-sm font-medium text-green-700 mb-1">{t('interviewMastery.typeGuide.how', 'HOW')}</div>
                     <div className="text-lg font-semibold text-gray-900">
                       {interview.interview_type_how}
                     </div>
@@ -202,7 +204,7 @@ export default function InterviewTypeGuide() {
 
                 {interview.interview_type_when && (
                   <div className="bg-purple-50 rounded-lg p-4">
-                    <div className="text-sm font-medium text-purple-700 mb-1">WHEN</div>
+                    <div className="text-sm font-medium text-purple-700 mb-1">{t('interviewMastery.typeGuide.when', 'WHEN')}</div>
                     <div className="text-lg font-semibold text-gray-900">
                       {interview.interview_type_when}
                     </div>
@@ -211,7 +213,7 @@ export default function InterviewTypeGuide() {
 
                 {interview.interview_type_how_many && (
                   <div className="bg-orange-50 rounded-lg p-4">
-                    <div className="text-sm font-medium text-orange-700 mb-1">HOW MANY</div>
+                    <div className="text-sm font-medium text-orange-700 mb-1">{t('interviewMastery.typeGuide.howMany', 'HOW MANY')}</div>
                     <div className="text-lg font-semibold text-gray-900">
                       {interview.interview_type_how_many}
                     </div>
@@ -223,7 +225,7 @@ export default function InterviewTypeGuide() {
             {/* Tailored Strategy */}
             <div className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl shadow-lg p-6 mb-6 text-white">
               <h2 className="text-2xl font-bold mb-4">
-                🎯 Your Tailored Strategy
+                🎯 {t('interviewMastery.typeGuide.tailoredStrategy', 'Your Tailored Strategy')}
               </h2>
               <div className="space-y-3">
                 {tips.map((tip, index) => (
@@ -244,7 +246,7 @@ export default function InterviewTypeGuide() {
             {/* Dimension Breakdown */}
             <div className="space-y-6">
               <h2 className="text-2xl font-bold text-gray-900">
-                Dimension Breakdown
+                {t('interviewMastery.typeGuide.dimensionBreakdown', 'Dimension Breakdown')}
               </h2>
 
               {/* WHO */}
@@ -264,7 +266,7 @@ export default function InterviewTypeGuide() {
 
                   {interview.interview_type_who === 'HR/Recruiter' && (
                     <div className="bg-blue-50 rounded-lg p-4 mt-4">
-                      <div className="font-semibold text-gray-900 mb-2">Characteristics:</div>
+                      <div className="font-semibold text-gray-900 mb-2">{t('interviewMastery.typeGuide.characteristics', 'Characteristics:')}</div>
                       <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                         <li>Professional interviewers with training</li>
                         <li>Know behavioral interviewing techniques</li>
@@ -276,7 +278,7 @@ export default function InterviewTypeGuide() {
 
                   {interview.interview_type_who === 'Hiring Manager' && (
                     <div className="bg-blue-50 rounded-lg p-4 mt-4">
-                      <div className="font-semibold text-gray-900 mb-2">Characteristics:</div>
+                      <div className="font-semibold text-gray-900 mb-2">{t('interviewMastery.typeGuide.characteristics', 'Characteristics:')}</div>
                       <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                         <li>Needs someone to solve THEIR problems</li>
                         <li>May be less trained in interviewing</li>
@@ -288,7 +290,7 @@ export default function InterviewTypeGuide() {
 
                   {interview.interview_type_who === 'Panel' && (
                     <div className="bg-blue-50 rounded-lg p-4 mt-4">
-                      <div className="font-semibold text-gray-900 mb-2">Characteristics:</div>
+                      <div className="font-semibold text-gray-900 mb-2">{t('interviewMastery.typeGuide.characteristics', 'Characteristics:')}</div>
                       <ul className="list-disc list-inside space-y-1 text-sm text-gray-700">
                         <li>2-5 people interviewing simultaneously</li>
                         <li>Each has different focus area</li>

@@ -208,7 +208,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Country</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.country', 'Country')}</label>
           <select
             value={formData.location_country}
             onChange={(e) => {
@@ -230,7 +230,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
         {formData.location_country === 'USA' && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">State</label>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.state', 'State')}</label>
             <select
               value={usState}
               onChange={(e) => setUsState(e.target.value)}
@@ -246,13 +246,13 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         )}
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">City</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.city', 'City')}</label>
           <input
             type="text"
             value={formData.location_city ? formData.location_city.split(',')[0].trim() : ''}
             onChange={(e) => setFormData({ ...formData, location_city: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder={formData.location_country === 'USA' ? 'San Francisco' : 'Enter city name'}
+            placeholder={formData.location_country === 'USA' ? t('resumeBuilder.workExperience.cityPlaceholderUS', 'San Francisco') : t('resumeBuilder.workExperience.cityPlaceholder', 'Enter city name')}
           />
         </div>
       </div>
@@ -268,20 +268,20 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
             value={formData.job_title}
             onChange={(e) => setFormData({ ...formData, job_title: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-            placeholder="Senior Product Manager"
+            placeholder={t('resumeBuilder.workExperience.jobTitlePlaceholder', 'Senior Product Manager')}
           />
         </div>
 
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            {t('resumeBuilder.workExperience.startDate')} * (YYYY)
+            {t('resumeBuilder.workExperience.startDate')} * ({t('resumeBuilder.workExperience.yyyy', 'YYYY')})
           </label>
           <select
             value={formData.start_date || ''}
             onChange={(e) => setFormData({ ...formData, start_date: e.target.value })}
             className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
           >
-            <option value="" disabled>Select Year</option>
+            <option value="" disabled>{t('resumeBuilder.workExperience.selectYear', 'Select Year')}</option>
             {years.map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
@@ -290,7 +290,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-            {t('resumeBuilder.workExperience.endDate')} (YYYY)
+            {t('resumeBuilder.workExperience.endDate')} ({t('resumeBuilder.workExperience.yyyy', 'YYYY')})
           </label>
           <select
             value={formData.end_date || ''}
@@ -298,7 +298,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
             disabled={formData.is_current}
             className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 disabled:bg-gray-100 dark:disabled:bg-slate-700"
           >
-            <option value="" disabled>Select Year</option>
+            <option value="" disabled>{t('resumeBuilder.workExperience.selectYear', 'Select Year')}</option>
             {years.map(year => (
               <option key={year} value={year}>{year}</option>
             ))}
@@ -325,8 +325,8 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
       {/* Scope */}
       <div className="space-y-3">
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Scope</label>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Choose how you want to define your role scope.</p>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{t('resumeBuilder.workExperience.scopeLabel', 'Scope')}</label>
+          <p className="text-xs text-gray-500 dark:text-gray-400">{t('resumeBuilder.workExperience.scopeModeDesc', 'Choose how you want to define your role scope.')}</p>
         </div>
 
         {/* Scope Mode Buttons */}
@@ -336,11 +336,11 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
             onClick={() => { setShowAiBuilder(!showAiBuilder); setScopeMode('ai') }}
             className={`flex-1 px-5 py-3 font-semibold rounded-xl text-sm shadow-sm transition-all flex items-center justify-center gap-2 ${
               scopeMode === 'ai'
-                ? 'bg-gradient-to-r from-teal-500 to-emerald-500 text-white hover:opacity-90 hover:shadow-md'
+                ? 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md'
                 : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
             }`}
           >
-            ✨ Build Scope with AI Questionnaire
+            {t('resumeBuilder.workExperience.buildScopeAI', 'Build Scope with AI Questionnaire')}
           </button>
           <button
             type="button"
@@ -351,7 +351,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
                 : 'bg-gray-100 dark:bg-slate-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-slate-600'
             }`}
           >
-            ✏️ Fill Manually
+            {t('resumeBuilder.workExperience.fillManually', 'Fill Manually')}
           </button>
         </div>
 
@@ -363,7 +363,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
               onChange={(e) => setFormData({ ...formData, scope_description: e.target.value })}
               rows={4}
               className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500"
-              placeholder="e.g. Designed and implemented analytics-driven workflows..."
+              placeholder={t('resumeBuilder.workExperience.scopeManualPlaceholder', 'e.g. Designed and implemented analytics-driven workflows...')}
               autoFocus
             />
           </div>
@@ -372,7 +372,7 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
         {/* If AI generated a scope, show it as a preview */}
         {scopeMode === 'ai' && formData.scope_description && !showAiBuilder && (
           <div className="mt-2 p-3 bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-700 rounded-lg text-sm text-teal-900 dark:text-teal-200">
-            <p className="font-medium mb-1 text-xs text-teal-600 dark:text-teal-400 uppercase tracking-wide">Generated Scope</p>
+            <p className="font-medium mb-1 text-xs text-teal-600 dark:text-teal-400 uppercase tracking-wide">{t('resumeBuilder.workExperience.generatedScope', 'Generated Scope')}</p>
             {formData.scope_description}
           </div>
         )}
@@ -380,62 +380,62 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
       {showAiBuilder && (
         <div className="bg-gray-50 dark:bg-slate-800/50 p-6 rounded-xl border border-gray-200 dark:border-slate-700 space-y-6">
-          <h4 className="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-slate-700 pb-2">Scope & Mandate Questionnaire</h4>
-          <p className="text-sm text-gray-500">Fill out as much as you can. Our AI will draft a concise 3-line scope summary for you based on this specific role.</p>
+          <h4 className="text-lg font-semibold text-gray-900 dark:text-white border-b border-gray-200 dark:border-slate-700 pb-2">{t('resumeBuilder.workExperience.questionnaireTitle', 'Scope & Mandate Questionnaire')}</h4>
+          <p className="text-sm text-gray-500">{t('resumeBuilder.workExperience.questionnaireDesc', 'Fill out as much as you can. Our AI will draft a concise 3-line scope summary for you based on this specific role.')}</p>
 
           {/* Section 1 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">1. Core Mandate</h5>
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.coreMandate', '1. Core Mandate')}</h5>
             <div>
-              <label className="block text-xs text-gray-500 mb-1">Primary Action Verb</label>
+              <label className="block text-xs text-gray-500 mb-1">{t('resumeBuilder.workExperience.primaryActionVerb', 'Primary Action Verb')}</label>
               <select value={aiForm.core_mandate_verb} onChange={e => handleAiUpdate('core_mandate_verb', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-                <option value="">Select a verb...</option>
+                <option value="">{t('resumeBuilder.workExperience.selectVerb', 'Select a verb...')}</option>
                 {VERBS.map(v => <option key={v} value={v}>{v}</option>)}
               </select>
             </div>
-            <input placeholder="Objective of the role?" value={aiForm.core_mandate_objective} onChange={e => handleAiUpdate('core_mandate_objective', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Trigger for role creation/continuation?" value={aiForm.core_mandate_trigger} onChange={e => handleAiUpdate('core_mandate_trigger', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Definition of success (Outcomes)?" value={aiForm.core_mandate_success} onChange={e => handleAiUpdate('core_mandate_success', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.objectivePlaceholder', 'Objective of the role?')} value={aiForm.core_mandate_objective} onChange={e => handleAiUpdate('core_mandate_objective', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.triggerPlaceholder', 'Trigger for role creation/continuation?')} value={aiForm.core_mandate_trigger} onChange={e => handleAiUpdate('core_mandate_trigger', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.successPlaceholder', 'Definition of success (Outcomes)?')} value={aiForm.core_mandate_success} onChange={e => handleAiUpdate('core_mandate_success', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
           </div>
 
           {/* Section 2 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">2. Financial Scope</h5>
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.financialScope', '2. Financial Scope')}</h5>
             <div className="grid grid-cols-2 gap-2">
-              <input placeholder="Annual budget managed (e.g. $5M)" value={aiForm.fin_annual_spend} onChange={e => handleAiUpdate('fin_annual_spend', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-              <input placeholder="Revenue impact" value={aiForm.fin_revenue_impact} onChange={e => handleAiUpdate('fin_revenue_impact', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.annualBudgetPlaceholder', 'Annual budget managed (e.g. $5M)')} value={aiForm.fin_annual_spend} onChange={e => handleAiUpdate('fin_annual_spend', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.revenueImpactPlaceholder', 'Revenue impact')} value={aiForm.fin_revenue_impact} onChange={e => handleAiUpdate('fin_revenue_impact', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
             </div>
             <select value={aiForm.fin_pl_ownership} onChange={e => handleAiUpdate('fin_pl_ownership', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-              <option value="">P&L Ownership?</option>
-              <option value="Yes">Yes</option>
-              <option value="No">No</option>
-              <option value="Partial">Partial</option>
+              <option value="">{t('resumeBuilder.workExperience.plOwnership', 'P&L Ownership?')}</option>
+              <option value="Yes">{t('resumeBuilder.workExperience.yes', 'Yes')}</option>
+              <option value="No">{t('resumeBuilder.workExperience.no', 'No')}</option>
+              <option value="Partial">{t('resumeBuilder.workExperience.partial', 'Partial')}</option>
             </select>
           </div>
 
           {/* Section 3 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">3. Geographic Scope</h5>
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.geographicScope', '3. Geographic Scope')}</h5>
             <select value={aiForm.geo_scope} onChange={e => handleAiUpdate('geo_scope', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white">
-              <option value="">Geographic Scope...</option>
-              <option value="Local">Local</option>
-              <option value="Regional">Regional</option>
-              <option value="Global">Global</option>
+              <option value="">{t('resumeBuilder.workExperience.geoScopeSelect', 'Geographic Scope...')}</option>
+              <option value="Local">{t('resumeBuilder.workExperience.local', 'Local')}</option>
+              <option value="Regional">{t('resumeBuilder.workExperience.regional', 'Regional')}</option>
+              <option value="Global">{t('resumeBuilder.workExperience.global', 'Global')}</option>
             </select>
             <div className="grid grid-cols-2 gap-2">
-              <input placeholder="Number of countries" value={aiForm.geo_countries_count} onChange={e => handleAiUpdate('geo_countries_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-              <input placeholder="Number of BUs supported" value={aiForm.geo_business_units} onChange={e => handleAiUpdate('geo_business_units', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.countriesCountPlaceholder', 'Number of countries')} value={aiForm.geo_countries_count} onChange={e => handleAiUpdate('geo_countries_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.busCountPlaceholder', 'Number of BUs supported')} value={aiForm.geo_business_units} onChange={e => handleAiUpdate('geo_business_units', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
             </div>
           </div>
 
           {/* Section 4 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">4. Leadership Scope</h5>
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.leadershipScope', '4. Leadership Scope')}</h5>
             <div className="grid grid-cols-2 gap-2">
-              <input placeholder="Direct reports (number)" value={aiForm.lead_direct_reports} onChange={e => handleAiUpdate('lead_direct_reports', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-              <input placeholder="Total team size" value={aiForm.lead_total_team} onChange={e => handleAiUpdate('lead_total_team', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.directReportsPlaceholder', 'Direct reports (number)')} value={aiForm.lead_direct_reports} onChange={e => handleAiUpdate('lead_direct_reports', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+              <input placeholder={t('resumeBuilder.workExperience.totalTeamPlaceholder', 'Total team size')} value={aiForm.lead_total_team} onChange={e => handleAiUpdate('lead_total_team', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
             </div>
-            <p className="text-xs text-gray-500">Stakeholders engaged:</p>
+            <p className="text-xs text-gray-500">{t('resumeBuilder.workExperience.stakeholdersEngaged', 'Stakeholders engaged:')}</p>
             <div className="flex flex-wrap gap-2">
               {STAKEHOLDERS.map(s => (
                 <button type="button" key={s} onClick={() => toggleAiArray('lead_stakeholders', s)} className={`px-2 py-1 text-xs rounded border ${aiForm.lead_stakeholders.includes(s) ? 'bg-primary-50 border-primary-500 text-primary-700' : 'bg-white border-gray-300 dark:bg-slate-800 dark:border-slate-600'}`}>{s}</button>
@@ -445,17 +445,17 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
 
           {/* Section 5 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">5. Ecosystem Complexity</h5>
-            <input placeholder="Number of brands/clients/vendors" value={aiForm.ecosystem_count} onChange={e => handleAiUpdate('ecosystem_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Most important brands/clients" value={aiForm.ecosystem_names} onChange={e => handleAiUpdate('ecosystem_names', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Categories / product lines" value={aiForm.ecosystem_categories} onChange={e => handleAiUpdate('ecosystem_categories', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Managed brands names (if relevant)" value={aiForm.ecosystem_brands} onChange={e => handleAiUpdate('ecosystem_brands', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
-            <input placeholder="Managed tech / methodologies" value={aiForm.ecosystem_technologies} onChange={e => handleAiUpdate('ecosystem_technologies', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.ecosystemComplexity', '5. Ecosystem Complexity')}</h5>
+            <input placeholder={t('resumeBuilder.workExperience.brandsCountPlaceholder', 'Number of brands/clients/vendors')} value={aiForm.ecosystem_count} onChange={e => handleAiUpdate('ecosystem_count', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.importantBrandsPlaceholder', 'Most important brands/clients')} value={aiForm.ecosystem_names} onChange={e => handleAiUpdate('ecosystem_names', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.categoriesPlaceholder', 'Categories / product lines')} value={aiForm.ecosystem_categories} onChange={e => handleAiUpdate('ecosystem_categories', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.managedBrandsPlaceholder', 'Managed brands names (if relevant)')} value={aiForm.ecosystem_brands} onChange={e => handleAiUpdate('ecosystem_brands', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+            <input placeholder={t('resumeBuilder.workExperience.managedTechPlaceholder', 'Managed tech / methodologies')} value={aiForm.ecosystem_technologies} onChange={e => handleAiUpdate('ecosystem_technologies', e.target.value)} className="w-full px-3 py-1.5 border rounded-md text-sm dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
           </div>
 
           {/* Section 6 */}
           <div className="space-y-3">
-            <h5 className="font-medium text-gray-800 dark:text-gray-200">6. Complexity Factors</h5>
+            <h5 className="font-medium text-gray-800 dark:text-gray-200">{t('resumeBuilder.workExperience.complexityFactors', '6. Complexity Factors')}</h5>
             <div className="flex flex-wrap gap-2">
               {COMPLEXITY_FACTORS.map(c => (
                 <button type="button" key={c} onClick={() => toggleAiArray('complexity_factors', c)} className={`px-2 py-1 text-xs rounded border ${aiForm.complexity_factors.includes(c) ? 'bg-primary-50 border-primary-500 text-primary-700' : 'bg-white border-gray-300 dark:bg-slate-800 dark:border-slate-600'}`}>{c}</button>
@@ -467,9 +467,9 @@ export const WorkExperienceForm: React.FC<WorkExperienceFormProps> = ({
             type="button"
             onClick={handleGenerateScope}
             disabled={generatingScope}
-            className="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg text-sm shadow-sm hover:opacity-90 disabled:opacity-50"
+            className="w-full py-2 bg-primary-600 text-white font-medium rounded-lg text-sm shadow-sm hover:bg-primary-700 disabled:opacity-50"
           >
-            {generatingScope ? 'Generating...' : '✨ Generate Scope with AI'}
+            {generatingScope ? t('common.loading', 'Generating...') : t('resumeBuilder.workExperience.generateScopeAI', 'Generate Scope with AI')}
           </button>
         </div>
       )}

@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { User, Settings, LogOut, Moon, Sun, ChevronDown, Copy, UserCircle, Globe, TrendingUp } from 'lucide-react'
 import { useTheme } from '../../contexts/ThemeContext'
 import { supabase } from '../../lib/supabase'
@@ -20,6 +21,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   const [imgError, setImgError] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { theme, toggleTheme } = useTheme()
 
   // Check if user is a coach
@@ -203,8 +205,8 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                       <TrendingUp className="w-3.5 h-3.5 text-white" />
                     </div>
                     <div className="text-left">
-                      <span className="block">Coach Dashboard</span>
-                      <span className="text-xs text-amber-600/70 dark:text-amber-400/70 font-normal">Manage your clients</span>
+                      <span className="block">{t('userMenu.coachDashboard', 'Coach Dashboard')}</span>
+                      <span className="text-xs text-amber-600/70 dark:text-amber-400/70 font-normal">{t('userMenu.manageClients', 'Manage your clients')}</span>
                     </div>
                   </button>
                 </div>
@@ -220,7 +222,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <User className="w-4 h-4" />
-                  <span>My Profile</span>
+                  <span>{t('userMenu.myProfile', 'My Profile')}</span>
                 </button>
 
                 {/* Admin Only - Translations */}
@@ -233,7 +235,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                     className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-700 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/10 hover:bg-purple-100 dark:hover:bg-purple-900/20 transition-colors font-medium border-l-2 border-purple-500"
                   >
                     <Globe className="w-4 h-4" />
-                    <span>Translations</span>
+                    <span>{t('userMenu.translations', 'Translations')}</span>
                   </button>
                 )}
 
@@ -242,13 +244,13 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <Settings className="w-4 h-4" />
-                  <span>Settings & Theme</span>
+                  <span>{t('userMenu.settingsTheme', 'Settings & Theme')}</span>
                 </button>
 
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
 
                 <div className="px-4 py-2">
-                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Quick Actions</p>
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">{t('userMenu.quickActions', 'Quick Actions')}</p>
                 </div>
 
                 <button
@@ -259,7 +261,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <Copy className="w-4 h-4" />
-                  <span>Copy Email</span>
+                  <span>{t('userMenu.copyEmail', 'Copy Email')}</span>
                 </button>
 
                 <button
@@ -270,7 +272,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <Copy className="w-4 h-4" />
-                  <span>Copy Profile Link</span>
+                  <span>{t('userMenu.copyProfileLink', 'Copy Profile Link')}</span>
                 </button>
 
                 <button
@@ -281,13 +283,13 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                 >
                   <Copy className="w-4 h-4" />
-                  <span>Copy User ID</span>
+                  <span>{t('userMenu.copyUserId', 'Copy User ID')}</span>
                 </button>
 
                 {/* DEV TOOLS - TIER SWITCHING */}
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
                 <div className="px-4 py-2">
-                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-500 mb-2">Dev: Switch Tier</p>
+                  <p className="text-xs font-semibold text-amber-600 dark:text-amber-500 mb-2">{t('userMenu.devSwitchTier', 'Dev: Switch Tier')}</p>
                   <div className="flex gap-2">
                     <button
                       onClick={async () => {
@@ -298,7 +300,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
                     >
-                      Essentials
+                      {t('userMenu.essentials', 'Essentials')}
                     </button>
                     <button
                       onClick={async () => {
@@ -309,7 +311,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-emerald-100 dark:bg-emerald-900/30 rounded hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400"
                     >
-                      Momentum
+                      {t('userMenu.momentum', 'Momentum')}
                     </button>
                     <button
                       onClick={async () => {
@@ -320,7 +322,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-amber-100 dark:bg-amber-900/30 rounded hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-400"
                     >
-                      Exec
+                      {t('userMenu.exec', 'Exec')}
                     </button>
                   </div>
                 </div>
@@ -356,7 +358,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
-                  <span>Sign Out</span>
+                  <span>{t('userMenu.signOut', 'Sign Out')}</span>
                 </button>
               </div>
             </>
@@ -365,12 +367,12 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
               {/* Settings Panel */}
               <div className="p-4">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Settings & Theme</h3>
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{t('userMenu.settingsTheme', 'Settings & Theme')}</h3>
                   <button
                     onClick={() => setShowSettings(false)}
                     className="text-xs text-primary-600 dark:text-primary-400 hover:underline"
                   >
-                    Back
+                    {t('userMenu.back', 'Back')}
                   </button>
                 </div>
 
@@ -378,7 +380,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                 <div className="space-y-4">
                   <div>
                     <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-3 block">
-                      Appearance
+                      {t('userMenu.appearance', 'Appearance')}
                     </label>
                     <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                       <div className="flex items-center gap-2">
@@ -388,7 +390,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                           <Sun className="w-4 h-4 text-gray-700 dark:text-gray-300" />
                         )}
                         <span className="text-sm text-gray-700 dark:text-gray-200">
-                          {theme === 'dark' ? 'Dark Mode' : 'Light Mode'}
+                          {theme === 'dark' ? t('userMenu.darkMode', 'Dark Mode') : t('userMenu.lightMode', 'Light Mode')}
                         </span>
                       </div>
                       <button
@@ -406,7 +408,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
 
                   <div>
                     <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-3 block">
-                      Account
+                      {t('userMenu.account', 'Account')}
                     </label>
                     <div className="space-y-2">
                       <button
@@ -418,7 +420,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                         className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
                         <UserCircle className="w-4 h-4" />
-                        <span>Edit Profile</span>
+                        <span>{t('userMenu.editProfile', 'Edit Profile')}</span>
                       </button>
 
                       <button
@@ -429,14 +431,14 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                         className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
                         <UserCircle className="w-4 h-4" />
-                        <span>Change Avatar</span>
+                        <span>{t('userMenu.changeAvatar', 'Change Avatar')}</span>
                       </button>
                     </div>
                   </div>
 
                   <div>
                     <label className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-3 block">
-                      Data & Privacy
+                      {t('userMenu.dataPrivacy', 'Data & Privacy')}
                     </label>
                     <div className="space-y-2">
                       <button
@@ -446,7 +448,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                         className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
                       >
                         <Copy className="w-4 h-4" />
-                        <span>Export My Data</span>
+                        <span>{t('userMenu.exportMyData', 'Export My Data')}</span>
                       </button>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
     FileText,
@@ -27,6 +28,7 @@ interface CoverLetterMetadata {
 }
 
 export default function CoverLetterGenerator() {
+    const { t } = useTranslation()
     const navigate = useNavigate()
     const location = useLocation()
     const [user, setUser] = useState<any>(null)
@@ -70,7 +72,7 @@ export default function CoverLetterGenerator() {
 
     const generateCoverLetter = async () => {
         if (!jobTitle.trim() || !companyName.trim()) {
-            setError('Please enter both job title and company name')
+            setError(t('coverLetter.errorBothFields', 'Please enter both job title and company name'))
             return
         }
 
@@ -208,7 +210,7 @@ export default function CoverLetterGenerator() {
             window.URL.revokeObjectURL(url)
         } catch (error) {
             console.error('Error downloading Word doc:', error)
-            alert('Unable to download Word document at this time.')
+            alert(t('coverLetter.errorWordDownload', 'Unable to download Word document at this time.'))
         }
     }
 
@@ -222,8 +224,8 @@ export default function CoverLetterGenerator() {
                             <FileText className="w-8 h-8" />
                         </div>
                         <div>
-                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Cover Letter Generator</h1>
-                            <p className="text-gray-600 dark:text-gray-300">AI-powered personalized cover letters in seconds</p>
+                            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('coverLetter.title', 'Cover Letter Generator')}</h1>
+                            <p className="text-gray-600 dark:text-gray-300">{t('coverLetter.subtitle', 'AI-powered personalized cover letters in seconds')}</p>
                         </div>
                     </div>
                     <button
@@ -231,7 +233,7 @@ export default function CoverLetterGenerator() {
                         className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        Back to Resume Hub
+                        {t('coverLetter.backToResumeHub', 'Back to Resume Hub')}
                     </button>
                 </div>
 
@@ -240,20 +242,20 @@ export default function CoverLetterGenerator() {
                     <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700 p-6 transition-all">
                         <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
                             <Settings className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                            Job Details
+                            {t('coverLetter.jobDetails', 'Job Details')}
                         </h2>
 
                         {/* Job Title */}
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 <Briefcase className="w-4 h-4 inline mr-1" />
-                                Job Title *
+                                {t('coverLetter.jobTitle', 'Job Title *')}
                             </label>
                             <input
                                 type="text"
                                 value={jobTitle}
                                 onChange={(e) => setJobTitle(e.target.value)}
-                                placeholder="e.g. Senior Software Engineer"
+                                placeholder={t('coverLetter.jobTitlePlaceholder', 'e.g. Senior Software Engineer')}
                                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
                             />
                         </div>
@@ -262,13 +264,13 @@ export default function CoverLetterGenerator() {
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                 <Building className="w-4 h-4 inline mr-1" />
-                                Company Name *
+                                {t('coverLetter.companyName', 'Company Name *')}
                             </label>
                             <input
                                 type="text"
                                 value={companyName}
                                 onChange={(e) => setCompanyName(e.target.value)}
-                                placeholder="e.g. Google"
+                                placeholder={t('coverLetter.companyNamePlaceholder', 'e.g. Google')}
                                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500"
                             />
                         </div>
@@ -276,12 +278,12 @@ export default function CoverLetterGenerator() {
                         {/* Job Description */}
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Job Description (Optional)
+                                {t('coverLetter.jobDescription', 'Job Description (Optional)')}
                             </label>
                             <textarea
                                 value={jobDescription}
                                 onChange={(e) => setJobDescription(e.target.value)}
-                                placeholder="Paste the job description here for more personalized results..."
+                                placeholder={t('coverLetter.jobDescriptionPlaceholder', 'Paste the job description here...')}
                                 rows={5}
                                 className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none placeholder-gray-400 dark:placeholder-gray-500"
                             />
@@ -290,19 +292,19 @@ export default function CoverLetterGenerator() {
                         {/* Tone Selector */}
                         <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Tone
+                                {t('coverLetter.tone', 'Tone')}
                             </label>
                             <div className="flex gap-3">
-                                {(['professional', 'enthusiastic', 'formal'] as const).map((t) => (
+                                {(['professional', 'enthusiastic', 'formal'] as const).map((toneOption) => (
                                     <button
-                                        key={t}
-                                        onClick={() => setTone(t)}
-                                        className={`flex-1 py-2 px-4 rounded-lg border-2 transition-all capitalize ${tone === t
+                                        key={toneOption}
+                                        onClick={() => setTone(toneOption)}
+                                        className={`flex-1 py-2 px-4 rounded-lg border-2 transition-all capitalize ${tone === toneOption
                                             ? 'border-purple-600 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
                                             : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-400 bg-white dark:bg-gray-700'
                                             }`}
                                     >
-                                        {t}
+                                        {toneOption}
                                     </button>
                                 ))}
                             </div>
@@ -311,7 +313,7 @@ export default function CoverLetterGenerator() {
                         {/* Highlights */}
                         <div className="mb-6">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                Key Highlights to Include (Optional)
+                                {t('coverLetter.highlights', 'Key Highlights to Include (Optional)')}
                             </label>
                             <div className="flex gap-2 mb-2">
                                 <input
@@ -326,7 +328,7 @@ export default function CoverLetterGenerator() {
                                     onClick={addHighlight}
                                     className="px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                                 >
-                                    Add
+                                    {t('coverLetter.add', 'Add')}
                                 </button>
                             </div>
                             {highlights.length > 0 && (
@@ -366,12 +368,12 @@ export default function CoverLetterGenerator() {
                             {loading ? (
                                 <>
                                     <RefreshCw className="w-5 h-5 animate-spin" />
-                                    Generating...
+                                    {t('coverLetter.generating', 'Generating...')}
                                 </>
                             ) : (
                                 <>
                                     <Sparkles className="w-5 h-5" />
-                                    Generate Cover Letter
+                                    {t('coverLetter.generate', 'Generate Cover Letter')}
                                 </>
                             )}
                         </button>
@@ -382,7 +384,7 @@ export default function CoverLetterGenerator() {
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                                 <FileText className="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                                Your Cover Letter
+                                {t('coverLetter.yourCoverLetter', 'Your Cover Letter')}
                             </h2>
                             {metadata && (
                                 <span className="text-sm text-gray-500 dark:text-gray-400">
@@ -410,12 +412,12 @@ export default function CoverLetterGenerator() {
                                         {copied ? (
                                             <>
                                                 <Check className="w-5 h-5" />
-                                                Copied!
+                                                {t('coverLetter.copied', 'Copied!')}
                                             </>
                                         ) : (
                                             <>
                                                 <Copy className="w-5 h-5" />
-                                                Copy
+                                                {t('coverLetter.copy', 'Copy')}
                                             </>
                                         )}
                                     </button>
@@ -424,14 +426,14 @@ export default function CoverLetterGenerator() {
                                         className="flex-1 py-3 px-4 border-2 border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
                                     >
                                         <Download className="w-5 h-5" />
-                                        .TXT
+                                        {t('coverLetter.txt', '.TXT')}
                                     </button>
                                     <button
                                         onClick={downloadAsWord}
                                         className="flex-1 py-3 px-4 border-2 border-purple-600 dark:border-purple-500 text-purple-600 dark:text-purple-400 rounded-lg font-medium flex items-center justify-center gap-2 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-all"
                                     >
                                         <FileText className="w-5 h-5" />
-                                        .DOCX
+                                        {t('coverLetter.docx', '.DOCX')}
                                     </button>
                                     <button
                                         onClick={saveCoverLetter}
@@ -440,12 +442,12 @@ export default function CoverLetterGenerator() {
                                         {saved ? (
                                             <>
                                                 <Check className="w-5 h-5" />
-                                                Saved!
+                                                {t('coverLetter.saved', 'Saved!')}
                                             </>
                                         ) : (
                                             <>
                                                 <Save className="w-5 h-5" />
-                                                Save
+                                                {t('coverLetter.save', 'Save')}
                                             </>
                                         )}
                                     </button>
@@ -454,17 +456,17 @@ export default function CoverLetterGenerator() {
                                 {/* Metadata */}
                                 {metadata && (
                                     <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-700/50 border border-gray-100 dark:border-gray-700 rounded-lg text-sm text-gray-600 dark:text-gray-300">
-                                        <p><strong>Job:</strong> {metadata.jobTitle} at {metadata.companyName}</p>
-                                        <p><strong>Tone:</strong> {metadata.tone}</p>
-                                        <p><strong>Generated:</strong> {new Date(metadata.generatedAt).toLocaleString()}</p>
+                                        <p><strong>{t('coverLetter.metaJob', 'Job:')}</strong> {metadata.jobTitle} at {metadata.companyName}</p>
+                                        <p><strong>{t('coverLetter.metaTone', 'Tone:')}</strong> {metadata.tone}</p>
+                                        <p><strong>{t('coverLetter.metaGenerated', 'Generated:')}</strong> {new Date(metadata.generatedAt).toLocaleString()}</p>
                                     </div>
                                 )}
                             </>
                         ) : (
                             <div className="flex flex-col items-center justify-center h-96 text-gray-400 dark:text-gray-500">
                                 <FileText className="w-16 h-16 mb-4 opacity-50" />
-                                <p className="text-lg font-medium">Your cover letter will appear here</p>
-                                <p className="text-sm">Fill in the job details and click Generate</p>
+                                <p className="text-lg font-medium">{t('coverLetter.emptyTitle', 'Your cover letter will appear here')}</p>
+                                <p className="text-sm">{t('coverLetter.emptySubtitle', 'Fill in the job details and click Generate')}</p>
                             </div>
                         )}
                     </div>

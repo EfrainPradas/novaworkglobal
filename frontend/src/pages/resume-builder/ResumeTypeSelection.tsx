@@ -43,28 +43,28 @@ export default function ResumeTypeSelection() {
             <div className="mx-auto max-w-5xl">
                 <BackButton
                     to="/dashboard/resume-builder"
-                    label="Back to Resume Builder"
+                    label={t('resumeBuilder.typeSelection.backToBuilder', 'Back to Resume Builder')}
                     variant="light"
                     className="mb-8 pl-0"
                 />
 
                 <div className="mb-10 text-center">
                     <h1 className="text-3xl font-extrabold text-slate-900 dark:text-white md:text-5xl">
-                        Choose Your Resume
+                        {t('resumeBuilder.typeSelection.title', 'Choose Your Resume')}
                     </h1>
                     <p className="mt-4 text-base text-slate-600 dark:text-slate-400 md:text-lg max-w-2xl mx-auto">
-                        Select the structural format that best highlights your professional narrative and aligns with your target role.
+                        {t('resumeBuilder.typeSelection.subtitle', 'Select the structural format that best highlights your professional narrative and aligns with your target role.')}
                     </p>
                     <div className="flex items-center justify-center gap-3 mt-6">
                         <button
                             onClick={() => setActiveVideoSrc(getVideoUrl('The_Architecture_of_Access__Decoding_the_Résumé_Reality_Match.mp4'))}
                             className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
                         >
-                            <Play className="w-4 h-4" /> Watch video
+                            <Play className="w-4 h-4" /> {t('resumeBuilder.typeSelection.watchVideo', 'Watch video')}
                         </button>
                         <LearnMoreLink
-                          label="Which resume is right for you?"
-                          description="One format does not fit all roles"
+                          label={t('resumeBuilder.typeSelection.learnMoreLabel', 'Which resume is right for you?')}
+                          description={t('resumeBuilder.typeSelection.learnMoreText', 'One format does not fit all roles')}
                           onClick={() => navigate('/dashboard/resume/type-selection/learn-more')}
                         />
                     </div>
@@ -88,9 +88,9 @@ export default function ResumeTypeSelection() {
                             }`}>
                             <Clock className="w-10 h-10" />
                         </div>
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Chronological</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{t('resumeBuilder.typeSelection.chronological', 'Chronological')}</h2>
                         <p className="text-center text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                            The industry standard. Best for showing a steady progression in a specific career path. Highlights your most recent experiences first.
+                            {t('resumeBuilder.typeSelection.chronologicalDesc', 'The industry standard. Best for showing a steady progression in a specific career path. Highlights your most recent experiences first.')}
                         </p>
                     </button>
 
@@ -111,9 +111,9 @@ export default function ResumeTypeSelection() {
                             }`}>
                             <Layers className="w-10 h-10" />
                         </div>
-                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">Functional</h2>
+                        <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-3">{t('resumeBuilder.typeSelection.functional', 'Functional')}</h2>
                         <p className="text-center text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                            Skill-based focus. Ideal for career changers or those with gaps, bridging past achievements to new domains by grouping related capabilities.
+                            {t('resumeBuilder.typeSelection.functionalDesc', 'Skill-based focus. Ideal for career changers or those with gaps, bridging past achievements to new domains by grouping related capabilities.')}
                         </p>
                     </button>
                 </div>
@@ -128,7 +128,7 @@ export default function ResumeTypeSelection() {
                             : 'bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed'
                             }`}
                     >
-                        Generate Resume <ArrowRight className="w-5 h-5" />
+                        {t('resumeBuilder.typeSelection.generateResume', 'Generate Resume')} <ArrowRight className="w-5 h-5" />
                     </button>
                 </div>
             </div>
@@ -148,7 +148,7 @@ export default function ResumeTypeSelection() {
                         </button>
                         <div className="w-full aspect-video bg-black">
                             <video src={activeVideoSrc} className="w-full h-full outline-none" controls controlsList="nodownload" autoPlay playsInline>
-                                Your browser does not support the video tag.
+                                {t('resumeBuilder.typeSelection.videoNotSupported', 'Your browser does not support the video tag.')}
                             </video>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { supabase, getCurrentSession } from '../../lib/supabase';
 import { resourceService } from '../../services/resourceService';
 import { Resource, ResourceShareWithDetails, ResourceType } from '../../types/resources';
@@ -18,6 +19,7 @@ interface Client {
 
 export default function CoachResources() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [resources, setResources] = useState<Resource[]>([]);
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
@@ -180,14 +182,14 @@ export default function CoachResources() {
               onClick={() => navigate('/coach')}
               className="flex items-center text-sm text-gray-500 hover:text-gray-800 transition-colors mb-2"
             >
-              <ArrowLeft className="w-4 h-4 mr-1" /> Back to Dashboard
+              <ArrowLeft className="w-4 h-4 mr-1" /> {t('coach.resources.backToDashboard', 'Back to Dashboard')}
             </button>
             <h1 className="text-2xl font-bold flex items-center gap-2 text-gray-900">
               <Library className="w-6 h-6 text-primary-600" />
-              Resource Library
+              {t('coach.resources.title', 'Resource Library')}
             </h1>
             <p className="text-gray-500 text-sm mt-1">
-              Manage and share files, links, and templates with your clients
+              {t('coach.resources.subtitle', 'Manage and share files, links, and templates with your clients')}
             </p>
           </div>
           
@@ -195,7 +197,7 @@ export default function CoachResources() {
             onClick={() => setIsUploadOpen(true)}
             className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 text-white font-medium rounded-xl hover:bg-primary-700 transition-colors shadow-sm"
           >
-            <Plus className="w-5 h-5" /> Add Resource
+            <Plus className="w-5 h-5" /> {t('coach.resources.addResource', 'Add Resource')}
           </button>
         </div>
 
@@ -216,9 +218,9 @@ export default function CoachResources() {
             <div className="w-16 h-16 bg-primary-50 text-primary-600 rounded-full flex items-center justify-center mx-auto mb-4">
               <Library className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 mb-2">Your Library is Empty</h3>
+            <h3 className="text-lg font-bold text-gray-900 mb-2">{t('coach.resources.emptyTitle', 'Your Library is Empty')}</h3>
             <p className="text-gray-500 mb-6 max-w-sm mx-auto">
-              Start building your resource library by adding interview guides, resume templates, or helpful videos.
+              {t('coach.resources.emptyDesc', 'Start building your resource library by adding interview guides, resume templates, or helpful videos.')}
             </p>
             <button
               onClick={() => setIsUploadOpen(true)}

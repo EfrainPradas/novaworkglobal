@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Clock } from 'lucide-react'
 
 interface ComingSoonProps {
@@ -8,6 +9,7 @@ interface ComingSoonProps {
 
 export default function ComingSoon({ programName, tagline }: ComingSoonProps) {
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-primary-50 to-white">
@@ -19,7 +21,7 @@ export default function ComingSoon({ programName, tagline }: ComingSoonProps) {
                         className="flex items-center gap-2 text-gray-600 hover:text-primary-600 transition-colors"
                     >
                         <ArrowLeft className="w-5 h-5" />
-                        Back to Home
+                        {t('common.backToHome', 'Back to Home')}
                     </button>
                 </nav>
             </header>
@@ -45,17 +47,17 @@ export default function ComingSoon({ programName, tagline }: ComingSoonProps) {
                     </p>
 
                     {/* Coming Soon Badge */}
-                    <div className="inline-block mb-8 px-6 py-3 bg-gradient-to-r from-primary-600 to-teal-600 text-white rounded-full text-lg font-bold shadow-lg">
-                        Coming Soon
+                    <div className="inline-block mb-8 px-6 py-3 bg-primary-600 text-white rounded-full text-lg font-bold shadow-lg">
+                        {t('programs.comingSoon.badge', 'Coming Soon')}
                     </div>
 
                     {/* Description */}
                     <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 mb-8">
                         <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                            We're working hard to bring you this comprehensive program. Stay tuned for more details!
+                            {t('programs.comingSoon.description', "We're working hard to bring you this comprehensive program. Stay tuned for more details!")}
                         </p>
                         <p className="text-gray-600">
-                            In the meantime, explore <span className="font-semibold text-primary-600">NovaNext™</span> to start your career journey.
+                            {t('programs.comingSoon.meanwhile', 'In the meantime, explore')} <span className="font-semibold text-primary-600">NovaNext™</span> {t('programs.comingSoon.toStart', 'to start your career journey.')}
                         </p>
                     </div>
 
@@ -64,7 +66,7 @@ export default function ComingSoon({ programName, tagline }: ComingSoonProps) {
                         onClick={() => navigate('/programs/novanext')}
                         className="bg-primary-600 text-white px-8 py-4 rounded-xl text-lg font-bold hover:bg-primary-700 transition-all shadow-xl hover:shadow-2xl"
                     >
-                        Explore NovaNext →
+                        {t('programs.comingSoon.exploreNovaNext', 'Explore NovaNext →')}
                     </button>
                 </div>
             </section>

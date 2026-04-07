@@ -95,7 +95,7 @@ export default function AccomplishmentsHub() {
                                 }`}
                         >
                             <BookOpen className="w-4 h-4" />
-                            Saved Groups
+                            {t('accomplishmentLibrary.savedGroups', 'Saved Groups')}
                         </button>
                     </div>
 

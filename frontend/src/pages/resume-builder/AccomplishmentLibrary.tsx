@@ -356,11 +356,11 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
             setGroupToSave(null)
 
             // Show brief UI feedback (could also be toast in future)
-            alert('Group saved successfully. You can find it in the "Saved Groups" tab.')
+            alert(t('accomplishmentLibrary.groupSavedSuccess', 'Group saved successfully. You can find it in the "Saved Groups" tab.'))
 
         } catch (error) {
             console.error('Save Group Error:', error)
-            alert('There was an error saving the group. Ensure you created the database table.')
+            alert(t('accomplishmentLibrary.groupSaveError', 'There was an error saving the group. Ensure you created the database table.'))
         } finally {
             setIsSavingGroup(false)
         }
@@ -659,7 +659,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     {chatHistory.length === 0 && (
                                         <div className="text-center py-10 bg-gray-50 dark:bg-gray-900/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
                                             <Wand2 className="w-10 h-10 text-gray-300 dark:text-gray-600 mx-auto mb-3" />
-                                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Click a button above or type a prompt below to group your accomplishments.</p>
+                                            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">{t('accomplishmentLibrary.groupingPlaceholder', 'Click a button above or type a prompt below to group your accomplishments.')}</p>
                                         </div>
                                     )}
                                     {chatHistory.map((msg, i) => (
@@ -676,7 +676,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                                                 <h5 className="font-bold text-primary-600 dark:text-primary-400 text-sm flex items-center gap-2">
                                                                     <Tag className="w-4 h-4" /> {group.theme}
                                                                 </h5>
-                                                                <span className="text-xs bg-white dark:bg-gray-900 text-primary-600 dark:text-primary-400 font-bold px-2.5 py-1 rounded-full shadow-sm">{group.storyIds.length} accomplishments</span>
+                                                                <span className="text-xs bg-white dark:bg-gray-900 text-primary-600 dark:text-primary-400 font-bold px-2.5 py-1 rounded-full shadow-sm">{group.storyIds.length} {t('accomplishmentLibrary.accomplishments', 'accomplishments')}</span>
                                                             </div>
                                                             {/* Accomplishment List */}
                                                             <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -764,9 +764,9 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                     className="flex items-center gap-1.5 px-3 py-1.5 mt-2 mb-3 text-sm font-semibold text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-700 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors disabled:opacity-60"
                                 >
                                     {isImprovingAI ? (
-                                        <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Improving...</>
+                                        <><Loader2 className="w-3.5 h-3.5 animate-spin" /> {t('accomplishmentLibrary.improving', 'Improving...')}</>
                                     ) : (
-                                        <><Wand2 className="w-3.5 h-3.5" /> Improve with AI</>
+                                        <><Wand2 className="w-3.5 h-3.5" /> {t('accomplishmentLibrary.improveWithAI', 'Improve with AI')}</>
                                     )}
                                 </button>
                             )}
@@ -779,7 +779,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         value={newRole}
                                         onChange={e => setNewRole(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Sales Manager"
+                                        placeholder={t('accomplishmentLibrary.rolePlaceholderField', 'e.g. Sales Manager')}
                                     />
                                 </div>
                                 <div>
@@ -789,7 +789,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         value={newCompany}
                                         onChange={e => setNewCompany(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Modere"
+                                        placeholder={t('accomplishmentLibrary.companyPlaceholderField', 'e.g. Modere')}
                                     />
                                 </div>
                                 <div>
@@ -799,7 +799,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         value={newStart}
                                         onChange={e => setNewStart(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Jan 2020"
+                                        placeholder={t('accomplishmentLibrary.startPlaceholder', 'e.g. Jan 2020')}
                                     />
                                 </div>
                                 <div>
@@ -809,7 +809,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                         value={newEnd}
                                         onChange={e => setNewEnd(e.target.value)}
                                         className="w-full text-xs p-1.5 border rounded border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        placeholder="e.g. Present"
+                                        placeholder={t('accomplishmentLibrary.endPlaceholder', 'e.g. Present')}
                                     />
                                 </div>
                             </div>
@@ -926,7 +926,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                         {/* Header */}
                         <div className="px-6 py-4 border-b border-gray-100 dark:border-gray-700/50 flex items-center justify-between">
                             <h3 className="font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                                <FolderOpen className="w-5 h-5 text-primary-500" /> Save Accomplishment Group
+                                <FolderOpen className="w-5 h-5 text-primary-500" /> {t('accomplishmentLibrary.saveGroupTitle', 'Save Accomplishment Group')}
                             </h3>
                             <button
                                 onClick={() => setIsSaveModalOpen(false)}
@@ -955,7 +955,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 }}
                             />
                             <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-                                This will save a snapshot of the {groupToSave?.length || 0} categories and their accomplishments exactly as generated, so you can review them later.
+                                {t('accomplishmentLibrary.saveGroupDescription', 'This will save a snapshot of the {{count}} categories and their accomplishments exactly as generated, so you can review them later.', { count: groupToSave?.length || 0 })}
                             </p>
                         </div>
 
@@ -966,7 +966,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 disabled={isSavingGroup}
                                 className="px-5 py-2.5 text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-xl transition-colors disabled:opacity-50"
                             >
-                                Cancel
+                                {t('common.cancel', 'Cancel')}
                             </button>
                             <button
                                 onClick={handleSaveGroup}

@@ -6,12 +6,14 @@
 import { getVideoUrl } from '@/config/videoUrls'
 
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { X, Plus, Sparkles, Save, Loader2, ArrowLeft, Play } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 
 export default function SkillsValues() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const isStandalone = searchParams.get('mode') === 'standalone'
@@ -203,11 +205,11 @@ export default function SkillsValues() {
         if (interestsError) throw interestsError
       }
 
-      alert('✅ Your skills and interests have been saved!')
+      alert(t('careerVision.skillsValues.savedSuccess', 'Your skills and interests have been saved!'))
       navigate('/dashboard/career-vision/preferences')
     } catch (error) {
       console.error('Error saving career vision data:', error)
-      alert('❌ Failed to save. Please try again.')
+      alert(t('careerVision.skillsValues.savedError', 'Failed to save. Please try again.'))
     } finally {
       setSaving(false)
     }
@@ -249,7 +251,7 @@ export default function SkillsValues() {
             className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium mb-4 flex items-center gap-2"
           >
             <ArrowLeft className="w-5 h-5" />
-            Back to Career Vision
+            {t('careerVision.skillsValues.backToCareerVision', 'Back to Career Vision')}
           </button>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
@@ -257,10 +259,10 @@ export default function SkillsValues() {
               <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
-                  Skills & Interests
+                  {t('careerVision.skillsValues.title', 'Skills & Interests')}
                 </h1>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Identify what you're good at and what excites you
+                  {t('careerVision.skillsValues.subtitle', "Identify what you're good at and what excites you")}
                 </p>
               </div>
             </div>
@@ -271,11 +273,11 @@ export default function SkillsValues() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-1.5 px-4 py-2.5 bg-primary-700 hover:bg-primary-800 text-white text-sm font-semibold rounded-lg transition-colors"
               >
-                <Play className="w-4 h-4" /> Watch video
+                <Play className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
               </a>
               <LearnMoreLink
-                label="Discover your strengths"
-                description="Know your value before the interview"
+                label={t('careerVision.skillsValues.discoverStrengths', 'Discover your strengths')}
+                description={t('careerVision.skillsValues.knowYourValue', 'Know your value before the interview')}
                 onClick={() => navigate('/dashboard/career-vision/skills-values')}
               />
             </div>
@@ -287,10 +289,10 @@ export default function SkillsValues() {
           {/* Skills Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors">
             <h2 className="text-xl font-bold text-primary-600 dark:text-primary-400 mb-3">
-              💪 Skills & Knowledge
+              💪 {t('careerVision.skillsValues.skillsKnowledge', 'Skills & Knowledge')}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Make a list of your skills, knowledge and competencies. Those things you are very good at from practice or study. Mention as many as possible.
+              {t('careerVision.skillsValues.skillsDescription', 'Make a list of your skills, knowledge and competencies. Those things you are very good at from practice or study. Mention as many as possible.')}
             </p>
 
             {/* Input */}
@@ -300,7 +302,7 @@ export default function SkillsValues() {
                 value={skillInput}
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyPress={handleSkillKeyPress}
-                placeholder="e.g., Project Management"
+                placeholder={t('careerVision.skillsValues.skillPlaceholder', 'e.g., Project Management')}
                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 options-none"
               />
               <button
@@ -332,17 +334,17 @@ export default function SkillsValues() {
 
             {/* Count */}
             <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-              {skills.length} skill{skills.length !== 1 ? 's' : ''} added (min. 3 recommended)
+              {t('careerVision.skillsValues.skillsCount', '{{count}} skill(s) added (min. 3 recommended)', { count: skills.length })}
             </p>
           </div>
 
           {/* Interests Section */}
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 border border-gray-100 dark:border-gray-700 transition-colors">
             <h2 className="text-xl font-bold text-primary-600 dark:text-primary-400 mb-3">
-              ❤️ Interests & Passions
+              ❤️ {t('careerVision.skillsValues.interestsPassions', 'Interests & Passions')}
             </h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              Choose from your skills and knowledge the ones you enjoy the most. Add other skills and knowledge you would like to have but you don't now.
+              {t('careerVision.skillsValues.interestsDescription', "Choose from your skills and knowledge the ones you enjoy the most. Add other skills and knowledge you would like to have but you don't now.")}
             </p>
 
             {/* Input */}
@@ -352,7 +354,7 @@ export default function SkillsValues() {
                 value={interestInput}
                 onChange={(e) => setInterestInput(e.target.value)}
                 onKeyPress={handleInterestKeyPress}
-                placeholder="e.g., Data Visualization"
+                placeholder={t('careerVision.skillsValues.interestPlaceholder', 'e.g., Data Visualization')}
                 className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent placeholder-gray-400 dark:placeholder-gray-500 outline-none"
               />
               <button
@@ -384,7 +386,7 @@ export default function SkillsValues() {
 
             {/* Count */}
             <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-              {interests.length} interest{interests.length !== 1 ? 's' : ''} added (min. 3 recommended)
+              {t('careerVision.skillsValues.interestsCount', '{{count}} interest(s) added (min. 3 recommended)', { count: interests.length })}
             </p>
           </div>
         </div>
@@ -395,10 +397,10 @@ export default function SkillsValues() {
             <div>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-yellow-500" />
-                AI-Powered Suggestions
+                {t('careerVision.skillsValues.aiSuggestionsTitle', 'AI-Powered Suggestions')}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400">
-                Get personalized suggestions to expand your profile
+                {t('careerVision.skillsValues.aiSuggestionsDesc', 'Get personalized suggestions to expand your profile')}
               </p>
             </div>
             <button
@@ -409,12 +411,12 @@ export default function SkillsValues() {
               {generating ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Generating...
+                  {t('careerVision.skillsValues.generating', 'Generating...')}
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4" />
-                  Generate Suggestions
+                  {t('careerVision.skillsValues.generateSuggestions', 'Generate Suggestions')}
                 </>
               )}
             </button>
@@ -426,7 +428,7 @@ export default function SkillsValues() {
               {/* Skills Suggestions */}
               {aiSuggestions.skills.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 SKILLS SUGGESTIONS</p>
+                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 {t('careerVision.skillsValues.skillsSuggestions', 'SKILLS SUGGESTIONS')}</p>
                   <div className="flex flex-wrap gap-2">
                     {aiSuggestions.skills.map((skill, index) => (
                       <button
@@ -444,7 +446,7 @@ export default function SkillsValues() {
               {/* Interests Suggestions */}
               {aiSuggestions.interests.length > 0 && (
                 <div>
-                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 INTERESTS SUGGESTIONS</p>
+                  <p className="text-xs font-semibold text-primary-600 dark:text-primary-400 mb-2">💡 {t('careerVision.skillsValues.interestsSuggestions', 'INTERESTS SUGGESTIONS')}</p>
                   <div className="flex flex-wrap gap-2">
                     {aiSuggestions.interests.map((interest, index) => (
                       <button
@@ -465,7 +467,7 @@ export default function SkillsValues() {
         {/* Interactive 2-Circle Venn Diagram with Hover Tooltips */}
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 mb-8 relative border border-gray-100 dark:border-gray-700 transition-colors">
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-            Your Career Vision / Ideal Job
+            {t('careerVision.skillsValues.yourCareerVisionIdealJob', 'Your Career Vision / Ideal Job')}
           </h3>
 
           <div className="flex items-center justify-center mb-6">
@@ -501,7 +503,7 @@ export default function SkillsValues() {
                       style={{ filter: 'drop-shadow(0 4px 6px rgba(30, 64, 175, 0.2))' }}
                     />
                     <text x="100" y="115" fill="#1e40af" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
-                      Skills
+                      {t('careerVision.skillsValues.skills', 'Skills')}
                     </text>
                     <text x="100" y="138" fill="#1e40af" fontSize="14" className="pointer-events-none" textAnchor="middle">
                       ({skills.length})
@@ -511,7 +513,7 @@ export default function SkillsValues() {
                     <foreignObject x="20" y="170" width="160" height="140" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-primary-400">
                         <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
-                          <span>💪</span> Skills:
+                          <span>💪</span> {t('careerVision.skillsValues.skillsLabel', 'Skills:')}
                         </p>
                         <div className="max-h-24 overflow-y-auto space-y-1">
                           {skills.slice(0, 5).map((skill, idx) => (
@@ -541,7 +543,7 @@ export default function SkillsValues() {
                       style={{ filter: 'drop-shadow(0 4px 6px rgba(31, 91, 170, 0.2))' }}
                     />
                     <text x="300" y="115" fill="#1F5BAA" fontSize="16" fontWeight="bold" className="pointer-events-none" textAnchor="middle">
-                      Interests
+                      {t('careerVision.skillsValues.interests', 'Interests')}
                     </text>
                     <text x="300" y="138" fill="#1F5BAA" fontSize="14" className="pointer-events-none" textAnchor="middle">
                       ({interests.length})
@@ -551,7 +553,7 @@ export default function SkillsValues() {
                     <foreignObject x="220" y="170" width="160" height="140" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="bg-white dark:bg-gray-700 rounded-lg shadow-2xl p-2 border-2 border-primary-400">
                         <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
-                          <span>💡</span> Interests:
+                          <span>💡</span> {t('careerVision.skillsValues.interestsLabel', 'Interests:')}
                         </p>
                         <div className="max-h-24 overflow-y-auto space-y-1">
                           {interests.slice(0, 5).map((interest, idx) => (
@@ -583,17 +585,17 @@ export default function SkillsValues() {
                         style={{ filter: 'drop-shadow(0 6px 12px rgba(30, 58, 95, 0.3))' }}
                       />
                       <text x="200" y="145" fill="#1e3a5f" fontSize="12" textAnchor="middle" fontWeight="bold" className="pointer-events-none">
-                        Career Vision
+                        {t('careerVision.skillsValues.careerVisionLabel', 'Career Vision')}
                       </text>
                       <text x="200" y="162" fill="#1e3a5f" fontSize="11" textAnchor="middle" fontWeight="bold" className="pointer-events-none">
-                        Ideal Job
+                        {t('careerVision.skillsValues.idealJob', 'Ideal Job')}
                       </text>
 
                       {/* Tooltip - Sweet Spot */}
                       <foreignObject x="120" y="60" width="160" height="80" className="pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <div className="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/80 dark:to-primary-900/80 rounded-lg shadow-2xl p-2 border-2 border-primary-500">
                           <p className="text-[10px] font-bold text-primary-700 dark:text-primary-300 mb-1 flex items-center gap-1">
-                            <span>✨</span> Career Vision:
+                            <span>✨</span> {t('careerVision.skillsValues.careerVisionColon', 'Career Vision:')}
                           </p>
                           <div className="flex flex-wrap gap-1">
                             {sweetSpot.slice(0, 4).map((word, idx) => (
@@ -616,7 +618,7 @@ export default function SkillsValues() {
             <div className="bg-gradient-to-r from-primary-50 via-primary-50 to-primary-50 dark:from-primary-900/20 dark:via-primary-900/20 dark:to-primary-900/20 border-2 border-primary-300 dark:border-primary-800 rounded-lg p-3 mb-3 shadow-sm">
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">✨</span>
-                <p className="text-sm font-bold text-primary-700 dark:text-primary-400">Career Vision / Ideal Job:</p>
+                <p className="text-sm font-bold text-primary-700 dark:text-primary-400">{t('careerVision.skillsValues.careerVisionIdealJobLabel', 'Career Vision / Ideal Job:')}</p>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {sweetSpot.map((word, index) => (
@@ -629,7 +631,7 @@ export default function SkillsValues() {
                 ))}
               </div>
               <p className="text-xs text-primary-600 dark:text-primary-500 mt-2 italic">
-                💡 Careers here are most fulfilling!
+                💡 {t('careerVision.skillsValues.careersFulfilling', 'Careers here are most fulfilling!')}
               </p>
             </div>
           )}
@@ -637,17 +639,17 @@ export default function SkillsValues() {
           {/* Instructions */}
           <div className="text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              <span className="font-semibold">🖱️ Hover over each circle</span> to see your detailed data
+              <span className="font-semibold">🖱️ {t('careerVision.skillsValues.hoverInstruction', 'Hover over each circle')}</span> {t('careerVision.skillsValues.toSeeData', 'to see your detailed data')}
             </p>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
               {isComplete ? (
                 <span className="text-green-600 dark:text-green-400 font-semibold flex items-center justify-center gap-2">
                   <span className="text-xl">🎉</span>
-                  Great! You've identified where your skills and interests overlap!
+                  {t('careerVision.skillsValues.greatOverlap', "Great! You've identified where your skills and interests overlap!")}
                 </span>
               ) : (
                 <span>
-                  Add at least 3 items to each category to discover where they intersect.
+                  {t('careerVision.skillsValues.addAtLeast3', 'Add at least 3 items to each category to discover where they intersect.')}
                 </span>
               )}
             </p>
@@ -660,7 +662,7 @@ export default function SkillsValues() {
             onClick={() => navigate('/dashboard/career-vision/dashboard')}
             className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 font-medium"
           >
-            Cancel
+            {t('common.cancel', 'Cancel')}
           </button>
 
           <button
@@ -671,12 +673,12 @@ export default function SkillsValues() {
             {saving ? (
               <>
                 <Loader2 className="w-5 h-5 animate-spin" />
-                Saving...
+                {t('common.saving', 'Saving...')}
               </>
             ) : (
               <>
                 <Save className="w-5 h-5" />
-                Save & Continue
+                {t('careerVision.skillsValues.saveContinue', 'Save & Continue')}
               </>
             )}
           </button>
@@ -684,7 +686,7 @@ export default function SkillsValues() {
 
         {!isComplete && (
           <p className="text-center text-sm text-primary-600 dark:text-primary-400 mt-4">
-            ⚠️ Please add at least 3 items to each category before saving
+            ⚠️ {t('careerVision.skillsValues.minItemsWarning', 'Please add at least 3 items to each category before saving')}
           </p>
         )}
       </div>
