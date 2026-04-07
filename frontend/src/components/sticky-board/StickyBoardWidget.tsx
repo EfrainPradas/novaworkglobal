@@ -32,12 +32,21 @@ function useCurrentModule(): NoteModule {
   return 'global'
 }
 
+/* ── Admin-only access ─────────────────────────────────────── */
+const ADMIN_EMAILS = [
+  'awoodw@gmail.com',
+  'efrain.pradas@gmail.com',
+  'isacriperez@gmail.com',
+]
+
+
 /* ════════════════════════════════════════════════════════════
-   Main Widget
+   Main Widget (admin-only, shared notes between admins)
    ════════════════════════════════════════════════════════════ */
 export default function StickyBoardWidget() {
   const [notes, setNotes] = useState<StickyNote[]>([])
   const [userId, setUserId] = useState<string | null>(null)
+  const [isAdmin, setIsAdmin] = useState(false)
   const [showNew, setShowNew] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const currentModule = useCurrentModule()
@@ -46,10 +55,25 @@ export default function StickyBoardWidget() {
     ;(async () => {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+      // Only allow admin emails
+      if (!ADMIN_EMAILS.includes(user.email?.toLowerCase() || '')) return
+      setIsAdmin(true)
       setUserId(user.id)
-      try { setNotes(await svc.getNotes(user.id)) } catch { setNotes([]) }
+      // Load all sticky notes visible to this admin (RLS allows admins to see each other's notes)
+      try {
+        const { data, error } = await supabase
+          .from('sticky_notes')
+          .select('*')
+          .order('pinned', { ascending: false })
+          .order('updated_at', { ascending: false })
+        if (error) throw error
+        setNotes(data || [])
+      } catch { setNotes([]) }
     })()
   }, [])
+
+  // If not admin, render nothing
+  if (!isAdmin) return null
 
   const visible = notes.filter(n => !n.archived && n.module === currentModule)
 

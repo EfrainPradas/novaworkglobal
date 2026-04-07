@@ -456,7 +456,7 @@ export default function QuestionAnswer() {
                         <button
                             onClick={handleGenerateAI}
                             disabled={generating || saving}
-                            className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-medium rounded-lg hover:from-purple-700 hover:to-indigo-700 transition-all shadow-sm flex items-center gap-2 disabled:opacity-50"
+                            className="px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 transition-all shadow-sm flex items-center gap-2 disabled:opacity-50"
                         >
                             {generating ? (
                                 <>

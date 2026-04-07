@@ -210,7 +210,7 @@ export default function QuestionBank() {
 
         {/* Category Description */}
         {selectedCategory !== 'all' && (
-          <div className="mb-8 bg-gradient-to-r from-primary-600 to-purple-600 rounded-xl shadow-lg p-6 text-white">
+          <div className="mb-8 bg-gradient-to-r from-primary-600 to-primary-800 rounded-xl shadow-lg p-6 text-white">
             <h2 className="text-2xl font-bold mb-2">
               {QUESTION_CATEGORY_DESCRIPTIONS[selectedCategory].title}
             </h2>

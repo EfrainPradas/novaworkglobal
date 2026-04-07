@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import { getVideoUrl } from '@/config/videoUrls'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
-import { PlayCircle, CheckCircle2, ChevronRight, Video } from 'lucide-react'
+import { PlayCircle, CheckCircle2, ChevronRight, Video, Crosshair, ClipboardList, Settings } from 'lucide-react'
 
 export default function CareerVisionDashboard() {
   const { t } = useTranslation()
@@ -47,7 +47,7 @@ export default function CareerVisionDashboard() {
       id: 'skills-values',
       title: t('careerVision.journey.skillsValues', 'Skills & Interests'),
       description: t('careerVision.journey.skillsValuesDesc', 'Identify your core competencies and what drives your professional satisfaction.'),
-      icon: '🎯',
+      Icon: Crosshair, color: 'text-rose-600', bgColor: 'bg-rose-50',
       route: '/dashboard/career-vision/skills-values',
       completed: sectionsStatus.skillsValues,
       videoSrc: getVideoUrl('The_Skills_&_Interests_Assessment.mp4')
@@ -56,7 +56,7 @@ export default function CareerVisionDashboard() {
       id: 'job-history',
       title: t('careerVision.journey.jobHistory', 'Job History Analysis'),
       description: t('careerVision.journey.jobHistoryDesc', 'Reflect on your past roles to identify patterns of success and areas for growth.'),
-      icon: '📋',
+      Icon: ClipboardList, color: 'text-amber-600', bgColor: 'bg-amber-50',
       route: '/dashboard/career-vision/job-history',
       completed: sectionsStatus.jobHistory,
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
@@ -65,7 +65,7 @@ export default function CareerVisionDashboard() {
       id: 'preferences',
       title: t('careerVision.journey.preferences', 'Ideal Work Preferences'),
       description: t('careerVision.journey.preferencesDesc', 'Define your must-haves, deal-breakers, and ideal organizational culture.'),
-      icon: '⚙️',
+      Icon: Settings, color: 'text-violet-600', bgColor: 'bg-violet-50',
       route: '/dashboard/career-vision/preferences',
       completed: sectionsStatus.preferences,
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
@@ -123,7 +123,9 @@ export default function CareerVisionDashboard() {
               onClick={() => navigate(section.route)}
               className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group"
             >
-              <div className="text-5xl mb-4 transition-transform group-hover:scale-110 duration-300">{section.icon}</div>
+              <div className={`w-14 h-14 rounded-xl ${section.bgColor} ${section.color} flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300`}>
+                <section.Icon className="w-7 h-7" />
+              </div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
                 {section.title}
                 {section.completed && <CheckCircle2 className="text-teal-500" size={20} />}
@@ -151,12 +153,6 @@ export default function CareerVisionDashboard() {
                   >
                     <PlayCircle size={14} />
                     {t('common.watchVideo', 'Ver video')}
-                  </button>
-                  <button
-                    onClick={(e) => { e.stopPropagation(); navigate('/dashboard/career-vision/learn-more') }}
-                    className="text-xs font-semibold text-slate-500 hover:text-teal-600 dark:text-slate-400 dark:hover:text-teal-400 transition-colors"
-                  >
-                    {t('careerVision.journey.exploreSection', 'Explorar sección')}
                   </button>
                 </div>
               </div>

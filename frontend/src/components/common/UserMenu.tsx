@@ -224,7 +224,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                 </button>
 
                 {/* Admin Only - Translations */}
-                {user?.email && ['awoodw@gmail.com', 'efrain.pradas@gmail.com'].includes(user.email.toLowerCase()) && (
+                {user?.email && ['awoodw@gmail.com', 'efrain.pradas@gmail.com', 'isacriperez@gmail.com'].includes(user.email.toLowerCase()) && (
                   <button
                     onClick={() => {
                       navigate('/admin/translations')

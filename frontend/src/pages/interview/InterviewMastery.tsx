@@ -11,6 +11,7 @@ import { BackButton } from '../../components/common/BackButton'
 import { supabase } from '../../lib/supabase'
 import { InterviewPreparation } from '../../types/interview'
 import { getDaysUntilInterview, formatInterviewDate } from '../../types/interview'
+import { Crosshair, ClipboardList, Calendar, PenSquare, CheckCircle2, Briefcase, Mail, BookOpen } from 'lucide-react'
 
 export default function InterviewMastery() {
   const navigate = useNavigate()
@@ -102,8 +103,11 @@ export default function InterviewMastery() {
 
           <div className="flex items-start justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
-                🎯 Interview Mastery System™
+              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
+                <span className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center">
+                  <Crosshair className="w-7 h-7" />
+                </span>
+                Interview Mastery System™
               </h1>
               <p className="text-lg text-gray-600 dark:text-gray-400">
                 Master your interview preparation with the 3-phase methodology
@@ -126,8 +130,8 @@ export default function InterviewMastery() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Interviews</p>
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">{interviews.length}</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">📋</span>
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <ClipboardList className="w-6 h-6" />
               </div>
             </div>
           </div>
@@ -140,8 +144,8 @@ export default function InterviewMastery() {
                   {interviews.filter(i => i.status === 'scheduled').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">📅</span>
+              <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <Calendar className="w-6 h-6" />
               </div>
             </div>
           </div>
@@ -154,8 +158,8 @@ export default function InterviewMastery() {
                   {interviews.filter(i => i.status === 'preparing').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">📝</span>
+              <div className="w-12 h-12 bg-yellow-100 dark:bg-yellow-900/30 rounded-xl flex items-center justify-center text-yellow-600 dark:text-yellow-400">
+                <PenSquare className="w-6 h-6" />
               </div>
             </div>
           </div>
@@ -168,8 +172,8 @@ export default function InterviewMastery() {
                   {interviews.filter(i => i.status === 'completed').length}
                 </p>
               </div>
-              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                <span className="text-2xl">✅</span>
+              <div className="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center text-green-600 dark:text-green-400">
+                <CheckCircle2 className="w-6 h-6" />
               </div>
             </div>
           </div>
@@ -178,8 +182,8 @@ export default function InterviewMastery() {
         {/* Empty State */}
         {interviews.length === 0 && (
           <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-12 text-center transition-colors duration-200">
-            <div className="w-24 h-24 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="text-5xl">🎯</span>
+            <div className="w-24 h-24 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-6 text-primary-600 dark:text-primary-400">
+              <Crosshair className="w-12 h-12" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Ready to Master Your Interviews?
@@ -257,24 +261,24 @@ export default function InterviewMastery() {
                     {/* Phase Indicators */}
                     <div className="grid grid-cols-3 gap-4">
                       <div className={`text-center p-3 rounded-lg ${interview.phase1_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className="text-2xl mb-1">
-                          {interview.phase1_completed ? '✅' : '📝'}
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase1_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                          {interview.phase1_completed ? <CheckCircle2 className="w-5 h-5" /> : <PenSquare className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase1_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           Phase 1: Prepare
                         </p>
                       </div>
                       <div className={`text-center p-3 rounded-lg ${interview.phase2_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className="text-2xl mb-1">
-                          {interview.phase2_completed ? '✅' : '💼'}
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase2_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                          {interview.phase2_completed ? <CheckCircle2 className="w-5 h-5" /> : <Briefcase className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase2_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           Phase 2: Execute
                         </p>
                       </div>
                       <div className={`text-center p-3 rounded-lg ${interview.phase3_completed ? 'bg-green-50 dark:bg-green-900/20' : 'bg-gray-50 dark:bg-gray-700'}`}>
-                        <div className="text-2xl mb-1">
-                          {interview.phase3_completed ? '✅' : '✉️'}
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center mx-auto mb-1 ${interview.phase3_completed ? 'bg-green-100 text-green-600 dark:bg-green-800/40 dark:text-green-400' : 'bg-gray-200 text-gray-500 dark:bg-gray-600 dark:text-gray-400'}`}>
+                          {interview.phase3_completed ? <CheckCircle2 className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
                         </div>
                         <p className={`text-sm font-medium ${interview.phase3_completed ? 'text-green-700 dark:text-green-400' : 'text-gray-600 dark:text-gray-400'}`}>
                           Phase 3: Follow-up
@@ -310,10 +314,12 @@ export default function InterviewMastery() {
         )}
 
         {/* Quick Access to Question Bank */}
-        <div className="mt-8 bg-gradient-to-r from-primary-600 to-purple-600 rounded-xl shadow-lg p-8 text-white">
+        <div className="mt-8 bg-gradient-to-r from-primary-600 to-primary-800 rounded-xl shadow-lg p-8 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-2xl font-bold mb-2">📚 Question Bank</h3>
+              <h3 className="text-2xl font-bold mb-2 flex items-center gap-3">
+                <BookOpen className="w-7 h-7" /> Question Bank
+              </h3>
               <p className="text-white/90">
                 Access 70+ curated interview questions with answering tips
               </p>
