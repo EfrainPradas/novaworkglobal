@@ -72,13 +72,13 @@ export default function StickyBoardWidget() {
     })()
   }, [])
 
-  // If not admin, render nothing
+  // Counter to stagger new notes so they don't overlap
+  const noteCounter = useRef(0)
+
+  // If not admin, render nothing (after all hooks)
   if (!isAdmin) return null
 
   const visible = notes.filter(n => !n.archived && n.module === currentModule)
-
-  // Counter to stagger new notes so they don't overlap
-  const noteCounter = useRef(0)
 
   const handleCreate = async (title: string, content: string, color: NoteColor) => {
     if (!userId) return

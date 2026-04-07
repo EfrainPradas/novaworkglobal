@@ -7,49 +7,56 @@ interface AddOnService {
     id: string
     title: string
     price: number
+    unit: string
     description: string
     features: string[]
     recommended?: boolean
+    cta?: string
 }
 
 const ADD_ONS: AddOnService[] = [
     {
-        id: 'standard-session',
-        title: 'Standard Strategy Session',
-        price: 199,
-        description: '45-min 1:1 session with a career coach to discuss your strategy, roadblocks, or specific questions.',
+        id: '1-1-session',
+        title: '1:1 Session',
+        price: 149,
+        unit: '/ session',
+        description: 'Deep clarity & strategy in a premium, one-time 45-min live session with a career coach.',
         features: [
-            '45-minute video call',
-            'Session recording provided',
-            'Action plan summary',
-            'Follow-up email support (1 week)'
-        ]
-    },
-    {
-        id: 'executive-advisory',
-        title: 'Executive Advisory',
-        price: 299,
-        description: 'Deep-dive session with a Senior Executive Coach for leadership positioning and complex career moves.',
-        features: [
-            '60-minute video call',
-            'Executive presence audit',
-            'Strategic networking plan',
-            'Negotiation strategy',
-            'Priority email access'
+            '45-minute live session',
+            'Deep clarity & strategy',
+            'Premium, one-time format',
+            'Action plan summary'
         ],
-        recommended: true
+        cta: 'Book Session'
     },
     {
-        id: 'offer-review',
-        title: 'Offer Review & Negotiation',
-        price: 349,
-        description: 'Expert review of your job offer and a custom negotiation strategy to maximize your compensation.',
+        id: 'email-coaching',
+        title: 'Email Coaching',
+        price: 39,
+        unit: '/ month',
+        description: 'Ongoing guidance with lightweight support. Get 3 emails per month from your coach.',
         features: [
-            'Comprehensive offer analysis',
-            'Custom counter-offer scripts',
-            'Equity/Stock option review',
-            'Mock negotiation practice'
-        ]
+            '3 emails / month',
+            'Ongoing guidance',
+            'Lightweight support',
+            'Flexible schedule'
+        ],
+        cta: 'Get Email Support'
+    },
+    {
+        id: 'coach-email',
+        title: 'Coach + Email',
+        price: 179,
+        unit: '/ month',
+        description: 'Strategy + continuity with a discounted bundle. 1 session + 3 emails per month.',
+        features: [
+            '1 session + 3 emails / month',
+            'Strategy + continuity',
+            'Discounted bundle',
+            'Priority access'
+        ],
+        recommended: true,
+        cta: 'Get Support'
     }
 ]
 
@@ -98,7 +105,7 @@ export default function ServiceAddOns() {
                             <h3 className="text-xl font-bold text-gray-900 dark:text-white">{service.title}</h3>
                             <div className="mt-2 flex items-baseline gap-1">
                                 <span className="text-3xl font-bold text-gray-900 dark:text-white">${service.price}</span>
-                                <span className="text-gray-500 dark:text-gray-400 text-sm">/session</span>
+                                <span className="text-gray-500 dark:text-gray-400 text-sm">{service.unit}</span>
                             </div>
                             <p className="text-gray-600 dark:text-gray-400 text-sm mt-3 min-h-[60px]">
                                 {service.description}
@@ -124,7 +131,7 @@ export default function ServiceAddOns() {
                                 }
                             `}
                         >
-                            Book Now <ArrowRight className="w-4 h-4" />
+                            {service.cta || 'Book Now'} <ArrowRight className="w-4 h-4" />
                         </button>
                     </div>
                 ))}
