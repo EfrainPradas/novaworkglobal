@@ -73,12 +73,21 @@ export default function Billing() {
     }
   }, [pendingPlan, autoCheckoutTriggered, catalog, loading, isActive, startCheckout])
 
+  // Poll for billing status after successful checkout until plan shows up
   useEffect(() => {
-    if (checkoutStatus === 'success') {
-      const timer = setTimeout(() => refetch(), 2000)
-      return () => clearTimeout(timer)
-    }
-  }, [checkoutStatus, refetch])
+    if (checkoutStatus !== 'success') return
+    if (isActive) return // Plan already loaded, stop polling
+
+    let attempt = 0
+    const maxAttempts = 10
+    const poll = setInterval(() => {
+      attempt++
+      refetch()
+      if (attempt >= maxAttempts) clearInterval(poll)
+    }, 3000)
+
+    return () => clearInterval(poll)
+  }, [checkoutStatus, isActive, refetch])
 
   const memberships = catalog.filter((p) => p.item_type === 'membership')
   const recurringAddons = catalog.filter((p) => p.item_type === 'addon_recurring')
