@@ -294,7 +294,17 @@ export default function NovaNextPage() {
                                     </div>
 
                                     <button
-                                        onClick={() => navigate(`/signup?program=novanext&plan=${plan.name}`)}
+                                        onClick={() => {
+                                            // Map landing plan names to Stripe billing codes
+                                            const PLAN_TO_BILLING: Record<string, string> = {
+                                                essentials: 'esenciales',
+                                                momentum: 'momentum',
+                                                executive: 'vanguard',
+                                            }
+                                            const billingCode = PLAN_TO_BILLING[plan.name] || plan.name
+                                            localStorage.setItem('novawork_pending_plan', billingCode)
+                                            navigate(`/signup?plan=${plan.name}`)
+                                        }}
                                         className={`w-full py-4 rounded-xl font-bold transition-all ${hasBadge
                                             ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg'
                                             : 'bg-gray-100 text-gray-900 hover:bg-gray-200'

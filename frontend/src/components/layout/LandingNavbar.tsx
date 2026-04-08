@@ -66,7 +66,7 @@ export default function LandingNavbar() {
                             {t('nav.signIn')}
                         </button>
                         <button
-                            onClick={() => navigate('/signup')}
+                            onClick={() => navigate('/programs/novanext')}
                             className="bg-primary text-white px-6 py-2 rounded-full font-semibold hover:bg-primary-700 transition-colors shadow-lg shadow-primary-500/20"
                         >
                             {t('nav.getStarted')}

@@ -42,7 +42,7 @@ export default function HeroModern() {
 
                         <div className="flex flex-row gap-4">
                             <button
-                                onClick={() => navigate('/signup')}
+                                onClick={() => navigate('/programs/novanext')}
                                 className="group px-5 py-3 bg-primary-600 text-white rounded-full border border-primary-600 font-semibold text-base flex items-center gap-2 hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-500/25 whitespace-nowrap"
                             >
                                 {t('hero.ctaStart')}

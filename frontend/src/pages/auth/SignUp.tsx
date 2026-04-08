@@ -19,6 +19,15 @@ export default function SignUp() {
   const isTrial = searchParams.get('trial') === 'true'
   const trialTier = searchParams.get('tier')
 
+  // Plan selected from landing page (stored in localStorage)
+  const pendingPlan = localStorage.getItem('novawork_pending_plan')
+  const PLAN_DISPLAY: Record<string, string> = {
+    esenciales: 'Esenciales',
+    momentum: 'Momentum',
+    vanguard: 'Vanguard',
+  }
+  const pendingPlanLabel = pendingPlan ? PLAN_DISPLAY[pendingPlan] : null
+
   async function handleEmailSignUp(e: React.FormEvent) {
     e.preventDefault()
     setError(null)
@@ -155,11 +164,27 @@ export default function SignUp() {
             <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
-            {isTrial ? `Start Your ${trialTier === 'executive' ? 'Vanguard' : 'Pro'} Trial` : t('auth.signUp.title')}
+            {isTrial
+              ? `Start Your ${trialTier === 'executive' ? 'Vanguard' : 'Pro'} Trial`
+              : pendingPlanLabel
+                ? t('auth.signUp.titleWithPlan', { plan: pendingPlanLabel })
+                : t('auth.signUp.title')}
           </h1>
           <p className="text-gray-600">
-            {isTrial ? 'Create your account to activate your 7-day free trial' : t('auth.signUp.subtitle')}
+            {isTrial
+              ? 'Create your account to activate your 7-day free trial'
+              : pendingPlanLabel
+                ? t('auth.signUp.subtitleWithPlan', { plan: pendingPlanLabel })
+                : t('auth.signUp.subtitle')}
           </p>
+          {pendingPlanLabel && (
+            <div className="mt-3 inline-flex items-center gap-2 bg-primary-50 border border-primary-200 text-primary-700 px-4 py-2 rounded-full text-sm font-medium">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+              {t('auth.signUp.selectedPlan', { plan: pendingPlanLabel })}
+            </div>
+          )}
         </div>
 
         {/* Main Card */}

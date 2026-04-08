@@ -18,7 +18,7 @@ export default function LandingPageCTA({ onAction }: LandingPageCTAProps) {
             if (programsSection) {
                 programsSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
             } else {
-                navigate('/signup')
+                navigate('/programs/novanext')
             }
         }
     }

@@ -24,6 +24,7 @@ import homeDashboardRoutes from './routes/homeDashboard.js'
 import marketNewsRoutes from './routes/marketNews.js'
 import guidedPathRoutes from './routes/guidedPath.js'
 import careerFeedRoutes from './routes/careerFeed.js'
+import billingRoutes from './routes/billing.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -71,6 +72,10 @@ app.use(cors({
   origin: getAllowedOrigins(),
   credentials: true
 }))
+
+// Stripe webhook needs raw body for signature verification — must come BEFORE express.json()
+app.use('/api/billing/webhook', express.raw({ type: 'application/json' }))
+
 app.use(express.json())
 
 // 🛡️ Security: Helmet for HTTP headers
@@ -111,6 +116,7 @@ app.use('/api/process-mining', processMiningRoutes)
 
 // 🚨 PUBLIC/SPECIFIC ROUTES MUST come BEFORE generic /api routes
 // Otherwise, generic auth-protected middleware intercepts them
+app.use('/api/billing', billingRoutes)          // billing + webhook (webhook has no auth)
 app.use('/api/translations', translationsRoutes)
 app.use('/api/market-news', marketNewsRoutes)  // public — no auth required
 

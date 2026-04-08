@@ -114,7 +114,15 @@ export default function PricingSection({ plans }: PricingSectionProps) {
 
                                 {/* CTA Button */}
                                 <button
-                                    onClick={() => (window.location.href = `/signup?plan=${plan.name}`)}
+                                    onClick={() => {
+                                        const PLAN_TO_BILLING: Record<string, string> = {
+                                            essentials: 'esenciales',
+                                            momentum: 'momentum',
+                                            executive: 'vanguard',
+                                        }
+                                        localStorage.setItem('novawork_pending_plan', PLAN_TO_BILLING[plan.name] || plan.name)
+                                        window.location.href = `/signup?plan=${plan.name}`
+                                    }}
                                     className={`w-full py-3 rounded-xl font-bold transition-all ${hasBadge
                                         ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-xl'
                                         : 'bg-gray-100 text-gray-900 hover:bg-gray-200'

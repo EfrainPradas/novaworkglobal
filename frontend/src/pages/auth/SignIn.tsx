@@ -35,8 +35,13 @@ export default function SignIn() {
         setError(signInError.message)
       } else {
         console.log('Sign in successful:', data)
-        // Redirect to dashboard after sign in
-        navigate('/dashboard')
+        // Check if user had selected a plan from landing page
+        const pendingPlan = localStorage.getItem('novawork_pending_plan')
+        if (pendingPlan) {
+          navigate(`/dashboard/billing?pending_plan=${pendingPlan}`)
+        } else {
+          navigate('/dashboard')
+        }
       }
     } catch (err) {
       console.error('Unexpected error:', err)

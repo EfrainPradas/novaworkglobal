@@ -55,9 +55,14 @@ export default function AuthCallback() {
           .eq('user_id', session.user.id)
           .maybeSingle()
 
-        // Redirect based on Career Vision status
+        // Check if user selected a plan from landing page
+        const pendingPlan = localStorage.getItem('novawork_pending_plan')
+
         setTimeout(() => {
-          if (!profile || !profile.has_seen_career_vision_prompt) {
+          if (pendingPlan) {
+            // User chose a plan before signing up — take them to billing to complete checkout
+            navigate(`/dashboard/billing?pending_plan=${pendingPlan}`)
+          } else if (!profile || !profile.has_seen_career_vision_prompt) {
             // New user - show Career Vision welcome
             navigate('/dashboard/career-vision/welcome')
           } else {
