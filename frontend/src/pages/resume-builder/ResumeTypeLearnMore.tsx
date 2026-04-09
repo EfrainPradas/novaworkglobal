@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Clock, Layers, TrendingUp, GitBranch, CheckCircle2, XCircle } from 'lucide-react'
 
 export default function ResumeTypeLearnMore() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#030711] font-sans text-[#10223e] dark:text-slate-200 transition-colors duration-300">
@@ -43,7 +45,7 @@ export default function ResumeTypeLearnMore() {
             onClick={() => navigate('/dashboard/resume/type-selection')}
             className="flex items-center gap-2 text-sm font-semibold text-[#5a6b86] dark:text-slate-400 hover:text-[#0b2450] dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Resume Type Selection
+            <ArrowLeft className="w-4 h-4" /> {t('resumeTypeLearnMore.backToTypeSelection')}
           </button>
         </div>
       </div>
@@ -53,17 +55,17 @@ export default function ResumeTypeLearnMore() {
         <header className="max-w-[1100px] mx-auto pt-24 pb-20 px-6">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-5 py-2 border border-[#39d0d8]/30 rounded-full bg-[rgba(57,208,216,0.1)] text-[#1c61cf] dark:text-teal-400 text-xs font-black uppercase tracking-widest mb-8 backdrop-blur-sm shadow-[0_0_15px_rgba(57,208,216,0.1)]">
-              The Résumé Blueprint
+              {t('resumeTypeLearnMore.heroBadge')}
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-[#0b2450] dark:text-white leading-[1.05] tracking-tight mb-8">
-              Chronological vs. Functional
+              {t('resumeTypeLearnMore.heroTitle')}
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed text-[#5a6b86] dark:text-slate-300 mb-10 max-w-3xl mx-auto">
-              Choosing the right resume format is a strategic decision. Learn which structure best tells your professional story and maximizes your chances of getting the interview.
+              {t('resumeTypeLearnMore.heroDescription')}
             </p>
             <div className="flex justify-center gap-4">
               <a href="#comparison" className="px-8 py-4 rounded-2xl bg-[#0b2450] text-white font-bold shadow-lg hover:bg-[#143a72] transition-all">
-                Compare Formats
+                {t('resumeTypeLearnMore.compareFormats')}
               </a>
             </div>
           </div>
@@ -75,7 +77,7 @@ export default function ResumeTypeLearnMore() {
             <div className="absolute -inset-4 bg-teal-500/10 rounded-[60px] blur-2xl group-hover:bg-teal-500/20 transition-all duration-700" />
             <img
               src="/images/chronologicavsFunctions.jpg"
-              alt="Chronological vs Functional Resume"
+              alt={t('resumeTypeLearnMore.infographicAlt')}
               className="relative w-full h-auto rounded-[40px] shadow-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 transform transition-transform duration-700 hover:scale-[1.01]"
             />
           </div>
@@ -84,8 +86,8 @@ export default function ResumeTypeLearnMore() {
         {/* Side-by-side comparison */}
         <section id="comparison" className="max-w-[1100px] mx-auto py-20 px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">Two Formats, One Goal</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">Both formats use the same content — they differ in how that content is organized and presented.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('resumeTypeLearnMore.twoFormatsTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">{t('resumeTypeLearnMore.twoFormatsSubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -96,21 +98,21 @@ export default function ResumeTypeLearnMore() {
                   <Clock className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Format A</div>
-                  <div className="text-xl font-black">Chronological</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('resumeTypeLearnMore.formatA')}</div>
+                  <div className="text-xl font-black">{t('resumeTypeLearnMore.chronological')}</div>
                 </div>
               </div>
               <div className="bg-white dark:bg-slate-900/50 p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400">Lists work experience in reverse chronological order — most recent position first.</p>
+                <p className="text-[#5a6b86] dark:text-slate-400">{t('resumeTypeLearnMore.chronologicalDesc')}</p>
 
                 <div>
-                  <div className="text-xs font-black uppercase tracking-widest text-[#1c61cf] mb-3">Best For</div>
+                  <div className="text-xs font-black uppercase tracking-widest text-[#1c61cf] mb-3">{t('resumeTypeLearnMore.bestFor')}</div>
                   <div className="space-y-2">
                     {[
-                      'Professionals continuing in the same career path',
-                      'Strong, uninterrupted work history',
-                      'Roles in traditional or corporate industries',
-                      'Candidates with steady career progression',
+                      t('resumeTypeLearnMore.chronoBest1'),
+                      t('resumeTypeLearnMore.chronoBest2'),
+                      t('resumeTypeLearnMore.chronoBest3'),
+                      t('resumeTypeLearnMore.chronoBest4'),
                     ].map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-[#1c61cf] mt-0.5 flex-shrink-0" />
@@ -121,11 +123,11 @@ export default function ResumeTypeLearnMore() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-black uppercase tracking-widest text-red-500 mb-3">Not Ideal For</div>
+                  <div className="text-xs font-black uppercase tracking-widest text-red-500 mb-3">{t('resumeTypeLearnMore.notIdealFor')}</div>
                   <div className="space-y-2">
                     {[
-                      'Career changers switching industries',
-                      'Candidates with employment gaps',
+                      t('resumeTypeLearnMore.chronoNot1'),
+                      t('resumeTypeLearnMore.chronoNot2'),
                     ].map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
@@ -136,8 +138,8 @@ export default function ResumeTypeLearnMore() {
                 </div>
 
                 <div className="p-4 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
-                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">Structure</div>
-                  <p className="text-sm text-[#0b2450] dark:text-slate-300">Contact → Summary → Work Experience (reverse order) → Education → Skills</p>
+                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">{t('resumeTypeLearnMore.structure')}</div>
+                  <p className="text-sm text-[#0b2450] dark:text-slate-300">{t('resumeTypeLearnMore.chronologicalStructure')}</p>
                 </div>
               </div>
             </div>
@@ -149,21 +151,21 @@ export default function ResumeTypeLearnMore() {
                   <Layers className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Format B</div>
-                  <div className="text-xl font-black">Functional</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('resumeTypeLearnMore.formatB')}</div>
+                  <div className="text-xl font-black">{t('resumeTypeLearnMore.functional')}</div>
                 </div>
               </div>
               <div className="bg-white dark:bg-slate-900/50 p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400">Groups accomplishments by skill category — shifting focus from when to what you achieved.</p>
+                <p className="text-[#5a6b86] dark:text-slate-400">{t('resumeTypeLearnMore.functionalDesc')}</p>
 
                 <div>
-                  <div className="text-xs font-black uppercase tracking-widest text-[#06b6d4] mb-3">Best For</div>
+                  <div className="text-xs font-black uppercase tracking-widest text-[#06b6d4] mb-3">{t('resumeTypeLearnMore.bestFor')}</div>
                   <div className="space-y-2">
                     {[
-                      'Career changers moving to a new industry',
-                      'Candidates with employment gaps',
-                      'International moves or versatile roles',
-                      'Project-based or freelance professionals',
+                      t('resumeTypeLearnMore.funcBest1'),
+                      t('resumeTypeLearnMore.funcBest2'),
+                      t('resumeTypeLearnMore.funcBest3'),
+                      t('resumeTypeLearnMore.funcBest4'),
                     ].map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <CheckCircle2 className="w-4 h-4 text-[#06b6d4] mt-0.5 flex-shrink-0" />
@@ -174,11 +176,11 @@ export default function ResumeTypeLearnMore() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-black uppercase tracking-widest text-red-500 mb-3">Not Ideal For</div>
+                  <div className="text-xs font-black uppercase tracking-widest text-red-500 mb-3">{t('resumeTypeLearnMore.notIdealFor')}</div>
                   <div className="space-y-2">
                     {[
-                      'Traditional industries expecting standard formats',
-                      'Roles requiring clear career progression',
+                      t('resumeTypeLearnMore.funcNot1'),
+                      t('resumeTypeLearnMore.funcNot2'),
                     ].map((item) => (
                       <div key={item} className="flex items-start gap-2">
                         <XCircle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
@@ -189,8 +191,8 @@ export default function ResumeTypeLearnMore() {
                 </div>
 
                 <div className="p-4 bg-[#f0fbff] dark:bg-slate-950/50 rounded-xl border border-[#b2e8f5] dark:border-white/5">
-                  <div className="text-xs font-bold text-[#06b6d4] uppercase tracking-wider mb-1">Structure</div>
-                  <p className="text-sm text-[#0b2450] dark:text-slate-300">Contact → Summary → Skill Groups + Accomplishments → Work History (brief) → Education</p>
+                  <div className="text-xs font-bold text-[#06b6d4] uppercase tracking-wider mb-1">{t('resumeTypeLearnMore.structure')}</div>
+                  <p className="text-sm text-[#0b2450] dark:text-slate-300">{t('resumeTypeLearnMore.functionalStructure')}</p>
                 </div>
               </div>
             </div>
@@ -201,16 +203,16 @@ export default function ResumeTypeLearnMore() {
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="bg-white dark:bg-slate-900/50 rounded-[32px] p-10 border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-xl">
-              <h2 className="text-3xl font-black text-[#0b2450] dark:text-white mb-4">The Architecture of Access</h2>
+              <h2 className="text-3xl font-black text-[#0b2450] dark:text-white mb-4">{t('resumeTypeLearnMore.architectureTitle')}</h2>
               <p className="text-[#5a6b86] dark:text-slate-400 leading-relaxed mb-6">
-                Your resume format is the architecture that either opens or closes doors. A mismatched format — no matter how strong your accomplishments — can prevent your story from being heard.
+                {t('resumeTypeLearnMore.architectureDesc')}
               </p>
               <div className="space-y-3">
                 {[
-                  'The format signals your career narrative before recruiters read a word.',
-                  'ATS systems parse formats differently — choose strategically.',
-                  'Career changers who use chronological resumes are often auto-rejected.',
-                  'Both formats use the same CAR accomplishments — just organized differently.',
+                  t('resumeTypeLearnMore.architecturePoint1'),
+                  t('resumeTypeLearnMore.architecturePoint2'),
+                  t('resumeTypeLearnMore.architecturePoint3'),
+                  t('resumeTypeLearnMore.architecturePoint4'),
                 ].map((item) => (
                   <div key={item} className="flex gap-3 items-center p-4 bg-[#f8fcfe] dark:bg-slate-950/50 rounded-2xl border border-[#d7e7f0] dark:border-white/5">
                     <div className="w-2 h-2 rounded-full bg-[#39d0d8] flex-shrink-0" />
@@ -221,13 +223,13 @@ export default function ResumeTypeLearnMore() {
             </div>
 
             <div className="space-y-6">
-              <h3 className="text-2xl font-black text-[#0b2450] dark:text-white">Quick Decision Guide</h3>
+              <h3 className="text-2xl font-black text-[#0b2450] dark:text-white">{t('resumeTypeLearnMore.decisionGuideTitle')}</h3>
               {[
-                { q: 'Staying in the same field?', a: 'Chronological', color: '#1c61cf', icon: <TrendingUp className="w-5 h-5" /> },
-                { q: 'Changing industries or roles?', a: 'Functional', color: '#06b6d4', icon: <GitBranch className="w-5 h-5" /> },
-                { q: 'Have employment gaps?', a: 'Functional', color: '#06b6d4', icon: <GitBranch className="w-5 h-5" /> },
-                { q: 'Strong uninterrupted career?', a: 'Chronological', color: '#1c61cf', icon: <TrendingUp className="w-5 h-5" /> },
-                { q: 'Not sure?', a: 'Build both!', color: '#0b2450', icon: <Layers className="w-5 h-5" /> },
+                { q: t('resumeTypeLearnMore.decision1Q'), a: t('resumeTypeLearnMore.chronological'), color: '#1c61cf', icon: <TrendingUp className="w-5 h-5" /> },
+                { q: t('resumeTypeLearnMore.decision2Q'), a: t('resumeTypeLearnMore.functional'), color: '#06b6d4', icon: <GitBranch className="w-5 h-5" /> },
+                { q: t('resumeTypeLearnMore.decision3Q'), a: t('resumeTypeLearnMore.functional'), color: '#06b6d4', icon: <GitBranch className="w-5 h-5" /> },
+                { q: t('resumeTypeLearnMore.decision4Q'), a: t('resumeTypeLearnMore.chronological'), color: '#1c61cf', icon: <TrendingUp className="w-5 h-5" /> },
+                { q: t('resumeTypeLearnMore.decision5Q'), a: t('resumeTypeLearnMore.buildBoth'), color: '#0b2450', icon: <Layers className="w-5 h-5" /> },
               ].map((item) => (
                 <div key={item.q} className="flex items-center justify-between p-4 bg-white dark:bg-slate-900/50 rounded-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-sm">
                   <span className="text-[#5a6b86] dark:text-slate-400 text-sm font-medium">{item.q}</span>
@@ -245,22 +247,22 @@ export default function ResumeTypeLearnMore() {
         <section className="max-w-[800px] mx-auto py-24 px-6 text-center">
           <div className="bg-gradient-to-br from-[#0b2450] to-[#143a72] rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
-            <h2 className="text-4xl font-black mb-6 relative z-10">Ready to choose your format?</h2>
+            <h2 className="text-4xl font-black mb-6 relative z-10">{t('resumeTypeLearnMore.ctaTitle')}</h2>
             <p className="text-lg text-white/80 mb-10 relative z-10">
-              Select the structure that best tells your story and generates your professional resume.
+              {t('resumeTypeLearnMore.ctaDescription')}
             </p>
             <button
               onClick={() => navigate('/dashboard/resume/type-selection')}
               className="bg-[#39d0d8] text-[#0b2450] px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-transform relative z-10"
             >
-              Choose Your Format
+              {t('resumeTypeLearnMore.ctaButton')}
             </button>
           </div>
         </section>
       </div>
 
       <footer className="py-12 border-t border-[rgba(11,36,80,0.05)] dark:border-white/5 text-center text-[#5a6b86] dark:text-slate-500 text-sm font-medium">
-        &copy; {new Date().getFullYear()} NovaWork Global • Professional Career Acceleration
+        &copy; {new Date().getFullYear()} NovaWork Global • {t('resumeTypeLearnMore.footerTagline')}
       </footer>
     </div>
   )

@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ArrowLeft, User, Target, Layers, Key, ArrowRight, CheckCircle2 } from 'lucide-react'
 
 export default function ProfileLearnMore() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#030711] font-sans text-[#10223e] dark:text-slate-200 transition-colors duration-300">
@@ -43,7 +45,7 @@ export default function ProfileLearnMore() {
             onClick={() => navigate('/dashboard/resume/profile')}
             className="flex items-center gap-2 text-sm font-semibold text-[#5a6b86] dark:text-slate-400 hover:text-[#0b2450] dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Profile Builder
+            <ArrowLeft className="w-4 h-4" /> {t('profileLearnMore.backToProfileBuilder')}
           </button>
         </div>
       </div>
@@ -53,17 +55,17 @@ export default function ProfileLearnMore() {
         <header className="max-w-[1100px] mx-auto pt-24 pb-20 px-6">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-5 py-2 border border-[#1c61cf]/30 rounded-full bg-[rgba(28,97,207,0.1)] text-[#1c61cf] dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-8 backdrop-blur-sm shadow-[0_0_15px_rgba(28,97,207,0.1)]">
-              The Professional Profile Blueprint
+              {t('profileLearnMore.heroBadge')}
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-[#0b2450] dark:text-white leading-[1.05] tracking-tight mb-8">
-              Crafting Your<br />Professional Profile
+              {t('profileLearnMore.heroTitle')}
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed text-[#5a6b86] dark:text-slate-300 mb-10 max-w-3xl mx-auto">
-              A four-step structural blueprint to engineer the perfect resume introduction. Stop writing generic paragraphs — assemble interlocking parts.
+              {t('profileLearnMore.heroDescription')}
             </p>
             <div className="flex justify-center gap-4">
               <a href="#blueprint" className="px-8 py-4 rounded-2xl bg-[#0b2450] text-white font-bold shadow-lg hover:bg-[#143a72] transition-all">
-                See the Blueprint
+                {t('profileLearnMore.seeBlueprint')}
               </a>
             </div>
           </div>
@@ -75,7 +77,7 @@ export default function ProfileLearnMore() {
             <div className="absolute -inset-4 bg-blue-500/10 rounded-[60px] blur-2xl group-hover:bg-blue-500/20 transition-all duration-700" />
             <img
               src="/images/Professional Profile FrameWork.jpg"
-              alt="Professional Profile Framework"
+              alt={t('profileLearnMore.infographicAlt')}
               className="relative w-full h-auto rounded-[40px] shadow-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 transform transition-transform duration-700 hover:scale-[1.01]"
             />
           </div>
@@ -84,17 +86,17 @@ export default function ProfileLearnMore() {
         {/* The Professional Snapshot */}
         <section className="max-w-[1100px] mx-auto py-16 px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">The Professional Snapshot</h2>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('profileLearnMore.snapshotTitle')}</h2>
             <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">
-              The Professional Profile is the most important real estate on your resume. A short, targeted introduction designed to quickly and undeniably prove three things to a hiring manager.
+              {t('profileLearnMore.snapshotDescription')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
             {[
-              { num: '1', label: 'Who you are.' },
-              { num: '2', label: 'What you do well.' },
-              { num: '3', label: 'The exact value you bring.' },
+              { num: '1', label: t('profileLearnMore.whoYouAre') },
+              { num: '2', label: t('profileLearnMore.whatYouDoWell') },
+              { num: '3', label: t('profileLearnMore.exactValue') },
             ].map((item) => (
               <div key={item.num} className="pb-card rounded-2xl p-8 bg-white dark:bg-slate-900/50 border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-lg text-center">
                 <div className="text-5xl font-black text-[#0b2450] dark:text-white mb-3">{item.num}</div>
@@ -108,8 +110,8 @@ export default function ProfileLearnMore() {
         {/* Architecture — 4 Blocks */}
         <section id="blueprint" className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">The Architecture of a Winning Profile</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">Four interlocking blocks that work together as a system.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('profileLearnMore.architectureTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('profileLearnMore.architectureSubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -120,23 +122,27 @@ export default function ProfileLearnMore() {
                   <User className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Block 1</div>
-                  <div className="text-xl font-black">Professional Identity</div>
-                  <div className="text-xs opacity-60">The anchor point.</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('profileLearnMore.block1')}</div>
+                  <div className="text-xl font-black">{t('profileLearnMore.professionalIdentity')}</div>
+                  <div className="text-xs opacity-60">{t('profileLearnMore.anchorPoint')}</div>
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">The first sentence serves a single purpose: explaining exactly who you are professionally. Do not overcomplicate it.</p>
-                <div className="text-xs font-black uppercase tracking-widest text-[#0b2450] dark:text-blue-400 mb-2">Anatomy of Sentence 1</div>
-                {['Professional Title', 'Years / Level of Experience', 'Target Industries'].map((item) => (
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('profileLearnMore.identityDesc')}</p>
+                <div className="text-xs font-black uppercase tracking-widest text-[#0b2450] dark:text-blue-400 mb-2">{t('profileLearnMore.anatomyLabel')}</div>
+                {[
+                  t('profileLearnMore.professionalTitle'),
+                  t('profileLearnMore.yearsExperience'),
+                  t('profileLearnMore.targetIndustries')
+                ].map((item) => (
                   <div key={item} className="flex items-center gap-3 p-3 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
                     <CheckCircle2 className="w-4 h-4 text-[#1c61cf] flex-shrink-0" />
                     <span className="text-sm font-semibold text-[#0b2450] dark:text-slate-200">{item}</span>
                   </div>
                 ))}
                 <div className="p-4 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
-                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">Example</div>
-                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">"Service Business Leader and Management Consultant with local and international experience in consulting firms."</p>
+                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">{t('profileLearnMore.example')}</div>
+                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">{t('profileLearnMore.identityExample')}</p>
                 </div>
               </div>
             </div>
@@ -148,19 +154,19 @@ export default function ProfileLearnMore() {
                   <Target className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Block 2</div>
-                  <div className="text-xl font-black">Positioning Statement</div>
-                  <div className="text-xs opacity-60">The strategic direction.</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('profileLearnMore.block2')}</div>
+                  <div className="text-xl font-black">{t('profileLearnMore.positioningStatement')}</div>
+                  <div className="text-xs opacity-60">{t('profileLearnMore.strategicDirection')}</div>
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Your positioning statement highlights a group of core skills that, when combined, make you uniquely equipped for the specific job you want.</p>
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('profileLearnMore.positioningDesc')}</p>
                 <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-xl border border-amber-200 dark:border-amber-800/40">
-                  <p className="text-sm font-bold text-amber-800 dark:text-amber-400">Don't just list skills — state what those skills allow you to accomplish.</p>
+                  <p className="text-sm font-bold text-amber-800 dark:text-amber-400">{t('profileLearnMore.positioningTip')}</p>
                 </div>
                 <div className="p-4 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
-                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">Example</div>
-                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">"Expert at successfully starting up, developing, and growing outsourcing service firms locally and internationally."</p>
+                  <div className="text-xs font-bold text-[#1c61cf] uppercase tracking-wider mb-1">{t('profileLearnMore.example')}</div>
+                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">{t('profileLearnMore.positioningExample')}</p>
                 </div>
               </div>
             </div>
@@ -172,18 +178,18 @@ export default function ProfileLearnMore() {
                   <Layers className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Block 3</div>
-                  <div className="text-xl font-black">Soft Skills</div>
-                  <div className="text-xs opacity-60">The operational style.</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('profileLearnMore.block3')}</div>
+                  <div className="text-xl font-black">{t('profileLearnMore.softSkills')}</div>
+                  <div className="text-xs opacity-60">{t('profileLearnMore.operationalStyle')}</div>
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Dedicate 3–4 short sentences to describing how you operate. These must directly align with the target job's requirements.</p>
-                <div className="text-xs font-black uppercase tracking-widest text-[#39d0d8] mb-2">Skill Transformation Matrix</div>
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('profileLearnMore.softSkillsDesc')}</p>
+                <div className="text-xs font-black uppercase tracking-widest text-[#39d0d8] mb-2">{t('profileLearnMore.skillMatrixLabel')}</div>
                 {[
-                  { from: 'Just "Leadership"', to: 'Leading multicultural, cross-functional and remote teams' },
-                  { from: 'Just "Communication"', to: 'Negotiating with all organizational levels and diverse stakeholders' },
-                  { from: 'Just "Problem Solving"', to: 'Effectively managing crises and creatively solving problems' },
+                  { from: t('profileLearnMore.leadershipFrom'), to: t('profileLearnMore.leadershipTo') },
+                  { from: t('profileLearnMore.communicationFrom'), to: t('profileLearnMore.communicationTo') },
+                  { from: t('profileLearnMore.problemSolvingFrom'), to: t('profileLearnMore.problemSolvingTo') },
                 ].map((item) => (
                   <div key={item.from} className="flex items-start gap-3 p-3 bg-[#f0fbff] dark:bg-slate-950/50 rounded-xl border border-[#b2e8f5] dark:border-white/5">
                     <ArrowRight className="w-4 h-4 text-[#39d0d8] flex-shrink-0 mt-0.5" />
@@ -203,18 +209,18 @@ export default function ProfileLearnMore() {
                   <Key className="w-6 h-6" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">Block 4</div>
-                  <div className="text-xl font-black">Areas of Excellence</div>
-                  <div className="text-xs opacity-60">The technical key.</div>
+                  <div className="text-xs font-bold uppercase tracking-widest opacity-70 mb-0.5">{t('profileLearnMore.block4')}</div>
+                  <div className="text-xl font-black">{t('profileLearnMore.areasOfExcellence')}</div>
+                  <div className="text-xs opacity-60">{t('profileLearnMore.technicalKey')}</div>
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">A dedicated keyword section that helps both human recruiters scanning for specific terms and ATS systems categorizing your application.</p>
-                <div className="text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 mb-2">Execution Rules</div>
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('profileLearnMore.areasDesc')}</p>
+                <div className="text-xs font-black uppercase tracking-widest text-slate-600 dark:text-slate-400 mb-2">{t('profileLearnMore.executionRules')}</div>
                 {[
-                  'Format as a distinct, separated list.',
-                  'Use vertical pipes ( | ) for clean, scannable separation.',
-                  'Include only the highest-priority industry terminology.',
+                  t('profileLearnMore.executionRule1'),
+                  t('profileLearnMore.executionRule2'),
+                  t('profileLearnMore.executionRule3'),
                 ].map((item) => (
                   <div key={item} className="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-950/50 rounded-xl border border-slate-200 dark:border-white/5">
                     <CheckCircle2 className="w-4 h-4 text-slate-500 flex-shrink-0 mt-0.5" />
@@ -222,8 +228,8 @@ export default function ProfileLearnMore() {
                   </div>
                 ))}
                 <div className="p-4 bg-slate-50 dark:bg-slate-950/50 rounded-xl border border-slate-200 dark:border-white/5">
-                  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">Example</div>
-                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">"Areas of Excellence: International Management Consulting | Global Scope | Budgeting | P&L | Project Management"</p>
+                  <div className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider mb-1">{t('profileLearnMore.example')}</div>
+                  <p className="text-sm text-[#0b2450] dark:text-slate-300 italic">{t('profileLearnMore.areasExample')}</p>
                 </div>
               </div>
             </div>
@@ -233,26 +239,26 @@ export default function ProfileLearnMore() {
         {/* Blueprint Framework Matrix */}
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">The Blueprint Framework Matrix</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">Each block targets a specific decision-maker in the hiring process.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('profileLearnMore.matrixTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('profileLearnMore.matrixSubtitle')}</p>
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-lg">
             <table className="w-full text-sm">
               <thead>
                 <tr>
-                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">Component</th>
-                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">Objective</th>
-                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">Length</th>
-                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">Primary Target</th>
+                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">{t('profileLearnMore.component')}</th>
+                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">{t('profileLearnMore.objective')}</th>
+                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">{t('profileLearnMore.length')}</th>
+                  <th className="p-4 bg-[#0b2450] text-white text-left font-black uppercase tracking-wider">{t('profileLearnMore.primaryTarget')}</th>
                 </tr>
               </thead>
               <tbody>
                 {[
-                  { component: 'Identity', bg: 'bg-[#0b2450]', text: 'text-white', obj: 'Establish baseline credibility', len: '1 Sentence', target: 'Human Recruiter' },
-                  { component: 'Positioning', bg: 'bg-[#1c61cf]', text: 'text-white', obj: 'Prove fitness for the specific role', len: '1 Sentence', target: 'Hiring Manager' },
-                  { component: 'Soft Skills', bg: 'bg-[#39d0d8]', text: 'text-[#0b2450]', obj: 'Demonstrate operational capability', len: '3–4 Sentences', target: 'Hiring Manager / Team Lead' },
-                  { component: 'Areas of Excellence', bg: 'bg-slate-500', text: 'text-white', obj: 'Ensure searchability and categorization', len: 'Keyword List', target: 'Applicant Tracking System (ATS)' },
+                  { component: t('profileLearnMore.identity'), bg: 'bg-[#0b2450]', text: 'text-white', obj: t('profileLearnMore.identityObj'), len: t('profileLearnMore.oneSentence'), target: t('profileLearnMore.humanRecruiter') },
+                  { component: t('profileLearnMore.positioningMatrix'), bg: 'bg-[#1c61cf]', text: 'text-white', obj: t('profileLearnMore.positioningObj'), len: t('profileLearnMore.oneSentence'), target: t('profileLearnMore.hiringManager') },
+                  { component: t('profileLearnMore.softSkillsMatrix'), bg: 'bg-[#39d0d8]', text: 'text-[#0b2450]', obj: t('profileLearnMore.softSkillsObj'), len: t('profileLearnMore.sentences3to4'), target: t('profileLearnMore.hiringManagerTeamLead') },
+                  { component: t('profileLearnMore.areasOfExcellenceMatrix'), bg: 'bg-slate-500', text: 'text-white', obj: t('profileLearnMore.areasObj'), len: t('profileLearnMore.keywordList'), target: t('profileLearnMore.ats') },
                 ].map((row, i) => (
                   <tr key={row.component} className={`border-t border-[rgba(11,36,80,0.06)] dark:border-white/5 ${i % 2 === 0 ? 'bg-white dark:bg-slate-900/50' : 'bg-[#f8fcfe] dark:bg-slate-900/30'}`}>
                     <td className="p-4">
@@ -271,28 +277,28 @@ export default function ProfileLearnMore() {
         {/* Real Example */}
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">Anatomical Teardown</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">See how the four blocks come together in a real profile.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('profileLearnMore.teardownTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('profileLearnMore.teardownSubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {[
               {
-                role: 'Service Business Leader',
+                role: t('profileLearnMore.role1'),
                 lines: [
-                  { label: 'Identity established instantly', text: 'Service Business Leader and Management Consultant with local and international experience in consulting firms.', color: '#0b2450' },
-                  { label: 'Value and positioning defined', text: 'Expert at successfully starting up, developing, and growing outsourcing service firms locally and internationally.', color: '#1c61cf' },
-                  { label: 'Soft skills applied to real-world scenarios', text: 'Skilled at leading multicultural… closing favorable deals, coaching and mentoring others…', color: '#39d0d8' },
-                  { label: 'Highly searchable, pipe-separated ATS keywords', text: 'Areas of Excellence: Budgeting | P&L | Savings Maximization…', color: '#64748b' },
+                  { label: t('profileLearnMore.identityLabel'), text: t('profileLearnMore.role1Line1'), color: '#0b2450' },
+                  { label: t('profileLearnMore.positioningLabel'), text: t('profileLearnMore.role1Line2'), color: '#1c61cf' },
+                  { label: t('profileLearnMore.softSkillsLabel'), text: t('profileLearnMore.role1Line3'), color: '#39d0d8' },
+                  { label: t('profileLearnMore.areasLabel'), text: t('profileLearnMore.role1Line4'), color: '#64748b' },
                 ],
               },
               {
-                role: 'Project Manager & Engineer',
+                role: t('profileLearnMore.role2'),
                 lines: [
-                  { label: 'Identity established instantly', text: 'Project Manager/Engineer with regional experience in the medical equipment, industrial equipment, oil & gas, and power & light industries.', color: '#0b2450' },
-                  { label: 'Value and positioning defined', text: 'Expert at improving processes, performing needs assessments, and proposing solutions for clients…', color: '#1c61cf' },
-                  { label: 'Soft skills applied to real-world scenarios', text: 'Skilled at leading multicultural teams… creatively solving problems… with a strong client/customer orientation. Bilingual (EN/ES).', color: '#39d0d8' },
-                  { label: 'Highly searchable, pipe-separated ATS keywords', text: 'Areas of Excellence: Project Management | Needs Assessment | Supply Chain | KPIs…', color: '#64748b' },
+                  { label: t('profileLearnMore.identityLabel'), text: t('profileLearnMore.role2Line1'), color: '#0b2450' },
+                  { label: t('profileLearnMore.positioningLabel'), text: t('profileLearnMore.role2Line2'), color: '#1c61cf' },
+                  { label: t('profileLearnMore.softSkillsLabel'), text: t('profileLearnMore.role2Line3'), color: '#39d0d8' },
+                  { label: t('profileLearnMore.areasLabel'), text: t('profileLearnMore.role2Line4'), color: '#64748b' },
                 ],
               },
             ].map((ex) => (
@@ -318,22 +324,22 @@ export default function ProfileLearnMore() {
         <section className="max-w-[800px] mx-auto py-24 px-6 text-center">
           <div className="bg-gradient-to-br from-[#0b2450] to-[#143a72] rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
-            <h2 className="text-4xl font-black mb-6 relative z-10">Stop Writing. Start Engineering.</h2>
+            <h2 className="text-4xl font-black mb-6 relative z-10">{t('profileLearnMore.ctaTitle')}</h2>
             <p className="text-lg text-white/80 mb-10 relative z-10">
-              You now have the blueprint. Deconstruct your current profile and rebuild it step-by-step to command the attention your experience deserves.
+              {t('profileLearnMore.ctaDescription')}
             </p>
             <button
               onClick={() => navigate('/dashboard/resume/profile')}
               className="inline-flex items-center gap-2 bg-[#39d0d8] text-[#0b2450] px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-transform relative z-10"
             >
-              Build Your Profile <ArrowRight className="w-5 h-5" />
+              {t('profileLearnMore.ctaButton')} <ArrowRight className="w-5 h-5" />
             </button>
           </div>
         </section>
       </div>
 
       <footer className="py-12 border-t border-[rgba(11,36,80,0.05)] dark:border-white/5 text-center text-[#5a6b86] dark:text-slate-500 text-sm font-medium">
-        &copy; {new Date().getFullYear()} NovaWork Global • Professional Career Acceleration
+        &copy; {new Date().getFullYear()} NovaWork Global • {t('profileLearnMore.footerTagline')}
       </footer>
     </div>
   )

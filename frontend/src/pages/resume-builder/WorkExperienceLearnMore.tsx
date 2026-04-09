@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ArrowLeft, Briefcase, Target, BarChart3, CheckCircle2, ArrowRight, Zap, Bot } from 'lucide-react'
 
 export default function WorkExperienceLearnMore() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#030711] font-sans text-[#10223e] dark:text-slate-200 transition-colors duration-300">
@@ -43,7 +45,7 @@ export default function WorkExperienceLearnMore() {
             onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
             className="flex items-center gap-2 text-sm font-semibold text-[#5a6b86] dark:text-slate-400 hover:text-[#0b2450] dark:hover:text-white transition-colors"
           >
-            <ArrowLeft className="w-4 h-4" /> Back to Work Experience
+            <ArrowLeft className="w-4 h-4" /> {t('workExperienceLearnMore.backToWorkExperience')}
           </button>
         </div>
       </div>
@@ -53,13 +55,13 @@ export default function WorkExperienceLearnMore() {
         <header className="max-w-[1100px] mx-auto pt-24 pb-20 px-6">
           <div className="text-center max-w-4xl mx-auto">
             <div className="inline-flex items-center gap-2 px-5 py-2 border border-[#1c61cf]/30 rounded-full bg-[rgba(28,97,207,0.1)] text-[#1c61cf] dark:text-blue-400 text-xs font-black uppercase tracking-widest mb-8 backdrop-blur-sm shadow-[0_0_15px_rgba(28,97,207,0.1)]">
-              The NovaWork Experience Framework
+              {t('workExperienceLearnMore.heroBadge')}
             </div>
             <h1 className="text-5xl md:text-7xl font-black text-[#0b2450] dark:text-white leading-[1.05] tracking-tight mb-8">
-              Building the Perfect<br />Work Experience
+              {t('workExperienceLearnMore.heroTitle')}
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed text-[#5a6b86] dark:text-slate-300 mb-10 max-w-3xl mx-auto">
-              Moving from task lists to impact statements. Stop describing what you did — start proving what you delivered.
+              {t('workExperienceLearnMore.heroDescription')}
             </p>
           </div>
         </header>
@@ -70,7 +72,7 @@ export default function WorkExperienceLearnMore() {
             <div className="absolute -inset-4 bg-blue-500/10 rounded-[60px] blur-2xl group-hover:bg-blue-500/20 transition-all duration-700" />
             <img
               src="/images/work experience.jpg"
-              alt="Mastering Your Work Experience"
+              alt={t('workExperienceLearnMore.infographicAlt')}
               className="relative w-full h-auto rounded-[40px] shadow-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 transform transition-transform duration-700 hover:scale-[1.01]"
             />
           </div>
@@ -79,8 +81,8 @@ export default function WorkExperienceLearnMore() {
         {/* Anatomy of an Entry */}
         <section id="framework" className="max-w-[1100px] mx-auto py-16 px-6">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">The Anatomy of an Entry</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">Every role you list is built on two foundational pillars.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('workExperienceLearnMore.anatomyTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">{t('workExperienceLearnMore.anatomySubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -89,11 +91,16 @@ export default function WorkExperienceLearnMore() {
                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
                   <Briefcase className="w-6 h-6" />
                 </div>
-                <div className="text-xl font-black">The Basics</div>
+                <div className="text-xl font-black">{t('workExperienceLearnMore.theBasics')}</div>
               </div>
               <div className="p-6 space-y-3">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm mb-4">These fundamental data points anchor your experience in time and space.</p>
-                {['Company Name', 'Position Held', 'Location', 'Years Worked'].map((item) => (
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm mb-4">{t('workExperienceLearnMore.basicsDesc')}</p>
+                {[
+                  t('workExperienceLearnMore.companyName'),
+                  t('workExperienceLearnMore.positionHeld'),
+                  t('workExperienceLearnMore.location'),
+                  t('workExperienceLearnMore.yearsWorked')
+                ].map((item) => (
                   <div key={item} className="flex items-center gap-3 p-3 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
                     <CheckCircle2 className="w-5 h-5 text-[#1c61cf] flex-shrink-0" />
                     <span className="font-semibold text-[#0b2450] dark:text-slate-200 text-sm">{item}</span>
@@ -107,11 +114,15 @@ export default function WorkExperienceLearnMore() {
                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
                   <Target className="w-6 h-6" />
                 </div>
-                <div className="text-xl font-black">The Impact Paragraph</div>
+                <div className="text-xl font-black">{t('workExperienceLearnMore.impactParagraph')}</div>
               </div>
               <div className="p-6 space-y-3">
-                <p className="text-[#5a6b86] dark:text-slate-400 text-sm mb-4">The compelling narrative that showcases the depth of your experience to employers.</p>
-                {['Purpose — why you were hired', 'Scope — the scale of your playing field', 'Results — measurable outcomes delivered'].map((item) => (
+                <p className="text-[#5a6b86] dark:text-slate-400 text-sm mb-4">{t('workExperienceLearnMore.impactDesc')}</p>
+                {[
+                  t('workExperienceLearnMore.purpose'),
+                  t('workExperienceLearnMore.scope'),
+                  t('workExperienceLearnMore.results')
+                ].map((item) => (
                   <div key={item} className="flex items-center gap-3 p-3 bg-[#f0f6ff] dark:bg-slate-950/50 rounded-xl border border-[#d7e7f0] dark:border-white/5">
                     <CheckCircle2 className="w-5 h-5 text-[#1c61cf] flex-shrink-0" />
                     <span className="font-semibold text-[#0b2450] dark:text-slate-200 text-sm">{item}</span>
@@ -126,33 +137,33 @@ export default function WorkExperienceLearnMore() {
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
             <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">
-              The Core Philosophy:{' '}
-              <span className="line-through text-red-400">Stop Listing Tasks</span>
+              {t('workExperienceLearnMore.philosophyTitle')}{' '}
+              <span className="line-through text-red-400">{t('workExperienceLearnMore.stopListingTasks')}</span>
             </h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">Responsibilities blend in. Impact stands out.</p>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg max-w-2xl mx-auto">{t('workExperienceLearnMore.philosophySubtitle')}</p>
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 max-w-4xl mx-auto">
             <div className="we-card flex-1 rounded-2xl p-8 bg-[#0b2450] text-white shadow-xl text-center">
               <Target className="w-10 h-10 mx-auto mb-4 opacity-90" />
-              <div className="text-xl font-black mb-2">Purpose</div>
-              <p className="text-white/70 text-sm leading-relaxed">The specific reason you were hired. Your unique contribution to the organization.</p>
+              <div className="text-xl font-black mb-2">{t('workExperienceLearnMore.purpose')}</div>
+              <p className="text-white/70 text-sm leading-relaxed">{t('workExperienceLearnMore.purposeDesc')}</p>
             </div>
 
             <div className="text-3xl font-black text-[#1c61cf] dark:text-blue-400">+</div>
 
             <div className="we-card flex-1 rounded-2xl p-8 bg-[#39d0d8]/20 dark:bg-[#39d0d8]/10 border-2 border-[#39d0d8]/40 shadow-xl text-center">
               <BarChart3 className="w-10 h-10 mx-auto mb-4 text-[#1c61cf] dark:text-teal-400" />
-              <div className="text-xl font-black text-[#0b2450] dark:text-white mb-2">Scope</div>
-              <p className="text-[#5a6b86] dark:text-slate-400 text-sm leading-relaxed">The scale, budget, and context of your playing field. Numbers prove authority.</p>
+              <div className="text-xl font-black text-[#0b2450] dark:text-white mb-2">{t('workExperienceLearnMore.scope')}</div>
+              <p className="text-[#5a6b86] dark:text-slate-400 text-sm leading-relaxed">{t('workExperienceLearnMore.scopeDesc')}</p>
             </div>
 
             <div className="text-3xl font-black text-[#1c61cf] dark:text-blue-400">=</div>
 
             <div className="we-card flex-1 rounded-2xl p-8 bg-[#1c61cf] text-white shadow-xl text-center">
               <Zap className="w-10 h-10 mx-auto mb-4" />
-              <div className="text-xl font-black mb-2">Impact</div>
-              <p className="text-white/70 text-sm leading-relaxed">The compelling narrative that showcases the true depth of your experience to employers.</p>
+              <div className="text-xl font-black mb-2">{t('workExperienceLearnMore.impact')}</div>
+              <p className="text-white/70 text-sm leading-relaxed">{t('workExperienceLearnMore.impactCardDesc')}</p>
             </div>
           </div>
         </section>
@@ -160,27 +171,25 @@ export default function WorkExperienceLearnMore() {
         {/* Before / After */}
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">From Generic to Powerful</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">Purpose reveals why you were placed in the role — not just what you did.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('workExperienceLearnMore.genericToPowerfulTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('workExperienceLearnMore.genericToPowerfulSubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             <div className="rounded-2xl p-8 bg-slate-100 dark:bg-slate-900/50 border-2 border-slate-200 dark:border-slate-800">
-              <div className="inline-block px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-black uppercase tracking-widest mb-4">The Old Way</div>
+              <div className="inline-block px-3 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-xs font-black uppercase tracking-widest mb-4">{t('workExperienceLearnMore.oldWay')}</div>
               <p className="text-xl text-[#5a6b86] dark:text-slate-400 italic leading-relaxed">
-                "Responsible for managing a sales team."
+                {t('workExperienceLearnMore.oldWayText')}
               </p>
-              <p className="mt-4 text-sm text-red-500 font-semibold">Generic task — blends into every other resume.</p>
+              <p className="mt-4 text-sm text-red-500 font-semibold">{t('workExperienceLearnMore.oldWayDesc')}</p>
             </div>
 
             <div className="rounded-2xl p-8 bg-[#f0f6ff] dark:bg-blue-950/30 border-2 border-[#1c61cf] shadow-lg">
-              <div className="inline-block px-3 py-1 rounded-full bg-[#1c61cf] text-white text-xs font-black uppercase tracking-widest mb-4">The NovaWork Way</div>
+              <div className="inline-block px-3 py-1 rounded-full bg-[#1c61cf] text-white text-xs font-black uppercase tracking-widest mb-4">{t('workExperienceLearnMore.novaWorkWay')}</div>
               <p className="text-xl text-[#0b2450] dark:text-white font-semibold leading-relaxed">
-                "Led a regional sales team to{' '}
-                <span className="bg-yellow-200 dark:bg-yellow-500/30 text-[#0b2450] dark:text-yellow-300 px-1 rounded">increase market share by 20%</span>
-                {' '}in one year."
+                {t('workExperienceLearnMore.novaWorkWayText')}
               </p>
-              <p className="mt-4 text-sm text-[#1c61cf] dark:text-blue-400 font-semibold">Specific, measurable outcome — stands out immediately.</p>
+              <p className="mt-4 text-sm text-[#1c61cf] dark:text-blue-400 font-semibold">{t('workExperienceLearnMore.novaWorkWayDesc')}</p>
             </div>
           </div>
         </section>
@@ -188,21 +197,21 @@ export default function WorkExperienceLearnMore() {
         {/* Scope Examples */}
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">Quantifying Your Scope</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">Scope provides the sheer size, budget, and context of your operations.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('workExperienceLearnMore.quantifyingScopeTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('workExperienceLearnMore.quantifyingScopeSubtitle')}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             <div className="we-card rounded-2xl p-8 bg-white dark:bg-slate-900/50 border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-lg text-center">
-              <div className="text-5xl font-black text-[#0b2450] dark:text-white mb-2">$5M</div>
+              <div className="text-5xl font-black text-[#0b2450] dark:text-white mb-2">{t('workExperienceLearnMore.scopeExample1Number')}</div>
               <div className="w-12 h-0.5 bg-[#39d0d8] mx-auto mb-4" />
-              <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Managed a $5 million budget for a nationwide marketing campaign.</p>
+              <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('workExperienceLearnMore.scopeExample1Desc')}</p>
             </div>
 
             <div className="we-card rounded-2xl p-8 bg-white dark:bg-slate-900/50 border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-lg text-center">
-              <div className="text-5xl font-black text-[#0b2450] dark:text-white mb-2">50 / 3</div>
+              <div className="text-5xl font-black text-[#0b2450] dark:text-white mb-2">{t('workExperienceLearnMore.scopeExample2Number')}</div>
               <div className="w-12 h-0.5 bg-[#39d0d8] mx-auto mb-4" />
-              <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Oversaw operations for a team of 50 employees across three regions.</p>
+              <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('workExperienceLearnMore.scopeExample2Desc')}</p>
             </div>
           </div>
         </section>
@@ -210,8 +219,8 @@ export default function WorkExperienceLearnMore() {
         {/* Diagnostic Matrix */}
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">The Resume Diagnostic Matrix</h2>
-            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">Ask the right questions to transform any entry.</p>
+            <h2 className="text-4xl font-black text-[#0b2450] dark:text-white mb-3">{t('workExperienceLearnMore.diagnosticMatrixTitle')}</h2>
+            <p className="text-[#5a6b86] dark:text-slate-400 text-lg">{t('workExperienceLearnMore.diagnosticMatrixSubtitle')}</p>
           </div>
 
           <div className="overflow-x-auto rounded-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-lg">
@@ -219,34 +228,34 @@ export default function WorkExperienceLearnMore() {
               <thead>
                 <tr>
                   <th className="p-4 bg-slate-100 dark:bg-slate-900 text-left text-[#5a6b86] dark:text-slate-400 font-bold"></th>
-                  <th className="p-4 bg-slate-200 dark:bg-slate-800 text-center text-[#5a6b86] dark:text-slate-400 font-black uppercase tracking-wider">Tasks</th>
-                  <th className="p-4 bg-[#0b2450] text-center text-white font-black uppercase tracking-wider">Purpose</th>
-                  <th className="p-4 bg-[#39d0d8]/30 dark:bg-[#39d0d8]/20 text-center text-[#1c61cf] dark:text-teal-400 font-black uppercase tracking-wider">Scope</th>
+                  <th className="p-4 bg-slate-200 dark:bg-slate-800 text-center text-[#5a6b86] dark:text-slate-400 font-black uppercase tracking-wider">{t('workExperienceLearnMore.tasks')}</th>
+                  <th className="p-4 bg-[#0b2450] text-center text-white font-black uppercase tracking-wider">{t('workExperienceLearnMore.purpose')}</th>
+                  <th className="p-4 bg-[#39d0d8]/30 dark:bg-[#39d0d8]/20 text-center text-[#1c61cf] dark:text-teal-400 font-black uppercase tracking-wider">{t('workExperienceLearnMore.scope')}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-t border-[rgba(11,36,80,0.06)] dark:border-white/5">
-                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">The Core Question</td>
-                  <td className="p-4 bg-white dark:bg-slate-900/50 text-center text-[#5a6b86] dark:text-slate-400">What did I do all day?</td>
-                  <td className="p-4 bg-[#f0f6ff] dark:bg-blue-950/20 text-center text-[#0b2450] dark:text-white font-medium">Why did they need me specifically?</td>
-                  <td className="p-4 bg-[#f0fbff] dark:bg-teal-950/20 text-center text-[#0b2450] dark:text-white font-medium">How big was my playing field?</td>
+                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">{t('workExperienceLearnMore.coreQuestion')}</td>
+                  <td className="p-4 bg-white dark:bg-slate-900/50 text-center text-[#5a6b86] dark:text-slate-400">{t('workExperienceLearnMore.taskQuestion')}</td>
+                  <td className="p-4 bg-[#f0f6ff] dark:bg-blue-950/20 text-center text-[#0b2450] dark:text-white font-medium">{t('workExperienceLearnMore.purposeQuestion')}</td>
+                  <td className="p-4 bg-[#f0fbff] dark:bg-teal-950/20 text-center text-[#0b2450] dark:text-white font-medium">{t('workExperienceLearnMore.scopeQuestion')}</td>
                 </tr>
                 <tr className="border-t border-[rgba(11,36,80,0.06)] dark:border-white/5">
-                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">The Focus</td>
-                  <td className="p-4 bg-white dark:bg-slate-900/50 text-center text-[#5a6b86] dark:text-slate-400">Actions & duties</td>
-                  <td className="p-4 bg-[#f0f6ff] dark:bg-blue-950/20 text-center text-[#0b2450] dark:text-white font-medium">Unique contributions & results</td>
-                  <td className="p-4 bg-[#f0fbff] dark:bg-teal-950/20 text-center text-[#0b2450] dark:text-white font-medium">Scale, budget & context</td>
+                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">{t('workExperienceLearnMore.theFocus')}</td>
+                  <td className="p-4 bg-white dark:bg-slate-900/50 text-center text-[#5a6b86] dark:text-slate-400">{t('workExperienceLearnMore.tasksFocus')}</td>
+                  <td className="p-4 bg-[#f0f6ff] dark:bg-blue-950/20 text-center text-[#0b2450] dark:text-white font-medium">{t('workExperienceLearnMore.purposeFocus')}</td>
+                  <td className="p-4 bg-[#f0fbff] dark:bg-teal-950/20 text-center text-[#0b2450] dark:text-white font-medium">{t('workExperienceLearnMore.scopeFocus')}</td>
                 </tr>
                 <tr className="border-t border-[rgba(11,36,80,0.06)] dark:border-white/5">
-                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">The Verdict</td>
+                  <td className="p-4 bg-white dark:bg-slate-900/50 font-bold text-[#0b2450] dark:text-white">{t('workExperienceLearnMore.theVerdict')}</td>
                   <td className="p-4 bg-white dark:bg-slate-900/50 text-center">
-                    <span className="px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-[#5a6b86] dark:text-slate-400 font-bold text-xs">Blends in</span>
+                    <span className="px-3 py-1 rounded-full bg-slate-200 dark:bg-slate-700 text-[#5a6b86] dark:text-slate-400 font-bold text-xs">{t('workExperienceLearnMore.blendsIn')}</span>
                   </td>
                   <td className="p-4 bg-[#f0f6ff] dark:bg-blue-950/20 text-center">
-                    <span className="px-3 py-1 rounded-full bg-[#0b2450] text-white font-bold text-xs">Stands out</span>
+                    <span className="px-3 py-1 rounded-full bg-[#0b2450] text-white font-bold text-xs">{t('workExperienceLearnMore.standsOut')}</span>
                   </td>
                   <td className="p-4 bg-[#f0fbff] dark:bg-teal-950/20 text-center">
-                    <span className="px-3 py-1 rounded-full bg-[#39d0d8] text-[#0b2450] font-bold text-xs">Proves authority</span>
+                    <span className="px-3 py-1 rounded-full bg-[#39d0d8] text-[#0b2450] font-bold text-xs">{t('workExperienceLearnMore.provesAuthority')}</span>
                   </td>
                 </tr>
               </tbody>
@@ -258,16 +267,16 @@ export default function WorkExperienceLearnMore() {
         <section className="max-w-[1100px] mx-auto py-16 px-6 border-t border-[rgba(11,36,80,0.05)]">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-black text-[#0b2450] dark:text-white mb-4">The Builder's Secret Weapon</h2>
+              <h2 className="text-3xl font-black text-[#0b2450] dark:text-white mb-4">{t('workExperienceLearnMore.secretWeaponTitle')}</h2>
               <p className="text-[#5a6b86] dark:text-slate-400 leading-relaxed mb-8">
-                Two paths to craft the perfect impact paragraph. Both ensure your resume showcases your unique impact and the true depth of your experience.
+                {t('workExperienceLearnMore.secretWeaponDesc')}
               </p>
               <div className="space-y-4">
                 <div className="flex gap-4 p-5 bg-white dark:bg-slate-900/50 rounded-2xl border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-sm">
                   <div className="w-10 h-10 rounded-xl bg-[#0b2450] flex items-center justify-center text-white font-black text-sm flex-shrink-0">A</div>
                   <div>
-                    <div className="font-bold text-[#0b2450] dark:text-white mb-1">Manual Mode</div>
-                    <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Write the paragraph yourself using the Purpose + Scope framework.</p>
+                    <div className="font-bold text-[#0b2450] dark:text-white mb-1">{t('workExperienceLearnMore.manualMode')}</div>
+                    <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('workExperienceLearnMore.manualModeDesc')}</p>
                   </div>
                 </div>
                 <div className="flex gap-4 p-5 bg-[#f0f6ff] dark:bg-blue-950/20 rounded-2xl border border-[#1c61cf]/20 shadow-sm">
@@ -275,15 +284,15 @@ export default function WorkExperienceLearnMore() {
                     <Bot className="w-5 h-5 text-white" />
                   </div>
                   <div>
-                    <div className="font-bold text-[#0b2450] dark:text-white mb-1">AI Assist</div>
-                    <p className="text-[#5a6b86] dark:text-slate-400 text-sm">Take the built-in AI questionnaire → Let the system draft the paragraph → Refine and edit as needed.</p>
+                    <div className="font-bold text-[#0b2450] dark:text-white mb-1">{t('workExperienceLearnMore.aiAssist')}</div>
+                    <p className="text-[#5a6b86] dark:text-slate-400 text-sm">{t('workExperienceLearnMore.aiAssistDesc')}</p>
                   </div>
                 </div>
               </div>
             </div>
 
             <div className="bg-white dark:bg-slate-900/50 rounded-[32px] p-8 border border-[rgba(11,36,80,0.06)] dark:border-white/5 shadow-xl">
-              <div className="text-xs font-black uppercase tracking-widest text-[#1c61cf] dark:text-blue-400 mb-4">The Final Blueprint</div>
+              <div className="text-xs font-black uppercase tracking-widest text-[#1c61cf] dark:text-blue-400 mb-4">{t('workExperienceLearnMore.finalBlueprint')}</div>
               <div className="p-5 rounded-2xl border-2 border-[#1c61cf]/20 bg-[#f8fcfe] dark:bg-slate-950/50">
                 <div className="flex flex-wrap gap-2 mb-4 text-xs font-bold text-[#5a6b86] dark:text-slate-400">
                   <span className="flex items-center gap-1"><span className="text-[#39d0d8]">◉</span> Acme Corp</span>
@@ -298,8 +307,8 @@ export default function WorkExperienceLearnMore() {
                   Led a regional sales team to increase market share by 20% in one year. Oversaw operations for a team of 50 employees across three regions, successfully managing a $5 million budget for a nationwide marketing campaign.
                 </p>
                 <div className="mt-4 flex gap-2 flex-wrap">
-                  <span className="px-2 py-1 rounded-lg bg-[#0b2450] text-white text-xs font-bold">Purpose: unique contribution</span>
-                  <span className="px-2 py-1 rounded-lg bg-[#39d0d8]/30 text-[#1c61cf] dark:text-teal-400 text-xs font-bold">Scope: quantified scale</span>
+                  <span className="px-2 py-1 rounded-lg bg-[#0b2450] text-white text-xs font-bold">{t('workExperienceLearnMore.purposeTag')}</span>
+                  <span className="px-2 py-1 rounded-lg bg-[#39d0d8]/30 text-[#1c61cf] dark:text-teal-400 text-xs font-bold">{t('workExperienceLearnMore.scopeTag')}</span>
                 </div>
               </div>
             </div>
@@ -310,22 +319,22 @@ export default function WorkExperienceLearnMore() {
         <section className="max-w-[800px] mx-auto py-24 px-6 text-center">
           <div className="bg-gradient-to-br from-[#0b2450] to-[#143a72] rounded-[40px] p-12 text-white shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl" />
-            <h2 className="text-4xl font-black mb-6 relative z-10">Ready to build your impact?</h2>
+            <h2 className="text-4xl font-black mb-6 relative z-10">{t('workExperienceLearnMore.ctaTitle')}</h2>
             <p className="text-lg text-white/80 mb-10 relative z-10">
-              Use the Purpose + Scope framework to transform every role into a compelling story employers can't ignore.
+              {t('workExperienceLearnMore.ctaDescription')}
             </p>
             <button
               onClick={() => navigate('/dashboard/resume/work-experience?mode=standalone')}
               className="inline-flex items-center gap-2 bg-[#39d0d8] text-[#0b2450] px-10 py-4 rounded-2xl font-black text-lg shadow-xl hover:scale-105 transition-transform relative z-10"
             >
-              Start Building <ArrowRight className="w-5 h-5" />
+              {t('workExperienceLearnMore.ctaButton')} <ArrowRight className="w-5 h-5" />
             </button>
           </div>
         </section>
       </div>
 
       <footer className="py-12 border-t border-[rgba(11,36,80,0.05)] dark:border-white/5 text-center text-[#5a6b86] dark:text-slate-500 text-sm font-medium">
-        &copy; {new Date().getFullYear()} NovaWork Global • Professional Career Acceleration
+        &copy; {new Date().getFullYear()} NovaWork Global • {t('workExperienceLearnMore.footerTagline')}
       </footer>
     </div>
   )
