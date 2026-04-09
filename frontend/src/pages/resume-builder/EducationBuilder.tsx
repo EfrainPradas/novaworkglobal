@@ -203,8 +203,8 @@ export default function EducationBuilder() {
 
                 {/* Header */}
                 <div className="text-center mb-8">
-                    <div className="inline-flex items-center gap-2 p-3 bg-indigo-100 dark:bg-indigo-900/30 rounded-full mb-4">
-                        <GraduationCap className="w-6 h-6 text-indigo-600" />
+                    <div className="inline-flex items-center gap-2 p-3 bg-primary-100 dark:bg-primary-900/30 rounded-full mb-4">
+                        <GraduationCap className="w-6 h-6 text-primary-600" />
                     </div>
                     <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
                         {t('resumeBuilder.education.title', 'Education')}

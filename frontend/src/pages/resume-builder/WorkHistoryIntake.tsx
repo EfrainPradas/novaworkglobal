@@ -671,7 +671,7 @@ export default function WorkHistoryIntake() {
                                 <button
                                     onClick={handleConfirmAndSave}
                                     disabled={saving}
-                                    className="w-full py-3 px-6 bg-[#4F46E5] hover:bg-[#4338CA] text-white font-semibold rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-indigo-500/25 flex items-center justify-center gap-2"
+                                    className="w-full py-3 px-6 bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-xl transition-all disabled:opacity-50 shadow-lg shadow-primary-500/25 flex items-center justify-center gap-2"
                                 >
                                     <CheckCircle2 className="w-5 h-5" /> Confirm & Continue
                                 </button>

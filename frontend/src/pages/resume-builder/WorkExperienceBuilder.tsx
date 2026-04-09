@@ -810,7 +810,7 @@ const WorkExperienceBuilder: React.FC = () => {
                   await trackEvent('analytics', 'step_completed', { step_name: 'work-experience', next_step: 'education' })
                   navigate('/dashboard/resume/education')
                 }}
-                className="flex items-center gap-2 px-5 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
               >
                 {t('resumeBuilder.menu.nextEducation', 'Next: Education')}
                 <ArrowRight className="w-4 h-4" />
@@ -1008,7 +1008,7 @@ const WorkExperienceBuilder: React.FC = () => {
                       <button
                         onClick={() => handleAddAIBullets(exp.id!)}
                         disabled={replacingAI === exp.id}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 transition disabled:opacity-50"
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-700 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition disabled:opacity-50"
                       >
                         {replacingAI === exp.id
                           ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Adding...</>
