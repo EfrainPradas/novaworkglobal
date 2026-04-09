@@ -152,7 +152,7 @@ export default function PositioningQuestionnairePage() {
 
             setSaved(true)
             setTimeout(() => setSaved(false), 3000)
-            await trackEvent('analytics', 'questionnaire_saved', { section: SECTION_KEYS[currentSection] })
+            await trackEvent('analytics', 'questionnaire_saved', { section: SECTION_LABELS[currentSection], section_key: SECTION_KEYS[currentSection] })
             return true
         } catch (e: any) {
             console.error('Error saving:', e)
@@ -178,8 +178,8 @@ export default function PositioningQuestionnairePage() {
 
             const result = await resp.json()
             if (resp.ok && result.success) {
-                await trackEvent('analytics', 'step_completed', { step_name: 'pos-stories', next_step: 'generated-profile' })
-                await trackEvent('analytics', 'step_completed', { step_name: 'funnel-end', next_step: null })
+                await trackEvent('analytics', 'questionnaire_profile_generated', { version: result.data?.version })
+                await trackEvent('analytics', 'questionnaire_funnel_completed', { total_sections: SECTIONS.length })
                 setGeneratedProfile(result.data)
                 setShowProfile(true)
             } else {
@@ -226,17 +226,33 @@ export default function PositioningQuestionnairePage() {
         }))
     }
 
+    const SECTION_LABELS: Record<number, string> = {
+        0: 'Identity & Target',
+        1: 'Environments & Functions',
+        2: 'Impact & Scale',
+        3: 'Strengths & Differentiators',
+        4: 'Skills & Tools',
+        5: 'High-Impact Stories'
+    }
+
     const nextSection = async () => {
-        const stepMap: Record<number, string> = { 0: 'pos-identity', 1: 'pos-environments', 2: 'pos-impact', 3: 'pos-strengths', 4: 'pos-skills', 5: 'pos-stories' }
-        await trackEvent('analytics', 'step_completed', { step_name: stepMap[currentSection], next_step: stepMap[currentSection + 1] })
+        await trackEvent('analytics', 'questionnaire_section_next', {
+            from_section: SECTION_LABELS[currentSection],
+            to_section: SECTION_LABELS[currentSection + 1],
+            section_number: currentSection + 1,
+            total_sections: SECTIONS.length
+        })
 
         await handleSave()
         if (currentSection < SECTIONS.length - 1) setCurrentSection(currentSection + 1)
     }
 
     const prevSection = async () => {
-        const stepMap: Record<number, string> = { 0: 'pos-identity', 1: 'pos-environments', 2: 'pos-impact', 3: 'pos-strengths', 4: 'pos-skills', 5: 'pos-stories' }
-        await trackEvent('analytics', 'step_completed', { step_name: stepMap[currentSection], next_step: stepMap[currentSection - 1], direction: 'back' })
+        await trackEvent('analytics', 'questionnaire_section_back', {
+            from_section: SECTION_LABELS[currentSection],
+            to_section: SECTION_LABELS[currentSection - 1],
+            section_number: currentSection + 1
+        })
 
         await handleSave()
         if (currentSection > 0) setCurrentSection(currentSection - 1)
