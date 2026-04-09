@@ -641,7 +641,14 @@
       "honors": "Onorificenze",
       "update": "Aggiorna",
       "save": "Salva",
-      "cancel": "Annulla"
+      "cancel": "Annulla",
+      "degreeAssociate": "Associato / Associate",
+      "degreeBachelor": "Laurea Triennale / Bachelor",
+      "degreeMaster": "Laurea Magistrale / Master",
+      "degreePhD": "Dottorato / PhD",
+      "degreeCertificate": "Certificato",
+      "degreeDiploma": "Diploma",
+      "degreeOther": "Altro"
     },
     "tabs": {
       "workExperience": "Esperienza Lavorativa",

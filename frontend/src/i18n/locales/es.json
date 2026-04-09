@@ -320,7 +320,14 @@
       "honors": "Honores",
       "update": "Actualizar",
       "save": "Guardar",
-      "cancel": "Cancelar"
+      "cancel": "Cancelar",
+      "degreeAssociate": "Técnico / Associate",
+      "degreeBachelor": "Licenciatura / Bachelor",
+      "degreeMaster": "Maestría / Master",
+      "degreePhD": "Doctorado / PhD",
+      "degreeCertificate": "Certificado",
+      "degreeDiploma": "Diploma",
+      "degreeOther": "Otro"
     },
     "tabs": {
       "workExperience": "Experiencia Laboral",

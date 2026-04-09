@@ -16,7 +16,15 @@ interface Education {
     location: string
 }
 
-const DEGREE_TYPES = ['Associate', 'Bachelor', 'Master', 'PhD', 'Certificate', 'Diploma', 'Other']
+const DEGREE_TYPES = [
+    { value: 'Associate', labelKey: 'resumeBuilder.education.degreeAssociate', fallback: 'Associate / Técnico' },
+    { value: 'Bachelor', labelKey: 'resumeBuilder.education.degreeBachelor', fallback: 'Bachelor / Licenciatura' },
+    { value: 'Master', labelKey: 'resumeBuilder.education.degreeMaster', fallback: 'Master / Maestría' },
+    { value: 'PhD', labelKey: 'resumeBuilder.education.degreePhD', fallback: 'PhD / Doctorado' },
+    { value: 'Certificate', labelKey: 'resumeBuilder.education.degreeCertificate', fallback: 'Certificate / Certificado' },
+    { value: 'Diploma', labelKey: 'resumeBuilder.education.degreeDiploma', fallback: 'Diploma' },
+    { value: 'Other', labelKey: 'resumeBuilder.education.degreeOther', fallback: 'Other / Otro' },
+]
 
 const emptyEntry: Education = {
     institution_name: '',
@@ -324,7 +332,7 @@ export default function EducationBuilder() {
                                         className={inputClass('degree_type')}
                                     >
                                         <option value="">{t('resumeBuilder.education.selectDegree', 'Select Degree')}</option>
-                                        {DEGREE_TYPES.map(d => <option key={d} value={d}>{d}</option>)}
+                                        {DEGREE_TYPES.map(d => <option key={d.value} value={d.value}>{t(d.labelKey, d.fallback)}</option>)}
                                     </select>
                                     {errors.degree_type && <p className="text-red-500 text-xs mt-1">{errors.degree_type}</p>}
                                 </div>
