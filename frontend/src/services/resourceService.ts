@@ -1,6 +1,13 @@
 import { supabase } from '../lib/supabase';
 import { Resource, ResourceShare, ResourceShareWithDetails } from '../types/resources';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+
+async function getAuthToken(): Promise<string> {
+  const { data: { session } } = await supabase.auth.getSession();
+  return session?.access_token || '';
+}
+
 export const resourceService = {
   // --- RESOURCES ---
   async getCoachResources(coachId: string): Promise<Resource[]> {
@@ -34,21 +41,42 @@ export const resourceService = {
     if (error) throw error;
   },
 
-  async uploadResourceFile(file: File, coachId: string): Promise<string> {
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${coachId}/${Math.random().toString(36).substring(2, 15)}_${Date.now()}.${fileExt}`;
+  async uploadResourceFile(file: File, _coachId: string): Promise<string> {
+    const token = await getAuthToken();
 
-    const { error } = await supabase.storage
-      .from('coach_resources')
-      .upload(fileName, file);
+    // 1. Get presigned URL from backend
+    const res = await fetch(`${API_BASE_URL}/api/upload/presigned-url`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        fileName: file.name,
+        contentType: file.type || 'application/octet-stream',
+        folder: 'coach-resources',
+      }),
+    });
 
-    if (error) throw error;
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.error || 'Failed to get upload URL');
+    }
 
-    const { data } = supabase.storage
-      .from('coach_resources')
-      .getPublicUrl(fileName);
+    const { uploadUrl, publicUrl } = await res.json();
 
-    return data.publicUrl;
+    // 2. Upload directly to R2
+    const uploadRes = await fetch(uploadUrl, {
+      method: 'PUT',
+      headers: { 'Content-Type': file.type || 'application/octet-stream' },
+      body: file,
+    });
+
+    if (!uploadRes.ok) {
+      throw new Error('Failed to upload file to storage');
+    }
+
+    return publicUrl;
   },
 
   // --- SHARES ---
