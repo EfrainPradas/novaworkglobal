@@ -250,7 +250,7 @@ export default function PositioningQuestionnairePage() {
 
     if (generating) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
                     <Loader2 className="w-16 h-16 text-primary-600 animate-spin" />
                     <span className="text-primary-900 font-semibold mt-2">{t('resumeBuilder.questionnaire.generatingProfile', 'Generating your Professional Profile...')}</span>
@@ -318,10 +318,10 @@ export default function PositioningQuestionnairePage() {
         </div>
     )
 
-    const inputClass = "w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+    const inputClass = "w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-primary-50 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
             <div className="max-w-3xl mx-auto">
 
                 {/* Back Link */}
@@ -334,7 +334,7 @@ export default function PositioningQuestionnairePage() {
 
                 {/* Header */}
                 <div className="mb-8">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium mb-3">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium mb-3">
                         <ClipboardList className="w-4 h-4" /> {t('resumeBuilder.questionnaire.step3', 'Step 3')}
                     </div>
                     <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{t('resumeBuilder.questionnaire.title', 'Professional Positioning Questionnaire')}</h1>
@@ -381,7 +381,7 @@ export default function PositioningQuestionnairePage() {
                                 <button
                                     key={s.key}
                                     onClick={() => setCurrentSection(i)}
-                                    className={`flex-1 h-2 rounded-full transition-all ${i <= currentSection ? 'bg-blue-500' : 'bg-gray-200 dark:bg-gray-700'
+                                    className={`flex-1 h-2 rounded-full transition-all ${i <= currentSection ? 'bg-primary-500' : 'bg-gray-200 dark:bg-gray-700'
                                         }`}
                                 />
                             ))}
@@ -404,7 +404,7 @@ export default function PositioningQuestionnairePage() {
                             <button
                                 onClick={nextSection}
                                 disabled={saving}
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
                             >
                                 {t('common.nextSection', 'Next Section')}
                                 <ArrowRight className="w-4 h-4" />
@@ -413,7 +413,7 @@ export default function PositioningQuestionnairePage() {
                             <button
                                 onClick={handleGenerate}
                                 disabled={generating || saving}
-                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-gradient-to-r from-blue-600 to-primary-600 hover:from-blue-700 hover:to-primary-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
+                                className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-bold shadow-md transition-all"
                             >
                                 {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                                 {t('common.generateProfile', 'Generate')}
@@ -548,7 +548,7 @@ export default function PositioningQuestionnairePage() {
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="flex items-center gap-2 px-6 py-2.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl text-sm font-medium transition-all"
+                            className="flex items-center gap-2 px-6 py-2.5 text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-xl text-sm font-medium transition-all"
                         >
                             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
                             {t('common.saveProgress', 'Save Progress')}
@@ -559,7 +559,7 @@ export default function PositioningQuestionnairePage() {
                         <button
                             onClick={nextSection}
                             disabled={saving}
-                            className="flex items-center gap-2 px-8 py-2.5 bg-[#4F46E5] hover:bg-[#4338CA] text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                            className="flex items-center gap-2 px-8 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
                         >
                             {t('common.nextSection', 'Next Section')}
                             <ArrowRight className="w-4 h-4" />
@@ -568,7 +568,7 @@ export default function PositioningQuestionnairePage() {
                         <button
                             onClick={handleGenerate}
                             disabled={generating || saving}
-                            className="flex items-center gap-2 px-8 py-2.5 bg-gradient-to-r from-blue-600 to-primary-600 hover:from-blue-700 hover:to-primary-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
+                            className="flex items-center gap-2 px-8 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl text-sm font-bold shadow-lg transition-all"
                         >
                             {generating ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                             {t('common.generateProfile', 'Generate Professional Profile')}
@@ -586,7 +586,7 @@ export default function PositioningQuestionnairePage() {
                             </div>
                             <button
                                 onClick={() => setShowProfile(true)}
-                                className="px-4 py-2 rounded-xl bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-sm font-medium hover:bg-blue-100 dark:hover:bg-blue-800/40 transition-colors"
+                                className="px-4 py-2 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 text-sm font-medium hover:bg-primary-100 dark:hover:bg-primary-800/40 transition-colors"
                             >
                                 View Profile →
                             </button>
