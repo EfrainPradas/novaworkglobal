@@ -313,13 +313,21 @@ router.get('/history', requireAuth, ensureStripe, async (req, res) => {
 router.post('/webhook', async (req, res) => {
   let event;
 
+  console.log('📨 Webhook received:', {
+    contentType: req.headers['content-type'],
+    hasSignature: !!req.headers['stripe-signature'],
+    bodyType: typeof req.body,
+    bodyLength: req.body?.length || JSON.stringify(req.body)?.length,
+  });
+
   // Verify webhook signature
   if (WEBHOOK_SECRET) {
     const sig = req.headers['stripe-signature'];
     try {
       event = stripe.webhooks.constructEvent(req.body, sig, WEBHOOK_SECRET);
+      console.log('✅ Webhook signature verified');
     } catch (err) {
-      console.error('❌ Webhook signature verification failed:', err.message);
+      console.error('❌ Webhook signature verification failed:', err.message, { hasSig: !!sig, sigPreview: sig?.substring(0, 30) });
       return res.status(400).json({ error: `Webhook Error: ${err.message}` });
     }
   } else {
@@ -356,29 +364,37 @@ router.post('/webhook', async (req, res) => {
   }, { onConflict: 'stripe_event_id' });
 
   try {
+    console.log(`🔔 Processing webhook: ${event.type} (${event.id}) — object: ${event.data?.object?.id}`);
+
     switch (event.type) {
       case 'checkout.session.completed':
+        console.log('💳 Checkout completed:', { mode: event.data.object.mode, customer: event.data.object.customer, subscription: event.data.object.subscription });
         await handleCheckoutCompleted(event.data.object);
         break;
 
       case 'customer.subscription.created':
       case 'customer.subscription.updated':
+        console.log('📋 Subscription upsert:', { id: event.data.object.id, status: event.data.object.status, customer: event.data.object.customer });
         await handleSubscriptionUpsert(event.data.object);
         break;
 
       case 'customer.subscription.deleted':
+        console.log('🗑️ Subscription deleted:', { id: event.data.object.id, customer: event.data.object.customer });
         await handleSubscriptionDeleted(event.data.object);
         break;
 
       case 'invoice.paid':
+        console.log('💰 Invoice paid:', { id: event.data.object.id, subscription: event.data.object.subscription, total: event.data.object.total });
         await handleInvoicePaid(event.data.object);
         break;
 
       case 'invoice.payment_failed':
+        console.log('⚠️ Invoice payment failed:', { id: event.data.object.id, subscription: event.data.object.subscription });
         await handleInvoicePaymentFailed(event.data.object);
         break;
 
       case 'customer.updated':
+        console.log('👤 Customer updated:', { id: event.data.object.id });
         await handleCustomerUpdated(event.data.object);
         break;
 
