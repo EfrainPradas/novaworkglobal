@@ -6,7 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { getVideoUrl } from '@/config/videoUrls'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
-import ServiceAddOns from '../../components/services/ServiceAddOns'
+import CoachingTeaser from '../../components/services/CoachingTeaser'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { resumeBuilderMenuTourConfig } from '../../config/tours/resumeBuilderMenuTour'
@@ -413,7 +413,7 @@ export default function ResumeBuilderMenu() {
           })}
         </div>
 
-        <ServiceAddOns />
+        <CoachingTeaser />
 
         {/* Video Modal */}
         {isVideoModalOpen && (
