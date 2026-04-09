@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Calendar, momentLocalizer, Views } from 'react-big-calendar'
 import moment from 'moment'
 import { supabase } from '../../lib/supabase'
@@ -36,6 +37,7 @@ interface MemberCalendarViewProps {
 }
 
 export default function MemberCalendarView({ userId }: MemberCalendarViewProps) {
+  const { t } = useTranslation()
   const [events, setEvents] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [selected, setSelected] = useState<any>(null)
@@ -81,11 +83,11 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
         const mapped = sessionsData.map((session: any) => {
           const start = new Date(session.scheduled_at)
           const end = new Date(start.getTime() + (session.duration_minutes || 60) * 60000)
-          const coachName = coachNames[session.coach_id] || 'Your Coach'
+          const coachName = coachNames[session.coach_id] || t('calendar.yourCoach', 'Your Coach')
 
           return {
             id: session.id,
-            title: `${coachName} — ${session.session_type || 'Coaching'}`,
+            title: `${coachName} — ${session.session_type || t('calendar.coaching', 'Coaching')}`,
             start,
             end,
             resource: { ...session, coach_name: coachName },
@@ -124,7 +126,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
           {s.coach_name}
         </div>
         <div style={{ fontWeight: 600, opacity: 0.9, marginBottom: 4, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-          {s.session_type || 'Coaching'}
+          {s.session_type || t('calendar.coaching', 'Coaching')}
         </div>
         <Badge color={badgeColor} bg={badgeBg}>{s.status}</Badge>
       </div>
@@ -136,14 +138,19 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
     const label = () => {
       const d = moment(toolbar.date)
       if (toolbar.view === 'month') return d.format('MMMM YYYY')
-      if (toolbar.view === 'week') return `Week of ${d.startOf('week').format('MMMM D, YYYY')}`
+      if (toolbar.view === 'week') return `${t('calendar.weekOf', 'Week of')} ${d.startOf('week').format('MMMM D, YYYY')}`
       return d.format('dddd, MMMM D, YYYY')
+    }
+    const viewLabels: Record<string, string> = {
+      month: t('calendar.month', 'Month'),
+      week: t('calendar.week', 'Week'),
+      day: t('calendar.day', 'Day'),
     }
     return (
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, flexWrap: 'wrap', gap: 8 }}>
         <div style={{ display: 'flex', gap: 8 }}>
           <button onClick={() => toolbar.onNavigate('TODAY')} style={{ padding: '7px 14px', borderRadius: 8, border: '1px solid #e2e8f0', background: '#fff', cursor: 'pointer', fontSize: 13, fontWeight: 700, color: '#475569' }}>
-            Today
+            {t('calendar.today', 'Today')}
           </button>
           <div style={{ display: 'flex', background: '#f8fafc', borderRadius: 8, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
             <button onClick={() => toolbar.onNavigate('PREV')} style={{ padding: '7px 12px', border: 'none', borderRight: '1px solid #e2e8f0', background: 'none', cursor: 'pointer', color: '#475569' }}>←</button>
@@ -165,10 +172,9 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
                 cursor: 'pointer',
                 fontSize: 13,
                 fontWeight: toolbar.view === v ? 700 : 600,
-                textTransform: 'capitalize',
               }}
             >
-              {v}
+              {viewLabels[v]}
             </button>
           ))}
         </div>
@@ -189,14 +195,14 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
         <div className="flex items-start justify-between mb-3">
           <div>
             <p className="font-bold text-slate-800 dark:text-white text-sm">{s.coach_name}</p>
-            <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">{s.session_type || 'Coaching Session'}</p>
+            <p className="text-xs text-slate-500 dark:text-gray-400 mt-0.5">{s.session_type || t('calendar.coachingSession', 'Coaching Session')}</p>
           </div>
           <button onClick={() => setSelected(null)} className="text-slate-400 dark:text-gray-400 hover:text-slate-600 dark:hover:text-gray-200 text-lg leading-none">&times;</button>
         </div>
         <Badge color={badgeColor} bg={badgeBg}>{s.status}</Badge>
         <div className="mt-3 space-y-1.5 text-xs text-slate-600 dark:text-gray-300">
           <p>📅 {start.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}</p>
-          <p>🕐 {start.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })} · {s.duration_minutes || 60} min</p>
+          <p>🕐 {start.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })} · {s.duration_minutes || 60} {t('calendar.min', 'min')}</p>
         </div>
         {s.meeting_link && (
           <a
@@ -206,7 +212,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
             className="mt-4 flex items-center gap-2 justify-center w-full py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
             style={{ background: '#1976D2' }}
           >
-            <Video size={14} /> Join Session
+            <Video size={14} /> {t('calendar.joinSession', 'Join Session')}
             <ExternalLink size={11} />
           </a>
         )}
@@ -217,7 +223,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20 text-slate-400 dark:text-gray-400 text-sm">
-        <span className="animate-pulse">Loading your sessions…</span>
+        <span className="animate-pulse">{t('calendar.loadingSessions', 'Loading your sessions...')}</span>
       </div>
     )
   }
@@ -292,8 +298,8 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
       {events.length === 0 && (
         <div className="absolute z-10 text-center text-slate-400 dark:text-gray-400 bg-white/95 dark:bg-gray-800/95 border border-dashed border-slate-300 dark:border-gray-600 rounded-2xl px-10 py-6" style={{ top: '50%', left: '50%', transform: 'translate(-50%,-50%)' }}>
           <div style={{ fontSize: 32, marginBottom: 8 }}>📅</div>
-          <div className="font-bold text-[15px] mb-1">No coaching sessions yet</div>
-          <div className="text-[13px]">Book a session with your coach to see it here.</div>
+          <div className="font-bold text-[15px] mb-1">{t('calendar.noSessions', 'No coaching sessions yet')}</div>
+          <div className="text-[13px]">{t('calendar.bookSession', 'Book a session with your coach to see it here.')}</div>
         </div>
       )}
 

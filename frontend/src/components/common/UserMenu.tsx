@@ -302,7 +302,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'essentials' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'esenciales' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
@@ -324,7 +324,7 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'executive' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'vanguard' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}

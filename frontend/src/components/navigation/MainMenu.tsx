@@ -31,7 +31,7 @@ interface MenuItem {
   icon: React.ElementType
   color: string
   badge?: string
-  requiredLevel: 'essentials' | 'momentum' | 'executive'
+  requiredLevel: 'esenciales' | 'momentum' | 'vanguard'
   route: string
   steps: string[]
 }
@@ -46,7 +46,7 @@ export default function MainMenu() {
   const navigate = useNavigate()
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
+  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
 
   const toggleCard = (cardId: string) => {
     setExpandedCards(prev => {
@@ -82,7 +82,7 @@ export default function MainMenu() {
       description: 'Create a powerful resume that gets noticed by recruiters and ATS systems',
       icon: FileText,
       color: 'from-blue-500 to-cyan-500',
-      requiredLevel: 'essentials',
+      requiredLevel: 'esenciales',
       route: '/dashboard/resume-builder',
       steps: [
         'Work Experience',
@@ -115,7 +115,7 @@ export default function MainMenu() {
       description: 'Complete interview preparation system with practice and strategy tools',
       icon: Users,
       color: 'from-slate-700 to-slate-900',
-      requiredLevel: 'executive',
+      requiredLevel: 'vanguard',
       route: '/dashboard/interview',
       steps: [
         'Interview Type Guide',
@@ -199,14 +199,14 @@ export default function MainMenu() {
           console.log('🏷️ Raw Tier from DB:', tier)
 
           // Map old tier names to new ones
-          if (tier === 'basic') tier = 'essentials'
+          if (tier === 'basic') tier = 'esenciales'
           if (tier === 'pro') tier = 'momentum'
 
           console.log('🏷️ Normalized Tier:', tier)
-          setUserLevel(tier as 'essentials' | 'momentum' | 'executive')
+          setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
         } else {
           console.log('⚠️ No specific tier found, defaulting to essentials')
-          setUserLevel('essentials')
+          setUserLevel('esenciales')
         }
 
         // Load user profile
@@ -226,7 +226,7 @@ export default function MainMenu() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { essentials: 1, momentum: 2, executive: 3 }
+    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
@@ -263,7 +263,7 @@ export default function MainMenu() {
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'essentials') return null
+    if (requiredLevel === 'esenciales') return null
     if (requiredLevel === 'momentum') {
       return canAccess(requiredLevel) ? (
         <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full flex items-center">
@@ -277,7 +277,7 @@ export default function MainMenu() {
         </span>
       )
     }
-    if (requiredLevel === 'executive') {
+    if (requiredLevel === 'vanguard') {
       return canAccess(requiredLevel) ? (
         <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full flex items-center">
           <Crown className="h-3 w-3 mr-1" />
@@ -304,7 +304,7 @@ export default function MainMenu() {
     navigate(item.route)
   }
 
-  const handleQuickAccess = (route: string, requiredLevel: 'essentials' | 'momentum' | 'executive') => {
+  const handleQuickAccess = (route: string, requiredLevel: 'esenciales' | 'momentum' | 'vanguard') => {
     if (!canAccess(requiredLevel)) {
       alert(`This feature requires ${requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
       return
@@ -333,7 +333,7 @@ export default function MainMenu() {
               <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
               <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
               <div className="hidden sm:block">
-                {getAccessBadge('executive')}
+                {getAccessBadge('vanguard')}
               </div>
             </div>
 
@@ -542,7 +542,7 @@ export default function MainMenu() {
           </div>
           <div className="grid grid-cols-2 xl:grid-cols-5 gap-4">
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'essentials')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'esenciales')}
               className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🎯</div>
@@ -550,7 +550,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'essentials')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'esenciales')}
               className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🧠</div>
@@ -558,7 +558,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'essentials')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'esenciales')}
               className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">📊</div>
@@ -566,7 +566,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/coaching', 'essentials')}
+              onClick={() => handleQuickAccess('/coaching', 'esenciales')}
               className="p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
@@ -576,7 +576,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/shared-resources', 'essentials')}
+              onClick={() => handleQuickAccess('/shared-resources', 'esenciales')}
               className="p-4 bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">

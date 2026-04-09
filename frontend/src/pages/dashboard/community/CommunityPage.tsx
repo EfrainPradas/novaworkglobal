@@ -14,7 +14,7 @@ export default function CommunityPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('essentials')
+  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
   const [groups, setGroups] = useState<CommunityGroup[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)

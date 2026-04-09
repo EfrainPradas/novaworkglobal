@@ -45,9 +45,9 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
     const { t } = useTranslation()
     const [user, setUser] = useState<any>(null)
     const [userProfile, setUserProfile] = useState<any>({
-        skills: ['General Skills'],
-        career_vision: { target_roles: ['Professional'] },
-        preferences: { ideal_work: { industry: 'Technology', geographic_location: ['Remote'] } }
+        skills: [t('jobSearch.ai.generalSkills', 'General Skills')],
+        career_vision: { target_roles: [t('jobSearch.ai.professional', 'Professional')] },
+        preferences: { ideal_work: { industry: t('jobSearch.ai.technology', 'Technology'), geographic_location: [t('jobSearch.ai.remote', 'Remote')] } }
     })
     const [profileLoading, setProfileLoading] = useState(true)
     const [recommendations, setRecommendations] = useState<AIRecommendation[]>([])
@@ -217,9 +217,9 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
     }
 
     const getMatchScoreLabel = (score: number) => {
-        if (score >= 80) return 'Excellent Match'
-        if (score >= 60) return 'Good Match'
-        return 'Potential Match'
+        if (score >= 80) return t('jobSearch.ai.excellentMatch', 'Excellent Match')
+        if (score >= 60) return t('jobSearch.ai.goodMatch', 'Good Match')
+        return t('jobSearch.ai.potentialMatch', 'Potential Match')
     }
 
     const saveRecommendationsToStorage = (recommendations: AIRecommendation[], metadata: any) => {
@@ -311,7 +311,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
         return (
             <div className="py-12 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                <p className="text-gray-500">Loading profile data...</p>
+                <p className="text-gray-500">{t('jobSearch.ai.loadingProfile', 'Loading profile data...')}</p>
             </div>
         )
     }
@@ -404,7 +404,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                     {loading ? (
                         <>
                             <RefreshCw className="w-4 h-4 animate-spin" />
-                            Analyzing...
+                            {t('jobSearch.ai.analyzing', 'Analyzing...')}
                         </>
                     ) : (
                         <>
@@ -431,8 +431,8 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                 <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-2">
                         <div>
-                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">Found {metadata.totalJobsFound} Jobs</h3>
-                            <p className="text-sm text-gray-500"> AI Curated Top {metadata.jobsRecommended} Matches (Avg Score: {metadata.averageScore}%)</p>
+                            <h3 className="text-lg font-bold text-gray-900 dark:text-white">{t('jobSearch.ai.foundJobs', 'Found {{count}} Jobs', { count: metadata.totalJobsFound })}</h3>
+                            <p className="text-sm text-gray-500"> {t('jobSearch.ai.aiCuratedTop', 'AI Curated Top {{count}} Matches (Avg Score: {{score}}%)', { count: metadata.jobsRecommended, score: metadata.averageScore })}</p>
                         </div>
                         <div className="flex gap-2">
                             <button
@@ -441,13 +441,13 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                 className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium transition-colors flex items-center gap-2"
                             >
                                 <RefreshCw className={`w-3 h-3 ${loading ? 'animate-spin' : ''}`} />
-                                Refresh
+                                {t('jobSearch.ai.refresh', 'Refresh')}
                             </button>
                             <button
                                 onClick={clearSavedRecommendations}
                                 className="px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg font-medium transition-colors"
                             >
-                                Clear Results
+                                {t('jobSearch.ai.clearResults', 'Clear Results')}
                             </button>
                         </div>
                     </div>
@@ -466,10 +466,10 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                                 {job.title}
                                             </h3>
                                             <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold border ${getMatchScoreColor(job.matchScore)}`}>
-                                                {job.matchScore}% Match
+                                                {t('jobSearch.ai.matchPercent', '{{score}}% Match', { score: job.matchScore })}
                                             </span>
                                             {job.source === 'Demo' && (
-                                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">Demo</span>
+                                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">{t('jobSearch.ai.demo', 'Demo')}</span>
                                             )}
                                         </div>
                                         <div className="flex items-center gap-x-4 gap-y-2 flex-wrap text-sm text-gray-600 dark:text-gray-300">
@@ -525,7 +525,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                         onClick={() => toggleJobExpansion(job.id)}
                                         className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 font-medium text-sm px-3 py-2"
                                     >
-                                        {expandedJobs.has(job.id) ? 'Less Details' : 'More Details'}
+                                        {expandedJobs.has(job.id) ? t('jobSearch.ai.lessDetails', 'Less Details') : t('jobSearch.ai.moreDetails', 'More Details')}
                                     </button>
 
                                     <button
@@ -533,7 +533,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                         className="px-4 py-2 bg-primary-100 text-primary-700 hover:bg-primary-200 dark:bg-primary-900/40 dark:text-primary-300 dark:hover:bg-primary-900/60 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors"
                                     >
                                         <Settings className="w-4 h-4" />
-                                        Analyze JD
+                                        {t('jobSearch.ai.analyzeJD', 'Analyze JD')}
                                     </button>
 
                                     {job.applyLink && (
@@ -543,7 +543,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                             rel="noopener noreferrer"
                                             className="px-4 py-2 bg-primary-600 text-white hover:bg-primary-700 rounded-lg font-medium text-sm flex items-center gap-2 transition-colors shadow-sm hover:shadow"
                                         >
-                                            Apply Now
+                                            {t('jobSearch.ai.applyNow', 'Apply Now')}
                                             <ExternalLink className="w-4 h-4" />
                                         </a>
                                     )}
@@ -577,14 +577,14 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                             {/* Also show raw description if available */}
                                             {job.description && (
                                                 <div>
-                                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">Description</h4>
+                                                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2 text-sm uppercase tracking-wide">{t('jobSearch.ai.description', 'Description')}</h4>
                                                     <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">{job.description}</p>
                                                 </div>
                                             )}
                                         </div>
                                     ) : job.description ? (
                                         <div>
-                                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">Full Description</h4>
+                                            <h4 className="font-semibold text-gray-900 dark:text-white mb-3 text-sm uppercase tracking-wide">{t('jobSearch.ai.fullDescription', 'Full Description')}</h4>
                                             <div className="prose prose-sm max-w-none text-gray-600 dark:text-gray-300">
                                                 {job.description.split('\n').map((paragraph: string, index: number) => (
                                                     <p key={index} className="mb-3 leading-relaxed">{paragraph}</p>
@@ -593,7 +593,7 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                         </div>
                                     ) : (
                                         <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                                            No description available. Click "Analyze JD" to proceed with AI-generated insights.
+                                            {t('jobSearch.ai.noDescription', 'No description available. Click "Analyze JD" to proceed with AI-generated insights.')}
                                         </p>
                                     )}
                                 </div>

@@ -24,7 +24,7 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
   const navigate = useNavigate()
 
   const canAccess = (tier: TierLevel) => {
-    const order: Record<TierLevel, number> = { essentials: 1, momentum: 2, executive: 3 }
+    const order: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
     return order[userLevel] >= order[tier]
   }
 

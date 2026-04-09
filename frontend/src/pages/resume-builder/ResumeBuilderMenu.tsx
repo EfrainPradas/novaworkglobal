@@ -42,7 +42,7 @@ export default function ResumeBuilderMenu() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set())
-  const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
+  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
   const [tourStarted, setTourStarted] = useState(false)
@@ -68,9 +68,9 @@ export default function ResumeBuilderMenu() {
       if (userData?.subscription_tier) {
         let tier = userData.subscription_tier
         // Map old tier names to new ones
-        if (tier === 'basic') tier = 'essentials'
+        if (tier === 'basic') tier = 'esenciales'
         if (tier === 'pro') tier = 'momentum'
-        setUserLevel(tier as 'essentials' | 'momentum' | 'executive')
+        setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
       }
 
       await loadProgress(user.id)
@@ -90,7 +90,7 @@ export default function ResumeBuilderMenu() {
 
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { essentials: 1, momentum: 2, executive: 3 }
+    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 

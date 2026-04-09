@@ -145,7 +145,7 @@ function App() {
         {/* ... Public Routes ... */}
 
         {/* Essentials Protected Routes */}
-        <Route element={<ProtectedRoute requiredLevel="essentials" />}>
+        <Route element={<ProtectedRoute requiredLevel="esenciales" />}>
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />

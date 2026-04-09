@@ -29,7 +29,7 @@ interface ActionItem {
   gradient: string
   shadow: string
   modules: string[]
-  requiredLevel: 'essentials' | 'momentum' | 'executive'
+  requiredLevel: 'esenciales' | 'momentum' | 'vanguard'
   videoSrc: string
 }
 
@@ -46,7 +46,7 @@ export default function NavigationPrompt() {
   const [isInstallable, setIsInstallable] = useState(false)
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'essentials' | 'momentum' | 'executive'>('essentials')
+  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
 
   const actions: ActionItem[] = [
     {
@@ -70,7 +70,7 @@ export default function NavigationPrompt() {
       gradient: 'from-primary-400 to-primary-600',
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
-      requiredLevel: 'essentials',
+      requiredLevel: 'esenciales',
       videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')
     },
     {
@@ -94,7 +94,7 @@ export default function NavigationPrompt() {
       gradient: 'from-accent-400 to-accent-600',
       shadow: 'shadow-accent-500/30',
       modules: ['Interview Prep', 'Question Bank'],
-      requiredLevel: 'executive',
+      requiredLevel: 'vanguard',
       videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4')
     },
   ]
@@ -158,9 +158,9 @@ export default function NavigationPrompt() {
         if (userData?.subscription_tier) {
           let tier = userData.subscription_tier
           // Map old tier names to new ones
-          if (tier === 'basic') tier = 'essentials'
+          if (tier === 'basic') tier = 'esenciales'
           if (tier === 'pro') tier = 'momentum'
-          setUserLevel(tier as 'essentials' | 'momentum' | 'executive')
+          setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
         }
 
         const { data: profile } = await supabase
@@ -208,12 +208,12 @@ export default function NavigationPrompt() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { essentials: 1, momentum: 2, executive: 3 }
+    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'essentials') return null
+    if (requiredLevel === 'esenciales') return null
 
     // Premium badge styles
     const badges = {
@@ -282,7 +282,7 @@ export default function NavigationPrompt() {
               <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
               <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
               <div className="hidden sm:block">
-                {userLevel === 'essentials' && (
+                {userLevel === 'esenciales' && (
                   <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
                     {t('dashboard.essentialsPlan', 'Essentials Plan')}
                   </span>
@@ -293,7 +293,7 @@ export default function NavigationPrompt() {
                     {t('dashboard.momentumMember', 'Momentum Member')}
                   </div>
                 )}
-                {userLevel === 'executive' && (
+                {userLevel === 'vanguard' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 ring-1 ring-amber-500/20">
                     <Crown className="w-3.5 h-3.5" />
                     {t('dashboard.executiveMember', 'Executive Member')}
@@ -420,11 +420,11 @@ export default function NavigationPrompt() {
                       {/* Always show tier badge with color coding */}
                       <span className={`
                         inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold
-                        ${action.requiredLevel === 'essentials' ? 'bg-blue-100 text-blue-700' : ''}
+                        ${action.requiredLevel === 'esenciales' ? 'bg-blue-100 text-blue-700' : ''}
                         ${action.requiredLevel === 'momentum' ? 'bg-emerald-100 text-emerald-700' : ''}
-                        ${action.requiredLevel === 'executive' ? 'bg-amber-100 text-amber-700' : ''}
+                        ${action.requiredLevel === 'vanguard' ? 'bg-amber-100 text-amber-700' : ''}
                       `}>
-                        {action.requiredLevel === 'essentials' && (
+                        {action.requiredLevel === 'esenciales' && (
                           <>
                             <Star className="w-3 h-3" />
                             Essentials
@@ -436,7 +436,7 @@ export default function NavigationPrompt() {
                             Momentum
                           </>
                         )}
-                        {action.requiredLevel === 'executive' && (
+                        {action.requiredLevel === 'vanguard' && (
                           <>
                             <Crown className="w-3 h-3" />
                             Executive
@@ -461,7 +461,7 @@ export default function NavigationPrompt() {
                         )
                       ) : (
                         <span className="text-sm font-medium text-amber-600 hover:text-amber-700">
-                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'executive' ? 'Vanguard' : 'Momentum'}
+                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'vanguard' ? 'Vanguard' : 'Momentum'}
                         </span>
                       )}
 

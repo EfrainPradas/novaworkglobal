@@ -6,69 +6,84 @@
  */
 
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface ResourceLink {
-  label: string
+  labelKey: string
+  labelFallback: string
   url: string
 }
 
 interface Category {
-  title: string
+  titleKey: string
+  titleFallback: string
   links: ResourceLink[]
-  whyItMatters: string
+  whyItMattersKey: string
+  whyItMattersFallback: string
 }
 
 const CATEGORIES: Category[] = [
   {
-    title: 'Global Hiring and Workforce Moves',
+    titleKey: 'dashboard.careerIntelligence.cat1Title',
+    titleFallback: 'Global Hiring and Workforce Moves',
     links: [
-      { label: 'Read Reuters Business News', url: 'https://www.reuters.com/business/' },
-      { label: 'Explore Bloomberg Careers and Economy', url: 'https://www.bloomberg.com/economics' },
-      { label: 'Follow CNBC Work and Careers', url: 'https://www.cnbc.com/work/' },
+      { labelKey: 'dashboard.careerIntelligence.cat1Link1', labelFallback: 'Read Reuters Business News', url: 'https://www.reuters.com/business/' },
+      { labelKey: 'dashboard.careerIntelligence.cat1Link2', labelFallback: 'Explore Bloomberg Careers and Economy', url: 'https://www.bloomberg.com/economics' },
+      { labelKey: 'dashboard.careerIntelligence.cat1Link3', labelFallback: 'Follow CNBC Work and Careers', url: 'https://www.cnbc.com/work/' },
     ],
-    whyItMatters: 'Layoffs in one company often signal hiring in another. This is early warning + opportunity detection.',
+    whyItMattersKey: 'dashboard.careerIntelligence.cat1Why',
+    whyItMattersFallback: 'Layoffs in one company often signal hiring in another. This is early warning + opportunity detection.',
   },
   {
-    title: 'Economy and Job Market Signals',
+    titleKey: 'dashboard.careerIntelligence.cat2Title',
+    titleFallback: 'Economy and Job Market Signals',
     links: [
-      { label: 'Track U.S. Labor Market Data (BLS)', url: 'https://www.bls.gov/' },
-      { label: 'Read Federal Reserve Economic Insights', url: 'https://www.federalreserve.gov/data.htm' },
-      { label: 'Explore OECD Employment Outlook', url: 'https://www.oecd.org/employment/' },
+      { labelKey: 'dashboard.careerIntelligence.cat2Link1', labelFallback: 'Track U.S. Labor Market Data (BLS)', url: 'https://www.bls.gov/' },
+      { labelKey: 'dashboard.careerIntelligence.cat2Link2', labelFallback: 'Read Federal Reserve Economic Insights', url: 'https://www.federalreserve.gov/data.htm' },
+      { labelKey: 'dashboard.careerIntelligence.cat2Link3', labelFallback: 'Explore OECD Employment Outlook', url: 'https://www.oecd.org/employment/' },
     ],
-    whyItMatters: 'Hiring is driven by economics, not just resumes.',
+    whyItMattersKey: 'dashboard.careerIntelligence.cat2Why',
+    whyItMattersFallback: 'Hiring is driven by economics, not just resumes.',
   },
   {
-    title: 'AI, Automation and Job Disruption',
+    titleKey: 'dashboard.careerIntelligence.cat3Title',
+    titleFallback: 'AI, Automation and Job Disruption',
     links: [
-      { label: 'Read MIT Technology Review (Work & AI)', url: 'https://www.technologyreview.com/topic/artificial-intelligence/' },
-      { label: 'Explore OpenAI News and Updates', url: 'https://openai.com/blog/' },
-      { label: 'Follow Google AI Developments', url: 'https://ai.google/' },
+      { labelKey: 'dashboard.careerIntelligence.cat3Link1', labelFallback: 'Read MIT Technology Review (Work & AI)', url: 'https://www.technologyreview.com/topic/artificial-intelligence/' },
+      { labelKey: 'dashboard.careerIntelligence.cat3Link2', labelFallback: 'Explore OpenAI News and Updates', url: 'https://openai.com/blog/' },
+      { labelKey: 'dashboard.careerIntelligence.cat3Link3', labelFallback: 'Follow Google AI Developments', url: 'https://ai.google/' },
     ],
-    whyItMatters: 'This is the fastest-moving risk and opportunity zone in your career.',
+    whyItMattersKey: 'dashboard.careerIntelligence.cat3Why',
+    whyItMattersFallback: 'This is the fastest-moving risk and opportunity zone in your career.',
   },
   {
-    title: 'Companies Hiring and Industry Moves',
+    titleKey: 'dashboard.careerIntelligence.cat4Title',
+    titleFallback: 'Companies Hiring and Industry Moves',
     links: [
-      { label: 'Read TechCrunch Startup News', url: 'https://techcrunch.com/' },
-      { label: 'Explore Crunchbase News', url: 'https://news.crunchbase.com/' },
-      { label: 'Follow VentureBeat AI and Tech Hiring', url: 'https://venturebeat.com/' },
+      { labelKey: 'dashboard.careerIntelligence.cat4Link1', labelFallback: 'Read TechCrunch Startup News', url: 'https://techcrunch.com/' },
+      { labelKey: 'dashboard.careerIntelligence.cat4Link2', labelFallback: 'Explore Crunchbase News', url: 'https://news.crunchbase.com/' },
+      { labelKey: 'dashboard.careerIntelligence.cat4Link3', labelFallback: 'Follow VentureBeat AI and Tech Hiring', url: 'https://venturebeat.com/' },
     ],
-    whyItMatters: 'Funding = hiring (often before jobs are posted).',
+    whyItMattersKey: 'dashboard.careerIntelligence.cat4Why',
+    whyItMattersFallback: 'Funding = hiring (often before jobs are posted).',
   },
   {
-    title: 'Industry Specific Signals',
+    titleKey: 'dashboard.careerIntelligence.cat5Title',
+    titleFallback: 'Industry Specific Signals',
     links: [
-      { label: 'Read The Wall Street Journal Careers', url: 'https://www.wsj.com/news/business' },
-      { label: 'Explore Financial Times Work and Careers', url: 'https://www.ft.com/work-careers' },
+      { labelKey: 'dashboard.careerIntelligence.cat5Link1', labelFallback: 'Read The Wall Street Journal Careers', url: 'https://www.wsj.com/news/business' },
+      { labelKey: 'dashboard.careerIntelligence.cat5Link2', labelFallback: 'Explore Financial Times Work and Careers', url: 'https://www.ft.com/work-careers' },
     ],
-    whyItMatters: 'Deep dives by sector: tech, healthcare, finance, energy, and more.',
+    whyItMattersKey: 'dashboard.careerIntelligence.cat5Why',
+    whyItMattersFallback: 'Deep dives by sector: tech, healthcare, finance, energy, and more.',
   },
 ]
 
 const ROTATE_MS = 5_000
 
 export default function CareerIntelligenceCompact() {
+  const { t } = useTranslation()
   const [activeIdx, setActiveIdx] = useState(0)
   const [sliding, setSliding] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -111,10 +126,10 @@ export default function CareerIntelligenceCompact() {
       <div className="flex items-center justify-between mb-3">
         <div>
           <p className="text-xs font-bold tracking-widest mb-0.5" style={{ color: '#1976D2' }}>
-            CAREER INTELLIGENCE
+            {t('dashboard.careerIntelligence.title', 'CAREER INTELLIGENCE')}
           </p>
           <h2 className="text-base font-bold text-slate-800 leading-snug">
-            Market insights for your career
+            {t('dashboard.careerIntelligence.subtitle', 'Market insights for your career')}
           </h2>
         </div>
         {/* Nav arrows */}
@@ -144,7 +159,7 @@ export default function CareerIntelligenceCompact() {
           }}
         >
           {/* Category title */}
-          <h3 className="text-sm font-bold text-slate-700 mb-2.5">{cat.title}</h3>
+          <h3 className="text-sm font-bold text-slate-700 mb-2.5">{t(cat.titleKey, cat.titleFallback)}</h3>
 
           {/* Links */}
           <div className="flex flex-col gap-1.5 mb-3">
@@ -158,7 +173,7 @@ export default function CareerIntelligenceCompact() {
               >
                 <ExternalLink size={11} className="text-blue-400 shrink-0" />
                 <span className="text-xs font-medium text-blue-600 group-hover:text-blue-800 transition-colors">
-                  {link.label}
+                  {t(link.labelKey, link.labelFallback)}
                 </span>
               </a>
             ))}

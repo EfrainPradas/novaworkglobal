@@ -110,7 +110,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 actions: validActions
             })
         } catch (err) {
-            setError(err instanceof Error ? err.message : 'Error saving CAR story')
+            setError(err instanceof Error ? err.message : t('carStories.form.errorSaving', 'Error saving CAR story'))
         } finally {
             setLoading(false)
         }
@@ -186,7 +186,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
             })
         } catch (err) {
             console.error('Error generating accomplishments:', err)
-            setError('Failed to generate accomplishments. Please try again.')
+            setError(t('carStories.form.errorGenerating', 'Failed to generate accomplishments. Please try again.'))
         } finally {
             setGeneratingAccomplishments(false)
         }
@@ -202,19 +202,19 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
 
             {/* CAR Guide */}
             <div className="bg-blue-50 dark:bg-blue-900/20 border-x border-b border-blue-100 dark:border-blue-800 p-4 mx-6 -mt-6 mb-6 rounded-b-lg transition-colors duration-200">
-                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">The CAR Framework</h3>
+                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{t('carStories.form.carFrameworkTitle', 'The CAR Framework')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div>
-                        <span className="font-bold text-orange-600 dark:text-orange-400">Context/Challenge:</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">What specific context, problem, or situation did you face?</p>
+                        <span className="font-bold text-orange-600 dark:text-orange-400">{t('carStories.form.contextChallenge', 'Context/Challenge:')}</span>
+                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.contextChallengeDesc', 'What specific context, problem, or situation did you face?')}</p>
                     </div>
                     <div>
-                        <span className="font-bold text-blue-600 dark:text-blue-400">Action:</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">What specific steps did YOU take to solve it?</p>
+                        <span className="font-bold text-blue-600 dark:text-blue-400">{t('carStories.form.action', 'Action:')}</span>
+                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.actionDesc', 'What specific steps did YOU take to solve it?')}</p>
                     </div>
                     <div>
-                        <span className="font-bold text-green-600 dark:text-green-400">Result:</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">What was the quantifiable outcome (metrics)?</p>
+                        <span className="font-bold text-green-600 dark:text-green-400">{t('carStories.form.result', 'Result:')}</span>
+                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.resultDesc', 'What was the quantifiable outcome (metrics)?')}</p>
                     </div>
                 </div>
             </div>
@@ -231,26 +231,26 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Role Title *
+                            {t('carStories.form.roleTitle', 'Role Title')} *
                         </label>
                         <input
                             type="text"
                             value={formData.role_title}
                             onChange={(e) => setFormData({ ...formData, role_title: e.target.value })}
-                            placeholder="e.g. Software Engineer"
+                            placeholder={t('carStories.form.rolePlaceholder', 'e.g. Software Engineer')}
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             required
                         />
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Company Name *
+                            {t('carStories.form.companyName', 'Company Name')} *
                         </label>
                         <input
                             type="text"
                             value={formData.company_name}
                             onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
-                            placeholder="e.g. Tech Corp"
+                            placeholder={t('carStories.form.companyPlaceholder', 'e.g. Tech Corp')}
                             className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
                             required
                         />
@@ -259,7 +259,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Start Date *
+                            {t('carStories.form.startDate', 'Start Date')} *
                         </label>
                         <input
                             type="month"
@@ -270,7 +270,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                     </div>
                     <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            End Date *
+                            {t('carStories.form.endDate', 'End Date')} *
                         </label>
                         <input
                             type="month"
@@ -284,7 +284,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 {/* Challenge */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Context/Challenge *
+                        {t('carStories.form.contextChallengeLabel', 'Context/Challenge')} *
                     </label>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                         {t('resumeBuilder.par.problemHelp')}
@@ -355,17 +355,17 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 {/* AI Accomplishments Generator */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        AI Accomplishments Generator
+                        {t('carStories.form.aiAccomplishmentsGenerator', 'AI Accomplishments Generator')}
                     </label>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        Generate 3 powerful accomplishments based on your challenge, actions, and results using AI. These accomplishments will highlight the impact and metrics of your work.
+                        {t('carStories.form.aiAccomplishmentsDesc', 'Generate 3 powerful accomplishments based on your challenge, actions, and results using AI. These accomplishments will highlight the impact and metrics of your work.')}
                     </p>
 
                     {/* Show skills being used from Career Vision */}
                     {userSkills && userSkills.length > 0 && (
                         <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
                             <p className="text-xs font-medium text-blue-800 dark:text-blue-200 mb-2">
-                                ✨ Using {userSkills.length} skills from your Career Vision:
+                                {t('carStories.form.usingSkills', {defaultValue: 'Using {{count}} skills from your Career Vision:', count: userSkills.length})}
                             </p>
                             <div className="flex flex-wrap gap-1">
                                 {userSkills.slice(0, 8).map((skill, index) => (
@@ -378,7 +378,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                                 ))}
                                 {userSkills.length > 8 && (
                                     <span className="inline-block px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs rounded-md font-medium">
-                                        +{userSkills.length - 8} more
+                                        +{userSkills.length - 8} {t('carStories.form.more', 'more')}
                                     </span>
                                 )}
                             </div>
@@ -396,19 +396,19 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                         {generatingAccomplishments ? (
                             <>
                                 <Loader2 className="w-5 h-5 animate-spin" />
-                                Generating Accomplishments...
+                                {t('carStories.form.generatingAccomplishments', 'Generating Accomplishments...')}
                             </>
                         ) : (
                             <>
                                 <Sparkles className="w-5 h-5" />
-                                Generate AI Accomplishments
+                                {t('carStories.form.generateAiAccomplishments', 'Generate AI Accomplishments')}
                             </>
                         )}
                     </button>
 
                     {/* Display generated accomplishments */}
                     <div className="mt-4">
-                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Key Metrics & Accomplishments:</p>
+                        <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">{t('carStories.form.keyMetrics', 'Key Metrics & Accomplishments:')}</p>
                         <div className="space-y-2">
                             {formData.metrics.map((metric, index) => (
                                 <div
@@ -425,7 +425,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                                         type="button"
                                         onClick={() => handleRemoveMetric(index)}
                                         className="text-primary-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity"
-                                        title="Remove metric"
+                                        title={t('carStories.form.removeMetric', 'Remove metric')}
                                     >
                                         <X className="w-4 h-4" />
                                     </button>
@@ -438,7 +438,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                     {/* Manual Metric Input */}
                     <div className="mt-4">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Add Custom Highlight / Metric
+                            {t('carStories.form.addCustomMetric', 'Add Custom Highlight / Metric')}
                         </label>
                         <div className="flex gap-2">
                             <input
@@ -482,15 +482,15 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                 {/* Competencies */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Competencies Demonstrated
+                        {t('carStories.form.competenciesDemonstrated', 'Competencies Demonstrated')}
                     </label>
                     <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-                        Select the skills you used in this accomplishment
+                        {t('carStories.form.selectSkills', 'Select the skills you used in this accomplishment')}
                     </p>
 
                     {userSkills.length === 0 && (
                         <div className="mb-3 text-xs text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/30 p-2 rounded border border-orange-200 dark:border-orange-800">
-                            Tip: Go to Career Vision to add your custom Skills & Interests. Showing generic list for now.
+                            {t('carStories.form.tipAddSkills', 'Tip: Go to Career Vision to add your custom Skills & Interests. Showing generic list for now.')}
                         </div>
                     )}
 
@@ -526,7 +526,7 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
                         disabled={loading}
                         className="px-6 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition disabled:opacity-50"
                     >
-                        {loading ? t('common.saving') : 'Save CAR'}
+                        {loading ? t('common.saving') : t('carStories.form.saveCar', 'Save CAR')}
                     </button>
                 </div>
             </div>

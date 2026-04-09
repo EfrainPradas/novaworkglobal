@@ -23,7 +23,7 @@ export default function HomeDashboard() {
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
   const [userName, setUserName] = useState<string | null>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('essentials')
+  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
 
   // ── Stats ───────────────────────────────────────────────────
   const [overview, setOverview] = useState<DashboardOverview | null>(null)

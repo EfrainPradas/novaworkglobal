@@ -138,7 +138,7 @@ export const howItWorksSteps = [
 // NovaNext Pricing Plans
 export const novaNextPlans: PricingPlan[] = [
     {
-        name: 'essentials',
+        name: 'esenciales',
         displayName: 'Essentials',
         monthly: 29,
         annual: 290,
@@ -170,7 +170,7 @@ export const novaNextPlans: PricingPlan[] = [
         cta: 'Get Momentum'
     },
     {
-        name: 'executive',
+        name: 'vanguard',
         displayName: 'Vanguard',
         monthly: 149,
         annual: 1490,

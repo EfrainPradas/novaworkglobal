@@ -20,7 +20,7 @@ function buildModules(
   progressRows: Array<{ module_id: string; step_id: string }>,
   userLevel: TierLevel
 ): Record<ModuleId, DashboardModule> {
-  const levels: Record<TierLevel, number> = { essentials: 1, momentum: 2, executive: 3 }
+  const levels: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
   const can = (req: TierLevel) => levels[userLevel] >= levels[req]
 
   const stepStatus = (moduleId: string, stepId: string): StepStatus =>
@@ -83,7 +83,7 @@ function buildModules(
     'resume-builder': {
       id: 'resume-builder', title: 'Resume Builder',
       description: 'Build an interview-magnet resume and your personal accomplishment bank.',
-      tier: 'Essentials', requiredLevel: 'essentials', iconBg: '#E3F2FD',
+      tier: 'Essentials', requiredLevel: 'esenciales', iconBg: '#E3F2FD',
       completedSteps: rbCompleted, totalSteps: 4, steps: rbSteps,
       videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4'),
       learnMoreRoute: '/resume-builder',
@@ -110,11 +110,11 @@ function buildModules(
     'interview-mastery': {
       id: 'interview-mastery', title: 'Interview Mastery',
       description: 'Be the one they choose. Understand and practice the interview to win.',
-      tier: 'Vanguard', requiredLevel: 'executive', iconBg: '#F3E5F5',
+      tier: 'Vanguard', requiredLevel: 'vanguard', iconBg: '#F3E5F5',
       completedSteps: imCompleted, totalSteps: 4, steps: imSteps,
       videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4'),
       learnMoreRoute: '/interview',
-      locked: !can('executive'),
+      locked: !can('vanguard'),
     },
   }
 }
@@ -171,7 +171,7 @@ export default function DashboardModules() {
   }, [sidebarCollapsed])
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('essentials')
+  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<DashboardStats>({
     resumeScore: 0, resumeScoreDelta: 6,
@@ -204,10 +204,10 @@ export default function DashboardModules() {
       // ── tier ──
       const { data: userData } = await supabase
         .from('users').select('subscription_tier').eq('id', userId).single()
-      let tier: TierLevel = 'essentials'
+      let tier: TierLevel = 'esenciales'
       if (userData?.subscription_tier) {
         let t = userData.subscription_tier
-        if (t === 'basic') t = 'essentials'
+        if (t === 'basic') t = 'esenciales'
         if (t === 'pro')   t = 'momentum'
         tier = t as TierLevel
         setUserLevel(tier)
@@ -287,7 +287,7 @@ export default function DashboardModules() {
 
   const activeModuleData = modules?.[activeModule] ?? {
     id: activeModule, title: '', description: '', tier: 'Essentials' as const,
-    requiredLevel: 'essentials' as TierLevel, iconBg: '#E3F2FD',
+    requiredLevel: 'esenciales' as TierLevel, iconBg: '#E3F2FD',
     completedSteps: 0, totalSteps: 4, steps: [], videoSrc: '', learnMoreRoute: '/', locked: false,
   }
 

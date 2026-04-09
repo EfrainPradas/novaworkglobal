@@ -84,7 +84,7 @@ export async function getUserName(userId: string): Promise<string | null> {
   }
 }
 
-export async function getUserTier(userId: string): Promise<'essentials' | 'momentum' | 'executive'> {
+export async function getUserTier(userId: string): Promise<'esenciales' | 'momentum' | 'vanguard'> {
   try {
     const { data } = await supabase
       .from('users')
@@ -92,14 +92,14 @@ export async function getUserTier(userId: string): Promise<'essentials' | 'momen
       .eq('id', userId)
       .single()
 
-    if (!data?.subscription_tier) return 'essentials'
+    if (!data?.subscription_tier) return 'esenciales'
 
     const t = data.subscription_tier
-    if (t === 'basic') return 'essentials'
+    if (t === 'basic') return 'esenciales'
     if (t === 'pro') return 'momentum'
-    if (t === 'executive') return 'executive'
-    return 'essentials'
+    if (t === 'vanguard') return 'vanguard'
+    return 'esenciales'
   } catch {
-    return 'essentials'
+    return 'esenciales'
   }
 }

@@ -21,7 +21,7 @@ export default function NetworkingSessionsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('essentials')
+  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
   const [sessions, setSessions] = useState<MemberSession[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)

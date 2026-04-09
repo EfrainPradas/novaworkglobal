@@ -36,7 +36,7 @@ const tools = [
 
 export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, width, collapsed, onToggle, onResizeStart }: SidebarProps) {
   const navigate = useNavigate()
-  const levels: Record<TierLevel, number> = { essentials: 1, momentum: 2, executive: 3 }
+  const levels: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
   const canAccess = (req: string) => levels[userLevel] >= levels[req.toLowerCase() as TierLevel]
 
   const userTierKey = tierLabel.charAt(0).toUpperCase() + tierLabel.slice(1)

@@ -17,7 +17,7 @@ const ROLE_OPTIONS = [
   'software_engineer', 'data_scientist', 'product_manager', 'project_manager',
   'ux_designer', 'devops_engineer', 'business_analyst', 'marketing_manager',
   'financial_analyst', 'sales_manager', 'hr_manager', 'operations_manager',
-  'compliance_officer', 'healthcare_admin', 'consultant', 'executive',
+  'compliance_officer', 'healthcare_admin', 'consultant', 'vanguard',
 ]
 
 const INDUSTRY_OPTIONS = [

@@ -165,7 +165,7 @@ export default function SignUp() {
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {isTrial
-              ? `Start Your ${trialTier === 'executive' ? 'Vanguard' : 'Pro'} Trial`
+              ? `Start Your ${trialTier === 'vanguard' ? 'Vanguard' : 'Pro'} Trial`
               : pendingPlanLabel
                 ? t('auth.signUp.titleWithPlan', { plan: pendingPlanLabel })
                 : t('auth.signUp.title')}

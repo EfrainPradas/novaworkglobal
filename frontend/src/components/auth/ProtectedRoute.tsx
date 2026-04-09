@@ -3,10 +3,10 @@ import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 
 interface ProtectedRouteProps {
-    requiredLevel?: 'essentials' | 'momentum' | 'executive'
+    requiredLevel?: 'esenciales' | 'momentum' | 'vanguard'
 }
 
-export default function ProtectedRoute({ requiredLevel = 'essentials' }: ProtectedRouteProps) {
+export default function ProtectedRoute({ requiredLevel = 'esenciales' }: ProtectedRouteProps) {
     const [loading, setLoading] = useState(true)
     const [hasAccess, setHasAccess] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -28,8 +28,8 @@ export default function ProtectedRoute({ requiredLevel = 'essentials' }: Protect
 
             setIsAuthenticated(true)
 
-            // If only essentials auth is required, we are done
-            if (requiredLevel === 'essentials') {
+            // If only esenciales auth is required, we are done
+            if (requiredLevel === 'esenciales') {
                 setHasAccess(true)
                 setLoading(false)
                 return
@@ -43,12 +43,13 @@ export default function ProtectedRoute({ requiredLevel = 'essentials' }: Protect
                 .single()
 
             // Support both old and new tier names for backward compatibility
-            let userTier = userData?.subscription_tier || 'essentials'
-            // Map old tier names to new ones
-            if (userTier === 'basic') userTier = 'essentials'
+            let userTier = userData?.subscription_tier || 'esenciales'
+            // Map legacy tier names
+            if (userTier === 'basic' || userTier === 'esenciales') userTier = 'esenciales'
             if (userTier === 'pro') userTier = 'momentum'
+            if (userTier === 'vanguard') userTier = 'vanguard'
 
-            const levels = { essentials: 1, momentum: 2, executive: 3 }
+            const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
 
             const userLevelScore = levels[userTier as keyof typeof levels] || 1
             const requiredScore = levels[requiredLevel]

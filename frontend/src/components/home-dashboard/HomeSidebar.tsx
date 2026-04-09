@@ -28,7 +28,7 @@ interface HomeSidebarProps {
   onResizeStart: (e: React.MouseEvent) => void
 }
 
-const TIER_ORDER: Record<TierLevel, number> = { essentials: 1, momentum: 2, executive: 3 }
+const TIER_ORDER: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
 
 export default function HomeSidebar({
   userLevel,
@@ -207,7 +207,7 @@ export default function HomeSidebar({
           iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
         {navItem('/dashboard/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
-          required: 'executive',
+          required: 'vanguard',
           iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
 

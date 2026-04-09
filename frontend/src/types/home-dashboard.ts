@@ -2,7 +2,7 @@
 // NovaWork Home Dashboard – TypeScript Types
 // ============================================================
 
-export type TierLevel = 'essentials' | 'momentum' | 'executive'
+export type TierLevel = 'esenciales' | 'momentum' | 'vanguard'
 export type SessionStatus = 'active' | 'cancelled' | 'completed'
 export type RegistrationStatus = 'registered' | 'cancelled' | 'waitlisted'
 export type ResourceType = 'article' | 'video' | 'pdf' | 'tool'

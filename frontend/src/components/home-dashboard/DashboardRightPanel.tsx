@@ -16,6 +16,7 @@ interface DashboardRightPanelProps {
 
 /* ─── Mini Calendar ───────────────────────────────────────── */
 function MiniCalendar({ onNavigate }: { onNavigate: () => void }) {
+  const { t } = useTranslation()
   const today = new Date()
   const year = today.getFullYear()
   const month = today.getMonth()
@@ -28,7 +29,15 @@ function MiniCalendar({ onNavigate }: { onNavigate: () => void }) {
     ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
   ]
   while (cells.length % 7 !== 0) cells.push(null)
-  const DAY_HEADERS = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']
+  const DAY_HEADERS = [
+    t('calendar.days.su', 'Su'),
+    t('calendar.days.mo', 'Mo'),
+    t('calendar.days.tu', 'Tu'),
+    t('calendar.days.we', 'We'),
+    t('calendar.days.th', 'Th'),
+    t('calendar.days.fr', 'Fr'),
+    t('calendar.days.sa', 'Sa'),
+  ]
 
   return (
     <button
@@ -166,8 +175,8 @@ export default function DashboardRightPanel({ userId }: DashboardRightPanelProps
           <div>
             <p className="text-xs text-slate-400 dark:text-gray-400">{t('dashboard.statsSection.profileCompletion', 'Profile Completion')}</p>
             {!loading && pct === 100
-              ? <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-0.5"><CheckCircle size={13} /> Complete</div>
-              : <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 mt-0.5">{loading ? '...' : `${pct}% done`}</p>
+              ? <div className="flex items-center gap-1 text-green-600 text-sm font-semibold mt-0.5"><CheckCircle size={13} /> {t('dashboard.statsSection.complete', 'Complete')}</div>
+              : <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 mt-0.5">{loading ? '...' : t('dashboard.statsSection.pctDone', '{{pct}}% done', { pct })}</p>
             }
           </div>
         </div>
