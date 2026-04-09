@@ -131,6 +131,7 @@ export default function PositioningQuestionnairePage() {
             console.error('Error loading questionnaire:', e)
         }
         setLoading(false)
+        trackEvent('analytics', 'questionnaire_loaded', { has_existing_profile: !!generatedProfile })
     }
 
     const handleSave = async () => {
@@ -151,6 +152,7 @@ export default function PositioningQuestionnairePage() {
 
             setSaved(true)
             setTimeout(() => setSaved(false), 3000)
+            await trackEvent('analytics', 'questionnaire_saved', { section: SECTION_KEYS[currentSection] })
             return true
         } catch (e: any) {
             console.error('Error saving:', e)
@@ -585,7 +587,7 @@ export default function PositioningQuestionnairePage() {
                                 <p className="text-sm text-gray-500">Click to view and edit your professional profile.</p>
                             </div>
                             <button
-                                onClick={() => setShowProfile(true)}
+                                onClick={() => { setShowProfile(true); trackEvent('analytics', 'questionnaire_view_profile', { version: generatedProfile?.version }) }}
                                 className="px-4 py-2 rounded-xl bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 text-sm font-medium hover:bg-primary-100 dark:hover:bg-primary-800/40 transition-colors"
                             >
                                 View Profile →
