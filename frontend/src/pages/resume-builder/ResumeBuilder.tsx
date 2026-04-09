@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FileText, CheckCircle, ArrowRight, Play, Briefcase, Trophy, User, Search, LineChart } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
-import ServiceAddOns from '../../components/services/ServiceAddOns'
+import CoachingTeaser from '../../components/services/CoachingTeaser'
 import { trackEvent } from '../../lib/analytics'
 
 interface Step {
@@ -247,7 +247,7 @@ export default function ResumeBuilder() {
       </div>
 
       {/* Optional Add-ons Section */}
-      <ServiceAddOns />
+      <CoachingTeaser />
     </div>
   )
 }
