@@ -40,7 +40,7 @@ export default function CoachingTeaser() {
       <div className="border-t border-gray-200 dark:border-gray-700 mb-8" />
 
       {/* Question */}
-      <p className="text-center text-gray-600 dark:text-gray-400 text-sm mb-6">
+      <p className="text-center text-gray-600 dark:text-gray-400 text-base mb-8">
         {t('coachingTeaser.question', '¿Quieres retroalimentación de un')}{' '}
         <span className="font-bold text-gray-900 dark:text-white">
           {t('coachingTeaser.certifiedCoach', 'coach certificado')}
@@ -49,25 +49,25 @@ export default function CoachingTeaser() {
       </p>
 
       {/* Compact cards */}
-      <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
         {options.map((opt) => (
           <button
             key={opt.title}
             onClick={() => handleClick(opt)}
-            className="p-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:shadow-md hover:-translate-y-0.5 transition-all cursor-pointer"
+            className="p-5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-center hover:shadow-lg hover:-translate-y-0.5 hover:border-primary-300 transition-all cursor-pointer"
           >
-            <p className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">{opt.title}</p>
-            <p className="text-2xl font-bold text-gray-900 dark:text-white">
+            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{opt.title}</p>
+            <p className="text-3xl font-bold text-gray-900 dark:text-white">
               ${opt.price}
-              <span className="text-xs font-normal text-gray-500 dark:text-gray-400 ml-1">{opt.unit}</span>
+              <span className="text-sm font-normal text-gray-500 dark:text-gray-400 ml-1">{opt.unit}</span>
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">{opt.detail}</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">{opt.detail}</p>
           </button>
         ))}
       </div>
 
       {/* Link */}
-      <div className="text-center mt-5">
+      <div className="text-center mt-6">
         <a
           href="/dashboard/coaching"
           className="inline-flex items-center gap-1 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
