@@ -258,7 +258,7 @@ function OverviewView({
     return (
         <div>
             {/* KPI Strip */}
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)", gap: 16, marginBottom: 28 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
                 {[
                     { label: "Active Clients", value: String(stats.activeClients), sub: `${stats.totalClients} total`, icon: <Users size={22} />, accent: "#0ea5e9" },
                     { label: "Total Applications", value: String(stats.totalApps), sub: `${stats.totalRejections} rejections`, icon: <Target size={22} />, accent: "#22c55e" },
@@ -739,15 +739,15 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
             </div>
 
             {/* Tabs */}
-            <div style={{ display: "flex", gap: 4, marginBottom: 18 }}>
+            <div style={{ display: "flex", gap: 4, marginBottom: 18, overflowX: "auto", WebkitOverflowScrolling: "touch", paddingBottom: 4 }}>
                 {tabs.map(t => (
-                    <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "8px 18px", borderRadius: 10, border: "1.5px solid", borderColor: tab === t.id ? "#0f172a" : "#e2e8f0", background: tab === t.id ? "#0f172a" : "#fff", color: tab === t.id ? "#fff" : "#64748b", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>{t.label}</button>
+                    <button key={t.id} onClick={() => setTab(t.id)} style={{ padding: "8px 18px", borderRadius: 10, border: "1.5px solid", borderColor: tab === t.id ? "#0f172a" : "#e2e8f0", background: tab === t.id ? "#0f172a" : "#fff", color: tab === t.id ? "#fff" : "#64748b", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", flexShrink: 0 }}>{t.label}</button>
                 ))}
             </div>
 
             {/* Overview Tab */}
             {tab === "overview" && (
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
                     {/* Application & Platform Activity Summary */}
                     <div style={{ background: "#fff", borderRadius: 14, border: "1.5px solid #e8edf2", padding: "20px 22px", gridColumn: "span 2" }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
@@ -929,7 +929,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                 </div>
 
                                 {/* Module Cards Grid */}
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 20 }}>
                                     {moduleCards.map(m => (
                                         <div
                                             key={m.title}
@@ -1046,7 +1046,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                             {moduleData.career_vision_statement || "No vision statement written yet."}
                                                         </div>
                                                     </div>
-                                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
                                                         <div>
                                                             <div style={{ fontSize: 11, fontWeight: 700, color: '#64748b', textTransform: 'uppercase', marginBottom: 4 }}>Short-term Goals</div>
                                                             <div style={{ fontSize: 12, color: '#475569', background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #e2e8f0' }}>
@@ -1063,7 +1063,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                 </div>
 
                                                 {/* Section 2: Skills & Interests */}
-                                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
                                                     <div style={{ background: '#f0f9ff', padding: 16, borderRadius: 14, border: '1px solid #bae6fd' }}>
                                                         <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#0369a1', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
                                                             <span>💪</span> Key Skills
@@ -1092,7 +1092,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                         <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#6d28d9', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
                                                             <span style={{ fontSize: 18 }}>✨</span> Job History AI Analysis
                                                         </h4>
-                                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 16 }}>
+                                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16, marginBottom: 16 }}>
                                                             <div style={{ background: '#fff', padding: 12, borderRadius: 10, border: '1px solid #ddd6fe30' }}>
                                                                 <div style={{ fontSize: 11, fontWeight: 700, color: '#7c3aed', textTransform: 'uppercase', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 4 }}>
                                                                     <span style={{ color: '#22c55e' }}>↑</span> Satisfiers
@@ -1164,7 +1164,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                         )}
 
                                         {expandedModule === 'Work Experience & Education' && (
-                                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}>
+                                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, alignItems: 'start' }}>
                                                 {/* Work Experience Section */}
                                                 <div style={{ background: '#fff', padding: 20, borderRadius: 14, border: '1px solid #e2e8f0' }}>
                                                     <h4 style={{ fontWeight: 800, marginBottom: 16, color: '#0f172a', fontSize: 14, display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -2187,7 +2187,7 @@ function ResourcesView({ coachId }: { coachId: string }) {
 function AnalyticsView({ stats }: { stats: CoachStats }) {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: 16 }}>
                 <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
                     <div style={{ color: '#22c55e', marginBottom: 12 }}><TrendingUp size={24} /></div>
                     <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{stats.placementRate}%</div>
@@ -2234,6 +2234,7 @@ export default function CoachDashboard() {
     })
     const [loading, setLoading] = useState(true)
     const [showAddClient, setShowAddClient] = useState(false)
+    const [sidebarOpen, setSidebarOpen] = useState(false)
 
     useEffect(() => {
         loadCoachData()
@@ -2447,8 +2448,19 @@ export default function CoachDashboard() {
 
     return (
         <div style={{ display: "flex", height: "100vh", fontFamily: "'Inter', 'DM Sans', 'Segoe UI', sans-serif", background: "#f0f4f8" }}>
+            {/* Mobile overlay */}
+            {sidebarOpen && (
+                <div
+                    onClick={() => setSidebarOpen(false)}
+                    style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.5)", zIndex: 40 }}
+                    className="lg:hidden"
+                />
+            )}
             {/* Sidebar */}
-            <div style={{ width: 220, background: "#0f172a", display: "flex", flexDirection: "column", flexShrink: 0 }}>
+            <div
+                className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-200 lg:relative lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+                style={{ width: 220, background: "#0f172a", display: "flex", flexDirection: "column", flexShrink: 0 }}
+            >
                 {/* Logo */}
                 <div style={{ padding: "22px 20px 16px", borderBottom: "1px solid #ffffff10" }}>
                     <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>Nova<span style={{ color: "#38bdf8" }}>Work</span></div>
@@ -2471,7 +2483,7 @@ export default function CoachDashboard() {
                 {/* Nav */}
                 <nav style={{ padding: "12px 12px", flex: 1 }}>
                     {navItems.map(n => (
-                        <button key={n.id} onClick={() => { setView(n.id); setSelectedClient(null) }}
+                        <button key={n.id} onClick={() => { setView(n.id); setSelectedClient(null); setSidebarOpen(false) }}
                             style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, border: "none", background: view === n.id || (view === "client" && n.id === "overview") ? "#ffffff15" : "none", color: view === n.id || (view === "client" && n.id === "overview") ? "#fff" : "#94a3b8", fontSize: 13, fontWeight: view === n.id ? 700 : 500, cursor: "pointer", marginBottom: 2, textAlign: "left" as const, borderLeft: view === n.id || (view === "client" && n.id === "overview") ? "3px solid #38bdf8" : "3px solid transparent", transition: "all 0.15s" }}>
                             <span>{n.icon}</span>{n.label}
                         </button>
@@ -2506,21 +2518,31 @@ export default function CoachDashboard() {
             {/* Main */}
             <div style={{ flex: 1, display: "flex", flexDirection: "column", overflow: "hidden" }}>
                 {/* Topbar */}
-                <div style={{ background: "#fff", borderBottom: "1px solid #e8edf2", padding: "14px 28px", display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
-                    <div>
-                        <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>
-                            {view === "overview" && "Coach Dashboard"}
-                            {view === "pipeline" && "Opportunities Pipeline"}
-                            {view === "calendar" && "Coach Calendar"}
-                            {view === "client" && (selectedClient?.client?.full_name || "Client")}
-                            {view === "sessions" && "Session Management"}
-                            {view === "resources" && "Resource Library"}
-                            {view === "analytics" && "Coach Analytics"}
+                <div className="px-4 lg:px-7" style={{ background: "#fff", borderBottom: "1px solid #e8edf2", paddingTop: 14, paddingBottom: 14, display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <button
+                            onClick={() => setSidebarOpen(true)}
+                            className="lg:hidden"
+                            style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}
+                        >
+                            <Menu size={22} color="#0f172a" />
+                        </button>
+                        <div>
+                            <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>
+                                {view === "overview" && "Coach Dashboard"}
+                                {view === "pipeline" && "Opportunities Pipeline"}
+                                {view === "calendar" && "Coach Calendar"}
+                                {view === "client" && (selectedClient?.client?.full_name || "Client")}
+                                {view === "sessions" && "Session Management"}
+                                {view === "resources" && "Resource Library"}
+                                {view === "analytics" && "Coach Analytics"}
+                            </div>
+                            <div className="hidden sm:block" style={{ fontSize: 12, color: "#94a3b8", marginTop: 1 }}>{currentDate}</div>
                         </div>
-                        <div style={{ fontSize: 12, color: "#94a3b8", marginTop: 1 }}>{currentDate}</div>
                     </div>
                     <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                        <button onClick={() => setShowAddClient(true)} style={{ background: "#0f172a", color: "#fff", border: "none", padding: "9px 16px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>+ New Client</button>
+                        <button onClick={() => setShowAddClient(true)} className="hidden sm:block" style={{ background: "#0f172a", color: "#fff", border: "none", padding: "9px 16px", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer" }}>+ New Client</button>
+                        <button onClick={() => setShowAddClient(true)} className="sm:hidden" style={{ background: "#0f172a", color: "#fff", border: "none", width: 36, height: 36, borderRadius: 10, fontSize: 18, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}>+</button>
                         {user && <NotificationBell userId={user.id} />}
                         {stats.unreadMessages > 0 && (
                             <div style={{ position: "relative" }}>
@@ -2533,7 +2555,7 @@ export default function CoachDashboard() {
                 </div>
 
                 {/* Content */}
-                <div style={{ flex: 1, overflow: "auto", padding: "24px 28px" }}>
+                <div className="p-4 lg:p-7" style={{ flex: 1, overflow: "auto" }}>
                     {view === "overview" && (
                         <OverviewView
                             stats={stats}
