@@ -104,17 +104,20 @@ export default function EducationBuilder() {
         }
 
         try {
+            let result
             if (editingIndex !== null && entries[editingIndex]?.id) {
-                // Update existing
-                await supabase.from('education').update(payload).eq('id', entries[editingIndex].id)
+                result = await supabase.from('education').update(payload).eq('id', entries[editingIndex].id)
             } else {
-                // Insert new
-                await supabase.from('education').insert(payload)
+                result = await supabase.from('education').insert(payload)
+            }
+            if (result.error) {
+                console.error('Supabase education error:', result.error)
+                throw result.error
             }
             await loadData()
             resetForm()
-        } catch (e) {
-            console.error('Error saving education:', e)
+        } catch (e: any) {
+            console.error('Error saving education:', e?.message || e)
         }
         setSaving(false)
     }
