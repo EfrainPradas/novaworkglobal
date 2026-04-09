@@ -30,7 +30,10 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
     const userId = req.user.id;
     const email = req.user.email;
 
+    console.log(`🛒 [CHECKOUT] Started — user: ${email} (${userId}), priceId: ${priceId}`);
+
     if (!priceId) {
+      console.log('🛒 [CHECKOUT] ❌ Missing priceId');
       return res.status(400).json({ error: 'priceId is required' });
     }
 
@@ -42,8 +45,11 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
       .single();
 
     if (!catalogEntry || (catalogEntry.item_type !== 'membership' && catalogEntry.item_type !== 'addon_recurring')) {
+      console.log(`🛒 [CHECKOUT] ❌ Invalid priceId: ${priceId} — not found or wrong type`);
       return res.status(400).json({ error: 'Invalid subscription priceId' });
     }
+
+    console.log(`🛒 [CHECKOUT] Plan: ${catalogEntry.display_name} (${catalogEntry.code}, ${catalogEntry.item_type})`);
 
     const isMembership = catalogEntry.item_type === 'membership';
 
@@ -56,6 +62,7 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
         .single();
 
       if (existingAccess?.is_active && existingAccess?.subscription_status === 'active') {
+        console.log(`🛒 [CHECKOUT] ❌ User already has active plan: ${existingAccess.membership_code}`);
         return res.status(409).json({
           error: 'Active membership exists. Use the customer portal to change plans.',
           currentPlan: existingAccess.membership_code,
@@ -67,6 +74,7 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
     const stripeCustomerId = await getOrCreateStripeCustomer(
       supabaseAdmin, userId, email, req.user.metadata?.full_name
     );
+    console.log(`🛒 [CHECKOUT] Stripe customer: ${stripeCustomerId}`);
 
     const appUrl = process.env.APP_URL || 'http://localhost:5173';
 
@@ -91,9 +99,10 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
       allow_promotion_codes: true,
     });
 
+    console.log(`🛒 [CHECKOUT] ✅ Session created: ${session.id} — redirecting to Stripe`);
     res.json({ url: session.url, sessionId: session.id });
   } catch (error) {
-    console.error('❌ create-checkout-session error:', error);
+    console.error('🛒 [CHECKOUT] ❌ Error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -104,6 +113,8 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
     const { priceId, successUrl, cancelUrl } = req.body;
     const userId = req.user.id;
     const email = req.user.email;
+
+    console.log(`🛒 [ADDON] Started — user: ${email} (${userId}), priceId: ${priceId}`);
 
     if (!priceId) {
       return res.status(400).json({ error: 'priceId is required' });
@@ -117,12 +128,16 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
       .single();
 
     if (!catalogEntry || catalogEntry.item_type !== 'addon_one_time') {
+      console.log(`🛒 [ADDON] ❌ Invalid priceId: ${priceId}`);
       return res.status(400).json({ error: 'Invalid one-time addon priceId' });
     }
+
+    console.log(`🛒 [ADDON] Product: ${catalogEntry.display_name} (${catalogEntry.code})`);
 
     const stripeCustomerId = await getOrCreateStripeCustomer(
       supabaseAdmin, userId, email, req.user.metadata?.full_name
     );
+    console.log(`🛒 [ADDON] Stripe customer: ${stripeCustomerId}`);
 
     const appUrl = process.env.APP_URL || 'http://localhost:5173';
 
@@ -147,9 +162,10 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
       },
     });
 
+    console.log(`🛒 [ADDON] ✅ Session created: ${session.id}`);
     res.json({ url: session.url, sessionId: session.id });
   } catch (error) {
-    console.error('❌ create-addon-session error:', error);
+    console.error('🛒 [ADDON] ❌ Error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
@@ -158,9 +174,11 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
 router.post('/create-portal-session', requireAuth, ensureStripe, async (req, res) => {
   try {
     const userId = req.user.id;
+    const email = req.user.email;
     const { returnUrl } = req.body;
 
-    // Lookup Stripe customer
+    console.log(`🔧 [PORTAL] Opening portal — user: ${email} (${userId})`);
+
     const { data: customer } = await supabaseAdmin
       .from('billing_customers')
       .select('stripe_customer_id')
@@ -168,6 +186,7 @@ router.post('/create-portal-session', requireAuth, ensureStripe, async (req, res
       .single();
 
     if (!customer?.stripe_customer_id) {
+      console.log(`🔧 [PORTAL] ❌ No billing customer found for ${email}`);
       return res.status(404).json({ error: 'No billing account found. Subscribe to a plan first.' });
     }
 
@@ -183,10 +202,11 @@ router.post('/create-portal-session', requireAuth, ensureStripe, async (req, res
     }
 
     const session = await stripe.billingPortal.sessions.create(portalParams);
+    console.log(`🔧 [PORTAL] ✅ Session created for ${email}`);
 
     res.json({ url: session.url });
   } catch (error) {
-    console.error('❌ create-portal-session error:', error);
+    console.error('🔧 [PORTAL] ❌ Error:', error.message);
     res.status(500).json({ error: error.message });
   }
 });
