@@ -227,12 +227,12 @@ export default function PositioningQuestionnairePage() {
     }
 
     const SECTION_LABELS: Record<number, string> = {
-        0: 'Identity & Target',
-        1: 'Environments & Functions',
-        2: 'Impact & Scale',
-        3: 'Strengths & Differentiators',
-        4: 'Skills & Tools',
-        5: 'High-Impact Stories'
+        0: 'Sección 1 de 6: Identidad y Objetivo',
+        1: 'Sección 2 de 6: Ambientes y Funciones',
+        2: 'Sección 3 de 6: Impacto y Escala',
+        3: 'Sección 4 de 6: Fortalezas y Diferenciadores',
+        4: 'Sección 5 de 6: Habilidades y Herramientas',
+        5: 'Sección 6 de 6: Historias de Alto Impacto'
     }
 
     const nextSection = async () => {
