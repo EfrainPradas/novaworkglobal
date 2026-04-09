@@ -276,7 +276,7 @@ function OverviewView({
                 ))}
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 320px", gap: 20 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 20 }}>
                 {/* Client List */}
                 <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", overflow: "hidden", boxShadow: "0 2px 12px #0000000a" }}>
                     <div style={{ padding: "18px 22px", borderBottom: "1px solid #f0f4f8", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -303,7 +303,7 @@ function OverviewView({
                         ) : (
                             filteredClients.map((c, i) => (
                                 <div key={c.id} onClick={() => { setSelectedClient(c); setView("client") }}
-                                    style={{ display: "grid", gridTemplateColumns: "auto 1fr auto auto auto", gap: 14, alignItems: "center", padding: "14px 22px", borderBottom: i < filteredClients.length - 1 ? "1px solid #f8fafc" : "none", cursor: "pointer", transition: "background 0.15s", background: c.alert ? "#fff7ed" : "#fff" }}
+                                    style={{ display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center", padding: "14px 22px", borderBottom: i < filteredClients.length - 1 ? "1px solid #f8fafc" : "none", cursor: "pointer", transition: "background 0.15s", background: c.alert ? "#fff7ed" : "#fff" }}
                                     onMouseEnter={e => (e.currentTarget.style.background = c.alert ? "#fef3c7" : "#f8fafc")}
                                     onMouseLeave={e => (e.currentTarget.style.background = c.alert ? "#fff7ed" : "#fff")}
                                 >
@@ -316,13 +316,13 @@ function OverviewView({
                                         <div style={{ fontSize: 11, color: "#94a3b8", marginTop: 1 }}>{c.program_type || 'Custom Program'}</div>
                                         {c.alert && <div style={{ fontSize: 10, color: "#ef4444", fontWeight: 700, marginTop: 2 }}>⚠ {c.alert}</div>}
                                     </div>
-                                    <div style={{ textAlign: "center", minWidth: 60 }}>
+                                    <div style={{ textAlign: "center", minWidth: 0 }}>
                                         <ProgressTooltip>
                                             <ProgressRing value={c.progress || 0} size={48} stroke={4} color={(c.progress || 0) > 70 ? "#22c55e" : (c.progress || 0) > 0 ? "#0ea5e9" : "#e2e8f0"} />
                                             <span style={{ position: "absolute", fontSize: 11, fontWeight: 800, color: "#0f172a" }}>{c.progress || 0}%</span>
                                         </ProgressTooltip>
                                     </div>
-                                    <div style={{ minWidth: 100 }}>
+                                    <div style={{ minWidth: 0 }}>
                                         <AppStats apps={c.apps || 0} rejections={c.rejections || 0} />
                                     </div>
                                     <div style={{ textAlign: "right" }}>
@@ -2027,10 +2027,10 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
 
     return (
         <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', overflow: 'hidden', boxShadow: '0 2px 12px #0000000a' }}>
-            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f0f4f8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="p-4 sm:px-6" style={{ borderBottom: '1px solid #f0f4f8', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
                 <div>
                     <h2 style={{ fontSize: 16, fontWeight: 800, color: '#0f172a', margin: 0 }}>Session Management</h2>
-                    <p style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0 0' }}>Schedule and track coaching calls with your clients</p>
+                    <p className="hidden sm:block" style={{ fontSize: 12, color: '#94a3b8', margin: '4px 0 0 0' }}>Schedule and track coaching calls with your clients</p>
                 </div>
                 <div style={{ display: 'flex', gap: 8 }}>
                     <button onClick={async () => {
@@ -2077,7 +2077,7 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                         <p style={{ fontSize: 12, color: '#94a3b8' }}>{filter === 'upcoming' ? "You don't have any sessions scheduled for the coming days." : "No past session history found."}</p>
                     </div>
                 ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 12 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 12 }}>
                         {filtered.map(s => {
                             const isPending = s.status === 'pending'
                             const isConfirmed = s.status === 'confirmed' || s.status === 'scheduled'

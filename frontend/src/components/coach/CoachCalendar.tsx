@@ -126,17 +126,16 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
         }
 
         return (
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20, padding: "0 10px" }}>
-                <div style={{ display: 'flex', gap: 8 }}>
-                    <button onClick={goToCurrent} style={{ padding: "8px 16px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 13, fontWeight: 700, color: "#475569" }}>Today</button>
+            <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 10 }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <button onClick={goToCurrent} style={{ padding: "6px 12px", borderRadius: 8, border: "1px solid #e2e8f0", background: "#fff", cursor: "pointer", fontSize: 12, fontWeight: 700, color: "#475569" }}>Today</button>
                     <div style={{ display: "flex", background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", overflow: "hidden" }}>
-                        <button onClick={goToBack} style={{ padding: "8px 12px", border: "none", borderRight: "1px solid #e2e8f0", background: "none", cursor: "pointer", color: "#475569" }}>←</button>
-                        <button onClick={goToNext} style={{ padding: "8px 12px", border: "none", background: "none", cursor: "pointer", color: "#475569" }}>→</button>
+                        <button onClick={goToBack} style={{ padding: "6px 10px", border: "none", borderRight: "1px solid #e2e8f0", background: "none", cursor: "pointer", color: "#475569" }}>←</button>
+                        <button onClick={goToNext} style={{ padding: "6px 10px", border: "none", background: "none", cursor: "pointer", color: "#475569" }}>→</button>
                     </div>
-                </div>
-
-                <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>
-                    {label()}
+                    <div style={{ fontSize: 14, fontWeight: 900, color: "#0f172a" }}>
+                        {label()}
+                    </div>
                 </div>
 
                 <div style={{ display: 'flex', background: "#f8fafc", borderRadius: 8, border: "1px solid #e2e8f0", overflow: "hidden" }}>
@@ -145,13 +144,13 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                             key={v}
                             onClick={() => toolbar.onView(v)}
                             style={{
-                                padding: "8px 16px",
+                                padding: "6px 12px",
                                 border: "none",
                                 borderRight: v !== 'day' ? "1px solid #e2e8f0" : "none",
                                 background: toolbar.view === v ? "#0f172a" : "none",
                                 color: toolbar.view === v ? "#fff" : "#475569",
                                 cursor: "pointer",
-                                fontSize: 13,
+                                fontSize: 12,
                                 fontWeight: toolbar.view === v ? 700 : 600,
                                 textTransform: 'capitalize'
                             }}
@@ -169,7 +168,7 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
     }
 
     return (
-        <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", padding: "24px", boxShadow: "0 2px 12px #0000000a", height: "calc(100vh - 120px)", display: "flex", flexDirection: "column" }}>
+        <div className="p-3 sm:p-6" style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", boxShadow: "0 2px 12px #0000000a", height: "calc(100vh - 120px)", display: "flex", flexDirection: "column", minHeight: 400 }}>
             <style>
                 {`
                 .rbc-calendar { color: #334155; font-family: inherit; }
@@ -193,6 +192,14 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-button-link { color: inherit; font-weight: bold; }
                 .rbc-now { color: #0ea5e9; font-weight: 900; }
                 .rbc-current-time-indicator { background-color: #0ea5e9; }
+                @media (max-width: 768px) {
+                    .rbc-header { font-size: 9px; padding: 4px 0; }
+                    .rbc-date-cell { font-size: 10px; padding: 2px 4px; }
+                    .rbc-month-row { min-height: 60px; }
+                    .rbc-timeslot-group { min-height: 50px !important; }
+                    .rbc-time-slot { min-height: 25px !important; }
+                    .rbc-event { padding: 2px !important; font-size: 10px; min-height: 20px !important; }
+                }
                 `}
             </style>
             <Calendar
