@@ -189,6 +189,9 @@ function App() {
             <Route path="resume/awards" element={<AwardsBuilder />} />
             <Route path="resume/questionnaire" element={<PositioningQuestionnaire />} />
 
+            {/* Redirect: /resume alone → resume-builder menu */}
+            <Route path="resume" element={<Navigate to="/dashboard/resume-builder" replace />} />
+
             {/* Redirects: old resume-builder/* URLs → new resume/* paths */}
             <Route path="resume-builder/contact-info" element={<Navigate to="/dashboard/resume/contact-info" replace />} />
             <Route path="resume-builder/work-experience" element={<Navigate to="/dashboard/resume/work-experience" replace />} />
