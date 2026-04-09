@@ -490,34 +490,32 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
 
                     {/* Header */}
                     {!isNested && (
-                        <div className="flex items-center justify-between mb-2">
-                            <>
-                                <div className="flex items-center gap-2">
-                                    <button
-                                        onClick={() => navigate('/dashboard/resume-builder')}
-                                        className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
-                                    >
-                                        <ArrowLeft className="w-4 h-4" /> {t('common.backToResumeBuilder', 'Back to Resume Builder')}
-                                    </button>
-                                    
-                                    <button
-                                        onClick={() => setIsVideoModalOpen(true)}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-700 hover:bg-primary-800 text-white rounded-lg shadow-sm transition-colors text-xs font-semibold"
-                                    >
-                                        <Play size={14} />
-                                        {t('common.watchVideo', 'Watch video')}
-                                    </button>
-                                </div>
+                        <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => navigate('/dashboard/resume-builder')}
+                                    className="flex items-center gap-2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-colors text-sm font-medium"
+                                >
+                                    <ArrowLeft className="w-4 h-4" /> <span className="hidden sm:inline">{t('common.backToResumeBuilder', 'Back to Resume Builder')}</span><span className="sm:hidden">{t('common.back', 'Back')}</span>
+                                </button>
 
-                                {!isStandalone && (
-                                    <button
-                                        onClick={handleContinue}
-                                        className="flex items-center gap-2 px-5 py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
-                                    >
-                                        {t('accomplishmentLibrary.nextCars', 'Next: CARs')} <ArrowRight className="w-4 h-4" />
-                                    </button>
-                                )}
-                            </>
+                                <button
+                                    onClick={() => setIsVideoModalOpen(true)}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-700 hover:bg-primary-800 text-white rounded-lg shadow-sm transition-colors text-xs font-semibold"
+                                >
+                                    <Play size={14} />
+                                    <span className="hidden sm:inline">{t('common.watchVideo', 'Watch video')}</span>
+                                </button>
+                            </div>
+
+                            {!isStandalone && (
+                                <button
+                                    onClick={handleContinue}
+                                    className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 bg-primary-600 hover:bg-primary-700 text-white rounded-xl shadow-md transition-all font-bold text-sm"
+                                >
+                                    {t('accomplishmentLibrary.nextCars', 'Next: CARs')} <ArrowRight className="w-4 h-4" />
+                                </button>
+                            )}
                         </div>
                     )}
 
@@ -534,21 +532,22 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap gap-2 justify-end">
-
+                        <div className="flex flex-wrap gap-2 w-full md:w-auto">
                             <button
                                 onClick={() => setIsAdding(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 shadow-sm transition-colors"
+                                className="flex items-center gap-2 px-3 py-2 sm:px-4 bg-primary-600 dark:bg-primary-500 text-white rounded-lg hover:bg-primary-700 dark:hover:bg-primary-600 shadow-sm transition-colors text-sm"
                             >
                                 <Plus size={18} />
-                                {t('accomplishmentLibrary.addNew', 'Add Accomplishment')}
+                                <span className="hidden sm:inline">{t('accomplishmentLibrary.addNew', 'Add Accomplishment')}</span>
+                                <span className="sm:hidden">{t('common.add', 'Add')}</span>
                             </button>
                             <button
                                 onClick={() => setIsGroupingPanelOpen(!isGroupingPanelOpen)}
-                                className={`flex items-center gap-1.5 px-4 py-2 text-white rounded-lg shadow-sm transition-colors ${isGroupingPanelOpen ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-600 hover:bg-primary-700'}`}
+                                className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 text-white rounded-lg shadow-sm transition-colors text-sm ${isGroupingPanelOpen ? 'bg-primary-700 hover:bg-primary-800' : 'bg-primary-600 hover:bg-primary-700'}`}
                             >
                                 <Wand2 size={18} />
-                                {t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}
+                                <span className="hidden sm:inline">{t('accomplishmentLibrary.aiGrouping', 'Area of Expertise Grouping. (AI)')}</span>
+                                <span className="sm:hidden">AI</span>
                             </button>
                         </div>
                     </div>
@@ -590,15 +589,16 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 <Star size={18} fill={showStarredOnly ? "currentColor" : "none"} />
                             </button>
 
-                            <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-1"></div>
+                            <div className="h-6 w-px bg-gray-200 dark:bg-gray-700 mx-1 hidden sm:block"></div>
 
                             <button
                                 onClick={importFromWorkExperience}
                                 disabled={importing}
-                                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-3 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20"
+                                className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors px-2 py-2 sm:px-3 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900/20"
                             >
-                                <FileDown size={18} />
-                                {importing ? t('accomplishmentLibrary.importingAll', 'Importing...') : t('accomplishmentLibrary.importExisting', 'Import from Work Experience')}
+                                <FileDown size={18} className="shrink-0" />
+                                <span className="hidden sm:inline">{importing ? t('accomplishmentLibrary.importingAll', 'Importing...') : t('accomplishmentLibrary.importExisting', 'Import from Work Experience')}</span>
+                                <span className="sm:hidden">{importing ? '...' : t('common.import', 'Import')}</span>
                             </button>
                         </div>
                     </div>
@@ -771,7 +771,7 @@ export default function AccomplishmentLibrary({ isNested = false }: { isNested?:
                                 </button>
                             )}
 
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 bg-gray-50 dark:bg-gray-900/50 p-3 rounded-lg border border-gray-100 dark:border-gray-700">
                                 <div>
                                     <label className="block text-[10px] font-bold text-gray-500 uppercase mb-1">{t('common.role', 'Role')}</label>
                                     <input
