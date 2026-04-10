@@ -4,6 +4,7 @@ import { supabase } from '../../lib/supabase'
 import UserMenu from '../../components/common/UserMenu'
 import NotificationBell from '../../components/common/NotificationBell'
 import CoachCalendar from '../../components/coach/CoachCalendar'
+import CoachProfileView from '../../components/coach/CoachProfileView'
 import {
     LayoutDashboard,
     Target,
@@ -34,7 +35,9 @@ import {
     Check,
     ShieldCheck,
     Download,
-    Navigation
+    Navigation,
+    UserCircle,
+    Loader2
 } from 'lucide-react'
 import { GoogleCalendarDetails, generateGoogleCalendarLink } from '../../utils/calendar'
 import { acceptBooking } from '../../services/bookings'
@@ -2439,6 +2442,7 @@ export default function CoachDashboard() {
         { id: "sessions", icon: <Calendar size={18} />, label: "Sessions" },
         { id: "resources", icon: <BookOpen size={18} />, label: "Resources" },
         { id: "analytics", icon: <BarChart3 size={18} />, label: "Analytics" },
+        { id: "profile", icon: <UserCircle size={18} />, label: "My Profile" },
     ]
 
     const alertCount = clients.filter(c => c.alert).length
@@ -2536,6 +2540,7 @@ export default function CoachDashboard() {
                                 {view === "sessions" && "Session Management"}
                                 {view === "resources" && "Resource Library"}
                                 {view === "analytics" && "Coach Analytics"}
+                                {view === "profile" && "My Profile"}
                             </div>
                             <div className="hidden sm:block" style={{ fontSize: 12, color: "#94a3b8", marginTop: 1 }}>{currentDate}</div>
                         </div>
@@ -2579,6 +2584,7 @@ export default function CoachDashboard() {
                         />
                     )}
                     {view === "resources" && <ResourcesView coachId={user?.id} />}
+                    {view === "profile" && <CoachProfileView coachId={user?.id} />}
                     {view === "analytics" && <AnalyticsView stats={stats} />}
                 </div>
             </div>
