@@ -21,6 +21,10 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   const [imgError, setImgError] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [customAvatarUrl, setCustomAvatarUrl] = useState<string | null>(null)
+  const [showCoachBioModal, setShowCoachBioModal] = useState(false)
+  const [coachBio, setCoachBio] = useState('')
+  const [coachTitle, setCoachTitle] = useState('')
+  const [savingCoachBio, setSavingCoachBio] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
@@ -146,6 +150,42 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   useEffect(() => {
     setImgError(false)
   }, [avatarUrl])
+
+  const openCoachBioModal = async () => {
+    if (!user?.id) return
+    const { data } = await supabase
+      .from('coach_profiles')
+      .select('bio, title')
+      .eq('user_id', user.id)
+      .single()
+    setCoachBio(data?.bio || '')
+    setCoachTitle(data?.title || '')
+    setShowCoachBioModal(true)
+    setIsOpen(false)
+    setShowSettings(false)
+  }
+
+  const saveCoachBio = async () => {
+    if (!user?.id) return
+    try {
+      setSavingCoachBio(true)
+      // Upsert — some coaches may not have a row yet
+      const { error } = await supabase
+        .from('coach_profiles')
+        .upsert({
+          user_id: user.id,
+          bio: coachBio.trim() || null,
+          title: coachTitle.trim() || null,
+        }, { onConflict: 'user_id' })
+      if (error) throw error
+      setShowCoachBioModal(false)
+    } catch (err: any) {
+      console.error('Save coach bio error:', err)
+      alert(t('userMenu.coachBioSaveError', 'Failed to save: ') + (err?.message || 'unknown'))
+    } finally {
+      setSavingCoachBio(false)
+    }
+  }
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -527,6 +567,16 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                         <UserCircle className="w-4 h-4" />
                         <span>{uploadingAvatar ? t('userMenu.uploading', 'Uploading...') : t('userMenu.changeAvatar', 'Change Avatar')}</span>
                       </button>
+
+                      {isCoach && (
+                        <button
+                          onClick={openCoachBioModal}
+                          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        >
+                          <UserCircle className="w-4 h-4" />
+                          <span>{t('userMenu.coachBio', 'Coach Bio & Title')}</span>
+                        </button>
+                      )}
                     </div>
                   </div>
 
@@ -550,6 +600,75 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
               </div>
             </>
           )}
+        </div>
+      )}
+
+      {/* Coach Bio Modal */}
+      {showCoachBioModal && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={() => !savingCoachBio && setShowCoachBioModal(false)}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-lg w-full p-6"
+            onClick={e => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
+              {t('userMenu.coachBioTitle', 'Coach Bio & Title')}
+            </h2>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
+              {t('userMenu.coachBioSubtitle', 'This is shown to clients on the "My Coaches" page.')}
+            </p>
+
+            <div className="mb-4">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                {t('userMenu.coachTitleLabel', 'Title / Headline')}
+              </label>
+              <input
+                type="text"
+                value={coachTitle}
+                onChange={e => setCoachTitle(e.target.value)}
+                placeholder={t('userMenu.coachTitlePlaceholder', 'e.g. Executive Career Coach')}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none"
+              />
+              <p className="text-xs text-gray-400 mt-1">
+                {t('userMenu.coachTitleHelp', 'If empty, "Executive Career Coach" is shown.')}
+              </p>
+            </div>
+
+            <div className="mb-5">
+              <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">
+                {t('userMenu.coachBioLabel', 'Bio / Personal Message')}
+              </label>
+              <textarea
+                value={coachBio}
+                onChange={e => setCoachBio(e.target.value)}
+                rows={6}
+                placeholder={t('userMenu.coachBioPlaceholder', 'Share your personal message — background, specialties, or approach...')}
+                className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-primary-500 outline-none resize-none"
+              />
+              <p className="text-xs text-gray-400 mt-1">
+                {t('userMenu.coachBioHelp', 'If empty, a default message is shown.')}
+              </p>
+            </div>
+
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowCoachBioModal(false)}
+                disabled={savingCoachBio}
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {t('common.cancel', 'Cancel')}
+              </button>
+              <button
+                onClick={saveCoachBio}
+                disabled={savingCoachBio}
+                className="px-5 py-2 text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 rounded-lg transition-colors disabled:opacity-50"
+              >
+                {savingCoachBio ? t('common.saving', 'Saving...') : t('common.save', 'Save')}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
