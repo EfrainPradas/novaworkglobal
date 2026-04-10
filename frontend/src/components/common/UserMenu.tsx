@@ -19,6 +19,9 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
   const [showSettings, setShowSettings] = useState(false)
   const [isCoach, setIsCoach] = useState(false)
   const [imgError, setImgError] = useState(false)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [customAvatarUrl, setCustomAvatarUrl] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const menuRef = useRef<HTMLDivElement>(null)
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -123,12 +126,90 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
     return 'User'
   }
 
-  // Get user avatar URL if available
-  const avatarUrl = user?.user_metadata?.avatar_url
+  // Load avatar_url from users table (DB) on mount — overrides auth metadata
+  useEffect(() => {
+    const loadAvatar = async () => {
+      if (!user?.id) return
+      const { data } = await supabase
+        .from('users')
+        .select('avatar_url')
+        .eq('id', user.id)
+        .single()
+      if (data?.avatar_url) setCustomAvatarUrl(data.avatar_url)
+    }
+    loadAvatar()
+  }, [user?.id])
+
+  // Get user avatar URL — prefer DB custom upload, fallback to auth metadata
+  const avatarUrl = customAvatarUrl || user?.user_metadata?.avatar_url
 
   useEffect(() => {
     setImgError(false)
   }, [avatarUrl])
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !user?.id) return
+
+    // Validate file
+    if (!file.type.startsWith('image/')) {
+      alert(t('userMenu.invalidImageType', 'Please select an image file'))
+      return
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      alert(t('userMenu.imageTooLarge', 'Image must be less than 5MB'))
+      return
+    }
+
+    try {
+      setUploadingAvatar(true)
+
+      // 1. Get presigned URL from backend
+      const { data: { session } } = await supabase.auth.getSession()
+      const apiBase = import.meta.env.VITE_API_URL || ''
+      const presignRes = await fetch(`${apiBase}/api/upload/presigned-url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+          folder: 'avatars',
+        }),
+      })
+
+      if (!presignRes.ok) throw new Error('Failed to get upload URL')
+      const { uploadUrl, publicUrl } = await presignRes.json()
+
+      // 2. Upload to R2
+      const uploadRes = await fetch(uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      })
+
+      if (!uploadRes.ok) throw new Error('Upload failed')
+
+      // 3. Save to users.avatar_url
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user.id)
+
+      if (updateError) throw updateError
+
+      setCustomAvatarUrl(publicUrl)
+      setImgError(false)
+    } catch (err: any) {
+      console.error('Avatar upload error:', err)
+      alert(t('userMenu.avatarUploadError', 'Failed to upload avatar: ') + (err?.message || 'unknown error'))
+    } finally {
+      setUploadingAvatar(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+    }
+  }
 
   return (
     <div className="relative" ref={menuRef}>
@@ -431,15 +512,20 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                         <span>{t('userMenu.editProfile', 'Edit Profile')}</span>
                       </button>
 
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleAvatarUpload}
+                        className="hidden"
+                      />
                       <button
-                        onClick={() => {
-                          // TODO: Implement avatar upload
-                          alert('Avatar upload coming soon!')
-                        }}
-                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={uploadingAvatar}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors disabled:opacity-50"
                       >
                         <UserCircle className="w-4 h-4" />
-                        <span>{t('userMenu.changeAvatar', 'Change Avatar')}</span>
+                        <span>{uploadingAvatar ? t('userMenu.uploading', 'Uploading...') : t('userMenu.changeAvatar', 'Change Avatar')}</span>
                       </button>
                     </div>
                   </div>
