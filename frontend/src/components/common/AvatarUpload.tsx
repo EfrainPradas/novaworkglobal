@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Camera, Loader } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 
@@ -11,92 +11,92 @@ interface AvatarUploadProps {
 export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate }: AvatarUploadProps) {
   const [uploading, setUploading] = useState(false)
   const [avatarUrl, setAvatarUrl] = useState(currentAvatarUrl)
+  const [imgError, setImgError] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // Get user initials for placeholder
-  const getInitials = () => {
-    const user = supabase.auth.getUser()
-    return 'U'
-  }
+  // Sync when prop changes
+  useEffect(() => {
+    setAvatarUrl(currentAvatarUrl)
+    setImgError(false)
+  }, [currentAvatarUrl])
+
+  // Load from DB if no currentAvatarUrl provided
+  useEffect(() => {
+    if (currentAvatarUrl || !userId) return
+    const load = async () => {
+      const { data } = await supabase
+        .from('users')
+        .select('avatar_url')
+        .eq('id', userId)
+        .single()
+      if (data?.avatar_url) setAvatarUrl(data.avatar_url)
+    }
+    load()
+  }, [userId, currentAvatarUrl])
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     try {
       const file = event.target.files?.[0]
       if (!file) return
 
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         alert('Please select an image file')
         return
       }
 
-      // Validate file size (max 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        alert('Image size should be less than 2MB')
+      if (file.size > 5 * 1024 * 1024) {
+        alert('Image size should be less than 5MB')
         return
       }
 
       setUploading(true)
 
-      // Create unique filename
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${userId}-${Date.now()}.${fileExt}`
-      const filePath = `avatars/${fileName}`
-
-      console.log('📤 Uploading avatar:', filePath)
-
-      // Upload to Supabase Storage
-      const { error: uploadError, data } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file, { upsert: true })
-
-      if (uploadError) {
-        console.error('Upload error:', uploadError)
-        // If bucket doesn't exist, show helpful message
-        if (uploadError.message.includes('not found')) {
-          alert('Storage bucket not configured. Please contact support.')
-        } else {
-          alert(`Error uploading image: ${uploadError.message}`)
-        }
-        return
-      }
-
-      console.log('✅ Upload successful:', data)
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath)
-
-      console.log('🔗 Public URL:', publicUrl)
-
-      // Update user metadata
-      const { error: updateError } = await supabase.auth.updateUser({
-        data: { avatar_url: publicUrl }
+      // 1. Get presigned URL from backend (R2)
+      const { data: { session } } = await supabase.auth.getSession()
+      const apiBase = import.meta.env.VITE_API_URL || ''
+      const presignRes = await fetch(`${apiBase}/api/upload/presigned-url`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session?.access_token}`,
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          contentType: file.type,
+          folder: 'avatars',
+        }),
       })
 
-      if (updateError) {
-        console.error('Error updating user metadata:', updateError)
-        alert('Error updating profile')
-        return
-      }
+      if (!presignRes.ok) throw new Error('Failed to get upload URL')
+      const { uploadUrl, publicUrl } = await presignRes.json()
 
-      console.log('✅ User metadata updated')
+      // 2. Upload to R2
+      const uploadRes = await fetch(uploadUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      })
 
-      // Update local state
+      if (!uploadRes.ok) throw new Error('Upload failed')
+
+      // 3. Save to users.avatar_url
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({ avatar_url: publicUrl })
+        .eq('id', userId)
+
+      if (updateError) throw updateError
+
       setAvatarUrl(publicUrl)
+      setImgError(false)
 
-      // Notify parent component
-      if (onAvatarUpdate) {
-        onAvatarUpdate(publicUrl)
-      }
-
-      alert('Profile photo updated successfully!')
-    } catch (error) {
+      if (onAvatarUpdate) onAvatarUpdate(publicUrl)
+    } catch (error: any) {
       console.error('Error uploading avatar:', error)
-      alert('An error occurred while uploading the image')
+      alert('An error occurred while uploading the image: ' + (error?.message || 'unknown'))
     } finally {
       setUploading(false)
+      if (fileInputRef.current) fileInputRef.current.value = ''
     }
   }
 
@@ -105,19 +105,19 @@ export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate 
       {/* Avatar Display */}
       <div className="relative group">
         <div className="w-32 h-32 rounded-full overflow-hidden bg-gradient-to-br from-primary-500 to-primary-600 flex items-center justify-center text-white text-3xl font-semibold shadow-lg">
-          {avatarUrl ? (
+          {avatarUrl && !imgError ? (
             <img
               src={avatarUrl}
-              alt="Profile"
+              alt=""
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              onError={() => setImgError(true)}
             />
           ) : (
-            <span>{getInitials()}</span>
+            <span>U</span>
           )}
         </div>
 
-        {/* Upload Button Overlay */}
         <button
           onClick={() => fileInputRef.current?.click()}
           disabled={uploading}
@@ -131,7 +131,6 @@ export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate 
         </button>
       </div>
 
-      {/* Hidden File Input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -140,7 +139,6 @@ export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate 
         className="hidden"
       />
 
-      {/* Upload Button */}
       <button
         onClick={() => fileInputRef.current?.click()}
         disabled={uploading}
@@ -150,7 +148,7 @@ export default function AvatarUpload({ userId, currentAvatarUrl, onAvatarUpdate 
       </button>
 
       <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-        JPG, PNG or GIF. Max size 2MB.
+        JPG, PNG or GIF. Max size 5MB.
       </p>
     </div>
   )

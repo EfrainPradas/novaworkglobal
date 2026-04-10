@@ -364,11 +364,16 @@ export default function ClientCoaching() {
                                 {assignedCoaches.map(rel => (
                                     <div key={rel.coach_id} className="bg-white dark:bg-gray-800 border border-slate-200 dark:border-gray-700 rounded-2xl p-6 flex flex-col" style={{ boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.02)' }}>
                                         <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
-                                            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #1F5BAA 0%, #1a488a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 800, flexShrink: 0, overflow: 'hidden' }}>
-                                                {rel.coach_user?.avatar_url ? (
-                                                    <img src={rel.coach_user.avatar_url} alt={rel.coach_user?.full_name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                                ) : (
-                                                    rel.coach_user?.full_name?.charAt(0) || 'C'
+                                            <div style={{ width: 56, height: 56, borderRadius: '50%', background: 'linear-gradient(135deg, #1F5BAA 0%, #1a488a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: 20, fontWeight: 800, flexShrink: 0, overflow: 'hidden', position: 'relative' }}>
+                                                <span style={{ position: 'absolute' }}>{rel.coach_user?.full_name?.charAt(0) || 'C'}</span>
+                                                {rel.coach_user?.avatar_url && (
+                                                    <img
+                                                        src={rel.coach_user.avatar_url}
+                                                        alt=""
+                                                        style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'relative', zIndex: 1 }}
+                                                        referrerPolicy="no-referrer"
+                                                        onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                                                    />
                                                 )}
                                             </div>
                                             <div style={{ alignSelf: 'center' }}>
