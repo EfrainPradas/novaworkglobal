@@ -14,7 +14,7 @@ import {
     X,
     MessageSquare,
     AlertCircle,
-    Star, Video, Loader2, ArrowRight, Calendar as CalendarIcon
+    Star, Video, Loader2, ArrowRight, Calendar as CalendarIcon, Linkedin
 } from 'lucide-react'
 import { downloadICS, CalendarEvent, generateGoogleCalendarLink } from '../../utils/calendar'
 
@@ -38,6 +38,7 @@ interface ListedCoach {
         full_name: string
         email: string
         avatar_url?: string
+        linkedin_url?: string
     }
 }
 
@@ -145,7 +146,7 @@ export default function ClientCoaching() {
             // 1. Fetch ALL available coaches directly from users
             const { data: coachUsers, error: usersError } = await supabase
                 .from('users')
-                .select('id, full_name, email, avatar_url')
+                .select('id, full_name, email, avatar_url, linkedin_url')
                 .eq('is_coach', true)
 
             if (usersError) throw usersError
@@ -383,15 +384,27 @@ export default function ClientCoaching() {
                                             {rel.coach_profile?.bio || t('coaching.defaultBio', 'Ready to support your career transition and professional development goals.')}
                                         </p>
 
-                                        <div className="border-t border-slate-100 dark:border-gray-700 pt-5">
+                                        <div className="border-t border-slate-100 dark:border-gray-700 pt-5 flex gap-2">
                                             <button
                                                 onClick={() => handleOpenBooking(rel.coach_id, rel.id)}
-                                                style={{ width: '100%', padding: '10px', borderRadius: 10, fontSize: 14, fontWeight: 700, color: '#fff', background: '#1F5BAA', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.2s' }}
+                                                style={{ flex: 1, padding: '10px', borderRadius: 10, fontSize: 14, fontWeight: 700, color: '#fff', background: '#1F5BAA', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, transition: 'all 0.2s' }}
                                                 onMouseOver={(e) => Object.assign(e.currentTarget.style, { background: '#1a488a', transform: 'translateY(-1px)', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' })}
                                                 onMouseOut={(e) => Object.assign(e.currentTarget.style, { background: '#1F5BAA', transform: 'none', boxShadow: 'none' })}
                                             >
                                                 <Calendar size={16} /> {t('coaching.bookSession', 'Book Session')}
                                             </button>
+                                            {rel.coach_user?.linkedin_url && (
+                                                <a
+                                                    href={rel.coach_user.linkedin_url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    title="LinkedIn"
+                                                    className="flex items-center justify-center rounded-[10px] border border-slate-200 dark:border-gray-700 text-[#0A66C2] hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+                                                    style={{ width: 44, flexShrink: 0 }}
+                                                >
+                                                    <Linkedin size={18} />
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
