@@ -20,7 +20,7 @@ const SECTION_KEYS = ['identity', 'environments', 'impact', 'strengths', 'skills
 
 export default function PositioningQuestionnairePage() {
     const guided = useGuidedStep('professional_positioning')
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
     const navigate = useNavigate()
 
     const SECTIONS = SECTION_KEYS.map(key => ({
@@ -173,7 +173,8 @@ export default function PositioningQuestionnairePage() {
             const token = (await supabase.auth.getSession()).data.session?.access_token
             const resp = await fetch(`${API_BASE_URL}/api/positioning-questionnaire/generate-profile`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` }
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify({ language: i18n.language?.slice(0, 2) })
             })
 
             const result = await resp.json()

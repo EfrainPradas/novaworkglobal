@@ -104,14 +104,28 @@ router.post('/positioning-questionnaire/generate-profile', async (req, res) => {
             return res.status(400).json({ error: 'Please complete the positioning questionnaire first.' })
         }
 
-        // 1b. Fetch user's preferred language
-        const { data: userProfile } = await supabaseAdmin
-            .from('user_profiles')
-            .select('preferred_language')
-            .eq('user_id', userId)
-            .single()
+        // 1b. Determine output language (frontend i18n → user_profiles → users → default 'en')
+        const frontendLang = req.body?.language
+        let langCode = frontendLang
 
-        const langCode = userProfile?.preferred_language || 'en'
+        if (!langCode) {
+            const { data: userProfile } = await supabaseAdmin
+                .from('user_profiles')
+                .select('preferred_language')
+                .eq('user_id', userId)
+                .single()
+            langCode = userProfile?.preferred_language
+        }
+        if (!langCode) {
+            const { data: userRecord } = await supabaseAdmin
+                .from('users')
+                .select('preferred_language')
+                .eq('id', userId)
+                .single()
+            langCode = userRecord?.preferred_language
+        }
+        langCode = langCode || 'en'
+
         const langMap = { en: 'English', es: 'Spanish', pt: 'Portuguese', fr: 'French', it: 'Italian' }
         const targetLanguage = langMap[langCode] || 'English'
 
