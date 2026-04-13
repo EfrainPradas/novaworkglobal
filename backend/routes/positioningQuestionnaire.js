@@ -104,6 +104,17 @@ router.post('/positioning-questionnaire/generate-profile', async (req, res) => {
             return res.status(400).json({ error: 'Please complete the positioning questionnaire first.' })
         }
 
+        // 1b. Fetch user's preferred language
+        const { data: userProfile } = await supabaseAdmin
+            .from('user_profiles')
+            .select('preferred_language')
+            .eq('user_id', userId)
+            .single()
+
+        const langCode = userProfile?.preferred_language || 'en'
+        const langMap = { en: 'English', es: 'Spanish', pt: 'Portuguese', fr: 'French', it: 'Italian' }
+        const targetLanguage = langMap[langCode] || 'English'
+
         // 2. Fetch accomplishments / story cards for context
         const { data: stories } = await supabaseAdmin
             .from('par_stories')
@@ -173,6 +184,9 @@ ${storySummaries || 'No story cards available'}
 === RECENT WORK EXPERIENCE ===
 ${workSummaries || 'No work experience available'}
 
+=== OUTPUT LANGUAGE (MANDATORY) ===
+ALL generated text MUST be written in ${targetLanguage}. Every sentence, keyword, and phrase in the output must be in ${targetLanguage}.
+
 === LANGUAGE & TONE RULES (MANDATORY) ===
 ZERO FIRST-PERSON PRONOUNS. This is an absolute rule with no exceptions.
 - BANNED words in ALL sections: I, me, my, mine, myself, we, us, our, ours, ourselves, he, him, his, she, her, hers, they, them, their, theirs, Yo, me, mi, mis, él, ella, nosotros, nosotras, nuestro
@@ -218,7 +232,7 @@ RETURN ONLY VALID JSON. No markdown, no code fences.`
         const completion = await openai.chat.completions.create({
             model: 'gpt-4o',
             messages: [
-                { role: 'system', content: 'You are an expert executive resume writer. You write ONLY in telegraphic third-person professional style — absolutely NO personal pronouns (I, me, my, we, us, he, she, they, etc.) in any language. Output only valid JSON.' },
+                { role: 'system', content: `You are an expert executive resume writer. You write ONLY in telegraphic third-person professional style — absolutely NO personal pronouns (I, me, my, we, us, he, she, they, etc.) in any language. ALL generated text must be written in ${targetLanguage}. Output only valid JSON.` },
                 { role: 'user', content: prompt }
             ],
             response_format: { type: "json_object" },
