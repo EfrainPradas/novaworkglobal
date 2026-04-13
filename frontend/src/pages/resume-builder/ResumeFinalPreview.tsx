@@ -531,8 +531,8 @@ export default function ResumeFinalPreview() {
                                                         return new Date(b.start_date).getTime() - new Date(a.start_date).getTime();
                                                     }).map((pos: any, pIdx: number) => (
                                                         <div key={pos.id} style={{ marginTop: group.positions.length > 1 ? '4px' : '0px' }}>
-                                                            {/* Job Position - UPPERCASE, bold, underlined */}
-                                                            <div style={{ fontWeight: 'bold', fontSize: '10pt', textDecoration: 'underline', textTransform: 'uppercase', letterSpacing: '0.02em', marginBottom: '2px', marginTop: '1px' }}>
+                                                            {/* Job Position - bold only */}
+                                                            <div style={{ fontWeight: 'bold', fontSize: '10pt', letterSpacing: '0.02em', marginBottom: '2px', marginTop: '1px' }}>
                                                                 {pos.job_title}
                                                                 {group.positions.length > 1 && (
                                                                     <span style={{ textDecoration: 'none', fontWeight: 'normal', fontSize: '9pt', color: '#666', marginLeft: '8px', textTransform: 'none' }}>

@@ -22,11 +22,15 @@ router.use(requireAuth);
 
 const formatDate = (dateString) => {
     if (!dateString) return '';
+    if (dateString === 'Present') return 'Present';
+    // Handle year-only strings like "2021"
+    if (/^\d{4}$/.test(String(dateString).trim())) return String(dateString).trim();
     try {
         const date = new Date(dateString);
+        if (isNaN(date.getTime())) return String(dateString);
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
     } catch {
-        return dateString;
+        return String(dateString);
     }
 };
 
@@ -97,7 +101,6 @@ router.post('/:userId/docx', async (req, res) => {
                         children: [
                             new TextRun({
                                 text: [
-                                    resume.location_city ? `${resume.location_city}${resume.location_country ? `, ${resume.location_country}` : ''}` : null,
                                     resume.phone || '',
                                     resume.email || '',
                                     resume.linkedin_url || ''
@@ -260,7 +263,7 @@ router.post('/:userId/docx', async (req, res) => {
                                     new Paragraph({
                                         children: [
                                             new TextRun({ text: String(group.company_name || ''), bold: true, size: 22, font: 'Calibri' }),
-                                            new TextRun({ text: `${group.location_city ? ` .. ${group.location_city}` : ''}`, size: 22, font: 'Calibri' }),
+                                            new TextRun({ text: `${group.location_city ? ` | ${group.location_city}` : ''}`, size: 22, font: 'Calibri' }),
                                             new TextRun({
                                                 text: `\t${overallDates}`,
                                                 bold: true,
@@ -281,12 +284,11 @@ router.post('/:userId/docx', async (req, res) => {
                                         // Job Title
                                         new Paragraph({
                                             children: [
-                                                new TextRun({ 
-                                                    text: String(pos.job_title || ''), 
-                                                    bold: true, 
-                                                    underline: { color: "000000", style: BorderStyle.SINGLE }, 
-                                                    size: 22, 
-                                                    font: 'Calibri' 
+                                                new TextRun({
+                                                    text: String(pos.job_title || ''),
+                                                    bold: true,
+                                                    size: 22,
+                                                    font: 'Calibri'
                                                 }),
                                                 ...(group.positions.length > 1 ? [
                                                     new TextRun({ 
