@@ -200,7 +200,7 @@ router.post('/improve-bullet', async (req, res) => {
           content: `You are an expert resume writer. Improve the given accomplishment bullet point to make it more impactful, specific, and results-oriented.
 Rules:
 - IMPORTANT: Respond in the SAME LANGUAGE as the input text. If the input is in Spanish, respond in Spanish. If in English, respond in English. If in Portuguese, respond in Portuguese, etc.
-- Start with a strong action verb
+- Start with a strong action verb in FIRST PERSON without pronouns. In English: "Led..." (not "I led" or "He led"). In Spanish: "Lideré..." (first-person conjugation, NOT third-person like "Lideró"). Never use pronouns (I, me, my, yo, mi).
 - Add quantifiable results if implied (use realistic estimates if none are given)
 - Keep it concise (1-2 sentences max)
 - Use professional language
