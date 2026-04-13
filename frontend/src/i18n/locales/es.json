@@ -2425,5 +2425,20 @@
     "addToGoogle": "📅 Añadir a Google Calendar",
     "cancelBooking": "Cancelar Reserva",
     "pastSessions": "Sesiones Pasadas"
+  },
+  "coachingTeaser": {
+    "question": "¿Quieres retroalimentación de un",
+    "certifiedCoach": "coach certificado",
+    "chooseOption": "Elige una opción.",
+    "email": "Email",
+    "perMonth": "/ mes",
+    "emailDetail": "3 correos mensuales",
+    "session": "Sesión 1:1",
+    "perSession": "/ sesión",
+    "sessionDetail": "45 min en vivo",
+    "bundle": "Coach + Email",
+    "bundleDetail": "1 sesión + 3 emails",
+    "learnMore": "Conocer más sobre coaching",
+    "noCommitment": "Sin compromisos · Cancela cuando quieras"
   }
 }

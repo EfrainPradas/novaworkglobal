@@ -2287,5 +2287,20 @@
     "addToGoogle": "📅 Add to Google Calendar",
     "cancelBooking": "Cancel Booking",
     "pastSessions": "Past Sessions"
+  },
+  "coachingTeaser": {
+    "question": "Want feedback from a",
+    "certifiedCoach": "certified coach",
+    "chooseOption": "Choose an option.",
+    "email": "Email",
+    "perMonth": "/ month",
+    "emailDetail": "3 monthly emails",
+    "session": "1:1 Session",
+    "perSession": "/ session",
+    "sessionDetail": "45 min live",
+    "bundle": "Coach + Email",
+    "bundleDetail": "1 session + 3 emails",
+    "learnMore": "Learn more about coaching",
+    "noCommitment": "No commitment · Cancel anytime"
   }
 }
