@@ -20,7 +20,8 @@ export default function LanguageSelector() {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  const currentLanguage = languages.find((lang) => lang.code === i18n.language) || languages[0]
+  const langBase = i18n.language?.split('-')[0] || 'en'
+  const currentLanguage = languages.find((lang) => lang.code === langBase) || languages[0]
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng)
