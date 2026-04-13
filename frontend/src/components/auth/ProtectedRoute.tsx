@@ -1,20 +1,36 @@
 import { useEffect, useState } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
+import { getBillingStatus } from '../../services/billing.service'
 
 interface ProtectedRouteProps {
     requiredLevel?: 'esenciales' | 'momentum' | 'vanguard'
+    /**
+     * Routes that should be accessible to authenticated users even without
+     * an active subscription (e.g. /dashboard/billing so they can pay).
+     */
+    bypassBillingPaths?: string[]
 }
 
-export default function ProtectedRoute({ requiredLevel = 'esenciales' }: ProtectedRouteProps) {
+const TIER_LEVELS: Record<string, number> = {
+    esenciales: 1,
+    momentum: 2,
+    vanguard: 3,
+}
+
+export default function ProtectedRoute({
+    requiredLevel = 'esenciales',
+    bypassBillingPaths = ['/dashboard/billing'],
+}: ProtectedRouteProps) {
     const [loading, setLoading] = useState(true)
     const [hasAccess, setHasAccess] = useState(false)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [redirectToBilling, setRedirectToBilling] = useState(false)
     const location = useLocation()
 
     useEffect(() => {
         checkAccess()
-    }, [])
+    }, [location.pathname])
 
     const checkAccess = async () => {
         try {
@@ -28,38 +44,54 @@ export default function ProtectedRoute({ requiredLevel = 'esenciales' }: Protect
 
             setIsAuthenticated(true)
 
-            // If only esenciales auth is required, we are done
-            if (requiredLevel === 'esenciales') {
+            // Allow billing page without active subscription so users can pay
+            const isBillingBypass = bypassBillingPaths.some(p =>
+                location.pathname.startsWith(p)
+            )
+
+            if (isBillingBypass) {
                 setHasAccess(true)
                 setLoading(false)
                 return
             }
 
-            // Check subscription tier
-            const { data: userData } = await supabase
-                .from('users')
-                .select('subscription_tier')
-                .eq('id', user.id)
-                .single()
+            // Check billing_access (authoritative Stripe-synced table)
+            let billingIsActive = false
+            let billingTier: string | null = null
 
-            // Support both old and new tier names for backward compatibility
-            let userTier = userData?.subscription_tier || 'esenciales'
-            // Map legacy tier names
-            if (userTier === 'basic' || userTier === 'esenciales') userTier = 'esenciales'
-            if (userTier === 'pro') userTier = 'momentum'
-            if (userTier === 'vanguard') userTier = 'vanguard'
+            try {
+                const billing = await getBillingStatus()
+                billingIsActive = billing.is_active
+                billingTier = billing.membership_code
+            } catch {
+                // If billing endpoint fails, fall back to checking the table directly
+                const { data: access } = await supabase
+                    .from('billing_access')
+                    .select('is_active, membership_code')
+                    .eq('user_id', user.id)
+                    .maybeSingle()
 
-            const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
+                billingIsActive = access?.is_active ?? false
+                billingTier = access?.membership_code ?? null
+            }
 
-            const userLevelScore = levels[userTier as keyof typeof levels] || 1
-            const requiredScore = levels[requiredLevel]
+            // No active subscription → redirect to billing to pay
+            if (!billingIsActive) {
+                setRedirectToBilling(true)
+                setHasAccess(false)
+                setLoading(false)
+                return
+            }
 
-            if (userLevelScore >= requiredScore) {
+            // Check tier level
+            const userScore = TIER_LEVELS[billingTier || 'esenciales'] || 1
+            const requiredScore = TIER_LEVELS[requiredLevel] || 1
+
+            if (userScore >= requiredScore) {
                 setHasAccess(true)
             } else {
                 setHasAccess(false)
             }
-
         } catch (error) {
             console.error('Error checking access:', error)
             setHasAccess(false)
@@ -80,11 +112,13 @@ export default function ProtectedRoute({ requiredLevel = 'esenciales' }: Protect
         return <Navigate to="/signin" state={{ from: location }} replace />
     }
 
+    // No active subscription → send to billing page to pay
+    if (redirectToBilling) {
+        return <Navigate to="/dashboard/billing" replace />
+    }
+
     if (!hasAccess) {
-        // Redirect to upgrade page or dashboard with unauthorized message
-        // For now, redirect to dashboard which might show upgrade options
-        // Or we could have an /unauthorized page
-        return <Navigate to="/dashboard" replace />
+        return <Navigate to="/dashboard/billing" replace />
     }
 
     return <Outlet />

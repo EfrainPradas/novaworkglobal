@@ -217,12 +217,15 @@ export default function Dashboard() {
 
   const loadData = async (userId: string) => {
     try {
-      // ── tier ──
-      const { data: userData } = await supabase
-        .from('users').select('subscription_tier').eq('id', userId).single()
+      // ── tier (from billing_access — authoritative Stripe-synced table) ──
+      const { data: billingAccess } = await supabase
+        .from('billing_access')
+        .select('is_active, membership_code')
+        .eq('user_id', userId)
+        .maybeSingle()
       let tier: TierLevel = 'esenciales'
-      if (userData?.subscription_tier) {
-        let t = userData.subscription_tier
+      if (billingAccess?.is_active && billingAccess?.membership_code) {
+        let t = billingAccess.membership_code
         if (t === 'basic') t = 'esenciales'
         if (t === 'pro')   t = 'momentum'
         tier = t as TierLevel

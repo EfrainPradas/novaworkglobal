@@ -351,10 +351,14 @@ router.post('/webhook', async (req, res) => {
       return res.status(400).json({ error: `Webhook Error: ${err.message}` });
     }
   } else {
-    // No secret configured — parse body directly (dev only)
+    // No secret configured — reject in production, allow in dev only
+    if (process.env.NODE_ENV === 'production') {
+      console.error('❌ STRIPE_WEBHOOK_SECRET not configured in production — rejecting webhook');
+      return res.status(500).json({ error: 'Webhook secret not configured' });
+    }
     try {
       event = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
-      console.warn('⚠️  Webhook signature verification skipped (no STRIPE_WEBHOOK_SECRET)');
+      console.warn('⚠️  Webhook signature verification skipped (dev mode, no STRIPE_WEBHOOK_SECRET)');
     } catch (err) {
       return res.status(400).json({ error: 'Invalid payload' });
     }
