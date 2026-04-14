@@ -94,7 +94,7 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
   const icons = STEP_ICONS[module.id] || STEP_ICONS['resume-builder']
 
   return (
-    <div className="p-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="p-3 sm:p-6" style={{ fontFamily: "'DM Sans', sans-serif" }}>
       {/* Welcome row */}
       <div className="mb-5">
         <p className="text-xs mb-0.5 text-[#8A99B2] dark:text-gray-400">{getTodayLabel()}</p>
@@ -161,8 +161,8 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
         </div>
       </div>
 
-      {/* Step cards 2×2 grid */}
-      <div className="grid grid-cols-2 gap-4">
+      {/* Step cards — responsive grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => (
               <StepCard

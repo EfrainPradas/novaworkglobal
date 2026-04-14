@@ -126,13 +126,22 @@ export default function HomeDashboard() {
     return () => document.removeEventListener('visibilitychange', onVisible)
   }, [user, loadData])
 
-  // Mobile resize handler
+  // Mobile resize handler + auto-collapse right sidebar on narrow screens
   const [isMobile, setIsMobile] = useState(false)
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    const onResize = () => {
+      const w = window.innerWidth
+      setIsMobile(w < 768)
+      // Auto-collapse right sidebar when viewport is too narrow for 3 panels
+      if (w < 1200 && w >= 768) {
+        setRightVisible(false)
+      } else if (w >= 1200) {
+        setRightVisible(true)
+      }
+    }
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
   const closeMobileDrawers = () => {

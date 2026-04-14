@@ -186,10 +186,18 @@ export default function Dashboard() {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    const onResize = () => {
+      const w = window.innerWidth
+      setIsMobile(w < 768)
+      if (w < 1200 && w >= 768) {
+        setRightVisible(false)
+      } else if (w >= 1200) {
+        setRightVisible(true)
+      }
+    }
+    onResize()
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
   }, [])
 
   const closeMobileDrawers = () => {

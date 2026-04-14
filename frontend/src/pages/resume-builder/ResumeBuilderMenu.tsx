@@ -282,7 +282,7 @@ export default function ResumeBuilderMenu() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-10">
 
 
 
@@ -302,78 +302,64 @@ export default function ResumeBuilderMenu() {
         </div>
 
         {/* Header Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
-          <div className="w-full">
-            <div className="flex flex-col md:flex-row items-start justify-between gap-6 w-full">
-              <div className="flex items-start gap-4">
-                <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
-                <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
-                <div>
-                  <h1 className="text-2xl sm:text-3xl font-bold mb-1 flex items-center gap-3">
-                    <FileText className="w-8 h-8 text-primary-600 dark:text-blue-400 shrink-0" />
+        <div className="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
+          <div className="flex flex-col gap-4 sm:gap-6">
+            {/* Title row */}
+            <div className="flex flex-wrap items-start justify-between gap-4">
+              <div className="flex items-start gap-3 min-w-0 flex-1">
+                <img src="/logo.png" alt="NovaWork Global" className="h-12 sm:h-16 w-auto block dark:hidden shrink-0" />
+                <img src="/logo-white.png" alt="NovaWork Global" className="h-12 sm:h-16 w-auto hidden dark:block shrink-0" />
+                <div className="min-w-0">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 flex items-center gap-2 sm:gap-3">
+                    <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600 dark:text-blue-400 shrink-0" />
                     <span className="break-words">{t('resumeBuilder.menu.title')}</span>
                   </h1>
-                  <div className="flex items-center gap-3 mt-1.5">
-                    <span className="text-gray-500 text-xs">{macroStepsCompleted} {t('resumeBuilder.menu.of', 'of')} {resumeOptions.length} {t('resumeBuilder.menu.stepsLabel', 'steps completed')}</span>
-                    <span className="text-gray-300 text-xs">|</span>
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5">
+                    <span className="text-gray-500 text-xs whitespace-nowrap">{macroStepsCompleted} {t('resumeBuilder.menu.of', 'of')} {resumeOptions.length} {t('resumeBuilder.menu.stepsLabel', 'steps completed')}</span>
                     <button
                       onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors whitespace-nowrap"
+                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
                     >
                       {t('resumeBuilder.menu.readBefore', 'Read this before starting to use this tool')} →
                     </button>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center w-full md:w-auto">
+
+              {/* Watch video + Progress — side by side on larger screens */}
+              <div className="flex items-center gap-3 shrink-0">
                 <button
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="flex items-center gap-1.5 px-4 py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                  className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors whitespace-nowrap"
                 >
                   <Play className="w-4 h-4" /> Watch video
                 </button>
-              </div>
-            </div>
-          </div>
 
-          {/* Global Progress Indicator */}
-          <div className="flex items-center gap-6 bg-gray-50 dark:bg-gray-700/50 p-4 rounded-xl border border-gray-100 dark:border-gray-600">
-            <div className="relative w-16 h-16 flex items-center justify-center">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
-                <circle
-                  cx="32"
-                  cy="32"
-                  r="28"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="none"
-                  className="text-gray-200 dark:text-gray-600"
-                />
-                <circle
-                  cx="32"
-                  cy="32"
-                  r="28"
-                  stroke="currentColor"
-                  strokeWidth="6"
-                  fill="none"
-                  strokeDasharray={175}
-                  strokeDashoffset={175 - (175 * progressPercentage) / 100}
-                  className="text-primary-600 dark:text-blue-400 transition-all duration-1000 ease-out"
-                  strokeLinecap="round"
-                />
-              </svg>
-              <span className="absolute text-sm font-bold text-gray-700 dark:text-gray-200">{progressPercentage}%</span>
-            </div>
-            <div className="text-left">
-              <p className="font-semibold text-gray-900 dark:text-white">{t('resumeBuilder.menu.yourProgress')}</p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">{t('resumeBuilder.menu.stepsCompleted', { completed: macroStepsCompleted, total: resumeOptions.length })}</p>
+                {/* Compact Progress Indicator */}
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700/50 p-2 sm:p-3 rounded-xl border border-gray-100 dark:border-gray-600">
+                  <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center shrink-0">
+                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
+                      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="none" className="text-gray-200 dark:text-gray-600" />
+                      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="none"
+                        strokeDasharray={175} strokeDashoffset={175 - (175 * progressPercentage) / 100}
+                        className="text-primary-600 dark:text-blue-400 transition-all duration-1000 ease-out" strokeLinecap="round"
+                      />
+                    </svg>
+                    <span className="absolute text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200">{progressPercentage}%</span>
+                  </div>
+                  <div className="text-left hidden sm:block">
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white whitespace-nowrap">{t('resumeBuilder.menu.yourProgress')}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">{t('resumeBuilder.menu.stepsCompleted', { completed: macroStepsCompleted, total: resumeOptions.length })}</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
 
         {/* Compact Cards Row */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-3 sm:gap-4">
           {resumeOptions.map((option, index) => {
             const Icon = option.icon
             const tourStepId = `resume-step-${index + 1}`
