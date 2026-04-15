@@ -34,7 +34,7 @@ export function useBillingActions(): UseBillingActionsReturn {
       setLoading(true)
       setError(null)
       const { url } = await createCheckoutSession(priceId)
-      window.location.href = url
+      window.location.replace(url)
     } catch (err: any) {
       setError(err.message)
       setLoading(false)
@@ -46,7 +46,7 @@ export function useBillingActions(): UseBillingActionsReturn {
       setLoading(true)
       setError(null)
       const { url } = await createAddonSession(priceId)
-      window.location.href = url
+      window.location.replace(url)
     } catch (err: any) {
       setError(err.message)
       setLoading(false)
@@ -58,7 +58,7 @@ export function useBillingActions(): UseBillingActionsReturn {
       setLoading(true)
       setError(null)
       const { url } = await createPortalSession()
-      window.location.href = url
+      window.location.replace(url)
     } catch (err: any) {
       setError(err.message)
       setLoading(false)

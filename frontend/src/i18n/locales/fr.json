@@ -2424,6 +2424,55 @@
     "cancelBooking": "Annuler la Réservation",
     "pastSessions": "Séances Passées"
   },
+  "testimonials": {
+    "badge": "TÉMOIGNAGES CLIENTS",
+    "title": "Histoires de Réussite de Leaders Mondiaux",
+    "subtitle": "Découvrez comment nous avons accompagné des cadres et des professionnels pour transformer leurs trajectoires de carrière.",
+    "items": [
+      {
+        "role": "Managing Partner – DXC",
+        "country": "États-Unis",
+        "quote": "NovaWork est un partenaire exceptionnel en conseil de carrière qui comprend véritablement comment tirer le meilleur de ses clients. Leur équipe m'a aidé à naviguer avec succès mes options de carrière, ce qui m'a finalement conduit à un nouveau poste de direction dans une entreprise Fortune 500. La capacité de NovaWork à remettre en question les hypothèses, élargir les perspectives et aider à construire un plan clair et actionnable a été la clé de ma transition réussie. Même pendant les moments les plus frustrants, l'équipe savait comment surmonter les obstacles et insuffler confiance tout au long du processus."
+      },
+      {
+        "role": "Senior Business Communication Lead – Aramco",
+        "country": "Arabie Saoudite",
+        "quote": "J'ai trouvé l'équipe de NovaWork très engagée, fiable et pleine d'intégrité. Ils ont livré des résultats dès la première réunion, m'aidant à élaborer un plan autour de ce que je voulais accomplir, en s'assurant que chaque détail important était couvert, et en me guidant finalement vers la négociation du meilleur package possible. NovaWork est intuitif, efficace et capable d'éliminer rapidement les détails superflus, ce qui signifie que vous obtenez des résultats rapidement. Leur équipe a une capacité naturelle à faire avancer les clients."
+      },
+      {
+        "role": "Chief Development Officer – Quadratec",
+        "country": "États-Unis",
+        "quote": "Je ne donne pas de recommandations à la légère, alors quand je prends le temps d'en écrire une, je le pense sincèrement. NovaWork n'est pas simplement une autre entreprise de services de carrière ; c'est un partenaire véritablement exceptionnel qui ne devrait pas être négligé. J'étais sur le point de dépenser 15 000 $ pour ce qui était censé être un fournisseur haut de gamme pour la rédaction de CV, la gestion LinkedIn et le support de recrutement. Heureusement, j'ai trouvé NovaWork en premier. Si vous cherchez l'excellence dans ces domaines, vous l'avez trouvée. Leur équipe est honnête, directe, sincère et intelligente. Ils connaissent le processus, et l'investissement que vous faites est rentabilisé plusieurs fois. C'est certainement ce qui s'est passé pour moi, et je dois beaucoup à NovaWork."
+      },
+      {
+        "role": "Consultant – Inter-American Development Bank",
+        "country": "États-Unis",
+        "quote": "Moins de deux semaines après avoir terminé mon travail avec NovaWork, j'ai reçu plusieurs offres, dont une qui s'est avérée parfaite. Je dois beaucoup à leur équipe et je les recommande vivement. Ils sont allés au-delà en écoutant attentivement, en pensant de manière créative et en transformant ma recherche d'emploi en un succès immédiat, surtout à un moment et sur un marché où la demande était limitée."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Comment Ça Marche",
+    "subtitle": "Un système éprouvé en quatre étapes pour naviguer votre changement de carrière avec clarté et confiance",
+    "steps": [
+      {
+        "title": "Diagnostiquer",
+        "description": "Évaluez votre situation actuelle et identifiez où vous en êtes"
+      },
+      {
+        "title": "Décider",
+        "description": "Clarifiez votre direction et choisissez la bonne voie à suivre"
+      },
+      {
+        "title": "Construire",
+        "description": "Créez votre positionnement, CV et récit professionnel"
+      },
+      {
+        "title": "Exécuter",
+        "description": "Lancez votre recherche et décrochez des entretiens avec confiance"
+      }
+    ]
+  },
   "coachingTeaser": {
     "question": "Vous souhaitez un retour d'un",
     "certifiedCoach": "coach certifié",

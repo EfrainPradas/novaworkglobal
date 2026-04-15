@@ -61,13 +61,13 @@ export default function AuthCallback() {
         setTimeout(() => {
           if (pendingPlan) {
             // User chose a plan before signing up — take them to billing to complete checkout
-            navigate(`/dashboard/billing?pending_plan=${pendingPlan}`)
+            navigate(`/dashboard/billing?pending_plan=${pendingPlan}`, { replace: true })
           } else if (!profile || !profile.has_seen_career_vision_prompt) {
             // New user - show Career Vision welcome
-            navigate('/dashboard/career-vision/welcome')
+            navigate('/dashboard/career-vision/welcome', { replace: true })
           } else {
             // Existing user - go to dashboard
-            navigate('/dashboard')
+            navigate('/dashboard', { replace: true })
           }
         }, 2000)
       } else {
@@ -76,7 +76,7 @@ export default function AuthCallback() {
         setMessage(t('auth.callback.noSession'))
 
         setTimeout(() => {
-          navigate('/signin')
+          navigate('/signin', { replace: true })
         }, 2000)
       }
     } catch (error) {

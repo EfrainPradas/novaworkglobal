@@ -49,6 +49,13 @@ export default function Billing() {
   const pendingPlan = searchParams.get('pending_plan')
   const [autoCheckoutTriggered, setAutoCheckoutTriggered] = useState(false)
 
+  // Clean checkout status from URL so browser back button won't revisit Stripe
+  useEffect(() => {
+    if (checkoutStatus === 'success' || checkoutStatus === 'canceled') {
+      window.history.replaceState({}, '', '/dashboard/billing')
+    }
+  }, [checkoutStatus])
+
   useEffect(() => {
     getPriceCatalog()
       .then(setCatalog)

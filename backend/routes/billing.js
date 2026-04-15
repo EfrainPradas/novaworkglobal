@@ -76,13 +76,13 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
     );
     console.log(`🛒 [CHECKOUT] Stripe customer: ${stripeCustomerId}`);
 
-    const appUrl = process.env.APP_URL || 'http://localhost:5173';
+    const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
 
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
+      success_url: successUrl || `${appUrl}/dashboard/billing?status=success`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       subscription_data: {
         description: catalogEntry.display_name,
@@ -139,13 +139,13 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
     );
     console.log(`🛒 [ADDON] Stripe customer: ${stripeCustomerId}`);
 
-    const appUrl = process.env.APP_URL || 'http://localhost:5173';
+    const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
 
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
+      success_url: successUrl || `${appUrl}/dashboard/billing?status=success`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       payment_intent_data: {
         description: catalogEntry.display_name,
@@ -190,7 +190,7 @@ router.post('/create-portal-session', requireAuth, ensureStripe, async (req, res
       return res.status(404).json({ error: 'No billing account found. Subscribe to a plan first.' });
     }
 
-    const appUrl = process.env.APP_URL || 'http://localhost:5173';
+    const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
 
     const portalParams = {
       customer: customer.stripe_customer_id,

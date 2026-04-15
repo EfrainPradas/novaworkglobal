@@ -13,7 +13,6 @@ import LandingNavbar from '../components/layout/LandingNavbar'
 import LandingFooter from '../components/layout/LandingFooter'
 import {
   programCards,
-  howItWorksSteps,
   novaNextPlans,
 } from '../config/landingContent'
 import TestimonialsSection from '../components/landing/TestimonialsSection'
@@ -65,7 +64,7 @@ export default function Landing() {
       </section>
 
       {/* 4. How It Works Section */}
-      <HowItWorksSection steps={howItWorksSteps} />
+      <HowItWorksSection />
 
       {/* 5. Human + AI Differentiation */}
       <DifferentiatorSection />

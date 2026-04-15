@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
@@ -11,6 +11,13 @@ export default function SignIn() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Redirect authenticated users away from sign-in
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user) navigate('/dashboard', { replace: true })
+    })
+  }, [navigate])
 
   async function handleEmailSignIn(e: React.FormEvent) {
     e.preventDefault()
@@ -38,9 +45,9 @@ export default function SignIn() {
         // Check if user had selected a plan from landing page
         const pendingPlan = localStorage.getItem('novawork_pending_plan')
         if (pendingPlan) {
-          navigate(`/dashboard/billing?pending_plan=${pendingPlan}`)
+          navigate(`/dashboard/billing?pending_plan=${pendingPlan}`, { replace: true })
         } else {
-          navigate('/dashboard')
+          navigate('/dashboard', { replace: true })
         }
       }
     } catch (err) {

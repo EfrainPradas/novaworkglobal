@@ -2424,6 +2424,55 @@
     "cancelBooking": "Cancelar Reserva",
     "pastSessions": "Sessões Anteriores"
   },
+  "testimonials": {
+    "badge": "DEPOIMENTOS DE CLIENTES",
+    "title": "Histórias de Sucesso de Líderes Globais",
+    "subtitle": "Descubra como colaboramos com executivos e profissionais para transformar suas trajetórias de carreira.",
+    "items": [
+      {
+        "role": "Managing Partner – DXC",
+        "country": "Estados Unidos",
+        "quote": "NovaWork é um parceiro excepcional em assessoria de carreira que realmente entende como extrair o melhor de seus clientes. Sua equipe me ajudou a navegar com sucesso minhas opções de carreira, o que me levou a um novo cargo executivo em uma empresa Fortune 500. A capacidade da NovaWork de desafiar suposições, ampliar perspectivas e ajudar a construir um plano claro e acionável foi fundamental para minha transição bem-sucedida. Mesmo nos momentos mais frustrantes, a equipe sabia como superar barreiras e inspirar confiança ao longo de todo o processo."
+      },
+      {
+        "role": "Senior Business Communication Lead – Aramco",
+        "country": "Arábia Saudita",
+        "quote": "Achei a equipe da NovaWork altamente envolvente, confiável e cheia de integridade. Entregaram resultados desde a primeira reunião, me ajudando a criar um plano em torno do que eu queria alcançar, garantindo que cada detalhe importante fosse coberto, e me guiando para negociar o melhor pacote possível. NovaWork é intuitivo, eficiente e capaz de eliminar detalhes desnecessários rapidamente, o que significa que você obtém resultados rápido. Sua equipe tem uma habilidade natural de impulsionar os clientes para frente."
+      },
+      {
+        "role": "Chief Development Officer – Quadratec",
+        "country": "Estados Unidos",
+        "quote": "Não faço recomendações levianamente, então quando dedico tempo para escrever uma, falo com sinceridade. NovaWork não é apenas mais uma empresa de serviços de carreira; é um parceiro verdadeiramente excepcional que não deve ser ignorado. Estava prestes a gastar $15.000 no que deveria ser um provedor de primeiro nível para redação de currículo, gestão de LinkedIn e suporte de recrutamento. Felizmente, encontrei a NovaWork primeiro. Se você procura excelência nessas áreas, encontrou. A equipe é honesta, direta, sincera e inteligente. Conhecem o processo, e o investimento que você faz retorna muitas vezes. Certamente foi assim para mim, e devo muito à NovaWork."
+      },
+      {
+        "role": "Consultant – Inter-American Development Bank",
+        "country": "Estados Unidos",
+        "quote": "Menos de duas semanas após completar meu trabalho com a NovaWork, recebi várias ofertas, uma das quais se mostrou perfeita. Devo muito à equipe e os recomendo fortemente. Foram além, ouvindo cuidadosamente, pensando criativamente e transformando minha busca de emprego em um sucesso imediato, especialmente em um momento e mercado onde a demanda era limitada."
+      }
+    ]
+  },
+  "howItWorks": {
+    "title": "Como Funciona",
+    "subtitle": "Um sistema comprovado de quatro etapas para navegar sua mudança de carreira com clareza e confiança",
+    "steps": [
+      {
+        "title": "Diagnosticar",
+        "description": "Avalie sua situação atual e identifique onde você está"
+      },
+      {
+        "title": "Decidir",
+        "description": "Clarifique sua direção e escolha o caminho certo a seguir"
+      },
+      {
+        "title": "Construir",
+        "description": "Crie seu posicionamento, currículo e narrativa profissional"
+      },
+      {
+        "title": "Executar",
+        "description": "Lance sua busca e conquiste entrevistas com confiança"
+      }
+    ]
+  },
   "coachingTeaser": {
     "question": "Quer feedback de um",
     "certifiedCoach": "coach certificado",

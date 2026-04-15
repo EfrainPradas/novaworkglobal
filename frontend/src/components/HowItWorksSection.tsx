@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Target, Compass, Wrench, Rocket } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 const iconMap = {
   target: Target,
@@ -8,18 +9,12 @@ const iconMap = {
   rocket: Rocket
 }
 
-interface Step {
-  number: number
-  title: string
-  description: string
-  icon: keyof typeof iconMap
-}
+const stepIcons: (keyof typeof iconMap)[] = ['target', 'compass', 'wrench', 'rocket']
 
-interface Props {
-  steps: Step[]
-}
+export default function HowItWorksSection() {
+  const { t } = useTranslation()
+  const steps = t('howItWorks.steps', { returnObjects: true }) as { title: string; description: string }[]
 
-export default function HowItWorksSection({ steps }: Props) {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -63,10 +58,10 @@ export default function HowItWorksSection({ steps }: Props) {
           className="text-center mb-20"
         >
           <h2 className="text-5xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-navy via-primary to-accent-600 mb-4">
-            How It Works
+            {t('howItWorks.title')}
           </h2>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            A proven four-step system to navigate your career change with clarity and confidence
+            {t('howItWorks.subtitle')}
           </p>
         </motion.div>
 
@@ -79,10 +74,10 @@ export default function HowItWorksSection({ steps }: Props) {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative"
         >
           {steps.map((step, index) => {
-            const Icon = iconMap[step.icon]
+            const Icon = iconMap[stepIcons[index]]
 
             return (
-              <div key={step.number}>
+              <div key={index}>
                 {/* Step Card */}
                 <motion.div
                   variants={itemVariants}
@@ -100,7 +95,7 @@ export default function HowItWorksSection({ steps }: Props) {
                       className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-500 to-teal-600 flex items-center justify-center text-white text-2xl font-bold mb-6 shadow-lg mx-auto relative"
                     >
                       <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 to-transparent"></div>
-                      <span className="relative z-10">{step.number}</span>
+                      <span className="relative z-10">{index + 1}</span>
                     </motion.div>
 
                     {/* Icon */}
