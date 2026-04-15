@@ -24,7 +24,9 @@ const MediaPlayerModal: React.FC<MediaPlayerModalProps> = ({ resource, onClose }
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
-      if (e.key === ' ') {
+      // Only toggle play/pause when no input element is focused
+      const tag = (e.target as HTMLElement)?.tagName
+      if (e.key === ' ' && tag !== 'INPUT' && tag !== 'TEXTAREA' && tag !== 'SELECT') {
         e.preventDefault()
         handlePlay()
       }

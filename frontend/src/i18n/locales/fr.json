@@ -1628,7 +1628,8 @@
     "plataforma": "Plateforme",
     "test2": "Test 2",
     "test3": "Test3",
-    "novamind": "NovaMind"
+    "novamind": "NovaMind",
+    "presencia_online": "Présence en Ligne"
   },
   "nodes": {
     "resumeIntro": "Introduction aux CV",

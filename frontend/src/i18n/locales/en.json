@@ -1002,7 +1002,8 @@
     "plataforma": "Platform",
     "test2": "Test 2",
     "test3": "Test3",
-    "novamind": "NovaMind"
+    "novamind": "NovaMind",
+    "presencia_online": "Online Presence"
   },
   "nodes": {
     "resumeIntro": "Introduction to Resumes",

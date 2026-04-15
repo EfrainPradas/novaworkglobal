@@ -229,6 +229,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
         parent_id: rootNode.id,
         level: 2,
         label_key: labelKey,
+        label: newNode.label.trim(),
         type: 'topic',
         default_x: 400,
         default_y: 400,
