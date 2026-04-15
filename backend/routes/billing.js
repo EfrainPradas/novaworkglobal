@@ -82,7 +82,7 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
       customer: stripeCustomerId,
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard/billing?status=success`,
+      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       subscription_data: {
         description: catalogEntry.display_name,
@@ -145,7 +145,7 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
       customer: stripeCustomerId,
       mode: 'payment',
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard/billing?status=success`,
+      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       payment_intent_data: {
         description: catalogEntry.display_name,

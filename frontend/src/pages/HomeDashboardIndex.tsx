@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { useOutletContext, useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import WelcomeHero from '../components/home-dashboard/WelcomeHero'
 import QuickActionCards from '../components/home-dashboard/QuickActionCards'
@@ -24,6 +24,15 @@ interface DashboardOutletContext {
 export default function HomeDashboardIndex() {
   const context = useOutletContext<DashboardOutletContext>()
   const { user, userProfile, userName, userLevel, overview, overviewLoading } = context
+  const [searchParams] = useSearchParams()
+
+  // After successful payment, reset SmartGuide welcome so the modal shows
+  useEffect(() => {
+    if (searchParams.get('welcome') === 'true' && user?.id) {
+      localStorage.removeItem(`smart_guide_welcome_dismissed_${user.id}`)
+      window.history.replaceState({}, '', '/dashboard')
+    }
+  }, [searchParams, user?.id])
 
   return (
     <div className="px-5 py-4 space-y-6">
