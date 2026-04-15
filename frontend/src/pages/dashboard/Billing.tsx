@@ -97,7 +97,6 @@ export default function Billing() {
   }, [checkoutStatus, isActive, refetch])
 
   const memberships = catalog.filter((p) => p.item_type === 'membership')
-  const recurringAddons = catalog.filter((p) => p.item_type === 'addon_recurring')
 
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' })
@@ -265,32 +264,6 @@ export default function Billing() {
         </section>
       )}
 
-      {/* ── Coaching & Add-ons ─────────────────────────────────── */}
-      {recurringAddons.length > 0 && (
-        <section>
-          <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.coachingServices')}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {recurringAddons.map((addon) => (
-              <div key={addon.code} className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
-                <h3 className="text-lg font-heading font-semibold text-navy">{addon.display_name}</h3>
-                <div className="mt-2 mb-4 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-navy">
-                    ${(addon.unit_amount / 100).toFixed(0)}
-                  </span>
-                  <span className="text-gray-500 text-sm">/{t('billing.perMonth')}</span>
-                </div>
-                <button
-                  onClick={() => startCheckout(addon.stripe_price_id)}
-                  disabled={actionLoading}
-                  className="mt-auto w-full py-2.5 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
-                >
-                  {actionLoading ? '...' : t('billing.subscribe')}
-                </button>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* ── Payment History ──────────────────────────────────── */}
       <section className="bg-white rounded-xl shadow-sm border p-6">
