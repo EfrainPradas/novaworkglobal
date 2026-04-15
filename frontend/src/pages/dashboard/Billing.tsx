@@ -39,7 +39,7 @@ const STATUS_KEYS: Record<string, string> = {
 export default function Billing() {
   const { t, i18n } = useTranslation()
   const { billing, loading, refetch, isActive, tier } = useSubscription()
-  const { startCheckout, startAddonCheckout, openPortal, loading: actionLoading, error: actionError } = useBillingActions()
+  const { startCheckout, openPortal, loading: actionLoading, error: actionError } = useBillingActions()
   const [catalog, setCatalog] = useState<PriceCatalogEntry[]>([])
   const [catalogLoading, setCatalogLoading] = useState(true)
   const [payments, setPayments] = useState<PaymentRecord[]>([])
@@ -91,7 +91,6 @@ export default function Billing() {
 
   const memberships = catalog.filter((p) => p.item_type === 'membership')
   const recurringAddons = catalog.filter((p) => p.item_type === 'addon_recurring')
-  const oneTimeAddons = catalog.filter((p) => p.item_type === 'addon_one_time')
 
   const formatDate = (dateStr: string) =>
     new Date(dateStr).toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' })
@@ -218,7 +217,7 @@ export default function Billing() {
                     </span>
                   )}
                   <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
-                  <div className="mt-2 mb-4">
+                  <div className="mt-2 mb-4 flex items-baseline gap-1">
                     <span className="text-3xl font-bold text-navy">
                       ${(plan.unit_amount / 100).toFixed(0)}
                     </span>
@@ -260,39 +259,25 @@ export default function Billing() {
       )}
 
       {/* ── Coaching & Add-ons ─────────────────────────────────── */}
-      {(recurringAddons.length > 0 || oneTimeAddons.length > 0) && (
+      {recurringAddons.length > 0 && (
         <section>
           <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.coachingServices')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {recurringAddons.map((addon) => (
               <div key={addon.code} className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
-                <h3 className="font-semibold text-navy">{addon.display_name}</h3>
-                <p className="text-2xl font-bold text-navy mt-2">
-                  ${(addon.unit_amount / 100).toFixed(0)}
-                  <span className="text-sm font-normal text-gray-500"> /{t('billing.perMonth')}</span>
-                </p>
+                <h3 className="text-lg font-heading font-semibold text-navy">{addon.display_name}</h3>
+                <div className="mt-2 mb-4 flex items-baseline gap-1">
+                  <span className="text-3xl font-bold text-navy">
+                    ${(addon.unit_amount / 100).toFixed(0)}
+                  </span>
+                  <span className="text-gray-500 text-sm">/{t('billing.perMonth')}</span>
+                </div>
                 <button
                   onClick={() => startCheckout(addon.stripe_price_id)}
                   disabled={actionLoading}
-                  className="mt-4 w-full py-2.5 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
+                  className="mt-auto w-full py-2.5 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
                 >
                   {actionLoading ? '...' : t('billing.subscribe')}
-                </button>
-              </div>
-            ))}
-            {oneTimeAddons.map((addon) => (
-              <div key={addon.code} className="bg-white rounded-xl shadow-sm border p-6 flex flex-col">
-                <h3 className="font-semibold text-navy">{addon.display_name}</h3>
-                <p className="text-2xl font-bold text-navy mt-2">
-                  ${(addon.unit_amount / 100).toFixed(0)}
-                  <span className="text-sm font-normal text-gray-500"> / {t('billing.perSession')}</span>
-                </p>
-                <button
-                  onClick={() => startAddonCheckout(addon.stripe_price_id)}
-                  disabled={actionLoading}
-                  className="mt-4 w-full py-2.5 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
-                >
-                  {actionLoading ? '...' : t('billing.buy')}
                 </button>
               </div>
             ))}
