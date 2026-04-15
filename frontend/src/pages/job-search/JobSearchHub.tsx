@@ -8,6 +8,7 @@ import VisualGuide from '../../components/common/VisualGuide'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe, X, Play } from 'lucide-react'
 import AIJobSearch from '../../components/job-search/AIJobSearch'
+import CoachingTeaser from '../../components/services/CoachingTeaser'
 
 export default function JobSearchHub() {
     const navigate = useNavigate()
@@ -222,6 +223,8 @@ export default function JobSearchHub() {
             />
 
             {/* Video Modal - Unified Frame */}
+            <CoachingTeaser />
+
             {showVideoModal && (
                 <div
                     className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"

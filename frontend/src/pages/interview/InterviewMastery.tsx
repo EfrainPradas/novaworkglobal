@@ -12,6 +12,7 @@ import { supabase } from '../../lib/supabase'
 import { InterviewPreparation } from '../../types/interview'
 import { getDaysUntilInterview, formatInterviewDate } from '../../types/interview'
 import { Crosshair, ClipboardList, Calendar, PenSquare, CheckCircle2, Briefcase, Mail, BookOpen } from 'lucide-react'
+import CoachingTeaser from '../../components/services/CoachingTeaser'
 
 export default function InterviewMastery() {
   const navigate = useNavigate()
@@ -330,6 +331,8 @@ export default function InterviewMastery() {
             </button>
           </div>
         </div>
+
+        <CoachingTeaser />
       </div>
     </div>
   )

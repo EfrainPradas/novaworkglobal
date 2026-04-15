@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabase'
 import { getVideoUrl } from '@/config/videoUrls'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { PlayCircle, CheckCircle2, ChevronRight, Video, Crosshair, ClipboardList, Settings } from 'lucide-react'
+import CoachingTeaser from '../../components/services/CoachingTeaser'
 
 export default function CareerVisionDashboard() {
   const { t } = useTranslation()
@@ -182,9 +183,11 @@ export default function CareerVisionDashboard() {
         )}
       </div>
 
+      <CoachingTeaser />
+
       {/* Video Modal */}
       {activeVideoSrc && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
           onClick={() => setActiveVideoSrc(null)}
         >
