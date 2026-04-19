@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useOutletContext, useSearchParams } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import WelcomeHero from '../components/home-dashboard/WelcomeHero'
@@ -9,6 +9,7 @@ import QuickActionCards from '../components/home-dashboard/QuickActionCards'
 // import ResourcesFeed from '../components/home-dashboard/ResourcesFeed'
 import RecentActivity from '../components/home-dashboard/RecentActivity'
 import { SmartGuidedBanner, NextStepCard, SmartGuideWelcome } from '../components/guided-path'
+import { useGuidedPath } from '../contexts/GuidedPathContext'
 import { getDashboardOverview, getUserTier } from '../services/home-dashboard/dashboard.service'
 import type { DashboardOverview, TierLevel } from '../types/home-dashboard'
 
@@ -25,14 +26,27 @@ export default function HomeDashboardIndex() {
   const context = useOutletContext<DashboardOutletContext>()
   const { user, userProfile, userName, userLevel, overview, overviewLoading } = context
   const [searchParams] = useSearchParams()
+  const { enable, state, isLoading: guidedLoading } = useGuidedPath()
+  const welcomeProcessedRef = useRef(false)
 
-  // After successful payment, reset SmartGuide welcome so the modal shows
+  // After successful payment, auto-activate Smart Guide so the user lands on a
+  // dashboard with the guided banner + next-step card already visible, instead
+  // of a dismissible welcome modal that many users skip.
   useEffect(() => {
-    if (searchParams.get('welcome') === 'true' && user?.id) {
-      localStorage.removeItem(`smart_guide_welcome_dismissed_${user.id}`)
-      window.history.replaceState({}, '', '/dashboard')
+    if (welcomeProcessedRef.current) return
+    if (searchParams.get('welcome') !== 'true') return
+    if (!user?.id) return
+    if (guidedLoading) return
+
+    welcomeProcessedRef.current = true
+
+    const hasActive = state?.has_active_run && state?.run?.guidance_enabled
+    if (!hasActive) {
+      enable().catch(err => console.warn('[post-pay] Auto-enable Smart Guide failed:', err))
     }
-  }, [searchParams, user?.id])
+
+    window.history.replaceState({}, '', '/dashboard')
+  }, [searchParams, user?.id, enable, state, guidedLoading])
 
   return (
     <div className="px-5 py-4 space-y-6">
