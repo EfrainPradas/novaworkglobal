@@ -233,6 +233,43 @@
         "passwordMismatch": "As senhas não coincidem",
         "passwordLength": "A senha deve ter pelo menos 6 caracteres"
       }
+    },
+    "forgotPassword": {
+      "title": "Redefina sua senha",
+      "subtitle": "Enviaremos um link para criar uma nova senha",
+      "email": "E-mail",
+      "emailPlaceholder": "Digite o e-mail da sua conta",
+      "submitButton": "Enviar link",
+      "sending": "Enviando...",
+      "backToSignIn": "Voltar para o login",
+      "rememberPassword": "Lembrou sua senha?",
+      "sentTitle": "Verifique seu e-mail",
+      "sentMessage": "Enviamos um link para redefinir a senha para {{email}}.",
+      "sentHint": "O link expira em 1 hora. Verifique sua pasta de spam se não o vir.",
+      "errors": {
+        "emailRequired": "Por favor, digite seu endereço de e-mail"
+      }
+    },
+    "resetPassword": {
+      "title": "Defina uma nova senha",
+      "subtitle": "Digite e confirme sua nova senha",
+      "newPassword": "Nova senha",
+      "newPasswordPlaceholder": "Pelo menos 6 caracteres",
+      "confirmPassword": "Confirmar nova senha",
+      "confirmPasswordPlaceholder": "Digite novamente sua nova senha",
+      "submitButton": "Atualizar senha",
+      "updating": "Atualizando...",
+      "verifying": "Verificando link...",
+      "successTitle": "Senha atualizada",
+      "successMessage": "Redirecionando para o seu painel...",
+      "invalidTitle": "Link inválido ou expirado",
+      "invalidMessage": "Este link não é mais válido. Por favor, solicite um novo.",
+      "requestNew": "Solicitar um novo link",
+      "errors": {
+        "fillAllFields": "Por favor, preencha todos os campos",
+        "passwordMismatch": "As senhas não coincidem",
+        "passwordLength": "A senha deve ter pelo menos 6 caracteres"
+      }
     }
   },
   "resumeBuilder": {

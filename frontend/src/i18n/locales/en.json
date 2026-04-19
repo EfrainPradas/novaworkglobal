@@ -228,6 +228,43 @@
         "passwordMismatch": "Passwords do not match",
         "passwordLength": "Password must be at least 6 characters"
       }
+    },
+    "forgotPassword": {
+      "title": "Reset Your Password",
+      "subtitle": "We'll email you a link to set a new password",
+      "email": "Email",
+      "emailPlaceholder": "Enter your account email",
+      "submitButton": "Send reset link",
+      "sending": "Sending...",
+      "backToSignIn": "Back to sign in",
+      "rememberPassword": "Remembered your password?",
+      "sentTitle": "Check your email",
+      "sentMessage": "We sent a password reset link to {{email}}.",
+      "sentHint": "The link expires in 1 hour. Check your spam folder if you don't see it.",
+      "errors": {
+        "emailRequired": "Please enter your email address"
+      }
+    },
+    "resetPassword": {
+      "title": "Set a New Password",
+      "subtitle": "Enter and confirm your new password below",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "At least 6 characters",
+      "confirmPassword": "Confirm new password",
+      "confirmPasswordPlaceholder": "Retype your new password",
+      "submitButton": "Update password",
+      "updating": "Updating...",
+      "verifying": "Verifying reset link...",
+      "successTitle": "Password updated",
+      "successMessage": "Redirecting you to your dashboard...",
+      "invalidTitle": "Link invalid or expired",
+      "invalidMessage": "This reset link is no longer valid. Please request a new one.",
+      "requestNew": "Request a new link",
+      "errors": {
+        "fillAllFields": "Please fill in all fields",
+        "passwordMismatch": "Passwords do not match",
+        "passwordLength": "Password must be at least 6 characters"
+      }
     }
   },
   "resumeBuilder": {

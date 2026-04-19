@@ -1,13 +1,36 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom'
 
 // Guided Tour
 import { GuidedTourProvider } from './components/guided-tour'
 import { GuidedTour } from './components/guided-tour'
 
+// Defensive fallback: if Supabase redirects the password-recovery link to a
+// page other than /reset-password (e.g. because the redirect URL wasn't in the
+// Supabase whitelist and it fell back to Site URL), detect the recovery token
+// on the URL hash and bounce to the proper route, preserving the hash.
+function RecoveryHashHandler() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const hash = window.location.hash
+    if (!hash) return
+    const isRecovery = hash.includes('type=recovery')
+    if (isRecovery && location.pathname !== '/reset-password') {
+      navigate('/reset-password' + hash, { replace: true })
+    }
+  }, [location.pathname, navigate])
+
+  return null
+}
+
 // Public Routes
 import Landing from './pages/Landing'
 import SignUp from './pages/auth/SignUp'
 import SignIn from './pages/auth/SignIn'
+import ForgotPassword from './pages/auth/ForgotPassword'
+import ResetPassword from './pages/auth/ResetPassword'
 import AuthCallback from './pages/AuthCallback'
 import NovaNextPage from './pages/programs/NovaNext'
 import NovaRearchitectPage from './pages/programs/NovaRearchitect'
@@ -130,6 +153,7 @@ function App() {
     <GuidedTourProvider>
       <GuidedTour />
       <Router basename={import.meta.env.BASE_URL} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <RecoveryHashHandler />
         <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPageV2 />} />
@@ -139,6 +163,8 @@ function App() {
         <Route path="/design-v1" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/auth/callback" element={<AuthCallback />} />
 
         {/* Protected Routes */}

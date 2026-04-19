@@ -233,6 +233,43 @@
         "passwordMismatch": "Le password non corrispondono",
         "passwordLength": "La password deve contenere almeno 6 caratteri"
       }
+    },
+    "forgotPassword": {
+      "title": "Reimposta la tua password",
+      "subtitle": "Ti invieremo un link per impostare una nuova password",
+      "email": "Email",
+      "emailPlaceholder": "Inserisci l'email del tuo account",
+      "submitButton": "Invia link",
+      "sending": "Invio...",
+      "backToSignIn": "Torna all'accesso",
+      "rememberPassword": "Ti sei ricordato la password?",
+      "sentTitle": "Controlla la tua email",
+      "sentMessage": "Abbiamo inviato un link per reimpostare la password a {{email}}.",
+      "sentHint": "Il link scade tra 1 ora. Controlla la cartella spam se non lo vedi.",
+      "errors": {
+        "emailRequired": "Per favore inserisci il tuo indirizzo email"
+      }
+    },
+    "resetPassword": {
+      "title": "Imposta una nuova password",
+      "subtitle": "Inserisci e conferma la tua nuova password",
+      "newPassword": "Nuova password",
+      "newPasswordPlaceholder": "Almeno 6 caratteri",
+      "confirmPassword": "Conferma nuova password",
+      "confirmPasswordPlaceholder": "Ridigita la tua nuova password",
+      "submitButton": "Aggiorna password",
+      "updating": "Aggiornamento...",
+      "verifying": "Verifica del link...",
+      "successTitle": "Password aggiornata",
+      "successMessage": "Ti stiamo reindirizzando alla dashboard...",
+      "invalidTitle": "Link non valido o scaduto",
+      "invalidMessage": "Questo link non è più valido. Per favore richiedine uno nuovo.",
+      "requestNew": "Richiedi un nuovo link",
+      "errors": {
+        "fillAllFields": "Si prega di compilare tutti i campi",
+        "passwordMismatch": "Le password non corrispondono",
+        "passwordLength": "La password deve contenere almeno 6 caratteri"
+      }
     }
   },
   "resumeBuilder": {

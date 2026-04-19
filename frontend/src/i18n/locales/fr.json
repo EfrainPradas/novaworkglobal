@@ -233,6 +233,43 @@
         "passwordMismatch": "Les mots de passe ne correspondent pas",
         "passwordLength": "Le mot de passe doit contenir au moins 6 caractères"
       }
+    },
+    "forgotPassword": {
+      "title": "Réinitialisez votre mot de passe",
+      "subtitle": "Nous vous enverrons un lien pour définir un nouveau mot de passe",
+      "email": "E-mail",
+      "emailPlaceholder": "Entrez l'e-mail de votre compte",
+      "submitButton": "Envoyer le lien",
+      "sending": "Envoi...",
+      "backToSignIn": "Retour à la connexion",
+      "rememberPassword": "Vous vous souvenez de votre mot de passe ?",
+      "sentTitle": "Vérifiez votre e-mail",
+      "sentMessage": "Nous avons envoyé un lien de réinitialisation à {{email}}.",
+      "sentHint": "Le lien expire dans 1 heure. Vérifiez votre dossier spam si vous ne le voyez pas.",
+      "errors": {
+        "emailRequired": "Veuillez entrer votre adresse e-mail"
+      }
+    },
+    "resetPassword": {
+      "title": "Définir un nouveau mot de passe",
+      "subtitle": "Entrez et confirmez votre nouveau mot de passe",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "Au moins 6 caractères",
+      "confirmPassword": "Confirmer le nouveau mot de passe",
+      "confirmPasswordPlaceholder": "Retapez votre nouveau mot de passe",
+      "submitButton": "Mettre à jour",
+      "updating": "Mise à jour...",
+      "verifying": "Vérification du lien...",
+      "successTitle": "Mot de passe mis à jour",
+      "successMessage": "Redirection vers votre tableau de bord...",
+      "invalidTitle": "Lien invalide ou expiré",
+      "invalidMessage": "Ce lien n'est plus valide. Veuillez en demander un nouveau.",
+      "requestNew": "Demander un nouveau lien",
+      "errors": {
+        "fillAllFields": "Veuillez remplir tous les champs",
+        "passwordMismatch": "Les mots de passe ne correspondent pas",
+        "passwordLength": "Le mot de passe doit contenir au moins 6 caractères"
+      }
     }
   },
   "resumeBuilder": {
