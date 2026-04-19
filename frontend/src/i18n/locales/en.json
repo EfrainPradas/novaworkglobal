@@ -1078,7 +1078,9 @@
   "sidebarTools": {
     "title": "Tools",
     "myCoaches": "My Coaches",
-    "sharedResources": "Shared Resources"
+    "sharedResources": "Shared Resources",
+    "smartMatches": "Smart Matches",
+    "vipBadge": "VIP"
   },
   "novaNextAcademy": {
     "title": "NovaNext Academy",
@@ -2451,5 +2453,59 @@
     "bundleDetail": "1 session + 3 emails",
     "learnMore": "Learn more about coaching",
     "noCommitment": "No commitment · Cancel anytime"
+  },
+  "smartMatches": {
+    "title": "Smart Matches",
+    "subtitle": "Curated companies where your experience has the strongest fit. Results are refreshed on demand.",
+    "refresh": "Refresh matches",
+    "refreshing": "Refreshing…",
+    "loading": "Loading…",
+    "noMatchesTitle": "No matches yet",
+    "noMatchesProposed": "Click \"Refresh matches\" to generate your first curated list.",
+    "noMatchesOther": "You have no {{tab}} matches yet.",
+    "tabs": {
+      "proposed": "Proposed",
+      "saved": "Saved",
+      "dismissed": "Dismissed"
+    },
+    "card": {
+      "match": "Match",
+      "matchInsight": "Match insight",
+      "relevantArea": "Relevant area",
+      "whatTheySeek": "What they seek",
+      "positioningAngle": "Positioning angle",
+      "openPositions": "Open positions",
+      "emptyRoles": "Signals detected from hiring patterns, growth trajectory, and public activity — but we couldn't auto-extract current job titles (career site may use a non-standard ATS).",
+      "basedOnSignalsFooter_one": "Based on {{count}} signal · Updated {{date}}",
+      "basedOnSignalsFooter_other": "Based on {{count}} signals · Updated {{date}}",
+      "basedOnSignalsEmpty_one": "Based on {{count}} signal, last updated {{date}}.",
+      "basedOnSignalsEmpty_other": "Based on {{count}} signals, last updated {{date}}.",
+      "visitCareerSite": "Visit career site",
+      "visitSite": "Visit site",
+      "opportunityScore": "Opportunity score:",
+      "save": "Save",
+      "dismiss": "Dismiss",
+      "resumeTailored": "Resume tailored",
+      "viewTailoredResume": "View tailored resume",
+      "tailoringResume": "Tailoring resume…"
+    },
+    "drawer": {
+      "title": "Tailored resume",
+      "generatedRelative": "Generated {{relative}} · Model {{model}}",
+      "targetedFor": "Tailored for",
+      "positioningAngle": "Positioning angle",
+      "whatTheySeek": "What they seek:",
+      "topRole": "Top role:",
+      "professionalSummary": "Professional Summary",
+      "topBullets": "Selected Bullets",
+      "regenerate": "Regenerate",
+      "regenerating": "Regenerating…",
+      "close": "Close",
+      "noSummary": "(no summary generated)",
+      "loadingResume": "Loading resume…",
+      "noResume": "No resume found for this account yet.",
+      "painInterpretation": "Attack thesis",
+      "gaps": "Missing proof points"
+    }
   }
 }

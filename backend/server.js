@@ -26,6 +26,7 @@ import guidedPathRoutes from './routes/guidedPath.js'
 import careerFeedRoutes from './routes/careerFeed.js'
 import billingRoutes from './routes/billing.js'
 import uploadRoutes from './routes/upload.js'
+import smartMatchesRoutes from './routes/smartMatches.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -135,6 +136,7 @@ app.use('/api/home-dashboard', homeDashboardRoutes)
 app.use('/api/guided-path', guidedPathRoutes)
 app.use('/api/career-feed', careerFeedRoutes)
 app.use('/api/upload', uploadRoutes)
+app.use('/api/smart-matches', smartMatchesRoutes)
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {

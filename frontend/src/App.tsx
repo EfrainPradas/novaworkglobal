@@ -52,6 +52,7 @@ import AcademyPage from './pages/Academy'
 import ProtectedRoute from './components/auth/ProtectedRoute'
 import ClientSharedResources from './pages/client/ClientSharedResources'
 import StickyBoard from './pages/dashboard/StickyBoard'
+import SmartMatches from './pages/dashboard/SmartMatches'
 import Billing from './pages/dashboard/Billing'
 import SupportAgentWidget from './components/agent/SupportAgentWidget'
 import StickyBoardWidget from './components/sticky-board/StickyBoardWidget'
@@ -280,6 +281,7 @@ function App() {
             <Route path="settings/data" element={<DataManagement />} />
             <Route path="coaching" element={<ClientCoaching />} />
             <Route path="sticky-board" element={<StickyBoard />} />
+            <Route path="smart-matches" element={<SmartMatches />} />
             <Route path="billing" element={<Billing />} />
           </Route>
           
@@ -324,7 +326,7 @@ function App() {
         <Route path="*" element={<NotFound />} />
       </Routes>
       <SupportAgentWidget />
-      <StickyBoardWidget />
+      {/* <StickyBoardWidget /> */}
     </Router>
     </GuidedTourProvider>
   )

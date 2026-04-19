@@ -106,6 +106,7 @@ router.post('/positioning-questionnaire/generate-profile', async (req, res) => {
 
         // 1b. Determine output language (frontend i18n → user_profiles → users → default 'en')
         const frontendLang = req.body?.language
+        console.log(`🌐 Profile generation - frontendLang: ${frontendLang}, req.body:`, JSON.stringify(req.body))
         let langCode = frontendLang
 
         if (!langCode) {
@@ -128,6 +129,7 @@ router.post('/positioning-questionnaire/generate-profile', async (req, res) => {
 
         const langMap = { en: 'English', es: 'Spanish', pt: 'Portuguese', fr: 'French', it: 'Italian' }
         const targetLanguage = langMap[langCode] || 'English'
+        console.log(`🌐 Resolved language: langCode=${langCode}, targetLanguage=${targetLanguage}`)
 
         // 2. Fetch accomplishments / story cards for context
         const { data: stories } = await supabaseAdmin

@@ -1706,7 +1706,9 @@
   "sidebarTools": {
     "title": "Herramientas",
     "myCoaches": "Mis Coaches",
-    "sharedResources": "Recursos Compartidos"
+    "sharedResources": "Recursos Compartidos",
+    "smartMatches": "Coincidencias Inteligentes",
+    "vipBadge": "VIP"
   },
   "novaNextAcademy": {
     "title": "NovaNext Academy",
@@ -2589,5 +2591,59 @@
     "bundleDetail": "1 sesión + 3 emails",
     "learnMore": "Conocer más sobre coaching",
     "noCommitment": "Sin compromisos · Cancela cuando quieras"
+  },
+  "smartMatches": {
+    "title": "Coincidencias Inteligentes",
+    "subtitle": "Empresas seleccionadas donde tu experiencia tiene el mejor encaje. Resultados actualizados bajo demanda.",
+    "refresh": "Actualizar coincidencias",
+    "refreshing": "Actualizando…",
+    "loading": "Cargando…",
+    "noMatchesTitle": "Aún no hay coincidencias",
+    "noMatchesProposed": "Haz clic en \"Actualizar coincidencias\" para generar tu primera lista curada.",
+    "noMatchesOther": "No tienes coincidencias en {{tab}} todavía.",
+    "tabs": {
+      "proposed": "Propuestas",
+      "saved": "Guardadas",
+      "dismissed": "Descartadas"
+    },
+    "card": {
+      "match": "Match",
+      "matchInsight": "Insight del match",
+      "relevantArea": "Área relevante",
+      "whatTheySeek": "Lo que buscan",
+      "positioningAngle": "Ángulo de posicionamiento",
+      "openPositions": "Posiciones abiertas",
+      "emptyRoles": "Detectamos señales de contratación, trayectoria de crecimiento y actividad pública — pero no pudimos extraer automáticamente los puestos actuales (el sitio de carreras puede usar un ATS no estándar).",
+      "basedOnSignalsFooter_one": "Basado en {{count}} señal · Actualizado {{date}}",
+      "basedOnSignalsFooter_other": "Basado en {{count}} señales · Actualizado {{date}}",
+      "basedOnSignalsEmpty_one": "Basado en {{count}} señal, última actualización {{date}}.",
+      "basedOnSignalsEmpty_other": "Basado en {{count}} señales, última actualización {{date}}.",
+      "visitCareerSite": "Ver sitio de carreras",
+      "visitSite": "Ver sitio",
+      "opportunityScore": "Puntuación de oportunidad:",
+      "save": "Guardar",
+      "dismiss": "Descartar",
+      "resumeTailored": "CV personalizado",
+      "viewTailoredResume": "Ver CV personalizado",
+      "tailoringResume": "Personalizando CV…"
+    },
+    "drawer": {
+      "title": "CV personalizado",
+      "generatedRelative": "Generado {{relative}} · Modelo {{model}}",
+      "targetedFor": "Personalizado para",
+      "positioningAngle": "Ángulo de posicionamiento",
+      "whatTheySeek": "Lo que buscan:",
+      "topRole": "Puesto principal:",
+      "professionalSummary": "Resumen profesional",
+      "topBullets": "Logros seleccionados",
+      "regenerate": "Regenerar",
+      "regenerating": "Regenerando…",
+      "close": "Cerrar",
+      "noSummary": "(sin resumen generado)",
+      "loadingResume": "Cargando currículum…",
+      "noResume": "Todavía no hay un currículum en esta cuenta.",
+      "painInterpretation": "Tesis de ataque",
+      "gaps": "Evidencia que hace falta"
+    }
   }
 }

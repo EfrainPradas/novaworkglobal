@@ -19,6 +19,9 @@ import { useState, useEffect } from 'react'
 import type { TierLevel } from '../../types/home-dashboard'
 import SidebarCardButton from './SidebarCardButton'
 import { checkCuratorAccess } from '../../services/careerFeed.service'
+import { supabase } from '../../lib/supabase'
+
+const SMART_MATCHES_PILOT_EMAIL = 'efrain.pradas@gmail.com'
 
 interface HomeSidebarProps {
   userLevel: TierLevel
@@ -41,9 +44,16 @@ export default function HomeSidebar({
   const navigate = useNavigate()
   const location = useLocation()
   const [isCurator, setIsCurator] = useState(false)
+  const [isPilotUser, setIsPilotUser] = useState(false)
 
   useEffect(() => {
     checkCuratorAccess().then(setIsCurator).catch(() => setIsCurator(false))
+  }, [])
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      setIsPilotUser(data.user?.email === SMART_MATCHES_PILOT_EMAIL)
+    }).catch(() => setIsPilotUser(false))
   }, [])
 
   const currentPath = location.pathname
@@ -246,6 +256,11 @@ export default function HomeSidebar({
 
         {/* Tools */}
         {sectionLabel(t('sidebarTools.title'))}
+        {isPilotUser && navItem('/dashboard/smart-matches', <Sparkles size={15} />, t('sidebarTools.smartMatches'), {
+          iconBg: '#EEF6FC', iconColor: '#1F5BAA',
+          badge: t('sidebarTools.vipBadge'),
+          badgeColor: '#1F5BAA',
+        })}
         {navItem('/dashboard/coaching', <UserCheck size={15} />, t('sidebarTools.myCoaches'), {
           iconBg: '#eef6fc', iconColor: '#1F5BAA',
         })}
