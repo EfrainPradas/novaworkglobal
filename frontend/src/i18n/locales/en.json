@@ -51,7 +51,8 @@
       "programs": "Programs",
       "methodology": "Methodology",
       "insights": "Insights",
-      "howitworks": "How It Works"
+      "howitworks": "How It Works",
+      "about": "About"
     }
   },
   "hero": {
@@ -159,6 +160,67 @@
       "terms": "Terms of Service"
     },
     "copyright": "© {{year}} NovaWork Global. All rights reserved."
+  },
+  "about": {
+    "hero": {
+      "badge": "ABOUT NOVAWORK",
+      "title": "Built for people navigating the new world of work",
+      "subtitle": "Experience, vision, and partnership put to work for people managing their careers with intention."
+    },
+    "menu": {
+      "story": "The Story Behind NovaWork",
+      "founders": "Founders & Contributors",
+      "beliefs": "What We Believe",
+      "whoWeServe": "Who We Serve"
+    },
+    "story": {
+      "title": "The Story Behind NovaWork Global",
+      "p1": "NovaWork Global was born from personal experience, professional evolution, and a deep commitment to helping people navigate their careers with more clarity and confidence.",
+      "p2": "After more than 25 years as an international career coach, Andreina Villar made a career change of her own. Even after stepping into a new professional chapter, former clients continued to reach out, referrals kept coming, and one thing became clear: the need for meaningful career support had not gone away.",
+      "p3": "At the same time, she could clearly see where the world of work was heading. She anticipated many of the changes now reshaping careers globally: faster disruption, the growing impact of technology and AI, less linear career paths, and the increasing need for people to manage their professional lives more intentionally.",
+      "p4": "That realization sparked the vision for NovaWork.",
+      "p5": "Andreina wanted to create a way to keep helping people not only through one-to-one coaching, but through a more scalable and empowering model, one that would allow individuals to self-manage their careers with greater structure, confidence, and support.",
+      "p6": "NovaWork became the translation of a lifetime of learning, insight, and real-world career guidance into a modern experience people can use for themselves. It was built to help individuals navigate career transition, reinvention, and growth without having to depend on a coach every step of the way."
+    },
+    "founders": {
+      "title": "Founders and Contributions",
+      "intro": "NovaWork was not built alone.",
+      "p1": "Isabel Perez, Andreina's long-time friend and business partner, was fundamental in helping bring this vision to life and in translating years of knowledge and experience into something others could access in a practical and meaningful way.",
+      "p2": "Efraín Prada was the technical arm of the project, making the build itself possible and helping transform the concept into reality.",
+      "p3": "NovaWork Global is, at its core, the result of experience, foresight, partnership, and a shared belief that people deserve better tools and better support to manage their professional lives. With special gratitude to Militza, Claudio, and Catalina, whose support, presence, and contribution also form part of the spirit behind NovaWork."
+    },
+    "bios": {
+      "andreina": {
+        "name": "Andreina Villar",
+        "role": "Founder & CEO",
+        "bio": "Andreina is the founder of NovaWork Global, a modern career strategy and self-management company created from both expertise and lived reinvention. With more than 25 years of international experience in executive coaching, organizational development, learning, and leadership, she built her career helping professionals navigate transition, growth, and change. In 2022, Andreina made a significant career move of her own, stepping into global procurement leadership at Foundever as Global PBS Procurement Category Director. That shift deepened her conviction that careers can no longer be left to chance. Drawing from decades of coaching thousands of senior professionals and from her own successful change into procurement, she created NovaWork Global as a way to translate her lifelong learning, strategic methodologies, and career insight into a modern experience that helps people self-manage their careers with more clarity, structure, and confidence."
+      },
+      "isabel": {
+        "name": "Isabel Perez",
+        "role": "Co-Founder",
+        "bio": "Isabel is the co-founder of NovaWork Global, bringing together a unique blend of engineering precision, business insight, and career transformation expertise. A Chemical Engineer and Executive Career Consultant with international experience in the service and oil and gas industries, she has built her career at the intersection of organizational change, operational excellence, and human development. From hands-on oil field operations to leading ISO 9000 quality system implementations across cross-functional and matrix organizations, Isabel developed a practical, structured, and results-oriented perspective that now shapes her work in career strategy. She has coached professionals in both English and Spanish on career planning, CV writing, job search methods, networking, and interview preparation, helping them navigate transition with confidence and direction. At NovaWork, Isabel is instrumental in transforming knowledge into meaningful action, guiding people toward greater clarity, stronger positioning, and purposeful professional growth."
+      },
+      "efrain": {
+        "name": "Efraín Prada",
+        "role": "Founding Team · Technical Lead",
+        "bio": "Efraín is part of the founding team of NovaWork Global and the technical arm behind the platform's development. With deep expertise in software architecture, full-stack development, data analytics, and business intelligence, he has been instrumental in turning the NovaWork vision into reality. His background in computer science, combined with experience building scalable applications, optimizing business processes, and developing data-driven solutions, allows him to bring both technical rigor and strategic thinking to the project. At NovaWork, Efraín's work has been essential in creating the digital structure that supports the company's mission, translating ideas into a modern, functional experience designed to help people manage their careers with greater clarity, confidence, and control."
+      }
+    },
+    "beliefs": {
+      "title": "What We Believe",
+      "subtitle": "The principles that guide everything we build",
+      "items": [
+        "Careers should be managed with intention, not left to chance.",
+        "People need more than advice. They need clarity, structure, and practical support they can actually use.",
+        "Reinvention is becoming a necessary part of modern professional life.",
+        "Better positioning changes outcomes.",
+        "The best career support is modern, strategic, and deeply human."
+      ]
+    },
+    "whoWeServe": {
+      "title": "Who We Serve",
+      "body": "We serve people who want to self-manage their careers through moments of change, transition, and growth."
+    }
   },
   "onboarding": {
     "questions": {

@@ -56,7 +56,8 @@
       "programs": "Programmes",
       "methodology": "Méthodologie",
       "insights": "Perspectives",
-      "howitworks": "Comment Ça Marche"
+      "howitworks": "Comment Ça Marche",
+      "about": "À propos"
     }
   },
   "hero": {
@@ -164,6 +165,67 @@
       "terms": "Conditions d'Utilisation"
     },
     "copyright": "© {{year}} NovaWork Global. Tous droits réservés."
+  },
+  "about": {
+    "hero": {
+      "badge": "À PROPOS DE NOVAWORK",
+      "title": "Conçu pour celles et ceux qui naviguent le nouveau monde du travail",
+      "subtitle": "L'expérience, la vision et le partenariat au service de celles et ceux qui pilotent leur carrière avec intention."
+    },
+    "menu": {
+      "story": "L'histoire de NovaWork",
+      "founders": "Fondateurs et collaborateurs",
+      "beliefs": "Ce en quoi nous croyons",
+      "whoWeServe": "À qui nous nous adressons"
+    },
+    "story": {
+      "title": "L'histoire de NovaWork Global",
+      "p1": "NovaWork Global est né d'une expérience personnelle, d'une évolution professionnelle et d'un engagement profond : aider les gens à naviguer leur carrière avec plus de clarté et de confiance.",
+      "p2": "Après plus de 25 ans comme coach de carrière internationale, Andreina Villar a effectué son propre changement de carrière. Même après être entrée dans un nouveau chapitre professionnel, d'anciens clients continuaient à la contacter, les recommandations continuaient à arriver, et une chose devenait claire : le besoin d'un accompagnement professionnel significatif n'avait pas disparu.",
+      "p3": "En même temps, elle voyait clairement où se dirigeait le monde du travail. Elle a anticipé bon nombre des changements qui transforment aujourd'hui les carrières dans le monde : une disruption plus rapide, l'impact croissant de la technologie et de l'IA, des parcours de carrière moins linéaires et le besoin grandissant que chacun pilote sa vie professionnelle de manière plus intentionnelle.",
+      "p4": "Cette prise de conscience a fait naître la vision de NovaWork.",
+      "p5": "Andreina voulait créer une façon de continuer à aider les gens non seulement à travers le coaching individuel, mais à travers un modèle plus évolutif et plus responsabilisant, permettant à chacun de gérer lui-même sa carrière avec plus de structure, de confiance et de soutien.",
+      "p6": "NovaWork est devenu la traduction d'une vie d'apprentissage, de perspicacité et d'accompagnement de carrière dans la vie réelle, en une expérience moderne que les gens peuvent utiliser par eux-mêmes. Il a été conçu pour aider chacun à naviguer la transition, la réinvention et la croissance professionnelles sans avoir à dépendre d'un coach à chaque étape."
+    },
+    "founders": {
+      "title": "Fondateurs et contributions",
+      "intro": "NovaWork n'a pas été construit seul.",
+      "p1": "Isabel Perez, amie de longue date et partenaire d'affaires d'Andreina, a joué un rôle fondamental pour faire vivre cette vision et pour traduire des années de savoir et d'expérience en quelque chose auquel d'autres peuvent accéder de façon pratique et significative.",
+      "p2": "Efraín Prada a été le bras technique du projet, rendant la construction possible et aidant à transformer le concept en réalité.",
+      "p3": "NovaWork Global est, en son essence, le fruit de l'expérience, de la vision, du partenariat et d'une conviction partagée : les gens méritent de meilleurs outils et un meilleur soutien pour gérer leur vie professionnelle. Avec une gratitude particulière envers Militza, Claudio et Catalina, dont le soutien, la présence et la contribution font aussi partie de l'esprit de NovaWork."
+    },
+    "bios": {
+      "andreina": {
+        "name": "Andreina Villar",
+        "role": "Fondatrice et CEO",
+        "bio": "Andreina est la fondatrice de NovaWork Global, une entreprise moderne de stratégie et d'autogestion de carrière née à la fois de son expertise et de sa réinvention vécue. Forte de plus de 25 ans d'expérience internationale en coaching exécutif, développement organisationnel, apprentissage et leadership, elle a bâti sa carrière en aidant des professionnels à naviguer la transition, la croissance et le changement. En 2022, Andreina a elle-même effectué un changement de carrière majeur en prenant la direction mondiale des achats chez Foundever en tant que Global PBS Procurement Category Director. Ce virage a renforcé sa conviction que les carrières ne peuvent plus être laissées au hasard. Forte de décennies passées à accompagner des milliers de cadres supérieurs et de sa propre transition réussie vers les achats, elle a créé NovaWork Global pour traduire un apprentissage de toute une vie, ses méthodologies stratégiques et sa vision de carrière en une expérience moderne qui aide les gens à gérer eux-mêmes leur carrière avec plus de clarté, de structure et de confiance."
+      },
+      "isabel": {
+        "name": "Isabel Perez",
+        "role": "Co-fondatrice",
+        "bio": "Isabel est la co-fondatrice de NovaWork Global et apporte une combinaison unique de précision d'ingénieure, de sens des affaires et d'expertise en transformation de carrière. Ingénieure chimiste et consultante exécutive en carrière avec une expérience internationale dans les industries des services et du pétrole et gaz, elle a construit sa carrière à l'intersection du changement organisationnel, de l'excellence opérationnelle et du développement humain. Des opérations sur le terrain pétrolier à la direction d'implémentations de systèmes qualité ISO 9000 dans des organisations multifonctionnelles et matricielles, Isabel a développé une perspective pratique, structurée et orientée résultats qui façonne aujourd'hui son travail en stratégie de carrière. Elle a accompagné des professionnels en anglais et en espagnol sur la planification de carrière, la rédaction de CV, les méthodes de recherche d'emploi, le networking et la préparation aux entretiens, les aidant à naviguer la transition avec confiance et direction. Chez NovaWork, Isabel joue un rôle clé pour transformer le savoir en action significative, en guidant les gens vers plus de clarté, un meilleur positionnement et une croissance professionnelle porteuse de sens."
+      },
+      "efrain": {
+        "name": "Efraín Prada",
+        "role": "Équipe fondatrice · Responsable technique",
+        "bio": "Efraín fait partie de l'équipe fondatrice de NovaWork Global et constitue le bras technique derrière le développement de la plateforme. Avec une expertise approfondie en architecture logicielle, développement full-stack, analyse de données et business intelligence, il a été déterminant pour transformer la vision de NovaWork en réalité. Sa formation en informatique, combinée à son expérience dans la construction d'applications évolutives, l'optimisation de processus métier et le développement de solutions fondées sur les données, lui permet d'apporter rigueur technique et réflexion stratégique au projet. Chez NovaWork, le travail d'Efraín a été essentiel pour créer la structure numérique qui soutient la mission de l'entreprise, en traduisant les idées en une expérience moderne et fonctionnelle conçue pour aider les gens à gérer leur carrière avec plus de clarté, de confiance et de contrôle."
+      }
+    },
+    "beliefs": {
+      "title": "Ce en quoi nous croyons",
+      "subtitle": "Les principes qui guident tout ce que nous construisons",
+      "items": [
+        "Les carrières doivent être gérées avec intention, pas laissées au hasard.",
+        "Les gens ont besoin de plus que des conseils. Ils ont besoin de clarté, de structure et d'un soutien pratique réellement utilisable.",
+        "La réinvention devient une part nécessaire de la vie professionnelle moderne.",
+        "Un meilleur positionnement change les résultats.",
+        "Le meilleur accompagnement de carrière est moderne, stratégique et profondément humain."
+      ]
+    },
+    "whoWeServe": {
+      "title": "À qui nous nous adressons",
+      "body": "Nous nous adressons aux personnes qui veulent gérer elles-mêmes leur carrière à travers les moments de changement, de transition et de croissance."
+    }
   },
   "onboarding": {
     "questions": {

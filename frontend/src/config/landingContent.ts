@@ -47,7 +47,8 @@ export const headerNav = {
         { label: 'Programs', href: '#programs' },
         { label: 'How It Works', href: '#how-it-works' },
         { label: 'Methodology', href: '#methodology' },
-        { label: 'Insights', href: '#insights' }
+        { label: 'Insights', href: '#insights' },
+        { label: 'About', href: 'about' }
     ],
     primaryCTA: 'Find Your Path →'
 }
