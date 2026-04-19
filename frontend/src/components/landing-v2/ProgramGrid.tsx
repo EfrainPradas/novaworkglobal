@@ -32,7 +32,7 @@ const programs = [
         description: 'Choose this path if you need clarity before committing to a career direction.',
         image: '/images/novaalign_v2.jpg',
         color: 'bg-accent-600',
-        path: '/programs/novalign'
+        path: '/programs/novaalign'
     }
 ]
 
