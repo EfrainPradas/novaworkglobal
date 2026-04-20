@@ -9,8 +9,8 @@ interface FounderBio {
 }
 
 const founders: FounderBio[] = [
-    { id: 'andreina', photo: null, initials: 'AV' },
-    { id: 'isabel', photo: null, initials: 'IP' },
+    { id: 'andreina', photo: '/images/andreina.jpg', initials: 'AV' },
+    { id: 'isabel', photo: '/images/isabel.jpg', initials: 'IP' },
     { id: 'efrain', photo: '/images/efrain.jpg', initials: 'EP' },
 ]
 
