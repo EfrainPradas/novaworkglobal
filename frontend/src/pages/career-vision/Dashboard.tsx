@@ -141,7 +141,7 @@ export default function CareerVisionDashboard() {
                       : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20'
                   }`}
                 >
-                  {section.completed ? t('common.review', 'Revisar') : t('common.start', 'Empezar')}
+                  {section.completed ? t('careerVision.journey.review', 'Review') : t('careerVision.journey.start', 'Start')}
                   <ChevronRight size={18} />
                 </button>
 
@@ -171,13 +171,13 @@ export default function CareerVisionDashboard() {
               onClick={() => navigate('/dashboard/career-vision/summary')}
               className="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-600/20 active:scale-95"
             >
-              {t('careerVision.journey.viewSummary', 'Ver tu Visión de Carrera →')}
+              {t('careerVision.journey.viewCareerVision', 'View Your Career Vision →')}
             </button>
           </div>
         ) : (
           <div className="text-center bg-slate-100 dark:bg-slate-800/50 rounded-2xl p-8 border border-dashed border-slate-300 dark:border-slate-700">
             <p className="text-slate-600 dark:text-slate-400">
-              {t('careerVision.journey.incomplete', 'Completa estas secciones para descubrir tu camino profesional ideal')}
+              {t('careerVision.journey.incomplete', 'Complete these sections to discover your ideal career path')}
             </p>
           </div>
         )}
