@@ -30,11 +30,11 @@ export default function HomeDashboard() {
   const [overviewLoading, setOverviewLoading] = useState(true)
 
   // ── Layout ──────────────────────────────────────────────────
-  const [sidebarWidth, setSidebarWidth] = useState(260)
-  const sidebarWidthRef = useRef(260)
+  const [sidebarWidth, setSidebarWidth] = useState(60)
+  const sidebarWidthRef = useRef(60)
   const [rightWidth, setRightWidth] = useState(280)
   const rightWidthRef = useRef(280)
-  const [rightVisible, setRightVisible] = useState(true)
+  const [rightVisible, setRightVisible] = useState(false)
   const sidebarCollapsed = sidebarWidth <= 80
 
   // ── Mobile Drawer State ─────────────────────────────────────
@@ -135,8 +135,6 @@ export default function HomeDashboard() {
       // Auto-collapse right sidebar when viewport is too narrow for 3 panels
       if (w < 1200 && w >= 768) {
         setRightVisible(false)
-      } else if (w >= 1200) {
-        setRightVisible(true)
       }
     }
     onResize()
