@@ -46,9 +46,8 @@ export const headerNav = {
     menuItems: [
         { label: 'Programs', href: '#programs' },
         { label: 'How It Works', href: '#how-it-works' },
-        { label: 'Methodology', href: '#methodology' },
-        { label: 'Insights', href: '#insights' },
-        { label: 'About', href: 'about' }
+        { label: 'Why NovaWork', href: '#methodology' },
+        { label: 'Insights', href: '#insights' }
     ],
     primaryCTA: 'Find Your Path →'
 }
@@ -66,7 +65,6 @@ export const footerContent = {
     company: {
         title: 'Company',
         links: [
-            { label: 'About', href: '/about' },
             { label: 'Methodology', href: '/methodology' },
             { label: 'Insights', href: '/insights' }
         ]
@@ -149,7 +147,7 @@ export const novaNextPlans: PricingPlan[] = [
             'Accomplishment Bank',
             'Professional Profile (AI)'
         ],
-        emailSupport: 'Standard support',
+        emailSupport: 'Not included',
         liveSessions: 'Not included',
         cta: 'Start Here'
     },
@@ -165,7 +163,7 @@ export const novaNextPlans: PricingPlan[] = [
             'Professional Profile (AI)',
             'Job Application System'
         ],
-        emailSupport: 'Standard support',
+        emailSupport: 'Not included',
         liveSessions: 'Not included',
         badge: 'Most Popular',
         cta: 'Get Momentum'

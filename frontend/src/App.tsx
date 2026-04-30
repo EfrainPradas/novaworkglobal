@@ -120,7 +120,6 @@ import ProgressDashboard from './pages/weekly-reinvention/ProgressDashboard'
 
 // Alternative Landing Page (v2)
 import LandingPageV2 from './pages/LandingPageV2'
-import AboutUs from './pages/AboutUs'
 
 // Settings
 import DataManagement from './pages/settings/DataManagement'
@@ -162,7 +161,6 @@ function App() {
         <Route path="/programs/novanext" element={<NovaNextPage />} />
         <Route path="/programs/novarearchitect" element={<NovaRearchitectPage />} />
         <Route path="/programs/novaalign" element={<NovaAlignPage />} />
-        <Route path="/about" element={<AboutUs />} />
         <Route path="/design-v1" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
