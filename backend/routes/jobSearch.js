@@ -352,6 +352,49 @@ router.post('/recommendations', async (req, res) => {
 
     console.log(`📊 Found ${allJobs.length} total jobs`)
 
+    // 3b. Filter out paywalled sources and prefer free apply links
+    const PAYWALLED_DOMAINS = [
+      'weworkremotely.com',
+      'remoteok.com',
+      'remoteok.io',
+      'flexjobs.com',
+      'authenticjobs.com',
+      'workingnomads.com'
+    ]
+    const isPaywalledLink = (url) => {
+      if (!url) return false
+      const lower = url.toLowerCase()
+      return PAYWALLED_DOMAINS.some(d => lower.includes(d))
+    }
+    const isPaywalledVia = (via) => {
+      if (!via) return false
+      const lower = via.toLowerCase()
+      return PAYWALLED_DOMAINS.some(d => lower.includes(d.split('.')[0]))
+    }
+
+    const beforeFilter = allJobs.length
+    const filteredJobs = allJobs.filter(job => {
+      const options = job.apply_options || []
+      const freeOptions = options.filter(o => !isPaywalledLink(o.link))
+      // Keep job only if at least one non-paywalled apply option exists,
+      // or if `via` itself is free (no apply_options provided)
+      if (options.length === 0) {
+        return !isPaywalledVia(job.via)
+      }
+      return freeOptions.length > 0
+    }).map(job => {
+      // Re-rank apply_options: free first, then keep order
+      const options = job.apply_options || []
+      const freeOptions = options.filter(o => !isPaywalledLink(o.link))
+      return freeOptions.length > 0
+        ? { ...job, apply_options: [...freeOptions, ...options.filter(o => isPaywalledLink(o.link))] }
+        : job
+    })
+
+    console.log(`🚫 Paywall filter: ${beforeFilter} → ${filteredJobs.length} jobs (dropped ${beforeFilter - filteredJobs.length})`)
+    allJobs.length = 0
+    allJobs.push(...filteredJobs)
+
     // If no jobs found, return empty array instead of demo software data
     if (allJobs.length === 0) {
       console.log('⚠️ No jobs found from SerpAPI')
