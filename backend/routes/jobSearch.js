@@ -289,34 +289,38 @@ router.post('/recommendations', async (req, res) => {
     // 1. Extract key preferences from user profile
     const userSkills = userProfile.skills?.join(', ') || ''
     const userPreferences = userProfile.preferences?.ideal_work || {}
-    const userLocation = userProfile.preferences?.geographic_location?.[0] || 'Remote'
+    const userLocations = (userPreferences.geographic_location && userPreferences.geographic_location.length > 0)
+      ? userPreferences.geographic_location
+      : (userProfile.preferences?.geographic_location?.length > 0
+          ? userProfile.preferences.geographic_location
+          : ['Remote'])
     const targetRoles = userProfile.career_vision?.target_roles || []
 
-    // 2. Build comprehensive search queries
+    // 2. Build comprehensive search queries (one per role × location combo)
     const searchQueries = []
 
-    // Add target roles from career vision
     targetRoles.forEach(role => {
-      searchQueries.push(`${role} ${userLocation}`)
+      userLocations.forEach(loc => {
+        searchQueries.push(`${role} ${loc}`)
 
-      // Broaden queries by taking the last 2-3 words (e.g. "Global PBS Procurement Category Director" -> "Procurement Category Director")
-      const words = role.split(' ').filter(w => w.trim().length > 0)
-      if (words.length > 3) {
-        searchQueries.push(`${words.slice(-3).join(' ')} ${userLocation}`)
-        searchQueries.push(`${words.slice(-2).join(' ')} ${userLocation}`)
-      } else if (words.length > 1) {
-        searchQueries.push(`${words.slice(-1).join(' ')} ${userLocation}`)
-      }
+        const words = role.split(' ').filter(w => w.trim().length > 0)
+        if (words.length > 3) {
+          searchQueries.push(`${words.slice(-3).join(' ')} ${loc}`)
+          searchQueries.push(`${words.slice(-2).join(' ')} ${loc}`)
+        } else if (words.length > 1) {
+          searchQueries.push(`${words.slice(-1).join(' ')} ${loc}`)
+        }
+      })
     })
 
-    // Add skills-based queries
+    // Add skills-based queries (first location only to keep query budget reasonable)
     if (userSkills) {
-      searchQueries.push(`${userSkills.split(',').slice(0, 3).join(' ')} ${userLocation}`)
+      searchQueries.push(`${userSkills.split(',').slice(0, 3).join(' ')} ${userLocations[0]}`)
     }
 
-    // Add industry preferences
+    // Add industry preferences (first location only)
     if (userPreferences.industry) {
-      searchQueries.push(`${userPreferences.industry} ${userLocation}`)
+      searchQueries.push(`${userPreferences.industry} ${userLocations[0]}`)
     }
 
     console.log(`🔍 Building ${searchQueries.length} search queries: ${searchQueries.join(', ')}`)

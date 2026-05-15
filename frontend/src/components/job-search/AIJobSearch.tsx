@@ -137,7 +137,10 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                 preferences: {
                     ideal_work: {
                         industry: preferences?.industry_preference || 'Technology',
-                        geographic_location: [preferences?.geographic_preference || 'Remote']
+                        geographic_location: (preferences?.geographic_preference || 'Remote')
+                            .split(',')
+                            .map((s: string) => s.trim())
+                            .filter(Boolean)
                     }
                 }
             }
@@ -358,34 +361,93 @@ export default function AIJobSearch({ children }: { children?: React.ReactNode }
                                         >✏️</button>
                                     </div>
 
-                                    {/* Location field */}
-                                    <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700">
+                                    {/* Location field (multi-chip) */}
+                                    <div className="flex items-center gap-1 bg-gray-50 dark:bg-gray-700/50 px-2 py-0.5 rounded-full border border-gray-100 dark:border-gray-700 flex-wrap">
                                         <span className="text-xs text-gray-500 dark:text-gray-400">in</span>
-                                        {editingLocation ? (
+                                        {userProfile.preferences.ideal_work.geographic_location.map((loc: string, idx: number) => (
+                                            <span key={`${loc}-${idx}`} className="inline-flex items-center gap-1 text-xs font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 px-1.5 py-0.5 rounded-full border border-gray-200 dark:border-gray-600">
+                                                {loc}
+                                                {editingLocation && (
+                                                    <button
+                                                        onClick={() => {
+                                                            setUserProfile((p: any) => ({
+                                                                ...p,
+                                                                preferences: {
+                                                                    ...p.preferences,
+                                                                    ideal_work: {
+                                                                        ...p.preferences.ideal_work,
+                                                                        geographic_location: p.preferences.ideal_work.geographic_location.filter((_: string, i: number) => i !== idx)
+                                                                    }
+                                                                }
+                                                            }))
+                                                        }}
+                                                        className="text-gray-400 hover:text-red-500 leading-none"
+                                                        title="Remove location"
+                                                    >×</button>
+                                                )}
+                                            </span>
+                                        ))}
+                                        {editingLocation && (
                                             <input
                                                 autoFocus
                                                 value={locationInput}
                                                 onChange={e => setLocationInput(e.target.value)}
-                                                onBlur={() => {
-                                                    if (locationInput.trim()) {
-                                                        setUserProfile((p: any) => ({ ...p, preferences: { ...p.preferences, ideal_work: { ...p.preferences.ideal_work, geographic_location: [locationInput.trim()] } } }))
+                                                onKeyDown={e => {
+                                                    if ((e.key === 'Enter' || e.key === ',') && locationInput.trim()) {
+                                                        e.preventDefault()
+                                                        const newLoc = locationInput.trim()
+                                                        setUserProfile((p: any) => ({
+                                                            ...p,
+                                                            preferences: {
+                                                                ...p.preferences,
+                                                                ideal_work: {
+                                                                    ...p.preferences.ideal_work,
+                                                                    geographic_location: [...p.preferences.ideal_work.geographic_location, newLoc]
+                                                                }
+                                                            }
+                                                        }))
+                                                        setLocationInput('')
+                                                    } else if (e.key === 'Escape') {
+                                                        setLocationInput('')
+                                                        setEditingLocation(false)
+                                                    } else if (e.key === 'Backspace' && !locationInput && userProfile.preferences.ideal_work.geographic_location.length > 0) {
+                                                        setUserProfile((p: any) => ({
+                                                            ...p,
+                                                            preferences: {
+                                                                ...p.preferences,
+                                                                ideal_work: {
+                                                                    ...p.preferences.ideal_work,
+                                                                    geographic_location: p.preferences.ideal_work.geographic_location.slice(0, -1)
+                                                                }
+                                                            }
+                                                        }))
                                                     }
-                                                    setEditingLocation(false)
                                                 }}
-                                                onKeyDown={e => { if (e.key === 'Enter') (e.target as HTMLInputElement).blur() }}
-                                                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-none outline-none w-24"
-                                                placeholder="e.g. Remote"
+                                                className="text-xs font-medium text-gray-700 dark:text-gray-300 bg-transparent border-b border-gray-300 dark:border-gray-500 outline-none w-20"
+                                                placeholder="Add..."
                                             />
-                                        ) : (
-                                            <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
-                                                {userProfile.preferences.ideal_work.geographic_location[0]}
-                                            </span>
                                         )}
                                         <button
-                                            onClick={() => { setLocationInput(userProfile.preferences.ideal_work.geographic_location[0] || ''); setEditingLocation(true) }}
+                                            onClick={() => {
+                                                if (editingLocation && locationInput.trim()) {
+                                                    const newLoc = locationInput.trim()
+                                                    setUserProfile((p: any) => ({
+                                                        ...p,
+                                                        preferences: {
+                                                            ...p.preferences,
+                                                            ideal_work: {
+                                                                ...p.preferences.ideal_work,
+                                                                geographic_location: [...p.preferences.ideal_work.geographic_location, newLoc]
+                                                            }
+                                                        }
+                                                    }))
+                                                    setLocationInput('')
+                                                }
+                                                setEditingLocation(!editingLocation)
+                                            }}
                                             className="text-gray-400 hover:text-primary-600 transition-colors text-xs"
-                                            title="Edit location"
-                                        >✏️</button>
+                                            title={editingLocation ? 'Done' : 'Edit locations'}
+                                        >{editingLocation ? '✓' : '✏️'}</button>
                                     </div>
                                 </div>
                             )}
