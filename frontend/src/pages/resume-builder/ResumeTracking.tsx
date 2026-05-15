@@ -54,21 +54,47 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
   const [editingRecruiter, setEditingRecruiter] = useState<string>('')
   const [sortBy, setSortBy] = useState<'date' | 'company' | 'status'>('date')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
+  const [dateFrom, setDateFrom] = useState<string>(() => localStorage.getItem('resumeTracking.dateFrom') || '')
+  const [dateTo, setDateTo] = useState<string>(() => localStorage.getItem('resumeTracking.dateTo') || '')
 
   useEffect(() => {
     checkAuth()
   }, [])
 
   useEffect(() => {
-    if (selectedStatus === 'all') {
-      setFilteredResumes(resumes)
-    } else {
-      setFilteredResumes(resumes.filter(r => {
+    if (dateFrom) localStorage.setItem('resumeTracking.dateFrom', dateFrom)
+    else localStorage.removeItem('resumeTracking.dateFrom')
+  }, [dateFrom])
+
+  useEffect(() => {
+    if (dateTo) localStorage.setItem('resumeTracking.dateTo', dateTo)
+    else localStorage.removeItem('resumeTracking.dateTo')
+  }, [dateTo])
+
+  useEffect(() => {
+    let filtered = resumes
+    if (selectedStatus !== 'all') {
+      filtered = filtered.filter(r => {
         const status = r.application_status || r.status || 'draft'
         return status === selectedStatus
-      }))
+      })
     }
-  }, [selectedStatus, resumes])
+    if (dateFrom) {
+      const fromTs = new Date(dateFrom).getTime()
+      filtered = filtered.filter(r => {
+        const d = r.sent_at || r.created_at
+        return d ? new Date(d).getTime() >= fromTs : false
+      })
+    }
+    if (dateTo) {
+      const toTs = new Date(dateTo).getTime() + 24 * 60 * 60 * 1000 // include the full day
+      filtered = filtered.filter(r => {
+        const d = r.sent_at || r.created_at
+        return d ? new Date(d).getTime() < toTs : false
+      })
+    }
+    setFilteredResumes(filtered)
+  }, [selectedStatus, resumes, dateFrom, dateTo])
 
   // No useEffect for sorting - we'll sort in the render
 
@@ -429,6 +455,36 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
             >
               {sortOrder === 'asc' ? '↑ Ascending' : '↓ Descending'}
             </button>
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">From:</label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-2">To:</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+
+            {(dateFrom || dateTo) && (
+              <button
+                onClick={() => { setDateFrom(''); setDateTo('') }}
+                className="px-3 py-2 text-xs font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                title="Clear date filter"
+              >
+                ✕ Clear dates
+              </button>
+            )}
 
             <div className="ml-auto text-sm text-gray-600 dark:text-gray-400">
               Showing {sortedResumes.length} of {resumes.length} resumes
