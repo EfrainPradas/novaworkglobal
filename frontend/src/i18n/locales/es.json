@@ -209,58 +209,51 @@
   },
   "memberships": {
     "badge": "MEMBRESÍAS",
-    "title": "Elige el nivel de guía que necesitas",
-    "subtitle": "Comienza con claridad, desbloquea inteligencia más profunda y pasa a ejecución completa cuando estés listo.",
+    "title": "Elige el plan que se ajusta a tu próximo paso",
+    "subtitle": "Comienza con Core. Avanza a Advance para una búsqueda estructurada. Elige Apex para el espacio de trabajo profesional completo.",
     "perMonth": "/mes",
+    "starterAccess": "Acceso inicial de 14 días",
+    "thenPerMonth": "Luego ${{price}}/mes",
+    "cancelAnytime": "Cancela en cualquier momento",
     "core": {
       "name": "Core",
       "price": "0",
-      "description": "El punto de partida ideal para profesionales que buscan estructura inicial. Permite autogestionar y explorar tu trayectoria mediante herramientas básicas de posicionamiento y claridad de carrera sin coste alguno.",
+      "description": "Comienza a construir tu base profesional.",
       "features": [
-        "Creación de cuenta y perfil profesional completo",
-        "Career Clarity — exploración básica de trayectoria laboral",
-        "Resume Studio — vista previa en tiempo real y edición de currículum",
-        "Opportunity Hub — vista previa limitada de ofertas de empleo",
-        "Smart Matches — visualización preliminar de compatibilidad de cargos",
-        "Interview Prep — acceso introductorio a preguntas comunes de entrevista",
-        "Smart Guide básico de orientación en la plataforma",
-        "Soporte comunitario en línea por correo"
+        "Configuración profesional",
+        "Resume Studio"
       ],
-      "cta": "Comenzar con Core"
+      "cta": "Comenzar"
     },
     "advance": {
       "name": "Advance",
-      "price": "10",
-      "description": "La opción recomendada para profesionales en búsqueda activa. Desbloquea la capacidad total de exportación, creación de múltiples versiones de CV adaptados por rol y compatibilidad inteligente diaria con ofertas de mercado.",
+      "price": "7",
+      "renewalPrice": "20",
+      "badge": "Más popular",
+      "description": "Construye, rastrea y gestiona tu búsqueda de empleo con más estructura.",
       "features": [
-        "Todo lo incluido en el plan Core, más:",
-        "Resume Studio completo — exportación ilimitada y descarga en PDF/ATS",
-        "Múltiples versiones de currículum estructuradas por cargo u objetivo",
-        "Recomendaciones inteligentes de optimización del perfil",
-        "Acceso completo e ilimitado a Smart Matches diarios",
-        "Opportunity Hub — búsqueda avanzada y rastreo ilimitado de ofertas",
-        "Seguimiento visual de tus aplicaciones y pipeline de procesos",
-        "Interview Prep básico con retroalimentación automatizada",
-        "Soporte preferente por correo electrónico"
+        "Todo lo incluido en Core",
+        "Opportunity Hub — búsqueda avanzada y seguimiento ilimitado",
+        "Seguimiento visual de aplicaciones y etapas del proceso",
+        "My Resumes — base de datos de resumes"
       ],
-      "cta": "Elegir Advance",
-      "badge": "Recomendado"
+      "cta": "Comenzar por $7",
+      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $20/mes. Cancela en cualquier momento."
     },
     "apex": {
       "name": "Apex",
-      "price": "20",
-      "description": "El nivel ejecutivo y premium definitivo. Diseñado para profesionales ambiciosos y líderes que necesitan preparación avanzada y personalizada de entrevistas, sesión estratégica mensual 1:1 y soporte prioritario continuo.",
+      "price": "7",
+      "renewalPrice": "30",
+      "badge": "Premium",
+      "description": "Un espacio de trabajo profesional más completo para un movimiento de carrera serio.",
       "features": [
-        "Todo lo incluido en el plan Advance, más:",
-        "Interview Prep avanzado con simulador interactivo y de IA",
-        "Acceso directo a tu Coach asignado (sección My Coaches)",
-        "Soporte especializado para posicionamiento ejecutivo y narrativas de marca",
-        "Recursos prémium de estrategia profesional y análisis del mercado",
-        "Flujos avanzados de revisión, retroalimentación y aprobación de CV",
-        "1 sesión estratégica en vivo mensual 1:1 de 45 min",
-        "Soporte técnico y estratégico prioritario 24/7"
+        "Todo lo incluido en Advance",
+        "Espacio avanzado de gestión profesional",
+        "Herramientas ampliadas de resume y posicionamiento",
+        "Acceso premium a recursos profesionales de Ascendia"
       ],
-      "cta": "Elegir Apex"
+      "cta": "Comenzar por $7",
+      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $30/mes. Cancela en cualquier momento."
     }
   },
   "faq": {

@@ -204,58 +204,51 @@
   },
   "memberships": {
     "badge": "MEMBERSHIPS",
-    "title": "Choose the level of guidance you need",
-    "subtitle": "Start with clarity, unlock deeper intelligence, and move into full execution when you are ready.",
+    "title": "Choose the plan that fits your next move",
+    "subtitle": "Start building with Core. Step up to Advance for structured search. Go Apex for the full career workspace.",
     "perMonth": "/mo",
+    "starterAccess": "14-Day Starter Access",
+    "thenPerMonth": "Then ${{price}}/month",
+    "cancelAnytime": "Cancel anytime",
     "core": {
       "name": "Core",
       "price": "0",
-      "description": "The ideal starting point for professionals seeking initial structure. Manage and explore your career trajectory with basic positioning and clarity tools at no cost.",
+      "description": "Start building your professional foundation.",
       "features": [
-        "Account creation & complete professional profile setup",
-        "Career Clarity — basic exploration of career tracks",
-        "Resume Studio — real-time preview & basic resume editing",
-        "Opportunity Hub — limited preview of available job matches",
-        "Smart Matches — preliminary match compatibility insights",
-        "Interview Prep — introductory access to common interview questions",
-        "Basic Smart Guide for seamless platform navigation",
-        "Online community support via email"
+        "Professional Setup",
+        "Resume Studio"
       ],
-      "cta": "Start with Core"
+      "cta": "Get Started"
     },
     "advance": {
       "name": "Advance",
-      "price": "10",
-      "description": "The recommended choice for professionals in active job searches. Unlock full PDF/ATS exports, multiple target resumes tailored per role, and daily smart matching.",
+      "price": "7",
+      "renewalPrice": "20",
+      "badge": "Most Popular",
+      "description": "Build, track, and manage your job search with more structure.",
       "features": [
-        "Everything included in the Core plan, plus:",
-        "Full Resume Studio — unlimited export & download in PDF/ATS formats",
-        "Multiple resume versions structured by role or target path",
-        "Smart optimization tips to continuously refine your profile",
-        "Full and unrestricted access to daily Smart Matches",
-        "Opportunity Hub — advanced job search & unlimited tracking",
+        "Everything in Core",
+        "Opportunity Hub — advanced job search and unlimited tracking",
         "Visual application tracking and pipeline stage management",
-        "Basic Interview Prep with automated feedback",
-        "Priority email support"
+        "My Resumes — resume database"
       ],
-      "cta": "Choose Advance",
-      "badge": "Recommended"
+      "cta": "Start for $7",
+      "disclosure": "After 14 days, your plan renews automatically at $20/month. Cancel anytime."
     },
     "apex": {
       "name": "Apex",
-      "price": "20",
-      "description": "The ultimate executive-level tier. Designed for high-impact leaders requiring advanced interview simulation, direct 1:1 strategy sessions, and priority support.",
+      "price": "7",
+      "renewalPrice": "30",
+      "badge": "Premium",
+      "description": "A more complete career workspace for serious career movement.",
       "features": [
-        "Everything included in the Advance plan, plus:",
-        "Advanced Interview Prep with interactive simulator and AI insights",
-        "Direct access to your dedicated Coach (My Coaches dashboard)",
-        "Executive positioning support & bespoke brand narratives",
-        "Premium career strategy resources and market intelligence reports",
-        "Advanced resume review, feedback, and approval workflows",
-        "1 monthly live 1:1 career strategy session (45 minutes)",
-        "Priority 24/7 technical and strategic support"
+        "Everything in Advance",
+        "Advanced career workspace",
+        "Expanded resume and positioning tools",
+        "Premium access to Ascendia career resources"
       ],
-      "cta": "Choose Apex"
+      "cta": "Start for $7",
+      "disclosure": "After 14 days, your plan renews automatically at $30/month. Cancel anytime."
     }
   },
   "faq": {
