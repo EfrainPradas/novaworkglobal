@@ -298,6 +298,87 @@ OUTPUT FORMAT (respond with valid JSON only, all values in the SAME language as 
 })
 
 /**
+ * POST /api/ai/improve-as-car
+ * Simplified CAR improvement: takes confirmed context/challenge, user actions, and result.
+ * Produces improved CAR, resume bullets, and analysis.
+ */
+router.post('/improve-as-car', async (req, res) => {
+  try {
+    const { source_accomplishment_id, context_challenge, actions, result, role_title, company_name, language } = req.body;
+
+    if (!context_challenge) {
+      return res.status(400).json({ error: 'context_challenge is required' });
+    }
+
+    const actionsList = Array.isArray(actions) ? actions.filter(a => a?.trim()) : [];
+    const actionsText = actionsList.length > 0 ? actionsList.map(a => `- ${a.trim()}`).join('\n') : '(No actions provided yet)';
+    const resultText = result?.trim() || '(No results provided yet)';
+
+    // Detect language: check for Spanish diacritics, else default to provided or English
+    const detectedLang = language || (
+      /[áéíóúñ¿¡]/i.test(context_challenge + actionsText + resultText) ? 'Spanish' : 'English'
+    );
+
+    const prompt = `You are an expert executive career coach specializing in the CAR methodology (Context/Challenge → Action → Result).
+
+CRITICAL LANGUAGE RULE: Write ALL output in ${detectedLang}. If the input is in Spanish, respond entirely in Spanish. If English, respond in English. Never switch languages.
+
+You are given a confirmed Context/Challenge (already reviewed by the user) and user-provided Actions and Results. Your job is to:
+
+1. ENHANCE the Actions: make them specific, use strong action verbs, add concrete methods/tools/strategies. If actions are empty or vague, suggest plausible actions based on the context.
+2. ENHANCE the Result: quantify with metrics whenever possible. If no metrics are provided, suggest realistic estimates marked with "(est.)". Make the impact clear and impressive.
+3. GENERATE 2-4 resume-ready bullet points: concise, quantified, ATS-friendly, using strong action verbs in first person without pronouns (${detectedLang === 'Spanish' ? 'e.g. "Lideré", "Implementé"' : 'e.g. "Led", "Implemented"'}).
+4. ANALYZE the accomplishment: identify strengths and suggest specific metrics or improvements that would make it stronger.
+
+CONTEXT/CHALLENGE (confirmed by user):
+${context_challenge}
+
+ROLE: ${role_title || 'Professional'} at ${company_name || 'Company'}
+
+ACTIONS TAKEN:
+${actionsText}
+
+RESULT/IMPACT:
+${resultText}
+
+OUTPUT FORMAT (respond with valid JSON only, no markdown, no explanation outside JSON):
+{
+  "improved_challenge": "slightly polished version of the context/challenge, preserving the user's intent",
+  "improved_actions": ["action 1 with strong verb", "action 2 with strong verb", "action 3 (optional)"],
+  "improved_result": "quantified result with metrics, mark estimates with (est.)",
+  "generated_bullets": ["bullet 1", "bullet 2", "bullet 3"],
+  "analysis": {
+    "strengths": ["strength 1", "strength 2"],
+    "metric_suggestions": ["suggested metric 1", "suggested metric 2"]
+  },
+  "key_improvements": ["improvement 1", "improvement 2"]
+}`;
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        { role: 'system', content: `You are an expert executive career coach. YOU MUST RESPOND IN ${detectedLang.toUpperCase()} ONLY. Always respond with valid JSON only. No markdown, no explanation outside JSON.` },
+        { role: 'user', content: prompt }
+      ],
+      max_tokens: 1000,
+      temperature: 0.7,
+      response_format: { type: 'json_object' }
+    });
+
+    const raw = completion.choices[0]?.message?.content?.trim();
+    if (!raw) throw new Error('No response from AI');
+
+    const improved = JSON.parse(raw);
+
+    res.json({ success: true, improved });
+
+  } catch (error) {
+    console.error('❌ Error in /improve-as-car:', error);
+    res.status(500).json({ error: 'Failed to generate improved CAR', details: error.message });
+  }
+})
+
+/**
  * GET /api/ai/health
  * Health check for AI services
  */

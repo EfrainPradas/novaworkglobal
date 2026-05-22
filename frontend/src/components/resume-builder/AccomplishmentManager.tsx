@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Accomplishment, CARStory, AccomplishmentBankItem } from '../../types/resume'
 import { useTranslation } from 'react-i18next'
 import { AccomplishmentBankSelector } from './AccomplishmentBankSelector'
+import ImproveAsCARModal from './ImproveAsCARModal'
 import { supabase } from '../../lib/supabase'
 import {
   Eye,
@@ -41,6 +42,7 @@ interface AccomplishmentManagerProps {
   onConvertCARStory: (carStoryId: string) => Promise<void>
   onToggleVisibility?: (id: string, isVisible: boolean) => Promise<void>
   onReorderAccomplishments?: (reorderedAccs: Accomplishment[]) => Promise<void>
+  onRefresh?: () => void
 }
 
 export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
@@ -54,7 +56,8 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
   onDeleteAccomplishment,
   onConvertCARStory,
   onToggleVisibility,
-  onReorderAccomplishments
+  onReorderAccomplishments,
+  onRefresh
 }) => {
   const { t } = useTranslation()
   const navigate = useNavigate()
@@ -62,6 +65,8 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
   const [showAddForm, setShowAddForm] = useState(false)
   const [showCARLink, setShowCARLink] = useState(false)
   const [showBankSelector, setShowBankSelector] = useState(false)
+  const [showImproveAsCAR, setShowImproveAsCAR] = useState(false)
+  const [selectedAccForCAR, setSelectedAccForCAR] = useState<Accomplishment | null>(null)
   const [newBullet, setNewBullet] = useState('')
   const [editingId, setEditingId] = useState<string | null>(null)
   const [editingText, setEditingText] = useState('')
@@ -534,6 +539,19 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
                         }
                       </button>
 
+                      {/* Improve as CAR */}
+                      <button
+                        onClick={() => {
+                          setSelectedAccForCAR(acc)
+                          setShowImproveAsCAR(true)
+                        }}
+                        disabled={saving}
+                        className="p-1.5 border border-amber-200 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/40 rounded-lg transition-all"
+                        title={t('improveAsCAR.buttonLabel')}
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                      </button>
+
                       {/* Direct Edit */}
                       <button
                         onClick={() => handleStartEdit(acc)}
@@ -560,6 +578,36 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
             )
           })}
         </ul>
+      )}
+
+      {/* Improve as CAR Modal */}
+      {selectedAccForCAR && (
+        <ImproveAsCARModal
+          isOpen={showImproveAsCAR}
+          onClose={() => { setShowImproveAsCAR(false); setSelectedAccForCAR(null) }}
+          accomplishment={selectedAccForCAR}
+          workExperience={workExperienceData ? {
+            job_title: workExperienceData.job_title,
+            company_name: workExperienceData.company_name,
+            scope_description: undefined,
+          } : undefined}
+          existingCAR={selectedAccForCAR.par_story_id
+            ? carStories.find(s => s.id === selectedAccForCAR.par_story_id) || null
+            : null
+          }
+          onCARSaved={(carStory) => {
+            // Refresh accomplishments list (parent will handle)
+            if (onRefresh) onRefresh()
+          }}
+          onBulletsSaved={(bullets) => {
+            // Add each bullet as a new accomplishment
+            bullets.forEach((text) => {
+              onAddAccomplishment(text)
+            })
+            setShowImproveAsCAR(false)
+            setSelectedAccForCAR(null)
+          }}
+        />
       )}
     </div>
   )

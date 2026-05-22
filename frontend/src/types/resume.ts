@@ -32,7 +32,24 @@ export interface CARStory {
   skills_tags?: string[]
   linked_work_experience_ids?: string[]
 
+  // Improve as CAR fields
+  source_accomplishment_id?: string | null
+  version_number?: number
+  improved_car_data?: ImproveAsCARResult | null
+
   created_at?: string
+}
+
+export interface ImproveAsCARResult {
+  improved_challenge: string
+  improved_actions: string[]
+  improved_result: string
+  generated_bullets: string[]
+  analysis: {
+    strengths: string[]
+    metric_suggestions: string[]
+  }
+  key_improvements: string[]
 }
 
 export interface BulletVariation {
