@@ -10,12 +10,14 @@ interface CARStoryFormProps {
     onSubmit: (carStory: CARStory) => Promise<void>
     onCancel: () => void
     initialData?: CARStory
+    compact?: boolean
 }
 
 export const CARStoryForm: React.FC<CARStoryFormProps> = ({
     onSubmit,
     onCancel,
-    initialData
+    initialData,
+    compact = false
 }) => {
     const { t } = useTranslation()
     const [loading, setLoading] = useState(false)
@@ -194,32 +196,36 @@ export const CARStoryForm: React.FC<CARStoryFormProps> = ({
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Header */}
-            <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-6 rounded-t-lg">
-                <h2 className="text-2xl font-bold">{t('resumeBuilder.par.title')}</h2>
-                <p className="text-primary-100 mt-2">{t('resumeBuilder.par.subtitle')}</p>
-            </div>
+            {!compact && (
+                <>
+                    {/* Header */}
+                    <div className="bg-gradient-to-r from-primary-600 to-primary-700 text-white p-6 rounded-t-lg">
+                        <h2 className="text-2xl font-bold">{t('resumeBuilder.par.title')}</h2>
+                        <p className="text-primary-100 mt-2">{t('resumeBuilder.par.subtitle')}</p>
+                    </div>
 
-            {/* CAR Guide */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 border-x border-b border-blue-100 dark:border-blue-800 p-4 mx-6 -mt-6 mb-6 rounded-b-lg transition-colors duration-200">
-                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{t('carStories.form.carFrameworkTitle', 'The CAR Framework')}</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                    <div>
-                        <span className="font-bold text-orange-600 dark:text-orange-400">{t('carStories.form.contextChallenge', 'Context/Challenge:')}</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.contextChallengeDesc', 'What specific context, problem, or situation did you face?')}</p>
+                    {/* CAR Guide */}
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border-x border-b border-blue-100 dark:border-blue-800 p-4 mx-6 -mt-6 mb-6 rounded-b-lg transition-colors duration-200">
+                        <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{t('carStories.form.carFrameworkTitle', 'The CAR Framework')}</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <span className="font-bold text-orange-600 dark:text-orange-400">{t('carStories.form.contextChallenge', 'Context/Challenge:')}</span>
+                                <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.contextChallengeDesc', 'What specific context, problem, or situation did you face?')}</p>
+                            </div>
+                            <div>
+                                <span className="font-bold text-blue-600 dark:text-blue-400">{t('carStories.form.action', 'Action:')}</span>
+                                <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.actionDesc', 'What specific steps did YOU take to solve it?')}</p>
+                            </div>
+                            <div>
+                                <span className="font-bold text-green-600 dark:text-green-400">{t('carStories.form.result', 'Result:')}</span>
+                                <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.resultDesc', 'What was the quantifiable outcome (metrics)?')}</p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span className="font-bold text-blue-600 dark:text-blue-400">{t('carStories.form.action', 'Action:')}</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.actionDesc', 'What specific steps did YOU take to solve it?')}</p>
-                    </div>
-                    <div>
-                        <span className="font-bold text-green-600 dark:text-green-400">{t('carStories.form.result', 'Result:')}</span>
-                        <p className="text-blue-800 dark:text-blue-200 text-xs mt-1">{t('carStories.form.resultDesc', 'What was the quantifiable outcome (metrics)?')}</p>
-                    </div>
-                </div>
-            </div>
+                </>
+            )}
 
-            <div className="bg-white dark:bg-gray-800 p-6 rounded-b-lg shadow-md space-y-6 transition-colors duration-200">
+            <div className={`${compact ? '' : 'bg-white dark:bg-gray-800 p-6 rounded-b-lg shadow-md'} space-y-6 transition-colors duration-200`}>
                 {/* Error Message */}
                 {error && (
                     <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded">

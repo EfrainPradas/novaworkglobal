@@ -132,6 +132,48 @@ export default function StoryCardsManager({ isNested = false }: { isNested?: boo
         loadData()
     }, [])
 
+    // Handle navigation from Work Experience accomplishments ("Create CAR" / "Edit CAR")
+    useEffect(() => {
+        const editCarId = searchParams.get('editCarId')
+        const createFromAccomp = searchParams.get('createFromAccomp')
+
+        if (editCarId) {
+            // Edit existing CAR story — find it in loaded stories
+            const story = stories.find(s => s.id === editCarId)
+            if (story) {
+                setEditingStory(story)
+                setForm({
+                    ...story,
+                    actions: story.actions?.length ? story.actions : ['', '']
+                })
+                setShowForm(true)
+            }
+            // Clean URL
+            navigate('/dashboard/resume/story-cards', { replace: true })
+        } else if (createFromAccomp) {
+            // Create new CAR story prefilled with work experience data
+            setEditingStory(null)
+            setForm({
+                title: '',
+                role_title: searchParams.get('roleTitle') || '',
+                company_name: searchParams.get('companyName') || '',
+                start_date: searchParams.get('startDate') || '',
+                end_date: searchParams.get('endDate') || '',
+                problem_challenge: searchParams.get('challenge') || '',
+                actions: ['', ''],
+                result: '',
+                metrics: [],
+                will_do_again: false,
+                competencies: [],
+                skills_tags: [],
+                status: 'draft'
+            })
+            setShowForm(true)
+            // Clean URL
+            navigate('/dashboard/resume/story-cards', { replace: true })
+        }
+    }, [stories])
+
     const loadData = async () => {
         try {
             const { data: { user } } = await supabase.auth.getUser()

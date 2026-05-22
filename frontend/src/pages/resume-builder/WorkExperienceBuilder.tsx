@@ -239,10 +239,9 @@ const WorkExperienceBuilder: React.FC = () => {
   const loadCARStories = async (uid: string) => {
     try {
       const { data, error } = await supabase
-        .from('par_stories') // Keeping DB table
+        .from('par_stories')
         .select('*')
         .eq('user_id', uid)
-        .eq('converted_to_bullet', false)
         .order('created_at', { ascending: false })
 
       if (error) throw error
@@ -1061,6 +1060,13 @@ const WorkExperienceBuilder: React.FC = () => {
                     <div className="mt-4 border-t border-gray-100 dark:border-gray-700/60 pt-4">
                       <AccomplishmentManager
                         workExperienceId={exp.id!}
+                        workExperienceData={{
+                          job_title: exp.job_title,
+                          company_name: exp.company_name,
+                          start_date: exp.start_date,
+                          end_date: exp.end_date,
+                          is_current: exp.is_current
+                        }}
                         accomplishments={exp.accomplishments || []}
                         carStories={carStories}
                         roleIndex={index}

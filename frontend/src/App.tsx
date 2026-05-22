@@ -27,6 +27,7 @@ function RecoveryHashHandler() {
 
 // Public Routes
 import Landing from './pages/Landing'
+import ContactPage from './pages/ContactPage'
 import SignUp from './pages/auth/SignUp'
 import SignIn from './pages/auth/SignIn'
 import ForgotPassword from './pages/auth/ForgotPassword'
@@ -162,6 +163,7 @@ function App() {
         <Route path="/programs/novarearchitect" element={<NovaRearchitectPage />} />
         <Route path="/programs/novaalign" element={<NovaAlignPage />} />
         <Route path="/design-v1" element={<Landing />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />

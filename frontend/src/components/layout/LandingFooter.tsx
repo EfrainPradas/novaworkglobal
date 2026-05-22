@@ -57,7 +57,7 @@ export default function LandingFooter() {
                         <ul className="space-y-2 text-sm">
                             <li><Link to="/about" className="hover:text-white transition-colors">{t('footer.links.about')}</Link></li>
                             <li><a href="#" className="hover:text-white transition-colors">{t('footer.links.careers')}</a></li>
-                            <li><a href={`mailto:${contactEmail}`} className="hover:text-white transition-colors break-all">{t('footer.links.contact')}</a></li>
+                            <li><Link to="/contact" className="hover:text-white transition-colors">{t('footer.links.contact')}</Link></li>
                             <li><a href="#" className="hover:text-white transition-colors">{t('footer.links.blog')}</a></li>
                         </ul>
                     </div>
