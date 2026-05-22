@@ -75,18 +75,18 @@ export default function Billing() {
 
   // Auto-trigger checkout when user arrives from signup with a pre-selected plan.
   // If the plan exists in Stripe, redirect to checkout.
-  // If not, activate directly and show confirmation.
+  // If not (Core/free), activate directly and show confirmation.
   useEffect(() => {
     if (pendingPlan && !autoCheckoutTriggered && catalog.length > 0 && !loading && !isActive) {
       const match = catalog.find(
         (p) => p.item_type === 'membership' && p.code === pendingPlan
       )
-      if (match) {
+      if (match?.stripe_price_id) {
         setAutoCheckoutTriggered(true)
         localStorage.removeItem('novawork_pending_plan')
         startCheckout(match.stripe_price_id)
       } else {
-        // Plan not in Stripe catalog yet — activate directly
+        // Free plan (Core) or plan without Stripe price — activate directly
         setAutoCheckoutTriggered(true)
         localStorage.removeItem('novawork_pending_plan')
         activatePlan(pendingPlan)
@@ -243,6 +243,9 @@ export default function Billing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {memberships.map((plan) => {
               const isPopular = plan.code === 'advance'
+              const isPremium = plan.code === 'apex'
+              const isFree = plan.unit_amount === 0
+              const hasTrial = !isFree
               return (
                 <div
                   key={plan.code}
@@ -255,24 +258,57 @@ export default function Billing() {
                       {t('billing.popular')}
                     </span>
                   )}
-                  <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
-                  <div className="mt-2 mb-4 flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-navy">
-                      ${(plan.unit_amount / 100).toFixed(0)}
+                  {isPremium && !isPopular && (
+                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gray-800 text-white text-xs font-medium px-3 py-1 rounded-full">
+                      Premium
                     </span>
-                    <span className="text-gray-500 text-sm">/{t('billing.perMonth')}</span>
-                  </div>
-                  <button
-                    onClick={() => startCheckout(plan.stripe_price_id)}
-                    disabled={actionLoading}
-                    className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
-                      isPopular
-                        ? 'bg-primary-600 text-white hover:bg-primary-700'
-                        : 'bg-gray-100 text-navy hover:bg-gray-200'
-                    }`}
-                  >
-                    {actionLoading ? t('billing.loading') : t('billing.subscribe')}
-                  </button>
+                  )}
+                  <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
+                  {hasTrial ? (
+                    <div className="mt-2 mb-4">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl font-bold text-primary-600">$7</span>
+                      </div>
+                      <p className="text-xs font-medium text-gray-500 mt-0.5">{t('memberships.starterAccess')}</p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {t('memberships.thenPerMonth', { price: (plan.unit_amount / 100).toFixed(0) })}
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="mt-2 mb-4 flex items-baseline gap-1">
+                      <span className="text-3xl font-bold text-navy">Free</span>
+                    </div>
+                  )}
+                  {isFree ? (
+                    <button
+                      onClick={() => {
+                        activatePlan('core')
+                          .then(() => { refetch(); setPlanActivated(true) })
+                          .catch(console.error)
+                      }}
+                      disabled={actionLoading}
+                      className="mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors bg-gray-100 text-navy hover:bg-gray-200"
+                    >
+                      {t('memberships.core.cta')}
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => startCheckout(plan.stripe_price_id)}
+                      disabled={actionLoading}
+                      className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
+                        isPopular
+                          ? 'bg-primary-600 text-white hover:bg-primary-700'
+                          : 'bg-primary-600 text-white hover:bg-primary-700'
+                      }`}
+                    >
+                      {actionLoading ? t('billing.loading') : t(`memberships.${plan.code}.cta`)}
+                    </button>
+                  )}
+                  {hasTrial && (
+                    <p className="text-xs text-gray-400 mt-2 text-center">
+                      {t(`memberships.${plan.code}.disclosure`)}
+                    </p>
+                  )}
                 </div>
               )
             })}
@@ -288,7 +324,7 @@ export default function Billing() {
           {tierLevel(tier) <= 1 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {memberships
-                .filter((p) => p.code !== 'core' && p.code !== 'esenciales')
+                .filter((p) => p.code !== 'core' && p.code !== 'esenciales' && p.stripe_price_id)
                 .map((plan) => {
                   const isPopular = plan.code === 'advance'
                   return (
@@ -304,11 +340,14 @@ export default function Billing() {
                         </span>
                       )}
                       <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
-                      <div className="mt-2 mb-4 flex items-baseline gap-1">
-                        <span className="text-3xl font-bold text-navy">
-                          ${(plan.unit_amount / 100).toFixed(0)}
-                        </span>
-                        <span className="text-gray-500 text-sm">/{t('billing.perMonth')}</span>
+                      <div className="mt-2 mb-4">
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-bold text-primary-600">$7</span>
+                        </div>
+                        <p className="text-xs font-medium text-gray-500 mt-0.5">{t('memberships.starterAccess')}</p>
+                        <p className="text-sm text-gray-500 mt-1">
+                          {t('memberships.thenPerMonth', { price: (plan.unit_amount / 100).toFixed(0) })}
+                        </p>
                       </div>
                       <button
                         onClick={() => startCheckout(plan.stripe_price_id)}
@@ -316,11 +355,14 @@ export default function Billing() {
                         className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
                           isPopular
                             ? 'bg-primary-600 text-white hover:bg-primary-700'
-                            : 'bg-gray-100 text-navy hover:bg-gray-200'
+                            : 'bg-primary-600 text-white hover:bg-primary-700'
                         }`}
                       >
-                        {actionLoading ? t('billing.loading') : t('billing.upgrade')}
+                        {actionLoading ? t('billing.loading') : t(`memberships.${plan.code}.cta`)}
                       </button>
+                      <p className="text-xs text-gray-400 mt-2 text-center">
+                        {t(`memberships.${plan.code}.disclosure`)}
+                      </p>
                     </div>
                   )
                 })}

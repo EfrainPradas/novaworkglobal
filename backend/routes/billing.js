@@ -83,21 +83,50 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
 
     const lineQuantity = isMembership ? 1 : qty;
 
+    // Ascendia paid plans (advance, apex) get 14-day trial at $7
+    const TRIAL_PLANS = ['advance', 'apex'];
+    const isTrialPlan = isMembership && TRIAL_PLANS.includes(catalogEntry.code);
+
+    // Build subscription_data
+    const subscriptionData = {
+      description: catalogEntry.display_name,
+      metadata: {
+        user_id: userId,
+        tier: catalogEntry.code,
+        type: isMembership ? 'membership' : 'addon_recurring',
+        quantity: String(lineQuantity),
+      },
+    };
+
+    if (isTrialPlan) {
+      subscriptionData.trial_period_days = 14;
+      subscriptionData.trial_settings = { end_behavior: { missing_payment_method: 'pause' } };
+    }
+
+    // For trial plans: create a $7 invoice item on the customer before checkout
+    // This charges $7 upfront and the regular price kicks in after the 14-day trial
+    if (isTrialPlan) {
+      await stripe.invoiceItems.create({
+        customer: stripeCustomerId,
+        amount: 700, // $7.00
+        currency: 'usd',
+        description: `14-Day Starter Access — ${catalogEntry.display_name}`,
+        metadata: {
+          user_id: userId,
+          type: 'starter_access',
+          code: catalogEntry.code,
+        },
+      });
+      console.log(`🛒 [CHECKOUT] Created $7 starter access invoice item for ${catalogEntry.code}`);
+    }
+
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
       line_items: [{ price: priceId, quantity: lineQuantity }],
       success_url: successUrl || `${appUrl}/auth/callback`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
-      subscription_data: {
-        description: catalogEntry.display_name,
-        metadata: {
-          user_id: userId,
-          tier: catalogEntry.code,
-          type: isMembership ? 'membership' : 'addon_recurring',
-          quantity: String(lineQuantity),
-        },
-      },
+      subscription_data: subscriptionData,
       metadata: {
         user_id: userId,
         type: isMembership ? 'membership' : 'addon_recurring',
@@ -760,6 +789,10 @@ async function handleInvoicePaid(invoice) {
     core: { email: 0, session: 0 },
     advance: { email: 3, session: 0 },
     apex: { email: 10, session: 1 },
+    // Legacy NovaWork codes map to same credit allocations
+    esenciales: { email: 0, session: 0 },
+    momentum: { email: 3, session: 0 },
+    vanguard: { email: 10, session: 1 },
   };
   const credits = creditMap[membershipCode] || { email: 0, session: 0 };
 

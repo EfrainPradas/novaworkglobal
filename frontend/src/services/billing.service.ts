@@ -54,7 +54,7 @@ export interface PortalResponse {
 export interface PriceCatalogEntry {
   code: string
   item_type: 'membership' | 'addon_recurring' | 'addon_one_time'
-  stripe_price_id: string
+  stripe_price_id: string | null
   display_name: string
   unit_amount: number
   currency: string
