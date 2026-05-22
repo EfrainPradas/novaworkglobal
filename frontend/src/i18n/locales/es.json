@@ -212,6 +212,10 @@
     "title": "Elige el plan que se ajusta a tu próximo paso",
     "subtitle": "Comienza con Core. Avanza a Advance para una búsqueda estructurada. Elige Apex para el espacio de trabajo profesional completo.",
     "perMonth": "/mes",
+    "monthly": "Mensual",
+    "annual": "Anual",
+    "save20": "Ahorra 20%",
+    "billedAnnually": "Facturado anualmente a ${{total}}",
     "starterAccess": "Acceso inicial de 14 días",
     "thenPerMonth": "Luego ${{price}}/mes",
     "cancelAnytime": "Cancela en cualquier momento",
@@ -229,6 +233,8 @@
       "name": "Advance",
       "price": "7",
       "renewalPrice": "20",
+      "annualPrice": "16",
+      "annualTotal": "192",
       "badge": "Más popular",
       "description": "Construye, rastrea y gestiona tu búsqueda de empleo con más estructura.",
       "features": [
@@ -238,12 +244,16 @@
         "My Resumes — base de datos de resumes"
       ],
       "cta": "Comenzar por $7",
-      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $20/mes. Cancela en cualquier momento."
+      "ctaAnnual": "Suscribir anualmente",
+      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $20/mes. Cancela en cualquier momento.",
+      "annualDisclosure": "Facturado $192/año ($16/mes). Ahorras $48 comparado con la facturación mensual. Cancela en cualquier momento."
     },
     "apex": {
       "name": "Apex",
       "price": "7",
       "renewalPrice": "30",
+      "annualPrice": "24",
+      "annualTotal": "288",
       "badge": "Premium",
       "description": "Un espacio de trabajo profesional más completo para un movimiento de carrera serio.",
       "features": [
@@ -253,7 +263,9 @@
         "Acceso premium a recursos profesionales de Ascendia"
       ],
       "cta": "Comenzar por $7",
-      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $30/mes. Cancela en cualquier momento."
+      "ctaAnnual": "Suscribir anualmente",
+      "disclosure": "Después de 14 días, tu plan se renueva automáticamente a $30/mes. Cancela en cualquier momento.",
+      "annualDisclosure": "Facturado $288/año ($24/mes). Ahorras $72 comparado con la facturación mensual. Cancela en cualquier momento."
     }
   },
   "faq": {

@@ -53,8 +53,10 @@ export default function Billing() {
 
   const checkoutStatus = searchParams.get('status')
   const pendingPlan = searchParams.get('pending_plan')
+  const pendingInterval = searchParams.get('interval') || localStorage.getItem('novawork_pending_interval') || 'monthly'
   const [autoCheckoutTriggered, setAutoCheckoutTriggered] = useState(false)
   const [planActivated, setPlanActivated] = useState(false)
+  const [annualBilling, setAnnualBilling] = useState(pendingInterval === 'annual')
 
   // Clean checkout status from URL so browser back button won't revisit Stripe
   useEffect(() => {
@@ -78,17 +80,22 @@ export default function Billing() {
   // If not (Core/free), activate directly and show confirmation.
   useEffect(() => {
     if (pendingPlan && !autoCheckoutTriggered && catalog.length > 0 && !loading && !isActive) {
+      // For annual plans, look up the annual price code (e.g. 'advance' + '_annual')
+      const isAnnual = pendingInterval === 'annual'
+      const lookupCode = isAnnual && pendingPlan !== 'core' ? `${pendingPlan}_annual` : pendingPlan
       const match = catalog.find(
-        (p) => p.item_type === 'membership' && p.code === pendingPlan
+        (p) => p.item_type === 'membership' && p.code === lookupCode
       )
       if (match?.stripe_price_id) {
         setAutoCheckoutTriggered(true)
         localStorage.removeItem('novawork_pending_plan')
+        localStorage.removeItem('novawork_pending_interval')
         startCheckout(match.stripe_price_id)
       } else {
         // Free plan (Core) or plan without Stripe price — activate directly
         setAutoCheckoutTriggered(true)
         localStorage.removeItem('novawork_pending_plan')
+        localStorage.removeItem('novawork_pending_interval')
         activatePlan(pendingPlan)
           .then(() => {
             setPlanActivated(true)
@@ -97,7 +104,7 @@ export default function Billing() {
           .catch(console.error)
       }
     }
-  }, [pendingPlan, autoCheckoutTriggered, catalog, loading, isActive, startCheckout, refetch])
+  }, [pendingPlan, pendingInterval, autoCheckoutTriggered, catalog, loading, isActive, startCheckout, refetch])
 
   // Poll for billing status after successful checkout until plan shows up
   useEffect(() => {
@@ -240,12 +247,47 @@ export default function Billing() {
       {!isActive && memberships.length > 0 && (
         <section>
           <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.chooseMembership')}</h2>
+
+          {/* Monthly/Annual Toggle */}
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <span className={`text-sm font-medium ${!annualBilling ? 'text-navy' : 'text-gray-400'}`}>
+              {t('memberships.monthly')}
+            </span>
+            <button
+              onClick={() => setAnnualBilling(!annualBilling)}
+              className={`relative w-12 h-6 rounded-full transition-colors ${
+                annualBilling ? 'bg-primary-600' : 'bg-gray-300'
+              }`}
+              aria-label="Toggle annual billing"
+            >
+              <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                annualBilling ? 'translate-x-6' : ''
+              }`} />
+            </button>
+            <span className={`text-sm font-medium ${annualBilling ? 'text-navy' : 'text-gray-400'}`}>
+              {t('memberships.annual')}
+            </span>
+            {annualBilling && (
+              <span className="ml-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+                {t('memberships.save20')}
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {memberships.map((plan) => {
+            {memberships.filter(p => !p.code.endsWith('_annual')).map((plan) => {
               const isPopular = plan.code === 'advance'
               const isPremium = plan.code === 'apex'
               const isFree = plan.unit_amount === 0
               const hasTrial = !isFree
+
+              // Find the annual variant of this plan in the catalog
+              const annualVariant = annualBilling && hasTrial
+                ? catalog.find(p => p.code === `${plan.code}_annual`)
+                : null
+
+              const priceId = annualBilling && annualVariant ? annualVariant.stripe_price_id : plan.stripe_price_id
+
               return (
                 <div
                   key={plan.code}
@@ -264,7 +306,17 @@ export default function Billing() {
                     </span>
                   )}
                   <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
-                  {hasTrial ? (
+                  {hasTrial && annualBilling && annualVariant ? (
+                    <div className="mt-2 mb-4">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-3xl font-bold text-primary-600">${(annualVariant.unit_amount / 1200).toFixed(0)}</span>
+                        <span className="text-gray-400 text-sm">{t('memberships.perMonth')}</span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {t('memberships.billedAnnually', { total: (annualVariant.unit_amount / 100).toFixed(0) })}
+                      </p>
+                    </div>
+                  ) : hasTrial ? (
                     <div className="mt-2 mb-4">
                       <div className="flex items-baseline gap-1">
                         <span className="text-3xl font-bold text-primary-600">$7</span>
@@ -293,7 +345,7 @@ export default function Billing() {
                     </button>
                   ) : (
                     <button
-                      onClick={() => startCheckout(plan.stripe_price_id)}
+                      onClick={() => startCheckout(priceId!)}
                       disabled={actionLoading}
                       className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
                         isPopular
@@ -301,10 +353,15 @@ export default function Billing() {
                           : 'bg-primary-600 text-white hover:bg-primary-700'
                       }`}
                     >
-                      {actionLoading ? t('billing.loading') : t(`memberships.${plan.code}.cta`)}
+                      {actionLoading ? t('billing.loading') : (annualBilling ? t(`memberships.${plan.code}.ctaAnnual`) : t(`memberships.${plan.code}.cta`))}
                     </button>
                   )}
-                  {hasTrial && (
+                  {hasTrial && annualBilling && annualVariant && (
+                    <p className="text-xs text-gray-400 mt-2 text-center">
+                      {t(`memberships.${plan.code}.annualDisclosure`)}
+                    </p>
+                  )}
+                  {hasTrial && !annualBilling && (
                     <p className="text-xs text-gray-400 mt-2 text-center">
                       {t(`memberships.${plan.code}.disclosure`)}
                     </p>
@@ -322,11 +379,41 @@ export default function Billing() {
           <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.changePlan')}</h2>
           {/* Core users see upgrade cards directly; paid-tier users use the Stripe portal */}
           {tierLevel(tier) <= 1 ? (
+            <>
+              {/* Monthly/Annual Toggle for upgrades */}
+              <div className="flex items-center justify-center gap-3 mb-6">
+                <span className={`text-sm font-medium ${!annualBilling ? 'text-navy' : 'text-gray-400'}`}>
+                  {t('memberships.monthly')}
+                </span>
+                <button
+                  onClick={() => setAnnualBilling(!annualBilling)}
+                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                    annualBilling ? 'bg-primary-600' : 'bg-gray-300'
+                  }`}
+                  aria-label="Toggle annual billing"
+                >
+                  <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+                    annualBilling ? 'translate-x-6' : ''
+                  }`} />
+                </button>
+                <span className={`text-sm font-medium ${annualBilling ? 'text-navy' : 'text-gray-400'}`}>
+                  {t('memberships.annual')}
+                </span>
+                {annualBilling && (
+                  <span className="ml-1 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold">
+                    {t('memberships.save20')}
+                  </span>
+                )}
+              </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {memberships
-                .filter((p) => p.code !== 'core' && p.code !== 'esenciales' && p.stripe_price_id)
+                .filter((p) => !p.code.endsWith('_annual') && p.code !== 'core' && p.code !== 'esenciales' && p.stripe_price_id)
                 .map((plan) => {
                   const isPopular = plan.code === 'advance'
+                  const annualVariant = annualBilling
+                    ? catalog.find(p => p.code === `${plan.code}_annual`)
+                    : null
+                  const priceId = annualBilling && annualVariant ? annualVariant.stripe_price_id : plan.stripe_price_id
                   return (
                     <div
                       key={plan.code}
@@ -340,17 +427,29 @@ export default function Billing() {
                         </span>
                       )}
                       <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
-                      <div className="mt-2 mb-4">
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-bold text-primary-600">$7</span>
+                      {annualBilling && annualVariant ? (
+                        <div className="mt-2 mb-4">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-3xl font-bold text-primary-600">${(annualVariant.unit_amount / 1200).toFixed(0)}</span>
+                            <span className="text-gray-400 text-sm">{t('memberships.perMonth')}</span>
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            {t('memberships.billedAnnually', { total: (annualVariant.unit_amount / 100).toFixed(0) })}
+                          </p>
                         </div>
-                        <p className="text-xs font-medium text-gray-500 mt-0.5">{t('memberships.starterAccess')}</p>
-                        <p className="text-sm text-gray-500 mt-1">
-                          {t('memberships.thenPerMonth', { price: (plan.unit_amount / 100).toFixed(0) })}
-                        </p>
-                      </div>
+                      ) : (
+                        <div className="mt-2 mb-4">
+                          <div className="flex items-baseline gap-1">
+                            <span className="text-3xl font-bold text-primary-600">$7</span>
+                          </div>
+                          <p className="text-xs font-medium text-gray-500 mt-0.5">{t('memberships.starterAccess')}</p>
+                          <p className="text-sm text-gray-500 mt-1">
+                            {t('memberships.thenPerMonth', { price: (plan.unit_amount / 100).toFixed(0) })}
+                          </p>
+                        </div>
+                      )}
                       <button
-                        onClick={() => startCheckout(plan.stripe_price_id)}
+                        onClick={() => startCheckout(priceId!)}
                         disabled={actionLoading}
                         className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
                           isPopular
@@ -358,15 +457,22 @@ export default function Billing() {
                             : 'bg-primary-600 text-white hover:bg-primary-700'
                         }`}
                       >
-                        {actionLoading ? t('billing.loading') : t(`memberships.${plan.code}.cta`)}
+                        {actionLoading ? t('billing.loading') : (annualBilling ? t(`memberships.${plan.code}.ctaAnnual`) : t(`memberships.${plan.code}.cta`))}
                       </button>
-                      <p className="text-xs text-gray-400 mt-2 text-center">
-                        {t(`memberships.${plan.code}.disclosure`)}
-                      </p>
+                      {annualBilling && annualVariant ? (
+                        <p className="text-xs text-gray-400 mt-2 text-center">
+                          {t(`memberships.${plan.code}.annualDisclosure`)}
+                        </p>
+                      ) : (
+                        <p className="text-xs text-gray-400 mt-2 text-center">
+                          {t(`memberships.${plan.code}.disclosure`)}
+                        </p>
+                      )}
                     </div>
                   )
                 })}
             </div>
+            </>
           ) : (
             <>
               <p className="text-sm text-gray-500 mb-4">

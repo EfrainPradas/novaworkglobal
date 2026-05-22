@@ -43,7 +43,7 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
     // Validate price exists in our catalog as a membership or recurring addon
     const { data: catalogEntry } = await supabaseAdmin
       .from('billing_price_catalog')
-      .select('code, item_type, display_name')
+      .select('code, item_type, display_name, unit_amount')
       .eq('stripe_price_id', priceId)
       .single();
 
@@ -83,13 +83,15 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
 
     const lineQuantity = isMembership ? 1 : qty;
 
-    // Ascendia paid plans (advance, apex): $7 for first 14 days, then prorated remainder
+    // Ascendia monthly paid plans (advance, apex): $7 for first 14 days, then prorated remainder
     // Model: first month total = regular monthly price, split into $7 starter + remainder
     //   Advance: $7 + $13 = $20 first month, then $20/month
     //   Apex:    $7 + $23 = $30 first month, then $30/month
     // Implementation: one-time coupon discounts the first invoice from regular price to $7
+    // Annual plans (advance_annual, apex_annual): no trial/coupon, straightforward subscription
     const STARTER_ACCESS_PLANS = { advance: 1300, apex: 2300 }; // discount in cents
-    const isStarterPlan = isMembership && STARTER_ACCESS_PLANS[catalogEntry.code] != null;
+    const isAnnualPlan = catalogEntry.code.endsWith('_annual');
+    const isStarterPlan = isMembership && !isAnnualPlan && STARTER_ACCESS_PLANS[catalogEntry.code] != null;
 
     // Build subscription_data
     const subscriptionData = {

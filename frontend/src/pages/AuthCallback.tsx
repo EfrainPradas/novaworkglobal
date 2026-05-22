@@ -67,6 +67,7 @@ export default function AuthCallback() {
 
         // Check if user selected a paid plan from landing page
         const pendingPlan = localStorage.getItem('novawork_pending_plan')
+        const pendingInterval = localStorage.getItem('novawork_pending_interval') || 'monthly'
 
         // Activate Core (free) plan for users without a pending paid plan
         // so ProtectedRoute doesn't block them at the billing page
@@ -82,7 +83,8 @@ export default function AuthCallback() {
         setTimeout(() => {
           if (pendingPlan) {
             // User chose a paid plan before signing up — take them to billing to complete checkout
-            window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
+            const intervalParam = pendingInterval !== 'monthly' ? `&interval=${pendingInterval}` : ''
+            window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}${intervalParam}`
           } else if (!contactInfoComplete) {
             // New user or user without contact info — set up contact info first
             window.location.href = '/dashboard/resume/contact-info'

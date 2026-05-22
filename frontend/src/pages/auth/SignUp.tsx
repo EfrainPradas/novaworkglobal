@@ -23,9 +23,11 @@ export default function SignUp() {
       if (!user) return
 
       const pendingPlan = localStorage.getItem('novawork_pending_plan')
+      const pendingInterval = localStorage.getItem('novawork_pending_interval') || 'monthly'
 
       if (pendingPlan) {
-        window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
+        const intervalParam = pendingInterval !== 'monthly' ? `&interval=${pendingInterval}` : ''
+        window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}${intervalParam}`
         return
       }
 
@@ -114,8 +116,10 @@ export default function SignUp() {
         if (data.session) {
           // Auto-confirm enabled: redirect immediately
           const plan = localStorage.getItem('novawork_pending_plan')
+          const planInterval = localStorage.getItem('novawork_pending_interval') || 'monthly'
           if (plan) {
-            window.location.href = `/dashboard/billing?pending_plan=${plan}`
+            const intervalParam = planInterval !== 'monthly' ? `&interval=${planInterval}` : ''
+            window.location.href = `/dashboard/billing?pending_plan=${plan}${intervalParam}`
           } else {
             try {
               await activateCorePlan()

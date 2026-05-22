@@ -207,6 +207,10 @@
     "title": "Choose the plan that fits your next move",
     "subtitle": "Start building with Core. Step up to Advance for structured search. Go Apex for the full career workspace.",
     "perMonth": "/mo",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "save20": "Save 20%",
+    "billedAnnually": "Billed annually at ${{total}}",
     "starterAccess": "14-Day Starter Access",
     "thenPerMonth": "Then ${{price}}/month",
     "cancelAnytime": "Cancel anytime",
@@ -224,6 +228,8 @@
       "name": "Advance",
       "price": "7",
       "renewalPrice": "20",
+      "annualPrice": "16",
+      "annualTotal": "192",
       "badge": "Most Popular",
       "description": "Build, track, and manage your job search with more structure.",
       "features": [
@@ -233,12 +239,16 @@
         "My Resumes — resume database"
       ],
       "cta": "Start for $7",
-      "disclosure": "After 14 days, your plan renews automatically at $20/month. Cancel anytime."
+      "ctaAnnual": "Subscribe annually",
+      "disclosure": "After 14 days, your plan renews automatically at $20/month. Cancel anytime.",
+      "annualDisclosure": "Billed $192/year ($16/mo). Save $48 compared to monthly billing. Cancel anytime."
     },
     "apex": {
       "name": "Apex",
       "price": "7",
       "renewalPrice": "30",
+      "annualPrice": "24",
+      "annualTotal": "288",
       "badge": "Premium",
       "description": "A more complete career workspace for serious career movement.",
       "features": [
@@ -248,7 +258,9 @@
         "Premium access to Ascendia career resources"
       ],
       "cta": "Start for $7",
-      "disclosure": "After 14 days, your plan renews automatically at $30/month. Cancel anytime."
+      "ctaAnnual": "Subscribe annually",
+      "disclosure": "After 14 days, your plan renews automatically at $30/month. Cancel anytime.",
+      "annualDisclosure": "Billed $288/year ($24/mo). Save $72 compared to monthly billing. Cancel anytime."
     }
   },
   "faq": {

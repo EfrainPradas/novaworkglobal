@@ -1,11 +1,17 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { Check } from 'lucide-react'
 
+const ANNUAL_DISCOUNT = 0.20
+
+const MONTHLY_PRICES: Record<string, number> = { advance: 20, apex: 30 }
+
 export default function MembershipSection() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const [annual, setAnnual] = useState(false)
 
   const plans = [
     {
@@ -29,6 +35,7 @@ export default function MembershipSection() {
       featured: true,
       badge: t('memberships.advance.badge'),
       disclosure: t('memberships.advance.disclosure'),
+      annualDisclosure: t('memberships.advance.annualDisclosure'),
     },
     {
       key: 'apex',
@@ -41,8 +48,21 @@ export default function MembershipSection() {
       featured: false,
       badge: t('memberships.apex.badge'),
       disclosure: t('memberships.apex.disclosure'),
+      annualDisclosure: t('memberships.apex.annualDisclosure'),
     },
   ]
+
+  const getAnnualPrice = (key: string) => {
+    const monthly = MONTHLY_PRICES[key]
+    if (!monthly) return null
+    return Math.round(monthly * 12 * (1 - ANNUAL_DISCOUNT))
+  }
+
+  const getMonthlyEquivalent = (key: string) => {
+    const annualTotal = getAnnualPrice(key)
+    if (!annualTotal) return null
+    return (annualTotal / 12).toFixed(0)
+  }
 
   return (
     <section id="memberships" className="py-20 px-4 bg-[var(--ascendia-bg)]">
@@ -65,7 +85,7 @@ export default function MembershipSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-[var(--ascendia-text)] mb-6">
             <span className="font-serif">{t('memberships.title')}</span>
@@ -75,10 +95,43 @@ export default function MembershipSection() {
           </p>
         </motion.div>
 
+        {/* Billing Toggle */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="flex items-center justify-center gap-3 mb-12"
+        >
+          <span className={`text-sm font-medium ${!annual ? 'text-[var(--ascendia-text)]' : 'text-[var(--ascendia-text-muted)]'}`}>
+            {t('memberships.monthly')}
+          </span>
+          <button
+            onClick={() => setAnnual(!annual)}
+            className={`relative w-12 h-6 rounded-full transition-colors ${
+              annual ? 'bg-[var(--ascendia-primary)]' : 'bg-[var(--ascendia-border-soft)]'
+            }`}
+            aria-label="Toggle annual billing"
+          >
+            <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform ${
+              annual ? 'translate-x-6' : ''
+            }`} />
+          </button>
+          <span className={`text-sm font-medium ${annual ? 'text-[var(--ascendia-text)]' : 'text-[var(--ascendia-text-muted)]'}`}>
+            {t('memberships.annual')}
+          </span>
+          {annual && (
+            <span className="ml-1 px-2 py-0.5 rounded-full bg-[var(--ascendia-accent)] text-[var(--ascendia-primary)] text-xs font-semibold">
+              {t('memberships.save20')}
+            </span>
+          )}
+        </motion.div>
+
         {/* Plans Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {plans.map((plan, index) => {
             const isPaid = plan.key !== 'core'
+            const annualPrice = getAnnualPrice(plan.key)
+            const monthlyEquiv = getMonthlyEquivalent(plan.key)
 
             return (
               <motion.div
@@ -109,7 +162,17 @@ export default function MembershipSection() {
 
                   {/* Price Display */}
                   <div className="mb-2">
-                    {isPaid ? (
+                    {isPaid && annual && annualPrice ? (
+                      <>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-5xl font-bold text-[var(--ascendia-primary)]">${monthlyEquiv}</span>
+                          <span className="text-[var(--ascendia-text-muted)]">{t('memberships.perMonth')}</span>
+                        </div>
+                        <p className="text-sm text-[var(--ascendia-text-muted)] mt-1">
+                          {t('memberships.billedAnnually', { total: annualPrice })}
+                        </p>
+                      </>
+                    ) : isPaid ? (
                       <>
                         <div className="flex items-baseline gap-1">
                           <span className="text-5xl font-bold text-[var(--ascendia-primary)]">${plan.price}</span>
@@ -145,8 +208,10 @@ export default function MembershipSection() {
                   {/* CTA Button */}
                   <button
                     onClick={() => {
+                      const billingInterval = annual ? 'annual' : 'monthly'
                       localStorage.setItem('novawork_pending_plan', plan.key)
-                      navigate(`/signup?plan=${plan.key}`)
+                      localStorage.setItem('novawork_pending_interval', billingInterval)
+                      navigate(`/signup?plan=${plan.key}&interval=${billingInterval}`)
                     }}
                     className={`w-full py-3.5 rounded-full text-sm font-semibold transition-all ${
                       plan.featured
@@ -156,11 +221,16 @@ export default function MembershipSection() {
                           : 'bg-[var(--ascendia-accent)] text-[var(--ascendia-primary)] hover:bg-[var(--ascendia-accent-hover)]'
                     }`}
                   >
-                    {plan.cta}
+                    {isPaid && annual ? (plan as any).ctaAnnual || plan.cta : plan.cta}
                   </button>
 
                   {/* Disclosure */}
-                  {plan.disclosure && (
+                  {isPaid && annual && plan.annualDisclosure && (
+                    <p className="text-xs text-[var(--ascendia-text-muted)] mt-3 text-center leading-relaxed">
+                      {plan.annualDisclosure}
+                    </p>
+                  )}
+                  {isPaid && !annual && plan.disclosure && (
                     <p className="text-xs text-[var(--ascendia-text-muted)] mt-3 text-center leading-relaxed">
                       {plan.disclosure}
                     </p>
