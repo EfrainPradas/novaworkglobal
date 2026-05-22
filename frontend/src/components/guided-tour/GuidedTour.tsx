@@ -84,7 +84,7 @@ export const GuidedTour: React.FC = () => {
             transition={springTransition}
             rx="8"
             fill="transparent"
-            stroke="var(--primary-500, #1F5BAA)"
+            stroke="var(--primary-500, #0E4B2B)"
             strokeWidth="2"
             strokeDasharray="4 4"
             className="dark:stroke-primary-400"
@@ -102,7 +102,7 @@ export const GuidedTour: React.FC = () => {
           className="absolute"
           style={{
             borderRadius: '8px',
-            boxShadow: '0 0 0 4px rgba(31, 91, 170, 0.2)',
+            boxShadow: '0 0 0 4px rgba(14, 75, 43, 0.2)',
             pointerEvents: 'none',
           }}
         />

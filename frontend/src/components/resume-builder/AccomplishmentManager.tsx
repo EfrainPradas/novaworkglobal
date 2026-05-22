@@ -3,25 +3,45 @@ import { Accomplishment, CARStory, AccomplishmentBankItem } from '../../types/re
 import { useTranslation } from 'react-i18next'
 import { AccomplishmentBankSelector } from './AccomplishmentBankSelector'
 import { supabase } from '../../lib/supabase'
+import { 
+  Eye, 
+  EyeOff, 
+  ArrowUp, 
+  ArrowDown, 
+  Trash2, 
+  Edit2, 
+  Check, 
+  X, 
+  AlertTriangle, 
+  Plus, 
+  Sparkles,
+  Database
+} from 'lucide-react'
 
 interface AccomplishmentManagerProps {
   workExperienceId: string
   accomplishments: Accomplishment[]
   carStories: CARStory[]
+  roleIndex: number
   onAddAccomplishment: (bullet: string, carStoryId?: string) => Promise<void>
   onUpdateAccomplishment: (id: string, bullet: string) => Promise<void>
   onDeleteAccomplishment: (id: string) => Promise<void>
   onConvertCARStory: (carStoryId: string) => Promise<void>
+  onToggleVisibility?: (id: string, isVisible: boolean) => Promise<void>
+  onReorderAccomplishments?: (reorderedAccs: Accomplishment[]) => Promise<void>
 }
 
 export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
   workExperienceId,
   accomplishments,
   carStories,
+  roleIndex,
   onAddAccomplishment,
   onUpdateAccomplishment,
   onDeleteAccomplishment,
-  onConvertCARStory
+  onConvertCARStory,
+  onToggleVisibility,
+  onReorderAccomplishments
 }) => {
   const { t } = useTranslation()
   const [userId, setUserId] = useState<string | null>(null)
@@ -107,7 +127,7 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm(t('common.deleteConfirm'))) return
+    if (!confirm(t('common.deleteConfirm', 'Are you sure you want to remove this accomplishment bullet? This will only remove it from this resume, preserving the master copy.'))) return
 
     setSaving(true)
     try {
@@ -119,39 +139,122 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
     }
   }
 
+  const handleToggleVisible = async (acc: Accomplishment) => {
+    if (!acc.id || !onToggleVisibility) return
+    const nextVisibility = acc.is_visible === false ? true : false
+    
+    setSaving(true)
+    try {
+      await onToggleVisibility(acc.id, nextVisibility)
+    } catch (error) {
+      console.error('Error toggling visibility:', error)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleMoveUp = async (index: number) => {
+    if (index === 0 || !onReorderAccomplishments) return
+    const reordered = [...sortedAccomplishments]
+    // Swap items
+    const temp = reordered[index]
+    reordered[index] = reordered[index - 1]
+    reordered[index - 1] = temp
+
+    setSaving(true)
+    try {
+      await onReorderAccomplishments(reordered)
+    } catch (error) {
+      console.error('Error moving accomplishment up:', error)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleMoveDown = async (index: number) => {
+    if (index === sortedAccomplishments.length - 1 || !onReorderAccomplishments) return
+    const reordered = [...sortedAccomplishments]
+    // Swap items
+    const temp = reordered[index]
+    reordered[index] = reordered[index + 1]
+    reordered[index + 1] = temp
+
+    setSaving(true)
+    try {
+      await onReorderAccomplishments(reordered)
+    } catch (error) {
+      console.error('Error moving accomplishment down:', error)
+    } finally {
+      setSaving(false)
+    }
+  }
+
   const sortedAccomplishments = [...accomplishments].sort(
     (a, b) => (a.order_index || 0) - (b.order_index || 0)
   )
 
+  const visibleCount = sortedAccomplishments.filter(a => a.is_visible !== false).length
+
+  // Warning limits: Current/first role (index 0) limit is 6, previous (index 1) is 5, older (index >= 2) is 3
+  const recommendationLimit = roleIndex === 0 ? 6 : roleIndex === 1 ? 5 : 3
+  const isOverLimit = visibleCount > recommendationLimit
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h4 className="font-semibold text-gray-900 dark:text-white">
-          {t('resumeBuilder.workExperience.accomplishments')}
-        </h4>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 dark:border-gray-700/60 pb-3">
+        <div>
+          <h4 className="font-bold text-gray-900 dark:text-white text-base">
+            ✨ {t('resumeBuilder.workExperience.accomplishments', 'Role Accomplishments')}
+          </h4>
+          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+            {t('resumeBuilder.workExperience.accomplishmentsDesc', 'Select and polish bullet points for this specific resume.')}
+          </p>
+        </div>
         <div className="flex flex-wrap gap-2">
           {userId && (
             <button
               onClick={() => setShowBankSelector(true)}
-              className="px-3 py-1 text-sm bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/50 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/50 rounded-lg hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors shadow-sm"
             >
-              📊 {t('resumeBuilder.workExperience.pickFromBank')}
+              <Database className="w-3.5 h-3.5" />
+              {t('resumeBuilder.workExperience.pickFromBank', 'Pick From Bank')}
             </button>
           )}
           <button
             onClick={() => setShowCARLink(!showCARLink)}
-            className="px-3 py-1 text-sm bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/50 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-400 border border-purple-200 dark:border-purple-900/50 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors shadow-sm"
           >
-            ⭐ {t('resumeBuilder.workExperience.linkPARStory')}
+            <Sparkles className="w-3.5 h-3.5" />
+            {t('resumeBuilder.workExperience.linkPARStory', 'Link CAR Story')}
           </button>
           <button
             onClick={() => setShowAddForm(!showAddForm)}
-            className="px-3 py-1 text-sm bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-lg hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors shadow-sm"
           >
-            + {t('resumeBuilder.workExperience.addBullet')}
+            <Plus className="w-3.5 h-3.5" />
+            {t('resumeBuilder.workExperience.addBullet', 'Add Manual')}
           </button>
         </div>
       </div>
+
+      {/* Recommended Bullet Count Warning Banner */}
+      {isOverLimit && (
+        <div className="flex gap-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/50 p-3.5 rounded-xl text-amber-800 dark:text-amber-300 text-sm shadow-sm transition-all duration-300">
+          <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5 animate-pulse" />
+          <div>
+            <p className="font-semibold text-xs uppercase tracking-wide text-amber-700 dark:text-amber-400">
+              {t('resumeBuilder.workExperience.limitWarningTitle', 'Accomplishment Count Warning')}
+            </p>
+            <p className="text-xs text-amber-800 dark:text-amber-300 mt-1 leading-relaxed">
+              {roleIndex === 0
+                ? t('resumeBuilder.workExperience.limitWarningCurrent', `We recommend a maximum of 6 achievements (currently ${visibleCount}) for your current or most recent role to keep it readable and high-impact.`)
+                : roleIndex === 1
+                ? t('resumeBuilder.workExperience.limitWarningPrevious', `We recommend a maximum of 5 achievements (currently ${visibleCount}) for this previous role to maintain a balanced layout.`)
+                : t('resumeBuilder.workExperience.limitWarningOlder', `We recommend a maximum of 3 achievements (currently ${visibleCount}) for older roles to emphasize your more recent, higher-impact accomplishments.`)}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Accomplishment Bank Selector Modal */}
       {userId && (
@@ -165,77 +268,92 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
 
       {/* Link CAR Story */}
       {showCARLink && (
-        <div className="bg-purple-50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800 rounded-lg p-4">
-          <h5 className="font-medium text-purple-900 dark:text-purple-300 mb-2">{t('resumeBuilder.workExperience.selectCARStory')}</h5>
+        <div className="bg-purple-50/50 dark:bg-purple-950/10 border border-purple-200/60 dark:border-purple-900/40 rounded-xl p-4 transition-all shadow-inner">
+          <div className="flex items-center justify-between mb-3">
+            <h5 className="font-semibold text-purple-900 dark:text-purple-300 text-sm">
+              ⭐ {t('resumeBuilder.workExperience.selectCARStory', 'Convert Accomplishment Story to Bullet')}
+            </h5>
+            <button 
+              onClick={() => setShowCARLink(false)}
+              className="text-purple-600 dark:text-purple-400 hover:text-purple-800 dark:hover:text-purple-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
           {carStories.length === 0 ? (
-            <p className="text-sm text-purple-700 dark:text-purple-400">
-              {t('resumeBuilder.workExperience.noUnconvertedStories')}
+            <p className="text-xs text-purple-700 dark:text-purple-400 italic">
+              {t('resumeBuilder.workExperience.noUnconvertedStories', 'No unconverted accomplishment stories found. Build some in the CAR Builder to import them here!')}
             </p>
           ) : (
-            <div className="space-y-2">
+            <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
               {carStories.map((story) => (
                 <div
                   key={story.id}
-                  className="bg-white dark:bg-gray-800 p-3 rounded border border-purple-200 dark:border-purple-800 hover:border-purple-400 dark:hover:border-purple-600 cursor-pointer"
+                  className="bg-white dark:bg-gray-800 p-3 rounded-lg border border-purple-200 dark:border-purple-900/60 hover:border-purple-400 dark:hover:border-purple-700 cursor-pointer transition-all shadow-sm flex justify-between items-center gap-3"
                   onClick={() => handleLinkCAR(story.id!)}
                 >
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{story.role_title} at {story.company_name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">
-                        {story.problem_challenge}
-                      </p>
-                    </div>
-                    <button
-                      disabled={saving}
-                      className="ml-2 px-3 py-1 text-xs bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
-                    >
-                      {t('resumeBuilder.workExperience.convert')}
-                    </button>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-gray-900 dark:text-gray-100 truncate">
+                      {story.role_title} {story.company_name ? `@ ${story.company_name}` : ''}
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2 leading-relaxed">
+                      <strong>C:</strong> {story.problem_challenge} <br/>
+                      <strong>R:</strong> {story.result}
+                    </p>
                   </div>
+                  <button
+                    disabled={saving}
+                    className="flex-shrink-0 px-3 py-1.5 text-xs font-semibold bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors shadow-sm disabled:opacity-50"
+                  >
+                    {t('resumeBuilder.workExperience.convert', 'Convert')}
+                  </button>
                 </div>
               ))}
             </div>
           )}
-          <button
-            onClick={() => setShowCARLink(false)}
-            className="mt-2 text-sm text-purple-700 dark:text-purple-400 hover:text-purple-900 dark:hover:text-purple-200"
-          >
-            {t('common.cancel')}
-          </button>
         </div>
       )}
 
       {/* Add Manual Bullet */}
       {showAddForm && (
-        <div className="bg-blue-50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-          <h5 className="font-medium text-blue-900 dark:text-blue-300 mb-2">{t('resumeBuilder.workExperience.addBulletTitle')}</h5>
-          <p className="text-xs text-blue-700 dark:text-blue-400 mb-2">
-            {t('resumeBuilder.workExperience.bulletHelp')}
+        <div className="bg-blue-50/50 dark:bg-blue-950/10 border border-blue-200/60 dark:border-blue-900/40 rounded-xl p-4 transition-all shadow-inner">
+          <div className="flex items-center justify-between mb-2">
+            <h5 className="font-semibold text-blue-900 dark:text-blue-300 text-sm">
+              ✍️ {t('resumeBuilder.workExperience.addBulletTitle', 'Add Custom Accomplishment')}
+            </h5>
+            <button 
+              onClick={() => { setShowAddForm(false); setNewBullet('') }}
+              className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-200"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+          <p className="text-xs text-blue-700 dark:text-blue-400 mb-3 leading-relaxed">
+            {t('resumeBuilder.workExperience.bulletHelp', 'State your impact clearly. Use the format: Action Verb + Project + Quantified Metric/Business Result (e.g., "Led team of 4 to deliver Stripe payments in 2 days, boosting sales conversion by 18%").')}
           </p>
           <textarea
             value={newBullet}
             onChange={(e) => setNewBullet(e.target.value)}
             rows={3}
-            className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-blue-300 dark:border-blue-800 rounded-lg focus:ring-2 focus:ring-blue-500 mb-2 dark:text-white"
-            placeholder={t('resumeBuilder.workExperience.bulletPlaceholder')}
+            className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-blue-200 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm dark:text-white transition-all"
+            placeholder={t('resumeBuilder.workExperience.bulletPlaceholder', 'e.g., Speheaded cloud migration project, reducing infrastructure costs by 22% ($45k/yr) while improving system uptime to 99.99%')}
           />
-          <div className="flex gap-2">
-            <button
-              onClick={handleAddManual}
-              disabled={saving || !newBullet.trim()}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
-            >
-              {saving ? t('resumeBuilder.workExperience.adding') : t('resumeBuilder.workExperience.addBullet')}
-            </button>
+          <div className="flex gap-2 mt-3 justify-end">
             <button
               onClick={() => {
                 setShowAddForm(false)
                 setNewBullet('')
               }}
-              className="px-4 py-2 border border-blue-300 dark:border-blue-800 text-blue-700 dark:text-blue-400 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20"
+              className="px-3.5 py-1.5 text-xs font-semibold border border-blue-200 dark:border-gray-700 text-blue-700 dark:text-blue-400 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
             >
-              {t('common.cancel')}
+              {t('common.cancel', 'Cancel')}
+            </button>
+            <button
+              onClick={handleAddManual}
+              disabled={saving || !newBullet.trim()}
+              className="px-4 py-1.5 text-xs font-semibold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-sm disabled:opacity-50 transition-colors"
+            >
+              {saving ? t('resumeBuilder.workExperience.adding', 'Adding...') : t('resumeBuilder.workExperience.addBullet', 'Add Bullet')}
             </button>
           </div>
         </div>
@@ -243,80 +361,144 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
 
       {/* Accomplishments List */}
       {sortedAccomplishments.length === 0 ? (
-        <div className="text-center py-6 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-sm text-gray-600 dark:text-gray-400">{t('resumeBuilder.workExperience.noExperience')}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-            {t('resumeBuilder.workExperience.accomplishmentsHelp')}
+        <div className="text-center py-8 bg-gray-50/50 dark:bg-gray-800/20 rounded-xl border border-dashed border-gray-200 dark:border-gray-700/80 transition-all">
+          <p className="text-sm font-semibold text-gray-600 dark:text-gray-400">{t('resumeBuilder.workExperience.noAccomplishments', 'No accomplishments active for this role.')}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 max-w-md mx-auto leading-relaxed">
+            {t('resumeBuilder.workExperience.accomplishmentsHelp', 'Use the buttons above to link your high-impact CAR stories, pick items from your accomplishment bank, or write a custom bullet.')}
           </p>
         </div>
       ) : (
-        <ul className="space-y-2">
-          {sortedAccomplishments.map((acc, index) => (
-            <li
-              key={acc.id}
-              className="flex items-start gap-3 bg-gray-50 dark:bg-gray-800/50 p-3 rounded-lg border border-gray-200 dark:border-gray-700"
-            >
-              <span className="flex-shrink-0 w-6 h-6 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-full flex items-center justify-center text-xs font-medium">
-                {index + 1}
-              </span>
-              {editingId === acc.id ? (
-                <div className="flex-1">
-                  <textarea
-                    value={editingText}
-                    onChange={(e) => setEditingText(e.target.value)}
-                    rows={3}
-                    className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 mb-2 dark:text-white"
-                  />
-                  <div className="flex gap-2">
-                    <button
-                      onClick={handleSaveEdit}
-                      disabled={saving}
-                      className="px-3 py-1 text-sm bg-primary-600 text-white rounded hover:bg-primary-700 disabled:opacity-50"
-                    >
-                      {t('common.save')}
-                    </button>
-                    <button
-                      onClick={handleCancelEdit}
-                      className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-700"
-                    >
-                      {t('common.cancel')}
-                    </button>
+        <ul className="space-y-3">
+          {sortedAccomplishments.map((acc, index) => {
+            const isVisible = acc.is_visible !== false
+            return (
+              <li
+                key={acc.id}
+                className={`group flex items-start gap-3 bg-white dark:bg-gray-800 p-3.5 rounded-xl border transition-all duration-200 shadow-sm ${
+                  isVisible 
+                    ? 'border-gray-200 dark:border-gray-700/80 hover:border-gray-300 dark:hover:border-gray-600' 
+                    : 'border-dashed border-gray-200 dark:border-gray-700/50 bg-gray-50/40 dark:bg-gray-800/40 opacity-60 hover:opacity-75'
+                }`}
+              >
+                <span className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                  isVisible
+                    ? 'bg-primary-100 dark:bg-primary-950/30 text-primary-700 dark:text-primary-400'
+                    : 'bg-gray-100 dark:bg-gray-700/50 text-gray-500 dark:text-gray-400'
+                }`}>
+                  {index + 1}
+                </span>
+
+                {editingId === acc.id ? (
+                  <div className="flex-1 min-w-0">
+                    <textarea
+                      value={editingText}
+                      onChange={(e) => setEditingText(e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 outline-none text-sm dark:text-white"
+                    />
+                    <div className="flex gap-2 mt-2 justify-end">
+                      <button
+                        onClick={handleCancelEdit}
+                        className="px-3 py-1.5 text-xs border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                      >
+                        {t('common.cancel', 'Cancel')}
+                      </button>
+                      <button
+                        onClick={handleSaveEdit}
+                        disabled={saving}
+                        className="px-3.5 py-1.5 text-xs bg-primary-600 hover:bg-primary-700 text-white font-semibold rounded-lg shadow-sm disabled:opacity-50 transition-colors"
+                      >
+                        {t('common.save', 'Save')}
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <>
-                  <p className="flex-1 text-sm text-gray-800 dark:text-gray-200 leading-relaxed">
-                    {acc.bullet_text}
-                    {acc.par_story_id && (
-                      <span className="ml-2 inline-block px-2 py-0.5 text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 rounded">
-                        {t('resumeBuilder.workExperience.fromCARStory')}
-                      </span>
-                    )}
-                  </p>
-                  <div className="flex gap-1 flex-shrink-0">
-                    <button
-                      onClick={() => handleStartEdit(acc)}
-                      className="p-1 text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
-                      title="Edit"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                      </svg>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(acc.id!)}
-                      className="p-1 text-gray-400 hover:text-red-600 dark:hover:text-red-400 transition-colors"
-                      title="Delete"
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                      </svg>
-                    </button>
-                  </div>
-                </>
-              )}
-            </li>
-          ))}
+                ) : (
+                  <>
+                    <div className="flex-1 min-w-0">
+                      <p className={`text-sm leading-relaxed dark:text-gray-200 ${
+                        isVisible ? 'text-gray-800' : 'text-gray-500 line-through decoration-gray-400/50'
+                      }`}>
+                        {acc.bullet_text}
+                      </p>
+                      <div className="flex flex-wrap gap-2 mt-1.5">
+                        {acc.par_story_id && (
+                          <span className="inline-flex items-center text-[10px] font-semibold bg-purple-50 dark:bg-purple-950/20 text-purple-700 dark:text-purple-400 px-2 py-0.5 rounded border border-purple-100 dark:border-purple-900/30">
+                            {t('resumeBuilder.workExperience.fromCARStory', 'CAR Story')}
+                          </span>
+                        )}
+                        {!isVisible && (
+                          <span className="inline-flex items-center text-[10px] font-bold bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded">
+                            🚫 {t('resumeBuilder.workExperience.hidden', 'Hidden from PDF/Word')}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-1.5 flex-shrink-0 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-150 pl-2">
+                      {/* Reordering Controls */}
+                      {onReorderAccomplishments && (
+                        <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden bg-gray-50 dark:bg-gray-800">
+                          <button
+                            disabled={index === 0 || saving}
+                            onClick={() => handleMoveUp(index)}
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 disabled:opacity-30 disabled:hover:bg-transparent"
+                            title={t('common.moveUp', 'Move up')}
+                          >
+                            <ArrowUp className="w-3.5 h-3.5" />
+                          </button>
+                          <div className="w-[1px] h-3.5 bg-gray-200 dark:bg-gray-700" />
+                          <button
+                            disabled={index === sortedAccomplishments.length - 1 || saving}
+                            onClick={() => handleMoveDown(index)}
+                            className="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-500 hover:text-gray-800 dark:hover:text-gray-300 disabled:opacity-30 disabled:hover:bg-transparent"
+                            title={t('common.moveDown', 'Move down')}
+                          >
+                            <ArrowDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Visibility Toggle */}
+                      {onToggleVisibility && (
+                        <button
+                          onClick={() => handleToggleVisible(acc)}
+                          disabled={saving}
+                          className={`p-1.5 border rounded-lg transition-all ${
+                            isVisible 
+                              ? 'border-gray-200 dark:border-gray-700 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700' 
+                              : 'border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20 text-blue-600 dark:text-blue-400 hover:bg-blue-100/50'
+                          }`}
+                          title={isVisible ? t('common.hide', 'Hide from print') : t('common.show', 'Show in print')}
+                        >
+                          {isVisible ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5" />}
+                        </button>
+                      )}
+
+                      {/* Direct Edit */}
+                      <button
+                        onClick={() => handleStartEdit(acc)}
+                        disabled={saving}
+                        className="p-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                        title={t('common.edit', 'Edit text')}
+                      >
+                        <Edit2 className="w-3.5 h-3.5" />
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={() => handleDelete(acc.id!)}
+                        disabled={saving}
+                        className="p-1.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-400 hover:text-red-600 dark:hover:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700 transition-all"
+                        title={t('common.delete', 'Delete')}
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </>
+                )}
+              </li>
+            )
+          })}
         </ul>
       )}
     </div>

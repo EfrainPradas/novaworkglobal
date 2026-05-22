@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
+import { activateCorePlan } from '../../services/billing.service'
 import LanguageSelector from '../../components/LanguageSelector'
+import { LogoAscendia } from '../../components/common/LogoAscendia'
 
 export default function SignUp() {
   const navigate = useNavigate()
@@ -15,12 +17,38 @@ export default function SignUp() {
   const [error, setError] = useState<string | null>(null)
   const [message, setMessage] = useState<string | null>(null)
 
-  // Redirect authenticated users away from sign-up
+  // Redirect already-authenticated users away from sign-up
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) navigate('/dashboard', { replace: true })
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return
+
+      const pendingPlan = localStorage.getItem('novawork_pending_plan')
+
+      if (pendingPlan) {
+        window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
+        return
+      }
+
+      try {
+        await activateCorePlan()
+      } catch (e) {
+        console.warn('Failed to activate Core plan:', e)
+      }
+
+      const { data: contactProfile } = await supabase
+        .from('user_contact_profile')
+        .select('contact_info_complete')
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+      const contactInfoComplete = contactProfile?.contact_info_complete === true
+      if (!contactInfoComplete) {
+        window.location.href = '/dashboard/resume/contact-info'
+      } else {
+        window.location.href = '/dashboard'
+      }
     })
-  }, [navigate])
+  }, [])
 
   // Get trial info from URL
   const isTrial = searchParams.get('trial') === 'true'
@@ -29,9 +57,15 @@ export default function SignUp() {
   // Plan selected from landing page (stored in localStorage)
   const pendingPlan = localStorage.getItem('novawork_pending_plan')
   const PLAN_DISPLAY: Record<string, string> = {
-    esenciales: 'Esenciales',
-    momentum: 'Momentum',
-    vanguard: 'Vanguard',
+    core: 'Ascendia Core',
+    advance: 'Ascendia Advance',
+    apex: 'Ascendia Apex',
+    // Legacy NovaWork codes
+    esenciales: 'Ascendia Core',
+    essentials: 'Ascendia Core',
+    momentum: 'Ascendia Advance',
+    vanguard: 'Ascendia Apex',
+    executive: 'Ascendia Apex',
   }
   const pendingPlanLabel = pendingPlan ? PLAN_DISPLAY[pendingPlan] : null
 
@@ -76,11 +110,27 @@ export default function SignUp() {
         setError(signUpError.message)
       } else {
         console.log('Sign up successful:', data)
-        setMessage(t('auth.signUp.success'))
-        // Clear form
-        setEmail('')
-        setPassword('')
-        setConfirmPassword('')
+
+        if (data.session) {
+          // Auto-confirm enabled: redirect immediately
+          const plan = localStorage.getItem('novawork_pending_plan')
+          if (plan) {
+            window.location.href = `/dashboard/billing?pending_plan=${plan}`
+          } else {
+            try {
+              await activateCorePlan()
+            } catch (e) {
+              console.warn('Failed to activate Core plan:', e)
+            }
+            window.location.href = '/dashboard/resume/contact-info'
+          }
+        } else {
+          // Email confirmation required — show message
+          setMessage(t('auth.signUp.success'))
+          setEmail('')
+          setPassword('')
+          setConfirmPassword('')
+        }
       }
     } catch (err) {
       console.error('Unexpected error:', err)
@@ -167,12 +217,14 @@ export default function SignUp() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto block dark:hidden" />
-            <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
+            <LogoAscendia
+              className="h-20 w-auto text-[#91c171] cursor-pointer"
+              onClick={() => navigate('/')}
+            />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {isTrial
-              ? `Start Your ${trialTier === 'vanguard' ? 'Vanguard' : 'Pro'} Trial`
+              ? `Start Your ${trialTier === 'apex' ? 'Apex' : trialTier === 'advance' ? 'Advance' : 'Core'} Trial`
               : pendingPlanLabel
                 ? t('auth.signUp.titleWithPlan', { plan: pendingPlanLabel })
                 : t('auth.signUp.title')}
@@ -255,7 +307,13 @@ export default function SignUp() {
 
           {message && (
             <div className="mb-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-              <p className="text-sm text-green-600">{message}</p>
+              <p className="text-sm text-green-600 mb-3">{message}</p>
+              <button
+                onClick={() => navigate('/signin')}
+                className="w-full bg-primary-600 text-white py-2 px-4 rounded-lg font-semibold hover:bg-primary-700 transition-colors text-sm"
+              >
+                {t('common.signIn')}
+              </button>
             </div>
           )}
 

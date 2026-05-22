@@ -54,7 +54,7 @@ import ClientSharedResources from './pages/client/ClientSharedResources'
 import StickyBoard from './pages/dashboard/StickyBoard'
 import SmartMatches from './pages/dashboard/SmartMatches'
 import Billing from './pages/dashboard/Billing'
-import SupportAgentWidget from './components/agent/SupportAgentWidget'
+// import SupportAgentWidget from './components/agent/SupportAgentWidget' // hidden during Ascendia rebrand
 import StickyBoardWidget from './components/sticky-board/StickyBoardWidget'
 
 // Career Vision Routes
@@ -171,8 +171,8 @@ function App() {
         {/* Protected Routes */}
         {/* ... Public Routes ... */}
 
-        {/* Essentials Protected Routes */}
-        <Route element={<ProtectedRoute requiredLevel="esenciales" />}>
+        {/* Core Protected Routes */}
+        <Route element={<ProtectedRoute requiredLevel="core" />}>
           <Route path="/onboarding" element={<Onboarding />} />
           <Route path="/main-menu" element={<MainMenu />} />
           <Route path="/navigate" element={<NavigationPrompt />} />
@@ -323,7 +323,7 @@ function App() {
         {/* 404 - Not Found */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      <SupportAgentWidget />
+      {/* <SupportAgentWidget /> hidden during Ascendia rebrand */}
       {/* <StickyBoardWidget /> */}
     </Router>
     </GuidedTourProvider>

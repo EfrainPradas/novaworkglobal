@@ -11,15 +11,16 @@ import {
   UserCheck,
   FolderOpen,
   Newspaper,
-  ChevronRight,
-  ChevronLeft,
   Sparkles,
+  Upload,
+  Search,
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import type { TierLevel } from '../../types/home-dashboard'
 import SidebarCardButton from './SidebarCardButton'
 import { checkCuratorAccess } from '../../services/careerFeed.service'
 import { supabase } from '../../lib/supabase'
+import { LogoAscendia } from '../common/LogoAscendia'
 
 const SMART_MATCHES_PILOT_EMAIL = 'efrain.pradas@gmail.com'
 
@@ -27,25 +28,20 @@ interface HomeSidebarProps {
   userLevel: TierLevel
   width: number
   collapsed: boolean
-  onToggle: () => void
-  onResizeStart: (e: React.MouseEvent) => void
 }
 
-const TIER_ORDER: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
+const TIER_ORDER: Record<TierLevel, number> = { core: 1, advance: 2, apex: 3 }
 
 export default function HomeSidebar({
   userLevel,
   width,
   collapsed,
-  onToggle,
-  onResizeStart,
 }: HomeSidebarProps) {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
   const [isCurator, setIsCurator] = useState(false)
   const [isPilotUser, setIsPilotUser] = useState(false)
-
   useEffect(() => {
     checkCuratorAccess().then(setIsCurator).catch(() => setIsCurator(false))
   }, [])
@@ -59,11 +55,12 @@ export default function HomeSidebar({
   const currentPath = location.pathname
   const canAccess = (required: TierLevel) => TIER_ORDER[userLevel] >= TIER_ORDER[required]
 
-  const tierLabel = {
-    essentials: t('membership.essential'),
-    momentum: t('membership.momentum'),
-    executive: t('membership.executive'),
-  }[userLevel]
+  const tierLabel: Record<TierLevel, string> = {
+    core: t('membership.core', 'Ascendia Core'),
+    advance: t('membership.advance', 'Ascendia Advance'),
+    apex: t('membership.apex', 'Ascendia Apex'),
+  }
+  const currentTierLabel = tierLabel[userLevel]
 
   const navItem = (
     path: string,
@@ -93,7 +90,7 @@ export default function HomeSidebar({
             ? 'text-slate-300 dark:text-gray-500 cursor-not-allowed'
             : 'text-slate-600 dark:text-gray-300 hover:bg-slate-50 dark:hover:bg-gray-700 hover:text-slate-800 dark:hover:text-white'}
         `}
-        style={active ? { background: '#1976D2' } : {}}
+        style={active ? { background: 'var(--ascendia-primary)' } : {}}
       >
         <span
           className="flex-shrink-0 flex items-center justify-center rounded-lg"
@@ -146,47 +143,80 @@ export default function HomeSidebar({
         width,
         minWidth: width,
         transition: 'width 0.15s ease',
-        height: '100dvh',
+        height: '100%',
       }}
     >
-      {/* Drag-resize handle */}
+      {/* Brand */}
       <div
-        onMouseDown={onResizeStart}
-        className="absolute top-0 right-0 h-full z-20 flex items-center justify-center group"
-        style={{ width: 8, cursor: 'col-resize' }}
+        className="flex items-center"
+        style={{
+          height: 80,
+          padding: collapsed ? '0 8px' : '0 22px',
+          borderBottom: '1px solid var(--ascendia-border-soft)',
+          justifyContent: collapsed ? 'center' : 'flex-start',
+        }}
       >
-        <div
-          className="h-12 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          style={{ width: 3, background: '#1976D2' }}
+        <LogoAscendia
+          className="cursor-pointer"
+          onClick={() => navigate('/')}
+          style={{
+            maxHeight: 48,
+            maxWidth: '100%',
+            width: 'auto',
+            objectFit: 'contain',
+            display: 'block',
+            color: '#91c171',
+          }}
         />
-      </div>
-
-      {/* Toggle button */}
-      <button
-        onClick={onToggle}
-        className="absolute -right-4 top-6 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-        style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
-        title={collapsed ? t('sidebar.expand', 'Expand sidebar') : t('sidebar.collapse', 'Collapse sidebar')}
-      >
-        {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
-      </button>
-
-      {/* Logo */}
-      <div className={`flex-shrink-0 flex items-center ${collapsed ? 'justify-center py-3' : 'px-4 py-3'}`}>
-        {collapsed ? (
-          <img src="/logo.png" alt="NovaWork" className="h-8 w-8 object-contain" />
-        ) : (
-          <img src="/logo.png" alt="NovaWork Global" className="h-12 w-auto object-contain" />
-        )}
+        {/* Wordmark fallback (kept for safety; no longer auto-shown since the SVG is inline) */}
+        <div
+          style={{
+            display: 'none',
+            alignItems: 'center',
+            gap: 10,
+            color: 'var(--ascendia-primary)',
+          }}
+        >
+          <div
+            style={{
+              width: 34, height: 34,
+              borderRadius: 'var(--ascendia-radius-md)',
+              background: 'var(--ascendia-primary)',
+              color: 'var(--ascendia-primary-foreground)',
+              display: 'grid', placeItems: 'center',
+              fontWeight: 800, fontSize: 16,
+              letterSpacing: '-0.02em',
+            }}
+          >
+            A
+          </div>
+          {!collapsed && (
+            <span
+              style={{
+                fontWeight: 800,
+                fontSize: 20,
+                letterSpacing: '-0.01em',
+                color: 'var(--ascendia-text)',
+              }}
+            >
+              Ascendia
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Tier badge */}
       {!collapsed && (
-        <div className="mx-3 mb-1 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-gray-700">
-          <p className="text-sm font-bold leading-tight" style={{ color: '#1976D2' }}>
-            NovaNext
+        <div
+          className="mx-3 mt-3 mb-1 px-3 py-1.5 dark:bg-gray-700"
+          style={{
+            background: 'var(--ascendia-accent)',
+            borderRadius: 'var(--ascendia-radius-md)',
+          }}
+        >
+          <p className="text-sm font-bold leading-tight" style={{ color: 'var(--ascendia-primary)' }}>
+            {currentTierLabel}
           </p>
-          <p className="text-xs text-slate-500 dark:text-gray-400 leading-tight">{tierLabel}</p>
         </div>
       )}
 
@@ -195,46 +225,46 @@ export default function HomeSidebar({
         {/* Overview */}
         {sectionLabel(t('sidebarOverview.dashboard'))}
         {navItem('/dashboard', <LayoutDashboard size={15} />, t('sidebarOverview.dashboard'), {
-          iconBg: '#E3F2FD', iconColor: '#1565C0',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
-        {navItem('/dashboard/resume/contact-info', <Sparkles size={15} />, t('sidebar.smartGuide', 'Smart Guide'), {
-          iconBg: '#EFF6FF', iconColor: '#1F5BAA',
+        {navItem('/dashboard/resume/contact-info', <Sparkles size={15} />, t('sidebar.contactSetup', 'Contact Setup'), {
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
           badge: t('sidebar.new', 'NEW'),
-          badgeColor: '#1F5BAA',
+          badgeColor: 'var(--ascendia-primary)',
         })}
-
         {/* NovaNext Programs — features for the user's plan */}
         {sectionLabel(t('membership.title'))}
         {navItem('/dashboard/resume-builder', <FileText size={15} />, t('learningModules.resumeBuilder'), {
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
         {navItem('/dashboard/career-vision', <Target size={15} />, t('learningModules.careerVision'), {
-          required: 'momentum',
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          required: 'advance',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
         {navItem('/dashboard/job-search-hub', <Briefcase size={15} />, t('learningModules.jobSearch'), {
-          required: 'momentum',
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          required: 'advance',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
         {navItem('/dashboard/interview', <Users size={15} />, t('learningModules.interviewMastery'), {
-          required: 'vanguard',
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          required: 'apex',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
 
         {/* Community — temporarily hidden, not functional yet */}
         {/* {sectionLabel(t('sidebarCommunity.title'))}
         {navItem('/dashboard/networking-sessions', <Network size={15} />, t('sidebarCommunity.networkingSessions'), {
-          iconBg: '#EFF6FF', iconColor: '#1976D2',
+          iconBg: '#EAF4EC', iconColor: '#0E4B2B',
         })}
         {navItem('/dashboard/member-calendar', <Calendar size={15} />, t('sidebarCommunity.memberCalendar'), {
-          iconBg: '#EFF6FF', iconColor: '#1976D2',
+          iconBg: '#EAF4EC', iconColor: '#0E4B2B',
         })}
         {navItem('/dashboard/community', <Users size={15} />, t('sidebarCommunity.community'), {
-          iconBg: '#EFF6FF', iconColor: '#1976D2',
+          iconBg: '#EAF4EC', iconColor: '#0E4B2B',
         })} */}
 
-        {/* NovaNext Academy */}
-        {!collapsed && (
+        {/* Academy / Videos & Audio — hidden from visible navigation during Ascendia rebrand.
+            Route /dashboard/academy and its components remain intact. */}
+        {/* {!collapsed && (
           <div className="px-3 pt-4 pb-1">
             <p className="text-xs font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400">{t('novaNextAcademy.title')}</p>
           </div>
@@ -246,30 +276,46 @@ export default function HomeSidebar({
               label={t('novaNextAcademy.videosAudio')}
               subtitle={t('novaNextAcademy.subtitle')}
               path="/dashboard/academy"
-              iconBg="#eef6fc"
-              iconColor="#1F5BAA"
-              cardBg="#eef6fc"
-              cardHoverBg="#d9e9f8"
+              iconBg="#EAF4EC"
+              iconColor="#0E4B2B"
+              cardBg="#EAF4EC"
+              cardHoverBg="#D5E9D9"
             />
           </div>
-        )}
+        )} */}
 
         {/* Tools */}
         {sectionLabel(t('sidebarTools.title'))}
         {isPilotUser && navItem('/dashboard/smart-matches', <Sparkles size={15} />, t('sidebarTools.smartMatches'), {
-          iconBg: '#EEF6FC', iconColor: '#1F5BAA',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
           badge: t('sidebarTools.vipBadge'),
-          badgeColor: '#1F5BAA',
+          badgeColor: 'var(--ascendia-primary)',
         })}
         {navItem('/dashboard/coaching', <UserCheck size={15} />, t('sidebarTools.myCoaches'), {
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
         {navItem('/shared-resources', <FolderOpen size={15} />, t('sidebarTools.sharedResources'), {
-          iconBg: '#eef6fc', iconColor: '#1F5BAA',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })}
+
+        {/* Quick Actions — moved from the right panel */}
+        {sectionLabel(t('dashboard.quickActionsPanel.title', 'Quick Actions'))}
+        {navItem('/dashboard/resume-builder', <Upload size={15} />, t('dashboard.quickActionsPanel.uploadResume', 'Upload Resume'), {
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
+        })}
+        {navItem('/dashboard/resume-builder/jd-analyzer', <Search size={15} />, t('dashboard.quickActionsPanel.analyzeJD', 'Analyze Job Description'), {
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
+        })}
+        {navItem('/dashboard/networking-sessions', <Network size={15} />, t('dashboard.quickActionsPanel.joinNetworking', 'Join Networking'), {
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
+        })}
+        {navItem('/dashboard/member-calendar', <Calendar size={15} />, t('dashboard.quickActionsPanel.viewCalendar', 'View Member Calendar'), {
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
+        })}
+
         {/* Career feed curation — temporarily hidden */}
         {/* {isCurator && navItem('/dashboard/career-feed-curation', <Newspaper size={15} />, t('dashboard.careerFeed.curation'), {
-          iconBg: '#E3F2FD', iconColor: '#1565C0',
+          iconBg: 'var(--ascendia-accent)', iconColor: 'var(--ascendia-primary)',
         })} */}
       </nav>
     </aside>

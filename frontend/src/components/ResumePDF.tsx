@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     marginBottom: 2
   },
   contactLink: {
-    color: '#2563EB',
+    color: '#0E4B2B',
     textDecoration: 'none'
   },
   // Section styles

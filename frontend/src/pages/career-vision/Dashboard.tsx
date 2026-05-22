@@ -6,10 +6,12 @@ import { supabase } from '../../lib/supabase'
 import { getVideoUrl } from '@/config/videoUrls'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { PlayCircle, CheckCircle2, ChevronRight, Video, Crosshair, ClipboardList, Settings } from 'lucide-react'
-import CoachingTeaser from '../../components/services/CoachingTeaser'
+
+const CAREER_VISION_VIDEO_ES = 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/career%20Clearity/Visi%C3%B3n_Profesional_Total_ES.mp4'
+const CAREER_VISION_VIDEO_EN = 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/career%20Clearity/Vision_Profesional_Total_EN.mp4'
 
 export default function CareerVisionDashboard() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [sectionsStatus, setSectionsStatus] = useState({
     skillsValues: false,
@@ -91,11 +93,11 @@ export default function CareerVisionDashboard() {
                   onClick={() => navigate('/dashboard/career-vision/learn-more')} 
                 />
                 <button
-                  onClick={() => setActiveVideoSrc(getVideoUrl('AI_and_Your_Career_Path-EN.mp4'))}
+                  onClick={() => setActiveVideoSrc(i18n.language?.startsWith('es') ? CAREER_VISION_VIDEO_ES : CAREER_VISION_VIDEO_EN)}
                   className="flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 transition-colors"
                 >
                   <Video size={16} />
-                  {t('common.watchVideo', 'Ver video')}
+                  {i18n.language?.startsWith('es') ? 'Ver video' : 'Watch video'}
                 </button>
               </div>
             </div>
@@ -134,12 +136,8 @@ export default function CareerVisionDashboard() {
               </p>
 
               <div className="flex flex-col gap-3 mt-6">
-                <button 
-                  className={`w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 ${
-                    section.completed 
-                      ? 'bg-slate-100 text-slate-700 hover:bg-slate-200 dark:bg-slate-700 dark:text-white' 
-                      : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20'
-                  }`}
+                <button
+                  className="w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20"
                 >
                   {section.completed ? t('careerVision.journey.review', 'Review') : t('careerVision.journey.start', 'Start')}
                   <ChevronRight size={18} />
@@ -147,11 +145,11 @@ export default function CareerVisionDashboard() {
 
                 <div className="flex items-center justify-between px-1">
                   <button
-                    onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(section.videoSrc) }}
+                    onClick={(e) => { e.stopPropagation(); setActiveVideoSrc(i18n.language?.startsWith('es') ? CAREER_VISION_VIDEO_ES : CAREER_VISION_VIDEO_EN) }}
                     className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-primary-600 dark:text-slate-400 dark:hover:text-primary-400 transition-colors"
                   >
                     <PlayCircle size={14} />
-                    {t('common.watchVideo', 'Ver video')}
+                    {i18n.language?.startsWith('es') ? 'Ver video' : 'Watch video'}
                   </button>
                 </div>
               </div>
@@ -182,8 +180,6 @@ export default function CareerVisionDashboard() {
           </div>
         )}
       </div>
-
-      <CoachingTeaser />
 
       {/* Video Modal */}
       {activeVideoSrc && (

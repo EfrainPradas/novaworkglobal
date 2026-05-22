@@ -41,7 +41,7 @@ export default function CommunityHighlights({ userLevel }: CommunityHighlightsPr
         <button
           onClick={() => navigate('/dashboard/community')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"
-          style={{ color: '#1976D2' }}
+          style={{ color: '#0E4B2B' }}
         >
           {t('dashboard.cta.viewAll')}
           <ChevronRight size={13} />
@@ -80,8 +80,8 @@ export default function CommunityHighlights({ userLevel }: CommunityHighlightsPr
                 className="flex-shrink-0 flex items-center justify-center rounded-xl text-sm"
                 style={{
                   width: 40, height: 40,
-                  background: group.color ? `${group.color}18` : '#EFF6FF',
-                  color: group.color ?? '#1976D2',
+                  background: group.color ? `${group.color}18` : '#EAF4EC',
+                  color: group.color ?? '#0E4B2B',
                 }}
               >
                 <Users size={18} />

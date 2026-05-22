@@ -8,65 +8,66 @@ export default {
   theme: {
     extend: {
       colors: {
-        // NovaWork Global Brand Colors
+        // Ascendia Brand Colors (deep evergreen palette)
         primary: {
-          DEFAULT: '#1F5BAA', // Primary Blue
-          50: '#eef6fc',
-          100: '#d9e9f8',
-          200: '#bcd9f3',
-          300: '#8fc3ec',
-          400: '#5ca2e2',
-          500: '#3682d5',
-          600: '#1F5BAA', // Main Brand Color
-          700: '#1a488a',
-          800: '#193e72',
-          900: '#10375C', // Midnight Blue
+          DEFAULT: '#0E4B2B', // Ascendia Primary
+          50: '#EAF4EC',
+          100: '#D5E9D9',
+          200: '#A8D4B0',
+          300: '#6BB87E',
+          400: '#4F8F55',
+          500: '#357A3E',
+          600: '#0E4B2B', // Main Brand Color
+          700: '#07371E',
+          800: '#052A16',
+          900: '#031D0F', // Deep Evergreen
         },
-        'brand-teal': { // Keeping for backward compat if needed, but should be phased out
-          200: '#B2CBD2',
-          500: '#2E7886',
-          600: '#0B5F6D',
+        'brand-teal': { // Mapped to Ascendia green tones
+          200: '#A8D4B0',
+          500: '#4F8F55',
+          600: '#0E4B2B',
         },
-        'brand-ink': '#10375C', // Midnight Blue for ink
-        'brand-surface': '#F8F9FA',
+        'brand-ink': '#101917', // Ascendia ink
+        'brand-surface': '#F6F7F5',
         accent: {
-          DEFAULT: '#4DA8DA', // Sky Blue as Accent
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#4DA8DA', // Sky Blue
-          600: '#0284c7',
-          700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
+          DEFAULT: '#4F8F55', // Ascendia Secondary Green
+          50: '#F4FAF5',
+          100: '#EAF4EC',
+          200: '#D5E9D9',
+          300: '#A8D4B0',
+          400: '#6BB87E',
+          500: '#4F8F55', // Ascendia Secondary
+          600: '#357A3E',
+          700: '#0E4B2B',
+          800: '#07371E',
+          900: '#031D0F',
         },
-        navy: {
-          DEFAULT: '#10375C', // Midnight Blue
-          light: '#1a488a',
-          lighter: '#1F5BAA',
+        navy: { // Mapped to Ascendia dark greens
+          DEFAULT: '#031D0F', // Deep Evergreen
+          light: '#07371E',
+          lighter: '#0E4B2B',
         },
-        teal: { // Legacy support mapping to Sky Blue tones
-          DEFAULT: '#4DA8DA',
-          50: '#f0f9ff',
-          500: '#4DA8DA',
-          600: '#0284c7',
-          700: '#0369a1',
+        teal: { // Mapped to Ascendia green tones
+          DEFAULT: '#4F8F55',
+          50: '#F4FAF5',
+          500: '#4F8F55',
+          600: '#357A3E',
+          700: '#0E4B2B',
         },
         secondary: {
-          DEFAULT: '#4DA8DA', // Sky Blue
-          light: '#f8f9fa',
-          dark: '#10375C',
+          DEFAULT: '#4F8F55', // Ascendia Secondary
+          light: '#F6F7F5',
+          dark: '#031D0F',
         },
         success: '#28a745',
         warning: '#F6C45E',
         danger: '#dc3545',
-        info: '#4DA8DA',
+        info: '#4A7DB8',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'], // Body Copy
         heading: ['Montserrat', 'sans-serif'], // Headers
+        serif: ['Fraunces', 'Georgia', 'serif'], // Landing page headings
         body: ['Inter', 'sans-serif'],
       },
       fontSize: {

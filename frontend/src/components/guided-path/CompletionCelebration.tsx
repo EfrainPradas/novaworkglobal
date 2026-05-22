@@ -42,7 +42,7 @@ function ConfettiParticle({ delay, color }: { delay: number; color: string }) {
   )
 }
 
-const CONFETTI_COLORS = ['#1F5BAA', '#4DA8DA', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6']
+const CONFETTI_COLORS = ['#0E4B2B', '#4F8F55', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6']
 
 export default function CompletionCelebration({ onDismiss }: CompletionCelebrationProps) {
   const navigate = useNavigate()
@@ -147,7 +147,7 @@ export default function CompletionCelebration({ onDismiss }: CompletionCelebrati
                   padding: '12px 24px',
                   borderRadius: 10,
                   border: 'none',
-                  background: '#1F5BAA',
+                  background: '#0E4B2B',
                   color: '#fff',
                   fontSize: 14,
                   fontWeight: 600,

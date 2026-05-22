@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
+import { getBillingStatus } from '../../services/billing.service'
+import { activateCorePlan } from '../../services/billing.service'
 import LanguageSelector from '../../components/LanguageSelector'
+import { LogoAscendia } from '../../components/common/LogoAscendia'
 
 export default function SignIn() {
   const navigate = useNavigate()
@@ -14,10 +17,39 @@ export default function SignIn() {
 
   // Redirect authenticated users away from sign-in
   useEffect(() => {
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user) navigate('/dashboard', { replace: true })
+    supabase.auth.getUser().then(async ({ data: { user } }) => {
+      if (!user) return
+
+      const pendingPlan = localStorage.getItem('novawork_pending_plan')
+
+      if (pendingPlan) {
+        window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
+        return
+      }
+
+      try {
+        const billing = await getBillingStatus()
+        if (!billing.is_active) {
+          await activateCorePlan()
+        }
+      } catch (e) {
+        console.warn('Failed to check/activate Core plan:', e)
+      }
+
+      const { data: contactProfile } = await supabase
+        .from('user_contact_profile')
+        .select('contact_info_complete')
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+      const contactInfoComplete = contactProfile?.contact_info_complete === true
+      if (!contactInfoComplete) {
+        window.location.href = '/dashboard/resume/contact-info'
+      } else {
+        window.location.href = '/dashboard'
+      }
     })
-  }, [navigate])
+  }, [])
 
   async function handleEmailSignIn(e: React.FormEvent) {
     e.preventDefault()
@@ -42,12 +74,36 @@ export default function SignIn() {
         setError(signInError.message)
       } else {
         console.log('Sign in successful:', data)
-        // Check if user had selected a plan from landing page
+        // Check contact info completion for post-login redirect
+        const { data: contactProfile } = await supabase
+          .from('user_contact_profile')
+          .select('contact_info_complete')
+          .eq('user_id', data.user.id)
+          .maybeSingle()
+
+        const contactInfoComplete = contactProfile?.contact_info_complete === true
+
+        // Check if user had selected a paid plan from landing page
         const pendingPlan = localStorage.getItem('novawork_pending_plan')
+
         if (pendingPlan) {
-          navigate(`/dashboard/billing?pending_plan=${pendingPlan}`, { replace: true })
+          window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
         } else {
-          navigate('/dashboard', { replace: true })
+          // No pending plan — ensure Core (free) billing is active so ProtectedRoute lets them through
+          try {
+            const billing = await getBillingStatus()
+            if (!billing.is_active) {
+              await activateCorePlan()
+            }
+          } catch (e) {
+            console.warn('Failed to check/activate Core plan:', e)
+          }
+
+          if (!contactInfoComplete) {
+            window.location.href = '/dashboard/resume/contact-info'
+          } else {
+            window.location.href = '/dashboard'
+          }
         }
       }
     } catch (err) {
@@ -131,8 +187,10 @@ export default function SignIn() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto block dark:hidden" />
-            <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
+            <LogoAscendia
+              className="h-20 w-auto text-[#91c171] cursor-pointer"
+              onClick={() => navigate('/')}
+            />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {t('auth.signIn.title')}

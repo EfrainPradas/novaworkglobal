@@ -11,7 +11,7 @@ interface NewsItem {
 }
 
 const TAG_STYLES: Record<NewsItem['tag'], { bg: string; color: string; label: string; Icon: React.ComponentType<{ size?: number }> }> = {
-  trend:    { bg: '#EFF6FF', color: '#1976D2', label: 'TREND',    Icon: TrendingUp },
+  trend:    { bg: '#EAF4EC', color: '#0E4B2B', label: 'TREND',    Icon: TrendingUp },
   strategy: { bg: '#F0FDF4', color: '#16A34A', label: 'STRATEGY', Icon: Lightbulb },
   data:     { bg: '#FFF7ED', color: '#C2410C', label: 'DATA',     Icon: BarChart2 },
   insight:  { bg: '#F5F3FF', color: '#7C3AED', label: 'INSIGHT',  Icon: TrendingDown },
@@ -46,7 +46,7 @@ export default function MarketPulse() {
       <div className="flex items-center justify-between mb-3">
         <div>
           <div className="flex items-center gap-2 mb-0.5">
-            <p className="text-xs font-bold tracking-widest" style={{ color: '#1976D2' }}>
+            <p className="text-xs font-bold tracking-widest" style={{ color: '#0E4B2B' }}>
               {t('dashboard.marketPulse.header', 'MARKET PULSE')}
             </p>
             {source === 'newsapi' && (
@@ -108,7 +108,7 @@ export default function MarketPulse() {
                   >
                     {label}
                   </span>
-                  <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 leading-snug group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors">
+                  <p className="text-sm font-semibold text-slate-700 dark:text-gray-200 leading-snug group-hover:text-green-700 dark:group-hover:text-green-400 transition-colors">
                     {item.title}
                   </p>
                   <p className="text-xs text-slate-400 dark:text-gray-400 leading-relaxed mt-0.5 line-clamp-2">
@@ -126,7 +126,7 @@ export default function MarketPulse() {
 
       {/* Footer */}
       <div className="mt-3 pt-3 border-t border-slate-100 dark:border-gray-700 flex items-center justify-between">
-        <button className="flex items-center gap-1.5 text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+        <button className="flex items-center gap-1.5 text-xs font-semibold text-green-600 hover:text-green-800 transition-colors">
           <ExternalLink size={12} />
           {t('dashboard.marketPulse.viewMore')}
         </button>

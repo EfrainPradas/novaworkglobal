@@ -50,12 +50,12 @@ export default function CareerVisionWelcome() {
           <div className="text-center mb-6">
             <img
               src="/logo.png"
-              alt="NovaWork Global"
+              alt="Ascendia"
               className="h-28 w-auto mx-auto block dark:hidden"
             />
             <img
               src="/logo-white.png"
-              alt="NovaWork Global"
+              alt="Ascendia"
               className="h-28 w-auto mx-auto hidden dark:block"
             />
           </div>
@@ -176,12 +176,14 @@ export default function CareerVisionWelcome() {
           {/* Watch Video + Learn More Buttons */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <a
-              href={getVideoUrl('AI_and_Your_Career_Path-EN.mp4')}
+              href={i18n.language?.startsWith('es')
+                ? 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/career%20Clearity/Visi%C3%B3n_Profesional_Total_ES.mp4'
+                : 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/career%20Clearity/Vision_Profesional_Total_EN.mp4'}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-2 px-5 py-2.5 bg-teal-700 hover:bg-teal-800 text-white text-sm font-semibold rounded-lg transition-colors"
             >
-              <Play className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
+              <Play className="w-4 h-4" /> {i18n.language?.startsWith('es') ? t('common.watchVideoEs', 'Ver video') : t('common.watchVideo', 'Watch video')}
             </a>
             <LearnMoreLink
               label={t('careerVision.welcome.startYourCareerVision', 'Start your Career Vision')}

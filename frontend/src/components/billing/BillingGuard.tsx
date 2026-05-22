@@ -2,8 +2,8 @@
  * BillingGuard — Conditionally render children based on billing tier
  *
  * Usage:
- *   <BillingGuard minTier="momentum" fallback={<UpgradePrompt />}>
- *     <MomentumFeature />
+ *   <BillingGuard minTier="advance" fallback={<UpgradePrompt />}>
+ *     <AdvanceFeature />
  *   </BillingGuard>
  */
 
@@ -12,7 +12,7 @@ import { useSubscription } from '../../hooks/useSubscription'
 
 interface BillingGuardProps {
   /** Minimum tier required to see the children */
-  minTier: 'esenciales' | 'momentum' | 'vanguard'
+  minTier: 'core' | 'advance' | 'apex'
   /** What to show if the user doesn't have access */
   fallback?: ReactNode
   /** Content shown while loading billing status */

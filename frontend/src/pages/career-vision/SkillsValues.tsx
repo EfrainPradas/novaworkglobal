@@ -255,8 +255,8 @@ export default function SkillsValues() {
           </button>
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-16 w-auto block dark:hidden" />
-              <img src="/logo-white.png" alt="NovaWork Global" className="h-16 w-auto hidden dark:block" />
+              <img src="/logo.png" alt="Ascendia" className="h-16 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="Ascendia" className="h-16 w-auto hidden dark:block" />
               <div>
                 <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-1">
                   {t('careerVision.skillsValues.title', 'Skills & Interests')}

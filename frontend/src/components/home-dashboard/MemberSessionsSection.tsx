@@ -83,7 +83,7 @@ export default function MemberSessionsSection({ userId }: MemberSessionsSectionP
         <button
           onClick={() => navigate('/dashboard/networking-sessions')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"
-          style={{ color: '#1976D2' }}
+          style={{ color: '#0E4B2B' }}
         >
           {t('dashboard.cta.viewAll')}
           <ChevronRight size={13} />

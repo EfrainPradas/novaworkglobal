@@ -24,7 +24,7 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
   const navigate = useNavigate()
 
   const canAccess = (tier: TierLevel) => {
-    const order: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
+    const order: Record<TierLevel, number> = { core: 1, advance: 2, apex: 3 }
     return order[userLevel] >= order[tier]
   }
 
@@ -35,7 +35,7 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
       label: t('dashboard.nextActions.startOnboarding'),
       description: t('dashboard.statsSection.profileCompletion'),
       route: '/dashboard/resume/contact-info',
-      iconBg: '#EFF6FF', iconColor: '#1976D2',
+      iconBg: '#EAF4EC', iconColor: '#0E4B2B',
       priority: (overview?.profile_completion_percent ?? 0) < 50 ? 0 : 99,
     },
     {
@@ -44,7 +44,7 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
       label: t('dashboard.nextActions.continueResume'),
       description: t('dashboard.resumeBuilderDesc'),
       route: '/dashboard/resume-builder',
-      iconBg: '#E3F2FD', iconColor: '#1565C0',
+      iconBg: '#EAF4EC', iconColor: '#0E4B2B',
       priority: (overview?.resume_versions_count ?? 0) === 0 ? 1 : 4,
     },
     {
@@ -54,7 +54,7 @@ export default function NextBestActionCards({ overview, userLevel }: NextBestAct
       description: t('dashboard.careerVisionDesc'),
       route: '/dashboard/career-vision',
       iconBg: '#E8F5E9', iconColor: '#2E7D32',
-      priority: canAccess('momentum') ? 2 : 99,
+      priority: canAccess('advance') ? 2 : 99,
     },
     {
       id: 'session',

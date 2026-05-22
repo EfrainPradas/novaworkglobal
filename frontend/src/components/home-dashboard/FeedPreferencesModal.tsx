@@ -17,7 +17,7 @@ const ROLE_OPTIONS = [
   'software_engineer', 'data_scientist', 'product_manager', 'project_manager',
   'ux_designer', 'devops_engineer', 'business_analyst', 'marketing_manager',
   'financial_analyst', 'sales_manager', 'hr_manager', 'operations_manager',
-  'compliance_officer', 'healthcare_admin', 'consultant', 'vanguard',
+  'compliance_officer', 'healthcare_admin', 'consultant', 'apex',
 ]
 
 const INDUSTRY_OPTIONS = [
@@ -32,7 +32,7 @@ const GEO_OPTIONS = [
 ]
 
 const CAREER_GOALS: { value: CareerGoal; labelKey: string; color: string }[] = [
-  { value: 'transition', labelKey: 'transition', color: '#1565C0' },
+  { value: 'transition', labelKey: 'transition', color: '#0E4B2B' },
   { value: 'reinvention', labelKey: 'reinvention', color: '#7B1FA2' },
   { value: 'alignment', labelKey: 'alignment', color: '#2E7D32' },
 ]
@@ -215,9 +215,9 @@ export default function FeedPreferencesModal({ open, onClose, onSaved }: FeedPre
                     onClick={() => toggleItem(roles, role, setRoles)}
                     className="px-2.5 py-1 rounded-full text-[11px] font-medium transition-all border"
                     style={{
-                      background: roles.includes(role) ? '#E3F2FD' : '#fff',
-                      color: roles.includes(role) ? '#1565C0' : '#94A3B8',
-                      borderColor: roles.includes(role) ? '#90CAF9' : '#E2E8F0',
+                      background: roles.includes(role) ? '#EAF4EC' : '#fff',
+                      color: roles.includes(role) ? '#0E4B2B' : '#94A3B8',
+                      borderColor: roles.includes(role) ? '#A8D4B0' : '#E2E8F0',
                     }}
                   >
                     {role.replace(/_/g, ' ')}
@@ -286,7 +286,7 @@ export default function FeedPreferencesModal({ open, onClose, onSaved }: FeedPre
             onClick={handleSave}
             disabled={saving}
             className="flex items-center gap-1.5 px-5 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
-            style={{ background: saved ? '#2E7D32' : '#1976D2' }}
+            style={{ background: saved ? '#2E7D32' : '#0E4B2B' }}
           >
             {saving ? (
               <><Loader2 size={13} className="animate-spin" /> {tf('saving')}</>

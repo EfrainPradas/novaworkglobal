@@ -29,7 +29,7 @@ interface ActionItem {
   gradient: string
   shadow: string
   modules: string[]
-  requiredLevel: 'esenciales' | 'momentum' | 'vanguard'
+  requiredLevel: 'core' | 'advance' | 'apex'
   videoSrc: string
 }
 
@@ -46,7 +46,7 @@ export default function NavigationPrompt() {
   const [isInstallable, setIsInstallable] = useState(false)
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
+  const [userLevel, setUserLevel] = useState<'core' | 'advance' | 'apex'>('core')
 
   const actions: ActionItem[] = [
     {
@@ -58,7 +58,7 @@ export default function NavigationPrompt() {
       gradient: 'from-navy-light to-navy',
       shadow: 'shadow-navy/30',
       modules: ['Career Direction', 'Market Fit'],
-      requiredLevel: 'momentum',
+      requiredLevel: 'advance',
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4')
     },
     {
@@ -70,7 +70,7 @@ export default function NavigationPrompt() {
       gradient: 'from-primary-400 to-primary-600',
       shadow: 'shadow-primary-500/30',
       modules: ['Resume Builder', 'AI Optimization'],
-      requiredLevel: 'esenciales',
+      requiredLevel: 'core',
       videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')
     },
     {
@@ -82,7 +82,7 @@ export default function NavigationPrompt() {
       gradient: 'from-teal-400 to-teal-600',
       shadow: 'shadow-teal-500/30',
       modules: ['Application Tracker', 'JD Analysis', 'Interviews'],
-      requiredLevel: 'momentum',
+      requiredLevel: 'advance',
       videoSrc: undefined as any
     },
     {
@@ -94,7 +94,7 @@ export default function NavigationPrompt() {
       gradient: 'from-accent-400 to-accent-600',
       shadow: 'shadow-accent-500/30',
       modules: ['Interview Prep', 'Question Bank'],
-      requiredLevel: 'vanguard',
+      requiredLevel: 'apex',
       videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4')
     },
   ]
@@ -158,9 +158,12 @@ export default function NavigationPrompt() {
         if (userData?.subscription_tier) {
           let tier = userData.subscription_tier
           // Map old tier names to new ones
-          if (tier === 'basic') tier = 'esenciales'
-          if (tier === 'pro') tier = 'momentum'
-          setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
+          if (tier === 'basic') tier = 'core'
+          if (tier === 'pro') tier = 'advance'
+          if (tier === 'esenciales') tier = 'core'
+          if (tier === 'momentum') tier = 'advance'
+          if (tier === 'vanguard') tier = 'apex'
+          setUserLevel(tier as 'core' | 'advance' | 'apex')
         }
 
         const { data: profile } = await supabase
@@ -208,23 +211,23 @@ export default function NavigationPrompt() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
+    const levels = { core: 1, advance: 2, apex: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'esenciales') return null
+    if (requiredLevel === 'core') return null
 
     // Premium badge styles
     const badges = {
-      momentum: {
+      advance: {
         icon: Star,
-        label: 'Momentum',
+        label: 'Advance',
         className: 'bg-emerald-100 text-emerald-700 ring-1 ring-emerald-500/20'
       },
-      executive: {
+      apex: {
         icon: Crown,
-        label: 'Vanguard',
+        label: 'Apex',
         className: 'bg-amber-100 text-amber-700 ring-1 ring-amber-500/20'
       }
     }
@@ -242,7 +245,7 @@ export default function NavigationPrompt() {
 
   const handleActionClick = (action: ActionItem) => {
     if (!canAccess(action.requiredLevel)) {
-      alert(`This feature requires ${action.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${action.requiredLevel === 'advance' ? 'Advance' : 'Apex'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -279,24 +282,24 @@ export default function NavigationPrompt() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
-              <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
+              <img src="/logo.png" alt="Ascendia" className="h-28 w-auto block dark:hidden" />
+              <img src="/logo-white.png" alt="Ascendia" className="h-28 w-auto hidden dark:block" />
               <div className="hidden sm:block">
-                {userLevel === 'esenciales' && (
+                {userLevel === 'core' && (
                   <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-600 border border-gray-200">
-                    {t('dashboard.essentialsPlan', 'Essentials Plan')}
+                    {t('dashboard.corePlan', 'Core Plan')}
                   </span>
                 )}
-                {userLevel === 'momentum' && (
+                {userLevel === 'advance' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 ring-1 ring-emerald-500/20">
                     <Star className="w-3.5 h-3.5" />
-                    {t('dashboard.momentumMember', 'Momentum Member')}
+                    {t('dashboard.advanceMember', 'Advance Member')}
                   </div>
                 )}
-                {userLevel === 'vanguard' && (
+                {userLevel === 'apex' && (
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 ring-1 ring-amber-500/20">
                     <Crown className="w-3.5 h-3.5" />
-                    {t('dashboard.executiveMember', 'Executive Member')}
+                    {t('dashboard.apexMember', 'Apex Member')}
                   </div>
                 )}
               </div>
@@ -420,26 +423,26 @@ export default function NavigationPrompt() {
                       {/* Always show tier badge with color coding */}
                       <span className={`
                         inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold
-                        ${action.requiredLevel === 'esenciales' ? 'bg-blue-100 text-blue-700' : ''}
-                        ${action.requiredLevel === 'momentum' ? 'bg-emerald-100 text-emerald-700' : ''}
-                        ${action.requiredLevel === 'vanguard' ? 'bg-amber-100 text-amber-700' : ''}
+                        ${action.requiredLevel === 'core' ? 'bg-blue-100 text-blue-700' : ''}
+                        ${action.requiredLevel === 'advance' ? 'bg-emerald-100 text-emerald-700' : ''}
+                        ${action.requiredLevel === 'apex' ? 'bg-amber-100 text-amber-700' : ''}
                       `}>
-                        {action.requiredLevel === 'esenciales' && (
+                        {action.requiredLevel === 'core' && (
                           <>
                             <Star className="w-3 h-3" />
-                            Essentials
+                            Core
                           </>
                         )}
-                        {action.requiredLevel === 'momentum' && (
+                        {action.requiredLevel === 'advance' && (
                           <>
                             <Star className="w-3 h-3" />
-                            Momentum
+                            Advance
                           </>
                         )}
-                        {action.requiredLevel === 'vanguard' && (
+                        {action.requiredLevel === 'apex' && (
                           <>
                             <Crown className="w-3 h-3" />
-                            Executive
+                            Apex
                           </>
                         )}
                       </span>
@@ -461,7 +464,7 @@ export default function NavigationPrompt() {
                         )
                       ) : (
                         <span className="text-sm font-medium text-amber-600 hover:text-amber-700">
-                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'vanguard' ? 'Vanguard' : 'Momentum'}
+                          {t('dashboard.upgradeTo')} {action.requiredLevel === 'apex' ? 'Apex' : 'Advance'}
                         </span>
                       )}
 

@@ -1,19 +1,23 @@
 /**
- * NovaWork Global Landing Page Content Configuration
- * Single source of truth for all landing page content, pricing, and add-ons
+ * Ascendia Landing Page Content Configuration
+ * Single source of truth for navigation, footer, and structural config.
+ * All visible text is driven by i18n (en.json / es.json).
  */
 
 export interface PricingPlan {
     name: string
     displayName: string
-    monthly: number
-    annual: number
+    monthly: number | null
+    annual: number | null
     positioning: string
     features: string[]
     emailSupport: string
     liveSessions: string
     badge?: string
     cta?: string
+    priceTBD?: boolean
+    ctaDisabled?: boolean
+    image?: string
 }
 
 export interface AddOn {
@@ -30,23 +34,13 @@ export interface AddOn {
 
 export type AddOnPricingMode = 'standard' | 'premium'
 
-// Hero Section Content
-export const heroContent = {
-    headline: 'Ignite Your Next Career Chapter',
-    subheadline: 'Clarity. Direction. Momentum.',
-    supportingCopy: 'NovaWork Global helps professionals navigate career change with a proven system that blends 80+ years of human career coaching experience with intelligent AI tools, so you move forward with confidence, not confusion.',
-    primaryCTA: 'Find Your Path',
-    secondaryCTA: 'Sign In',
-    trustLine: 'No credit card required • 7-day free trial'
-}
-
-// Header Navigation
+// Header Navigation (labels are i18n keys: nav.menu.programs, etc.)
 export const headerNav = {
-    logo: 'NovaWork Global',
+    logo: 'Ascendia',
     menuItems: [
         { label: 'Programs', href: '#programs' },
         { label: 'How It Works', href: '#how-it-works' },
-        { label: 'Why NovaWork', href: '#methodology' },
+        { label: 'Why Ascendia', href: '#methodology' },
         { label: 'Insights', href: '#insights' }
     ],
     primaryCTA: 'Find Your Path →'
@@ -57,9 +51,9 @@ export const footerContent = {
     programs: {
         title: 'Programs',
         links: [
-            { label: 'NovaNext™', href: '/programs/novanext' },
-            { label: 'NovaRearchitect™', href: '/programs/novarearchitect' },
-            { label: 'NovaAlign™', href: '/programs/novaalign' }
+            { label: 'NovaNext', href: '/programs/novanext' },
+            { label: 'NovaRearchitect', href: '/programs/novarearchitect' },
+            { label: 'NovaAlign', href: '/programs/novaalign' }
         ]
     },
     company: {
@@ -78,116 +72,87 @@ export const footerContent = {
     }
 }
 
-// Program Path Selection Cards
+// Program Path Selection Cards (display text comes from i18n)
 export const programCards = [
     {
         id: 'novanext',
-        name: 'NovaNext™',
-        tagline: 'For Your Next Step',
-        description: 'Build your resume, clarify your lane, and start moving.',
-        cta: 'Start NovaNext →',
         href: '/programs/novanext'
     },
     {
         id: 'novarearchitect',
-        name: 'NovaRearchitect™',
-        tagline: 'For a Full Reinvention',
-        description: 'Complete career blueprint and employability transformation.',
-        cta: 'Explore NovaRearchitect →',
         href: '/programs/novarearchitect'
     },
     {
         id: 'novaalign',
-        name: 'NovaAlign™',
-        tagline: 'For Finding Direction',
-        description: 'Clarity on strengths and a plan for decisive action.',
-        cta: 'Discover NovaAlign →',
         href: '/programs/novaalign'
     }
 ]
 
-// How It Works Steps (Diagnose → Decide → Build → Execute)
-export const howItWorksSteps = [
+// Ascendia Pricing Plans
+export const ascendiaPlans: PricingPlan[] = [
     {
-        number: 1,
-        title: 'Diagnose',
-        description: 'Evaluate your current situation and identify where you are',
-        icon: 'target' as const
-    },
-    {
-        number: 2,
-        title: 'Decide',
-        description: 'Clarify your direction and choose the right path forward',
-        icon: 'compass' as const
-    },
-    {
-        number: 3,
-        title: 'Build',
-        description: 'Create your positioning, resume, and professional narrative',
-        icon: 'wrench' as const
-    },
-    {
-        number: 4,
-        title: 'Execute',
-        description: 'Launch your search and land interviews with confidence',
-        icon: 'rocket' as const
-    }
-]
-
-// NovaNext Pricing Plans
-export const novaNextPlans: PricingPlan[] = [
-    {
-        name: 'esenciales',
-        displayName: 'Essentials',
-        monthly: 29,
-        annual: 290,
-        positioning: 'Build your base',
+        name: 'core',
+        displayName: 'Ascendia Core',
+        image: '/images/Core.png',
+        monthly: 0,
+        annual: 0,
+        positioning: 'Start building your professional foundation for free',
         features: [
-            'Resume Builder',
-            'Accomplishment Bank',
-            'Professional Profile (AI)'
+            'Account creation',
+            'Basic profile setup',
+            'Limited Career Clarity',
+            'Resume Studio preview',
+            'Opportunity Hub preview',
+            'Interview Prep preview',
+            'Basic Smart Guide'
         ],
-        emailSupport: 'Not included',
+        emailSupport: 'Community',
         liveSessions: 'Not included',
-        cta: 'Start Here'
+        cta: 'Get Started Free'
     },
     {
-        name: 'momentum',
-        displayName: 'Momentum',
-        monthly: 49,
-        annual: 490,
-        positioning: 'Active job search',
+        name: 'advance',
+        displayName: 'Ascendia Advance',
+        image: '/images/Advance.png',
+        monthly: 10,
+        annual: 100,
+        positioning: 'Move forward with structure, strategy, and smarter career tools',
         features: [
-            'Resume Builder',
-            'Accomplishment Bank',
-            'Professional Profile (AI)',
-            'Job Application System'
+            'Everything in Ascendia Core',
+            'Full Resume Studio',
+            'Resume export and download',
+            'Multiple resume versions',
+            'Opportunity Hub',
+            'Application tracking',
+            'Smart Matches',
+            'Basic Interview Prep',
+            'Enhanced recommendations'
         ],
-        emailSupport: 'Not included',
+        emailSupport: 'Email support',
         liveSessions: 'Not included',
         badge: 'Most Popular',
-        cta: 'Get Momentum'
+        cta: 'Get Started'
     },
     {
-        name: 'vanguard',
-        displayName: 'Vanguard',
-        monthly: 149,
-        annual: 1490,
-        positioning: "Don't navigate alone",
+        name: 'apex',
+        displayName: 'Ascendia Apex',
+        image: '/images/Apex.png',
+        monthly: 20,
+        annual: 200,
+        positioning: 'Advanced strategy for high-impact career moves',
         features: [
-            'Resume Builder',
-            'Accomplishment Bank',
-            'Professional Profile (AI)',
-            'Job Application System',
-            'Career Vision',
-            'Interview Mastery',
-            'Monthly Strategy Session',
-            'Priority Support'
+            'Everything in Ascendia Advance',
+            'Advanced Interview Prep',
+            'My Coaches',
+            'Executive positioning support',
+            'Priority support',
+            'Advanced career strategy resources',
+            'Premium guidance and review workflows'
         ],
         emailSupport: 'Priority support',
         liveSessions: '1 monthly strategy session',
-        badge: '⭐',
-        cta: 'Go Vanguard'
+        badge: 'Premium',
+        cta: 'Get Started'
     }
 ]
 
@@ -254,3 +219,6 @@ export const maintenancePlan = {
     includes: 'Accomplishment Bank + updates + light AI support',
     positioning: "Stay ready, even when you're not searching"
 }
+
+// Backward compatibility alias
+export const novaNextPlans = ascendiaPlans

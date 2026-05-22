@@ -135,7 +135,8 @@ const WorkExperienceBuilder: React.FC = () => {
             bullet_text,
             order_index,
             is_featured,
-            par_story_id
+            par_story_id,
+            is_visible
           )
         `)
         .eq('resume_id', rId)
@@ -372,17 +373,44 @@ const WorkExperienceBuilder: React.FC = () => {
     if (!resumeId || !userId) return
 
     try {
-      // Get the CAR story
-      const { data: carStory, error: fetchError } = await supabase
-        .from('par_stories')
-        .select('*')
-        .eq('id', carStoryId)
-        .single()
+      // 1. Convert CAR story to bullet using backend API
+      let bullet = ''
+      try {
+        const fallbackApi = window.location.pathname.startsWith('/novaworkglobal') ? '/novaworkglobal-api' : ''
+        const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+        const { data: { session } } = await supabase.auth.getSession()
+        
+        const response = await fetch(`${apiUrl}/api/ai/convert-car-to-bullet`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session?.access_token}`
+          },
+          body: JSON.stringify({ carStoryId, force: true })
+        })
 
-      if (fetchError) throw fetchError
+        if (!response.ok) {
+          throw new Error('API call failed')
+        }
 
-      // Convert CAR to bullet format
-      const bullet = `${carStory.result} ${carStory.metrics.join(', ')}`
+        const data = await response.json()
+        if (data.success && data.bullet_text) {
+          bullet = data.bullet_text
+        } else {
+          throw new Error('API returned unsuccessful response')
+        }
+      } catch (apiError) {
+        console.warn('API convert-car-to-bullet failed, falling back to basic concatenation:', apiError)
+        // Fallback to basic concatenation if API fails
+        const { data: carStory, error: fetchError } = await supabase
+          .from('par_stories')
+          .select('*')
+          .eq('id', carStoryId)
+          .single()
+
+        if (fetchError) throw fetchError
+        bullet = `${carStory.result} ${Array.isArray(carStory.metrics) ? carStory.metrics.join(', ') : ''}`
+      }
 
       // Add accomplishment
       const exp = experiences.find(e => e.id === workExpId)
@@ -440,6 +468,49 @@ const WorkExperienceBuilder: React.FC = () => {
       await loadCARStories(userId)
     } catch (error) {
       console.error('Error converting CAR story:', error)
+      throw error
+    }
+  }
+
+  const handleToggleVisibility = async (workExpId: string, accId: string, isVisible: boolean) => {
+    if (!resumeId) return
+
+    try {
+      const { error } = await supabase
+        .from('accomplishments')
+        .update({ is_visible: isVisible })
+        .eq('id', accId)
+
+      if (error) throw error
+
+      await loadExperiences(resumeId)
+    } catch (error) {
+      console.error('Error toggling visibility:', error)
+      throw error
+    }
+  }
+
+  const handleReorderAccomplishments = async (workExpId: string, reorderedAccs: Accomplishment[]) => {
+    if (!resumeId) return
+
+    try {
+      // Update each accomplishment's order_index in Supabase
+      const promises = reorderedAccs.map((acc, index) => {
+        return supabase
+          .from('accomplishments')
+          .update({ order_index: index })
+          .eq('id', acc.id!)
+      })
+
+      const results = await Promise.all(promises)
+      
+      // Check if any request failed
+      const failed = results.find(r => r.error)
+      if (failed) throw failed.error
+
+      await loadExperiences(resumeId)
+    } catch (error) {
+      console.error('Error reordering accomplishments:', error)
       throw error
     }
   }
@@ -982,40 +1053,21 @@ const WorkExperienceBuilder: React.FC = () => {
                       <p className="text-gray-500 dark:text-gray-300 text-sm mb-4 italic">{exp.scope_description}</p>
                     )}
 
-                    {/* Current bullets */}
-                    {exp.accomplishments && exp.accomplishments.length > 0 && (
-                      <ul className="space-y-1.5 mb-3">
-                        {[...exp.accomplishments]
-                          .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
-                          .map(acc => (
-                            <li key={acc.id} className="flex items-start gap-2 group">
-                              <span className="text-gray-400 mt-0.5 shrink-0">•</span>
-                              <span className="text-sm text-gray-600 dark:text-gray-400 flex-1">{acc.bullet_text}</span>
-                              <button
-                                onClick={() => handleDeleteAccomplishment(exp.id!, acc.id!)}
-                                className="opacity-0 group-hover:opacity-100 text-red-400 hover:text-red-600 transition-opacity shrink-0 mt-0.5"
-                                title="Remove bullet"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
-                            </li>
-                          ))}
-                      </ul>
-                    )}
-
-                    {/* Add AI Bullets — adds without deleting existing ones */}
-                    {aiBulletCounts[exp.id!] > 0 && (
-                      <button
-                        onClick={() => handleAddAIBullets(exp.id!)}
-                        disabled={replacingAI === exp.id}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border border-primary-200 dark:border-primary-700 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition disabled:opacity-50"
-                      >
-                        {replacingAI === exp.id
-                          ? <><Loader2 className="w-3.5 h-3.5 animate-spin" /> Adding...</>
-                          : <><Sparkles className="w-3.5 h-3.5" /> Add AI Bullets ({aiBulletCounts[exp.id!]})</>
-                        }
-                      </button>
-                    )}
+                    {/* Accomplishments Manager */}
+                    <div className="mt-4 border-t border-gray-100 dark:border-gray-700/60 pt-4">
+                      <AccomplishmentManager
+                        workExperienceId={exp.id!}
+                        accomplishments={exp.accomplishments || []}
+                        carStories={carStories}
+                        roleIndex={index}
+                        onAddAccomplishment={(bullet, carStoryId) => handleAddAccomplishment(exp.id!, bullet, carStoryId)}
+                        onUpdateAccomplishment={(id, bullet) => handleUpdateAccomplishment(exp.id!, id, bullet)}
+                        onDeleteAccomplishment={(id) => handleDeleteAccomplishment(exp.id!, id)}
+                        onConvertCARStory={(carStoryId) => handleConvertCARStory(exp.id!, carStoryId)}
+                        onToggleVisibility={(id, isVisible) => handleToggleVisibility(exp.id!, id, isVisible)}
+                        onReorderAccomplishments={(reordered) => handleReorderAccomplishments(exp.id!, reordered)}
+                      />
+                    </div>
 
                   </div>
                 ))}

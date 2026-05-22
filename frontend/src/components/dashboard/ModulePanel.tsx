@@ -18,26 +18,26 @@ interface ModulePanelProps {
 // Icons per step (module → step index)
 const STEP_ICONS: Record<ModuleId, Array<{ icon: React.ReactNode; bg: string; color: string }>> = {
   'resume-builder': [
-    { icon: <ClipboardList size={16} />, bg: '#E3F2FD', color: '#1565C0' },
+    { icon: <ClipboardList size={16} />, bg: '#EAF4EC', color: '#07371E' },
     { icon: <Star size={16} />,          bg: '#FFF3E0', color: '#E65100' },
     { icon: <AlignLeft size={16} />,     bg: '#F3E5F5', color: '#7B1FA2' },
     { icon: <Layers size={16} />,        bg: '#E8F5E9', color: '#2E7D32' },
   ],
   'career-vision': [
     { icon: <Target size={16} />,       bg: '#E8F5E9', color: '#2E7D32' },
-    { icon: <Briefcase size={16} />,    bg: '#E3F2FD', color: '#1565C0' },
+    { icon: <Briefcase size={16} />,    bg: '#EAF4EC', color: '#07371E' },
     { icon: <AlignLeft size={16} />,    bg: '#FFF3E0', color: '#E65100' },
   ],
   'job-search': [
     { icon: <Target size={16} />,       bg: '#FFF3E0', color: '#E65100' },
-    { icon: <Briefcase size={16} />,    bg: '#E3F2FD', color: '#1565C0' },
+    { icon: <Briefcase size={16} />,    bg: '#EAF4EC', color: '#07371E' },
     { icon: <Users size={16} />,        bg: '#E8F5E9', color: '#2E7D32' },
     { icon: <Star size={16} />,         bg: '#F3E5F5', color: '#7B1FA2' },
-    { icon: <AlignLeft size={16} />,    bg: '#E8F5E9', color: '#1565C0' },
+    { icon: <AlignLeft size={16} />,    bg: '#E8F5E9', color: '#07371E' },
   ],
   'interview-mastery': [
     { icon: <ClipboardList size={16} />, bg: '#F3E5F5', color: '#7B1FA2' },
-    { icon: <Target size={16} />,        bg: '#E3F2FD', color: '#1565C0' },
+    { icon: <Target size={16} />,        bg: '#EAF4EC', color: '#07371E' },
     { icon: <Star size={16} />,          bg: '#FFF3E0', color: '#E65100' },
     { icon: <Users size={16} />,         bg: '#E8F5E9', color: '#2E7D32' },
   ],
@@ -45,7 +45,7 @@ const STEP_ICONS: Record<ModuleId, Array<{ icon: React.ReactNode; bg: string; co
 
 const TIER_BADGE: Record<string, { bg: string; text: string; border: string }> = {
   Momentum:  { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7' },
-  Essentials:{ bg: '#E3F2FD', text: '#1565C0', border: '#90CAF9' },
+  Essentials:{ bg: '#EAF4EC', text: '#07371E', border: '#A8D4B0' },
   Vanguard: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80' },
 }
 
@@ -61,7 +61,7 @@ function ProgressRing({ percent, size = 72 }: { percent: number; size?: number }
         <circle cx={cx} cy={cx} r={r} fill="none" stroke="#E2E8F0" strokeWidth={strokeWidth} />
         <circle
           cx={cx} cy={cx} r={r}
-          fill="none" stroke="#1976D2" strokeWidth={strokeWidth}
+          fill="none" stroke="#0E4B2B" strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeDasharray={`${circ}`}
           strokeDashoffset={`${offset}`}
@@ -138,7 +138,7 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
               <button
                 onClick={() => onWatchVideo(module.videoSrc)}
                 className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition-colors hover:opacity-90"
-                style={{ background: '#1976D2' }}
+                style={{ background: '#0E4B2B' }}
               >
                 <Play size={13} /> Watch video
               </button>
@@ -181,8 +181,8 @@ export default function ModulePanel({ module, userName, loading, onWatchVideo, o
                 step={step}
                 onLearnMore={onNavigate}
                 icon={icons[i]?.icon}
-                iconBg={icons[i]?.bg || '#E3F2FD'}
-                iconColor={icons[i]?.color || '#1565C0'}
+                iconBg={icons[i]?.bg || '#EAF4EC'}
+                iconColor={icons[i]?.color || '#07371E'}
                 stepNumber={i + 1}
               />
             ))

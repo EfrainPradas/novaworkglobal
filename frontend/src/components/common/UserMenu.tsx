@@ -423,35 +423,35 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'esenciales' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'core' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-gray-100 dark:bg-gray-700 rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200"
                     >
-                      {t('userMenu.essentials', 'Essentials')}
+                      {t('userMenu.core', 'Core')}
                     </button>
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'momentum' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'advance' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-emerald-100 dark:bg-emerald-900/30 rounded hover:bg-emerald-200 dark:hover:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400"
                     >
-                      {t('userMenu.momentum', 'Momentum')}
+                      {t('userMenu.advance', 'Advance')}
                     </button>
                     <button
                       onClick={async () => {
                         if (!user) return
-                        const { error } = await supabase.from('users').update({ subscription_tier: 'vanguard' }).eq('id', user.id)
+                        const { error } = await supabase.from('users').update({ subscription_tier: 'apex' }).eq('id', user.id)
                         if (error) alert('Error: ' + error.message)
                         else window.location.reload()
                       }}
                       className="flex-1 px-2 py-1 text-xs bg-amber-100 dark:bg-amber-900/30 rounded hover:bg-amber-200 dark:hover:bg-amber-900/50 text-amber-700 dark:text-amber-400"
                     >
-                      {t('userMenu.vanguard', 'Vanguard')}
+                      {t('userMenu.apex', 'Apex')}
                     </button>
                   </div>
                 </div>
@@ -473,9 +473,6 @@ export default function UserMenu({ user, userProfile, sizeClass = "w-10 h-10" }:
                   >
                     <option value="en">🇺🇸 English</option>
                     <option value="es">🇪🇸 Español</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="it">🇮🇹 Italiano</option>
-                    <option value="pt">🇧🇷 Português</option>
                   </select>
                 </div>
               </div>

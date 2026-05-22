@@ -18,7 +18,7 @@ export default function ResumePreview({ userId }: ResumePreviewProps) {
         <button
             id="resume-preview-btn"
             onClick={() => navigate('/dashboard/resume/type-selection?mode=standalone')}
-            className="fixed bottom-8 left-8 z-50 flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-blue-700 transition-all hover:scale-105"
+            className="fixed bottom-8 left-8 z-50 flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-full shadow-lg hover:bg-primary-700 transition-all hover:scale-105"
             title="Preview Resume"
         >
             <Eye className="w-5 h-5" />

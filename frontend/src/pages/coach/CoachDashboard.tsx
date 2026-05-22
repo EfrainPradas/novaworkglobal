@@ -101,7 +101,7 @@ interface Session {
 
 const stageConfig: Record<string, { label: string; color: string; bg: string }> = {
     researching: { label: "Investigating", color: "#64748b", bg: "#f1f5f9" },
-    networking: { label: "Networking", color: "#0891b2", bg: "#e0f2fe" },
+    networking: { label: "Networking", color: "#0891b2", bg: "#EAF4EC" },
     applied: { label: "Applied", color: "#7c3aed", bg: "#ede9fe" },
     screening: { label: "Screening", color: "#d97706", bg: "#fef3c7" },
     interview_1: { label: "Interview 1", color: "#ea580c", bg: "#fff7ed" },
@@ -113,11 +113,11 @@ const stageConfig: Record<string, { label: string; color: string; bg: string }> 
     rejected: { label: "Rejected", color: "#6b7280", bg: "#f3f4f6" },
 }
 
-const avatarColors = ["#0ea5e9", "#8b5cf6", "#ec4899", "#f59e0b", "#22c55e", "#06b6d4", "#f43f5e", "#84cc16"]
+const avatarColors = ["#4F8F55", "#8b5cf6", "#ec4899", "#f59e0b", "#22c55e", "#06b6d4", "#f43f5e", "#84cc16"]
 
 // ─── HELPER COMPONENTS ──────────────────────────────────────────────────────
 
-const ProgressRing = ({ value, size = 56, stroke = 5, color = "#0ea5e9" }: { value: number; size?: number; stroke?: number; color?: string }) => {
+const ProgressRing = ({ value, size = 56, stroke = 5, color = "#4F8F55" }: { value: number; size?: number; stroke?: number; color?: string }) => {
     const r = (size - stroke) / 2
     const circ = 2 * Math.PI * r
     const offset = circ - (value / 100) * circ
@@ -136,7 +136,7 @@ const AppStats = ({ apps, rejections }: { apps: number; rejections: number }) =>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <div style={{ textAlign: "center" }}>
                 <div style={{ fontSize: 10, color: "#94a3b8", marginBottom: 2 }}>Apps</div>
-                <div style={{ fontSize: 12, fontWeight: 800, color: "#0ea5e9" }}>{apps}</div>
+                <div style={{ fontSize: 12, fontWeight: 800, color: "#4F8F55" }}>{apps}</div>
             </div>
             <div style={{ width: 1, height: 20, background: "#e2e8f0" }} />
             <div style={{ textAlign: "center" }}>
@@ -147,11 +147,11 @@ const AppStats = ({ apps, rejections }: { apps: number; rejections: number }) =>
     )
 }
 
-const Badge = ({ children, color = "#0ea5e9", bg = "#e0f2fe" }: { children: React.ReactNode; color?: string; bg?: string }) => (
+const Badge = ({ children, color = "#4F8F55", bg = "#EAF4EC" }: { children: React.ReactNode; color?: string; bg?: string }) => (
     <span style={{ background: bg, color, fontSize: 11, fontWeight: 700, padding: "3px 8px", borderRadius: 6, letterSpacing: 0.3 }}>{children}</span>
 )
 
-const Avatar = ({ initials, size = 36, color = "#0ea5e9" }: { initials: string; size?: number; color?: string }) => (
+const Avatar = ({ initials, size = 36, color = "#4F8F55" }: { initials: string; size?: number; color?: string }) => (
     <div style={{ width: size, height: size, borderRadius: "50%", background: `${color}22`, border: `2px solid ${color}44`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: size * 0.35, fontWeight: 800, color, flexShrink: 0 }}>
         {initials}
     </div>
@@ -196,7 +196,7 @@ function ProgressTooltip({ children }: { children: React.ReactNode }) {
                     pointerEvents: 'none',
                     textAlign: 'left'
                 }}>
-                    <div style={{ fontWeight: 800, marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 6, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>NovaWork Progress Metric</div>
+                    <div style={{ fontWeight: 800, marginBottom: 8, borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: 6, fontSize: 10, textTransform: 'uppercase', letterSpacing: 0.5 }}>Ascendia Progress Metric</div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>🧭 Career Vision</span> <span>20%</span></div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', opacity: 0.9 }}><span>💼 Work Experience</span> <span>20%</span></div>
@@ -262,7 +262,7 @@ function OverviewView({
             {/* KPI Strip */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16, marginBottom: 28 }}>
                 {[
-                    { label: "Active Clients", value: String(stats.activeClients), sub: `${stats.totalClients} total`, icon: <Users size={22} />, accent: "#0ea5e9" },
+                    { label: "Active Clients", value: String(stats.activeClients), sub: `${stats.totalClients} total`, icon: <Users size={22} />, accent: "#4F8F55" },
                     { label: "Total Applications", value: String(stats.totalApps), sub: `${stats.totalRejections} rejections`, icon: <Target size={22} />, accent: "#22c55e" },
                     { label: "Tailored Resumes", value: String(stats.totalResumes), sub: "Across all clients", icon: <FileText size={22} />, accent: "#8b5cf6" },
                     { label: "Upcoming Sessions", value: String(stats.upcomingSessions), sub: "Next 7 days", icon: <Calendar size={22} />, accent: "#f59e0b" },
@@ -320,7 +320,7 @@ function OverviewView({
                                     </div>
                                     <div style={{ textAlign: "center", minWidth: 0 }}>
                                         <ProgressTooltip>
-                                            <ProgressRing value={c.progress || 0} size={48} stroke={4} color={(c.progress || 0) > 70 ? "#22c55e" : (c.progress || 0) > 0 ? "#0ea5e9" : "#e2e8f0"} />
+                                            <ProgressRing value={c.progress || 0} size={48} stroke={4} color={(c.progress || 0) > 70 ? "#22c55e" : (c.progress || 0) > 0 ? "#4F8F55" : "#e2e8f0"} />
                                             <span style={{ position: "absolute", fontSize: 11, fontWeight: 800, color: "#0f172a" }}>{c.progress || 0}%</span>
                                         </ProgressTooltip>
                                     </div>
@@ -329,8 +329,8 @@ function OverviewView({
                                     </div>
                                     <div style={{ textAlign: "right" }}>
                                         <Badge
-                                            color={c.status === "active" ? "#16a34a" : c.status === "paused" ? "#64748b" : c.status === "completed" ? "#0ea5e9" : "#dc2626"}
-                                            bg={c.status === "active" ? "#dcfce7" : c.status === "paused" ? "#f1f5f9" : c.status === "completed" ? "#e0f2fe" : "#fee2e2"}
+                                            color={c.status === "active" ? "#16a34a" : c.status === "paused" ? "#64748b" : c.status === "completed" ? "#4F8F55" : "#dc2626"}
+                                            bg={c.status === "active" ? "#dcfce7" : c.status === "paused" ? "#f1f5f9" : c.status === "completed" ? "#EAF4EC" : "#fee2e2"}
                                         >
                                             {c.status}
                                         </Badge>
@@ -348,7 +348,7 @@ function OverviewView({
                     <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", overflow: "hidden", boxShadow: "0 2px 12px #0000000a" }}>
                         <div style={{ padding: "16px 18px", borderBottom: "1px solid #f0f4f8", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>📅 Upcoming Sessions</div>
-                            <button onClick={() => setView("sessions")} style={{ fontSize: 11, color: "#0ea5e9", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>View all →</button>
+                            <button onClick={() => setView("sessions")} style={{ fontSize: 11, color: "#4F8F55", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>View all →</button>
                         </div>
                         <div style={{ padding: "8px 0" }}>
                             {(() => {
@@ -362,11 +362,11 @@ function OverviewView({
                                 ) : (
                                     upcomingList.slice(0, 4).map(s => (
                                         <div key={s.id} style={{ padding: "10px 18px", display: "flex", gap: 12, alignItems: "flex-start" }}>
-                                            <div style={{ width: 36, height: 36, borderRadius: 10, background: "#eff6ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>📋</div>
+                                            <div style={{ width: 36, height: 36, borderRadius: 10, background: "#EAF4EC", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, flexShrink: 0 }}>📋</div>
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ fontSize: 12, fontWeight: 700, color: "#0f172a" }}>{s.client_name || 'Client'}</div>
                                                 <div style={{ fontSize: 11, color: "#64748b" }}>{s.session_type} · {s.duration_minutes} min</div>
-                                                <div style={{ fontSize: 10, color: "#0ea5e9", fontWeight: 600, marginTop: 2 }}>{formatDate(s.scheduled_at)}</div>
+                                                <div style={{ fontSize: 10, color: "#4F8F55", fontWeight: 600, marginTop: 2 }}>{formatDate(s.scheduled_at)}</div>
                                             </div>
                                         </div>
                                     ))
@@ -379,7 +379,7 @@ function OverviewView({
                     <div style={{ background: "#fff", borderRadius: 16, border: "1.5px solid #e8edf2", overflow: "hidden", boxShadow: "0 2px 12px #0000000a" }}>
                         <div style={{ padding: "16px 18px", borderBottom: "1px solid #f0f4f8", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <div style={{ fontSize: 14, fontWeight: 800, color: "#0f172a" }}>🎯 Active Pipeline</div>
-                            <button onClick={() => setView("pipeline")} style={{ fontSize: 11, color: "#0ea5e9", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>View all →</button>
+                            <button onClick={() => setView("pipeline")} style={{ fontSize: 11, color: "#4F8F55", fontWeight: 700, background: "none", border: "none", cursor: "pointer" }}>View all →</button>
                         </div>
                         <div style={{ padding: "8px 0" }}>
                             {pipelineItems.length === 0 ? (
@@ -451,7 +451,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
             title: `Coaching Session with ${relation.client?.full_name || 'Client'}`,
             startDate: session.scheduled_at,
             durationMinutes: session.duration_minutes || 60,
-            description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
+            description: `Ascendia Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
             location: session.meeting_link || 'Online'
         })
         window.open(url, '_blank', 'noopener,noreferrer')
@@ -730,7 +730,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <ProgressTooltip>
-                            <ProgressRing value={relation.progress || 0} size={80} stroke={7} color={(relation.progress || 0) > 70 ? "#22c55e" : "#0ea5e9"} />
+                            <ProgressRing value={relation.progress || 0} size={80} stroke={7} color={(relation.progress || 0) > 70 ? "#22c55e" : "#4F8F55"} />
                             <div style={{ position: "absolute", textAlign: "center" }}>
                                 <div style={{ fontSize: 18, fontWeight: 900, color: "#0f172a" }}>{relation.progress || 0}%</div>
                                 <div style={{ fontSize: 9, color: "#94a3b8" }}>progress</div>
@@ -765,9 +765,9 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                             <div style={{ background: "#f8fafc", borderRadius: 12, padding: 14, border: '1px solid #e2e8f0' }}>
                                 <div style={{ fontSize: 10, fontWeight: 800, color: "#64748b", textTransform: "uppercase", marginBottom: 8 }}>Job Applications</div>
                                 <div style={{ display: "flex", gap: 8 }}>
-                                    <div style={{ flex: 1, background: "#f0f9ff", borderRadius: 8, padding: '10px 8px', textAlign: "center" }}>
-                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#0ea5e9", lineHeight: 1 }}>{(relation as any).apps || 0}</div>
-                                        <div style={{ fontSize: 9, fontWeight: 700, color: "#0369a1", textTransform: "uppercase", marginTop: 4 }}>Total Apps</div>
+                                    <div style={{ flex: 1, background: "#F4FAF5", borderRadius: 8, padding: '10px 8px', textAlign: "center" }}>
+                                        <div style={{ fontSize: 20, fontWeight: 900, color: "#4F8F55", lineHeight: 1 }}>{(relation as any).apps || 0}</div>
+                                        <div style={{ fontSize: 9, fontWeight: 700, color: "#0E4B2B", textTransform: "uppercase", marginTop: 4 }}>Total Apps</div>
                                     </div>
                                     <div style={{ flex: 1, background: "#fef2f2", borderRadius: 8, padding: '10px 8px', textAlign: "center" }}>
                                         <div style={{ fontSize: 20, fontWeight: 900, color: "#ef4444", lineHeight: 1 }}>{(relation as any).rejections || 0}</div>
@@ -825,14 +825,14 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
 
                     {/* Active Goal */}
                     {goals.length > 0 ? (
-                        <div style={{ background: "linear-gradient(135deg, #0f172a, #1e3a5f)", borderRadius: 14, padding: "20px 22px", color: "#fff" }}>
-                            <div style={{ fontSize: 12, color: "#93c5fd", fontWeight: 700, marginBottom: 8 }}>🎯 ACTIVE GOAL</div>
+                        <div style={{ background: "linear-gradient(135deg, #0B1311, #07371E)", borderRadius: 14, padding: "20px 22px", color: "#fff" }}>
+                            <div style={{ fontSize: 12, color: "#A8D4B0", fontWeight: 700, marginBottom: 8 }}>🎯 ACTIVE GOAL</div>
                             <div style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>{goals[0].title}</div>
-                            {goals[0].target_date && <div style={{ fontSize: 12, color: "#7dd3fc", marginBottom: 16 }}>Deadline: {new Date(goals[0].target_date).toLocaleDateString()}</div>}
+                            {goals[0].target_date && <div style={{ fontSize: 12, color: "#A8D4B0", marginBottom: 16 }}>Deadline: {new Date(goals[0].target_date).toLocaleDateString()}</div>}
                             <div style={{ height: 8, background: "#ffffff20", borderRadius: 99, overflow: "hidden" }}>
-                                <div style={{ width: `${goals[0].progress_percentage || 0}%`, height: "100%", background: "linear-gradient(90deg, #0ea5e9, #22c55e)", borderRadius: 99 }} />
+                                <div style={{ width: `${goals[0].progress_percentage || 0}%`, height: "100%", background: "linear-gradient(90deg, #0E4B2B, #4F8F55)", borderRadius: 99 }} />
                             </div>
-                            <div style={{ fontSize: 11, color: "#93c5fd", marginTop: 6 }}>{goals[0].progress_percentage || 0}% complete</div>
+                            <div style={{ fontSize: 11, color: "#A8D4B0", marginTop: 6 }}>{goals[0].progress_percentage || 0}% complete</div>
                         </div>
                     ) : (
                         <div style={{ background: "#f8fafc", borderRadius: 14, border: "1.5px solid #e8edf2", padding: "20px 22px", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -873,7 +873,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                     {
                         title: 'Career Vision', icon: '🧭',
                         completed: pp.careerVisionCompleted, started: pp.careerVisionStarted,
-                        color: '#3b82f6', bg: '#eff6ff',
+                        color: '#4F8F55', bg: '#EAF4EC',
                         details: pp.careerVisionCompleted ? 'Completed' : pp.careerVisionStarted ? 'In Progress' : 'Not started',
                     },
                     {
@@ -913,18 +913,18 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                         {!expandedModule ? (
                             <>
                                 {/* Resume Score Card */}
-                                <div style={{ background: 'linear-gradient(135deg, #0f172a, #1e3a5f)', borderRadius: 16, padding: '24px 28px', marginBottom: 20, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div style={{ background: 'linear-gradient(135deg, #0B1311, #07371E)', borderRadius: 16, padding: '24px 28px', marginBottom: 20, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <div>
-                                        <div style={{ fontSize: 12, color: '#93c5fd', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>NovaWork Platform Progress</div>
+                                        <div style={{ fontSize: 12, color: '#A8D4B0', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: 1 }}>Ascendia Platform Progress</div>
                                         <div style={{ fontSize: 20, fontWeight: 900, marginBottom: 8 }}>{client?.full_name || 'Client'}</div>
-                                        <div style={{ fontSize: 13, color: '#7dd3fc' }}>{completedModules} of {moduleCards.length} modules completed</div>
+                                        <div style={{ fontSize: 13, color: '#A8D4B0' }}>{completedModules} of {moduleCards.length} modules completed</div>
                                     </div>
                                     <div style={{ textAlign: 'center' }}>
                                         <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
-                                            <ProgressRing value={resumeScore} size={90} stroke={8} color={resumeScore > 70 ? '#22c55e' : resumeScore > 40 ? '#0ea5e9' : '#f59e0b'} />
+                                            <ProgressRing value={resumeScore} size={90} stroke={8} color={resumeScore > 70 ? '#22c55e' : resumeScore > 40 ? '#4F8F55' : '#f59e0b'} />
                                             <div style={{ position: 'absolute', textAlign: 'center' }}>
                                                 <div style={{ fontSize: 22, fontWeight: 900 }}>{resumeScore}%</div>
-                                                <div style={{ fontSize: 9, color: '#93c5fd' }}>resume score</div>
+                                                <div style={{ fontSize: 9, color: '#A8D4B0' }}>resume score</div>
                                             </div>
                                         </div>
                                     </div>
@@ -1066,13 +1066,13 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
 
                                                 {/* Section 2: Skills & Interests */}
                                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
-                                                    <div style={{ background: '#f0f9ff', padding: 16, borderRadius: 14, border: '1px solid #bae6fd' }}>
-                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#0369a1', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
+                                                    <div style={{ background: '#F4FAF5', padding: 16, borderRadius: 14, border: '1px solid #A8D4B0' }}>
+                                                        <h4 style={{ fontWeight: 800, marginBottom: 12, color: '#0E4B2B', fontSize: 13, display: 'flex', alignItems: 'center', gap: 6 }}>
                                                             <span>💪</span> Key Skills
                                                         </h4>
                                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                                                             {moduleData.skills?.length > 0 ? moduleData.skills.map((s: string) => (
-                                                                <span key={s} style={{ background: '#fff', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, color: '#0ea5e9', border: '1px solid #0ea5e930', boxShadow: '0 1px 2px #00000005' }}>{s}</span>
+                                                                <span key={s} style={{ background: '#fff', padding: '4px 10px', borderRadius: 8, fontSize: 11, fontWeight: 600, color: '#4F8F55', border: '1px solid #4F8F5530', boxShadow: '0 1px 2px #00000005' }}>{s}</span>
                                                             )) : <span style={{ fontSize: 12, color: '#94a3b8' }}>No skills listed.</span>}
                                                         </div>
                                                     </div>
@@ -1245,7 +1245,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                                                 </div>
                                                                                 <div style={{ display: 'flex', gap: 6, marginTop: 6, flexWrap: 'wrap' }}>
                                                                                     {c.problem_challenge && <Badge color="#f59e0b" bg="#fef3c7">Challenge ✓</Badge>}
-                                                                                    {(c.actions?.length > 0 || c.action) && <Badge color="#3b82f6" bg="#dbeafe">Action ✓</Badge>}
+                                                                                    {(c.actions?.length > 0 || c.action) && <Badge color="#4F8F55" bg="#EAF4EC">Action ✓</Badge>}
                                                                                     {c.result && <Badge color="#10b981" bg="#d1fae5">Result ✓</Badge>}
                                                                                 </div>
                                                                             </div>
@@ -1259,11 +1259,11 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                                                 )}
                                                                                 {(c.actions?.filter((a: string) => a)?.length > 0) && (
                                                                                     <div>
-                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#3b82f6', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>Action</div>
+                                                                                        <div style={{ fontSize: 10, fontWeight: 700, color: '#4F8F55', textTransform: 'uppercase', marginBottom: 4, letterSpacing: '0.5px' }}>Action</div>
                                                                                         <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                                                                                             {c.actions.filter((a: string) => a).map((act: string, ai: number) => (
                                                                                                 <div key={ai} style={{ fontSize: 12, color: '#475569', lineHeight: 1.6, display: 'flex', gap: 6 }}>
-                                                                                                    <span style={{ color: '#3b82f6', fontWeight: 700 }}>•</span><span>{act}</span>
+                                                                                                    <span style={{ color: '#4F8F55', fontWeight: 700 }}>•</span><span>{act}</span>
                                                                                                 </div>
                                                                                             ))}
                                                                                         </div>
@@ -1323,7 +1323,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                             const statusColors: Record<string, { color: string, bg: string }> = {
                                                 found: { color: '#64748b', bg: '#f1f5f9' },
                                                 tailoring: { color: '#7c3aed', bg: '#f5f3ff' },
-                                                applied: { color: '#0ea5e9', bg: '#e0f2fe' },
+                                                applied: { color: '#4F8F55', bg: '#EAF4EC' },
                                                 followed_up: { color: '#f59e0b', bg: '#fef3c7' },
                                                 interviewing: { color: '#8b5cf6', bg: '#ede9fe' },
                                                 offer: { color: '#10b981', bg: '#d1fae5' },
@@ -1628,7 +1628,7 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                     {g.status !== "completed" && g.progress_percentage > 0 && (
                                         <div style={{ marginTop: 8 }}>
                                             <div style={{ height: 5, background: "#f1f5f9", borderRadius: 99, overflow: "hidden" }}>
-                                                <div style={{ width: `${g.progress_percentage}%`, height: "100%", background: "#0ea5e9", borderRadius: 99 }} />
+                                                <div style={{ width: `${g.progress_percentage}%`, height: "100%", background: "#4F8F55", borderRadius: 99 }} />
                                             </div>
                                             <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 3 }}>{g.progress_percentage}% complete</div>
                                         </div>
@@ -1652,11 +1652,11 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                             const isConfirmed = s.status === 'confirmed' || s.status === 'scheduled'
                             const isCompleted = s.status === 'completed'
                             const isDeclined = s.status === 'declined' || s.status === 'cancelled'
-                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#0ea5e9' : isCompleted ? '#22c55e' : '#ef4444'
-                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#e0f2fe' : isCompleted ? '#dcfce7' : '#fee2e2'
+                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#4F8F55' : isCompleted ? '#22c55e' : '#ef4444'
+                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#EAF4EC' : isCompleted ? '#dcfce7' : '#fee2e2'
                             return (
                                 <div key={s.id} style={{ display: "flex", gap: 16, padding: "16px 0", borderBottom: i < clientSessions.length - 1 ? "1px solid #f1f5f9" : "none", alignItems: "flex-start" }}>
-                                    <div style={{ width: 40, height: 40, borderRadius: 10, background: isPending ? '#fef9c3' : isConfirmed ? '#eff6ff' : isCompleted ? '#f0fdf4' : '#fff1f2', display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
+                                    <div style={{ width: 40, height: 40, borderRadius: 10, background: isPending ? '#fef9c3' : isConfirmed ? '#EAF4EC' : isCompleted ? '#f0fdf4' : '#fff1f2', display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18, flexShrink: 0 }}>
                                         {isPending ? "⏳" : isConfirmed ? "📅" : isCompleted ? "✅" : "❌"}
                                     </div>
                                     <div style={{ flex: 1 }}>
@@ -1707,8 +1707,8 @@ function ClientView({ relation, onBack }: { relation: ClientRelation & { progres
                                                     onClick={(e) => { e.stopPropagation(); handleClientAddToCalendar(s) }}
                                                     style={{ 
                                                         padding: '7px 18px', borderRadius: 8, fontSize: 12, fontWeight: 700, 
-                                                        color: clientCalendarAdded[s.id] ? '#166534' : '#0ea5e9', 
-                                                        background: clientCalendarAdded[s.id] ? '#dcfce7' : '#eff6ff', 
+                                                        color: clientCalendarAdded[s.id] ? '#166534' : '#4F8F55', 
+                                                        background: clientCalendarAdded[s.id] ? '#dcfce7' : '#EAF4EC', 
                                                         border: clientCalendarAdded[s.id] ? '1px solid #bbf7d0' : 'none', 
                                                         cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
                                                     }}
@@ -1789,7 +1789,7 @@ function PipelineView({ items }: { items: PipelineItem[] }) {
                                                 {[1, 2, 3, 4, 5].map(s => <span key={s} style={{ fontSize: 10, color: s <= (p.interest_level || 0) ? "#f59e0b" : "#e2e8f0" }}>★</span>)}
                                             </div>
                                         </div>
-                                        {p.next_step && <div style={{ fontSize: 10, color: "#0ea5e9", marginTop: 6, fontWeight: 600 }}>→ {p.next_step}</div>}
+                                        {p.next_step && <div style={{ fontSize: 10, color: "#4F8F55", marginTop: 6, fontWeight: 600 }}>→ {p.next_step}</div>}
                                     </div>
                                 ))}
                                 {stageItems.length === 0 && <div style={{ textAlign: "center", color: "#cbd5e1", fontSize: 11, paddingTop: 20 }}>No opportunities</div>}
@@ -1870,7 +1870,7 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
 
     const tierColors: Record<string, string> = {
         free: '#94a3b8',
-        pro: '#3b82f6',
+        pro: '#4F8F55',
         executive: '#8b5cf6',
         corporate: '#f59e0b',
     }
@@ -1880,7 +1880,7 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
             <div style={{ position: 'absolute', inset: 0, background: '#00000060', backdropFilter: 'blur(4px)' }} />
             <div style={{ position: 'relative', background: '#fff', borderRadius: 20, padding: '32px', maxWidth: 540, width: '100%', boxShadow: '0 20px 60px #00000030', maxHeight: '90vh', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
                 <div style={{ fontSize: 20, fontWeight: 900, color: '#0f172a', marginBottom: 4 }}>Add New Client</div>
-                <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>Search and select a NovaWork user to assign to your coaching practice</div>
+                <div style={{ fontSize: 13, color: '#94a3b8', marginBottom: 20 }}>Search and select an Ascendia user to assign to your coaching practice</div>
 
                 {/* Search Input */}
                 <div style={{ marginBottom: 16 }}>
@@ -1921,7 +1921,7 @@ function AddClientModal({ coachId, onClose, onAdded }: { coachId: string; onClos
                                             background: isExisting ? '#f8fafc' : 'transparent',
                                             transition: 'background 0.15s',
                                         }}
-                                        onMouseEnter={e => { if (!isExisting) (e.currentTarget as HTMLDivElement).style.background = '#f0f9ff' }}
+                                        onMouseEnter={e => { if (!isExisting) (e.currentTarget as HTMLDivElement).style.background = '#F4FAF5' }}
                                         onMouseLeave={e => { if (!isExisting) (e.currentTarget as HTMLDivElement).style.background = 'transparent' }}
                                     >
                                         <Avatar initials={getInitials(user.full_name, user.email)} size={38} color={isExisting ? '#94a3b8' : '#4f46e5'} />
@@ -2021,7 +2021,7 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
             title: `Coaching Session with ${session.client_name}`,
             startDate: session.scheduled_at,
             durationMinutes: session.duration_minutes || 60,
-            description: `NovaWork Global Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
+            description: `Ascendia Coaching Session\nType: ${session.session_type}\nStatus: ${session.status}\nPlease connect on time.`,
             location: session.meeting_link || 'Online'
         })
         window.open(url, '_blank', 'noopener,noreferrer')
@@ -2084,11 +2084,11 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                             const isPending = s.status === 'pending'
                             const isConfirmed = s.status === 'confirmed' || s.status === 'scheduled'
                             const isDeclined = s.status === 'declined' || s.status === 'cancelled'
-                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#0ea5e9' : s.status === 'completed' ? '#22c55e' : '#ef4444'
-                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#e0f2fe' : s.status === 'completed' ? '#dcfce7' : '#fee2e2'
+                            const statusColor = isPending ? '#f59e0b' : isConfirmed ? '#4F8F55' : s.status === 'completed' ? '#22c55e' : '#ef4444'
+                            const statusBg = isPending ? '#fef3c7' : isConfirmed ? '#EAF4EC' : s.status === 'completed' ? '#dcfce7' : '#fee2e2'
                             return (
                                 <div key={s.id} style={{ border: `1.5px solid ${isPending ? '#fde68a' : '#f0f4f8'}`, borderRadius: 12, padding: '16px', display: 'flex', gap: 16, alignItems: 'flex-start', background: isPending ? '#fffbeb' : '#fff' }}>
-                                    <div style={{ width: 44, height: 44, borderRadius: 10, background: isPending ? '#fef9c3' : '#eff6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isPending ? '#f59e0b' : '#0ea5e9', fontSize: 20 }}>
+                                    <div style={{ width: 44, height: 44, borderRadius: 10, background: isPending ? '#fef9c3' : '#EAF4EC', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isPending ? '#f59e0b' : '#4F8F55', fontSize: 20 }}>
                                         {isPending ? '⏳' : isDeclined ? '❌' : <Calendar size={22} />}
                                     </div>
                                     <div style={{ flex: 1 }}>
@@ -2144,9 +2144,9 @@ function SessionsView({ coachId, sessions, loadData }: { coachId: string; sessio
                                                         onClick={(e) => { e.stopPropagation(); handleAddToCalendar(s) }}
                                                         style={{ 
                                                             flex: 1, padding: '8px', borderRadius: 8, fontSize: 12, fontWeight: 700, 
-                                                            color: calendarAdded[s.id] ? '#166534' : '#0ea5e9', 
-                                                            background: calendarAdded[s.id] ? '#dcfce7' : '#eff6ff', 
-                                                            border: calendarAdded[s.id] ? '1px solid #bbf7d0' : '1px solid #bae6fd', 
+                                                            color: calendarAdded[s.id] ? '#166534' : '#4F8F55', 
+                                                            background: calendarAdded[s.id] ? '#dcfce7' : '#EAF4EC', 
+                                                            border: calendarAdded[s.id] ? '1px solid #bbf7d0' : '1px solid #A8D4B0', 
                                                             cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 
                                                         }}
                                                     >
@@ -2197,7 +2197,7 @@ function AnalyticsView({ stats }: { stats: CoachStats }) {
                     <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Clients successfully placed in new roles</div>
                 </div>
                 <div style={{ background: '#fff', borderRadius: 16, border: '1.5px solid #e8edf2', padding: '24px', boxShadow: '0 2px 10px #00000005' }}>
-                    <div style={{ color: '#0ea5e9', marginBottom: 12 }}><Clock size={24} /></div>
+                    <div style={{ color: '#4F8F55', marginBottom: 12 }}><Clock size={24} /></div>
                     <div style={{ fontSize: 32, fontWeight: 900, color: '#0f172a' }}>{Number((stats.totalClients * 4.2).toFixed(1))}h</div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#64748b', marginTop: 4 }}>Total Coaching Time</div>
                     <div style={{ fontSize: 11, color: '#94a3b8', marginTop: 8 }}>Estimated hours spent in direct coaching</div>
@@ -2465,19 +2465,19 @@ export default function CoachDashboard() {
             >
                 {/* Logo */}
                 <div style={{ padding: "22px 20px 16px", borderBottom: "1px solid #ffffff10" }}>
-                    <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>Nova<span style={{ color: "#38bdf8" }}>Work</span></div>
+                    <div style={{ fontSize: 18, fontWeight: 900, color: "#fff", letterSpacing: -0.5 }}>Ascend<span style={{ color: "#6BB87E" }}>ia</span></div>
                     <div style={{ fontSize: 10, color: "#94a3b8", marginTop: 2, letterSpacing: 1.5, textTransform: "uppercase" }}>Coach Portal</div>
                 </div>
 
                 {/* Coach Profile */}
                 <div style={{ padding: "16px 20px", borderBottom: "1px solid #ffffff10" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #38bdf8, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 800, color: "#fff" }}>
+                        <div style={{ width: 36, height: 36, borderRadius: "50%", background: "linear-gradient(135deg, #6BB87E, #818cf8)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, fontWeight: 800, color: "#fff" }}>
                             {getInitials(userProfile?.full_name, user?.email)}
                         </div>
                         <div>
                             <div style={{ fontSize: 13, fontWeight: 700, color: "#f8fafc" }}>{userProfile?.full_name || user?.email || 'Coach'}</div>
-                            <div style={{ fontSize: 10, color: "#38bdf8" }}>Career Coach</div>
+                            <div style={{ fontSize: 10, color: "#6BB87E" }}>Career Coach</div>
                         </div>
                     </div>
                 </div>
@@ -2486,7 +2486,7 @@ export default function CoachDashboard() {
                 <nav style={{ padding: "12px 12px", flex: 1 }}>
                     {navItems.map(n => (
                         <button key={n.id} onClick={() => { setView(n.id); setSelectedClient(null); setSidebarOpen(false) }}
-                            style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, border: "none", background: view === n.id || (view === "client" && n.id === "overview") ? "#ffffff15" : "none", color: view === n.id || (view === "client" && n.id === "overview") ? "#fff" : "#94a3b8", fontSize: 13, fontWeight: view === n.id ? 700 : 500, cursor: "pointer", marginBottom: 2, textAlign: "left" as const, borderLeft: view === n.id || (view === "client" && n.id === "overview") ? "3px solid #38bdf8" : "3px solid transparent", transition: "all 0.15s" }}>
+                            style={{ width: "100%", display: "flex", alignItems: "center", gap: 10, padding: "10px 12px", borderRadius: 10, border: "none", background: view === n.id || (view === "client" && n.id === "overview") ? "#ffffff15" : "none", color: view === n.id || (view === "client" && n.id === "overview") ? "#fff" : "#94a3b8", fontSize: 13, fontWeight: view === n.id ? 700 : 500, cursor: "pointer", marginBottom: 2, textAlign: "left" as const, borderLeft: view === n.id || (view === "client" && n.id === "overview") ? "3px solid #6BB87E" : "3px solid transparent", transition: "all 0.15s" }}>
                             <span>{n.icon}</span>{n.label}
                         </button>
                     ))}
@@ -2512,7 +2512,7 @@ export default function CoachDashboard() {
                         onMouseEnter={e => { e.currentTarget.style.background = "#ffffff10"; e.currentTarget.style.color = "#fff" }}
                         onMouseLeave={e => { e.currentTarget.style.background = "none"; e.currentTarget.style.color = "#94a3b8" }}
                     >
-                        ← Back to NovaWork
+                        ← Back to Ascendia
                     </button>
                 </div>
             </div>

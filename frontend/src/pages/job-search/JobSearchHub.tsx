@@ -6,9 +6,8 @@ import { BackButton } from '../../components/common/BackButton'
 import { getVideoUrl } from '@/config/videoUrls'
 import VisualGuide from '../../components/common/VisualGuide'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
-import { Target, ArrowRight, Users, LayoutDashboard, Compass, Network, HelpCircle, Brain, Globe, X, Play } from 'lucide-react'
+import { Users, LayoutDashboard, Compass, Network, Brain, Globe, X, Video, ChevronRight } from 'lucide-react'
 import AIJobSearch from '../../components/job-search/AIJobSearch'
-import CoachingTeaser from '../../components/services/CoachingTeaser'
 
 export default function JobSearchHub() {
     const navigate = useNavigate()
@@ -105,37 +104,34 @@ export default function JobSearchHub() {
 
     return (
         <div className="min-h-screen bg-gray-50/50 dark:bg-gray-900 pb-10 transition-colors duration-200">
-            <div className="max-w-7xl mx-auto px-4 py-6 space-y-6">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 space-y-6">
 
-                {/* Header Section */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white dark:bg-gray-800 p-5 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">
-                    <div>
-                        <BackButton to="/dashboard" label="Back to Dashboard" className="mb-2 pl-0" />
-                        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-1 flex items-center gap-3">
-                            <span className="p-2 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 rounded-lg">
-                                <Target className="w-8 h-8" />
-                            </span>
-                            {t('jobSearch.hub.title', 'Job Search & Application Suite')}
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-300 max-w-2xl text-base">
-                            {t('jobSearch.hub.subtitle', 'Your dashboard for landing the job. Plan, track, analyze, and prepare.')}
-                        </p>
-                        <div
-                            onClick={() => navigate('/dashboard/job-search/learn-more')}
-                            className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
-                        >
-                            <span className="font-bold">{t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}</span>
-                            <span>{t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}</span>
-                            <ArrowRight className="w-4 h-4 ml-1" />
+                {/* Header */}
+                <div className="mb-2">
+                    <BackButton to="/dashboard" label="Back to Dashboard" className="pl-0" />
+                    <div className="mt-4 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                        <div className="flex-1">
+                            <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                                {t('jobSearch.hub.title', 'Job Search & Application Suite')}
+                            </h1>
+                            <p className="text-slate-600 dark:text-slate-400 mb-3 max-w-2xl">
+                                {t('jobSearch.hub.subtitle', 'Your dashboard for landing the job. Plan, track, analyze, and prepare.')}
+                            </p>
+                            <div className="flex flex-wrap items-center gap-4 text-slate-600 dark:text-slate-400">
+                                <LearnMoreLink
+                                    label={t('jobSearch.hub.strategicFramework', 'Understand the Strategic Framework:')}
+                                    description={t('jobSearch.hub.frameworkStat', 'Success, getting called 75% faster than most')}
+                                    onClick={() => navigate('/dashboard/job-search/learn-more')}
+                                />
+                                <button
+                                    onClick={() => setShowVideoModal(true)}
+                                    className="flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700 dark:text-primary-400 transition-colors"
+                                >
+                                    <Video size={16} />
+                                    {t('common.watchVideo', 'Watch video')}
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex gap-3">
-                        <button
-                            onClick={() => setShowVideoModal(true)}
-                            className="px-4 py-2 bg-primary-600 text-white rounded-lg font-medium hover:bg-primary-700 transition-colors flex items-center gap-2"
-                        >
-                            <Play fill="currentColor" className="w-4 h-4" /> {t('common.watchVideo', 'Watch video')}
-                        </button>
                     </div>
                 </div>
 
@@ -143,35 +139,40 @@ export default function JobSearchHub() {
                 <div id="ai-search-engine" className="scroll-mt-6">
                     <AIJobSearch>
                         {/* Tools Grid - Now injected between search and results */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {tools.slice(1).map((tool) => { // Skip the first tool (AI Job Search) since it's the wrapper
                                 const Icon = tool.icon
                                 return (
                                     <div
                                         key={tool.id}
                                         onClick={() => navigate(tool.route)}
-                                        className={`group relative p-5 rounded-xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 hover:border-primary-100 dark:hover:border-primary-900 hover:shadow-lg transition-all duration-300 cursor-pointer flex flex-col ${tool.className || ''}`}
+                                        className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group flex flex-col h-full"
                                     >
-                                        <div className="flex justify-between items-start mb-3">
-                                            <div className={`p-3 rounded-lg ${tool.bgColor} dark:bg-primary-900/30 ${tool.color} dark:text-primary-400 group-hover:scale-110 transition-transform duration-300`}>
-                                                <Icon className="w-6 h-6" />
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div className="w-14 h-14 rounded-xl bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-primary-400 flex items-center justify-center transition-transform group-hover:scale-110 duration-300">
+                                                <Icon className="w-7 h-7" />
                                             </div>
                                             {tool.badge && (
-                                                <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide ${tool.bgColor} dark:bg-primary-900/30 ${tool.color} dark:text-primary-400`}>
+                                                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400">
                                                     {tool.badge}
                                                 </span>
                                             )}
                                         </div>
 
-                                        <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
+                                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                                             {tool.title}
                                         </h3>
-                                        <p className="text-sm text-gray-600 dark:text-gray-300 mb-3 flex-grow leading-relaxed">
+                                        <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed flex-1">
                                             {tool.description}
                                         </p>
 
-                                        <div className="flex items-center text-primary-600 dark:text-primary-400 font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                                            {t('jobSearch.hub.openTool', 'Open Tool')} <ArrowRight className="w-4 h-4 ml-2" />
+                                        <div className="flex flex-col gap-3 mt-6">
+                                            <button
+                                                className="w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20"
+                                            >
+                                                {t('jobSearch.hub.openTool', 'Open Tool')}
+                                                <ChevronRight size={18} />
+                                            </button>
                                         </div>
                                     </div>
                                 )
@@ -223,8 +224,6 @@ export default function JobSearchHub() {
             />
 
             {/* Video Modal - Unified Frame */}
-            <CoachingTeaser />
-
             {showVideoModal && (
                 <div
                     className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"

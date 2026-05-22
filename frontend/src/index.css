@@ -1,8 +1,102 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Outfit:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700;800&family=Outfit:wght@400;600;700&family=DM+Sans:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ──────────────────────────────────────────────────────────────────────
+   Ascendia design tokens
+   Source: branding/mockups/Ascendia.html (approved mock)
+   Available globally as CSS variables; components opt in via var(--…).
+   Tailwind theme stays intact for unmigrated components.
+   ────────────────────────────────────────────────────────────────────── */
+:root {
+  /* Brand (deep evergreen) */
+  --ascendia-primary: #0E4B2B;
+  --ascendia-primary-hover: #07371E;
+  --ascendia-primary-foreground: #FFFFFF;
+  --ascendia-secondary: #4F8F55;
+  --ascendia-primary-deep: #2f5e25;
+  --ascendia-accent: #EAF4EC;
+  --ascendia-accent-hover: #D5E9D9;
+  --ascendia-accent-subtle: #f4faf5;
+
+  /* Surfaces */
+  --ascendia-bg: #F6F7F5;
+  --ascendia-surface: #FFFFFF;
+  --ascendia-surface-elevated: #FFFFFF;
+  --ascendia-surface-muted: #FAFBFA;
+
+  /* Text */
+  --ascendia-text: #101917;
+  --ascendia-text-muted: #6F7C76;
+  --ascendia-text-subtle: #9AA6A0;
+  --ascendia-text-on-primary: #FFFFFF;
+
+  /* Borders */
+  --ascendia-border: #D9E1DC;
+  --ascendia-border-strong: #C9D1CF;
+  --ascendia-border-soft: #E7ECE8;
+  --ascendia-border-focus: #0E4B2B;
+  --ascendia-border-width-thin: 1px;
+  --ascendia-border-width-base: 1.5px;
+  --ascendia-border-width-thick: 2px;
+
+  /* Semantic states */
+  --ascendia-success: #4F8F55;
+  --ascendia-warning: #D89A1E;
+  --ascendia-danger: #D94D4D;
+  --ascendia-info: #4A7DB8;
+
+  /* Radius */
+  --ascendia-radius-xs: 4px;
+  --ascendia-radius-sm: 6px;
+  --ascendia-radius-md: 12px;
+  --ascendia-radius-lg: 14px;
+  --ascendia-radius-xl: 28px;
+  --ascendia-radius-full: 9999px;
+
+  /* Shadow scale (soft, premium) */
+  --ascendia-shadow-xs: 0 1px 2px 0 rgba(16, 25, 23, 0.04);
+  --ascendia-shadow-sm: 0 2px 6px 0 rgba(16, 25, 23, 0.05);
+  --ascendia-shadow-md: 0 10px 24px 0 rgba(16, 25, 23, 0.035);
+  --ascendia-shadow-lg: 0 18px 45px 0 rgba(16, 25, 23, 0.08);
+  --ascendia-shadow-xl: 0 28px 56px -12px rgba(16, 25, 23, 0.18);
+  --ascendia-shadow-focus: 0 0 0 3px rgba(14, 75, 43, 0.22);
+}
+
+.dark {
+  --ascendia-primary: #5FB672;
+  --ascendia-primary-hover: #7CC98D;
+  --ascendia-primary-foreground: #07120D;
+  --ascendia-secondary: #7CC98D;
+  --ascendia-primary-deep: #1A3D18;
+  --ascendia-accent: #1E3A29;
+  --ascendia-accent-hover: #2A4F36;
+  --ascendia-accent-subtle: #1A2E22;
+
+  --ascendia-bg: #0B1311;
+  --ascendia-surface: #131D1A;
+  --ascendia-surface-elevated: #182622;
+  --ascendia-surface-muted: #0F1816;
+
+  --ascendia-text: #ECF3EE;
+  --ascendia-text-muted: #A6B5AC;
+  --ascendia-text-subtle: #7C8B82;
+  --ascendia-text-on-primary: #07120D;
+
+  --ascendia-border: #1F2A26;
+  --ascendia-border-strong: #2C3934;
+  --ascendia-border-soft: #1A2421;
+  --ascendia-border-focus: #5FB672;
+
+  --ascendia-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --ascendia-shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.45);
+  --ascendia-shadow-md: 0 6px 16px -4px rgba(0, 0, 0, 0.55);
+  --ascendia-shadow-lg: 0 16px 32px -8px rgba(0, 0, 0, 0.65);
+  --ascendia-shadow-xl: 0 28px 56px -12px rgba(0, 0, 0, 0.75);
+  --ascendia-shadow-focus: 0 0 0 3px rgba(95, 182, 114, 0.35);
+}
 
 * {
   margin: 0;
@@ -13,7 +107,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 100px;
-  /* Offset for fixed header */
+  overflow-x: hidden;
 }
 
 body {
@@ -21,6 +115,20 @@ body {
   font-family: 'Inter', 'Montserrat', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  overflow-x: hidden;
+  min-height: 100dvh;
+}
+
+/* Safari dvh fallback */
+@supports not (min-height: 100dvh) {
+  #root {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
 }
 
 h1,

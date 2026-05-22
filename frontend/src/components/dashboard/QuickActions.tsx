@@ -14,8 +14,8 @@ const actions = [
   },
   {
     icon: <Upload size={15} />,
-    iconBg: '#E3F2FD',
-    iconColor: '#1565C0',
+    iconBg: '#EAF4EC',
+    iconColor: '#07371E',
     label: 'Upload Resume',
     route: '/resume/work-experience?openImport=true',
   },

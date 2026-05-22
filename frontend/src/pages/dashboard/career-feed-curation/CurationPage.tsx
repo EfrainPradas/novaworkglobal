@@ -25,13 +25,13 @@ const STATUS_FILTERS: Array<CurationStatus | 'all'> = ['all', 'pending', 'approv
 const STATUS_COLORS: Record<CurationStatus, { bg: string; text: string }> = {
   pending:   { bg: '#FFF8E1', text: '#F57F17' },
   approved:  { bg: '#E8F5E9', text: '#2E7D32' },
-  published: { bg: '#E3F2FD', text: '#1565C0' },
+  published: { bg: '#EAF4EC', text: '#07371E' },
   rejected:  { bg: '#FFEBEE', text: '#C62828' },
   archived:  { bg: '#F5F5F5', text: '#757575' },
 }
 
 const ITEM_TYPE_COLORS: Record<string, { bg: string; text: string }> = {
-  article: { bg: '#E3F2FD', text: '#1565C0' },
+  article: { bg: '#EAF4EC', text: '#07371E' },
   signal:  { bg: '#FFF3E0', text: '#E65100' },
   insight: { bg: '#F3E5F5', text: '#7B1FA2' },
   report:  { bg: '#E0F2F1', text: '#00695C' },
@@ -161,7 +161,7 @@ export default function CurationPage() {
               onClick={() => setActiveFilter(f)}
               className="px-3 py-1.5 rounded-full text-xs font-semibold transition-all"
               style={{
-                background: activeFilter === f ? '#1976D2' : '#fff',
+                background: activeFilter === f ? '#0E4B2B' : '#fff',
                 color: activeFilter === f ? '#fff' : '#64748B',
                 border: activeFilter === f ? 'none' : '1px solid #E2E8F0',
               }}
@@ -231,7 +231,7 @@ function StatsBar({ stats, tf }: { stats: FeedStats; tf: (k: string) => string }
     { label: tf('stats.total'),     value: stats.total_items, color: '#475569' },
     { label: tf('stats.pending'),   value: stats.pending,     color: '#F57F17' },
     { label: tf('stats.approved'),  value: stats.approved,    color: '#2E7D32' },
-    { label: tf('stats.published'), value: stats.published,   color: '#1565C0' },
+    { label: tf('stats.published'), value: stats.published,   color: '#07371E' },
     { label: tf('stats.rejected'),  value: stats.rejected,    color: '#C62828' },
     { label: tf('stats.featured'),  value: stats.featured,    color: '#7B1FA2' },
     { label: tf('stats.sources'),   value: stats.sources_active, color: '#00695C' },
@@ -429,7 +429,7 @@ function CurationCard({ entry, expanded, onToggleExpand, onCurate, onPublish, on
                 onClick={() => handleAiGenerate('novawork_take')}
                 disabled={aiLoading !== null}
                 className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] font-semibold transition-all hover:bg-blue-50 disabled:opacity-40"
-                style={{ color: '#1976D2' }}
+                style={{ color: '#0E4B2B' }}
                 title={tf('aiGenerate')}
               >
                 {aiLoading === 'novawork_take' ? <Loader2 size={11} className="animate-spin" /> : <Pencil size={11} />}
@@ -533,7 +533,7 @@ function CurationCard({ entry, expanded, onToggleExpand, onCurate, onPublish, on
                 onClick={() => onPublish(entry.item_id)}
                 disabled={saving}
                 className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white transition-all hover:opacity-90 active:scale-95 disabled:opacity-50"
-                style={{ background: '#1565C0' }}
+                style={{ background: '#07371E' }}
               >
                 <Send size={14} />
                 {tf('publish')}

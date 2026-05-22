@@ -125,7 +125,7 @@ export default function CareerIntelligenceCompact() {
       {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <div>
-          <p className="text-xs font-bold tracking-widest mb-0.5" style={{ color: '#1976D2' }}>
+          <p className="text-xs font-bold tracking-widest mb-0.5" style={{ color: '#0E4B2B' }}>
             {t('dashboard.careerIntelligence.title', 'CAREER INTELLIGENCE')}
           </p>
           <h2 className="text-base font-bold text-slate-800 leading-snug">
@@ -169,10 +169,10 @@ export default function CareerIntelligenceCompact() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-blue-50 transition-colors"
+                className="group flex items-center gap-2 px-2.5 py-1.5 rounded-lg hover:bg-green-50 transition-colors"
               >
-                <ExternalLink size={11} className="text-blue-400 shrink-0" />
-                <span className="text-xs font-medium text-blue-600 group-hover:text-blue-800 transition-colors">
+                <ExternalLink size={11} className="text-green-400 shrink-0" />
+                <span className="text-xs font-medium text-green-600 group-hover:text-green-800 transition-colors">
                   {t(link.labelKey, link.labelFallback)}
                 </span>
               </a>
@@ -198,7 +198,7 @@ export default function CareerIntelligenceCompact() {
             style={{
               width: i === activeIdx ? 16 : 6,
               height: 6,
-              background: i === activeIdx ? '#3B82F6' : '#CBD5E1',
+              background: i === activeIdx ? '#4F8F55' : '#CBD5E1',
             }}
           />
         ))}

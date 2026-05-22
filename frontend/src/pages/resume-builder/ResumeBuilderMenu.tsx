@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FileText, Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle, ArrowRight, Play, GraduationCap, Award, Star, ChevronDown, ChevronUp, Info } from 'lucide-react'
+import { Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle2, ChevronRight, Play } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
-import { getVideoUrl } from '@/config/videoUrls'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
-import CoachingTeaser from '../../components/services/CoachingTeaser'
 import { trackEvent } from '../../lib/analytics'
 import { useGuidedTour, TourTriggerButton } from '../../components/guided-tour'
 import { resumeBuilderMenuTourConfig } from '../../config/tours/resumeBuilderMenuTour'
 import { ModuleCardEnhancement } from '../../components/guided-path'
 import type { GuidedStepKey } from '../../types/guidedPath'
+
+const RESUME_STUDIO_VIDEO_ES = 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/Resume%20Studio/Resume_Studio_ES.mp4'
+const RESUME_STUDIO_VIDEO_EN = 'https://pub-2d93fef6f7834a81b20ed4331ab265a5.r2.dev/Videos%20Explicativos/Resume%20Studio/Reseume_Studio_EN.mp4'
 
 // Map ResumeBuilderMenu option IDs to guided step keys
 const OPTION_TO_STEP_KEY: Record<string, GuidedStepKey> = {
@@ -37,16 +38,19 @@ interface ResumeOption {
 }
 
 export default function ResumeBuilderMenu() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [completedSteps, setCompletedSteps] = useState<Set<string>>(new Set())
-  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
+  const [userLevel, setUserLevel] = useState<'core' | 'advance' | 'apex'>('core')
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set())
   const [tourStarted, setTourStarted] = useState(false)
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const { startTour, hasCompletedTour } = useGuidedTour()
+
+  const currentLang = i18n.language?.split('-')[0] || 'en'
+  const resumeStudioVideoUrl = currentLang === 'es' ? RESUME_STUDIO_VIDEO_ES : (RESUME_STUDIO_VIDEO_EN || RESUME_STUDIO_VIDEO_ES)
 
 
   useEffect(() => {
@@ -68,9 +72,9 @@ export default function ResumeBuilderMenu() {
       if (userData?.subscription_tier) {
         let tier = userData.subscription_tier
         // Map old tier names to new ones
-        if (tier === 'basic') tier = 'esenciales'
-        if (tier === 'pro') tier = 'momentum'
-        setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
+        if (tier === 'basic') tier = 'core'
+        if (tier === 'pro') tier = 'advance'
+        setUserLevel(tier as 'core' | 'advance' | 'apex')
       }
 
       await loadProgress(user.id)
@@ -90,7 +94,7 @@ export default function ResumeBuilderMenu() {
 
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
+    const levels = { core: 1, advance: 2, apex: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
@@ -281,85 +285,61 @@ export default function ResumeBuilderMenu() {
   const progressPercentage = Math.round((macroStepsCompleted / resumeOptions.length) * 100)
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-6 sm:py-10 space-y-6 sm:space-y-10">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-12 transition-colors duration-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-4">
+            <BackButton
+              to="/dashboard"
+              label={t('resumeBuilder.menu.backToDashboard')}
+              variant="light"
+              className="pl-0"
+            />
+            <TourTriggerButton
+              tour={resumeBuilderMenuTourConfig}
+              onStartTour={startTour}
+              hasCompletedTour={hasCompletedTour}
+            />
+          </div>
 
-
-
-        {/* Back Button */}
-        <div className="flex items-center justify-between mb-4">
-          <BackButton
-            to="/dashboard"
-            label={t('resumeBuilder.menu.backToDashboard')}
-            variant="light"
-            className="pl-0"
-          />
-          <TourTriggerButton
-            tour={resumeBuilderMenuTourConfig}
-            onStartTour={startTour}
-            hasCompletedTour={hasCompletedTour}
-          />
-        </div>
-
-        {/* Header Section */}
-        <div className="bg-white dark:bg-gray-800 p-4 sm:p-8 rounded-2xl shadow-md text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700">
-          <div className="flex flex-col gap-4 sm:gap-6">
-            {/* Title row */}
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div className="flex items-start gap-3 min-w-0 flex-1">
-                <img src="/logo.png" alt="NovaWork Global" className="h-12 sm:h-16 w-auto block dark:hidden shrink-0" />
-                <img src="/logo-white.png" alt="NovaWork Global" className="h-12 sm:h-16 w-auto hidden dark:block shrink-0" />
-                <div className="min-w-0">
-                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-1 flex items-center gap-2 sm:gap-3">
-                    <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-primary-600 dark:text-blue-400 shrink-0" />
-                    <span className="break-words">{t('resumeBuilder.menu.title')}</span>
-                  </h1>
-                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-1.5">
-                    <span className="text-gray-500 text-xs whitespace-nowrap">{macroStepsCompleted} {t('resumeBuilder.menu.of', 'of')} {resumeOptions.length} {t('resumeBuilder.menu.stepsLabel', 'steps completed')}</span>
-                    <button
-                      onClick={() => navigate('/dashboard/resume-builder/learn-more')}
-                      className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-full text-xs font-medium cursor-pointer hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors"
-                    >
-                      {t('resumeBuilder.menu.readBefore', 'Read this before starting to use this tool')} →
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Watch video + Progress — side by side on larger screens */}
-              <div className="flex items-center gap-3 shrink-0">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
+                {t('resumeBuilder.menu.title')}
+              </h1>
+              <div className="flex flex-wrap items-center gap-4 text-slate-600 dark:text-slate-400">
+                <LearnMoreLink
+                  label={t('resumeBuilder.menu.readBefore', 'Read this before starting to use this tool')}
+                  description=""
+                  onClick={() => navigate('/dashboard/resume-builder/learn-more')}
+                />
                 <button
                   onClick={() => setIsVideoModalOpen(true)}
-                  className="flex items-center gap-1.5 px-3 sm:px-4 py-2 sm:py-2.5 bg-primary-600 hover:bg-primary-700 text-white text-xs sm:text-sm font-semibold rounded-lg transition-colors whitespace-nowrap"
+                  className="flex items-center gap-1.5 px-4 py-2 bg-primary-700 hover:bg-primary-800 text-white rounded-xl shadow-sm transition-all text-sm font-bold hover:scale-[1.02] active:scale-[0.98]"
                 >
-                  <Play className="w-4 h-4" /> Watch video
+                  <Play size={16} fill="currentColor" />
+                  {t('common.watchVideo', 'Watch video')}
                 </button>
+              </div>
+            </div>
 
-                {/* Compact Progress Indicator */}
-                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-700/50 p-2 sm:p-3 rounded-xl border border-gray-100 dark:border-gray-600">
-                  <div className="relative w-10 h-10 sm:w-14 sm:h-14 flex items-center justify-center shrink-0">
-                    <svg className="w-full h-full transform -rotate-90" viewBox="0 0 64 64">
-                      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="none" className="text-gray-200 dark:text-gray-600" />
-                      <circle cx="32" cy="32" r="28" stroke="currentColor" strokeWidth="6" fill="none"
-                        strokeDasharray={175} strokeDashoffset={175 - (175 * progressPercentage) / 100}
-                        className="text-primary-600 dark:text-blue-400 transition-all duration-1000 ease-out" strokeLinecap="round"
-                      />
-                    </svg>
-                    <span className="absolute text-xs sm:text-sm font-bold text-gray-700 dark:text-gray-200">{progressPercentage}%</span>
-                  </div>
-                  <div className="text-left hidden sm:block">
-                    <p className="font-semibold text-sm text-gray-900 dark:text-white whitespace-nowrap">{t('resumeBuilder.menu.yourProgress')}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">{t('resumeBuilder.menu.stepsCompleted', { completed: macroStepsCompleted, total: resumeOptions.length })}</p>
-                  </div>
-                </div>
+            <div className="w-full md:w-64 bg-white dark:bg-slate-800 rounded-2xl p-4 shadow-sm border border-slate-200 dark:border-slate-700">
+              <div className="flex items-center justify-between mb-2 text-sm font-medium">
+                <span className="text-slate-600 dark:text-slate-400">{t('resumeBuilder.menu.yourProgress', 'Progress')}</span>
+                <span className="text-primary-600 dark:text-primary-400">{progressPercentage}%</span>
+              </div>
+              <div className="h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-primary-600 transition-all duration-500"
+                  style={{ width: `${progressPercentage}%` }}
+                />
               </div>
             </div>
           </div>
         </div>
 
-
-        {/* Compact Cards Row */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {resumeOptions.map((option, index) => {
             const Icon = option.icon
             const tourStepId = `resume-step-${index + 1}`
@@ -367,82 +347,72 @@ export default function ResumeBuilderMenu() {
 
             return (
               <ModuleCardEnhancement key={option.id} stepKey={guidedStepKey}>
-              <div
-                data-tour={tourStepId}
-                className={`
-                group relative p-5 rounded-2xl border transition-all duration-300
-                bg-white dark:bg-gray-800 hover:shadow-lg cursor-pointer hover:-translate-y-0.5
-                border-gray-200 dark:border-gray-700
-                ${option.current ? `ring-2 ring-offset-2 dark:ring-offset-gray-900 ${option.color.replace('text-', 'ring-')}` : ''}
-              `}
-                onClick={() => navigate(option.route)}
-              >
-                <div className="flex items-start justify-between mb-3">
-                  <div className={`p-2.5 rounded-xl ${option.bgColor} dark:bg-gray-700 ${option.color} dark:text-white`}>
-                    <Icon className="w-5 h-5" />
+                <div
+                  data-tour={tourStepId}
+                  onClick={() => navigate(option.route)}
+                  className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl transition-all p-6 cursor-pointer group flex flex-col h-full"
+                >
+                  <div className="w-14 h-14 rounded-xl bg-primary-50 dark:bg-gray-700 text-primary-600 dark:text-primary-400 flex items-center justify-center mb-4 transition-transform group-hover:scale-110 duration-300">
+                    <Icon className="w-7 h-7" />
                   </div>
-                  {option.completed && (
-                    <CheckCircle className="w-5 h-5 text-primary-600" />
-                  )}
+                  <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2 flex items-center gap-2">
+                    {option.title}
+                    {option.completed && <CheckCircle2 className="text-green-500" size={20} />}
+                  </h3>
+                  <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed flex-1">
+                    {option.description}
+                  </p>
+
+                  <div className="flex flex-col gap-3 mt-6">
+                    <button
+                      className="w-full px-4 py-2.5 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 bg-primary-600 text-white hover:bg-primary-700 shadow-md shadow-primary-600/20"
+                    >
+                      {option.completed ? t('careerVision.journey.review', 'Review') : t('careerVision.journey.start', 'Start')}
+                      <ChevronRight size={18} />
+                    </button>
+                  </div>
                 </div>
-
-                <h3 className="text-sm font-bold text-gray-900 dark:text-white mb-1 group-hover:text-primary-600 dark:group-hover:text-blue-400 transition-colors">
-                  {option.title}
-                </h3>
-
-                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed line-clamp-2">
-                  {option.description}
-                </p>
-              </div>
               </ModuleCardEnhancement>
             )
           })}
         </div>
 
-        <CoachingTeaser />
+      </div>
 
-        {/* Video Modal */}
-        {isVideoModalOpen && (
+      {/* Video Modal */}
+      {isVideoModalOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          onClick={() => setIsVideoModalOpen(false)}
+        >
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
           <div
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
-            onClick={() => setIsVideoModalOpen(false)}
+            className="relative w-full max-w-4xl rounded-2xl overflow-hidden shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-
-            {/* Modal Content */}
-            <div
-              className="relative w-full max-w-5xl bg-black rounded-2xl overflow-hidden shadow-2xl z-10"
-              onClick={(e) => e.stopPropagation()}
+            <button
+              onClick={() => setIsVideoModalOpen(false)}
+              className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
+              aria-label="Close video"
             >
-              {/* Close button */}
-              <button
-                onClick={() => setIsVideoModalOpen(false)}
-                className="absolute top-4 right-4 z-20 p-2 bg-black/40 text-white rounded-full hover:bg-black/60 transition-colors"
-                aria-label="Close video"
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <div className="w-full aspect-video bg-black flex items-center justify-center relative">
+              <video
+                src={resumeStudioVideoUrl}
+                className="w-full h-full outline-none"
+                controls
+                autoPlay
+                playsInline
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              {/* Video Player */}
-              <div className="w-full aspect-video bg-black flex items-center justify-center relative">
-                <video
-                  src={getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4')}
-                  className="w-full h-full outline-none"
-                  controls
-                  controlsList="nodownload"
-                  autoPlay
-                  playsInline
-                >
-                  Your browser does not support the video tag.
-                </video>
-              </div>
+                Your browser does not support the video tag.
+              </video>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   )
 }

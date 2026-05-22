@@ -1,56 +1,84 @@
-import { Quote, MapPin } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion'
+import { Star, Quote } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 interface Testimonial {
-    role: string;
-    country: string;
-    quote: string;
+    name: string
+    role: string
+    quote: string
+    stars: number
 }
 
 export default function TestimonialsSection() {
-    const { t } = useTranslation();
-    const testimonials = t('testimonials.items', { returnObjects: true }) as Testimonial[];
+    const { t } = useTranslation()
+    const testimonials = t('testimonials.items', { returnObjects: true }) as Testimonial[]
 
     return (
-        <section className="py-24 bg-gray-50 overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="stories" className="py-20 px-4 bg-[var(--ascendia-bg)]">
+            <div className="max-w-7xl mx-auto">
+                {/* Badge */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="text-center mb-4"
+                >
+                    <span className="inline-block px-3 py-1 rounded-full bg-[var(--ascendia-accent)] text-[var(--ascendia-primary)] text-xs font-semibold tracking-wider uppercase">
+                        {t('testimonials.badge')}
+                    </span>
+                </motion.div>
+
                 <div className="text-center mb-16">
-                    <h2 className="text-sm font-semibold text-blue-600 tracking-wide uppercase">{t('testimonials.badge')}</h2>
-                    <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        {t('testimonials.title')}
-                    </p>
-                    <p className="mt-4 max-w-2xl text-xl text-gray-500 mx-auto">
+                    <motion.h2
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-4xl md:text-5xl font-bold text-[var(--ascendia-text)] mb-6"
+                    >
+                        <span className="font-serif">{t('testimonials.title')}</span>
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-lg text-[var(--ascendia-text-muted)] max-w-2xl mx-auto"
+                    >
                         {t('testimonials.subtitle')}
-                    </p>
+                    </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {testimonials.map((testimonial, idx) => (
-                        <div
+                        <motion.div
                             key={idx}
-                            className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10 relative flex flex-col transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: idx * 0.1 }}
+                            className="bg-[var(--ascendia-surface)] rounded-[var(--ascendia-radius-lg)] border border-[var(--ascendia-border-soft)] p-6 md:p-8 flex flex-col transition-all duration-300 hover:shadow-[var(--ascendia-shadow-sm)] hover:-translate-y-1"
                         >
-                            <Quote className="absolute top-8 right-8 w-10 h-10 text-blue-100 transform rotate-180" />
-
-                            <div className="flex-1 mb-6">
-                                <p className="text-gray-700 text-lg leading-relaxed relative z-10 italic">
-                                    "{testimonial.quote}"
-                                </p>
+                            {/* Stars */}
+                            <div className="flex items-center gap-0.5 mb-4">
+                                {Array.from({ length: testimonial.stars }).map((_, i) => (
+                                    <Star key={i} className="w-4 h-4 text-amber-400 fill-amber-400" />
+                                ))}
                             </div>
 
-                            <div className="mt-auto border-t border-gray-100 pt-6">
-                                <p className="font-semibold text-gray-900 text-base">
-                                    {testimonial.role}
-                                </p>
-                                <div className="flex items-center gap-1.5 mt-1 text-sm text-gray-500">
-                                    <MapPin className="w-3.5 h-3.5" />
-                                    <span>{testimonial.country}</span>
-                                </div>
+                            <Quote className="w-6 h-6 text-[var(--ascendia-accent-hover)] mb-3" />
+
+                            <p className="text-base md:text-lg text-[var(--ascendia-text)] font-medium leading-snug mb-6 flex-grow">
+                                "{testimonial.quote}"
+                            </p>
+
+                            <div className="border-t border-[var(--ascendia-border-soft)] pt-4">
+                                <p className="font-semibold text-[var(--ascendia-text)] text-sm">{testimonial.name}</p>
+                                <p className="text-xs text-[var(--ascendia-text-muted)] mt-0.5">{testimonial.role}</p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
         </section>
-    );
+    )
 }

@@ -101,7 +101,7 @@ export default function MemberCalendarPage() {
         <button
           onClick={() => setTab('coaching')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${tab === 'coaching' ? 'text-white shadow-sm' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}
-          style={tab === 'coaching' ? { background: '#1976D2' } : {}}
+          style={tab === 'coaching' ? { background: '#0E4B2B' } : {}}
         >
           <CalendarDays size={15} />
           My Coaching Sessions
@@ -109,7 +109,7 @@ export default function MemberCalendarPage() {
         <button
           onClick={() => setTab('sessions')}
           className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all ${tab === 'sessions' ? 'text-white shadow-sm' : 'bg-white text-slate-500 border border-slate-200 hover:border-slate-300'}`}
-          style={tab === 'sessions' ? { background: '#1976D2' } : {}}
+          style={tab === 'sessions' ? { background: '#0E4B2B' } : {}}
         >
           <List size={15} />
           Available Sessions

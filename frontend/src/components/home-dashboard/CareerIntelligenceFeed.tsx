@@ -13,7 +13,7 @@ import type { PersonalizedFeedItem, FeedItemType, FeedCategory } from '../../typ
 // ─── Visual mapping ─────────────────────────────────────────
 
 const TYPE_CONFIG: Record<FeedItemType, { icon: React.ReactNode; bg: string; color: string }> = {
-  article: { icon: <Newspaper size={14} />,   bg: '#E3F2FD', color: '#1565C0' },
+  article: { icon: <Newspaper size={14} />,   bg: '#EAF4EC', color: '#0E4B2B' },
   signal:  { icon: <TrendingUp size={14} />,  bg: '#FFF3E0', color: '#E65100' },
   insight: { icon: <Lightbulb size={14} />,   bg: '#F3E5F5', color: '#7B1FA2' },
   report:  { icon: <FileText size={14} />,    bg: '#E0F2F1', color: '#00695C' },
@@ -69,7 +69,7 @@ export default function CareerIntelligenceFeed({ userId }: CareerIntelligenceFee
         <div className="flex items-center gap-2">
           <div
             className="flex items-center justify-center rounded-lg"
-            style={{ width: 28, height: 28, background: '#E3F2FD', color: '#1565C0' }}
+            style={{ width: 28, height: 28, background: '#EAF4EC', color: '#0E4B2B' }}
           >
             <BarChart2 size={15} />
           </div>
@@ -88,7 +88,7 @@ export default function CareerIntelligenceFeed({ userId }: CareerIntelligenceFee
             onClick={() => { setCategoryFilter(cat); setShowAll(false) }}
             className="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition-all whitespace-nowrap"
             style={{
-              background: categoryFilter === cat ? '#1976D2' : '#fff',
+              background: categoryFilter === cat ? '#0E4B2B' : '#fff',
               color: categoryFilter === cat ? '#fff' : '#64748B',
               border: categoryFilter === cat ? 'none' : '1px solid #E2E8F0',
             }}
@@ -226,7 +226,7 @@ function FeedCard({ item, tf, tt, tc }: FeedCardProps) {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={(e) => e.stopPropagation()}
-                className="inline-flex items-center gap-0.5 font-semibold text-blue-500 hover:text-blue-700 hover:underline transition-colors"
+                className="inline-flex items-center gap-0.5 font-semibold text-green-500 hover:text-green-700 hover:underline transition-colors"
               >
                 <ExternalLink size={10} />
                 {tf('readMore')}
@@ -252,7 +252,7 @@ function FeedCard({ item, tf, tt, tc }: FeedCardProps) {
               <div className="flex items-center gap-1.5 mb-1.5">
                 <div
                   className="flex items-center justify-center rounded-lg"
-                  style={{ width: 22, height: 22, background: '#E3F2FD', color: '#1565C0' }}
+                  style={{ width: 22, height: 22, background: '#EAF4EC', color: '#0E4B2B' }}
                 >
                   <Lightbulb size={12} />
                 </div>
@@ -285,7 +285,7 @@ function FeedCard({ item, tf, tt, tc }: FeedCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-semibold hover:underline transition-colors"
-              style={{ color: '#1976D2' }}
+              style={{ color: '#0E4B2B' }}
             >
               <ExternalLink size={12} />
               {tf('readMore')}

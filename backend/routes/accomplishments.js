@@ -523,4 +523,152 @@ Example: {"answers": [{"question_index": 1, "answer_text": "In my last role at X
   }
 })
 
+/**
+ * POST /api/ai/convert-car-to-bullet
+ * Convert a CAR story into a professional resume accomplishment bullet
+ */
+router.post('/convert-car-to-bullet', async (req, res) => {
+  try {
+    const { carStoryId, force = false } = req.body;
+
+    if (!carStoryId) {
+      return res.status(400).json({ error: 'carStoryId is required' });
+    }
+
+    // 1. Fetch CAR story from DB
+    const { data: story, error: fetchError } = await supabase
+      .from('par_stories')
+      .select('*')
+      .eq('id', carStoryId)
+      .eq('user_id', req.user.id)
+      .maybeSingle();
+
+    if (fetchError) {
+      console.error('❌ Error fetching CAR story:', fetchError);
+      return res.status(500).json({ error: 'Failed to fetch CAR story', details: fetchError.message });
+    }
+
+    if (!story) {
+      return res.status(404).json({ error: 'CAR story not found' });
+    }
+
+    // 2. Return existing bullet if available and not forced
+    if (story.bullet_text && story.converted_to_bullet && !force) {
+      return res.json({
+        success: true,
+        bullet_text: story.bullet_text,
+        already_converted: true
+      });
+    }
+
+    // 3. Generate bullet using OpenAI
+    const actionsText = Array.isArray(story.actions)
+      ? story.actions.filter(a => a?.trim()).map(a => `- ${a.trim()}`).join('\n')
+      : story.actions || '';
+
+    const roleContext = story.role_title && story.company_name
+      ? `${story.role_title} at ${story.company_name}`
+      : story.role_title || 'N/A';
+
+    console.log(`🤖 Generating professional bullet for CAR story: ${carStoryId}`);
+
+    const completion = await openai.chat.completions.create({
+      model: 'gpt-4o-mini',
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert resume writer. Convert the given CAR (Context/Challenge, Actions, Result) story into a single high-impact, professional resume accomplishment bullet point.
+Rules:
+- IMPORTANT: Respond in the EXACT SAME LANGUAGE as the input text. If the input is in Spanish, write the bullet in Spanish. If in English, write in English.
+- Start with a strong action verb in FIRST PERSON without pronouns. In English: "Led..." (not "I led" or "He led"). In Spanish: "Lideré..." or "Diseñé..." (first-person conjugation, NOT third-person like "Lideró" or infinitive like "Liderar"). Never use pronouns (I, me, my, yo, mi).
+- Focus on the quantifiable result and business impact. Ensure the metrics (%, $, numbers) are clearly integrated.
+- Combine the Context, Action, and Result into a single fluid, professional sentence.
+- Keep it extremely concise, punchy, and results-oriented (1-2 sentences maximum, preferably 1 sentence).
+- Do NOT include any CAR labels like "Context:", "Action:", "Result:", etc.
+- Return ONLY the final polished bullet point text, with no explanations, no quotes, and no prefixes.`
+        },
+        {
+          role: 'user',
+          content: `INPUT CAR STORY:
+Role Context: ${roleContext}
+Context/Challenge: ${story.problem_challenge}
+Actions taken:
+${actionsText}
+Result achieved: ${story.result}`
+        }
+      ],
+      max_tokens: 250,
+      temperature: 0.7
+    });
+
+    const generatedBullet = completion.choices[0]?.message?.content?.trim();
+    if (!generatedBullet) {
+      throw new Error('Failed to generate bullet point from AI');
+    }
+
+    // 4. Update the CAR story in the DB
+    const { error: updateError } = await supabase
+      .from('par_stories')
+      .update({
+        bullet_text: generatedBullet,
+        converted_to_bullet: true
+      })
+      .eq('id', carStoryId)
+      .eq('user_id', req.user.id);
+
+    if (updateError) {
+      console.error('❌ Error updating CAR story with bullet:', updateError);
+      return res.status(500).json({ error: 'Failed to update CAR story with generated bullet', details: updateError.message });
+    }
+
+    // 5. Also upsert or sync into the Accomplishment Bank if applicable
+    const { data: existingBankItem } = await supabase
+      .from('accomplishment_bank')
+      .select('id')
+      .eq('par_story_id', carStoryId)
+      .eq('user_id', req.user.id)
+      .maybeSingle();
+
+    if (existingBankItem) {
+      await supabase
+        .from('accomplishment_bank')
+        .update({
+          bullet_text: generatedBullet,
+          role_title: story.role_title,
+          company_name: story.company_name,
+          start_date: story.start_date,
+          end_date: story.end_date,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', existingBankItem.id);
+    } else {
+      await supabase
+        .from('accomplishment_bank')
+        .insert({
+          user_id: req.user.id,
+          par_story_id: carStoryId,
+          bullet_text: generatedBullet,
+          role_title: story.role_title,
+          company_name: story.company_name,
+          start_date: story.start_date,
+          end_date: story.end_date,
+          source: 'car_story',
+          is_starred: false,
+          times_used: 0
+        });
+    }
+
+    console.log(`✅ Professional bullet generated and saved: "${generatedBullet}"`);
+
+    res.json({
+      success: true,
+      bullet_text: generatedBullet
+    });
+
+  } catch (error) {
+    console.error('❌ Error in /convert-car-to-bullet:', error);
+    res.status(500).json({ error: 'Failed to convert CAR to bullet', details: error.message });
+  }
+});
+
 export default router

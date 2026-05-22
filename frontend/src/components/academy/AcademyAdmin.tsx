@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
-import i18n from '../../i18n'
+import i18n from '../../i18n/config'
 import {
   Upload,
   Video,
@@ -23,6 +23,12 @@ import type { AcademyNode, AcademyResource } from '../../types/academy'
 const LOCALE_FILES = ['en', 'es', 'fr', 'pt', 'it']
 
 const ADMIN_EMAIL = 'efrain.pradas@gmail.com'
+
+interface AcademyAdminProps {
+  isOpen: boolean
+  onClose: () => void
+  initialTab?: string
+}
 
 const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab }) => {
   const { t, i18n } = useTranslation()
@@ -76,7 +82,7 @@ const AcademyAdmin: React.FC<AcademyAdminProps> = ({ isOpen, onClose, initialTab
   ]
 
   useEffect(() => {
-    if (isOpen && initialTab) {
+    if (isOpen && initialTab && (initialTab === 'nodes' || initialTab === 'resources')) {
       setActiveTab(initialTab)
       if (initialTab === 'nodes') setShowNewNodeForm(true)
     }

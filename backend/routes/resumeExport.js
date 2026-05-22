@@ -311,14 +311,17 @@ router.post('/:userId/docx', async (req, res) => {
                                         ] : []),
                                         // Accomplishments
                                         ...(resume.resume_type !== 'functional' && pos.accomplishments && Array.isArray(pos.accomplishments) && pos.accomplishments.length > 0 ?
-                                            pos.accomplishments.sort((a, b) => (a.order_index || 0) - (b.order_index || 0)).map(acc =>
-                                                new Paragraph({
-                                                    children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
-                                                    bullet: { level: 0 },
-                                                    spacing: { after: 30 },
-                                                    alignment: AlignmentType.JUSTIFIED
-                                                })
-                                            ) : []
+                                            pos.accomplishments
+                                                .filter(acc => acc.is_visible !== false)
+                                                .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+                                                .map(acc =>
+                                                    new Paragraph({
+                                                        children: [new TextRun({ text: String(acc.bullet_text || ''), size: 22, font: 'Calibri' })],
+                                                        bullet: { level: 0 },
+                                                        spacing: { after: 30 },
+                                                        alignment: AlignmentType.JUSTIFIED
+                                                    })
+                                                ) : []
                                         )
                                     ]),
                                     new Paragraph({ text: "", spacing: { after: 200 } })

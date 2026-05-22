@@ -32,7 +32,7 @@ async function billingFetch<T>(path: string, options: RequestInit = {}): Promise
 export interface BillingStatus {
   user_id: string
   is_active: boolean
-  membership_code: 'esenciales' | 'momentum' | 'vanguard' | null
+  membership_code: 'core' | 'advance' | 'apex' | null
   subscription_status: string | null
   cancel_at_period_end: boolean
   current_period_end: string | null
@@ -68,17 +68,17 @@ export async function getBillingStatus(): Promise<BillingStatus> {
   return billingFetch<BillingStatus>('/status')
 }
 
-export async function createCheckoutSession(priceId: string): Promise<CheckoutResponse> {
+export async function createCheckoutSession(priceId: string, quantity = 1): Promise<CheckoutResponse> {
   return billingFetch<CheckoutResponse>('/create-checkout-session', {
     method: 'POST',
-    body: JSON.stringify({ priceId }),
+    body: JSON.stringify({ priceId, quantity }),
   })
 }
 
-export async function createAddonSession(priceId: string): Promise<CheckoutResponse> {
+export async function createAddonSession(priceId: string, quantity = 1): Promise<CheckoutResponse> {
   return billingFetch<CheckoutResponse>('/create-addon-session', {
     method: 'POST',
-    body: JSON.stringify({ priceId }),
+    body: JSON.stringify({ priceId, quantity }),
   })
 }
 
@@ -127,4 +127,41 @@ export async function getPriceCatalog(): Promise<PriceCatalogEntry[]> {
 
   if (error) throw new Error(error.message)
   return data || []
+}
+
+// ── Activate Core (Free) Plan ────────────────────────────────────────────────
+
+export interface ActivateCoreResponse {
+  is_active: boolean
+  membership_code: string
+  already_active: boolean
+}
+
+/**
+ * Activate the Core (free) plan for the current user.
+ * Creates a billing_access row so ProtectedRoute allows access.
+ * Safe to call multiple times — idempotent.
+ */
+export async function activateCorePlan(): Promise<ActivateCoreResponse> {
+  return billingFetch<ActivateCoreResponse>('/activate-core', { method: 'POST' })
+}
+
+// ── Activate Any Plan (without Stripe) ─────────────────────────────────────────
+
+export interface ActivatePlanResponse {
+  is_active: boolean
+  membership_code: string
+  already_active: boolean
+}
+
+/**
+ * Activate a plan directly without Stripe checkout.
+ * Used for plans not yet connected to Stripe (e.g. Ascendia Advance/Apex).
+ * planCode can be: 'core', 'advance', 'apex'
+ */
+export async function activatePlan(planCode: string): Promise<ActivatePlanResponse> {
+  return billingFetch<ActivatePlanResponse>('/activate-plan', {
+    method: 'POST',
+    body: JSON.stringify({ planCode }),
+  })
 }

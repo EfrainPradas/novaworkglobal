@@ -10,13 +10,12 @@ export default function NovaNextPage() {
     const [billingCycle, setBillingCycle] = useState<'monthly' | 'annual'>('monthly')
     const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
 
+    // Show billing toggle only if any plan has actual pricing
+    const hasPricedPlans = novaNextPlans.some(p => p.monthly !== null && p.monthly > 0)
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
-
-    const calculatePrice = (monthly: number, annual: number) => {
-        return billingCycle === 'monthly' ? monthly : Math.round(annual / 12)
-    }
 
     return (
         <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -213,7 +212,8 @@ export default function NovaNextPage() {
                             Select the plan that matches your needs and budget
                         </p>
 
-                        {/* Billing Toggle */}
+                        {/* Billing Toggle — hidden when all plans are Price TBD */}
+                        {hasPricedPlans && (
                         <div className="flex items-center justify-center gap-4 mb-8">
                             <span className={`text-lg font-medium ${billingCycle === 'monthly' ? 'text-gray-900' : 'text-gray-500'}`}>
                                 Monthly
@@ -231,24 +231,30 @@ export default function NovaNextPage() {
                             <span className={`text-lg font-medium ${billingCycle === 'annual' ? 'text-gray-900' : 'text-gray-500'}`}>
                                 Annual
                             </span>
-                            {billingCycle === 'annual' && (
-                                <span className="ml-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
-                                    Save 17%
-                                </span>
-                            )}
+                            {billingCycle === 'annual' && (() => {
+                                    const paidPlans = novaNextPlans.filter(p => p.monthly && p.monthly > 0 && p.annual)
+                                    const savings = paidPlans.length > 0
+                                        ? Math.round(((paidPlans[0].monthly! * 12 - paidPlans[0].annual!) / (paidPlans[0].monthly! * 12)) * 100)
+                                        : 0
+                                    return savings > 0 ? (
+                                        <span className="ml-2 px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-semibold">
+                                            Save {savings}%
+                                        </span>
+                                    ) : null
+                                })()}
                         </div>
+                        )}
                     </div>
 
                     {/* Plans Grid */}
                     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
                         {novaNextPlans.map((plan) => {
                             const hasBadge = !!plan.badge
-                            const price = calculatePrice(plan.monthly, plan.annual)
 
                             return (
                                 <div
                                     key={plan.name}
-                                    className={`relative bg-white rounded-2xl p-8 shadow-xl transition-all hover:shadow-2xl ${hasBadge ? 'border-2 border-primary-500 transform scale-105' : 'border border-gray-200'
+                                    className={`relative bg-white rounded-2xl p-8 shadow-xl transition-all hover:shadow-2xl h-full flex flex-col ${hasBadge ? 'border-2 border-primary-500 transform scale-105' : 'border border-gray-200'
                                         }`}
                                 >
                                     {hasBadge && (
@@ -265,12 +271,20 @@ export default function NovaNextPage() {
 
                                     <div className="mb-6">
                                         <div className="flex items-baseline gap-2">
-                                            <span className="text-4xl font-bold text-primary-600">${price}</span>
-                                            <span className="text-gray-600">/month</span>
-                                        </div>
-                                        {billingCycle === 'annual' && (
-                                            <p className="text-sm text-gray-500 mt-1">Billed ${plan.annual}/year</p>
-                                        )}
+                                                    <span className="text-4xl font-bold text-primary-600">
+                                                        {plan.monthly === 0 ? 'Free' : `$${billingCycle === 'monthly' ? plan.monthly : plan.annual}`}
+                                                    </span>
+                                                    {plan.monthly !== 0 && (
+                                                        <span className="text-gray-600">
+                                                            {billingCycle === 'annual' ? '/year' : '/month'}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                {billingCycle === 'annual' && plan.monthly !== 0 && plan.monthly && plan.annual && (
+                                                    <p className="text-sm text-gray-500 mt-1">
+                                                        Billed ${plan.annual}/year
+                                                    </p>
+                                                )}
                                     </div>
 
                                     <ul className="space-y-3 mb-8">
@@ -294,24 +308,18 @@ export default function NovaNextPage() {
                                     </div>
 
                                     <button
-                                        onClick={() => {
-                                            // Map landing plan names to Stripe billing codes
-                                            const PLAN_TO_BILLING: Record<string, string> = {
-                                                essentials: 'esenciales',
-                                                momentum: 'momentum',
-                                                executive: 'vanguard',
-                                            }
-                                            const billingCode = PLAN_TO_BILLING[plan.name] || plan.name
-                                            localStorage.setItem('novawork_pending_plan', billingCode)
-                                            navigate(`/signup?plan=${plan.name}`)
-                                        }}
-                                        className={`w-full py-4 rounded-xl font-bold transition-all ${hasBadge
-                                            ? 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg'
-                                            : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-                                            }`}
-                                    >
-                                        {plan.cta || 'Get Started'}
-                                    </button>
+                                            onClick={() => {
+                                                if (plan.monthly === 0) {
+                                                    navigate('/signup')
+                                                    return
+                                                }
+                                                localStorage.setItem('novawork_pending_plan', plan.name)
+                                                navigate(`/signup?plan=${plan.name}`)
+                                            }}
+                                            className="w-full mt-auto py-4 rounded-xl font-bold transition-all bg-primary-600 text-white hover:bg-primary-700 shadow-lg"
+                                        >
+                                            {plan.cta || 'Get Started'}
+                                        </button>
                                 </div>
                             )
                         })}

@@ -30,13 +30,13 @@ function activityIcon(type: string): React.ReactNode {
 
 function activityBg(type: string) {
   const map: Record<string, { bg: string; color: string }> = {
-    resume_updated:       { bg: '#E3F2FD', color: '#1565C0' },
+    resume_updated:       { bg: '#EAF4EC', color: '#0E4B2B' },
     session_joined:       { bg: '#E8F5E9', color: '#2E7D32' },
     session_cancelled:    { bg: '#FEF2F2', color: '#DC2626' },
     resource_viewed:      { bg: '#F3E5F5', color: '#6A1B9A' },
     application_tracked:  { bg: '#FFF3E0', color: '#E65100' },
-    interview_scheduled:  { bg: '#F0F9FF', color: '#0284C7' },
-    profile_updated:      { bg: '#EFF6FF', color: '#1976D2' },
+    interview_scheduled:  { bg: '#EAF4EC', color: '#4F8F55' },
+    profile_updated:      { bg: '#EAF4EC', color: '#0E4B2B' },
     car_story_added:      { bg: '#FFFBEB', color: '#D97706' },
     onboarding_completed: { bg: '#F0FDF4', color: '#16A34A' },
   }

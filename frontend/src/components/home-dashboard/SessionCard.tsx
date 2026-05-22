@@ -10,7 +10,7 @@ interface SessionCardProps {
 }
 
 const SESSION_TYPE_COLORS: Record<string, { bg: string; color: string }> = {
-  workshop:    { bg: '#E3F2FD', color: '#1565C0' },
+  workshop:    { bg: '#EAF4EC', color: '#0E4B2B' },
   networking:  { bg: '#E8F5E9', color: '#2E7D32' },
   q_and_a:     { bg: '#FFF3E0', color: '#E65100' },
   masterclass: { bg: '#F3E5F5', color: '#6A1B9A' },
@@ -98,7 +98,7 @@ export default function SessionCard({ session, onRegister, onCancel, registering
             onClick={() => onRegister(session.id)}
             disabled={isFull || registering}
             className="w-full flex items-center justify-center gap-2 py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-90 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed text-white"
-            style={{ background: isFull ? '#94A3B8' : '#1976D2' }}
+            style={{ background: isFull ? '#94A3B8' : '#0E4B2B' }}
           >
             {registering ? <Loader2 size={14} className="animate-spin" /> : null}
             {isFull ? t('dashboard.sessions.full') : t('dashboard.sessions.register')}

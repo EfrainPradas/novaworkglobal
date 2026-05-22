@@ -9,29 +9,17 @@ import heroLoop2 from '../../assets/hero-loop-2.webp'
 const programs = [
     {
         id: 'novanext',
-        title: 'NovaNext™',
-        subtitle: 'Career Acceleration',
-        description: 'Choose this path if you already know which role you want to pursue next.',
         image: '/images/novanext_v2.jpg',
-        color: 'bg-primary-600',
         path: '/programs/novanext'
     },
     {
         id: 'novarearchitect',
-        title: 'NovaRearchitect™',
-        subtitle: 'Complete Reinvention',
-        description: 'Choose this path if your current role or industry is no longer viable.',
         image: '/images/novarearchitect_v2.jpg',
-        color: 'bg-secondary-600',
         path: '/programs/novarearchitect'
     },
     {
         id: 'novalign',
-        title: 'NovaAlign™',
-        subtitle: 'Leadership Integration',
-        description: 'Choose this path if you need clarity before committing to a career direction.',
         image: '/images/novaalign_v2.jpg',
-        color: 'bg-accent-600',
         path: '/programs/novaalign'
     }
 ]
@@ -42,74 +30,72 @@ export default function ProgramGrid() {
     const [showVideoModal, setShowVideoModal] = useState(false)
 
     return (
-        <section id="programs" className="py-32 bg-white">
-            <div className="max-w-7xl mx-auto px-6">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-20">
+        <section id="programs" className="py-20 md:py-28 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12 md:mb-16">
                     <div className="max-w-xl">
-                        <div className="flex flex-wrap items-center gap-4 mb-6">
-                            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 leading-tight">
+                        <div className="flex flex-wrap items-center gap-3 mb-4">
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--ascendia-text)] leading-tight">
                                 {t('programs.title')}
                             </h2>
-                            
-                            {/* Play Video Button - Compact and Premium */}
+
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => setShowVideoModal(true)}
-                                className="group flex items-center gap-2 px-3 py-1.5 bg-white text-primary-600 rounded-full shadow-md hover:shadow-lg transition-all border border-primary-100 font-semibold"
+                                className="group flex items-center gap-2 px-3 py-1.5 bg-white text-[var(--ascendia-primary)] rounded-full shadow-sm hover:shadow-md transition-all border border-[var(--ascendia-border)] font-semibold"
                             >
-                                <div className="w-7 h-7 bg-primary-600 rounded-full flex items-center justify-center text-white group-hover:bg-primary-700 transition-colors shadow-sm">
+                                <div className="w-6 h-6 bg-[var(--ascendia-primary)] rounded-full flex items-center justify-center text-white group-hover:bg-[var(--ascendia-primary-hover)] transition-colors">
                                     <Play className="w-3 h-3 fill-current ml-0.5" />
                                 </div>
                                 <span className="text-sm">{t('programs.watchVideo')}</span>
                             </motion.button>
                         </div>
-                        
-                        <p className="text-xl text-gray-500">
+
+                        <p className="text-base md:text-lg text-[var(--ascendia-text-muted)]">
                             {t('programs.description')}
                         </p>
                     </div>
                     <button
                         onClick={() => navigate('/programs/novanext')}
-                        className="hidden md:flex items-center gap-2 text-primary-600 font-semibold hover:text-primary-800 transition-colors mt-6 md:mt-0"
+                        className="hidden md:flex items-center gap-2 text-[var(--ascendia-primary)] font-semibold hover:text-[var(--ascendia-primary-hover)] transition-colors"
                     >
-                        {t('programs.compare')} <ArrowUpRight className="w-5 h-5" />
+                        {t('programs.compare')} <ArrowUpRight className="w-4 h-4" />
                     </button>
                 </div>
 
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     {programs.map((program, index) => (
                         <motion.div
                             key={program.id}
-                            initial={{ opacity: 0, y: 50 }}
+                            initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.6, delay: index * 0.1 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
                             viewport={{ once: true }}
-                            className="group cursor-pointer hover:-translate-y-1 hover:shadow-xl transition-all duration-300 rounded-2xl"
+                            className="group cursor-pointer hover:-translate-y-1 transition-all duration-300"
                             onClick={() => navigate(program.path)}
                         >
-                            <div className="relative aspect-[4/5] overflow-hidden bg-gray-200 mb-6 rounded-2xl">
-                                <div className={`absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 ${program.color} mix-blend-multiply z-10`} />
+                            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--ascendia-bg)] mb-5 rounded-2xl border border-[var(--ascendia-border-soft)]">
                                 <img
                                     src={program.image}
-                                    alt={program.title}
-                                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                                    alt={t(`programs.cards.${program.id}.title`)}
+                                    className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                                 />
 
-                                {/* Overlay text on image for mobile or stylistic choice */}
-                                <div className="absolute inset-0 flex items-end p-8 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                {/* Hover overlay */}
+                                <div className="absolute inset-0 flex items-end p-6 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                     <p className="text-white font-medium flex items-center gap-2">
                                         {t('programs.viewProgram')} <ArrowUpRight className="w-4 h-4" />
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="space-y-3">
-                                <p className="text-sm font-bold tracking-widest text-gray-400 uppercase">{t(`programs.cards.${program.id}.subtitle`)}</p>
-                                <h3 className="text-3xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">
+                            <div className="space-y-2 max-w-full">
+                                <p className="text-xs font-bold tracking-widest text-[var(--ascendia-text-muted)] uppercase">{t(`programs.cards.${program.id}.subtitle`)}</p>
+                                <h3 className="text-xl md:text-2xl font-bold text-[var(--ascendia-text)] group-hover:text-[var(--ascendia-primary)] transition-colors leading-tight">
                                     {t(`programs.cards.${program.id}.title`)}
                                 </h3>
-                                <p className="text-gray-500 leading-relaxed border-t border-gray-200 pt-4 mt-4 opacity-80 group-hover:opacity-100 transition-opacity">
+                                <p className="text-sm text-[var(--ascendia-text-muted)] leading-relaxed border-t border-[var(--ascendia-border-soft)] pt-3 mt-3 group-hover:text-[var(--ascendia-text)] transition-colors">
                                     {t(`programs.cards.${program.id}.description`)}
                                 </p>
                             </div>
@@ -132,14 +118,14 @@ export default function ProgramGrid() {
                             initial={{ scale: 0.9, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.9, opacity: 0 }}
-                            className="relative w-full max-w-5xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl"
+                            className="relative w-full max-w-5xl aspect-video bg-black rounded-2xl overflow-hidden"
                             onClick={e => e.stopPropagation()}
                         >
                             <button
                                 onClick={() => setShowVideoModal(false)}
-                                className="absolute top-4 right-4 z-10 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-md"
+                                className="absolute top-3 right-3 z-10 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors backdrop-blur-sm"
                             >
-                                <X className="w-6 h-6" />
+                                <X className="w-5 h-5" />
                             </button>
                             <video
                                 src={getVideoUrl('Landing_Page_novawork.mp4')}

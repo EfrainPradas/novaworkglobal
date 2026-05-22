@@ -22,13 +22,19 @@ interface UseSubscriptionReturn {
   /** Convenience: current membership tier code */
   tier: BillingStatus['membership_code']
   /** Check if user has at least the given tier */
-  hasMinTier: (minTier: 'esenciales' | 'momentum' | 'vanguard') => boolean
+  hasMinTier: (minTier: 'core' | 'advance' | 'apex') => boolean
 }
 
 const TIER_LEVELS: Record<string, number> = {
+  core: 1,
+  advance: 2,
+  apex: 3,
+  // Legacy NovaWork codes — mapped to Ascendia equivalents
   esenciales: 1,
+  essentials: 1,
   momentum: 2,
   vanguard: 3,
+  executive: 3,
 }
 
 export function useSubscription(): UseSubscriptionReturn {
@@ -57,7 +63,7 @@ export function useSubscription(): UseSubscriptionReturn {
   const tier = billing?.membership_code ?? null
 
   const hasMinTier = useCallback(
-    (minTier: 'esenciales' | 'momentum' | 'vanguard') => {
+    (minTier: 'core' | 'advance' | 'apex') => {
       if (!isActive || !tier) return false
       return (TIER_LEVELS[tier] || 0) >= (TIER_LEVELS[minTier] || 0)
     },

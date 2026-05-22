@@ -7,7 +7,7 @@ import * as svc from '../../services/sticky-board.service'
 /* ── Color palette ─────────────────────────────────────────── */
 const COLORS: Record<NoteColor, { bg: string; border: string; header: string }> = {
   yellow: { bg: '#FFF9C4', border: '#F9A825', header: '#F57F17' },
-  blue:   { bg: '#E3F2FD', border: '#42A5F5', header: '#1565C0' },
+  blue:   { bg: '#EAF4EC', border: '#4F8F55', header: '#07371E' },
   green:  { bg: '#E8F5E9', border: '#66BB6A', header: '#2E7D32' },
   pink:   { bg: '#FCE4EC', border: '#EC407A', header: '#AD1457' },
   purple: { bg: '#F3E5F5', border: '#AB47BC', header: '#6A1B9A' },
@@ -144,7 +144,7 @@ export default function StickyBoard() {
           <button
             onClick={() => setShowNewNote(true)}
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white shadow-md hover:shadow-lg transition-all"
-            style={{ background: '#1976D2' }}
+            style={{ background: '#0E4B2B' }}
           >
             <Plus size={18} />
             New Note
@@ -450,7 +450,7 @@ function EmptyState({ showArchived, onNew }: { showArchived: boolean; onNew: () 
         <button
           onClick={onNew}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-white shadow-md hover:shadow-lg transition-all"
-          style={{ background: '#1976D2' }}
+          style={{ background: '#0E4B2B' }}
         >
           <Plus size={18} />
           New Note

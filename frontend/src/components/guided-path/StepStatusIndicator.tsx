@@ -46,9 +46,9 @@ export default function StepStatusIndicator({ status, size = 'md' }: StepStatusI
   if (status === 'in_progress') {
     return (
       <motion.div
-        animate={{ boxShadow: ['0 0 0 0 rgba(31,91,170,0.4)', '0 0 0 6px rgba(31,91,170,0)', '0 0 0 0 rgba(31,91,170,0)'] }}
+        animate={{ boxShadow: ['0 0 0 0 rgba(14,75,43,0.4)', '0 0 0 6px rgba(14,75,43,0)', '0 0 0 0 rgba(14,75,43,0)'] }}
         transition={{ duration: 2, repeat: Infinity }}
-        style={{ ...base, background: '#1F5BAA', border: '2px solid #1F5BAA' }}
+        style={{ ...base, background: '#0E4B2B', border: '2px solid #0E4B2B' }}
       >
         <div style={{ width: iconPx * 0.5, height: iconPx * 0.5, borderRadius: '50%', background: '#fff' }} />
       </motion.div>

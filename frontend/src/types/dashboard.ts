@@ -1,7 +1,7 @@
 export type ModuleId = 'career-vision' | 'resume-builder' | 'job-search' | 'interview-mastery'
-export type TierLevel = 'esenciales' | 'momentum' | 'vanguard'
+export type TierLevel = 'core' | 'advance' | 'apex'
 export type StepStatus = 'completed' | 'in-progress' | 'not-started'
-export type TierBadge = 'Momentum' | 'Essentials' | 'Vanguard'
+export type TierBadge = 'Core' | 'Advance' | 'Apex'
 
 export interface DashboardStep {
   id: string

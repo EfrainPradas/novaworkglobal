@@ -45,6 +45,9 @@ export interface Accomplishment {
   id?: string
   work_experience_id: string
   par_story_id?: string | null
+  accomplishment_bank_id?: string | null
+  is_visible?: boolean
+  user_id?: string
 
   // Bullet Content
   bullet_text: string

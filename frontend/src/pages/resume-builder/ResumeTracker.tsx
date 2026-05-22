@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import { Eye, Download, Send, Calendar, Building2, Briefcase, Filter, Search, ChevronDown } from 'lucide-react'
+import { usePlanTier } from '../../hooks/usePlanTier'
+import UpgradePrompt from '../../components/billing/UpgradePrompt'
 
 interface TailoredResume {
   id: string
@@ -25,6 +27,7 @@ interface TailoredResume {
 
 export const ResumeTracker: React.FC = () => {
   const navigate = useNavigate()
+  const { can: canUse } = usePlanTier()
   const [userId, setUserId] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -642,6 +645,8 @@ export const ResumeTracker: React.FC = () => {
                     View
                   </button>
                   <div className="relative">
+                    {canUse('canExportResume') ? (
+                    <>
                     <button
                       onClick={() => {
                         const dropdown = document.getElementById(`export-dropdown-${resume.id}`)
@@ -682,6 +687,10 @@ export const ResumeTracker: React.FC = () => {
                         Export as Word (.doc)
                       </button>
                     </div>
+                    </>
+                    ) : (
+                      <UpgradePrompt feature="Resume export" className="p-3 text-xs gap-2" />
+                    )}
                   </div>
                   {resume.status !== 'sent' && (
                     <button
@@ -859,6 +868,8 @@ export const ResumeTracker: React.FC = () => {
 
               {/* Action Buttons */}
               <div className="flex gap-3 pt-4 border-t">
+                {canUse('canExportResume') ? (
+                <>
                 <button
                   onClick={() => handleExportResume(viewingResume, 'html')}
                   className="flex-1 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold"
@@ -871,6 +882,10 @@ export const ResumeTracker: React.FC = () => {
                 >
                   📄 Export as Word (.doc)
                 </button>
+                </>
+                ) : (
+                  <UpgradePrompt feature="Resume export" className="flex-1" />
+                )}
                 {viewingResume.status !== 'sent' && (
                   <button
                     onClick={() => {

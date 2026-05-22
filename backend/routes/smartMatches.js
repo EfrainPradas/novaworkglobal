@@ -2,10 +2,10 @@
  * Smart Matches API
  *
  * Curated company match briefs for the authenticated user.
- * Gated to a single pilot user by email. All vendor-specific
- * vocabulary is stripped at the service boundary via
- * smartMatchTranslator before anything reaches this layer or
- * the database.
+ * Access gated by Ascendia plan tier: Advance+ required.
+ * All vendor-specific vocabulary is stripped at the service
+ * boundary via smartMatchTranslator before anything reaches
+ * this layer or the database.
  */
 
 import express from 'express'
@@ -18,16 +18,69 @@ import { generateTailoredCv } from '../services/cvPersonalization.js'
 
 const router = express.Router()
 
-const PILOT_EMAIL = 'efrain.pradas@gmail.com'
+// ── Ascendia plan tier hierarchy ──────────────────────────────
+const TIER_LEVELS = {
+  core: 1,
+  advance: 2,
+  apex: 3,
+  // Legacy NovaWork codes mapped to Ascendia equivalents
+  esenciales: 1,
+  essentials: 1,
+  momentum: 2,
+  vanguard: 3,
+  executive: 3,
+}
+
+const MIN_TIER_FOR_SMART_MATCHES = 2 // Advance+
 
 router.use(requireAuth)
 
-function requirePilotUser(req, res, next) {
-  if (req.user?.email !== PILOT_EMAIL) {
-    return res.status(403).json({ error: 'Not available for this account' })
+/**
+ * Middleware: require Ascendia Advance+ plan.
+ * Reads billing_access.membership_code for the authenticated user.
+ * Returns 403 with upgrade-required details for unauthorized tiers.
+ */
+async function requirePlanAccess(req, res, next) {
+  const userId = req.user?.id
+  if (!userId) {
+    return res.status(401).json({ error: 'Unauthorized', code: 'AUTH_REQUIRED' })
   }
-  next()
+
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('billing_access')
+      .select('membership_code')
+      .eq('user_id', userId)
+      .maybeSingle()
+
+    // No billing row = Core (tier 0), denied
+    if (error || !data) {
+      return res.status(403).json({
+        error: 'Smart Matches requires Ascendia Advance or higher',
+        code: 'UPGRADE_REQUIRED',
+        required_tier: 'advance',
+        current_tier: 'core',
+      })
+    }
+
+    const tier = TIER_LEVELS[data.membership_code] ?? 0
+    if (tier < MIN_TIER_FOR_SMART_MATCHES) {
+      return res.status(403).json({
+        error: 'Smart Matches requires Ascendia Advance or higher',
+        code: 'UPGRADE_REQUIRED',
+        required_tier: 'advance',
+        current_tier: data.membership_code || 'core',
+      })
+    }
+
+    next()
+  } catch (err) {
+    console.error('[smart-matches] plan check failed:', err?.message)
+    return res.status(500).json({ error: 'Failed to verify plan access' })
+  }
 }
+
+router.use(requirePlanAccess)
 
 /**
  * Resolves the user's preferred language for CV generation:
@@ -129,7 +182,7 @@ async function buildCandidatePayload(userId) {
  * Requests a fresh set of curated matches from the intelligence service,
  * translates them to neutral vocabulary, and upserts them.
  */
-router.post('/refresh', requirePilotUser, async (req, res) => {
+router.post('/refresh', async (req, res) => {
   try {
     const userId = req.user.id
 
@@ -210,7 +263,7 @@ router.post('/refresh', requirePilotUser, async (req, res) => {
  * GET /api/smart-matches?status=proposed
  * Lists curated matches for the authenticated pilot user.
  */
-router.get('/', requirePilotUser, async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const userId = req.user.id
     const { status } = req.query
@@ -244,7 +297,7 @@ router.get('/', requirePilotUser, async (req, res) => {
  * 'saved', also (re)uses an existing tailored CV version, or generates
  * one synchronously. Generation failures do not block the save.
  */
-router.patch('/:id', requirePilotUser, async (req, res) => {
+router.patch('/:id', async (req, res) => {
   try {
     const userId = req.user.id
     const { id } = req.params
@@ -317,7 +370,7 @@ router.patch('/:id', requirePilotUser, async (req, res) => {
  * GET /api/smart-matches/:id/cv
  * Returns the tailored CV version associated with a brief, if any.
  */
-router.get('/:id/cv', requirePilotUser, async (req, res) => {
+router.get('/:id/cv', async (req, res) => {
   try {
     const userId = req.user.id
     const { id } = req.params
@@ -344,7 +397,7 @@ router.get('/:id/cv', requirePilotUser, async (req, res) => {
  * POST /api/smart-matches/:id/regenerate-cv
  * Deletes any existing tailored CV for the brief and generates a new one.
  */
-router.post('/:id/regenerate-cv', requirePilotUser, async (req, res) => {
+router.post('/:id/regenerate-cv', async (req, res) => {
   try {
     const userId = req.user.id
     const { id } = req.params

@@ -14,6 +14,7 @@ export interface AcademyNode {
   default_y: number
   icon?: string
   color?: string
+  sort_order?: number
 }
 
 export interface UserNodeLayout {

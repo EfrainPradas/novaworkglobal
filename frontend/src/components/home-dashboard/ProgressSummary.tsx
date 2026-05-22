@@ -55,7 +55,7 @@ export default function ProgressSummary({ overview, loading, compact = false }: 
           <circle
             cx={28} cy={28} r={22}
             fill="none"
-            stroke="#1F5BAA"
+            stroke="#0E4B2B"
             strokeWidth={5}
             strokeLinecap="round"
             strokeDasharray={`${2 * Math.PI * 22}`}
@@ -81,25 +81,25 @@ export default function ProgressSummary({ overview, loading, compact = false }: 
           icon={<FileText size={16} />}
           label={t('dashboard.statsSection.resumeVersions')}
           value={overview?.resume_versions_count ?? 0}
-          iconBg="#eef6fc" iconColor="#1F5BAA"
+          iconBg="#EAF4EC" iconColor="#0E4B2B"
         />
         <StatItem
           icon={<Briefcase size={16} />}
           label={t('dashboard.statsSection.applications')}
           value={overview?.applications_count ?? 0}
-          iconBg="#eef6fc" iconColor="#1F5BAA"
+          iconBg="#EAF4EC" iconColor="#0E4B2B"
         />
         <StatItem
           icon={<Users size={16} />}
           label={t('dashboard.statsSection.interviews')}
           value={overview?.interviews_count ?? 0}
-          iconBg="#eef6fc" iconColor="#1F5BAA"
+          iconBg="#EAF4EC" iconColor="#0E4B2B"
         />
         <StatItem
           icon={<Monitor size={16} />}
           label={t('dashboard.statsSection.sessionsJoined')}
           value={overview?.sessions_joined_count ?? 0}
-          iconBg="#eef6fc" iconColor="#1F5BAA"
+          iconBg="#EAF4EC" iconColor="#0E4B2B"
         />
       </div>
     </div>

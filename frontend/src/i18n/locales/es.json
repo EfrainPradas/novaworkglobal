@@ -10,6 +10,7 @@
     "backToDashboard": "Volver al Panel",
     "backToResumeBuilder": "Volver al Constructor",
     "watchVideo": "Ver video",
+    "watchVideoEs": "Ver video",
     "add": "Añadir",
     "cancel": "Cancelar",
     "save": "Guardar",
@@ -53,68 +54,98 @@
     "signIn": "Iniciar Sesión",
     "getStarted": "Empezar",
     "menu": {
-      "programs": "Programas",
-      "methodology": "Metodología",
-      "insights": "Perspectivas",
-      "howitworks": "Cómo Funciona",
-      "about": "Nosotros"
+      "howItWorks": "Cómo Funciona",
+      "memberships": "Membresías",
+      "theMethod": "El Método",
+      "stories": "Historias",
+      "faq": "FAQ",
+      "whynovawork": "Por Qué NovaWork"
     }
   },
   "hero": {
-    "badge": "GESTIONA TU CARRERA",
-    "title": "Enciende tu Próximo Capítulo Profesional",
-    "subtitle": "Claridad. Dirección. Impulso.",
-    "description": "NovaWork Global ayuda a profesionales a navegar el cambio de carrera con un sistema probado que combina la experiencia humana práctica en coaching de carrera con herramientas inteligentes de IA, para que avances con confianza y claridad.",
-    "ctaStart": "Comienza tu Viaje",
-    "ctaExplore": "Explorar Programas",
-    "hero": {
-      "ctaExplore": "Explorar Programs"
+    "badge": "Inteligencia profesional para tu próximo paso",
+    "title1": "Asciende a",
+    "title2": "lo que sigue",
+    "subtitle": "Claridad. Estrategia. Impulso.",
+    "description": "Ascendia ayuda a profesionales a transformar la incertidumbre laboral en un camino claro y estructurado — con inteligencia artificial y experiencia humana de tu lado.",
+    "ctaStart": "Comienza tu camino",
+    "ctaExplore": "Cómo funciona",
+    "trust1": "Plan gratuito disponible",
+    "trust2": "Cancela cuando quieras",
+    "trust3": "Creado por coaches expertos",
+    "dashboard": {
+      "title": "Trayectoria Profesional",
+      "live": "En vivo",
+      "scoreLabel": "Match",
+      "scoreValue": "92%",
+      "recTitle": "Alineación fuerte detectada",
+      "recDesc": "con la trayectoria Senior Product Manager para los próximos 6 meses.",
+      "progressLabel": "Progreso de claridad · 6 semanas",
+      "progressDelta": "+28%",
+      "matchesTitle": "Mejores roles compatibles",
+      "role1": "Senior Product Manager",
+      "role2": "Product Lead",
+      "role3": "Director de Estrategia",
+      "match1": "94%",
+      "match2": "87%",
+      "match3": "81%",
+      "statRate": "+247%",
+      "statRateLabel": "tasa de entrevistas",
+      "statMatches": "1,847",
+      "statMatchesLabel": "matches inteligentes hoy",
+      "coachName": "Ana · Coach",
+      "coachStatus": "Activa ahora"
     }
   },
   "trust": {
-    "title": "Con la Confianza de Profesionales en Todo el Mundo",
-    "subtitle": "Resultados reales de personas reales que transformaron sus carreras con nuestro sistema probado",
-    "stats": {
-      "guided": "Profesionales Apoyados",
-      "expertise": "Experiencia Combinada",
-      "global": "Experiencia Global",
-      "rating": "Calificación Promedio"
-    },
-    "testimonial": "NovaWork realmente entiende cómo sacar lo mejor de sus clientes. Me ayudaron a navegar con éxito mis opciones de carrera resultando en un nuevo puesto ejecutivo en una empresa Fortune 500. Su capacidad para desafiar tus suposiciones y expandir tu visión del mundo mientras ayudan a construir y trabajar un plan para perseguir tus ambiciones fueron clave en mi transición exitosa. Saben cómo sacar lo mejor de cada persona. Incluso durante los momentos más frustrantes, sabían cómo superar las barreras e infundir confianza a lo largo de todo el proceso."
+    "title": "Profesionales de empresas líderes confían en nosotros",
+    "logos": {
+      "google": "Google",
+      "microsoft": "Microsoft",
+      "stripe": "Stripe",
+      "salesforce": "Salesforce",
+      "meta": "Meta",
+      "amazon": "Amazon"
+    }
+  },
+  "method": {
+    "badge": "MÉTODO ASCENDIA",
+    "title": "Un sistema de claridad profesional, no otra herramienta de empleo",
+    "subtitle": "Ascendia te ayuda a convertir experiencia dispersa, ruido del mercado e incertidumbre en un camino enfocado que realmente puedes ejecutar.",
+    "pillar1Title": "Encuentra la señal",
+    "pillar1Copy": "Convierte tu trayectoria, metas y contexto de mercado en una dirección profesional más clara.",
+    "pillar2Title": "Posiciónate con precisión",
+    "pillar2Copy": "Traduce tus fortalezas en un CV, perfil y narrativa de entrevista más afilados.",
+    "pillar3Title": "Avanza con estructura",
+    "pillar3Copy": "Reemplaza postulaciones al azar y consejos dispersos por un camino guiado de ejecución.",
+    "pillar4Title": "Adáptate con inteligencia",
+    "pillar4Copy": "Usa inteligencia asistida por IA y perspectiva humana para seguir refinando tu próximo movimiento.",
+    "quote": "El progreso profesional se vuelve más fácil cuando las personas ven sus opciones con claridad, entienden su valor y avanzan con estructura."
   },
   "problem": {
+    "kicker": "LA BARRERA REAL",
     "titlePart1": "El cambio de carrera no es el problema.",
     "titlePart2": "La incertidumbre lo es.",
     "descriptionPart1": "La mayoría de la gente no se queda estancada porque carezcan de talento.",
     "descriptionPart2": "Se quedan estancados porque no saben qué movimiento tiene sentido a continuación.",
-    "card1": "Inseguro de qué rol o industria te conviene ahora",
+    "card1": "No estás seguro qué rol o industria encaja contigo ahora",
     "card2": "Afectado por despidos, disrupción de IA o cambios en el mercado",
     "card3": "Dividido entre múltiples caminos sin una dirección clara",
-    "solutionPart1": "NovaWork reemplaza la incertidumbre con",
+    "solutionPart1": "Ascendia reemplaza la incertidumbre con",
     "solutionPart2": "estructura y opciones claras hacia adelante."
   },
-  "philosophy": {
-    "bgText": "HUMANO+IA",
-    "badge": "Nuestra Filosofía",
-    "quotePart1": "Creemos que el futuro del trabajo no se trata de competir con la IA, sino de",
-    "quotePart2": "orquestarla",
-    "quotePart3": "junto a la intuición humana.",
-    "precisionTitle": "",
-    "precisionText": "",
-    "empathyTitle": "",
-    "empathyText": ""
-  },
   "differentiator": {
-    "title": "Experiencia Humana + Soporte de IA",
-    "description": "Combinamos más de 30 años de coaching de carrera práctico con herramientas impulsadas por IA, para que obtengas la profundidad de la visión humana y la velocidad de la tecnología.",
-    "humanCardTitle": "Sistema Diseñado por Humanos",
-    "humanCardText": "Construido por coaches de carrera expertos que han guiado a miles a través de transiciones exitosas. Experiencia real, marcos probados.",
-    "aiCardTitle": "Herramientas Impulsadas por IA",
-    "aiCardText": "La automatización inteligente maneja el trabajo pesado, optimización ATS, coincidencia de trabajos, soporte para creación de currículums, para que te muevas más rápido.",
-    "pathCardTitle": "Tu Camino Personalizado",
-    "pathCardText": "No consejos genéricos. Una estrategia a medida que se adapta a tus antecedentes, objetivos y cronograma.",
+    "kicker": "HUMANO + IA",
+    "title": "Experiencia humana se une al poder de la IA",
+    "description": "Combinamos más de 30 años de coaching profesional con herramientas impulsadas por IA, para que obtengas la profundidad del insight humano y la velocidad de la tecnología.",
+    "humanCardTitle": "Sistema diseñado por humanos",
+    "humanCardText": "Creado por coaches expertos que han guiado a miles a transiciones exitosas. Experiencia real, frameworks probados.",
+    "aiCardTitle": "Herramientas con IA",
+    "aiCardText": "La automatización inteligente se encarga del trabajo pesado — optimización ATS, matching de empleos y construcción de CV — para que avances más rápido.",
+    "pathCardTitle": "Tu camino personalizado",
+    "pathCardText": "No consejos genéricos. Una estrategia a la medida que se adapta a tu trayectoria, metas y tiempos.",
     "resultLabel": "¿El resultado?",
-    "resultText": "Obtienes orientación de nivel experto sin esperar semanas por un experto disponible, y ejecución a velocidad de IA sin perder el toque humano que realmente hace que el cambio de carrera funcione."
+    "resultText": "Obtienes guía de nivel experto sin esperar semanas por un especialista, y ejecución a velocidad IA sin perder el toque humano que realmente hace que un cambio de carrera funcione."
   },
   "programs": {
     "title": "Selecciona tu Camino",
@@ -148,70 +179,160 @@
     }
   },
   "cta": {
-    "title": "¿Listo para Empezar tu Próximo Capítulo Profesional?",
-    "subtitle": "Únete a los miles de profesionales que han transformado sus carreras con NovaWork Global",
-    "button": "Encuentra tu Camino →"
+    "title": "¿Listo para avanzar con claridad?",
+    "subtitle": "Elige tu camino, construye tu posicionamiento y convierte la incertidumbre en un plan estructurado para tu próximo capítulo.",
+    "button": "Comienza tu camino"
   },
   "footer": {
-    "tagline": "Empoderando a profesionales para navegar el cambio de carrera con claridad y confianza",
-    "programs": "Programas",
-    "company": "Compañía",
+    "tagline": "Inteligencia profesional para quienes navegan reinvención, transición y crecimiento.",
+    "email": "hello@ascendia.app",
+    "brandName": "Ascendia",
+    "product": "Producto",
+    "company": "Empresa",
     "legal": "Legal",
+    "followUs": "Síguenos",
     "links": {
-      "novanext": "NovaNext™",
-      "novarearchitect": "NovaRearchitect™",
-      "novalign": "NovaAlign™",
-      "about": "Acerca de",
-      "methodology": "Metodología",
-      "insights": "Perspectivas",
-      "privacy": "Política de Privacidad",
-      "terms": "Términos de Servicio"
+      "howItWorks": "Cómo funciona",
+      "memberships": "Membresías",
+      "theMethod": "El método",
+      "stories": "Historias",
+      "faq": "FAQ",
+      "about": "Nosotros",
+      "careers": "Empleos",
+      "contact": "Contacto",
+      "blog": "Blog",
+      "privacy": "Política de privacidad",
+      "terms": "Términos de servicio",
+      "security": "Seguridad"
     },
-    "copyright": "© {{year}} NovaWork Global. Todos los derechos reservados."
+    "copyright": "© {{year}} Ascendia. Plataforma de inteligencia profesional."
+  },
+  "memberships": {
+    "badge": "MEMBRESÍAS",
+    "title": "Elige el nivel de guía que necesitas",
+    "subtitle": "Comienza con claridad, desbloquea inteligencia más profunda y pasa a ejecución completa cuando estés listo.",
+    "perMonth": "/mes",
+    "core": {
+      "name": "Core",
+      "price": "0",
+      "description": "El punto de partida ideal para profesionales que buscan estructura inicial. Permite autogestionar y explorar tu trayectoria mediante herramientas básicas de posicionamiento y claridad de carrera sin coste alguno.",
+      "features": [
+        "Creación de cuenta y perfil profesional completo",
+        "Career Clarity — exploración básica de trayectoria laboral",
+        "Resume Studio — vista previa en tiempo real y edición de currículum",
+        "Opportunity Hub — vista previa limitada de ofertas de empleo",
+        "Smart Matches — visualización preliminar de compatibilidad de cargos",
+        "Interview Prep — acceso introductorio a preguntas comunes de entrevista",
+        "Smart Guide básico de orientación en la plataforma",
+        "Soporte comunitario en línea por correo"
+      ],
+      "cta": "Comenzar con Core"
+    },
+    "advance": {
+      "name": "Advance",
+      "price": "10",
+      "description": "La opción recomendada para profesionales en búsqueda activa. Desbloquea la capacidad total de exportación, creación de múltiples versiones de CV adaptados por rol y compatibilidad inteligente diaria con ofertas de mercado.",
+      "features": [
+        "Todo lo incluido en el plan Core, más:",
+        "Resume Studio completo — exportación ilimitada y descarga en PDF/ATS",
+        "Múltiples versiones de currículum estructuradas por cargo u objetivo",
+        "Recomendaciones inteligentes de optimización del perfil",
+        "Acceso completo e ilimitado a Smart Matches diarios",
+        "Opportunity Hub — búsqueda avanzada y rastreo ilimitado de ofertas",
+        "Seguimiento visual de tus aplicaciones y pipeline de procesos",
+        "Interview Prep básico con retroalimentación automatizada",
+        "Soporte preferente por correo electrónico"
+      ],
+      "cta": "Elegir Advance",
+      "badge": "Recomendado"
+    },
+    "apex": {
+      "name": "Apex",
+      "price": "20",
+      "description": "El nivel ejecutivo y premium definitivo. Diseñado para profesionales ambiciosos y líderes que necesitan preparación avanzada y personalizada de entrevistas, sesión estratégica mensual 1:1 y soporte prioritario continuo.",
+      "features": [
+        "Todo lo incluido en el plan Advance, más:",
+        "Interview Prep avanzado con simulador interactivo y de IA",
+        "Acceso directo a tu Coach asignado (sección My Coaches)",
+        "Soporte especializado para posicionamiento ejecutivo y narrativas de marca",
+        "Recursos prémium de estrategia profesional y análisis del mercado",
+        "Flujos avanzados de revisión, retroalimentación y aprobación de CV",
+        "1 sesión estratégica en vivo mensual 1:1 de 45 min",
+        "Soporte técnico y estratégico prioritario 24/7"
+      ],
+      "cta": "Elegir Apex"
+    }
+  },
+  "faq": {
+    "badge": "PREGUNTAS FRECUENTES",
+    "title": "Preguntas que escuchamos seguido",
+    "subtitle": "Todo lo que necesitas saber antes de comenzar tu camino hacia la claridad profesional.",
+    "items": [
+      {
+        "question": "¿En qué se diferencia Ascendia de un coach de carrera tradicional?",
+        "answer": "Ascendia combina los frameworks probados de coaches expertos con herramientas potenciadas por IA. Obtienes la profundidad de la guía humana sin largas esperas, además de automatización que maneja optimización de CV, matching de mercado y tareas de ejecución a velocidad."
+      },
+      {
+        "question": "¿Necesito estar buscando empleo activamente para usar Ascendia?",
+        "answer": "Para nada. Muchos de nuestros miembros usan Ascendia para explorar opciones, reinventar su dirección profesional o simplemente obtener claridad sobre lo que sigue — sin hacer ningún movimiento inmediato."
+      },
+      {
+        "question": "¿Puedo cancelar o cambiar mi plan cuando quiera?",
+        "answer": "Sí. Puedes subir, bajar o cancelar tu membresía en cualquier momento directamente desde la configuración de tu cuenta — sin preguntas."
+      },
+      {
+        "question": "¿Mis datos e información profesional son privados?",
+        "answer": "Absolutamente. Tu información profesional está encriptada, nunca se vende y solo se usa para potenciar tus recomendaciones personalizadas dentro de Ascendia."
+      },
+      {
+        "question": "¿Cuánto tiempo toma ver resultados?",
+        "answer": "La mayoría de miembros obtienen claridad significativa durante su primera semana. Los resultados tangibles de búsqueda de empleo típicamente llegan entre 30 y 60 días de ejecución consistente."
+      }
+    ]
   },
   "about": {
     "hero": {
-      "badge": "ACERCA DE NOVAWORK",
+      "badge": "ACERCA DE ASCENDIA",
       "title": "Construido para quienes navegan el nuevo mundo del trabajo",
       "subtitle": "Experiencia, visión y alianza puestas al servicio de las personas que gestionan su carrera con intención."
     },
     "menu": {
-      "story": "La historia detrás de NovaWork",
+      "story": "La historia detrás de Ascendia",
       "founders": "Fundadores y colaboradores",
       "beliefs": "En qué creemos",
       "whoWeServe": "A quiénes servimos"
     },
     "story": {
-      "title": "La historia detrás de NovaWork Global",
-      "p1": "NovaWork Global nació de la experiencia personal, la evolución profesional y un profundo compromiso con ayudar a las personas a navegar sus carreras con mayor claridad y confianza.",
+      "title": "La historia detrás de Ascendia",
+      "p1": "Ascendia nació de la experiencia personal, la evolución profesional y un profundo compromiso con ayudar a las personas a navegar sus carreras con mayor claridad y confianza.",
       "p2": "Después de más de 25 años como coach de carrera internacional, Andreina Villar hizo su propio cambio de carrera. Incluso después de entrar en un nuevo capítulo profesional, los antiguos clientes seguían contactándola, las referencias continuaban llegando, y una cosa quedó clara: la necesidad de un acompañamiento profesional significativo no había desaparecido.",
       "p3": "Al mismo tiempo, podía ver con claridad hacia dónde se dirigía el mundo del trabajo. Anticipó muchos de los cambios que hoy están transformando las carreras a nivel global: una disrupción más rápida, el creciente impacto de la tecnología y la IA, trayectorias profesionales menos lineales y la necesidad creciente de que las personas gestionen su vida profesional de manera más intencional.",
-      "p4": "Esa constatación dio origen a la visión de NovaWork.",
+      "p4": "Esa constatación dio origen a la visión de Ascendia.",
       "p5": "Andreina quería crear una forma de seguir ayudando a las personas no solo a través del coaching uno a uno, sino con un modelo más escalable y empoderador, uno que permitiera a cada persona autogestionar su carrera con más estructura, confianza y apoyo.",
-      "p6": "NovaWork se convirtió en la traducción de toda una vida de aprendizaje, visión y orientación profesional real, llevada a una experiencia moderna que las personas pueden usar por sí mismas. Fue construido para ayudar a cada persona a navegar la transición, la reinvención y el crecimiento profesional sin depender de un coach en cada paso del camino."
+      "p6": "Ascendia se convirtió en la traducción de toda una vida de aprendizaje, visión y orientación profesional real, llevada a una experiencia moderna que las personas pueden usar por sí mismas. Fue construida para ayudar a cada persona a navegar la transición, la reinvención y el crecimiento profesional sin depender de un coach en cada paso del camino."
     },
     "founders": {
       "title": "Fundadores y contribuciones",
-      "intro": "NovaWork no se construyó sola.",
+      "intro": "Ascendia no se construyó sola.",
       "p1": "Isabel Pérez, amiga de toda la vida y socia de negocios de Andreina, fue fundamental para llevar esta visión a la vida y para traducir años de conocimiento y experiencia en algo a lo que otros pudieran acceder de forma práctica y significativa.",
       "p2": "Efraín Prada fue el brazo técnico del proyecto, haciendo posible la construcción misma y ayudando a transformar el concepto en realidad.",
-      "p3": "NovaWork Global es, en esencia, el resultado de la experiencia, la visión, la alianza y la creencia compartida de que las personas merecen mejores herramientas y mejor apoyo para gestionar su vida profesional. Con especial gratitud a Militza, Claudio y Catalina, cuyo apoyo, presencia y contribución también forman parte del espíritu detrás de NovaWork."
+      "p3": "Ascendia es, en esencia, el resultado de la experiencia, la visión, la alianza y la creencia compartida de que las personas merecen mejores herramientas y mejor apoyo para gestionar su vida profesional. Con especial gratitud a Militza, Claudio y Catalina, cuyo apoyo, presencia y contribución también forman parte del espíritu detrás de Ascendia."
     },
     "bios": {
       "andreina": {
         "name": "Andreina Villar",
         "role": "Fundadora y CEO",
-        "bio": "Andreina es la fundadora de NovaWork Global, una empresa moderna de estrategia y autogestión de carrera creada desde la experticia y la reinvención vivida en carne propia. Con más de 25 años de experiencia internacional en coaching ejecutivo, desarrollo organizacional, aprendizaje y liderazgo, construyó su carrera ayudando a profesionales a navegar la transición, el crecimiento y el cambio. En 2022, Andreina dio un paso importante en su propia carrera al asumir el liderazgo global de procurement en Foundever como Global PBS Procurement Category Director. Ese cambio profundizó su convicción de que las carreras ya no pueden dejarse al azar. A partir de décadas acompañando a miles de profesionales senior y de su propia transición exitosa hacia procurement, creó NovaWork Global como una forma de traducir su aprendizaje de toda una vida, sus metodologías estratégicas y su visión profesional en una experiencia moderna que ayuda a las personas a autogestionar sus carreras con más claridad, estructura y confianza."
+        "bio": "Andreina es la fundadora de Ascendia, una empresa moderna de estrategia y autogestión de carrera creada desde la experticia y la reinvención vivida en carne propia. Con más de 25 años de experiencia internacional en coaching ejecutivo, desarrollo organizacional, aprendizaje y liderazgo, construyó su carrera ayudando a profesionales a navegar la transición, el crecimiento y el cambio. En 2022, Andreina dio un paso importante en su propia carrera al asumir el liderazgo global de procurement en Foundever como Global PBS Procurement Category Director. Ese cambio profundizó su convicción de que las carreras ya no pueden dejarse al azar. A partir de décadas acompañando a miles de profesionales senior y de su propia transición exitosa hacia procurement, creó Ascendia como una forma de traducir su aprendizaje de toda una vida, sus metodologías estratégicas y su visión profesional en una experiencia moderna que ayuda a las personas a autogestionar sus carreras con más claridad, estructura y confianza."
       },
       "isabel": {
         "name": "Isabel Pérez",
         "role": "Cofundadora",
-        "bio": "Isabel es la cofundadora de NovaWork Global y aporta una mezcla única de precisión ingenieril, visión de negocio y experticia en transformación de carrera. Ingeniera Química y Consultora Ejecutiva de Carrera con experiencia internacional en las industrias de servicios y de oil and gas, ha construido su carrera en la intersección entre el cambio organizacional, la excelencia operativa y el desarrollo humano. Desde operaciones de campo petrolero hasta liderar implementaciones de sistemas de calidad ISO 9000 en organizaciones multifuncionales y matriciales, Isabel desarrolló una perspectiva práctica, estructurada y orientada a resultados que hoy marca su trabajo en estrategia de carrera. Ha asesorado a profesionales tanto en inglés como en español en planificación de carrera, redacción de CV, métodos de búsqueda de empleo, networking y preparación para entrevistas, ayudándolos a navegar la transición con confianza y dirección. En NovaWork, Isabel es clave para transformar el conocimiento en acción significativa, guiando a las personas hacia mayor claridad, mejor posicionamiento y un crecimiento profesional con propósito."
+        "bio": "Isabel es la cofundadora de Ascendia y aporta una mezcla única de precisión ingenieril, visión de negocio y experticia en transformación de carrera. Ingeniera Química y Consultora Ejecutiva de Carrera con experiencia internacional en las industrias de servicios y de oil and gas, ha construido su carrera en la intersección entre el cambio organizacional, la excelencia operativa y el desarrollo humano. Desde operaciones de campo petrolero hasta liderar implementaciones de sistemas de calidad ISO 9000 en organizaciones multifuncionales y matriciales, Isabel desarrolló una perspectiva práctica, estructurada y orientada a resultados que hoy marca su trabajo en estrategia de carrera. Ha asesorado a profesionales tanto en inglés como en español en planificación de carrera, redacción de CV, métodos de búsqueda de empleo, networking y preparación para entrevistas, ayudándolos a navegar la transición con confianza y dirección. En Ascendia, Isabel es clave para transformar el conocimiento en acción significativa, guiando a las personas hacia mayor claridad, mejor posicionamiento y un crecimiento profesional con propósito."
       },
       "efrain": {
         "name": "Efraín Prada",
         "role": "Equipo fundador · Liderazgo técnico",
-        "bio": "Efraín forma parte del equipo fundador de NovaWork Global y es el brazo técnico detrás del desarrollo de la plataforma. Con profunda experticia en arquitectura de software, desarrollo full-stack, analítica de datos e inteligencia de negocio, ha sido clave para convertir la visión de NovaWork en realidad. Su formación en ciencias de la computación, combinada con experiencia construyendo aplicaciones escalables, optimizando procesos de negocio y desarrollando soluciones basadas en datos, le permite aportar rigor técnico y pensamiento estratégico al proyecto. En NovaWork, el trabajo de Efraín ha sido esencial para crear la estructura digital que sostiene la misión de la compañía, traduciendo ideas en una experiencia moderna y funcional diseñada para ayudar a las personas a gestionar sus carreras con mayor claridad, confianza y control."
+        "bio": "Efraín forma parte del equipo fundador de Ascendia y es el brazo técnico detrás del desarrollo de la plataforma. Con profunda experticia en arquitectura de software, desarrollo full-stack, analítica de datos e inteligencia de negocio, ha sido clave para convertir la visión de Ascendia en realidad. Su formación en ciencias de la computación, combinada con experiencia construyendo aplicaciones escalables, optimizando procesos de negocio y desarrollando soluciones basadas en datos, le permite aportar rigor técnico y pensamiento estratégico al proyecto. En Ascendia, el trabajo de Efraín ha sido esencial para crear la estructura digital que sostiene la misión de la compañía, traduciendo ideas en una experiencia moderna y funcional diseñada para ayudar a las personas a gestionar sus carreras con mayor claridad, confianza y control."
       }
     },
     "beliefs": {
@@ -260,7 +381,7 @@
   "auth": {
     "signIn": {
       "title": "Bienvenido de Nuevo",
-      "subtitle": "Inicia sesión para continuar tu viaje profesional",
+      "subtitle": "Inicia sesión en tu cuenta de Ascendia",
       "email": "Correo Electrónico",
       "emailPlaceholder": "Ingresa tu correo",
       "password": "Contraseña",
@@ -275,7 +396,7 @@
     },
     "signUp": {
       "title": "Crea Tu Cuenta",
-      "subtitle": "Comienza tu viaje profesional hoy",
+      "subtitle": "Únete a Ascendia y acelera tu carrera",
       "titleWithPlan": "Crea Tu Cuenta — Plan {{plan}}",
       "subtitleWithPlan": "Regístrate para iniciar tu membresía {{plan}}",
       "selectedPlan": "Plan seleccionado: {{plan}}",
@@ -361,9 +482,9 @@
       "editDetails": "Editar Detalles",
       "getStarted": "Empezar",
       "readyToApply": "¿Listo para Aplicar?",
-      "readyToApplyLocked": "¿Listo para Aplicar? (Solo Momentum)",
+      "readyToApplyLocked": "¿Listo para Aplicar? (Solo Advance)",
       "applyDesc": "Inicia tu viaje de búsqueda de empleo con recomendaciones impulsadas por IA.",
-      "applyDescLocked": "Actualiza a Momentum para acceder a nuestro motor de búsqueda de empleo impulsado por IA.",
+      "applyDescLocked": "Actualiza a Advance para acceder a nuestro motor de búsqueda de empleo impulsado por IA.",
       "workExperience": "Experiencia Laboral",
       "workExperienceDesc": "Construye tu historial profesional con facilidad.",
       "education": "Educación",
@@ -379,13 +500,13 @@
       "accomplishmentLibraryDesc": "Tu banco personal de logros — elige, etiqueta y auto-ensambla para cualquier trabajo.",
       "largestResult": "Tu Mayor Resultado",
       "mostComplexProject": "Proyecto Más Complejo",
-      "workAndEducationTitle": "Experiencia Laboral y Educación",
+      "workAndEducationTitle": "Paso 1: Experiencia Laboral y Educación",
       "workAndEducationDesc": "Historial profesional y académico.",
-      "accomplishmentBankTitle": "Banco de Logros",
+      "accomplishmentBankTitle": "Paso 2: Banco de Logros",
       "accomplishmentBankDesc": "Destaca tus logros clave.",
-      "professionalSummaryTitle": "Resumen Profesional",
+      "professionalSummaryTitle": "Paso 3: Resumen Profesional",
       "professionalSummaryDesc": "Preséntate y posiciónate.",
-      "chooseResumeTitle": "Elige tu CV",
+      "chooseResumeTitle": "Paso 4: Elige tu CV",
       "chooseResumeDesc": "Cronológico o Funcional",
       "learnMore": "Saber más",
       "showLess": "Ver menos",
@@ -838,8 +959,8 @@
     "welcomeBack": "Bienvenido de nuevo,",
     "whatToAchieve": "¿Qué quieres lograr hoy?",
     "pickFocus": "Elige un enfoque — te guiaremos paso a paso con el camino más rápido a los resultados.",
-    "executiveMember": "Miembro Vanguard",
-    "momentumMember": "Miembro Momentum",
+    "executiveMember": "Miembro Apex",
+    "momentumMember": "Miembro Advance",
     "essentialsPlan": "Plan Essentials",
     "recommendedNext": "Siguiente Paso Recomendado",
     "continue": "Continuar",
@@ -877,7 +998,7 @@
       "greeting": "Bienvenido de nuevo, {{name}}",
       "subtitle": "Tu centro de carrera personalizado",
       "heroTitle": "Tu progreso, comunidad y próximas acciones en un solo lugar.",
-      "heroDescription": "Sigue avanzando en tu camino con NovaWork. Monitorea tu impulso, continúa tu programa, descubre recursos y únete a las sesiones de esta semana."
+      "heroDescription": "Sigue avanzando en tu camino con Ascendia. Monitorea tu impulso, continúa tu programa, descubre recursos y únete a las sesiones de esta semana."
     },
     "cta": {
       "continueProgram": "Continuar Programa",
@@ -887,7 +1008,11 @@
       "register": "Registrarse",
       "cancelRegistration": "Cancelar Registro",
       "retry": "Intentar de Nuevo",
-      "viewModules": "Ver Todos los Módulos"
+      "viewModules": "Ver Todos los Módulos",
+      "viewSchedule": "Ver Horario",
+      "continue": "Continuar",
+      "startCta": "Comenzar",
+      "viewResume": "Ver Currículum"
     },
     "statsSection": {
       "title": "Tu Progreso",
@@ -897,7 +1022,9 @@
       "interviews": "Entrevistas",
       "sessionsJoined": "Sesiones Asistidas",
       "complete": "Completo",
-      "pctDone": "{{pct}}% completado"
+      "pctDone": "{{pct}}% completado",
+      "allSet": "Todo Listo",
+      "inProgress": "En Progreso"
     },
     "quickActionsPanel": {
       "title": "Acciones Rápidas",
@@ -994,7 +1121,7 @@
       "relevance": "Relevancia",
       "featured": "Destacado",
       "novaworkTake": "Por Qué Importa",
-      "novaworkTakePlaceholder": "Explica por qué esto importa para los usuarios de NovaWork...",
+      "novaworkTakePlaceholder": "Explica por qué esto importa para los usuarios de Ascendia...",
       "actionHint": "Qué Hacer Ahora",
       "actionHintPlaceholder": "¿Qué debería hacer el usuario con esta información?...",
       "curatorNotes": "Notas Internas",
@@ -1067,10 +1194,36 @@
         "fromSource": "De {{source}}",
         "filterAll": "Todos",
         "filterByCategory": "Filtrar por tema",
-        "novaworkExclusive": "Análisis exclusivo de NovaWork"
+        "novaworkExclusive": "Análisis exclusivo de Ascendia"
       }
     },
-    "quickActionsTitle": "Acciones Rápidas"
+    "quickActionsTitle": "Acciones Rápidas",
+    "smartGuide": "Guía Inteligente",
+    "ascendia": {
+      "continueProgram": "Continuar Programa",
+      "continueProgramFallback": "Retoma donde lo dejaste.",
+      "continueProgramNext": "Siguiente: {{step}}",
+      "continueProgramComplete": "¡Tu currículum está listo! Revísalo y expórtalo.",
+      "activating": "Activando...",
+      "careerVisionDesc": "Gana claridad sobre tu dirección profesional, fortalezas, posicionamiento y próximo paso.",
+      "resumeBuilderDesc": "Crea versiones más fuertes de CV y currículum a partir de datos de experiencia estructurados.",
+      "jobSearchDesc": "Organiza roles objetivo, aplicaciones, empresas y tu canal de oportunidades.",
+      "interviewMasteryDesc": "Prepara respuestas más fuertes, afila tus historias y construye confianza en entrevistas.",
+      "clarify": "Aclarar",
+      "build": "Construir",
+      "explore": "Explorar",
+      "prepare": "Preparar",
+      "progress": "Progreso",
+      "profileCompletion": "Perfil Completado",
+      "complete": "Completo",
+      "calendarDay0": "Do",
+      "calendarDay1": "Lu",
+      "calendarDay2": "Ma",
+      "calendarDay3": "Mi",
+      "calendarDay4": "Ju",
+      "calendarDay5": "Vi",
+      "calendarDay6": "Sá"
+    }
   },
   "accomplishmentBankLearnMore": {
     "heroBadge": "Más Info · Banco de Logros",
@@ -1138,67 +1291,124 @@
     "ctaText": "Deja de depender de la memoria. Construye un portafolio reutilizable de logros profesionales que soporte tu currículum, preparación para entrevistas y próxima oportunidad."
   },
   "resumeBuilderLearnMore": {
+    "pdfTitle": "Construye un CV Que Sea Notado",
     "backToResumeBuilder": "Volver al Constructor de CV",
-    "heroBadge": "El Constructor de CV de 4 Pasos",
-    "heroTitle": "Enciende tu próximo capítulo profesional.",
-    "heroDescription": "Deja de escribir descripciones de puesto. Comienza a contar tu historia de logros. Nuestro sistema de 4 pasos transforma tu narrativa profesional en un CV poderoso y optimizado para ATS.",
-    "exploreFramework": "Explorar Marco",
-    "infographicAlt": "El Blueprint del Constructor de CV de 4 Pasos",
-    "blueprintTitle": "El Blueprint del CV",
-    "blueprintSubtitle": "Fase 1: Recopilar y Perfeccionar Tu Historia • Paso 4: Estrategia Final",
-    "phase1": "Fase 1",
-    "phase1Title": "Recopilar y Perfeccionar Tu Historia",
-    "step1Title": "Paso 1: Esquema de Experiencia Laboral",
-    "step1Desc": "Documenta empresas, puestos, años y ubicaciones para capturar toda la información profesional esencial.",
-    "step2Title": "Paso 2: Banco de Logros CAR",
-    "step2Desc": "Usa el sistema Contexto/Desafío + Acciones + Resultados (CAR) para construir un repositorio de logros.",
-    "step3Title": "Paso 3: Perfil Profesional",
-    "step3Desc": "Crea un párrafo de posicionamiento que muestre tu identidad e incorpore palabras clave esenciales para ATS.",
-    "step4": "Paso 4",
-    "step4Title": "Estrategia Final y Selección de Formato",
-    "chooseFormatTitle": "Elegir el Formato de CV Correcto",
-    "chooseFormatDesc": "Selecciona el formato que mejor representa tu trayectoria profesional y objetivos.",
-    "chronological": "Cronológico",
-    "functional": "Funcional",
-    "bestFor": "Mejor Para",
-    "chronologicalBestFor": "Profesionales que continúan en una trayectoria profesional similar.",
-    "functionalBestFor": "Cambiadores de carrera, roles versátiles, trabajo basado en proyectos omudanza internacional.",
-    "buildYourStory": "Construye Tu Historia",
-    "accomplishmentMindsetTitle": "La Mentalidad de Logros",
-    "accomplishmentMindsetDesc": "La mayoría de los CV fracasan porque se leen como descripciones de puesto. Nuestro sistema cambia tu mentalidad de listar deberes a mostrar impacto.",
-    "mindsetPoint1": "Deja de listar lo que hiciste — muestra lo que lograste.",
-    "mindsetPoint2": "Usa el sistema CAR: Contexto + Acciones + Resultados.",
-    "mindsetPoint3": "Construye un repositorio de logros de por vida.",
-    "mindsetPoint4": "Palabras clave optimizadas para ATS en cada sección.",
-    "completeFrameworkTitle": "El Marco Completo",
-    "completeFrameworkSubtitle": "Construye el CV correcto, de la manera correcta.",
-    "step1DetailTitle": "Esquema de Experiencia Laboral",
-    "step1DetailDesc": "Documenta tu trayectoria profesional con precisión y completitud.",
-    "step1Bullet1": "Lista todas las empresas, puestos y duraciones.",
-    "step1Bullet2": "Incluye ubicaciones y estructuras de reporte.",
-    "step1Bullet3": "Captura toda la información profesional esencial.",
-    "step2DetailTitle": "El Banco de Logros CAR",
-    "step2DetailDesc": "Construye un repositorio de logros de carrera usando el sistema Contexto/Desafío + Acciones + Resultados.",
-    "commonMistake": "Error Común",
-    "mistakeExample": "\"Lideró un equipo de 10 desarrolladores.\"",
-    "carApproach": "Enfoque CAR",
-    "carExample": "\"Lideró un equipo de 10 personas para entregar la plataforma 3 semanas antes, ahorrando $200K.\"",
-    "step3DetailTitle": "Perfil Profesional",
-    "step3DetailDesc": "Crea un párrafo de posicionamiento que muestre tu identidad e incorpore palabras clave esenciales para ATS.",
-    "profileBoxTitle": "Tu Identidad Profesional en Un Párrafo Poderoso",
-    "profileBoxDesc": "Escríbelo tú mismo, sigue las instrucciones del video, o usa nuestro cuestionario con IA para generación guiada. El resultado: un perfil convincente que hace que los gerentes de contratación se detengan a leer.",
-    "step4DetailTitle": "Estrategia Final y Selección de Formato",
-    "step4DetailDesc": "Elige entre un CV cronológico o funcional — o crea ambos para un arsenal completo de búsqueda de empleo.",
-    "chronologicalDesc": "Mejor para profesionales que continúan en una trayectoria profesional similar.",
-    "functionalDesc": "Mejor para cambiadores de carrera, roles versátiles, trabajo basado en proyectos omudanza internacional.",
-    "ctaTitle": "Enciende tu próximo capítulo profesional.",
-    "ctaDescription": "Construye un CV que cuente tu historia de logros, no tu descripción de puesto.",
-    "ctaButton": "Comenzar Ahora",
+    "heroBadge": "Por Ascendia Global",
+    "heroTitle": "Construye un CV Que Sea Notado",
+    "heroDescription": "Crea un CV optimizado para ATS que cuente tu historia con claridad, resalte tus fortalezas y te haga destacar — en solo 4 pasos guiados.",
+    "ctaButton": "Comenzar con Resume Studio",
+    "whyTitle": "¿Por qué Resume Studio?",
+    "stat75": "75%",
+    "stat75Label": "Filtrados",
+    "stat75Desc": "De los CV nunca llegan a un reclutador humano — son bloqueados por sistemas ATS antes de que alguien los lea.",
+    "stat3x": "3x",
+    "stat3xLabel": "Más Entrevistas",
+    "stat3xDesc": "Los CV personalizados y dirigidos superan dramáticamente a las aplicaciones genéricas en tasas de respuesta.",
+    "stat4": "4",
+    "stat4Label": "Pasos Guiados",
+    "stat4Desc": "El flujo estructurado y asistido por IA de Resume Studio resuelve cada desafío clave del buscador de empleo.",
+    "workflowTitle": "Flujo Guiado de 4 Pasos",
+    "workflowDesc": "Resume Studio resuelve los tres problemas — filtrado por ATS, contenido genérico y mala articulación de logros — con un flujo estructurado y asistido por IA.",
+    "workflow1Title": "Banco de Logros",
+    "workflow1Desc": "Construye historias CAR/PAR con asistencia de IA.",
+    "workflow2Title": "Experiencia Laboral y Educación",
+    "workflow2Desc": "Captura tu trayectoria profesional y credenciales.",
+    "workflow3Title": "Resumen Profesional",
+    "workflow3Desc": "La IA crea tu identidad y propuesta de valor.",
+    "workflow4Title": "Elige Tu Formato",
+    "workflow4Desc": "Selecciona el formato Cronológico o Funcional.",
+    "workflowFooter": "Cada paso se construye sobre el anterior — desde los datos crudos de tu carrera hasta un CV pulido y listo para ATS, adaptado a tu historia profesional única.",
+    "carTitle": "Banco de Logros e Historias CAR",
+    "carFrameworkTitle": "¿Qué es el Marco CAR/PAR?",
+    "carFrameworkDesc1": "Estructura cada logro usando Desafío → Acción → Resultado (o Problema → Acción → Resultado). Este marco probado transforma tareas vagas en logros convincentes y cuantificados que resuenan con los reclutadores.",
+    "carFrameworkDesc2": "La IA de Resume Studio genera sugerencias de logros basadas en tu rol e industria específicos, para que nunca empieces desde una página en blanco.",
+    "carFeature1Title": "Sugerencias Generadas por IA",
+    "carFeature1Desc": "Indicaciones de logros específicas del rol potenciadas por IA.",
+    "carFeature2Title": "Etiquetado de Competencias",
+    "carFeature2Desc": "Etiqueta historias a través de múltiples dimensiones de habilidad automáticamente.",
+    "carFeature3Title": "Importa CVs Existentes",
+    "carFeature3Desc": "Extrae logros de tu CV actual al instante.",
+    "carFeature4Title": "Grupos de Historias Temáticas",
+    "carFeature4Desc": "Guarda narrativas agrupadas para formatos de CV funcional.",
+    "positioningTitle": "Posicionamiento Profesional",
+    "positioningDesc": "Tu resumen de CV es lo primero que lee un reclutador. La IA de Resume Studio no solo llena una plantilla — extrae tu identidad profesional mediante un cuestionario estructurado y genera una narrativa diferenciada y convincente.",
+    "positioning1Title": "Frase de Identidad",
+    "positioning1Desc": "Una frase concisa que define quién eres profesionalmente.",
+    "positioning2Title": "Propuesta de Valor Combinada",
+    "positioning2Desc": "Qué combinación única de habilidades y experiencia aportas.",
+    "positioning3Title": "Párrafo de Competencias",
+    "positioning3Desc": "Una narrativa rica de tus fortalezas profesionales clave.",
+    "positioning4Title": "Áreas de Excelencia",
+    "positioning4Desc": "Dominios destacados donde consistentemente sobresales.",
+    "positioning5Title": "Habilidades Clave",
+    "positioning5Desc": "Conjunto de habilidades curado alineado a tus roles e industrias objetivo.",
+    "positioningFooter": "Control de edición manual completo — la IA te da un primer borrador poderoso, tú lo refinas a la perfección.",
+    "formatsTitle": "Dos Formatos de CV",
+    "chronoBadge": "Mejor para Carreras Estables",
+    "chronoTitle": "Formato Cronológico",
+    "chronoDesc": "El formato estándar de la industria que presenta tu experiencia en orden cronológico inverso. Ideal para profesionales con una progresión de carrera clara y consistente.",
+    "chronoBullet1": "Experiencia ordenada cronológicamente, estándar de la industria.",
+    "chronoBullet2": "Mejor para progresión de carrera estable.",
+    "chronoBullet3": "Agrupa posiciones por empresa con rangos de fechas.",
+    "chronoBullet4": "Preferido por la mayoría de sistemas ATS y reclutadores.",
+    "funcBadge": "Mejor para Cambios de Carrera",
+    "funcTitle": "Formato Funcional",
+    "funcDesc": "Un formato basado en habilidades que agrupa tus logros por tema en vez de cronología. Perfecto para quienes cambian de carrera, reingresan al mercado laboral o tienen lagunas laborales.",
+    "funcBullet1": "Agrupación basada en habilidades por tema.",
+    "funcBullet2": "Ideal para cambios de carrera o lagunas laborales.",
+    "funcBullet3": "Resalta logros seleccionados sobre la cronología.",
+    "funcBullet4": "Se nutre de tus grupos de historias temáticas guardadas.",
+    "atsTitle": "Optimización ATS y Personalización",
+    "atsChecklistTitle": "Lista ATS Integrada",
+    "atsChecklistDesc": "Resume Studio incluye una lista de verificación de formato ATS de 4 fases con etiquetas de prioridad (alta / media / baja) en cada elemento para que sepas exactamente dónde enfocar tu energía.",
+    "atsAnalyzerTitle": "Analizador de Ofertas (JD)",
+    "atsAnalyzerDesc": "Pega cualquier descripción de puesto y Resume Studio extrae palabras clave al instante, califica tu coincidencia y usa IA para adaptar tu contenido a esa oferta específica.",
+    "atsProTip": "Hay consejos pro integrados en toda la lista para ayudarte a maximizar la compatibilidad ATS y destacar en los sistemas automatizados de selección.",
+    "atsPhase1": "Antes de Empezar",
+    "atsPhase2": "Optimización del CV",
+    "atsPhase3": "Formato ATS",
+    "atsPhase4": "Nombrado de Archivos",
+    "trackingTitle": "Seguimiento de CVs",
+    "trackingDesc": "Nunca pierdas el rastro de una aplicación. El tracker integrado de Resume Studio te da una vista completa de cada trabajo al que has aplicado, desde el primer borrador hasta la oferta final.",
+    "trackStatus1": "Borrador",
+    "trackStatus2": "Enviado",
+    "trackStatus3": "En Revisión",
+    "trackStatus4": "Entrevista",
+    "trackFeat1Title": "Seguimiento de Match Score",
+    "trackFeat1Desc": "Ve el match score ATS de cada versión personalizada de CV que enviaste.",
+    "trackFeat2Title": "Registro de Contactos de Reclutadores",
+    "trackFeat2Desc": "Rastrea nombres, correos y detalles de programación de entrevistas en un solo lugar.",
+    "trackFeat3Title": "Filtros Inteligentes",
+    "trackFeat3Desc": "Filtra tus aplicaciones por estado, empresa o rango de fechas al instante.",
+    "trackFeat4Title": "Exportación de Un Clic",
+    "trackFeat4Desc": "Exporta reportes de estado y actualiza etapas de aplicación con un solo clic.",
+    "exportTitle": "Exportación y Compartido",
+    "exportSubtitle": "Salida de Calidad Profesional",
+    "exportDesc": "Resume Studio produce documentos pulidos, listos para imprimir, que se ven tan bien como rinden en sistemas ATS.",
+    "exportPlanCore": "Core",
+    "exportPlanAdvance": "Advance",
+    "exportPreview": "Vista Previa",
+    "exportFull": "Exportación Completa",
+    "exportPdf": "Exportar PDF",
+    "exportPdfDesc": "Formato A4, Times New Roman, render profesional.",
+    "exportWord": "Exportar Word (.docx)",
+    "exportWordDesc": "Formato totalmente editable para personalización adicional.",
+    "exportPrint": "Listo para Imprimir",
+    "exportPrintDesc": "Reglas CSS @media print aseguran salida física perfecta.",
+    "exportEdit": "Edición En Vivo",
+    "exportEditDesc": "Edita tu resumen directamente antes de exportar.",
+    "ctaTitle": "Construye Más Inteligente. Aplica Más Rápido.",
+    "ctaDesc": "Deja de adivinar qué funciona. Resume Studio te da la estructura, inteligencia IA y optimización ATS para construir CVs que sean notados.",
+    "ctaCore": "Plan Core",
+    "ctaCoreDesc": "Acceso al flujo completo de 4 pasos con vista previa de CV incluida.",
+    "ctaAdvance": "Plan Advance",
+    "ctaAdvanceDesc": "Desbloquea exportación completa, Analizador JD y todas las herramientas de optimización ATS.",
+    "ctaAvailable": "Disponible ahora en Ascendia Global — tu historia profesional merece contarse bien.",
     "footerTagline": "Aceleración Profesional de Carrera"
   },
   "careerVisionLearnMore": {
     "backToCareerVision": "Volver a Visión de Carrera",
-    "heroBadge": "Programa de Orientación de Carrera NovaWork Global",
+    "heroBadge": "Programa de Orientación de Carrera de Ascendia",
     "heroTitle": "Evaluación de Habilidades e Intereses",
     "heroDescription": "El primer paso fundamental de tu Programa de Orientación de Carrera. Mapea quién eres profesionalmente — y a dónde quieres ir.",
     "heroSubtitle": "Enciende tu próximo capítulo profesional.",
@@ -1225,7 +1435,7 @@
     "howItWorksTitle": "Cómo Funciona",
     "howItWorksSubtitle": "Tres pasos simples para mapear tu ADN profesional.",
     "step1Title": "Construye Tu Base Primero",
-    "step1Desc": "Ingresa al menos tres cosas que sabes hacer. Estas deben ser habilidades probadas que hayas ejecutado repetidamente.",
+    "step1Desc": "Mapea tu ADN profesional",
     "skill1": "Planificación Financiera",
     "skill2": "Excel",
     "skill3": "Reportes Financieros",
@@ -1233,13 +1443,13 @@
     "skill5": "Análisis de Datos",
     "skill6": "Estrategia de Comunicación",
     "step2Title": "Desbloquea Capacidades Ocultas con IA",
-    "step2Desc": "Haz clic en el botón 'Generar IA' para generar instantáneamente más ideas.",
+    "step2Desc": "Identifica patrones de tu pasado",
     "generateAI": "Generar IA",
     "aiSuggestion1": "Conciliación",
     "aiSuggestion2": "Estados Financieros",
     "aiSuggestion3": "Scoring de Crédito",
     "step3Title": "Mapea Tus Intereses Futuros",
-    "step3Desc": "Trae de la primera columna las habilidades que genuinamente disfrutas. Luego agrega habilidades completamente nuevas.",
+    "step3Desc": "Define tus requisitos esenciales",
     "interests": "Intereses",
     "newAspiration": "+ Nueva Aspiración",
     "readyToLaunchTitle": "Listo para Lanzar",
@@ -1251,13 +1461,10 @@
     "whatHappensNextTitle": "¿Qué Sucede Después?",
     "whatHappensNextDesc": "Una vez que completes la Evaluación de Habilidades e Intereses, desbloquearás la Visión de Carrera completa.",
     "step1Label": "Habilidades e Intereses",
-    "step1Desc": "Mapea tu ADN profesional",
     "step2Label": "Análisis de Historial Laboral",
-    "step2Desc": "Identifica patrones de tu pasado",
     "step3Label": "Preferencias de Trabajo Ideales",
-    "step3Desc": "Define tus requisitos esenciales",
     "ctaTitle": "Enciende tu próximo capítulo profesional.",
-    "ctaDescription": "Comienza la Evaluación de Habilidades e Intereses de NovaWork Global hoy.",
+    "ctaDescription": "Comienza la Evaluación de Habilidades e Intereses de Ascendia hoy.",
     "ctaButton": "Comenzar Evaluación",
     "footerTagline": "Aceleración Profesional de Carrera"
   },
@@ -1405,7 +1612,7 @@
   },
   "workExperienceLearnMore": {
     "backToWorkExperience": "Volver a Experiencia Laboral",
-    "heroBadge": "El Marco de Experiencia NovaWork",
+    "heroBadge": "El Marco de Experiencia Ascendia",
     "heroTitle": "Construyendo la Experiencia Laboral Perfecta",
     "heroDescription": "Pasando de listas de tareas a declaraciones de impacto. Deja de describir lo que hiciste — comienza a demostrar lo que entregaste.",
     "infographicAlt": "Dominando Tu Experiencia Laboral",
@@ -1434,7 +1641,7 @@
     "oldWay": "La Manera Antigua",
     "oldWayText": "\"Responsable de gestionar un equipo de ventas.\"",
     "oldWayDesc": "Tarea genérica — se mezcla con cualquier otro currículum.",
-    "novaWorkWay": "La Manera NovaWork",
+    "novaWorkWay": "La Manera Ascendia",
     "novaWorkWayText": "\"Lideró un equipo de ventas regional para aumentar la cuota de mercado en un 20% en un año.\"",
     "novaWorkWayDesc": "Resultado específico y medible — destaca inmediatamente.",
     "quantifyingScopeTitle": "Cuantificando Tu Alcance",
@@ -1633,9 +1840,9 @@
   },
   "membership": {
     "title": "Programas NovaNext",
-    "essential": "Esencial",
-    "momentum": "Momentum",
-    "executive": "Vanguard",
+    "essential": "Core",
+    "momentum": "Advance",
+    "executive": "Apex",
     "upgradeTo": "Actualizar a {{tier}}",
     "availableIn": "Disponible en {{tier}}",
     "currentPlan": "Plan Actual"
@@ -1688,10 +1895,10 @@
   },
   "learningModules": {
     "title": "Módulos de Aprendizaje",
-    "careerVision": "Visión de Carrera",
-    "resumeBuilder": "Resume Profesional",
-    "jobSearch": "Búsqueda de Empleo",
-    "interviewMastery": "Dominio de Entrevistas"
+    "careerVision": "Claridad de Carrera",
+    "resumeBuilder": "Estudio de CV",
+    "jobSearch": "Centro de Oportunidades",
+    "interviewMastery": "Preparación de Entrevistas"
   },
   "sidebarCommunity": {
     "title": "Comunidad",
@@ -1711,12 +1918,12 @@
     "vipBadge": "VIP"
   },
   "novaNextAcademy": {
-    "title": "NovaNext Academy",
+    "title": "Nova Insights",
     "videosAudio": "Videos y Audio",
     "subtitle": "Aprende. Prepárate. Destaca."
   },
   "academy": {
-    "badge": "NovaNext Academy",
+    "badge": "Nova Insights",
     "title": "Mapa de Aprendizaje",
     "subtitle": "Hoja de ruta interactiva para el desarrollo profesional",
     "clickToExplore": "Haz clic en el nodo central para explorar temas",
@@ -1805,15 +2012,15 @@
       "completed": "✓ Completado",
       "notStarted": "No iniciado",
       "skillsInterests": "Habilidades e Intereses",
-      "skillsValues": "Habilidades e Intereses",
+      "skillsValues": "Paso 1: Habilidades e Intereses",
       "skillsSubtitle": "Lista lo que sabes y lo que volverías a hacer",
       "skillsValuesDesc": "Identifica tus competencias principales y lo que impulsa tu satisfacción profesional.",
       "jobHistoryAnalysis": "Análisis de Historial Laboral",
-      "jobHistory": "Análisis de Historial Laboral",
+      "jobHistory": "Paso 2: Análisis de Historial Laboral",
       "jobHistorySubtitle": "Reflexiona sobre roles pasados para identificar patrones",
       "jobHistoryDesc": "Reflexiona sobre tus roles pasados para identificar patrones de éxito y áreas de crecimiento.",
       "idealWorkPreferences": "Preferencias de Trabajo Ideal",
-      "preferences": "Preferencias de Trabajo Ideal",
+      "preferences": "Paso 3: Preferencias de Trabajo Ideal",
       "idealWorkSubtitle": "Define tus requisitos imprescindibles y prioridades",
       "preferencesDesc": "Define tus imprescindibles, lo que no negociarías y la cultura organizacional ideal.",
       "incomplete": "Completa estas secciones para descubrir tu camino profesional ideal",
@@ -2376,7 +2583,7 @@
     "copyUserId": "Copiar ID de Usuario",
     "devSwitchTier": "Dev: Cambiar Nivel",
     "essentials": "Esenciales",
-    "momentum": "Momentum",
+    "momentum": "Advance",
     "signOut": "Cerrar Sesión",
     "back": "Volver",
     "appearance": "Apariencia",
@@ -2389,7 +2596,7 @@
     "exportMyData": "Exportar Mis Datos",
     "coachDashboard": "Panel de Coach",
     "manageClients": "Gestiona tus clientes",
-    "vanguard": "Vanguard"
+    "vanguard": "Apex"
   },
   "coverLetter": {
     "title": "Generador de Carta de Presentación",
@@ -2457,7 +2664,14 @@
     "saveFailed": "Error al guardar el perfil de contacto. Es posible que la migración de base de datos no se haya ejecutado.",
     "saveRetry": "Error al guardar. Intenta de nuevo u omite por ahora.",
     "smartGuideStep": "Guía Inteligente — Paso {{current}} de {{total}}",
-    "title": "Información de Contacto"
+    "stepBadge": "Configuración de Información de Contacto · Paso {{current}} de {{total}}",
+    "sectionHeading": "Datos de Contacto del Currículum",
+    "requiredFieldsHelper": "Los campos obligatorios están marcados con *.",
+    "saveDraft": "Guardar Borrador",
+    "continueToWorkExperience": "Continuar a Experiencia Laboral",
+    "progressLabel": "Paso 1 de 6",
+    "title": "Configuración de Información de Contacto",
+    "subtitle": "Agrega los datos de contacto que aparecerán en la parte superior de tu currículum. Esto ayuda a los reclutadores a identificarte rápidamente y saber cómo contactarte."
   },
   "calendar": {
     "today": "Hoy",
@@ -2494,7 +2708,10 @@
   "sidebar": {
     "expand": "Expandir barra lateral",
     "collapse": "Contraer barra lateral",
-    "smartGuide": "Guía Inteligente",
+    "contactSetup": "Configuración de Contacto",
+    "smartGuide": "Configuración de Contacto",
+    "setupActive": "Configuración Activa",
+    "setupOff": "Desactivado",
     "new": "NUEVO"
   },
   "coach": {
@@ -2529,51 +2746,50 @@
     "pastSessions": "Sesiones Pasadas"
   },
   "testimonials": {
-    "badge": "TESTIMONIOS DE CLIENTES",
-    "title": "Historias de Éxito de Líderes Globales",
-    "subtitle": "Descubre cómo hemos colaborado con ejecutivos y profesionales para transformar sus trayectorias profesionales.",
+    "badge": "CASOS DE ÉXITO",
+    "title": "Personas reales, impulso real",
+    "subtitle": "Profesionales que convirtieron la incertidumbre en un próximo capítulo claro con Ascendia.",
     "items": [
       {
-        "role": "Managing Partner – DXC",
-        "country": "Estados Unidos",
-        "quote": "NovaWork es un socio excepcional de asesoría profesional que realmente entiende cómo sacar lo mejor de sus clientes. Su equipo me ayudó a navegar con éxito mis opciones de carrera, lo que finalmente me llevó a un nuevo puesto ejecutivo en una empresa Fortune 500. La capacidad de NovaWork para desafiar suposiciones, ampliar perspectivas y ayudar a construir un plan claro y accionable fue clave para mi transición exitosa. Incluso durante los momentos más frustrantes, el equipo supo cómo superar las barreras e infundir confianza a lo largo de todo el proceso."
+        "name": "Maria R.",
+        "role": "Senior Product Manager",
+        "quote": "Después de un despido, pasé meses enviando CVs al vacío. Ascendia me dio un marco que clarificó exactamente qué roles encajaban con mis fortalezas. Tres semanas después, tenía dos ofertas.",
+        "stars": 5
       },
       {
-        "role": "Senior Business Communication Lead – Aramco",
-        "country": "Arabia Saudita",
-        "quote": "Encontré al equipo de NovaWork altamente comprometido, confiable y lleno de integridad. Entregaron resultados desde la primera reunión, ayudándome a diseñar un plan alrededor de lo que quería lograr, asegurándose de que cada detalle importante estuviera cubierto, y finalmente guiándome hacia la negociación del mejor paquete posible para mí. NovaWork es intuitivo, eficiente y capaz de eliminar detalles innecesarios rápidamente, lo que significa que obtienes resultados rápido. Su equipo tiene una habilidad natural para impulsar a los clientes hacia adelante."
+        "name": "James C.",
+        "role": "Engineering Director",
+        "quote": "Estaba dividida entre tres caminos profesionales. El diagnóstico de Ascendia me mostró cuál dirección realmente coincidía con mis valores y la oportunidad del mercado. La claridad fue inmediata.",
+        "stars": 5
       },
       {
-        "role": "Chief Development Officer – Quadratec",
-        "country": "Estados Unidos",
-        "quote": "No doy recomendaciones a la ligera, así que cuando me tomo el tiempo para escribir una, la digo con sinceridad. NovaWork no es solo otra empresa de servicios de carrera; es un socio verdaderamente excepcional que no debe pasarse por alto. Estuve a punto de gastar $15,000 en lo que se suponía era un proveedor de primer nivel para redacción de currículum, gestión de LinkedIn y apoyo de reclutamiento. Afortunadamente, encontré a NovaWork primero. Si buscas excelencia en estas áreas, la has encontrado. Su equipo es honesto, directo, sincero e inteligente. Conocen el proceso, y la inversión que haces se devuelve muchas veces. Ciertamente así fue para mí, y le debo mucho a NovaWork por ayudar a que sucediera."
-      },
-      {
-        "role": "Consultant – Inter-American Development Bank",
-        "country": "Estados Unidos",
-        "quote": "Menos de dos semanas después de completar mi trabajo con NovaWork, recibí varias ofertas, una de las cuales resultó ser perfecta. Le debo mucho a su equipo y los recomiendo ampliamente. Fueron más allá escuchando cuidadosamente, pensando creativamente y convirtiendo mi búsqueda de empleo en un éxito inmediato, especialmente durante un momento y en un mercado donde la demanda era limitada."
+        "name": "Sarah K.",
+        "role": "Marketing Lead",
+        "quote": "La combinación de herramientas de IA y guía humana real fue lo que marcó la diferencia. Finalmente sentí que tenía un plan estructurado, no solo esperanza y esfuerzo.",
+        "stars": 5
       }
     ]
   },
   "howItWorks": {
-    "title": "Cómo Funciona",
-    "subtitle": "Un sistema probado de cuatro pasos para navegar tu cambio de carrera con claridad y confianza",
+    "kicker": "SISTEMA OPERATIVO",
+    "title": "Cómo funciona",
+    "subtitle": "Un sistema probado de cuatro pasos para navegar el movimiento profesional con claridad y confianza",
     "steps": [
       {
-        "title": "Diagnosticar",
-        "description": "Evalúa tu situación actual e identifica dónde te encuentras"
+        "title": "Diagnostica",
+        "description": "Evalúa tu situación actual e identifica dónde estás hoy."
       },
       {
-        "title": "Decidir",
-        "description": "Clarifica tu dirección y elige el camino correcto hacia adelante"
+        "title": "Decide",
+        "description": "Aclara tu dirección y elige el camino correcto hacia adelante."
       },
       {
-        "title": "Construir",
-        "description": "Crea tu posicionamiento, currículum y narrativa profesional"
+        "title": "Construye",
+        "description": "Crea tu posicionamiento, CV y narrativa profesional."
       },
       {
-        "title": "Ejecutar",
-        "description": "Lanza tu búsqueda y consigue entrevistas con confianza"
+        "title": "Ejecuta",
+        "description": "Lanza tu búsqueda y consigue entrevistas con confianza."
       }
     ]
   },
@@ -2583,18 +2799,31 @@
     "chooseOption": "Elige una opción.",
     "email": "Email",
     "perMonth": "/ mes",
-    "emailDetail": "3 correos mensuales",
+    "emailDetail": "3 correos / mes",
+    "emailBestFor": "Acompañamiento continuo",
+    "emailValue": "Apoyo ligero",
     "session": "Sesión 1:1",
     "perSession": "/ sesión",
-    "sessionDetail": "45 min en vivo",
+    "sessionDetail": "Sesión en vivo de 45 min",
+    "sessionBestFor": "Claridad y estrategia profundas",
+    "sessionValue": "Premium, una sola vez",
     "bundle": "Coach + Email",
-    "bundleDetail": "1 sesión + 3 emails",
+    "bundleDetail": "1 sesión + 3 correos / mes",
+    "bundleBestFor": "Estrategia + continuidad",
+    "bundleValue": "Paquete con descuento",
+    "formatLabel": "Formato",
+    "bestForLabel": "Ideal para",
+    "valueLabel": "Valor",
+    "recommended": "Recomendado",
     "learnMore": "Conocer más sobre coaching",
     "noCommitment": "Sin compromisos · Cancela cuando quieras"
   },
   "smartMatches": {
     "title": "Coincidencias Inteligentes",
     "subtitle": "Empresas seleccionadas donde tu experiencia tiene el mejor encaje. Resultados actualizados bajo demanda.",
+    "gateTitle": "Coincidencias Inteligentes — Función Advance",
+    "gateDesc": "Coincidencias Inteligentes usa IA para encontrar roles adaptados a tu perfil. Actualiza a Ascendia Advance para desbloquear el acceso completo.",
+    "gateCta": "Ver Planes",
     "refresh": "Actualizar coincidencias",
     "refreshing": "Actualizando…",
     "loading": "Cargando…",

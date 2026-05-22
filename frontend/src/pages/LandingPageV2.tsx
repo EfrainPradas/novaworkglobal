@@ -1,29 +1,31 @@
 import Navbar from '../components/layout/LandingNavbar'
 import Footer from '../components/layout/LandingFooter'
-import HeroModern from '../components/landing-v2/HeroModern'
+import HeroDashboard from '../components/landing/HeroDashboard'
 import TrustSection from '../components/landing/TrustSection'
+import MethodSection from '../components/landing/MethodSection'
 import ProblemSection from '../components/landing/ProblemSection'
-import PhilosophySection from '../components/landing-v2/PhilosophySection'
 import DifferentiatorSection from '../components/landing/DifferentiatorSection'
 import HowItWorksSection from '../components/HowItWorksSection'
-import ProgramGrid from '../components/landing-v2/ProgramGrid'
 import TestimonialsSection from '../components/landing/TestimonialsSection'
+import MembershipSection from '../components/landing/MembershipSection'
+import FAQSection from '../components/landing/FAQSection'
 import LandingPageCTA from '../components/landing/LandingPageCTA'
 
 export default function LandingPageV2() {
     return (
-        <div className="min-h-screen font-sans bg-white selection:bg-primary-100 selection:text-primary-900">
+        <div className="min-h-[100dvh] font-sans bg-[var(--ascendia-surface)] selection:bg-[var(--ascendia-accent)] selection:text-[var(--ascendia-primary)] overflow-x-hidden">
             <Navbar />
 
             <main>
-                <HeroModern />
+                <HeroDashboard />
                 <TrustSection />
+                <MethodSection />
                 <ProblemSection />
                 <DifferentiatorSection />
                 <HowItWorksSection />
-                <ProgramGrid />
-                <PhilosophySection />
                 <TestimonialsSection />
+                <MembershipSection />
+                <FAQSection />
                 <LandingPageCTA />
             </main>
             <Footer />

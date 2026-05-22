@@ -14,7 +14,9 @@ import {
   FileText,
   X,
   Loader2,
+  Lock,
 } from 'lucide-react'
+import { usePlanTier } from '../../hooks/usePlanTier'
 import {
   listMatches,
   refreshMatches,
@@ -515,6 +517,8 @@ function MatchCard({
 
 export default function SmartMatches() {
   const { t } = useTranslation()
+  const { can: canUse, membershipCode, loading: tierLoading } = usePlanTier()
+  const canUseSmartMatches = canUse('canUseSmartMatches')
   const [tab, setTab] = useState<MatchStatus>('proposed')
   const [briefs, setBriefs] = useState<SmartMatchBrief[]>([])
   const [loading, setLoading] = useState(true)
@@ -541,11 +545,15 @@ export default function SmartMatches() {
     }
   }, [])
 
+  // Only fetch data for Advance+ users
   useEffect(() => {
+    if (tierLoading || !canUseSmartMatches) return
     load(tab)
-  }, [tab, load])
+  }, [tab, load, canUseSmartMatches, tierLoading])
 
+  // Only fetch CV versions for saved tabs when user has access
   useEffect(() => {
+    if (!canUseSmartMatches) return
     if (tab !== 'saved' || briefs.length === 0) return
     const toFetch = briefs.filter((b) => !(b.id in cvVersions))
     if (toFetch.length === 0) return
@@ -570,9 +578,10 @@ export default function SmartMatches() {
     return () => {
       cancelled = true
     }
-  }, [tab, briefs, cvVersions])
+  }, [tab, briefs, cvVersions, canUseSmartMatches])
 
   const handleRefresh = async () => {
+    if (!canUseSmartMatches) return
     setRefreshing(true)
     setError(null)
     try {
@@ -586,6 +595,7 @@ export default function SmartMatches() {
   }
 
   const handleUpdate = async (id: string, status: MatchStatus) => {
+    if (!canUseSmartMatches) return
     setUpdatingId(id)
     if (status === 'saved') setCvLoadingId(id)
     try {
@@ -603,6 +613,7 @@ export default function SmartMatches() {
   }
 
   const handleRegenerate = async (briefId: string) => {
+    if (!canUseSmartMatches) return
     setRegenerating(true)
     try {
       const { cv_version } = await regenerateTailoredCv(briefId)
@@ -617,6 +628,31 @@ export default function SmartMatches() {
   const counts = useMemo(() => ({ total: briefs.length }), [briefs])
   const drawerBrief = drawerBriefId ? briefs.find((b) => b.id === drawerBriefId) || null : null
   const drawerVersion = drawerBriefId ? cvVersions[drawerBriefId] || null : null
+
+  // Core / unauthenticated: show gate only, no data
+  if (!tierLoading && !canUseSmartMatches) {
+    return (
+      <div className="max-w-5xl mx-auto px-6 py-8 flex items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-4 p-8 rounded-2xl border-2 border-dashed border-slate-300 bg-white shadow-lg text-center max-w-sm">
+          <div className="w-14 h-14 rounded-full bg-primary-100 text-primary-600 grid place-items-center">
+            <Lock className="w-6 h-6" />
+          </div>
+          <p className="text-lg font-bold text-slate-900">
+            {t('smartMatches.gateTitle')}
+          </p>
+          <p className="text-sm text-slate-500">
+            {t('smartMatches.gateDesc')}
+          </p>
+          <button
+            onClick={() => { window.location.href = '/dashboard/billing' }}
+            className="px-5 py-2.5 rounded-lg bg-primary-600 text-white text-sm font-semibold hover:bg-primary-700 transition-colors"
+          >
+            {t('smartMatches.gateCta')}
+          </button>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="max-w-5xl mx-auto px-6 py-8">

@@ -2,9 +2,9 @@ import { supabase } from '../../lib/supabase'
 import type { CommunityGroup, TierLevel } from '../../types/home-dashboard'
 
 const TIER_ORDER: Record<TierLevel, number> = {
-  esenciales: 1,
-  momentum: 2,
-  vanguard: 3,
+  core: 1,
+  advance: 2,
+  apex: 3,
 }
 
 export async function getCommunityHighlights(

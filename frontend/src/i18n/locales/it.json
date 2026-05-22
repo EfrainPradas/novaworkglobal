@@ -55,6 +55,8 @@
     "menu": {
       "programs": "Programmi",
       "methodology": "Metodologia",
+      "whynovawork": "Perché NovaWork",
+      "whoweserve": "A chi ci rivolgiamo",
       "insights": "Approfondimenti",
       "howitworks": "Come Funziona",
       "about": "Chi Siamo"
@@ -64,7 +66,7 @@
     "badge": "GESTISCI LA TUA CARRIERA",
     "title": "Accendi il Tuo Prossimo Capitolo Professionale",
     "subtitle": "Chiarezza. Direzione. Slancio.",
-    "description": "NovaWork Global aiuta i professionisti a navigare nel cambiamento di carriera con un sistema collaudato che unisce l'esperienza umana pratica nel coaching di carriera con strumenti intelligenti di IA, affinché tu proceda con fiducia e chiarezza.",
+    "description": "NovaWork Global è una moderna azienda di autogestione della carriera che aiuta i professionisti a navigare la transizione, la reinvenzione e la crescita con maggiore chiarezza, struttura e supporto.",
     "ctaStart": "Inizia il Tuo Viaggio",
     "ctaExplore": "Esplora i Programmi"
   },
@@ -154,6 +156,8 @@
     "programs": "Programmi",
     "company": "Azienda",
     "legal": "Legale",
+    "contact": "Contatto",
+    "followUs": "Seguici",
     "links": {
       "novanext": "NovaNext™",
       "novarearchitect": "NovaRearchitect™",
@@ -162,9 +166,13 @@
       "methodology": "Metodologia",
       "insights": "Approfondimenti",
       "privacy": "Informativa sulla Privacy",
-      "terms": "Termini di Servizio"
+      "terms": "Termini di Servizio",
+      "cookies": "Politica sui Cookie",
+      "contactUs": "Contattaci"
     },
-    "copyright": "© {{year}} NovaWork Global. Tutti i diritti riservati."
+    "copyright": "© {{year}} Ascendia. Tutti i diritti riservati.",
+    "email": "hello@ascendia.app",
+    "brandName": "Ascendia"
   },
   "about": {
     "hero": {
@@ -373,12 +381,12 @@
       "nextEducation": "Avanti: Istruzione",
       "largestResult": "Il Tuo Risultato Più Grande",
       "mostComplexProject": "Progetto Più Complesso",
-      "workAndEducationTitle": "Esperienza e Istruzione",
-      "accomplishmentBankTitle": "Banca dei Risultati",
+      "workAndEducationTitle": "Fase 1: Esperienza e Istruzione",
+      "accomplishmentBankTitle": "Fase 2: Banca dei Risultati",
       "accomplishmentBankDesc": "Metti in evidenza i tuoi risultati chiave.",
-      "professionalSummaryTitle": "Riepilogo Professionale",
+      "professionalSummaryTitle": "Fase 3: Riepilogo Professionale",
       "professionalSummaryDesc": "Presentati e posizionati.",
-      "chooseResumeTitle": "Scegli il tuo CV",
+      "chooseResumeTitle": "Fase 4: Scegli il tuo CV",
       "chooseResumeDesc": "Cronologico o Funzionale",
       "learnMore": "Scopri di più",
       "showLess": "Mostra meno",
@@ -881,7 +889,29 @@
       "register": "Registrati",
       "cancelRegistration": "Annulla Iscrizione",
       "retry": "Riprova",
-      "viewModules": "Vedi Tutti i Moduli"
+      "viewModules": "Vedi Tutti i Moduli",
+      "continue": "Continua",
+      "startCta": "Inizia",
+      "viewResume": "Vedi Curriculum",
+      "viewSchedule": "Vedi Programma"
+    },
+    "ascendia": {
+      "continueProgram": "Continua Programma",
+      "continueProgramFallback": "Riprendi da dove sei rimasto.",
+      "continueProgramNext": "Prossimo: {{step}}",
+      "continueProgramComplete": "Il tuo curriculum è pronto! Rivedilo ed esportalo.",
+      "activating": "Attivazione...",
+      "careerVisionDesc": "Chiarisci la tua direzione professionale, i tuoi punti di forza, il posizionamento e il prossimo passo.",
+      "resumeBuilderDesc": "Crea versioni di CV più forti da dati di esperienza strutturati.",
+      "jobSearchDesc": "Organizza ruoli target, candidature, aziende e la tua pipeline di opportunità.",
+      "interviewMasteryDesc": "Prepara risposte più forti, affina le tue storie e costruisci fiducia nei colloqui.",
+      "clarify": "Chiarire",
+      "build": "Costruire",
+      "explore": "Esplorare",
+      "prepare": "Preparare",
+      "progress": "Progresso",
+      "profileCompletion": "Profilo Completato",
+      "complete": "Completato"
     },
     "statsSection": {
       "title": "Il Tuo Progresso",
@@ -1686,10 +1716,10 @@
   },
   "learningModules": {
     "title": "Moduli di Apprendimento",
-    "careerVision": "Visione di Carriera",
-    "resumeBuilder": "Costruttore di CV",
-    "jobSearch": "Ricerca di Lavoro",
-    "interviewMastery": "Maestria nei Colloqui"
+    "careerVision": "Chiarezza di Carriera",
+    "resumeBuilder": "Studio CV",
+    "jobSearch": "Hub delle Opportunità",
+    "interviewMastery": "Preparazione ai Colloqui"
   },
   "sidebarCommunity": {
     "title": "Community",
@@ -1707,12 +1737,12 @@
     "sharedResources": "Risorse Condivise"
   },
   "novaNextAcademy": {
-    "title": "NovaNext Academy",
+    "title": "Nova Insights",
     "videosAudio": "Video e Audio",
     "subtitle": "Impara. Preparati. Distinguiti."
   },
   "academy": {
-    "badge": "NovaNext Academy",
+    "badge": "Nova Insights",
     "title": "Mappa di Apprendimento",
     "subtitle": "Roadmap interattivo per lo sviluppo professionale",
     "clickToExplore": "Clicca sul nodo centrale per esplorare gli argomenti",
@@ -1814,11 +1844,11 @@
       "backToDashboard": "Torna al Pannello",
       "whatIsCareerVision": "Cos'è la Visione della Carriera?",
       "clarityHired": "La chiarezza ti fa assumere 2x più velocemente",
-      "skillsValues": "Competenze e Interessi",
+      "skillsValues": "Fase 1: Competenze e Interessi",
       "skillsValuesDesc": "Identifica le tue competenze chiave e cosa alimenta la tua soddisfazione professionale.",
-      "jobHistory": "Analisi della Storia Lavorativa",
+      "jobHistory": "Fase 2: Analisi della Storia Lavorativa",
       "jobHistoryDesc": "Rifletti sui ruoli passati per identificare pattern di successo e aree di crescita.",
-      "preferences": "Preferenze Lavorative Ideali",
+      "preferences": "Fase 3: Preferenze Lavorative Ideali",
       "preferencesDesc": "Definisci i tuoi requisiti essenziali, ciò che non negozieresti e la cultura organizzativa ideale.",
       "incomplete": "Completa queste sezioni per scoprire il tuo percorso professionale ideale",
       "viewSummary": "Vedi la tua Visione della Carriera →"
@@ -2532,22 +2562,22 @@
       {
         "role": "Managing Partner – DXC",
         "country": "Stati Uniti",
-        "quote": "NovaWork è un partner eccezionale nella consulenza di carriera che comprende veramente come tirare fuori il meglio dai propri clienti. Il loro team mi ha aiutato a navigare con successo le mie opzioni di carriera, il che mi ha portato a un nuovo ruolo dirigenziale in un'azienda Fortune 500. La capacità di NovaWork di sfidare le ipotesi, ampliare le prospettive e aiutare a costruire un piano chiaro e attuabile è stata la chiave della mia transizione di successo. Anche nei momenti più frustranti, il team sapeva come superare le barriere e infondere fiducia durante l'intero processo."
+        "quote": "Ho ottenuto un nuovo ruolo dirigenziale in un'azienda Fortune 500."
       },
       {
         "role": "Senior Business Communication Lead – Aramco",
         "country": "Arabia Saudita",
-        "quote": "Ho trovato il team di NovaWork altamente coinvolgente, affidabile e pieno di integrità. Hanno consegnato risultati dal primo incontro, aiutandomi a elaborare un piano attorno a ciò che volevo raggiungere, assicurandosi che ogni dettaglio importante fosse coperto, e infine guidandomi verso la negoziazione del miglior pacchetto possibile. NovaWork è intuitivo, efficiente e capace di eliminare rapidamente i dettagli superflui, il che significa che ottieni risultati velocemente. Il loro team ha una capacità naturale di far progredire i clienti."
+        "quote": "Mi hanno aiutato a negoziare il miglior pacchetto possibile — veloce ed efficace."
       },
       {
         "role": "Chief Development Officer – Quadratec",
         "country": "Stati Uniti",
-        "quote": "Non do raccomandazioni alla leggera, quindi quando mi prendo il tempo di scriverne una, lo intendo sinceramente. NovaWork non è solo un'altra azienda di servizi di carriera; è un partner veramente eccezionale che non dovrebbe essere trascurato. Ero vicino a spendere $15.000 per quello che avrebbe dovuto essere un fornitore di primo livello per la redazione di CV, gestione LinkedIn e supporto al reclutamento. Per fortuna, ho trovato NovaWork per primo. Se cercate l'eccellenza in queste aree, l'avete trovata. Il loro team è onesto, diretto, sincero e intelligente. Conoscono il processo, e l'investimento che fai ritorna molte volte. Sicuramente è stato così per me, e devo molto a NovaWork."
+        "quote": "Non è solo un'altra azienda di servizi di carriera. L'investimento si ripaga molte volte."
       },
       {
         "role": "Consultant – Inter-American Development Bank",
         "country": "Stati Uniti",
-        "quote": "Meno di due settimane dopo aver completato il mio lavoro con NovaWork, ho ricevuto diverse offerte, una delle quali si è rivelata perfetta. Devo molto al loro team e li raccomando vivamente. Sono andati oltre ascoltando attentamente, pensando in modo creativo e trasformando la mia ricerca di lavoro in un successo immediato, specialmente in un momento e in un mercato dove la domanda era limitata."
+        "quote": "Meno di due settimane dopo, avevo diverse offerte — una era perfetta."
       }
     ]
   },
@@ -2579,12 +2609,22 @@
     "chooseOption": "Scegli un'opzione.",
     "email": "Email",
     "perMonth": "/ mese",
-    "emailDetail": "3 email mensili",
+    "emailDetail": "3 email / mese",
+    "emailBestFor": "Accompagnamento continuo",
+    "emailValue": "Supporto leggero",
     "session": "Sessione 1:1",
     "perSession": "/ sessione",
-    "sessionDetail": "45 min dal vivo",
+    "sessionDetail": "Sessione dal vivo di 45 min",
+    "sessionBestFor": "Chiarezza e strategia profonde",
+    "sessionValue": "Premium, una tantum",
     "bundle": "Coach + Email",
-    "bundleDetail": "1 sessione + 3 email",
+    "bundleDetail": "1 sessione + 3 email / mese",
+    "bundleBestFor": "Strategia + continuità",
+    "bundleValue": "Pacchetto scontato",
+    "formatLabel": "Formato",
+    "bestForLabel": "Ideale per",
+    "valueLabel": "Valore",
+    "recommended": "Consigliato",
     "learnMore": "Scopri di più sul coaching",
     "noCommitment": "Senza impegno · Cancella quando vuoi"
   }

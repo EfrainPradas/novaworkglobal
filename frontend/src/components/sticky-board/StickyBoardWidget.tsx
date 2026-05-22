@@ -11,7 +11,7 @@ const COLORS: Record<NoteColor, {
   stack1: string; stack2: string; stack3: string; shadow: string
 }> = {
   yellow: { bg: '#FFF9C4', header: '#FFF176', border: '#F9A825', text: '#F57F17', stack1: '#FFEE58', stack2: '#FFD54F', stack3: '#F9A825', shadow: 'rgba(180,130,20,0.35)' },
-  blue:   { bg: '#E3F2FD', header: '#BBDEFB', border: '#42A5F5', text: '#1565C0', stack1: '#90CAF9', stack2: '#64B5F6', stack3: '#42A5F5', shadow: 'rgba(30,100,180,0.30)' },
+  blue:   { bg: '#EAF4EC', header: '#D5E9D9', border: '#4F8F55', text: '#07371E', stack1: '#A8D4B0', stack2: '#64B5F6', stack3: '#4F8F55', shadow: 'rgba(30,100,180,0.30)' },
   green:  { bg: '#E8F5E9', header: '#C8E6C9', border: '#66BB6A', text: '#2E7D32', stack1: '#A5D6A7', stack2: '#81C784', stack3: '#66BB6A', shadow: 'rgba(40,120,50,0.30)' },
   pink:   { bg: '#FCE4EC', header: '#F8BBD0', border: '#EC407A', text: '#AD1457', stack1: '#F48FB1', stack2: '#F06292', stack3: '#EC407A', shadow: 'rgba(180,30,80,0.30)' },
   purple: { bg: '#F3E5F5', header: '#E1BEE7', border: '#AB47BC', text: '#6A1B9A', stack1: '#CE93D8', stack2: '#BA68C8', stack3: '#AB47BC', shadow: 'rgba(100,30,150,0.30)' },

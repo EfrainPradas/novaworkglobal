@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { usePlanTier } from '../../hooks/usePlanTier'
+import UpgradePrompt from '../../components/billing/UpgradePrompt'
 import {
   extractKeywordsFromJD,
   analyzeResumeMatch,
@@ -26,6 +28,7 @@ interface JDAnalysis {
 }
 
 const JDAnalyzer: React.FC = () => {
+  const { can: canUse } = usePlanTier()
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -1554,6 +1557,8 @@ const JDAnalyzer: React.FC = () => {
                           >
                             👁️ View
                           </button>
+                          {canUse('canExportResume') ? (
+                          <>
                           <button
                             onClick={() => handleExportWord(tr)}
                             className="px-3 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 whitespace-nowrap"
@@ -1566,6 +1571,12 @@ const JDAnalyzer: React.FC = () => {
                           >
                             📄 PDF
                           </button>
+                          </>
+                          ) : (
+                          <span className="px-3 py-1 text-xs text-slate-400 cursor-not-allowed">
+                            🔒 Export
+                          </span>
+                          )}
                           {tr.status !== 'sent' && (
                             <button
                               onClick={() => handleMarkAsSent(tr)}
@@ -1782,6 +1793,8 @@ const JDAnalyzer: React.FC = () => {
 
                   {/* Action Buttons */}
                   <div className="flex gap-3 pt-4 border-t">
+                    {canUse('canExportResume') ? (
+                    <>
                     <button
                       onClick={() => handleExportWord(viewingResume)}
                       className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold flex items-center justify-center gap-2"
@@ -1794,6 +1807,10 @@ const JDAnalyzer: React.FC = () => {
                     >
                       📄 PDF
                     </button>
+                    </>
+                    ) : (
+                      <UpgradePrompt feature="Resume export" className="flex-1" />
+                    )}
                     {viewingResume.status !== 'sent' && (
                       <button
                         onClick={() => {

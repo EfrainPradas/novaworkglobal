@@ -14,9 +14,9 @@ import {
 
 interface UseBillingActionsReturn {
   /** Start a membership checkout — redirects to Stripe */
-  startCheckout: (priceId: string) => Promise<void>
+  startCheckout: (priceId: string, quantity?: number) => Promise<void>
   /** Start a one-time addon checkout — redirects to Stripe */
-  startAddonCheckout: (priceId: string) => Promise<void>
+  startAddonCheckout: (priceId: string, quantity?: number) => Promise<void>
   /** Open the Stripe Customer Portal — redirects */
   openPortal: () => Promise<void>
   /** True while any action is in progress */
@@ -29,11 +29,11 @@ export function useBillingActions(): UseBillingActionsReturn {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const startCheckout = useCallback(async (priceId: string) => {
+  const startCheckout = useCallback(async (priceId: string, quantity = 1) => {
     try {
       setLoading(true)
       setError(null)
-      const { url } = await createCheckoutSession(priceId)
+      const { url } = await createCheckoutSession(priceId, quantity)
       window.location.replace(url)
     } catch (err: any) {
       setError(err.message)
@@ -41,11 +41,11 @@ export function useBillingActions(): UseBillingActionsReturn {
     }
   }, [])
 
-  const startAddonCheckout = useCallback(async (priceId: string) => {
+  const startAddonCheckout = useCallback(async (priceId: string, quantity = 1) => {
     try {
       setLoading(true)
       setError(null)
-      const { url } = await createAddonSession(priceId)
+      const { url } = await createAddonSession(priceId, quantity)
       window.location.replace(url)
     } catch (err: any) {
       setError(err.message)

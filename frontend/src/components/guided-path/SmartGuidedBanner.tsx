@@ -31,7 +31,7 @@ export default function SmartGuidedBanner() {
         exit={{ y: -20, opacity: 0 }}
         transition={{ type: 'spring', damping: 20, stiffness: 300 }}
         style={{
-          background: 'linear-gradient(135deg, #1F5BAA 0%, #2563EB 50%, #4DA8DA 100%)',
+          background: 'linear-gradient(135deg, #0E4B2B 0%, #357A3E 50%, #4F8F55 100%)',
           borderRadius: 14,
           padding: '16px 20px',
           marginBottom: 16,
@@ -108,7 +108,7 @@ export default function SmartGuidedBanner() {
                 borderRadius: 8,
                 border: 'none',
                 background: '#fff',
-                color: '#1F5BAA',
+                color: '#0E4B2B',
                 fontSize: 13,
                 fontWeight: 600,
                 cursor: 'pointer',

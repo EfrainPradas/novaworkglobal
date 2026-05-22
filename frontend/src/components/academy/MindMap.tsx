@@ -135,6 +135,7 @@ const MindMap: React.FC = () => {
           id: r.id,
           topicId: r.topic_id,
           type: r.type,
+          language: r.language || currentLang,
           title: r.title,
           description: r.description || '',
           url: r.url,
@@ -179,13 +180,12 @@ const MindMap: React.FC = () => {
       if (!node.parent_id) return []
       const parent = nodeStates[node.parent_id]
       if (!parent) return []
+      const child = nodeStates[node.id]
+      if (!child) return []
       return [{
-        from: node.parent_id,
-        to: node.id,
-        fromX: parent.x,
-        fromY: parent.y,
-        toX: nodeStates[node.id]?.x ?? node.default_x,
-        toY: nodeStates[node.id]?.y ?? node.default_y,
+        id: `${node.parent_id}-${node.id}`,
+        from: parent,
+        to: child,
       }]
     })
   }, [visibleNodes, nodeStates])
@@ -382,7 +382,10 @@ const MindMap: React.FC = () => {
             isVisible={true}
             isSelected={selectedNode?.id === node.id || selectedTopicId === node.id}
             onPositionChange={handlePositionChange}
-            onNodeClick={handleNodeClick}
+            onNodeClick={(nodeId: string) => {
+              const clickedNode = visibleNodes.find(n => n.id === nodeId)
+              if (clickedNode) handleNodeClick(clickedNode)
+            }}
             onDragStart={() => setIsDragging(true)}
             onDragEnd={handleDragEnd}
           />

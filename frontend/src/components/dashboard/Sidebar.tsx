@@ -17,16 +17,16 @@ interface SidebarProps {
 }
 
 const TIER_BADGE: Record<string, { bg: string; text: string; border: string; label: string }> = {
-  Momentum:  { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7', label: 'Momentum' },
-  Essentials:{ bg: '#E3F2FD', text: '#1565C0', border: '#90CAF9', label: 'Essentials' },
-  Vanguard: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80', label: 'Vanguard' },
+  Advance:  { bg: '#E8F5E9', text: '#2E7D32', border: '#A5D6A7', label: 'Advance' },
+  Core:{ bg: '#EAF4EC', text: '#07371E', border: '#A8D4B0', label: 'Core' },
+  Apex: { bg: '#FFF3E0', text: '#E65100', border: '#FFCC80', label: 'Apex' },
 }
 
 const modules = [
-  { id: 'career-vision'     as ModuleId, label: 'Career Vision',    icon: <Target size={16} />,   tier: 'Momentum',   iconBg: '#E8F5E9', iconColor: '#2E7D32' },
-  { id: 'resume-builder'    as ModuleId, label: 'Resume Builder',   icon: <FileText size={16} />, tier: 'Essentials', iconBg: '#E3F2FD', iconColor: '#1565C0' },
-  { id: 'job-search'        as ModuleId, label: 'Job Search',       icon: <Briefcase size={16} />,tier: 'Momentum',   iconBg: '#FFF3E0', iconColor: '#E65100' },
-  { id: 'interview-mastery' as ModuleId, label: 'Interview Mastery',icon: <Users size={16} />,    tier: 'Vanguard',  iconBg: '#F3E5F5', iconColor: '#7B1FA2' },
+  { id: 'career-vision'     as ModuleId, label: 'Career Vision',    icon: <Target size={16} />,   tier: 'Advance',   iconBg: '#E8F5E9', iconColor: '#2E7D32' },
+  { id: 'resume-builder'    as ModuleId, label: 'Resume Builder',   icon: <FileText size={16} />, tier: 'Core', iconBg: '#EAF4EC', iconColor: '#07371E' },
+  { id: 'job-search'        as ModuleId, label: 'Job Search',       icon: <Briefcase size={16} />,tier: 'Advance',   iconBg: '#FFF3E0', iconColor: '#E65100' },
+  { id: 'interview-mastery' as ModuleId, label: 'Interview Mastery',icon: <Users size={16} />,    tier: 'Apex',  iconBg: '#F3E5F5', iconColor: '#7B1FA2' },
 ]
 
 const tools = [
@@ -36,11 +36,11 @@ const tools = [
 
 export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, width, collapsed, onToggle, onResizeStart }: SidebarProps) {
   const navigate = useNavigate()
-  const levels: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
+  const levels: Record<TierLevel, number> = { core: 1, advance: 2, apex: 3 }
   const canAccess = (req: string) => levels[userLevel] >= levels[req.toLowerCase() as TierLevel]
 
   const userTierKey = tierLabel.charAt(0).toUpperCase() + tierLabel.slice(1)
-  const badge = TIER_BADGE[userTierKey] || TIER_BADGE.Essentials
+  const badge = TIER_BADGE[userTierKey] || TIER_BADGE.Core
 
   return (
     <aside
@@ -60,7 +60,7 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
       >
         <div
           className="h-12 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          style={{ width: 3, background: '#1976D2' }}
+          style={{ width: 3, background: '#0E4B2B' }}
         />
       </div>
 
@@ -68,7 +68,7 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
       <button
         onClick={onToggle}
         className="absolute -right-4 top-6 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-        style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
+        style={{ background: '#0E4B2B', color: '#fff', border: '2px solid #fff' }}
         title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {collapsed ? <ChevronRight size={14} /> : <ChevronLeft size={14} />}
@@ -99,10 +99,10 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
           style={{
             paddingLeft: collapsed ? 0 : 12,
             justifyContent: collapsed ? 'center' : 'flex-start',
-            borderLeft: collapsed ? 'none' : '3px solid #1976D2',
+            borderLeft: collapsed ? 'none' : '3px solid #0E4B2B',
           }}
         >
-          <span className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#E3F2FD', color: '#1976D2' }}>
+          <span className="w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: '#EAF4EC', color: '#0E4B2B' }}>
             <LayoutDashboard size={13} />
           </span>
           {!collapsed && <span className="text-sm font-semibold">Dashboard</span>}
@@ -131,7 +131,7 @@ export default function Sidebar({ activeModule, onSelect, userLevel, tierLabel, 
                   gap: collapsed ? 0 : 10,
                   paddingLeft: collapsed ? 0 : 9,
                   justifyContent: collapsed ? 'center' : 'flex-start',
-                  borderLeft: collapsed ? 'none' : (isActive ? '3px solid #1976D2' : '3px solid transparent'),
+                  borderLeft: collapsed ? 'none' : (isActive ? '3px solid #0E4B2B' : '3px solid transparent'),
                   fontWeight: isActive ? 600 : 400,
                   opacity: locked ? 0.5 : 1,
                 }}

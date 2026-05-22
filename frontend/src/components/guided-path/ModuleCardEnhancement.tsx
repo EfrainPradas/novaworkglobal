@@ -22,7 +22,7 @@ export default function ModuleCardEnhancement({ stepKey, children }: ModuleCardE
   const completionPct = statusInfo?.completion_pct ?? 0
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Recommended badge */}
       {isRecommended && (
         <motion.div
@@ -33,7 +33,7 @@ export default function ModuleCardEnhancement({ stepKey, children }: ModuleCardE
             top: -8,
             right: -8,
             zIndex: 10,
-            background: '#1F5BAA',
+            background: '#0E4B2B',
             color: '#fff',
             fontSize: 10,
             fontWeight: 600,
@@ -50,15 +50,18 @@ export default function ModuleCardEnhancement({ stepKey, children }: ModuleCardE
       <motion.div
         animate={isRecommended ? {
           boxShadow: [
-            '0 0 0 0 rgba(31,91,170,0)',
-            '0 0 0 3px rgba(31,91,170,0.15)',
-            '0 0 0 0 rgba(31,91,170,0)',
+            '0 0 0 0 rgba(14,75,43,0)',
+            '0 0 0 3px rgba(14,75,43,0.15)',
+            '0 0 0 0 rgba(14,75,43,0)',
           ],
         } : {}}
         transition={isRecommended ? { duration: 2.5, repeat: Infinity } : {}}
         style={{
           borderRadius: 14,
-          border: isRecommended ? '2px solid #1F5BAA' : undefined,
+          border: isRecommended ? '2px solid #0E4B2B' : undefined,
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {children}
@@ -80,7 +83,7 @@ export default function ModuleCardEnhancement({ stepKey, children }: ModuleCardE
           <div style={{
             width: `${completionPct}%`,
             height: '100%',
-            background: '#1F5BAA',
+            background: '#0E4B2B',
             borderRadius: 2,
             transition: 'width 0.5s ease',
           }} />

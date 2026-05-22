@@ -8,16 +8,20 @@
  */
 
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useSubscription } from '../../hooks/useSubscription'
 import { useBillingActions } from '../../hooks/useBillingActions'
-import { getPriceCatalog, getPaymentHistory, type PriceCatalogEntry, type PaymentRecord } from '../../services/billing.service'
+import { getPriceCatalog, getPaymentHistory, activatePlan, type PriceCatalogEntry, type PaymentRecord } from '../../services/billing.service'
 
 const TIER_LABELS: Record<string, string> = {
-  esenciales: 'Esenciales',
-  momentum: 'Momentum',
-  vanguard: 'Vanguard',
+  core: 'Ascendia Core',
+  advance: 'Ascendia Advance',
+  apex: 'Ascendia Apex',
+  // Legacy NovaWork codes — resolve to Ascendia labels
+  esenciales: 'Ascendia Core',
+  momentum: 'Ascendia Advance',
+  vanguard: 'Ascendia Apex',
 }
 
 const STATUS_COLORS: Record<string, string> = {
@@ -38,6 +42,7 @@ const STATUS_KEYS: Record<string, string> = {
 
 export default function Billing() {
   const { t, i18n } = useTranslation()
+  const navigate = useNavigate()
   const { billing, loading, refetch, isActive, tier } = useSubscription()
   const { startCheckout, openPortal, loading: actionLoading, error: actionError } = useBillingActions()
   const [catalog, setCatalog] = useState<PriceCatalogEntry[]>([])
@@ -48,6 +53,7 @@ export default function Billing() {
   const checkoutStatus = searchParams.get('status')
   const pendingPlan = searchParams.get('pending_plan')
   const [autoCheckoutTriggered, setAutoCheckoutTriggered] = useState(false)
+  const [planActivated, setPlanActivated] = useState(false)
 
   // Clean checkout status from URL so browser back button won't revisit Stripe
   useEffect(() => {
@@ -66,7 +72,9 @@ export default function Billing() {
       .catch(console.error)
   }, [])
 
-  // Auto-trigger checkout when user arrives from signup with a pre-selected plan
+  // Auto-trigger checkout when user arrives from signup with a pre-selected plan.
+  // If the plan exists in Stripe, redirect to checkout.
+  // If not, activate directly and show confirmation.
   useEffect(() => {
     if (pendingPlan && !autoCheckoutTriggered && catalog.length > 0 && !loading && !isActive) {
       const match = catalog.find(
@@ -76,9 +84,19 @@ export default function Billing() {
         setAutoCheckoutTriggered(true)
         localStorage.removeItem('novawork_pending_plan')
         startCheckout(match.stripe_price_id)
+      } else {
+        // Plan not in Stripe catalog yet — activate directly
+        setAutoCheckoutTriggered(true)
+        localStorage.removeItem('novawork_pending_plan')
+        activatePlan(pendingPlan)
+          .then(() => {
+            setPlanActivated(true)
+            refetch()
+          })
+          .catch(console.error)
       }
     }
-  }, [pendingPlan, autoCheckoutTriggered, catalog, loading, isActive, startCheckout])
+  }, [pendingPlan, autoCheckoutTriggered, catalog, loading, isActive, startCheckout, refetch])
 
   // Poll for billing status after successful checkout until plan shows up
   useEffect(() => {
@@ -114,6 +132,20 @@ export default function Billing() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
+      {/* Plan activated banner (for plans not yet in Stripe) */}
+      {planActivated && (
+        <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-green-800">
+          <p className="font-semibold">Your plan has been activated!</p>
+          <p className="text-sm mt-1">You now have access to all features of your plan. You can continue setting up your profile.</p>
+          <button
+            onClick={() => navigate('/dashboard/resume/contact-info')}
+            className="mt-3 inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors"
+          >
+            Continue Setup →
+          </button>
+        </div>
+      )}
+
       {/* Success banner */}
       {checkoutStatus === 'success' && (
         <div className="rounded-lg bg-green-50 border border-green-200 p-4 text-green-800">
@@ -209,7 +241,7 @@ export default function Billing() {
           <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.chooseMembership')}</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {memberships.map((plan) => {
-              const isPopular = plan.code === 'momentum'
+              const isPopular = plan.code === 'advance'
               return (
                 <div
                   key={plan.code}

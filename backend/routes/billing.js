@@ -6,6 +6,7 @@
  * POST /api/billing/create-portal-session     — customer portal
  * POST /api/billing/webhook                   — Stripe webhook (no auth)
  * GET  /api/billing/status                    — current user billing status
+ * POST /api/billing/activate-core             — activate Core (free) plan
  */
 
 import { Router } from 'express';
@@ -26,11 +27,13 @@ function ensureStripe(req, res, next) {
 // ─── Stage 3: Create Membership Checkout Session ─────────────────────────────
 router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, res) => {
   try {
-    const { priceId, successUrl, cancelUrl } = req.body;
+    const { priceId, successUrl, cancelUrl, quantity } = req.body;
     const userId = req.user.id;
     const email = req.user.email;
 
-    console.log(`🛒 [CHECKOUT] Started — user: ${email} (${userId}), priceId: ${priceId}`);
+    const qty = Math.max(1, Math.min(10, Number.isFinite(+quantity) ? parseInt(quantity, 10) : 1));
+
+    console.log(`🛒 [CHECKOUT] Started — user: ${email} (${userId}), priceId: ${priceId}, qty: ${qty}`);
 
     if (!priceId) {
       console.log('🛒 [CHECKOUT] ❌ Missing priceId');
@@ -78,11 +81,13 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
 
     const appUrl = process.env.APP_URL || process.env.FRONTEND_URL || 'http://localhost:5173';
 
+    const lineQuantity = isMembership ? 1 : qty;
+
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
+      line_items: [{ price: priceId, quantity: lineQuantity }],
+      success_url: successUrl || `${appUrl}/auth/callback`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       subscription_data: {
         description: catalogEntry.display_name,
@@ -90,11 +95,14 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
           user_id: userId,
           tier: catalogEntry.code,
           type: isMembership ? 'membership' : 'addon_recurring',
+          quantity: String(lineQuantity),
         },
       },
       metadata: {
         user_id: userId,
         type: isMembership ? 'membership' : 'addon_recurring',
+        code: catalogEntry.code,
+        quantity: String(lineQuantity),
       },
       allow_promotion_codes: true,
     });
@@ -110,11 +118,13 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
 // ─── Stage 4: Create One-Time Addon Session (Session 1:1) ───────────────────
 router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res) => {
   try {
-    const { priceId, successUrl, cancelUrl } = req.body;
+    const { priceId, successUrl, cancelUrl, quantity } = req.body;
     const userId = req.user.id;
     const email = req.user.email;
 
-    console.log(`🛒 [ADDON] Started — user: ${email} (${userId}), priceId: ${priceId}`);
+    const qty = Math.max(1, Math.min(10, Number.isFinite(+quantity) ? parseInt(quantity, 10) : 1));
+
+    console.log(`🛒 [ADDON] Started — user: ${email} (${userId}), priceId: ${priceId}, qty: ${qty}`);
 
     if (!priceId) {
       return res.status(400).json({ error: 'priceId is required' });
@@ -144,21 +154,23 @@ router.post('/create-addon-session', requireAuth, ensureStripe, async (req, res)
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'payment',
-      line_items: [{ price: priceId, quantity: 1 }],
-      success_url: successUrl || `${appUrl}/dashboard?welcome=true`,
+      line_items: [{ price: priceId, quantity: qty }],
+      success_url: successUrl || `${appUrl}/auth/callback`,
       cancel_url: cancelUrl || `${appUrl}/dashboard/billing?status=canceled`,
       payment_intent_data: {
-        description: catalogEntry.display_name,
+        description: `${catalogEntry.display_name} × ${qty}`,
         metadata: {
           user_id: userId,
           code: catalogEntry.code,
           type: 'addon_one_time',
+          quantity: String(qty),
         },
       },
       metadata: {
         user_id: userId,
         type: 'addon_one_time',
         code: catalogEntry.code,
+        quantity: String(qty),
       },
     });
 
@@ -207,6 +219,114 @@ router.post('/create-portal-session', requireAuth, ensureStripe, async (req, res
     res.json({ url: session.url });
   } catch (error) {
     console.error('🔧 [PORTAL] ❌ Error:', error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ─── Activate Core (Free) Plan ───────────────────────────────────────────────
+// Creates a billing_access row for Core/free users so ProtectedRoute lets them through
+router.post('/activate-core', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+
+    // Check if billing_access row already exists
+    const { data: existing } = await supabaseAdmin
+      .from('billing_access')
+      .select('user_id, is_active, membership_code')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    // If already active with a paid plan, don't downgrade
+    if (existing?.is_active && existing?.membership_code) {
+      return res.json({ is_active: true, membership_code: existing.membership_code, already_active: true });
+    }
+
+    // Upsert billing_access row for Core (free) plan
+    const { error } = await supabaseAdmin
+      .from('billing_access')
+      .upsert({
+        user_id: userId,
+        is_active: true,
+        membership_code: 'core',
+        subscription_status: 'active',
+        cancel_at_period_end: false,
+        source: 'core_signup',
+      }, { onConflict: 'user_id' });
+
+    if (error) {
+      console.error('❌ activate-core upsert error:', error);
+      return res.status(500).json({ error: 'Failed to activate Core plan' });
+    }
+
+    // Also update users.subscription_tier for consistency
+    await supabaseAdmin
+      .from('users')
+      .update({ subscription_tier: 'core', updated_at: new Date().toISOString() })
+      .eq('id', userId);
+
+    res.json({ is_active: true, membership_code: 'core', already_active: false });
+  } catch (error) {
+    console.error('❌ activate-core error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// ─── Activate Plan (any tier, without Stripe) ─────────────────────────────────
+// Used for plans not yet connected to Stripe checkout (e.g. Ascendia Advance/Apex)
+router.post('/activate-plan', requireAuth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { planCode } = req.body;
+
+    const PLAN_MAP = {
+      core: 'core',
+      advance: 'advance',
+      apex: 'apex',
+    };
+
+    const membershipCode = PLAN_MAP[planCode];
+    if (!membershipCode) {
+      return res.status(400).json({ error: `Invalid plan code: ${planCode}` });
+    }
+
+    // If already active with an equal or higher tier, don't downgrade
+    const { data: existing } = await supabaseAdmin
+      .from('billing_access')
+      .select('user_id, is_active, membership_code')
+      .eq('user_id', userId)
+      .maybeSingle();
+
+    const TIER_ORDER = { core: 1, advance: 2, apex: 3 };
+    if (existing?.is_active && TIER_ORDER[existing.membership_code] >= TIER_ORDER[membershipCode]) {
+      return res.json({ is_active: true, membership_code: existing.membership_code, already_active: true });
+    }
+
+    // Upsert billing_access row
+    const { error } = await supabaseAdmin
+      .from('billing_access')
+      .upsert({
+        user_id: userId,
+        is_active: true,
+        membership_code: membershipCode,
+        subscription_status: 'active',
+        cancel_at_period_end: false,
+        source: 'plan_activation',
+      }, { onConflict: 'user_id' });
+
+    if (error) {
+      console.error('❌ activate-plan upsert error:', error);
+      return res.status(500).json({ error: 'Failed to activate plan' });
+    }
+
+    // Also update users.subscription_tier
+    await supabaseAdmin
+      .from('users')
+      .update({ subscription_tier: membershipCode, updated_at: new Date().toISOString() })
+      .eq('id', userId);
+
+    res.json({ is_active: true, membership_code: membershipCode, already_active: false });
+  } catch (error) {
+    console.error('❌ activate-plan error:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -474,12 +594,14 @@ async function handleCheckoutCompleted(session) {
       is_test_mode: !session.livemode,
     }, { onConflict: 'stripe_checkout_session_id' });
 
-    // Create session credit entitlement
+    // Create session credit entitlement — credits match purchased quantity
+    const purchasedQty = firstItem?.quantity || parseInt(session.metadata?.quantity || '1', 10) || 1;
+
     await supabaseAdmin.from('service_entitlements').insert({
       user_id: userId,
       source_type: 'one_time_purchase',
       source_ref: session.id,
-      session_credits_allocated: 1,
+      session_credits_allocated: purchasedQty,
       is_active: true,
     });
 
@@ -635,9 +757,9 @@ async function handleInvoicePaid(invoice) {
   // Create fresh entitlement for new period
   // Credit allocation based on tier — customize these values
   const creditMap = {
-    esenciales: { email: 0, session: 0 },
-    momentum: { email: 3, session: 0 },
-    vanguard: { email: 10, session: 1 },
+    core: { email: 0, session: 0 },
+    advance: { email: 3, session: 0 },
+    apex: { email: 10, session: 1 },
   };
   const credits = creditMap[membershipCode] || { email: 0, session: 0 };
 

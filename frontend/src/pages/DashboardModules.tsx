@@ -20,7 +20,7 @@ function buildModules(
   progressRows: Array<{ module_id: string; step_id: string }>,
   userLevel: TierLevel
 ): Record<ModuleId, DashboardModule> {
-  const levels: Record<TierLevel, number> = { esenciales: 1, momentum: 2, vanguard: 3 }
+  const levels: Record<TierLevel, number> = { core: 1, advance: 2, apex: 3 }
   const can = (req: TierLevel) => levels[userLevel] >= levels[req]
 
   const stepStatus = (moduleId: string, stepId: string): StepStatus =>
@@ -83,7 +83,7 @@ function buildModules(
     'resume-builder': {
       id: 'resume-builder', title: 'Resume Builder',
       description: 'Build an interview-magnet resume and your personal accomplishment bank.',
-      tier: 'Essentials', requiredLevel: 'esenciales', iconBg: '#E3F2FD',
+      tier: 'Core', requiredLevel: 'core', iconBg: '#EAF4EC',
       completedSteps: rbCompleted, totalSteps: 4, steps: rbSteps,
       videoSrc: getVideoUrl('The_NovaWork_Blueprint__resume_builder.mp4'),
       learnMoreRoute: '/resume-builder',
@@ -92,29 +92,29 @@ function buildModules(
     'career-vision': {
       id: 'career-vision', title: 'Career Vision',
       description: 'Get a clear understanding of who you are and what is your success formula.',
-      tier: 'Momentum', requiredLevel: 'momentum', iconBg: '#E8F5E9',
+      tier: 'Advance', requiredLevel: 'advance', iconBg: '#E8F5E9',
       completedSteps: cvCompleted, totalSteps: 3, steps: cvSteps,
       videoSrc: getVideoUrl('AI_and_Your_Career_Path-EN.mp4'),
       learnMoreRoute: '/career-vision/dashboard',
-      locked: !can('momentum'),
+      locked: !can('advance'),
     },
     'job-search': {
       id: 'job-search', title: 'Job Search',
       description: 'Use these techniques and get called for an interview 75% faster than others.',
-      tier: 'Momentum', requiredLevel: 'momentum', iconBg: '#FFF3E0',
+      tier: 'Advance', requiredLevel: 'advance', iconBg: '#FFF3E0',
       completedSteps: jsCompleted, totalSteps: 5, steps: jsSteps,
       videoSrc: undefined,
       learnMoreRoute: '/fast-track/plan-your-search',
-      locked: !can('momentum'),
+      locked: !can('advance'),
     },
     'interview-mastery': {
       id: 'interview-mastery', title: 'Interview Mastery',
       description: 'Be the one they choose. Understand and practice the interview to win.',
-      tier: 'Vanguard', requiredLevel: 'vanguard', iconBg: '#F3E5F5',
+      tier: 'Apex', requiredLevel: 'apex', iconBg: '#F3E5F5',
       completedSteps: imCompleted, totalSteps: 4, steps: imSteps,
       videoSrc: getVideoUrl('Your_Interview_Playbook-EN.mp4'),
       learnMoreRoute: '/interview',
-      locked: !can('vanguard'),
+      locked: !can('apex'),
     },
   }
 }
@@ -171,7 +171,7 @@ export default function DashboardModules() {
   }, [sidebarCollapsed])
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
+  const [userLevel, setUserLevel] = useState<TierLevel>('core')
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<DashboardStats>({
     resumeScore: 0, resumeScoreDelta: 6,
@@ -204,11 +204,11 @@ export default function DashboardModules() {
       // ── tier ──
       const { data: userData } = await supabase
         .from('users').select('subscription_tier').eq('id', userId).single()
-      let tier: TierLevel = 'esenciales'
+      let tier: TierLevel = 'core'
       if (userData?.subscription_tier) {
         let t = userData.subscription_tier
-        if (t === 'basic') t = 'esenciales'
-        if (t === 'pro')   t = 'momentum'
+        if (t === 'basic') t = 'core'
+        if (t === 'pro')   t = 'advance'
         tier = t as TierLevel
         setUserLevel(tier)
       }
@@ -286,8 +286,8 @@ export default function DashboardModules() {
   }
 
   const activeModuleData = modules?.[activeModule] ?? {
-    id: activeModule, title: '', description: '', tier: 'Essentials' as const,
-    requiredLevel: 'esenciales' as TierLevel, iconBg: '#E3F2FD',
+    id: activeModule, title: '', description: '', tier: 'Core' as const,
+    requiredLevel: 'core' as TierLevel, iconBg: '#EAF4EC',
     completedSteps: 0, totalSteps: 4, steps: [], videoSrc: '', learnMoreRoute: '/', locked: false,
   }
 
@@ -317,7 +317,12 @@ export default function DashboardModules() {
           className="flex items-center justify-between gap-2 px-4 py-2 flex-shrink-0"
           style={{ background: '#F0F3F8' }}
         >
-          <img src="/logo.png" alt="NovaWork Global" className="h-14 w-auto object-contain" />
+          <img
+            src="/logo.png"
+            alt="Ascendia"
+            className="h-14 w-auto object-contain cursor-pointer"
+            onClick={() => navigate('/')}
+          />
           <div className="flex items-center gap-2">
             {user && <NotificationBell userId={user.id} />}
             <UserMenu user={user} userProfile={userProfile} />
@@ -349,7 +354,7 @@ export default function DashboardModules() {
           >
             <div
               className="h-12 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ width: 3, background: '#1976D2' }}
+              style={{ width: 3, background: '#0E4B2B' }}
             />
           </div>
 
@@ -357,7 +362,7 @@ export default function DashboardModules() {
           <button
             onClick={() => setRightVisible(false)}
             className="absolute -left-4 top-6 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-            style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
+            style={{ background: '#0E4B2B', color: '#fff', border: '2px solid #fff' }}
             title="Hide panel"
           >
             <ChevronRight size={14} />
@@ -377,7 +382,7 @@ export default function DashboardModules() {
           <button
             onClick={() => setRightVisible(true)}
             className="w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-            style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
+            style={{ background: '#0E4B2B', color: '#fff', border: '2px solid #fff' }}
             title="Show panel"
           >
             <ChevronLeft size={14} />

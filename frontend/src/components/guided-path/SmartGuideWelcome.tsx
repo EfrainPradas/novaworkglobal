@@ -24,11 +24,12 @@ export default function SmartGuideWelcome({ userId }: SmartGuideWelcomeProps) {
   const [activating, setActivating] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Show modal when userId becomes available and not previously dismissed
+  // Show modal only the first time: no active run AND not previously dismissed.
+  // If a run exists (even with guidance_enabled = false), the user has already
+  // engaged with the Smart Guide, so don't pop the welcome again.
   useEffect(() => {
     if (!userId || isLoading) return
-    // Don't show if guided mode is already active
-    if (isGuidedMode || (state?.has_active_run && state?.run?.guidance_enabled)) return
+    if (isGuidedMode || state?.has_active_run) return
     const dismissed = localStorage.getItem(`${WELCOME_DISMISSED_KEY}_${userId}`)
     if (!dismissed) {
       setVisible(true)
@@ -93,7 +94,7 @@ export default function SmartGuideWelcome({ userId }: SmartGuideWelcomeProps) {
           >
             {/* Header gradient */}
             <div style={{
-              background: 'linear-gradient(135deg, #1F5BAA 0%, #2563EB 50%, #4DA8DA 100%)',
+              background: 'linear-gradient(135deg, #0E4B2B 0%, #357A3E 50%, #4F8F55 100%)',
               padding: '32px 28px 24px',
               position: 'relative',
             }}>
@@ -160,9 +161,9 @@ export default function SmartGuideWelcome({ userId }: SmartGuideWelcomeProps) {
                 <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
                   <div style={{
                     width: 36, height: 36, borderRadius: 10,
-                    background: '#EFF6FF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                    background: '#EAF4EC', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                   }}>
-                    <MapPin size={18} style={{ color: '#1F5BAA' }} />
+                    <MapPin size={18} style={{ color: '#0E4B2B' }} />
                   </div>
                   <div>
                     <div style={{ fontSize: 14, fontWeight: 600, color: '#111827' }}>
@@ -239,7 +240,7 @@ export default function SmartGuideWelcome({ userId }: SmartGuideWelcomeProps) {
                     padding: '13px 20px',
                     borderRadius: 12,
                     border: 'none',
-                    background: '#1F5BAA',
+                    background: '#0E4B2B',
                     color: '#fff',
                     fontSize: 15,
                     fontWeight: 600,

@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
-import { useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate, Outlet, useLocation } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { ChevronLeft, ChevronRight, Menu, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import UserMenu from '../components/common/UserMenu'
@@ -18,46 +19,38 @@ import { GuidedPathProvider } from '../contexts/GuidedPathContext'
 
 export default function HomeDashboard() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const { t, i18n } = useTranslation()
+  // The dashboard index renders its own Progress + Calendar (mock layout),
+  // so we hide the shell's right panel on `/dashboard` exact.
+  const isIndexRoute = location.pathname === '/dashboard' || location.pathname === '/dashboard/'
 
   // ── Auth / profile ──────────────────────────────────────────
   const [user, setUser] = useState<any>(null)
   const [userProfile, setUserProfile] = useState<any>(null)
   const [userName, setUserName] = useState<string | null>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
+  const [userLevel, setUserLevel] = useState<TierLevel>('core')
 
   // ── Stats ───────────────────────────────────────────────────
   const [overview, setOverview] = useState<DashboardOverview | null>(null)
   const [overviewLoading, setOverviewLoading] = useState(true)
 
   // ── Layout ──────────────────────────────────────────────────
-  const [sidebarWidth, setSidebarWidth] = useState(60)
-  const sidebarWidthRef = useRef(60)
-  const [rightWidth, setRightWidth] = useState(280)
-  const rightWidthRef = useRef(280)
-  const [rightVisible, setRightVisible] = useState(false)
-  const sidebarCollapsed = sidebarWidth <= 80
+  // Sidebar fixed (no collapse). Right panel keeps its existing resize.
+  // Persist right panel state to localStorage so it survives refresh.
+  const SIDEBAR_WIDTH = 260
+  const [rightWidth, setRightWidth] = useState(() => {
+    const saved = localStorage.getItem('nw_rightWidth')
+    return saved ? Number(saved) : 280
+  })
+  const rightWidthRef = useRef(rightWidth)
+  const [rightVisible, setRightVisible] = useState(() => {
+    return localStorage.getItem('nw_rightVisible') === 'true'
+  })
 
   // ── Mobile Drawer State ─────────────────────────────────────
   const [mobileLeftOpen, setMobileLeftOpen] = useState(false)
   const [mobileRightOpen, setMobileRightOpen] = useState(false)
-
-  // ── Sidebar resize ─────────────────────────────────────────
-  const handleSidebarResize = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-    const startX = e.clientX
-    const startWidth = sidebarWidthRef.current
-    const onMove = (ev: MouseEvent) => {
-      const newW = Math.max(60, Math.min(480, startWidth + ev.clientX - startX))
-      sidebarWidthRef.current = newW
-      setSidebarWidth(newW)
-    }
-    const onUp = () => {
-      document.removeEventListener('mousemove', onMove)
-      document.removeEventListener('mouseup', onUp)
-    }
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup', onUp)
-  }, [])
 
   const handleRightResize = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -69,18 +62,13 @@ export default function HomeDashboard() {
       setRightWidth(newW)
     }
     const onUp = () => {
+      localStorage.setItem('nw_rightWidth', String(rightWidthRef.current))
       document.removeEventListener('mousemove', onMove)
       document.removeEventListener('mouseup', onUp)
     }
     document.addEventListener('mousemove', onMove)
     document.addEventListener('mouseup', onUp)
   }, [])
-
-  const toggleSidebar = useCallback(() => {
-    const next = sidebarCollapsed ? 260 : 60
-    sidebarWidthRef.current = next
-    setSidebarWidth(next)
-  }, [sidebarCollapsed])
 
   // ── Load data ───────────────────────────────────────────────
   const loadData = useCallback(async (userId: string) => {
@@ -132,13 +120,18 @@ export default function HomeDashboard() {
     const onResize = () => {
       const w = window.innerWidth
       setIsMobile(w < 768)
-      // Auto-collapse right sidebar when viewport is too narrow for 3 panels
+      // Auto-collapse right sidebar when viewport shrinks too narrow for 3 panels
+      // Only override localStorage on actual resize, not on mount (respect persisted state)
       if (w < 1200 && w >= 768) {
-        setRightVisible(false)
+        setRightVisible(prev => {
+          if (prev) { localStorage.setItem('nw_rightVisible', 'false'); return false }
+          return prev
+        })
       }
     }
-    onResize()
     window.addEventListener('resize', onResize)
+    // Set isMobile on mount without overriding persisted rightVisible
+    setIsMobile(window.innerWidth < 768)
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
@@ -147,11 +140,38 @@ export default function HomeDashboard() {
     setMobileRightOpen(false)
   }
 
+  // ── Topbar copy (Ascendia mock) ──────────────────────────────
+  const formattedDate = new Intl.DateTimeFormat(i18n.language, {
+    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+  }).format(new Date())
+  const greetingName = userName?.split(' ')[0] ?? ''
+
   return (
     <GuidedPathProvider user={user}>
     <div
-      className="flex overflow-hidden bg-[#F0F3F8] dark:bg-gray-900"
-      style={{ height: '100dvh', fontFamily: "'DM Sans', sans-serif" }}
+      className="dark:bg-gray-900"
+      style={{
+        minHeight: '100dvh',
+        padding: isMobile ? 0 : 22,
+        fontFamily: "'Inter', sans-serif",
+        background: `
+          radial-gradient(circle at 0 0, rgba(79,143,85,.08), transparent 28%),
+          linear-gradient(135deg, #FFFFFF 0%, #F2F5F2 100%)
+        `,
+        color: 'var(--ascendia-text)',
+      }}
+    >
+    <div
+      className="flex overflow-hidden"
+      style={{
+        minHeight: isMobile ? '100dvh' : 'calc(100dvh - 44px)',
+        maxWidth: 1460,
+        margin: '0 auto',
+        border: isMobile ? 'none' : '4px solid var(--ascendia-border-strong)',
+        borderRadius: isMobile ? 0 : 'var(--ascendia-radius-xl)',
+        background: 'var(--ascendia-surface)',
+        boxShadow: isMobile ? 'none' : 'var(--ascendia-shadow-lg)',
+      }}
     >
       {/* ── MOBILE LEFT DRAWER BACKDROP ── */}
       {isMobile && mobileLeftOpen && (
@@ -189,50 +209,64 @@ export default function HomeDashboard() {
               userLevel={userLevel}
               width={280}
               collapsed={false}
-              onToggle={() => setMobileLeftOpen(false)}
-              onResizeStart={() => {}}
             />
           </aside>
         )
       ) : (
         <HomeSidebar
           userLevel={userLevel}
-          width={sidebarWidth}
-          collapsed={sidebarCollapsed}
-          onToggle={toggleSidebar}
-          onResizeStart={handleSidebarResize}
+          width={SIDEBAR_WIDTH}
+          collapsed={false}
         />
       )}
 
       {/* ── CENTER PANEL ── */}
-      <main className="flex-1 flex flex-col overflow-hidden min-w-0">
+      <main
+        className="flex-1 flex flex-col min-w-0 dark:bg-gray-900"
+        style={{ background: 'var(--ascendia-surface-muted)' }}
+      >
         {/* Top bar */}
         <div
-          className="flex items-center justify-between gap-2 px-3 sm:px-5 py-2 flex-shrink-0 bg-[#F0F3F8] dark:bg-gray-900"
+          className="flex items-center justify-between gap-3 px-4 sm:px-8 flex-shrink-0"
+          style={{
+            height: 80,
+            background: 'var(--ascendia-surface)',
+            borderBottom: '1px solid var(--ascendia-border)',
+          }}
         >
           {/* Mobile menu button */}
           {isMobile && (
             <button
               onClick={() => setMobileLeftOpen(true)}
-              className="w-9 h-9 rounded-xl flex items-center justify-center hover:bg-white/50 dark:hover:bg-gray-700 transition-colors text-slate-600 dark:text-slate-300"
+              className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors flex-shrink-0"
+              style={{ color: 'var(--ascendia-text)' }}
             >
               <Menu size={20} />
             </button>
           )}
-          <h1
-            className={`text-base font-semibold text-slate-700 dark:text-slate-200 truncate ${isMobile ? 'flex-1 text-center mr-9' : ''}`}
-            style={{ fontFamily: "'DM Sans', sans-serif" }}
-          >
-            Dashboard
-          </h1>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col min-w-0">
+            <span
+              className="text-xs font-medium truncate"
+              style={{ color: 'var(--ascendia-text-muted)' }}
+            >
+              {formattedDate}
+            </span>
+            <h1
+              className="text-xl sm:text-[22px] font-bold leading-tight tracking-tight truncate text-slate-900 dark:text-slate-100"
+            >
+              {greetingName
+                ? `${t('dashboard.welcomeBack')} ${greetingName}`
+                : t('dashboard.welcomeBack').replace(/,\s*$/, '')}
+            </h1>
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0">
             {user && <NotificationBell userId={user.id} />}
             <UserMenu user={user} userProfile={userProfile} />
           </div>
         </div>
 
-        {/* Scrollable content - uses Outlet for nested routes */}
-        <div className="flex-1 overflow-y-auto">
+        {/* Content - uses Outlet for nested routes. Page scrolls naturally; no internal scroll. */}
+        <div className="flex-1">
           <Outlet context={{
             user,
             userProfile,
@@ -244,8 +278,10 @@ export default function HomeDashboard() {
         </div>
       </main>
 
-      {/* ── RIGHT SIDEBAR ── */}
-      {isMobile ? (
+      {/* ── RIGHT SIDEBAR ──
+          Hidden on /dashboard index (the index renders its own Progress + Calendar
+          to match the Ascendia mock). Still available on all nested routes. */}
+      {isIndexRoute ? null : isMobile ? (
         mobileRightOpen && (
           <aside
             className="fixed right-0 top-0 bottom-0 z-50 overflow-y-auto bg-white dark:bg-gray-800"
@@ -281,15 +317,15 @@ export default function HomeDashboard() {
           >
             <div
               className="h-12 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ width: 3, background: '#1976D2' }}
+              style={{ width: 3, background: 'var(--ascendia-primary)' }}
             />
           </div>
 
           {/* Toggle */}
           <button
-            onClick={() => setRightVisible(false)}
+            onClick={() => { setRightVisible(false); localStorage.setItem('nw_rightVisible', 'false') }}
             className="absolute -left-4 top-6 z-30 w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-            style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
+            style={{ background: 'var(--ascendia-primary)', color: '#fff', border: '2px solid #fff' }}
             title="Hide panel"
           >
             <ChevronRight size={14} />
@@ -303,9 +339,9 @@ export default function HomeDashboard() {
           style={{ width: 32 }}
         >
           <button
-            onClick={() => setRightVisible(true)}
+            onClick={() => { setRightVisible(true); localStorage.setItem('nw_rightVisible', 'true') }}
             className="w-8 h-8 rounded-full flex items-center justify-center transition-all shadow-md hover:shadow-lg hover:scale-110"
-            style={{ background: '#1976D2', color: '#fff', border: '2px solid #fff' }}
+            style={{ background: 'var(--ascendia-primary)', color: '#fff', border: '2px solid #fff' }}
             title="Show panel"
           >
             <ChevronLeft size={14} />
@@ -318,12 +354,13 @@ export default function HomeDashboard() {
         <button
           onClick={() => setMobileRightOpen(true)}
           className="fixed bottom-4 right-4 z-30 w-12 h-12 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
-          style={{ background: '#1976D2', color: '#fff' }}
+          style={{ background: 'var(--ascendia-primary)', color: 'var(--ascendia-primary-foreground)' }}
           title="Open stats panel"
         >
           <ChevronLeft size={18} />
         </button>
       )}
+    </div>
     </div>
     </GuidedPathProvider>
   )

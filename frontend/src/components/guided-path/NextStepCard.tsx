@@ -53,7 +53,7 @@ export default function NextStepCard() {
       <div style={{
         fontSize: 11,
         fontWeight: 600,
-        color: '#1F5BAA',
+        color: '#0E4B2B',
         textTransform: 'uppercase',
         letterSpacing: '0.5px',
         marginBottom: 14,
@@ -65,7 +65,7 @@ export default function NextStepCard() {
           width: 6,
           height: 6,
           borderRadius: '50%',
-          background: '#1F5BAA',
+          background: '#0E4B2B',
         }} />
         {reason}
       </div>
@@ -160,7 +160,7 @@ export default function NextStepCard() {
             padding: '10px 20px',
             borderRadius: 8,
             border: 'none',
-            background: '#1F5BAA',
+            background: '#0E4B2B',
             color: '#fff',
             fontSize: 13,
             fontWeight: 600,

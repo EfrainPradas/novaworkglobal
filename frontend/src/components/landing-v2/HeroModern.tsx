@@ -1,4 +1,4 @@
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import heroLoop2 from '../../assets/hero-loop-2.webp'
 import { useNavigate } from 'react-router-dom'
@@ -9,41 +9,39 @@ export default function HeroModern() {
     const { t } = useTranslation()
 
     return (
-        <section className="relative min-h-[90vh] flex items-center bg-white overflow-hidden pt-36 pb-20">
-            {/* Abstract Background Shapes - Keeping NovaWork Colors */}
-            <div className="absolute top-0 right-0 w-1/3 h-full bg-primary-50/50 transform skew-x-12 translate-x-32" />
-            <div className="absolute bottom-0 left-0 w-96 h-96 bg-secondary-50 rounded-full blur-3xl opacity-30" />
+        <section className="relative min-h-[100dvh] flex items-center bg-white overflow-hidden pt-20 pb-16 md:pt-28 md:pb-24">
+            {/* Subtle background accent */}
+            <div className="absolute top-0 right-0 w-1/3 h-full bg-[var(--ascendia-accent)]/40 transform skew-x-12 translate-x-32 opacity-50" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 md:w-96 md:h-96 bg-[var(--ascendia-secondary)]/10 rounded-full blur-3xl" />
 
-            <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
+                <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
 
                     {/* Text Content */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-
-
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-gray-900 leading-[1.1] mb-8">
-                            {t('hero.title').split(' ').slice(0, 2).join(' ')} <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-secondary">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-[var(--ascendia-text)] leading-[1.1] mb-6">
+                            {t('hero.title').split(' ').slice(0, 2).join(' ')} <br className="hidden sm:block" />
+                            <span className="text-[var(--ascendia-primary)]">
                                 {t('hero.title').split(' ').slice(2).join(' ')}
                             </span>
                         </h1>
 
-                        <p className="text-2xl font-medium text-gray-900 mb-6">
+                        <p className="text-xl md:text-2xl font-medium text-[var(--ascendia-text)] mb-4">
                             {t('hero.subtitle')}
                         </p>
 
-                        <p className="text-lg md:text-xl text-gray-500 max-w-lg leading-relaxed mb-10 border-l-4 border-primary-200 pl-6">
+                        <p className="text-base md:text-lg text-[var(--ascendia-text-muted)] max-w-lg leading-relaxed mb-8 border-l-[3px] border-[var(--ascendia-primary)]/30 pl-5">
                             {t('hero.description')}
                         </p>
 
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                             <button
                                 onClick={() => navigate('/programs/novanext')}
-                                className="group px-5 py-3 bg-primary-600 text-white rounded-full border border-primary-600 font-semibold text-base flex items-center gap-2 hover:bg-primary-700 transition-all shadow-lg hover:shadow-primary-500/25 whitespace-nowrap"
+                                className="w-full sm:w-auto group px-6 py-3 bg-[var(--ascendia-primary)] text-[var(--ascendia-primary-foreground)] rounded-full font-semibold text-base flex items-center justify-center gap-2 hover:bg-[var(--ascendia-primary-hover)] transition-all shadow-sm"
                             >
                                 {t('hero.ctaStart')}
                                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -51,7 +49,7 @@ export default function HeroModern() {
 
                             <button
                                 onClick={() => document.getElementById('programs')?.scrollIntoView({ behavior: 'smooth' })}
-                                className="px-5 py-3 bg-primary-50 text-primary-700 rounded-full font-semibold text-base hover:bg-primary-100 transition-all flex items-center gap-2 whitespace-nowrap"
+                                className="w-full sm:w-auto px-6 py-3 bg-[var(--ascendia-accent)] text-[var(--ascendia-primary)] rounded-full font-semibold text-base hover:bg-[var(--ascendia-accent-hover)] transition-all flex items-center justify-center gap-2"
                             >
                                 {t('hero.ctaExplore')}
                             </button>
@@ -62,19 +60,19 @@ export default function HeroModern() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
+                        transition={{ duration: 0.6, delay: 0.15 }}
                         className="relative hidden lg:block"
                     >
-                        <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-2xl border-4 border-white translate-x-0">
+                        <div className="relative z-10 w-full aspect-video rounded-2xl overflow-hidden shadow-md border border-[var(--ascendia-border)]">
                             <img
                                 src={heroLoop2}
-                                alt="Executive Strategy Animation"
+                                alt="Ascendia Career Platform"
                                 className="w-full h-full object-contain bg-white"
                             />
                         </div>
 
                         {/* Decorative Grid */}
-                        <div className="absolute -z-10 top-10 -right-10 w-full h-full border-2 border-gray-200" />
+                        <div className="absolute -z-10 top-6 -right-4 w-full h-full border border-[var(--ascendia-border-soft)] rounded-2xl" />
                     </motion.div>
                 </div>
             </div>

@@ -12,7 +12,6 @@ import { supabase } from '../../lib/supabase'
 import { InterviewPreparation } from '../../types/interview'
 import { getDaysUntilInterview, formatInterviewDate } from '../../types/interview'
 import { Crosshair, ClipboardList, Calendar, PenSquare, CheckCircle2, Briefcase, Mail, BookOpen } from 'lucide-react'
-import CoachingTeaser from '../../components/services/CoachingTeaser'
 
 export default function InterviewMastery() {
   const navigate = useNavigate()
@@ -96,88 +95,48 @@ export default function InterviewMastery() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-gray-900 transition-colors duration-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 pb-12 transition-colors duration-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
         {/* Header */}
         <div className="mb-8">
-          <BackButton to="/dashboard/job-search-hub" label={t('interviewMastery.backToJobSearch', 'Back to Job Search')} className="mb-4 pl-0" />
+          <BackButton to="/dashboard/job-search-hub" label={t('interviewMastery.backToJobSearch', 'Back to Job Search')} className="pl-0" />
 
-          <div className="flex items-start justify-between">
-            <div>
-              <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2 flex items-center gap-3">
-                <span className="w-12 h-12 rounded-xl bg-primary-50 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 flex items-center justify-center">
-                  <Crosshair className="w-7 h-7" />
-                </span>
+          <div className="mt-4 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+            <div className="flex-1">
+              <h1 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                 {t('interviewMastery.title', 'Interview Mastery System™')}
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
+              <p className="text-slate-600 dark:text-slate-400">
                 {t('interviewMastery.subtitle', 'Master your interview preparation with the 3-phase methodology')}
               </p>
             </div>
             <button
               onClick={handleCreateInterview}
-              className="px-6 py-3 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-medium shadow-lg hover:shadow-xl"
+              className="px-6 py-3 bg-primary-600 text-white rounded-xl hover:bg-primary-700 transition-colors font-semibold shadow-md shadow-primary-600/20 whitespace-nowrap"
             >
               {t('interviewMastery.newPrep', '+ New Interview Prep')}
             </button>
           </div>
         </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.totalInterviews', 'Total Interviews')}</p>
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{interviews.length}</p>
+        {/* Stats Marquee */}
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 px-4 py-3 mb-8 flex flex-col sm:flex-row sm:items-center divide-y sm:divide-y-0 sm:divide-x divide-slate-200 dark:divide-slate-700">
+          {[
+            { label: t('interviewMastery.totalInterviews', 'Total Interviews'), value: interviews.length, Icon: ClipboardList },
+            { label: t('interviewMastery.upcoming', 'Upcoming'), value: interviews.filter(i => i.status === 'scheduled').length, Icon: Calendar },
+            { label: t('interviewMastery.preparing', 'Preparing'), value: interviews.filter(i => i.status === 'preparing').length, Icon: PenSquare },
+            { label: t('interviewMastery.completed', 'Completed'), value: interviews.filter(i => i.status === 'completed').length, Icon: CheckCircle2 },
+          ].map(({ label, value, Icon }) => (
+            <div key={label} className="flex-1 flex items-center gap-3 px-4 py-2">
+              <div className="w-10 h-10 shrink-0 bg-primary-50 dark:bg-primary-900/30 rounded-lg flex items-center justify-center text-primary-600 dark:text-primary-400">
+                <Icon className="w-5 h-5" />
               </div>
-              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
-                <ClipboardList className="w-6 h-6" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.upcoming', 'Upcoming')}</p>
-                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                  {interviews.filter(i => i.status === 'scheduled').length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
-                <Calendar className="w-6 h-6" />
+              <div className="min-w-0">
+                <p className="text-xs text-slate-600 dark:text-slate-400 truncate">{label}</p>
+                <p className="text-2xl font-bold text-slate-900 dark:text-white leading-tight">{value}</p>
               </div>
             </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.preparing', 'Preparing')}</p>
-                <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
-                  {interviews.filter(i => i.status === 'preparing').length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
-                <PenSquare className="w-6 h-6" />
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 border border-gray-100 dark:border-gray-700 transition-colors duration-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">{t('interviewMastery.completed', 'Completed')}</p>
-                <p className="text-3xl font-bold text-primary-600 dark:text-primary-400">
-                  {interviews.filter(i => i.status === 'completed').length}
-                </p>
-              </div>
-              <div className="w-12 h-12 bg-primary-50 dark:bg-primary-900/30 rounded-xl flex items-center justify-center text-primary-600 dark:text-primary-400">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Empty State */}
@@ -332,7 +291,6 @@ export default function InterviewMastery() {
           </div>
         </div>
 
-        <CoachingTeaser />
       </div>
     </div>
   )

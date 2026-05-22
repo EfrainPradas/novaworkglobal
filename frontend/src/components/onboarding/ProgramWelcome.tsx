@@ -17,7 +17,7 @@ export default function ProgramWelcome({ onNext }: ProgramWelcomeProps) {
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent">
-          <p className="text-white font-medium text-lg">Introduction to NovaWork Global</p>
+          <p className="text-white font-medium text-lg">Introduction to Ascendia</p>
           <p className="text-gray-300 text-sm">Discover how to navigate your career journey</p>
         </div>
         {/* Placeholder for actual video embed */}

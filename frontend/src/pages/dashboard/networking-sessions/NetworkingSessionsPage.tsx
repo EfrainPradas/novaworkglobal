@@ -21,7 +21,7 @@ export default function NetworkingSessionsPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
+  const [userLevel, setUserLevel] = useState<TierLevel>('core')
   const [sessions, setSessions] = useState<MemberSession[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -125,7 +125,7 @@ export default function NetworkingSessionsPage() {
           <button
             onClick={() => handleTopicChange(undefined)}
             className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all ${!topicFilter ? 'text-white' : 'bg-white dark:bg-gray-700 text-slate-500 dark:text-gray-300 border border-slate-200 dark:border-gray-600 hover:border-blue-300'}`}
-            style={!topicFilter ? { background: '#1976D2' } : {}}
+            style={!topicFilter ? { background: '#0E4B2B' } : {}}
           >
             {t('common.all')}
           </button>
@@ -134,7 +134,7 @@ export default function NetworkingSessionsPage() {
               key={topic}
               onClick={() => handleTopicChange(topic)}
               className={`px-3 py-1.5 rounded-full text-xs font-semibold capitalize transition-all ${topicFilter === topic ? 'text-white' : 'bg-white dark:bg-gray-700 text-slate-500 dark:text-gray-300 border border-slate-200 dark:border-gray-600 hover:border-blue-300'}`}
-              style={topicFilter === topic ? { background: '#1976D2' } : {}}
+              style={topicFilter === topic ? { background: '#0E4B2B' } : {}}
             >
               {topic.replace('_', ' ')}
             </button>

@@ -108,7 +108,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
   // ── Status helpers ──────────────────────────────────────────────────────────
   const statusStyle = (status: string) => {
     if (status === 'confirmed') return { bg: '#22c55e', border: '#16a34a', badgeColor: '#166534', badgeBg: '#dcfce7' }
-    if (status === 'scheduled') return { bg: '#38bdf8', border: '#0284c7', badgeColor: '#075985', badgeBg: '#e0f2fe' }
+    if (status === 'scheduled') return { bg: '#6BB87E', border: '#4F8F55', badgeColor: '#07371E', badgeBg: '#EAF4EC' }
     if (status === 'pending')   return { bg: '#f59e0b', border: '#d97706', badgeColor: '#92400e', badgeBg: '#fef3c7' }
     if (status === 'completed') return { bg: '#8b5cf6', border: '#7c3aed', badgeColor: '#4c1d95', badgeBg: '#ede9fe' }
     if (status === 'cancelled' || status === 'declined')
@@ -167,7 +167,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
                 padding: '7px 14px',
                 border: 'none',
                 borderRight: v !== 'day' ? '1px solid #e2e8f0' : 'none',
-                background: toolbar.view === v ? '#1976D2' : 'none',
+                background: toolbar.view === v ? '#0E4B2B' : 'none',
                 color: toolbar.view === v ? '#fff' : '#475569',
                 cursor: 'pointer',
                 fontSize: 13,
@@ -210,7 +210,7 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 flex items-center gap-2 justify-center w-full py-2 rounded-xl text-sm font-semibold text-white transition-all hover:opacity-90"
-            style={{ background: '#1976D2' }}
+            style={{ background: '#0E4B2B' }}
           >
             <Video size={14} /> {t('calendar.joinSession', 'Join Session')}
             <ExternalLink size={11} />
@@ -245,8 +245,8 @@ export default function MemberCalendarView({ userId }: MemberCalendarViewProps) 
         .rbc-time-slot { border-top: 1px solid #f1f5f9; }
         .rbc-event { padding: 3px 5px !important; }
         .rbc-event-label { display: none !important; }
-        .rbc-now { color: #1976D2; font-weight: 900; }
-        .rbc-current-time-indicator { background-color: #1976D2; }
+        .rbc-now { color: #0E4B2B; font-weight: 900; }
+        .rbc-current-time-indicator { background-color: #0E4B2B; }
         .rbc-button-link { color: inherit; font-weight: bold; }
         .dark .rbc-calendar { color: #e2e8f0; }
         .dark .rbc-header { color: #94a3b8; border-bottom-color: #374151; }

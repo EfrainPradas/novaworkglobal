@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../lib/supabase'
+import { activateCorePlan } from '../services/billing.service'
 import posthog from 'posthog-js'
 
 export default function AuthCallback() {
@@ -48,6 +49,15 @@ export default function AuthCallback() {
         setStatus('success')
         setMessage(t('auth.callback.successMessage'))
 
+        // Check if user has completed contact info (mandatory first step)
+        const { data: contactProfile } = await supabase
+          .from('user_contact_profile')
+          .select('contact_info_complete')
+          .eq('user_id', session.user.id)
+          .maybeSingle()
+
+        const contactInfoComplete = contactProfile?.contact_info_complete === true
+
         // Check if user has seen Career Vision prompt
         const { data: profile } = await supabase
           .from('user_profiles')
@@ -55,19 +65,33 @@ export default function AuthCallback() {
           .eq('user_id', session.user.id)
           .maybeSingle()
 
-        // Check if user selected a plan from landing page
+        // Check if user selected a paid plan from landing page
         const pendingPlan = localStorage.getItem('novawork_pending_plan')
+
+        // Activate Core (free) plan for users without a pending paid plan
+        // so ProtectedRoute doesn't block them at the billing page
+        if (!pendingPlan) {
+          try {
+            await activateCorePlan()
+          } catch (e) {
+            console.warn('Failed to activate Core plan:', e)
+            // Non-blocking — user can still reach contact setup via bypass path
+          }
+        }
 
         setTimeout(() => {
           if (pendingPlan) {
-            // User chose a plan before signing up — take them to billing to complete checkout
-            navigate(`/dashboard/billing?pending_plan=${pendingPlan}`, { replace: true })
+            // User chose a paid plan before signing up — take them to billing to complete checkout
+            window.location.href = `/dashboard/billing?pending_plan=${pendingPlan}`
+          } else if (!contactInfoComplete) {
+            // New user or user without contact info — set up contact info first
+            window.location.href = '/dashboard/resume/contact-info'
           } else if (!profile || !profile.has_seen_career_vision_prompt) {
-            // New user - show Career Vision welcome
-            navigate('/dashboard/career-vision/welcome', { replace: true })
+            // User has contact info but hasn't seen career vision
+            window.location.href = '/dashboard/career-vision/welcome'
           } else {
-            // Existing user - go to dashboard
-            navigate('/dashboard', { replace: true })
+            // Existing user with everything complete — go to dashboard
+            window.location.href = '/dashboard'
           }
         }, 2000)
       } else {

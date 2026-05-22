@@ -25,7 +25,7 @@ const VIDEOS = [
         id: 3,
         title: "Navigating the Platform",
         duration: "1:45",
-        description: "A quick tour of the tools available to you in NovaWork Global.",
+        description: "A quick tour of the tools available to you in Ascendia.",
         thumbnail: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
     }
 ]

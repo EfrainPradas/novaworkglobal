@@ -6,9 +6,12 @@ import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
 import { useGuidedStep } from '../../hooks/useGuidedStep'
 import { CompletionCelebration } from '../../components/guided-path'
+import { usePlanTier } from '../../hooks/usePlanTier'
+import UpgradePrompt from '../../components/billing/UpgradePrompt'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
+    const { can: canUse } = usePlanTier()
     const [showCelebration, setShowCelebration] = useState(false)
 
     // Trigger celebration when guided path is complete
@@ -86,28 +89,12 @@ export default function ResumeFinalPreview() {
                 const { data: work } = await supabase
                     .from('work_experience').select('*, accomplishments(*)')
                     .eq('resume_id', masterResume.id).order('start_date', { ascending: false })
-                workExperience = work || []
-
-                // Merge AI-generated bullets from accomplishment_bank (AI first, no duplicates)
-                const { data: aiBullets } = await supabase
-                    .from('accomplishment_bank')
-                    .select('id, bullet_text, role_title, company_name')
-                    .eq('user_id', uid)
-                    .eq('source', 'ai_generated')
-                if (aiBullets && aiBullets.length > 0) {
-                    workExperience = workExperience.map((exp: any) => {
-                        const matching = aiBullets.filter(
-                            b => b.role_title?.toLowerCase().trim() === exp.job_title?.toLowerCase().trim()
-                        )
-                        if (matching.length === 0) return exp
-                        const existingTexts = new Set((exp.accomplishments || []).map((a: any) => a.bullet_text?.toLowerCase().trim()))
-                        const newAI = matching
-                            .filter(b => !existingTexts.has(b.bullet_text?.toLowerCase().trim()))
-                            .map((b, i) => ({ id: `ai-${b.id}`, bullet_text: b.bullet_text, source: 'ai_generated', order_index: -(matching.length - i) }))
-                        const combined = [...newAI, ...(exp.accomplishments || [])]
-                        return { ...exp, accomplishments: combined }
-                    })
-                }
+                workExperience = (work || []).map((exp: any) => {
+                    const filteredAccomplishments = (exp.accomplishments || [])
+                        .filter((a: any) => a.is_visible !== false)
+                        .sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0))
+                    return { ...exp, accomplishments: filteredAccomplishments }
+                })
 
                 const { data: edu } = await supabase
                     .from('education').select('*')
@@ -342,9 +329,13 @@ export default function ResumeFinalPreview() {
                         <button onClick={() => window.print()} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
                             <Printer className="w-4 h-4" /> Print
                         </button>
+                        {canUse('canExportResume') ? (
                         <button onClick={handleExport} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium text-sm">
                             <Download className="w-4 h-4" /> Word
                         </button>
+                        ) : (
+                        <UpgradePrompt feature="Resume export" className="flex-1 md:flex-none" />
+                        )}
                         <button onClick={() => navigate('/dashboard/resume/tracking?mode=standalone')} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 rounded-xl hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors font-bold text-sm">
                             Finish
                         </button>

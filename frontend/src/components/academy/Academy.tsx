@@ -48,7 +48,7 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: 'spring', stiffness: 120, damping: 16 }
+    transition: { type: 'spring' as const, stiffness: 120, damping: 16 }
   }
 }
 
@@ -142,7 +142,7 @@ const ModuleCard: React.FC<ModuleCardProps> = ({ node, resources, onResourceClic
   return (
     <motion.div
       variants={itemVariants}
-      whileHover={{ y: -4, transition: { type: 'spring', stiffness: 400, damping: 25 } }}
+      whileHover={{ y: -4, transition: { type: 'spring' as const, stiffness: 400, damping: 25 } }}
       className="relative rounded-2xl bg-white border border-slate-200/60 shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col"
       style={{ overflow: 'visible' }}
     >
@@ -405,7 +405,7 @@ const Academy: React.FC<{ onOpenAdmin?: () => void; onNewNode?: () => void }> = 
             <span className="hidden sm:inline">Back</span>
           </button>
           <span className="text-xl font-bold bg-gradient-to-r from-primary-700 to-primary-600 bg-clip-text text-transparent">
-            NovaNext Academy
+            Nova Insights
           </span>
           <nav className="hidden md:flex gap-1 ml-8">
             <a className="text-primary-700 bg-primary-50 rounded-full px-4 py-1.5 text-sm font-medium" href="#">Explorer</a>

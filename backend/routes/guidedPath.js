@@ -57,11 +57,21 @@ router.post('/enable', async (req, res) => {
 /**
  * POST /api/guided-path/disable
  * Disable guided mode without losing progress.
+ *
+ * Looks up ANY run (including completed) because the user may want to turn
+ * off the Smart Guide indicators even after finishing the path.
  */
 router.post('/disable', async (req, res) => {
   try {
     const userId = req.user.id
-    const run = await getActiveRun(userId)
+
+    const { data: run } = await supabaseAdmin
+      .from('guided_path_runs')
+      .select('id')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
 
     if (run) {
       await supabaseAdmin

@@ -99,7 +99,7 @@ export default function GuidedStepFooter({
                   padding: '8px 18px',
                   borderRadius: 8,
                   border: 'none',
-                  background: '#1F5BAA',
+                  background: '#0E4B2B',
                   color: '#fff',
                   fontSize: 13,
                   fontWeight: 600,

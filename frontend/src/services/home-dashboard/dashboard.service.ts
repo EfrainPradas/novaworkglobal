@@ -84,7 +84,7 @@ export async function getUserName(userId: string): Promise<string | null> {
   }
 }
 
-export async function getUserTier(userId: string): Promise<'esenciales' | 'momentum' | 'vanguard'> {
+export async function getUserTier(userId: string): Promise<'core' | 'advance' | 'apex'> {
   try {
     const { data } = await supabase
       .from('users')
@@ -92,14 +92,22 @@ export async function getUserTier(userId: string): Promise<'esenciales' | 'momen
       .eq('id', userId)
       .single()
 
-    if (!data?.subscription_tier) return 'esenciales'
+    if (!data?.subscription_tier) return 'core'
 
     const t = data.subscription_tier
-    if (t === 'basic') return 'esenciales'
-    if (t === 'pro') return 'momentum'
-    if (t === 'vanguard') return 'vanguard'
-    return 'esenciales'
+    // New Ascendia codes
+    if (t === 'core') return 'core'
+    if (t === 'advance') return 'advance'
+    if (t === 'apex') return 'apex'
+    // Legacy NovaWork codes (backward compat)
+    if (t === 'esenciales') return 'core'
+    if (t === 'momentum') return 'advance'
+    if (t === 'vanguard') return 'apex'
+    // Legacy generic codes
+    if (t === 'basic') return 'core'
+    if (t === 'pro') return 'advance'
+    return 'core'
   } catch {
-    return 'esenciales'
+    return 'core'
   }
 }

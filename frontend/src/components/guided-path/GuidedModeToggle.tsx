@@ -32,21 +32,21 @@ export default function GuidedModeToggle() {
         padding: '14px 16px',
         borderRadius: 12,
         background: isGuidedMode
-          ? 'linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 100%)'
+          ? 'linear-gradient(135deg, #EAF4EC 0%, #F4FAF5 100%)'
           : '#F9FAFB',
-        border: isGuidedMode ? '1px solid #BFDBFE' : '1px solid #E5E7EB',
+        border: isGuidedMode ? '1px solid #A8D4B0' : '1px solid #E5E7EB',
         marginBottom: 16,
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <Sparkles size={18} style={{ color: isGuidedMode ? '#1F5BAA' : '#9CA3AF' }} />
+          <Sparkles size={18} style={{ color: isGuidedMode ? '#0E4B2B' : '#9CA3AF' }} />
           <div>
             <div style={{
               fontSize: 13,
               fontWeight: 600,
               fontFamily: 'Montserrat, sans-serif',
-              color: isGuidedMode ? '#1F5BAA' : '#374151',
+              color: isGuidedMode ? '#0E4B2B' : '#374151',
             }}>
               Smart Guide
             </div>
@@ -67,7 +67,7 @@ export default function GuidedModeToggle() {
             borderRadius: 12,
             border: 'none',
             cursor: isLoading ? 'wait' : 'pointer',
-            background: isGuidedMode ? '#1F5BAA' : '#D1D5DB',
+            background: isGuidedMode ? '#0E4B2B' : '#D1D5DB',
             position: 'relative',
             transition: 'background 0.2s',
             flexShrink: 0,
@@ -125,7 +125,7 @@ export default function GuidedModeToggle() {
                 fontWeight: 500,
                 borderRadius: 6,
                 border: 'none',
-                background: '#1F5BAA',
+                background: '#0E4B2B',
                 color: '#fff',
                 cursor: 'pointer',
               }}

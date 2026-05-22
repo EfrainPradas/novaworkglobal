@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { supabase } from '../../lib/supabase'
 import LanguageSelector from '../../components/LanguageSelector'
+import { LogoAscendia } from '../../components/common/LogoAscendia'
 
 export default function ResetPassword() {
   const navigate = useNavigate()
@@ -94,8 +95,10 @@ export default function ResetPassword() {
           </div>
 
           <div className="flex justify-center mb-6">
-            <img src="/logo.png" alt="NovaWork Global" className="h-24 w-auto block dark:hidden" />
-            <img src="/logo-white.png" alt="NovaWork Global" className="h-24 w-auto hidden dark:block" />
+            <LogoAscendia
+              className="h-20 w-auto text-[#91c171] cursor-pointer"
+              onClick={() => navigate('/')}
+            />
           </div>
           <h1 className="text-4xl font-heading font-bold text-gray-900 mb-2">
             {t('auth.resetPassword.title')}

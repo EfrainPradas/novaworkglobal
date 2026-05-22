@@ -15,7 +15,7 @@ interface ResourcesFeedProps {
 const RESOURCE_ICONS: Record<ResourceType, { icon: React.ReactNode; bg: string; color: string }> = {
   article: { icon: <BookOpen size={16} />, bg: '#E8F5E9', color: '#2E7D32' },
   video:   { icon: <Video size={16} />,    bg: '#F3E5F5', color: '#6A1B9A' },
-  pdf:     { icon: <FileText size={16} />, bg: '#E3F2FD', color: '#1565C0' },
+  pdf:     { icon: <FileText size={16} />, bg: '#EAF4EC', color: '#0E4B2B' },
   tool:    { icon: <Wrench size={16} />,   bg: '#FFF3E0', color: '#E65100' },
 }
 
@@ -58,7 +58,7 @@ export default function ResourcesFeed({ userLevel }: ResourcesFeedProps) {
         <button
           onClick={() => navigate('/shared-resources')}
           className="flex items-center gap-1 text-xs font-medium hover:underline"
-          style={{ color: '#1976D2' }}
+          style={{ color: '#0E4B2B' }}
         >
           {t('dashboard.cta.viewAll')}
           <ChevronRight size={13} />

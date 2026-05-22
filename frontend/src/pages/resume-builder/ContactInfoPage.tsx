@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { ArrowLeft, ArrowRight, User, Phone, MapPin, Globe, Linkedin, ExternalLink, AlertCircle, Loader2, CheckCircle2 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
+import { activateCorePlan } from '../../services/billing.service'
 import { trackEvent } from '../../lib/analytics'
 import { COUNTRIES, US_STATES } from '../../constants/locations'
 import { useGuidedStep } from '../../hooks/useGuidedStep'
@@ -19,6 +20,7 @@ export default function ContactInfoPage() {
     const [saveError, setSaveError] = useState<string | null>(null)
     const [userId, setUserId] = useState<string | null>(null)
     const [errors, setErrors] = useState<Record<string, string>>({})
+    const [isExistingProfile, setIsExistingProfile] = useState(false)
 
     const [form, setForm] = useState({
         first_name: '',
@@ -56,6 +58,7 @@ export default function ContactInfoPage() {
                 .maybeSingle()
 
             if (!error && data) {
+                setIsExistingProfile(true)
                 setForm({
                     first_name: data.first_name || '',
                     middle_name: data.middle_name || '',
@@ -125,12 +128,24 @@ export default function ContactInfoPage() {
                 const body = await resp.json().catch(() => ({}))
                 throw new Error(body?.error || 'Failed to save. The database migration may not have been run yet.')
             }
-            // Success — move to next step
+            // Success — ensure Core plan is activated before moving on
+            try { await activateCorePlan() } catch (e) { console.warn('Core plan activation skipped:', e) }
             await trackEvent('analytics', 'step_completed', { step_name: 'contact-details', next_step: 'work-experience' })
             if (guided.isGuidedMode && guided.nextStepRoute) {
                 guided.completeAndAdvance()
             } else {
-                navigate('/dashboard/resume/work-experience')
+                // Check if user should go to career vision (first-time setup flow)
+                const { data: profile } = await supabase
+                    .from('user_profiles')
+                    .select('has_seen_career_vision_prompt')
+                    .eq('user_id', userId!)
+                    .maybeSingle()
+
+                if (!profile || !profile.has_seen_career_vision_prompt) {
+                    navigate('/dashboard/career-vision/welcome', { replace: true })
+                } else {
+                    navigate('/dashboard/resume/work-experience')
+                }
             }
         } catch (err: any) {
             console.error('Error saving contact profile:', err)
@@ -144,7 +159,17 @@ export default function ContactInfoPage() {
         if (guided.isGuidedMode) {
             guided.skipAndAdvance()
         } else {
-            navigate('/dashboard/resume/work-experience')
+            const { data: profile } = await supabase
+                .from('user_profiles')
+                .select('has_seen_career_vision_prompt')
+                .eq('user_id', userId!)
+                .maybeSingle()
+
+            if (!profile || !profile.has_seen_career_vision_prompt) {
+                navigate('/dashboard/career-vision/welcome', { replace: true })
+            } else {
+                navigate('/dashboard/resume/work-experience')
+            }
         }
     }
 
@@ -163,32 +188,34 @@ export default function ContactInfoPage() {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
-                <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+                <Loader2 className="w-8 h-8 animate-spin" style={{ color: 'var(--ascendia-primary)' }} />
             </div>
         )
     }
 
     const inputClass = (field: string) =>
-        `w-full px-4 py-2.5 rounded-xl border ${errors[field] ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all`
+        `w-full px-4 py-2.5 rounded-xl border ${errors[field] ? 'border-red-400 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'} bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-600 outline-none transition-all`
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 p-4 md:p-8">
             <div className="max-w-3xl mx-auto">
-                {/* Back nav */}
-                <button
-                    onClick={() => navigate('/dashboard')}
-                    className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
-                >
-                    <ArrowLeft className="w-4 h-4" /> {t('common.backToDashboard', 'Back to Dashboard')}
-                </button>
+                {/* Back nav — hidden for first-time setup (user was redirected here) */}
+                {isExistingProfile && (
+                    <button
+                        onClick={() => navigate('/dashboard')}
+                        className="flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white mb-6 transition-colors"
+                    >
+                        <ArrowLeft className="w-4 h-4" /> {t('common.backToDashboard', 'Back to Dashboard')}
+                    </button>
+                )}
 
                 {/* Smart Guide context badge */}
                 {guided.isGuidedMode && (
                     <div className="flex items-center gap-2 mb-4">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: '#EFF6FF', color: '#1F5BAA' }}>
-                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#1F5BAA', display: 'inline-block' }} />
-                            {t('contactInfo.smartGuideStep', 'Smart Guide — Step {{current}} of {{total}}', { current: 1, total: 6 })}
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold" style={{ background: 'var(--ascendia-accent)', color: 'var(--ascendia-primary)' }}>
+                            <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--ascendia-primary)', display: 'inline-block' }} />
+                            {t('contactInfo.stepBadge', 'Contact Information Setup · Step {{current}} of {{total}}', { current: 1, total: 6 })}
                         </span>
                     </div>
                 )}
@@ -196,23 +223,49 @@ export default function ContactInfoPage() {
                 {/* Title */}
                 <div className="mb-8">
                     <div className="flex items-center gap-3 mb-3">
-                        <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: '#EFF6FF' }}>
-                            <User className="w-5 h-5" style={{ color: '#1F5BAA' }} />
+                        <div className="w-11 h-11 rounded-xl flex items-center justify-center" style={{ background: 'var(--ascendia-accent)' }}>
+                            <User className="w-5 h-5" style={{ color: 'var(--ascendia-primary)' }} />
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
-                                {t('contactInfo.title', 'Contact Information')}
+                                {t('contactInfo.title', 'Contact Information Setup')}
                             </h1>
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                                {t('contactInfo.subtitle', 'This information will appear at the top of your resume')}
+                                {t('contactInfo.subtitle', 'Add the contact details that will appear at the top of your resume. This helps recruiters quickly identify you and know how to reach you.')}
                             </p>
                         </div>
                     </div>
                 </div>
 
+                {/* Progress indicator */}
+                {guided.isGuidedMode && (
+                    <div className="mb-4">
+                        <div className="flex items-center justify-between mb-1">
+                            <span className="text-xs font-medium" style={{ color: 'var(--ascendia-text-muted)' }}>
+                                {t('contactInfo.progressLabel', 'Step 1 of 6')}
+                            </span>
+                            <span className="text-xs font-semibold" style={{ color: 'var(--ascendia-primary)' }}>
+                                16%
+                            </span>
+                        </div>
+                        <div className="w-full h-1.5 rounded-full" style={{ background: 'var(--ascendia-border)' }}>
+                            <div className="h-1.5 rounded-full" style={{ width: '16%', background: 'var(--ascendia-primary)' }} />
+                        </div>
+                    </div>
+                )}
+
                 {/* Form Card */}
                 <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl border border-gray-200 dark:border-gray-700">
                     <div className="p-6 md:p-8 space-y-5">
+                        {/* Section heading */}
+                        <div>
+                            <h2 className="text-lg font-bold text-gray-900 dark:text-white" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                                {t('contactInfo.sectionHeading', 'Resume Contact Details')}
+                            </h2>
+                            <p className="text-xs mt-1" style={{ color: 'var(--ascendia-text-muted)' }}>
+                                {t('contactInfo.requiredFieldsHelper', 'Required fields are marked with *.')}
+                            </p>
+                        </div>
 
                         {/* Name Row */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -386,11 +439,11 @@ export default function ContactInfoPage() {
                             onClick={handleSave}
                             disabled={saving}
                             className="w-full py-3.5 px-6 text-white font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 shadow-lg flex items-center justify-center gap-2"
-                            style={{ background: '#1F5BAA' }}
+                            style={{ background: 'var(--ascendia-primary)' }}
                         >
                             {saving ? t('common.saving', 'Saving...') : (
                                 <>
-                                    {t('contactInfo.saveAndContinue', 'Save & Continue')}
+                                    {t('contactInfo.continueToWorkExperience', 'Continue to Work Experience')}
                                     <ArrowRight className="w-5 h-5" />
                                 </>
                             )}
@@ -400,6 +453,14 @@ export default function ContactInfoPage() {
                             className="w-full py-2.5 text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 font-medium transition-colors"
                         >
                             {t('contactInfo.skipForNow', 'Skip for now')} →
+                        </button>
+                        <button
+                            onClick={handleSave}
+                            disabled={saving}
+                            className="w-full py-2.5 text-sm font-medium transition-colors"
+                            style={{ color: 'var(--ascendia-text-muted)' }}
+                        >
+                            {saving ? '' : t('contactInfo.saveDraft', 'Save Draft')}
                         </button>
                     </div>
                 </div>

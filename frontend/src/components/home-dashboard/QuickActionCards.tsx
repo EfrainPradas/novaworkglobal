@@ -49,7 +49,7 @@ function MiniCalendar() {
                 style={{
                   width: 22,
                   height: 22,
-                  background: day === todayDate ? '#1976D2' : 'transparent',
+                  background: day === todayDate ? '#0E4B2B' : 'transparent',
                   color: day === todayDate ? '#fff' : day < todayDate ? '#CBD5E1' : '#334155',
                   fontWeight: day === todayDate ? 700 : 500,
                 }}
@@ -81,11 +81,11 @@ export default function QuickActionCards() {
         <div className="flex items-start justify-between">
           <span
             className="flex items-center justify-center rounded-xl"
-            style={{ width: 40, height: 40, background: '#EFF6FF', color: '#1976D2' }}
+            style={{ width: 40, height: 40, background: '#EAF4EC', color: '#0E4B2B' }}
           >
             <Zap size={18} />
           </span>
-          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors mt-1" />
+          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-green-600 transition-colors mt-1" />
         </div>
         <div>
           <p className="text-sm font-bold text-slate-800 dark:text-white mb-0.5">{t('dashboard.cta.continueProgram')}</p>
@@ -101,7 +101,7 @@ export default function QuickActionCards() {
       >
         <div className="flex items-start justify-between mb-1">
           <p className="text-sm font-bold text-slate-800 dark:text-white">{t('dashboard.cta.viewCalendar')}</p>
-          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-blue-500 transition-colors mt-0.5" />
+          <ChevronRight size={16} className="text-slate-300 dark:text-gray-500 group-hover:text-green-600 transition-colors mt-0.5" />
         </div>
         <MiniCalendar />
       </button>

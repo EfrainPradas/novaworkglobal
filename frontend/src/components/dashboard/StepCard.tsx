@@ -70,7 +70,7 @@ export default function StepCard({ step, loading, onLearnMore, icon, iconBg, ico
       {/* Learn more */}
       <span
         className="flex items-center gap-0.5 text-xs font-medium"
-        style={{ color: '#1976D2' }}
+        style={{ color: '#0E4B2B' }}
       >
         Learn more <ChevronDown size={12} />
       </span>

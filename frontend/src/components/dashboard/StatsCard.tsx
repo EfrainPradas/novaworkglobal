@@ -17,7 +17,7 @@ function ProgressRing({ percent, size = 56, strokeWidth = 5 }: { percent: number
       <circle cx={cx} cy={cx} r={r} fill="none" stroke="#E2E8F0" strokeWidth={strokeWidth} />
       <circle
         cx={cx} cy={cx} r={r}
-        fill="none" stroke="#1976D2" strokeWidth={strokeWidth}
+        fill="none" stroke="#0E4B2B" strokeWidth={strokeWidth}
         strokeLinecap="round"
         strokeDasharray={`${circ}`}
         strokeDashoffset={`${offset}`}
@@ -92,7 +92,7 @@ export default function StatsCard({ stats, loading, weekLabel = 'Mar 18–24' }:
       <div className="h-1.5 rounded-full overflow-hidden mb-5" style={{ background: '#E2E8F0' }}>
         <div
           className="h-full rounded-full transition-all duration-500"
-          style={{ width: `${scorePercent}%`, background: '#1976D2' }}
+          style={{ width: `${scorePercent}%`, background: '#0E4B2B' }}
         />
       </div>
 

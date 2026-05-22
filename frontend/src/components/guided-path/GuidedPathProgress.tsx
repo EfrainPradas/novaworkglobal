@@ -102,7 +102,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                   <span style={{
                     fontSize: compact ? 12 : 13,
                     fontWeight: isActive ? 600 : 500,
-                    color: isActive ? '#1F5BAA' : isComplete ? '#10B981' : '#374151',
+                    color: isActive ? '#0E4B2B' : isComplete ? '#10B981' : '#374151',
                     fontFamily: 'DM Sans, sans-serif',
                     lineHeight: 1.3,
                     flex: 1,
@@ -115,8 +115,8 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                     <span style={{
                       fontSize: 10,
                       fontWeight: 600,
-                      color: '#1F5BAA',
-                      background: '#EFF6FF',
+                      color: '#0E4B2B',
+                      background: '#EAF4EC',
                       padding: '2px 6px',
                       borderRadius: 4,
                     }}>
@@ -143,7 +143,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                     marginTop: 6,
                     fontSize: 11,
                     fontWeight: 500,
-                    color: '#1F5BAA',
+                    color: '#0E4B2B',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 4,
@@ -152,7 +152,7 @@ export default function GuidedPathProgress({ compact = false }: GuidedPathProgre
                       width: 5,
                       height: 5,
                       borderRadius: '50%',
-                      background: '#1F5BAA',
+                      background: '#0E4B2B',
                     }} />
                     {t('guidedPath.recommendedNext', 'Recommended next')}
                   </div>

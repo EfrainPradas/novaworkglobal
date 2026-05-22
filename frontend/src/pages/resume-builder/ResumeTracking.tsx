@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 // import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
+import { usePlanTier } from '../../hooks/usePlanTier'
 
 interface TrackedResume {
   id: string
@@ -40,6 +41,7 @@ interface ResumeTrackingProps {
 }
 
 export default function ResumeTracking({ embedded = false }: ResumeTrackingProps) {
+  const { can: canUse } = usePlanTier()
   // const { t } = useTranslation()
   const navigate = useNavigate()
   const [userId, setUserId] = useState<string | null>(null)
@@ -559,6 +561,7 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
                     >
                       ✏️ Edit
                     </button>
+                    {canUse('canExportResume') ? (
                     <button
                       onClick={() => handleDownloadResume(resume)}
                       className="px-3 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
@@ -566,6 +569,14 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
                     >
                       📥 Download
                     </button>
+                    ) : (
+                    <span
+                      className="px-3 py-1.5 text-xs font-medium text-slate-400 cursor-not-allowed rounded-lg"
+                      title="Upgrade to download"
+                    >
+                      🔒 Download
+                    </span>
+                    )}
                     <button
                       onClick={() => handleDeleteResume(resume)}
                       className="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors"

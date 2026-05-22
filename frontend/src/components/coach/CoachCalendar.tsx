@@ -8,7 +8,7 @@ import { Calendar as CalendarIcon, Clock, User } from "lucide-react"
 // Set up the localizer for react-big-calendar
 const localizer = momentLocalizer(moment)
 
-const Badge = ({ children, color = "#0ea5e9", bg = "#e0f2fe" }: { children: React.ReactNode; color?: string; bg?: string }) => (
+const Badge = ({ children, color = "#4F8F55", bg = "#EAF4EC" }: { children: React.ReactNode; color?: string; bg?: string }) => (
     <span style={{ padding: "4px 10px", borderRadius: 8, fontSize: 11, fontWeight: 800, color, background: bg, display: "inline-block" }}>
         {children}
     </span>
@@ -90,7 +90,7 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
         let statusColor = "#64748b"
         let statusBg = "#f1f5f9"
         if (session.status === 'confirmed') { statusColor = "#22c55e"; statusBg = "#dcfce7" }
-        if (session.status === 'scheduled') { statusColor = "#0ea5e9"; statusBg = "#e0f2fe" }
+        if (session.status === 'scheduled') { statusColor = "#4F8F55"; statusBg = "#EAF4EC" }
         if (session.status === 'pending') { statusColor = "#f59e0b"; statusBg = "#fef3c7" }
         if (session.status === 'completed') { statusColor = "#8b5cf6"; statusBg = "#ede9fe" }
         if (session.status === 'cancelled' || session.status === 'declined') { statusColor = "#ef4444"; statusBg = "#fee2e2" }
@@ -175,7 +175,7 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-header { padding: 8px 0; font-weight: 800; color: #475569; text-transform: uppercase; font-size: 11px; border-bottom: 2px solid #e2e8f0; }
                 .rbc-header + .rbc-header { border-left: 1px solid #e2e8f0; }
                 .rbc-date-cell { font-weight: 700; color: #64748b; padding: 4px 8px; font-size: 12px; }
-                .rbc-today { background-color: #f0f9ff !important; }
+                .rbc-today { background-color: #F4FAF5 !important; }
                 .rbc-off-range-bg { background-color: #f8fafc; }
                 .rbc-month-view, .rbc-time-view { border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; background: #fff; }
                 .rbc-day-bg { border-left: 1px solid #e2e8f0; }
@@ -190,8 +190,8 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 .rbc-month-row { min-height: 100px; }
                 /* Ensure label is visible */
                 .rbc-button-link { color: inherit; font-weight: bold; }
-                .rbc-now { color: #0ea5e9; font-weight: 900; }
-                .rbc-current-time-indicator { background-color: #0ea5e9; }
+                .rbc-now { color: #4F8F55; font-weight: 900; }
+                .rbc-current-time-indicator { background-color: #4F8F55; }
                 @media (max-width: 768px) {
                     .rbc-header { font-size: 9px; padding: 4px 0; }
                     .rbc-date-cell { font-size: 10px; padding: 2px 4px; }
@@ -220,8 +220,8 @@ export default function CoachCalendar({ coachId }: CoachCalendarProps) {
                 }}
                 eventPropGetter={(event) => {
                     const isPast = event.end < new Date()
-                    let bg = "#38bdf8"
-                    let border = "#0284c7"
+                    let bg = "#6BB87E"
+                    let border = "#357A3E"
                     
                     if (event.resource.status === 'confirmed') { bg = "#22c55e"; border = "#16a34a" }
                     else if (event.resource.status === 'pending') { bg = "#f59e0b"; border = "#d97706" }

@@ -31,7 +31,7 @@ interface MenuItem {
   icon: React.ElementType
   color: string
   badge?: string
-  requiredLevel: 'esenciales' | 'momentum' | 'vanguard'
+  requiredLevel: 'core' | 'advance' | 'apex'
   route: string
   steps: string[]
 }
@@ -46,7 +46,7 @@ export default function MainMenu() {
   const navigate = useNavigate()
 
   // Default to Basic level until loaded
-  const [userLevel, setUserLevel] = useState<'esenciales' | 'momentum' | 'vanguard'>('esenciales')
+  const [userLevel, setUserLevel] = useState<'core' | 'advance' | 'apex'>('core')
 
   const toggleCard = (cardId: string) => {
     setExpandedCards(prev => {
@@ -67,7 +67,7 @@ export default function MainMenu() {
       description: 'Discover your ideal career path through AI-powered assessment and planning',
       icon: Star,
       color: 'from-blue-600 to-indigo-600',
-      requiredLevel: 'momentum',
+      requiredLevel: 'advance',
       route: '/dashboard/career-vision',
       steps: [
         'Career Vision Discovery',
@@ -82,7 +82,7 @@ export default function MainMenu() {
       description: 'Create a powerful resume that gets noticed by recruiters and ATS systems',
       icon: FileText,
       color: 'from-blue-500 to-cyan-500',
-      requiredLevel: 'esenciales',
+      requiredLevel: 'core',
       route: '/dashboard/resume-builder',
       steps: [
         'Work Experience',
@@ -99,7 +99,7 @@ export default function MainMenu() {
       description: 'Strategic job search with smart tracking, networking, and application management',
       icon: Search,
       color: 'from-emerald-600 to-teal-600',
-      requiredLevel: 'momentum',
+      requiredLevel: 'advance',
       route: '/dashboard/job-search/plan-your-search',
       steps: [
         'Plan Your Search',
@@ -115,7 +115,7 @@ export default function MainMenu() {
       description: 'Complete interview preparation system with practice and strategy tools',
       icon: Users,
       color: 'from-slate-700 to-slate-900',
-      requiredLevel: 'vanguard',
+      requiredLevel: 'apex',
       route: '/dashboard/interview',
       steps: [
         'Interview Type Guide',
@@ -199,14 +199,17 @@ export default function MainMenu() {
           console.log('🏷️ Raw Tier from DB:', tier)
 
           // Map old tier names to new ones
-          if (tier === 'basic') tier = 'esenciales'
-          if (tier === 'pro') tier = 'momentum'
+          if (tier === 'basic') tier = 'core'
+          if (tier === 'pro') tier = 'advance'
+          if (tier === 'esenciales') tier = 'core'
+          if (tier === 'momentum') tier = 'advance'
+          if (tier === 'vanguard') tier = 'apex'
 
           console.log('🏷️ Normalized Tier:', tier)
-          setUserLevel(tier as 'esenciales' | 'momentum' | 'vanguard')
+          setUserLevel(tier as 'core' | 'advance' | 'apex')
         } else {
-          console.log('⚠️ No specific tier found, defaulting to essentials')
-          setUserLevel('esenciales')
+          console.log('⚠️ No specific tier found, defaulting to core')
+          setUserLevel('core')
         }
 
         // Load user profile
@@ -226,7 +229,7 @@ export default function MainMenu() {
   }
 
   const canAccess = (requiredLevel: string) => {
-    const levels = { esenciales: 1, momentum: 2, vanguard: 3 }
+    const levels = { core: 1, advance: 2, apex: 3 }
     return levels[userLevel] >= levels[requiredLevel as keyof typeof levels]
   }
 
@@ -263,30 +266,30 @@ export default function MainMenu() {
   }
 
   const getAccessBadge = (requiredLevel: string) => {
-    if (requiredLevel === 'esenciales') return null
-    if (requiredLevel === 'momentum') {
+    if (requiredLevel === 'core') return null
+    if (requiredLevel === 'advance') {
       return canAccess(requiredLevel) ? (
         <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs rounded-full flex items-center">
           <Star className="h-3 w-3 mr-1" />
-          Momentum
+          Advance
         </span>
       ) : (
         <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full flex items-center">
           <Lock className="h-3 w-3 mr-1" />
-          Momentum Required
+          Advance Required
         </span>
       )
     }
-    if (requiredLevel === 'vanguard') {
+    if (requiredLevel === 'apex') {
       return canAccess(requiredLevel) ? (
         <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs rounded-full flex items-center">
           <Crown className="h-3 w-3 mr-1" />
-          Executive
+          Apex
         </span>
       ) : (
         <span className="px-2 py-1 bg-gray-100 text-gray-500 text-xs rounded-full flex items-center">
           <Lock className="h-3 w-3 mr-1" />
-          Executive Required
+          Apex Required
         </span>
       )
     }
@@ -296,7 +299,7 @@ export default function MainMenu() {
   const handleMenuClick = (item: MenuItem) => {
     if (!canAccess(item.requiredLevel)) {
       // Show upgrade modal
-      alert(`This feature requires ${item.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${item.requiredLevel === 'advance' ? 'Advance' : 'Apex'} membership. Upgrade to unlock this feature!`)
       return
     }
 
@@ -304,9 +307,9 @@ export default function MainMenu() {
     navigate(item.route)
   }
 
-  const handleQuickAccess = (route: string, requiredLevel: 'esenciales' | 'momentum' | 'vanguard') => {
+  const handleQuickAccess = (route: string, requiredLevel: 'core' | 'advance' | 'apex') => {
     if (!canAccess(requiredLevel)) {
-      alert(`This feature requires ${requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'} membership. Upgrade to unlock this feature!`)
+      alert(`This feature requires ${requiredLevel === 'advance' ? 'Advance' : 'Apex'} membership. Upgrade to unlock this feature!`)
       return
     }
     navigate(route)
@@ -330,10 +333,12 @@ export default function MainMenu() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <img src="/logo.png" alt="NovaWork Global" className="h-28 w-auto block dark:hidden" />
-              <img src="/logo-white.png" alt="NovaWork Global" className="h-28 w-auto hidden dark:block" />
+              <div className="flex items-center cursor-pointer" onClick={() => navigate('/')}>
+                <img src="/logo.png" alt="Ascendia" className="h-28 w-auto block dark:hidden" />
+                <img src="/logo-white.png" alt="Ascendia" className="h-28 w-auto hidden dark:block" />
+              </div>
               <div className="hidden sm:block">
-                {getAccessBadge('vanguard')}
+                {getAccessBadge('apex')}
               </div>
             </div>
 
@@ -512,7 +517,7 @@ export default function MainMenu() {
                                 navigate('/upgrade')
                               }}
                             >
-                              Upgrade to {item.requiredLevel === 'momentum' ? 'Momentum' : 'Vanguard'}
+                              Upgrade to {item.requiredLevel === 'advance' ? 'Advance' : 'Apex'}
                             </button>
                           )}
                         </div>
@@ -542,7 +547,7 @@ export default function MainMenu() {
           </div>
           <div className="grid grid-cols-2 xl:grid-cols-5 gap-4">
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'esenciales')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/monday-ritual', 'core')}
               className="p-4 bg-gradient-to-br from-purple-50 to-pink-50 border border-purple-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🎯</div>
@@ -550,7 +555,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'esenciales')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/friday-ritual', 'core')}
               className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">🧠</div>
@@ -558,7 +563,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'esenciales')}
+              onClick={() => handleQuickAccess('/weekly-reinvention/progress', 'core')}
               className="p-4 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2">📊</div>
@@ -566,7 +571,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/coaching', 'esenciales')}
+              onClick={() => handleQuickAccess('/coaching', 'core')}
               className="p-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
@@ -576,7 +581,7 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/shared-resources', 'esenciales')}
+              onClick={() => handleQuickAccess('/shared-resources', 'core')}
               className="p-4 bg-gradient-to-br from-teal-50 to-emerald-50 border border-teal-200 rounded-lg hover:shadow-md transition-all"
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
@@ -586,11 +591,11 @@ export default function MainMenu() {
             </button>
 
             <button
-              onClick={() => handleQuickAccess('/resume/tracking', 'momentum')}
-              className={`p-4 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg hover:shadow-md transition-all ${!canAccess('momentum') ? 'opacity-75' : ''}`}
+              onClick={() => handleQuickAccess('/resume/tracking', 'advance')}
+              className={`p-4 bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg hover:shadow-md transition-all ${!canAccess('advance') ? 'opacity-75' : ''}`}
             >
               <div className="text-2xl mb-2 flex items-center justify-center gap-2">
-                📋 {!canAccess('momentum') && <Lock className="h-4 w-4 text-gray-500" />}
+                📋 {!canAccess('advance') && <Lock className="h-4 w-4 text-gray-500" />}
               </div>
               <div className="text-sm font-medium text-yellow-900">Tracker</div>
             </button>

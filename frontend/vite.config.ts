@@ -30,9 +30,9 @@ export default defineConfig({
         enabled: false  // Disabled: service worker intercepts /api proxy calls in dev mode
       },
       manifest: {
-        name: 'NovaWork Global',
-        short_name: 'NovaWork',
-        description: 'Global Career Management Platform',
+        name: 'Ascendia',
+        short_name: 'Ascendia',
+        description: 'AI-Powered Career Transformation Platform',
         theme_color: '#ffffff',
         background_color: '#ffffff',
         display: 'standalone',

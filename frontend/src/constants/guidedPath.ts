@@ -28,8 +28,8 @@ export interface StepDisplayConfig {
 export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   profile_basic_info: {
     icon: User,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'Contact Information',
     titleKey: 'guidedPath.contactInfo',
     description: 'Set up your professional profile with contact details.',
@@ -42,8 +42,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   resume_experience_capture: {
     icon: Briefcase,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'Work Experience',
     titleKey: 'guidedPath.workExperience',
     description: 'Add your roles, companies, and key responsibilities.',
@@ -56,8 +56,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   experience_foundation: {
     icon: GraduationCap,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'Education & Certifications',
     titleKey: 'guidedPath.educationCerts',
     description: 'Add your educational background and certifications.',
@@ -70,8 +70,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   accomplishment_bank: {
     icon: Trophy,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'Accomplishment Bank',
     titleKey: 'guidedPath.accomplishmentBank',
     description: 'Capture your key professional accomplishments.',
@@ -84,8 +84,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   car_stories: {
     icon: Star,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'CAR Stories',
     titleKey: 'guidedPath.carStories',
     description: 'Build structured stories using Challenge, Action, Result.',
@@ -98,8 +98,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   professional_positioning: {
     icon: ClipboardList,
-    color: '#1F5BAA',
-    bgColor: '#eef6fc',
+    color: '#0E4B2B',
+    bgColor: '#EAF4EC',
     title: 'Professional Positioning',
     titleKey: 'guidedPath.professionalPositioning',
     description: 'Define your professional brand and value proposition.',
@@ -112,8 +112,8 @@ export const STEP_DISPLAY_CONFIG: Record<GuidedStepKey, StepDisplayConfig> = {
   },
   guided_path_complete: {
     icon: FileCheck,
-    color: '#3B82F6',
-    bgColor: '#EFF6FF',
+    color: '#4F8F55',
+    bgColor: '#EAF4EC',
     title: 'Finalize Resume',
     description: 'Review and export your completed resume.',
     tips: [

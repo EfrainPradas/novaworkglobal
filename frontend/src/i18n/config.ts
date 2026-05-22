@@ -7,7 +7,7 @@ import fr from './locales/fr.json'
 import it from './locales/it.json'
 import pt from './locales/pt.json'
 
-const SUPPORTED_LANGS = ['en', 'es', 'fr', 'it', 'pt']
+const SUPPORTED_LANGS = ['en', 'es']
 const STORAGE_KEY = 'novawork_lang'
 
 function getInitialLanguage(): string {

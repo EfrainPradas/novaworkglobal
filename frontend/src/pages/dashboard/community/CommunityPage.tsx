@@ -14,7 +14,7 @@ export default function CommunityPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const [user, setUser] = useState<any>(null)
-  const [userLevel, setUserLevel] = useState<TierLevel>('esenciales')
+  const [userLevel, setUserLevel] = useState<TierLevel>('core')
   const [groups, setGroups] = useState<CommunityGroup[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(false)
@@ -104,8 +104,8 @@ export default function CommunityPage() {
                     className="flex-shrink-0 flex items-center justify-center rounded-xl"
                     style={{
                       width: 44, height: 44,
-                      background: group.color ? `${group.color}18` : '#EFF6FF',
-                      color: group.color ?? '#1976D2',
+                      background: group.color ? `${group.color}18` : '#EAF4EC',
+                      color: group.color ?? '#0E4B2B',
                     }}
                   >
                     <Users size={20} />
@@ -132,7 +132,7 @@ export default function CommunityPage() {
 
                 <button
                   className="w-full py-2 rounded-xl text-sm font-semibold transition-all hover:opacity-90 active:scale-95 text-white"
-                  style={{ background: '#1976D2' }}
+                  style={{ background: '#0E4B2B' }}
                 >
                   {t('dashboard.community.joinGroup')}
                 </button>
