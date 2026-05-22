@@ -12,7 +12,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.png', 'logo.png', 'pwa-192x192.png', 'pwa-512x512.png'],
       workbox: {
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5 MiB
+        maximumFileSizeToCacheInBytes: 6 * 1024 * 1024, // 6 MiB
         cleanupOutdatedCaches: true,
         navigateFallbackDenylist: [/^\/api/, /^\/novaworkglobal-api/],
         runtimeCaching: [
