@@ -32,7 +32,7 @@ async function billingFetch<T>(path: string, options: RequestInit = {}): Promise
 export interface BillingStatus {
   user_id: string
   is_active: boolean
-  membership_code: 'core' | 'advance' | 'apex' | null
+  membership_code: string | null
   subscription_status: string | null
   cancel_at_period_end: boolean
   current_period_end: string | null

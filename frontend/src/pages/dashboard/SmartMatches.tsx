@@ -518,7 +518,8 @@ function MatchCard({
 export default function SmartMatches() {
   const { t } = useTranslation()
   const { can: canUse, membershipCode, loading: tierLoading } = usePlanTier()
-  const canUseSmartMatches = canUse('canUseSmartMatches')
+  // Smart Matches is in beta — access controlled by backend whitelist, not plan tier
+  const canUseSmartMatches = true
   const [tab, setTab] = useState<MatchStatus>('proposed')
   const [briefs, setBriefs] = useState<SmartMatchBrief[]>([])
   const [loading, setLoading] = useState(true)

@@ -175,9 +175,10 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
                       {pos.scope_description && (
                         <p style={{ fontSize: '9.5pt', color: '#333', margin: '2px 0 3px', textAlign: 'justify' }}>{pos.scope_description}</p>
                       )}
-                      {pos.accomplishments && pos.accomplishments.length > 0 && (
+                      {pos.accomplishments && pos.accomplishments.filter((a: any) => a.is_visible !== false).length > 0 && (
                         <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
                           {[...pos.accomplishments]
+                            .filter((a: any) => a.is_visible !== false)
                             .sort((a: any, b: any) => (a.order_index ?? 0) - (b.order_index ?? 0))
                             .map((acc: any) => (
                               <li key={acc.id} style={{ fontSize: '9.5pt', lineHeight: '1.35', marginBottom: '1px' }}>

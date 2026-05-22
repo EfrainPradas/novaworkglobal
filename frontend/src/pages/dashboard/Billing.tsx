@@ -13,6 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { useSubscription } from '../../hooks/useSubscription'
 import { useBillingActions } from '../../hooks/useBillingActions'
 import { getPriceCatalog, getPaymentHistory, activatePlan, type PriceCatalogEntry, type PaymentRecord } from '../../services/billing.service'
+import { tierLevel } from '../../lib/planAccess'
 
 const TIER_LABELS: Record<string, string> = {
   core: 'Ascendia Core',
@@ -283,16 +284,61 @@ export default function Billing() {
       {isActive && memberships.length > 0 && (
         <section>
           <h2 className="text-xl font-heading font-semibold text-navy mb-4">{t('billing.changePlan')}</h2>
-          <p className="text-sm text-gray-500 mb-4">
-            {t('billing.changePlanDescription')}
-          </p>
-          <button
-            onClick={openPortal}
-            disabled={actionLoading}
-            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
-          >
-            {actionLoading ? t('billing.loading') : t('billing.openPortal')}
-          </button>
+          {/* Core users see upgrade cards directly; paid-tier users use the Stripe portal */}
+          {tierLevel(tier) <= 1 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {memberships
+                .filter((p) => p.code !== 'core' && p.code !== 'esenciales')
+                .map((plan) => {
+                  const isPopular = plan.code === 'advance'
+                  return (
+                    <div
+                      key={plan.code}
+                      className={`relative bg-white rounded-xl shadow-sm border p-6 flex flex-col ${
+                        isPopular ? 'border-primary-500 ring-2 ring-primary-500' : ''
+                      }`}
+                    >
+                      {isPopular && (
+                        <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+                          {t('billing.popular')}
+                        </span>
+                      )}
+                      <h3 className="text-lg font-heading font-semibold text-navy">{plan.display_name}</h3>
+                      <div className="mt-2 mb-4 flex items-baseline gap-1">
+                        <span className="text-3xl font-bold text-navy">
+                          ${(plan.unit_amount / 100).toFixed(0)}
+                        </span>
+                        <span className="text-gray-500 text-sm">/{t('billing.perMonth')}</span>
+                      </div>
+                      <button
+                        onClick={() => startCheckout(plan.stripe_price_id)}
+                        disabled={actionLoading}
+                        className={`mt-auto w-full py-2.5 px-4 rounded-lg text-sm font-medium disabled:opacity-50 transition-colors ${
+                          isPopular
+                            ? 'bg-primary-600 text-white hover:bg-primary-700'
+                            : 'bg-gray-100 text-navy hover:bg-gray-200'
+                        }`}
+                      >
+                        {actionLoading ? t('billing.loading') : t('billing.upgrade')}
+                      </button>
+                    </div>
+                  )
+                })}
+            </div>
+          ) : (
+            <>
+              <p className="text-sm text-gray-500 mb-4">
+                {t('billing.changePlanDescription')}
+              </p>
+              <button
+                onClick={openPortal}
+                disabled={actionLoading}
+                className="inline-flex items-center px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 disabled:opacity-50 transition-colors"
+              >
+                {actionLoading ? t('billing.loading') : t('billing.openPortal')}
+              </button>
+            </>
+          )}
         </section>
       )}
 

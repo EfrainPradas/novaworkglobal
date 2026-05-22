@@ -243,6 +243,7 @@ export const AIAccomplishmentExtractor: React.FC<Props> = ({ isOpen, onClose, st
 
                             const currentCount = matchingExp.accomplishments?.length || 0
                             await supabase.from('accomplishments').insert({
+                                user_id: user.id,
                                 work_experience_id: matchingExp.id,
                                 bullet_text: item.bullet_text,
                                 order_index: currentCount,

@@ -53,6 +53,8 @@ export default function ResumeFinalPreview() {
                 .from('user_profiles').select('*').eq('user_id', uid).maybeSingle()
             const { data: user } = await supabase
                 .from('users').select('full_name, email, phone, linkedin_url').eq('id', uid).single()
+            const { data: contactProfile } = await supabase
+                .from('user_contact_profile').select('*').eq('user_id', uid).maybeSingle()
 
             // 2. Master resume — ALWAYS take the LATEST one to ensure consistency with the builder
             const { data: masterResumes } = await supabase
@@ -169,19 +171,31 @@ export default function ResumeFinalPreview() {
                 areasOfExcellence = masterResume?.areas_of_excellence || []
             }
 
+            const contactName = contactProfile
+                ? [contactProfile.first_name, contactProfile.middle_name, contactProfile.last_name]
+                    .filter(Boolean)
+                    .join(' ')
+                : null
+
+            const contactLocation = contactProfile
+                ? [contactProfile.city, contactProfile.state, contactProfile.country]
+                    .filter(Boolean)
+                    .join(', ')
+                : null
+
             setResumeData({
                 contact: {
-                    full_name: masterResume?.full_name || user?.full_name || profile?.full_name,
-                    email: masterResume?.email || user?.email,
-                    phone: masterResume?.phone || user?.phone || profile?.phone,
-                    linkedin: masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url,
-                    linkedin_url: masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url,
-                    location: masterResume?.location_city
+                    full_name: contactName || masterResume?.full_name || user?.full_name || profile?.full_name || null,
+                    email: contactProfile?.email || masterResume?.email || user?.email || null,
+                    phone: contactProfile?.phone || masterResume?.phone || user?.phone || profile?.phone || null,
+                    linkedin: contactProfile?.linkedin_url || masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
+                    linkedin_url: contactProfile?.linkedin_url || masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
+                    location: contactLocation || (masterResume?.location_city
                         ? (masterResume.location_country === 'USA' || !masterResume.location_country
                             ? masterResume.location_city
                             : `${masterResume.location_city}, ${masterResume.location_country}`)
-                        : profile?.current_location,
-                    portfolio: masterResume?.portfolio_url
+                        : profile?.current_location || null),
+                    portfolio: contactProfile?.portfolio_url || masterResume?.portfolio_url || null
                 },
                 summary: combinedProfile,
                 areas_of_excellence: areasOfExcellence,

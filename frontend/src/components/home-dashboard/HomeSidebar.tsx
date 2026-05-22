@@ -22,7 +22,10 @@ import { checkCuratorAccess } from '../../services/careerFeed.service'
 import { supabase } from '../../lib/supabase'
 import { LogoAscendia } from '../common/LogoAscendia'
 
-const SMART_MATCHES_PILOT_EMAIL = 'efrain.pradas@gmail.com'
+const SMART_MATCHES_BETA_EMAILS = new Set([
+  'efrain.pradas@gmail.com',
+  'isabellaprada1994@gmail.com',
+])
 
 interface HomeSidebarProps {
   userLevel: TierLevel
@@ -48,7 +51,7 @@ export default function HomeSidebar({
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      setIsPilotUser(data.user?.email === SMART_MATCHES_PILOT_EMAIL)
+      setIsPilotUser(SMART_MATCHES_BETA_EMAILS.has(data.user?.email?.toLowerCase() ?? ''))
     }).catch(() => setIsPilotUser(false))
   }, [])
 

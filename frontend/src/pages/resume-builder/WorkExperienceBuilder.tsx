@@ -214,6 +214,7 @@ const WorkExperienceBuilder: React.FC = () => {
 
       const nextIndex = (exp.accomplishments || []).length
       const toInsert = newBullets.map((b, i) => ({
+        user_id: userId,
         work_experience_id: workExpId,
         bullet_text: b.bullet_text,
         order_index: nextIndex + i,
@@ -262,6 +263,7 @@ const WorkExperienceBuilder: React.FC = () => {
       const { error } = await supabase
         .from('accomplishments')
         .insert({
+          user_id: userId,
           work_experience_id: workExpId,
           bullet_text: bullet,
           par_story_id: carStoryId || null,
@@ -419,6 +421,7 @@ const WorkExperienceBuilder: React.FC = () => {
       const { error: insertError } = await supabase
         .from('accomplishments')
         .insert({
+          user_id: userId,
           work_experience_id: workExpId,
           bullet_text: bullet,
           par_story_id: carStoryId,
@@ -696,6 +699,7 @@ const WorkExperienceBuilder: React.FC = () => {
               const { data: newAccomplishment, error: accError } = await supabase
                 .from('accomplishments')
                 .insert({
+                  user_id: userId,
                   work_experience_id: data.id,
                   bullet_text: exp.accomplishments[i],
                   order_index: i,

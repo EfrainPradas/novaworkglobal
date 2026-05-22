@@ -147,6 +147,7 @@ const ProfileBuilder: React.FC = () => {
           // Insert accomplishments if any
           if (exp.accomplishments && Array.isArray(exp.accomplishments) && exp.accomplishments.length > 0) {
             const achievements = exp.accomplishments.map((bullet: string, idx: number) => ({
+              user_id: userId,
               work_experience_id: newExp.id,
               bullet_text: bullet,
               order_index: idx,

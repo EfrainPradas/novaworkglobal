@@ -2,7 +2,7 @@
  * Smart Matches API
  *
  * Curated company match briefs for the authenticated user.
- * Access gated by Ascendia plan tier: Advance+ required.
+ * Currently in beta — access is whitelist-only.
  * All vendor-specific vocabulary is stripped at the service
  * boundary via smartMatchTranslator before anything reaches
  * this layer or the database.
@@ -18,69 +18,37 @@ import { generateTailoredCv } from '../services/cvPersonalization.js'
 
 const router = express.Router()
 
-// ── Ascendia plan tier hierarchy ──────────────────────────────
-const TIER_LEVELS = {
-  core: 1,
-  advance: 2,
-  apex: 3,
-  // Legacy NovaWork codes mapped to Ascendia equivalents
-  esenciales: 1,
-  essentials: 1,
-  momentum: 2,
-  vanguard: 3,
-  executive: 3,
-}
-
-const MIN_TIER_FOR_SMART_MATCHES = 2 // Advance+
+// ── Beta whitelist ──────────────────────────────────────────
+// Smart Matches is in beta. Only whitelisted emails may access.
+const BETA_WHITELIST = new Set([
+  'efrain.pradas@gmail.com',
+  'isabellaprada1994@gmail.com',
+])
 
 router.use(requireAuth)
 
 /**
- * Middleware: require Ascendia Advance+ plan.
- * Reads billing_access.membership_code for the authenticated user.
- * Returns 403 with upgrade-required details for unauthorized tiers.
+ * Middleware: beta access check.
+ * Only whitelisted email addresses can use Smart Matches during beta.
  */
-async function requirePlanAccess(req, res, next) {
+async function requireBetaAccess(req, res, next) {
   const userId = req.user?.id
   if (!userId) {
     return res.status(401).json({ error: 'Unauthorized', code: 'AUTH_REQUIRED' })
   }
 
-  try {
-    const { data, error } = await supabaseAdmin
-      .from('billing_access')
-      .select('membership_code')
-      .eq('user_id', userId)
-      .maybeSingle()
-
-    // No billing row = Core (tier 0), denied
-    if (error || !data) {
-      return res.status(403).json({
-        error: 'Smart Matches requires Ascendia Advance or higher',
-        code: 'UPGRADE_REQUIRED',
-        required_tier: 'advance',
-        current_tier: 'core',
-      })
-    }
-
-    const tier = TIER_LEVELS[data.membership_code] ?? 0
-    if (tier < MIN_TIER_FOR_SMART_MATCHES) {
-      return res.status(403).json({
-        error: 'Smart Matches requires Ascendia Advance or higher',
-        code: 'UPGRADE_REQUIRED',
-        required_tier: 'advance',
-        current_tier: data.membership_code || 'core',
-      })
-    }
-
-    next()
-  } catch (err) {
-    console.error('[smart-matches] plan check failed:', err?.message)
-    return res.status(500).json({ error: 'Failed to verify plan access' })
+  const email = (req.user?.email || '').toLowerCase()
+  if (!BETA_WHITELIST.has(email)) {
+    return res.status(403).json({
+      error: 'Smart Matches is coming soon',
+      code: 'BETA_NOT_AVAILABLE',
+    })
   }
+
+  next()
 }
 
-router.use(requirePlanAccess)
+router.use(requireBetaAccess)
 
 /**
  * Resolves the user's preferred language for CV generation:

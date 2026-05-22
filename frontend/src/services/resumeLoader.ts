@@ -50,6 +50,12 @@ export async function loadResumeData(userId: string): Promise<ResumeData | null>
     .eq('id', userId)
     .single()
 
+  const { data: contactProfile } = await supabase
+    .from('user_contact_profile')
+    .select('*')
+    .eq('user_id', userId)
+    .maybeSingle()
+
   const { data: masterResumes } = await supabase
     .from('user_resumes')
     .select('*')
@@ -87,7 +93,13 @@ export async function loadResumeData(userId: string): Promise<ResumeData | null>
       .select('*, accomplishments(*)')
       .eq('resume_id', masterResume.id)
       .order('start_date', { ascending: false })
-    workExperience = work || []
+    // Filter out hidden accomplishments at load time
+    workExperience = (work || []).map((exp: any) => ({
+      ...exp,
+      accomplishments: (exp.accomplishments || [])
+        .filter((a: any) => a.is_visible !== false)
+        .sort((a: any, b: any) => (a.order_index || 0) - (b.order_index || 0)),
+    }))
 
     const { data: aiBullets } = await supabase
       .from('accomplishment_bank')
@@ -116,6 +128,7 @@ export async function loadResumeData(userId: string): Promise<ResumeData | null>
             id: `ai-${b.id}`,
             bullet_text: b.bullet_text,
             source: 'ai_generated',
+            is_visible: true,
             order_index: -(matching.length - i),
           }))
         const combined = [...newAI, ...(exp.accomplishments || [])]
@@ -199,21 +212,33 @@ export async function loadResumeData(userId: string): Promise<ResumeData | null>
     areasOfExcellence = masterResume?.areas_of_excellence || []
   }
 
+  const contactName = contactProfile
+    ? [contactProfile.first_name, contactProfile.middle_name, contactProfile.last_name]
+        .filter(Boolean)
+        .join(' ')
+    : null
+
+  const contactLocation = contactProfile
+    ? [contactProfile.city, contactProfile.state, contactProfile.country]
+        .filter(Boolean)
+        .join(', ')
+    : null
+
   return {
     contact: {
-      full_name: masterResume?.full_name || user?.full_name || profile?.full_name || null,
-      email: masterResume?.email || user?.email || null,
-      phone: masterResume?.phone || user?.phone || profile?.phone || null,
+      full_name: contactName || masterResume?.full_name || user?.full_name || profile?.full_name || null,
+      email: contactProfile?.email || masterResume?.email || user?.email || null,
+      phone: contactProfile?.phone || masterResume?.phone || user?.phone || profile?.phone || null,
       linkedin:
-        masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
+        contactProfile?.linkedin_url || masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
       linkedin_url:
-        masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
-      location: masterResume?.location_city
+        contactProfile?.linkedin_url || masterResume?.linkedin_url || user?.linkedin_url || profile?.linkedin_url || null,
+      location: contactLocation || (masterResume?.location_city
         ? masterResume.location_country === 'USA' || !masterResume.location_country
           ? masterResume.location_city
           : `${masterResume.location_city}, ${masterResume.location_country}`
-        : profile?.current_location || null,
-      portfolio: masterResume?.portfolio_url || null,
+        : profile?.current_location || null),
+      portfolio: contactProfile?.portfolio_url || masterResume?.portfolio_url || null,
     },
     summary: combinedProfile,
     areas_of_excellence: areasOfExcellence,

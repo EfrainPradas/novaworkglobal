@@ -260,6 +260,7 @@ export default function WorkHistoryIntake() {
                     // Save accomplishments for this experience
                     if (exp.accomplishments && Array.isArray(exp.accomplishments)) {
                         const accomplishments = exp.accomplishments.map((bullet, idx) => ({
+                            user_id: user.id,
                             work_experience_id: newExp.id,
                             bullet_text: bullet,
                             order_index: idx,
