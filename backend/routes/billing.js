@@ -83,12 +83,10 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
 
     const lineQuantity = isMembership ? 1 : qty;
 
-    // Ascendia monthly paid plans (advance, apex): $7 for first 14 days, then prorated remainder
-    // Model: first month total = regular monthly price, split into $7 starter + remainder
-    //   Advance: $7 + $13 = $20 first month, then $20/month
-    //   Apex:    $7 + $23 = $30 first month, then $30/month
-    // Implementation: one-time coupon discounts the first invoice from regular price to $7
-    // Annual plans (advance_annual, apex_annual): no trial/coupon, straightforward subscription
+    // Starter access: first month discounted from regular price to $7
+    //   Advance: $20 - $13 coupon = $7 first month, then $20/month
+    //   Apex:    $30 - $23 coupon = $7 first month, then $30/month
+    // Annual plans (advance_annual, apex_annual): no coupon, full annual price
     const STARTER_ACCESS_PLANS = { advance: 1300, apex: 2300 }; // discount in cents
     const isAnnualPlan = catalogEntry.code.endsWith('_annual');
     const isStarterPlan = isMembership && !isAnnualPlan && STARTER_ACCESS_PLANS[catalogEntry.code] != null;
@@ -104,28 +102,23 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
       },
     };
 
-    // For starter access plans: create a one-time coupon + trial period
+    // For starter access plans: one-time coupon discounts first invoice to $7
+    // No trial period — user is charged $7 immediately, then regular price each month
     let checkoutDiscounts;
     if (isStarterPlan) {
       const discountAmount = STARTER_ACCESS_PLANS[catalogEntry.code];
 
-      // Create a one-time coupon that reduces the first invoice to $7
       const coupon = await stripe.coupons.create({
         amount_off: discountAmount,
         currency: 'usd',
         duration: 'once',
-        name: `14-Day Starter Access — ${catalogEntry.display_name}`,
+        name: `Starter Access — ${catalogEntry.display_name}`,
         metadata: { plan: catalogEntry.code, type: 'starter_access' },
       });
 
       checkoutDiscounts = [{ coupon: coupon.id }];
 
-      // 14-day trial: during trial the subscription is active but not billed
-      // The coupon discounts the first post-trial invoice, making it $7 total
-      subscriptionData.trial_period_days = 14;
-      subscriptionData.trial_settings = { end_behavior: { missing_payment_method: 'pause' } };
-
-      console.log(`🛒 [CHECKOUT] Starter access: $7 first 14 days, then $${(catalogEntry.unit_amount / 100).toFixed(0)}/month. Coupon ${coupon.id} (-$${(discountAmount / 100).toFixed(0)})`);
+      console.log(`🛒 [CHECKOUT] Starter access: $7 first month, then $${(catalogEntry.unit_amount / 100).toFixed(0)}/month. Coupon ${coupon.id} (-$${(discountAmount / 100).toFixed(0)})`);
     }
 
     const session = await stripe.checkout.sessions.create({
@@ -142,7 +135,7 @@ router.post('/create-checkout-session', requireAuth, ensureStripe, async (req, r
         code: catalogEntry.code,
         quantity: String(lineQuantity),
       },
-      allow_promotion_codes: true,
+      ...(isStarterPlan ? {} : { allow_promotion_codes: true }),
     });
 
     console.log(`🛒 [CHECKOUT] ✅ Session created: ${session.id} — redirecting to Stripe`);
