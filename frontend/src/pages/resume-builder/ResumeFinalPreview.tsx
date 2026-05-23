@@ -17,6 +17,7 @@ import {
 } from '../../services/resumeTranslator'
 
 const RESUME_LANG_KEY = 'novawork_resume_output_language'
+const TRANSLATION_CACHE_PREFIX = 'novawork_translation_cache_'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
@@ -224,29 +225,76 @@ export default function ResumeFinalPreview() {
             setEditSummaryText(combinedProfile)
 
             // After loading full data, check if user selected a different output language
-            await applyOutputLanguage(fullResumeData)
+            await applyOutputLanguage(fullResumeData, masterResume)
         } catch (error) {
             console.error('Error loading resume preview:', error)
         }
     }
 
+    // Simple hash function for change detection
+    const hashResumeContent = (data: any): string => {
+        const fields = [
+            data.summary || '',
+            JSON.stringify(data.areas_of_excellence || []),
+            JSON.stringify(data.work_experience?.map((e: any) => ({
+                job_title: e.job_title, scope_description: e.scope_description,
+                role_explanation: e.role_explanation,
+                accomplishments: e.accomplishments?.map((a: any) => a.bullet_text)
+            })) || []),
+            JSON.stringify(data.education?.map((e: any) => ({
+                degree_title: e.degree_title, field_of_study: e.field_of_study
+            })) || []),
+            JSON.stringify(data.certifications?.map((c: any) => c.certification_name) || []),
+            JSON.stringify(data.awards?.map((a: any) => a.certification_name || a.name) || []),
+        ]
+        const combined = fields.join('|||')
+        let hash = 0
+        for (let i = 0; i < combined.length; i++) {
+            const char = combined.charCodeAt(i)
+            hash = ((hash << 5) - hash) + char
+            hash |= 0
+        }
+        return hash.toString(36)
+    }
+
     // Check localStorage for selected output language and translate if needed
-    const applyOutputLanguage = async (loadedData: any) => {
+    const applyOutputLanguage = async (loadedData: any, masterResume: any) => {
         const stored = localStorage.getItem(RESUME_LANG_KEY)
         if (!stored) return
 
         try {
-            const { language, detectedLanguage, sectionHeaders: headers } = JSON.parse(stored)
-            localStorage.removeItem(RESUME_LANG_KEY)
+            const { language, sectionHeaders: headers } = JSON.parse(stored)
+            // Don't remove yet — keep it in case of failure so user can retry
 
             // Set section headers immediately
             setActiveLanguage(language)
             setSectionHeaders(headers)
 
-            // If same language, no translation needed
-            if (language === detectedLanguage) return
+            // If English (original language), no translation needed
+            if (language === 'en') {
+                localStorage.removeItem(RESUME_LANG_KEY)
+                return
+            }
 
-            // Different language — translate the full resume data
+            // Check localStorage for a cached translation with matching content hash
+            const contentHash = hashResumeContent(loadedData)
+            const cacheKey = `${TRANSLATION_CACHE_PREFIX}${language}_${contentHash}`
+            const cachedTranslation = localStorage.getItem(cacheKey)
+
+            if (cachedTranslation) {
+                try {
+                    const cached = JSON.parse(cachedTranslation)
+                    console.log('📦 Using cached translation from localStorage')
+                    setResumeData(cached)
+                    setEditSummaryText(cached.summary || '')
+                    localStorage.removeItem(RESUME_LANG_KEY)
+                    return
+                } catch {
+                    localStorage.removeItem(cacheKey)
+                }
+            }
+
+            // No valid cache — translate via API
             setIsTranslating(true)
             const { data: { session } } = await supabase.auth.getSession()
             const token = session?.access_token
@@ -255,6 +303,24 @@ export default function ResumeFinalPreview() {
             const translated = await translateResumeData(loadedData, language, token)
             setResumeData(translated)
             setEditSummaryText(translated.summary || '')
+
+            // Cache the translation in localStorage for future use
+            try {
+                localStorage.setItem(cacheKey, JSON.stringify(translated))
+                // Also clean up old cached translations for this language
+                const keysToRemove: string[] = []
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i)
+                    if (key && key.startsWith(`${TRANSLATION_CACHE_PREFIX}${language}_`) && key !== cacheKey) {
+                        keysToRemove.push(key)
+                    }
+                }
+                keysToRemove.forEach(k => localStorage.removeItem(k))
+            } catch (saveErr) {
+                console.warn('Could not cache translation:', saveErr)
+            }
+
+            localStorage.removeItem(RESUME_LANG_KEY)
             setIsTranslating(false)
         } catch (e) {
             console.error('Error applying output language:', e)
@@ -405,11 +471,9 @@ export default function ResumeFinalPreview() {
                         {activeLanguage !== 'en' && (
                             <button
                                 onClick={() => {
-                                    // Store current language as detected so modal shows correct state
                                     localStorage.setItem(RESUME_LANG_KEY, JSON.stringify({
-                                      language: activeLanguage,
-                                      detectedLanguage: detectResumeLanguage(resumeData),
-                                      sectionHeaders: SECTION_HEADERS[activeLanguage],
+                                      language: 'en',
+                                      sectionHeaders: SECTION_HEADERS.en,
                                     }))
                                     navigate('/dashboard/resume/type-selection?mode=standalone')
                                 }}

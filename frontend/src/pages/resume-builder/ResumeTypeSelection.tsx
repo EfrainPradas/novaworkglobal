@@ -61,7 +61,6 @@ export default function ResumeTypeSelection() {
         // Store the selected output language for ResumeFinalPreview to consume
         localStorage.setItem(RESUME_LANG_KEY, JSON.stringify({
           language,
-          detectedLanguage,
           sectionHeaders: SECTION_HEADERS[language],
         }))
 

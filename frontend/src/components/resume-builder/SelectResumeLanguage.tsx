@@ -82,8 +82,8 @@ export default function SelectResumeLanguage({
               {t('resumeBuilder.languageSelection.english', 'English')}
             </span>
             {detectedLanguage === 'en' && selected === 'en' && (
-              <span className="text-xs text-primary-600 dark:text-primary-400 mt-1">
-                {t('resumeBuilder.languageSelection.sameLanguage', 'No translation needed')}
+              <span className="text-xs text-green-600 dark:text-green-400 mt-1">
+                {t('resumeBuilder.languageSelection.sameLanguage', 'Original language — no translation needed')}
               </span>
             )}
           </button>
@@ -108,8 +108,8 @@ export default function SelectResumeLanguage({
               {t('resumeBuilder.languageSelection.spanish', 'Spanish')}
             </span>
             {detectedLanguage === 'es' && selected === 'es' && (
-              <span className="text-xs text-primary-600 dark:text-primary-400 mt-1">
-                {t('resumeBuilder.languageSelection.sameLanguage', 'No translation needed')}
+              <span className="text-xs text-green-600 dark:text-green-400 mt-1">
+                {t('resumeBuilder.languageSelection.sameLanguage', 'Original language — no translation needed')}
               </span>
             )}
           </button>
