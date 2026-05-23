@@ -596,11 +596,13 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
             : null
           }
           onCARSaved={(carStory) => {
-            // Refresh accomplishments list (parent will handle)
+            // Refresh accomplishments list and stay on work experience page
             if (onRefresh) onRefresh()
+            setShowImproveAsCAR(false)
+            setSelectedAccForCAR(null)
           }}
           onBulletsSaved={(bullets) => {
-            // Add each bullet as a new accomplishment
+            // Add each bullet as a new accomplishment alongside the original
             bullets.forEach((text) => {
               onAddAccomplishment(text)
             })
