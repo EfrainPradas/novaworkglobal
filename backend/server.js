@@ -27,6 +27,7 @@ import careerFeedRoutes from './routes/careerFeed.js'
 import billingRoutes from './routes/billing.js'
 import uploadRoutes from './routes/upload.js'
 import smartMatchesRoutes from './routes/smartMatches.js'
+import aiResumeTranslationRoutes from './routes/aiResumeTranslation.js'
 
 // Load environment variables
 // Try multiple locations: .env (production), ../.env.backend (development), or default .env
@@ -111,6 +112,7 @@ app.use('/api/interviews', interviewRoutes)
 app.use('/api/weekly-reinvention', weeklyReinventionRoutes)
 app.use('/api/jd-analyzer', jdAnalyzerRoutes)
 app.use('/api/ai', accomplishmentsRoutes)
+app.use('/api/ai', aiResumeTranslationRoutes)
 app.use('/api/cover-letter', coverLetterRoutes)
 app.use('/api/analytics', analyticsRoutes)
 app.use('/api/accomplishment-bank', accomplishmentBankRoutes)

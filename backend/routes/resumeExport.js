@@ -20,9 +20,9 @@ const router = express.Router();
 // Enforce authentication
 router.use(requireAuth);
 
-const formatDate = (dateString) => {
+const formatDate = (dateString, presentLabel = 'Present') => {
     if (!dateString) return '';
-    if (dateString === 'Present') return 'Present';
+    if (dateString === 'Present') return presentLabel;
     // Handle year-only strings like "2021"
     if (/^\d{4}$/.test(String(dateString).trim())) return String(dateString).trim();
     try {
@@ -37,7 +37,22 @@ const formatDate = (dateString) => {
 router.post('/:userId/docx', async (req, res) => {
     try {
         const { userId } = req.params;
-        const { resumeData, groupId, functionalGroups } = req.body;
+        const { resumeData, groupId, functionalGroups, sectionHeaders, language } = req.body;
+
+        // Section headers: use translated headers if provided, default to English
+        const h = sectionHeaders || {
+            professionalSummary: 'PROFESSIONAL SUMMARY',
+            areasOfExcellence: 'AREAS OF EXCELLENCE',
+            selectedAccomplishments: 'SELECTED ACCOMPLISHMENTS',
+            workExperience: 'WORK EXPERIENCE',
+            professionalCapabilities: 'PROFESSIONAL CAPABILITIES',
+            education: 'EDUCATION',
+            certifications: 'CERTIFICATIONS',
+            awards: 'AWARDS',
+            skillsTools: 'Tools & Platforms',
+            skillsMethodologies: 'Methodologies',
+            skillsLanguages: 'Languages',
+        };
 
         // Security check: Ensure authenticated user allows accessing this data
         if (!req.user || req.user.id !== userId) {
@@ -114,7 +129,7 @@ router.post('/:userId/docx', async (req, res) => {
 
                     // --- PROFESSIONAL SUMMARY ---
                     new Paragraph({
-                        children: [new TextRun({ text: 'PROFESSIONAL SUMMARY', bold: true, size: 24, font: 'Calibri' })],
+                        children: [new TextRun({ text: h.professionalSummary.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                         spacing: { before: 200, after: 100 }
                     }),
                     new Paragraph({
@@ -130,7 +145,7 @@ router.post('/:userId/docx', async (req, res) => {
 
                     // --- AREAS OF EXCELLENCE ---
                     new Paragraph({
-                        children: [new TextRun({ text: 'AREAS OF EXCELLENCE', bold: true, size: 24, font: 'Calibri' })],
+                        children: [new TextRun({ text: h.areasOfExcellence.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                         spacing: { before: 0, after: 100 }
                     }),
                     await (async () => {
@@ -152,13 +167,13 @@ router.post('/:userId/docx', async (req, res) => {
                                     : genProfile.output_skills_section;
                                 
                                 if (skills.tools_platforms?.length > 0) {
-                                    combinedSkills.push(`Tools & Platforms: ${skills.tools_platforms.join(' | ')}`);
+                                    combinedSkills.push(`${h.skillsTools}: ${skills.tools_platforms.join(' | ')}`);
                                 }
                                 if (skills.methodologies?.length > 0) {
-                                    combinedSkills.push(`Methodologies: ${skills.methodologies.join(' | ')}`);
+                                    combinedSkills.push(`${h.skillsMethodologies}: ${skills.methodologies.join(' | ')}`);
                                 }
                                 if (skills.languages?.length > 0) {
-                                    combinedSkills.push(`Languages: ${skills.languages.join(' | ')}`);
+                                    combinedSkills.push(`${h.skillsLanguages}: ${skills.languages.join(' | ')}`);
                                 }
                             } catch (e) {
                                 console.error('Error parsing skills for export:', e);
@@ -184,7 +199,7 @@ router.post('/:userId/docx', async (req, res) => {
                     // --- FUNCTIONAL: SELECTED ACCOMPLISHMENTS ---
                     ...(resume.resume_type === 'functional' && functionalGroupData.length > 0 ? [
                         new Paragraph({
-                        children: [new TextRun({ text: 'SELECTED ACCOMPLISHMENTS', bold: true, size: 24, font: 'Calibri' })],
+                        children: [new TextRun({ text: h.selectedAccomplishments.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                         spacing: { before: 0, after: 200 }
                     }),
                         ...functionalGroupData.flatMap(group => {
@@ -217,7 +232,7 @@ router.post('/:userId/docx', async (req, res) => {
                     ...(workExperience && workExperience.length > 0 ? [
                         new Paragraph({
                             children: [new TextRun({
-                                text: resume.resume_type === 'functional' ? 'PROFESSIONAL CAPABILITIES' : 'WORK EXPERIENCE',
+                                text: resume.resume_type === 'functional' ? h.professionalCapabilities.toUpperCase() : h.workExperience.toUpperCase(),
                                 bold: true, size: 24, font: 'Calibri'
                             })],
                             spacing: { before: 0, after: 200 }
@@ -256,7 +271,7 @@ router.post('/:userId/docx', async (req, res) => {
                             }, []);
 
                             return grouped.flatMap(group => {
-                                const overallDates = `${formatDate(group.minStart)} – ${group.maxEnd === 'Present' ? 'Present' : formatDate(group.maxEnd)}`;
+                                const overallDates = `${formatDate(group.minStart, h.present)} – ${group.maxEnd === 'Present' ? h.present : formatDate(group.maxEnd, h.present)}`;
                                 
                                 return [
                                     // Company Header
@@ -292,7 +307,7 @@ router.post('/:userId/docx', async (req, res) => {
                                                 }),
                                                 ...(group.positions.length > 1 ? [
                                                     new TextRun({ 
-                                                        text: ` (${formatDate(pos.start_date)} – ${pos.is_current ? 'Present' : formatDate(pos.end_date)})`,
+                                                        text: ` (${formatDate(pos.start_date, h.present)} – ${pos.is_current ? h.present : formatDate(pos.end_date, h.present)})`,
                                                         size: 20, 
                                                         font: 'Calibri',
                                                         color: "666666"
@@ -333,7 +348,7 @@ router.post('/:userId/docx', async (req, res) => {
                     // --- EDUCATION ---
                     ...(finalEducation && finalEducation.length > 0 ? [
                         new Paragraph({
-                            children: [new TextRun({ text: 'EDUCATION', bold: true, size: 24, font: 'Calibri' })],
+                            children: [new TextRun({ text: h.education.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                             spacing: { before: 100, after: 200 }
                         })
                     ] : []),
@@ -373,7 +388,7 @@ router.post('/:userId/docx', async (req, res) => {
                     // --- CERTIFICATIONS ---
                     ...(certifications && certifications.length > 0 ? [
                         new Paragraph({
-                            children: [new TextRun({ text: 'CERTIFICATIONS', bold: true, size: 24, font: 'Calibri' })],
+                            children: [new TextRun({ text: h.certifications.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                             spacing: { before: 100, after: 200 }
                         })
                     ] : []),
@@ -395,7 +410,7 @@ router.post('/:userId/docx', async (req, res) => {
                     // --- AWARDS ---
                     ...(awards && awards.length > 0 ? [
                         new Paragraph({
-                            children: [new TextRun({ text: 'AWARDS', bold: true, size: 24, font: 'Calibri' })],
+                            children: [new TextRun({ text: h.awards.toUpperCase(), bold: true, size: 24, font: 'Calibri' })],
                             spacing: { before: 100, after: 200 }
                         })
                     ] : []),

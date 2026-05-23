@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Download, Printer, CheckCircle, Pencil, Save, Loader2 } from 'lucide-react'
+import { Download, Printer, CheckCircle, Pencil, Save, Loader2, Globe } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
 import { BackButton } from '../../components/common/BackButton'
@@ -8,6 +8,7 @@ import { useGuidedStep } from '../../hooks/useGuidedStep'
 import { CompletionCelebration } from '../../components/guided-path'
 import { usePlanTier } from '../../hooks/usePlanTier'
 import UpgradePrompt from '../../components/billing/UpgradePrompt'
+import { SECTION_HEADERS, consumeTranslatedResumeFromStorage, type ResumeLanguage, type SectionHeaders } from '../../services/resumeTranslator'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
@@ -31,6 +32,8 @@ export default function ResumeFinalPreview() {
     const [savingSummary, setSavingSummary] = useState(false)
     const [savedGroups, setSavedGroups] = useState<any[]>([])
     const [selectedGroupId, setSelectedGroupId] = useState<string>('')
+    const [activeLanguage, setActiveLanguage] = useState<ResumeLanguage>('en')
+    const [sectionHeaders, setSectionHeaders] = useState<SectionHeaders>(SECTION_HEADERS.en)
 
     useEffect(() => {
         const checkUser = async () => {
@@ -213,6 +216,17 @@ export default function ResumeFinalPreview() {
         }
     }
 
+    // Check for pre-translated resume data from localStorage
+    useEffect(() => {
+        const translated = consumeTranslatedResumeFromStorage()
+        if (translated) {
+            setResumeData(translated.resumeData)
+            setActiveLanguage(translated.language)
+            setSectionHeaders(translated.sectionHeaders)
+            setEditSummaryText(translated.resumeData.summary || '')
+        }
+    }, [userId])
+
     const formatDate = (dateString: string | undefined, isCurrent: boolean) => {
         if (isCurrent) return t('common.present') || 'Present'
         if (!dateString) return ''
@@ -258,7 +272,9 @@ export default function ResumeFinalPreview() {
                 body: JSON.stringify({
                     resumeData: resumeData,
                     groupId: selectedGroupId,
-                    functionalGroups: groupedDataForFunctional
+                    functionalGroups: groupedDataForFunctional,
+                    sectionHeaders: sectionHeaders,
+                    language: activeLanguage
                 })
             })
             if (!response.ok) {
@@ -337,9 +353,24 @@ export default function ResumeFinalPreview() {
                             <CheckCircle className="w-6 h-6 text-green-500" />
                             Resume Generated!
                         </h1>
-                        <p className="text-slate-500 dark:text-slate-400">Review your {resumeData?.resume_type} resume below.</p>
+                        <p className="text-slate-500 dark:text-slate-400">Review your {resumeData?.resume_type} resume below.{activeLanguage !== 'en' ? ` (${activeLanguage === 'es' ? 'Español' : 'English'})` : ''}</p>
                     </div>
                     <div className="flex items-center gap-3 w-full md:w-auto">
+                        {activeLanguage !== 'en' && (
+                            <span className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-full text-xs font-semibold">
+                                <Globe className="w-3.5 h-3.5" />
+                                {sectionHeaders === SECTION_HEADERS.es ? t('resumeBuilder.languageSelection.esBadge', 'Español') : t('resumeBuilder.languageSelection.enBadge', 'English')}
+                            </span>
+                        )}
+                        {activeLanguage !== 'en' && (
+                            <button
+                                onClick={() => navigate('/dashboard/resume/type-selection?mode=standalone')}
+                                className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors no-print"
+                            >
+                                <Globe className="w-3.5 h-3.5" />
+                                {t('resumeBuilder.languageSelection.changeLanguage', 'Change Language')}
+                            </button>
+                        )}
                         <button onClick={() => window.print()} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
                             <Printer className="w-4 h-4" /> Print
                         </button>
@@ -376,7 +407,7 @@ export default function ResumeFinalPreview() {
                             {/* PROFESSIONAL PROFILE — 3 sentences in one paragraph */}
                             {resumeData.summary && (
                                 <div style={{ marginBottom: '8px' }} className="group relative">
-                                    <div style={sectionTitle}>Professional Summary</div>
+                                    <div style={sectionTitle}>{sectionHeaders.professionalSummary}</div>
                                     {isEditingSummary ? (
                                         <div className="no-print bg-slate-50 p-3 rounded-xl border border-blue-200">
                                             <textarea
@@ -406,13 +437,13 @@ export default function ResumeFinalPreview() {
                             {/* AREAS OF EXCELLENCE — merged list to save space */}
                             {(resumeData.areas_of_excellence?.length > 0 || resumeData.skills_section) && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={subSectionTitle}>Areas of Excellence</div>
+                                    <div style={subSectionTitle}>{sectionHeaders.areasOfExcellence}</div>
                                     <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: '0' }}>
                                         {[
                                             ...(resumeData.areas_of_excellence || []),
-                                            resumeData.skills_section?.tools_platforms?.length > 0 ? `Tools & Platforms: ${resumeData.skills_section.tools_platforms.join(' | ')}` : null,
-                                            resumeData.skills_section?.methodologies?.length > 0 ? `Methodologies: ${resumeData.skills_section.methodologies.join(' | ')}` : null,
-                                            resumeData.skills_section?.languages?.length > 0 ? `Languages: ${resumeData.skills_section.languages.join(' | ')}` : null,
+                                            resumeData.skills_section?.tools_platforms?.length > 0 ? `${sectionHeaders.skillsTools}: ${resumeData.skills_section.tools_platforms.join(' | ')}` : null,
+                                            resumeData.skills_section?.methodologies?.length > 0 ? `${sectionHeaders.skillsMethodologies}: ${resumeData.skills_section.methodologies.join(' | ')}` : null,
+                                            resumeData.skills_section?.languages?.length > 0 ? `${sectionHeaders.skillsLanguages}: ${resumeData.skills_section.languages.join(' | ')}` : null,
                                         ].filter(Boolean).join(' | ')}
                                     </p>
                                 </div>
@@ -421,7 +452,7 @@ export default function ResumeFinalPreview() {
                             {/* FUNCTIONAL: Selected Accomplishments */}
                             {resumeData.resume_type === 'functional' && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Selected Accomplishments</div>
+                                    <div style={sectionTitle}>{sectionHeaders.selectedAccomplishments}</div>
                                     {savedGroups.length > 0 && (
                                         <div className="mb-3 no-print bg-blue-50/50 p-3 border border-blue-100 rounded-lg max-w-sm">
                                             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Select Saved Group</label>
@@ -453,7 +484,7 @@ export default function ResumeFinalPreview() {
                             {/* FUNCTIONAL: Work History */}
                             {resumeData.resume_type === 'functional' && resumeData.work_experience?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Work History</div>
+                                    <div style={sectionTitle}>{sectionHeaders.workHistory}</div>
                                     <div>
                                         {resumeData.work_experience
                                             .sort((a: any, b: any) => {
@@ -483,7 +514,7 @@ export default function ResumeFinalPreview() {
                             {/* WORK EXPERIENCE — Grouped by Company */}
                             {resumeData.resume_type === 'chronological' && resumeData.work_experience?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Work Experience</div>
+                                    <div style={sectionTitle}>{sectionHeaders.workExperience}</div>
                                     <div>
                                         {(() => {
                                             const grouped = resumeData.work_experience.reduce((acc: any[], exp: any) => {
@@ -525,7 +556,7 @@ export default function ResumeFinalPreview() {
                                                             {group.company_name}{group.location_city ? ` | ${group.location_city}` : ''}
                                                         </span>
                                                         <span style={{ fontSize: '9.5pt', fontWeight: 'bold', color: '#111' }}>
-                                                            {formatDate(group.minStart, false)} – {group.maxEnd === 'Present' ? 'Present' : formatDate(group.maxEnd, false)}
+                                                            {formatDate(group.minStart, false)} – {group.maxEnd === 'Present' ? sectionHeaders.present : formatDate(group.maxEnd, false)}
                                                         </span>
                                                     </div>
 
@@ -571,7 +602,7 @@ export default function ResumeFinalPreview() {
                             {/* EDUCATION — no divider */}
                             {resumeData.education?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Education</div>
+                                    <div style={sectionTitle}>{sectionHeaders.education}</div>
                                     <div>
                                         {resumeData.education.map((edu: any) => (
                                             <div key={edu.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
@@ -598,7 +629,7 @@ export default function ResumeFinalPreview() {
                             {/* CERTIFICATIONS — no divider */}
                             {resumeData.certifications?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Certifications</div>
+                                    <div style={sectionTitle}>{sectionHeaders.certifications}</div>
                                     <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
                                         {resumeData.certifications.map((cert: any) => (
                                             <li key={cert.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
@@ -621,7 +652,7 @@ export default function ResumeFinalPreview() {
                             {/* AWARDS — no divider */}
                             {resumeData.awards?.length > 0 && (
                                 <div style={{ marginBottom: '8px' }}>
-                                    <div style={sectionTitle}>Awards</div>
+                                    <div style={sectionTitle}>{sectionHeaders.awards}</div>
                                     <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
                                         {resumeData.awards.map((award: any) => (
                                             <li key={award.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>

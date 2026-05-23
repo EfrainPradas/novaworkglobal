@@ -870,6 +870,23 @@
       "backToBuilder": "Back to Resume Builder",
       "videoNotSupported": "Your browser does not support the video tag."
     },
+    "languageSelection": {
+      "title": "Choose Resume Language",
+      "subtitle": "Select the language for this generated resume. Your original data will remain unchanged.",
+      "english": "English",
+      "spanish": "Spanish",
+      "detectedLanguage": "Your resume appears to be in {{language}}",
+      "sameLanguage": "No translation needed — proceed with original",
+      "translating": "Translating your resume...",
+      "continueButton": "Continue",
+      "cancel": "Cancel",
+      "esBadge": "Spanish",
+      "enBadge": "English",
+      "saveAsVersion": "Save as translated version",
+      "saveAsVersionDesc": "Create a separate resume record. Your original stays unchanged.",
+      "translationError": "Translation failed. Please try again or select your original language.",
+      "changeLanguage": "Change Language"
+    },
     "aiExtractor": {
       "title": "AI Resume Bullets",
       "subtitle": "Review AI-polished bullets from your CAR stories",

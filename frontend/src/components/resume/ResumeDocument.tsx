@@ -7,13 +7,17 @@
  *
  * To tailor, pass a `resumeData` with an overridden `summary` (or any other
  * field). Use `showFunctional={true}` to opt in to the functional layout.
+ *
+ * Pass `sectionHeaders` to override English section titles (e.g. for Spanish).
  */
 
 import type { ResumeData } from '../../services/resumeLoader'
+import { SECTION_HEADERS, type SectionHeaders } from '../../services/resumeTranslator'
 
 interface ResumeDocumentProps {
   resumeData: ResumeData
   presentLabel?: string
+  sectionHeaders?: SectionHeaders
 }
 
 const pageStyle: React.CSSProperties = {
@@ -61,19 +65,20 @@ function titleCase(name: string): string {
   return (name || '').toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-export default function ResumeDocument({ resumeData, presentLabel = 'Present' }: ResumeDocumentProps) {
+export default function ResumeDocument({ resumeData, presentLabel = 'Present', sectionHeaders: headers }: ResumeDocumentProps) {
+  const h = headers || SECTION_HEADERS.en
   const { contact, summary, areas_of_excellence, skills_section, work_experience, education, certifications, awards, resume_type } = resumeData
 
   const areasMerged = [
     ...(areas_of_excellence || []),
     skills_section?.tools_platforms && skills_section.tools_platforms.length > 0
-      ? `Tools & Platforms: ${skills_section.tools_platforms.join(' | ')}`
+      ? `${h.skillsTools}: ${skills_section.tools_platforms.join(' | ')}`
       : null,
     skills_section?.methodologies && skills_section.methodologies.length > 0
-      ? `Methodologies: ${skills_section.methodologies.join(' | ')}`
+      ? `${h.skillsMethodologies}: ${skills_section.methodologies.join(' | ')}`
       : null,
     skills_section?.languages && skills_section.languages.length > 0
-      ? `Languages: ${skills_section.languages.join(' | ')}`
+      ? `${h.skillsLanguages}: ${skills_section.languages.join(' | ')}`
       : null,
   ]
     .filter(Boolean)
@@ -125,7 +130,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* PROFESSIONAL SUMMARY */}
       {summary && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={sectionTitle}>Professional Summary</div>
+          <div style={sectionTitle}>{h.professionalSummary}</div>
           <p style={{ fontSize: '10pt', textAlign: 'justify', margin: 0 }}>{summary}</p>
         </div>
       )}
@@ -133,7 +138,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* AREAS OF EXCELLENCE */}
       {areasMerged && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={subSectionTitle}>Areas of Excellence</div>
+          <div style={subSectionTitle}>{h.areasOfExcellence}</div>
           <p style={{ fontSize: '9.5pt', textAlign: 'center', margin: 0 }}>{areasMerged}</p>
         </div>
       )}
@@ -141,7 +146,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* WORK EXPERIENCE — Grouped by Company */}
       {resume_type === 'chronological' && work_experience && work_experience.length > 0 && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={sectionTitle}>Work Experience</div>
+          <div style={sectionTitle}>{h.workExperience}</div>
           <div>
             {grouped.map((group: any, gIdx: number) => (
               <div key={gIdx} style={{ marginBottom: '12px' }}>
@@ -198,7 +203,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* EDUCATION */}
       {education && education.length > 0 && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={sectionTitle}>Education</div>
+          <div style={sectionTitle}>{h.education}</div>
           <div>
             {education.map((edu: any) => (
               <div key={edu.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '3px' }}>
@@ -226,7 +231,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* CERTIFICATIONS */}
       {certifications && certifications.length > 0 && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={sectionTitle}>Certifications</div>
+          <div style={sectionTitle}>{h.certifications}</div>
           <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
             {certifications.map((cert: any) => (
               <li key={cert.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>
@@ -249,7 +254,7 @@ export default function ResumeDocument({ resumeData, presentLabel = 'Present' }:
       {/* AWARDS */}
       {awards && awards.length > 0 && (
         <div style={{ marginBottom: '8px' }}>
-          <div style={sectionTitle}>Awards</div>
+          <div style={sectionTitle}>{h.awards}</div>
           <ul style={{ listStyleType: 'disc', paddingLeft: '16px', margin: 0 }}>
             {awards.map((award: any) => (
               <li key={award.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '2px' }}>

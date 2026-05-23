@@ -951,6 +951,23 @@
       "backToBuilder": "Volver al creador de currículum",
       "videoNotSupported": "Tu navegador no soporta la etiqueta de video."
     },
+    "languageSelection": {
+      "title": "Elige el idioma del currículum",
+      "subtitle": "Selecciona el idioma para generar este currículum. Tus datos originales no serán modificados.",
+      "english": "Inglés",
+      "spanish": "Español",
+      "detectedLanguage": "Tu currículum parece estar en {{language}}",
+      "sameLanguage": "No se necesita traducción — continuar con el original",
+      "translating": "Traduciendo tu currículum...",
+      "continueButton": "Continuar",
+      "cancel": "Cancelar",
+      "esBadge": "Español",
+      "enBadge": "Inglés",
+      "saveAsVersion": "Guardar como versión traducida",
+      "saveAsVersionDesc": "Crear un registro de currículum separado. Tu original permanece sin cambios.",
+      "translationError": "Error en la traducción. Intenta de nuevo o selecciona tu idioma original.",
+      "changeLanguage": "Cambiar idioma"
+    },
     "aiExtractor": {
       "title": "Viñetas de CV con IA",
       "subtitle": "Revisa viñetas pulidas por IA de tus historias CAR",

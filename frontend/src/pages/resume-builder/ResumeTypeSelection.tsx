@@ -6,6 +6,15 @@ import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { getVideoUrl } from '@/config/videoUrls'
 import { supabase } from '../../lib/supabase'
 import { BackButton } from '../../components/common/BackButton'
+import SelectResumeLanguage from '../../components/resume-builder/SelectResumeLanguage'
+import {
+  detectResumeLanguage,
+  translateResumeData,
+  saveTranslatedResumeToStorage,
+  SECTION_HEADERS,
+  type ResumeLanguage,
+  type ResumeData,
+} from '../../services/resumeTranslator'
 
 export default function ResumeTypeSelection() {
     const { t } = useTranslation()
@@ -14,6 +23,13 @@ export default function ResumeTypeSelection() {
     const isStandalone = searchParams.get('mode') === 'standalone'
     const [selectedType, setSelectedType] = useState<'chronological' | 'functional' | null>(null)
     const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null)
+
+    // Language selection state
+    const [showLanguageModal, setShowLanguageModal] = useState(false)
+    const [isTranslating, setIsTranslating] = useState(false)
+    const [translationError, setTranslationError] = useState<string | null>(null)
+    const [detectedLanguage, setDetectedLanguage] = useState<ResumeLanguage>('en')
+    const [resumeDataForTranslation, setResumeDataForTranslation] = useState<ResumeData | null>(null)
 
     const handleContinue = async () => {
         if (selectedType) {
@@ -29,12 +45,103 @@ export default function ResumeTypeSelection() {
 
                     if (error) throw error
                 }
-                navigate('/dashboard/resume/final-preview')
+
+                // Load resume data to detect language and show modal
+                const data = await loadMinimalResumeData(user!.id)
+                if (data) {
+                    const detected = detectResumeLanguage(data)
+                    setDetectedLanguage(detected)
+                    setResumeDataForTranslation(data)
+                }
+
+                setShowLanguageModal(true)
             } catch (error) {
                 console.error('Error saving resume type:', error)
-                // Fallback to navigation anyway
+                // Fallback: navigate directly
                 navigate('/dashboard/resume/final-preview')
             }
+        }
+    }
+
+    const handleLanguageConfirm = async (language: ResumeLanguage) => {
+        // Same language — no translation needed
+        if (language === detectedLanguage || !resumeDataForTranslation) {
+            setShowLanguageModal(false)
+            navigate('/dashboard/resume/final-preview')
+            return
+        }
+
+        // Different language — translate
+        setIsTranslating(true)
+        setTranslationError(null)
+
+        try {
+            const { data: { session } } = await supabase.auth.getSession()
+            const token = session?.access_token
+            if (!token) {
+                setShowLanguageModal(false)
+                navigate('/dashboard/resume/final-preview')
+                return
+            }
+
+            const translated = await translateResumeData(resumeDataForTranslation, language, token)
+            const sectionHeaders = SECTION_HEADERS[language]
+            saveTranslatedResumeToStorage(translated, language, sectionHeaders)
+
+            setShowLanguageModal(false)
+            navigate('/dashboard/resume/final-preview')
+        } catch (error: any) {
+            console.error('Translation error:', error)
+            setTranslationError(error.message || 'Translation failed')
+            setIsTranslating(false)
+        }
+    }
+
+    const handleLanguageClose = () => {
+        if (isTranslating) return
+        setShowLanguageModal(false)
+        setTranslationError(null)
+    }
+
+    // Minimal load to detect language — full data will be loaded by ResumeFinalPreview
+    const loadMinimalResumeData = async (userId: string): Promise<ResumeData | null> => {
+        try {
+            const { data: masterResumes } = await supabase
+                .from('user_resumes')
+                .select('*')
+                .eq('user_id', userId)
+                .eq('is_master', true)
+                .order('created_at', { ascending: false })
+                .limit(1)
+
+            const masterResume = masterResumes?.[0]
+            if (!masterResume) return null
+
+            const { data: work } = await supabase
+                .from('work_experience')
+                .select('*, accomplishments(*)')
+                .eq('resume_id', masterResume.id)
+                .order('start_date', { ascending: false })
+                .limit(1)
+
+            return {
+                contact: { full_name: '', email: null, phone: null, linkedin: null, linkedin_url: null, location: null, portfolio: null },
+                summary: masterResume.profile_summary || '',
+                areas_of_excellence: masterResume.areas_of_excellence || [],
+                skills_section: {},
+                work_experience: (work || []).map((exp: any) => ({
+                    ...exp,
+                    accomplishments: (exp.accomplishments || []).filter((a: any) => a.is_visible !== false),
+                })),
+                education: [],
+                certifications: [],
+                awards: [],
+                resume_type: masterResume.resume_type || selectedType || 'chronological',
+                master_resume_id: masterResume.id,
+            }
+        } catch (e) {
+            console.error('Error loading resume data for language detection:', e)
+            return null
         }
     }
 
@@ -132,6 +239,15 @@ export default function ResumeTypeSelection() {
                     </button>
                 </div>
             </div>
+
+            {/* Language Selection Modal */}
+            <SelectResumeLanguage
+                open={showLanguageModal}
+                onClose={handleLanguageClose}
+                onConfirm={handleLanguageConfirm}
+                detectedLanguage={detectedLanguage}
+                isTranslating={isTranslating}
+            />
 
             {/* Video Modal */}
             {activeVideoSrc && (
