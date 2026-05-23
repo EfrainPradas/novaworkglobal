@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 import { BackButton } from '../../components/common/BackButton'
-import { FileText, Globe, Calendar, Edit3, Trash2, Eye, Search, Filter } from 'lucide-react'
+import { FileText, Globe, Calendar, Edit3, Trash2, Eye, Search, Filter, Download, ChevronDown } from 'lucide-react'
+import { usePlanTier } from '../../hooks/usePlanTier'
+import UpgradePrompt from '../../components/billing/UpgradePrompt'
 
 interface TailoredResume {
   id: string
@@ -26,6 +28,7 @@ interface TailoredResume {
 
 export default function MyResumes() {
   const navigate = useNavigate()
+  const { can: canUse } = usePlanTier()
   const [userId, setUserId] = useState<string | null>(null)
   const [resumes, setResumes] = useState<TailoredResume[]>([])
   const [loading, setLoading] = useState(true)
@@ -35,6 +38,8 @@ export default function MyResumes() {
   const [editDocName, setEditDocName] = useState('')
   const [editCompany, setEditCompany] = useState('')
   const [editJobTitle, setEditJobTitle] = useState('')
+  const [viewingResume, setViewingResume] = useState<TailoredResume | null>(null)
+  const [exportingId, setExportingId] = useState<string | null>(null)
 
   useEffect(() => { loadResumes() }, [])
 
@@ -97,6 +102,52 @@ export default function MyResumes() {
       if (userId) await loadResumes()
     } catch (err) {
       console.error('Error deleting:', err)
+    }
+  }
+
+  const handleExportDocx = async (resume: TailoredResume) => {
+    setExportingId(resume.id)
+    try {
+      const bullets = resume.tailored_bullets || {}
+      const exportData = {
+        resumeData: {
+          user_info: bullets.user_info || {},
+          profile_summary: resume.tailored_profile || '',
+          areas_of_excellence: resume.tailored_skills || [],
+          work_experience: bullets.work_experience || [],
+          format_type: bullets.format_type || 'chronological',
+          education: bullets.education || [],
+          certifications: bullets.certifications || [],
+          awards: bullets.awards || [],
+        },
+      }
+
+      const fallbackApi = window.location.pathname.startsWith('/novaworkglobal')
+        ? '/novaworkglobal-api'
+        : ''
+      const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
+      const response = await fetch(`${apiUrl}/api/jd-analyzer/export`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(exportData),
+      })
+
+      if (!response.ok) throw new Error('Export failed')
+
+      const blob = await response.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `Resume_${(resume.company_name || 'Tailored').replace(/\s+/g, '_')}_${(resume.job_title || '').replace(/\s+/g, '_')}.docx`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+    } catch (err) {
+      console.error('Error exporting:', err)
+      alert('Failed to export resume. Please try again.')
+    } finally {
+      setExportingId(null)
     }
   }
 
@@ -246,11 +297,23 @@ export default function MyResumes() {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex gap-2 flex-shrink-0">
-                      <button onClick={() => handleEdit(resume)} className="px-3 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-900/20 rounded-lg transition-colors">
+                    <div className="flex gap-1.5 flex-shrink-0">
+                      <button onClick={() => setViewingResume(resume)} className="px-2.5 py-1.5 text-xs font-medium text-blue-600 hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20 rounded-lg transition-colors flex items-center gap-1" title="View">
+                        <Eye className="w-3.5 h-3.5" />
+                      </button>
+                      {canUse('canExportResume') ? (
+                        <button onClick={() => handleExportDocx(resume)} disabled={exportingId === resume.id} className="px-2.5 py-1.5 text-xs font-medium text-green-600 hover:bg-green-50 dark:text-green-400 dark:hover:bg-green-900/20 rounded-lg transition-colors flex items-center gap-1 disabled:opacity-50" title="Export Word">
+                          {exportingId === resume.id ? <span className="w-3.5 h-3.5 border-2 border-green-600 border-t-transparent rounded-full animate-spin" /> : <Download className="w-3.5 h-3.5" />}
+                        </button>
+                      ) : (
+                        <span className="px-2.5 py-1.5 text-xs font-medium text-slate-400 cursor-not-allowed rounded-lg flex items-center gap-1" title="Upgrade to export">
+                          <Download className="w-3.5 h-3.5" />
+                        </span>
+                      )}
+                      <button onClick={() => handleEdit(resume)} className="px-2.5 py-1.5 text-xs font-medium text-primary-600 hover:bg-primary-50 dark:text-primary-400 dark:hover:bg-primary-900/20 rounded-lg transition-colors" title="Edit">
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
-                      <button onClick={() => handleDelete(resume)} className="px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors">
+                      <button onClick={() => handleDelete(resume)} className="px-2.5 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20 rounded-lg transition-colors" title="Delete">
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -308,6 +371,111 @@ export default function MyResumes() {
               <button onClick={handleSaveEdit} className="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-semibold">
                 Save
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* View Modal */}
+      {viewingResume && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" onClick={() => setViewingResume(null)}>
+          <div className="bg-white dark:bg-slate-800 rounded-xl shadow-xl max-w-3xl w-full max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="sticky top-0 bg-white dark:bg-slate-800 px-6 py-4 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between z-10">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white truncate">
+                {viewingResume.document_name || viewingResume.job_title || 'Resume'}
+              </h2>
+              <div className="flex items-center gap-2">
+                <span className={`inline-flex text-xs px-2.5 py-1 rounded-full font-semibold ${getStatusBadge(viewingResume.status).color}`}>
+                  {getStatusBadge(viewingResume.status).label}
+                </span>
+                {viewingResume.output_language && viewingResume.output_language !== 'en' && (
+                  <span className="inline-flex items-center px-2 py-1 rounded text-xs font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                    {viewingResume.output_language === 'es' ? 'Español' : viewingResume.output_language.toUpperCase()}
+                  </span>
+                )}
+                <button onClick={() => setViewingResume(null)} className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700">
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                </button>
+              </div>
+            </div>
+            <div className="p-6 space-y-5">
+              {/* Header info */}
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                {viewingResume.company_name && (
+                  <div><span className="font-semibold text-slate-700 dark:text-slate-300">Company:</span> <span className="text-slate-900 dark:text-white">{viewingResume.company_name}</span></div>
+                )}
+                {viewingResume.job_title && (
+                  <div><span className="font-semibold text-slate-700 dark:text-slate-300">Position:</span> <span className="text-slate-900 dark:text-white">{viewingResume.job_title}</span></div>
+                )}
+                {viewingResume.match_score != null && (
+                  <div><span className="font-semibold text-slate-700 dark:text-slate-300">Match Score:</span> <span className="text-slate-900 dark:text-white">{viewingResume.match_score}%</span></div>
+                )}
+                <div><span className="font-semibold text-slate-700 dark:text-slate-300">Created:</span> <span className="text-slate-900 dark:text-white">{formatDate(viewingResume.generated_at || viewingResume.created_at)}</span></div>
+              </div>
+
+              {/* Professional Summary */}
+              {viewingResume.tailored_profile && (
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">Professional Summary</h3>
+                  <p className="text-sm text-slate-700 dark:text-slate-300 whitespace-pre-wrap bg-slate-50 dark:bg-slate-900 p-4 rounded-lg">{viewingResume.tailored_profile}</p>
+                </div>
+              )}
+
+              {/* Skills */}
+              {viewingResume.tailored_skills && viewingResume.tailored_skills.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">Areas of Excellence</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {viewingResume.tailored_skills.map((skill, i) => (
+                      <span key={i} className="px-3 py-1 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-medium rounded-full">{skill}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Work Experience */}
+              {viewingResume.tailored_bullets?.work_experience && (
+                <div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-2">Work Experience</h3>
+                  <div className="space-y-4">
+                    {viewingResume.tailored_bullets.work_experience.map((exp: any, i: number) => (
+                      <div key={i} className="bg-slate-50 dark:bg-slate-900 p-4 rounded-lg">
+                        <div className="flex justify-between items-start mb-1">
+                          <span className="font-semibold text-slate-900 dark:text-white">{exp.job_title || exp.title}</span>
+                          <span className="text-xs text-slate-500 dark:text-slate-400">{exp.start_date}{exp.end_date ? ` — ${exp.is_current ? 'Present' : exp.end_date}` : ''}</span>
+                        </div>
+                        <div className="text-sm text-slate-600 dark:text-slate-400">{exp.company_name || exp.company}</div>
+                        {exp.scope_description && <p className="text-sm text-slate-600 dark:text-slate-400 mt-1 italic">{exp.scope_description}</p>}
+                        {exp.accomplishments && exp.accomplishments.length > 0 && (
+                          <ul className="mt-2 space-y-1">
+                            {exp.accomplishments.map((a: any, j: number) => (
+                              <li key={j} className="text-sm text-slate-700 dark:text-slate-300 flex gap-2">
+                                <span className="text-blue-500 mt-1">•</span>
+                                <span>{a.bullet_text || a}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Export Actions */}
+              <div className="flex gap-3 pt-4 border-t border-slate-200 dark:border-slate-700">
+                {canUse('canExportResume') ? (
+                  <button onClick={() => handleExportDocx(viewingResume)} disabled={exportingId === viewingResume.id} className="flex-1 px-4 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 font-semibold flex items-center justify-center gap-2 disabled:opacity-50">
+                    <Download className="w-4 h-4" />
+                    {exportingId === viewingResume.id ? 'Exporting...' : 'Export Word'}
+                  </button>
+                ) : (
+                  <UpgradePrompt feature="Resume export" className="flex-1" />
+                )}
+                <button onClick={() => setViewingResume(null)} className="px-4 py-2.5 border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-700">
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
