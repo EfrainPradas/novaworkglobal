@@ -84,6 +84,7 @@ import ResumeTracking from './pages/resume-builder/ResumeTracking'
 import ResumeFinalPreview from './pages/resume-builder/ResumeFinalPreview'
 import CoverLetterGenerator from './pages/resume/CoverLetterGenerator'
 import JDAnalyzer from './pages/resume-builder/JDAnalyzer'
+import MyResumes from './pages/resume-builder/MyResumes'
 
 // Resume Builder V2 Routes
 import WorkHistoryIntake from './pages/resume-builder/WorkHistoryIntake'
@@ -197,6 +198,7 @@ function App() {
             <Route path="resume-builder/workflow" element={<ResumeBuilder />} />
             <Route path="resume-builder/profile" element={<ProfileBuilder />} />
             <Route path="resume-builder/jd-analyzer" element={<JDAnalyzer />} />
+            <Route path="resume-builder/my-resumes" element={<MyResumes />} />
             <Route path="resume-builder/learn-more" element={<ResumeBuilderLearnMore />} />
             <Route path="resume/work-experience" element={<WorkExperienceBuilder />} />
             <Route path="resume/car-stories" element={<CARStoryBuilder />} />

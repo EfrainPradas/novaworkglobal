@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle2, ChevronRight, Play } from 'lucide-react'
+import { Briefcase, Trophy, ClipboardList, CheckSquare, CheckCircle2, ChevronRight, Play, FolderOpen } from 'lucide-react'
 import LearnMoreLink from '../../components/common/LearnMoreLink'
 import { supabase } from '../../lib/supabase'
 import { useTranslation } from 'react-i18next'
@@ -274,6 +274,19 @@ export default function ResumeBuilderMenu() {
       bgColor: 'bg-primary-50',
       borderColor: 'border-primary-200',
       expandedText: "With the three parts complete, choose whether to create a chronological resume, a functional resume, or both. A chronological resume is ideal for continuing in a similar career path. A functional résumé is great for career changers, versatile careers, project-based work, or international moves. Having both can be a valuable asset in your job search strategy."
+    },
+    {
+      id: 'my-resumes',
+      title: t('resumeBuilder.menu.myResumesTitle', 'My Resumes'),
+      description: t('resumeBuilder.menu.myResumesDesc', 'View and manage your tailored resumes.'),
+      icon: FolderOpen,
+      route: '/dashboard/resume-builder/my-resumes',
+      completed: false,
+      current: false,
+      color: 'text-teal-600',
+      bgColor: 'bg-teal-50',
+      borderColor: 'border-teal-200',
+      expandedText: "See all your tailored resumes in one place. View, edit, and manage resumes created from job descriptions — including company, position, language, and status."
     }
   ]
 
@@ -339,7 +352,7 @@ export default function ResumeBuilderMenu() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-5 mb-10">
           {resumeOptions.map((option, index) => {
             const Icon = option.icon
             const tourStepId = `resume-step-${index + 1}`
