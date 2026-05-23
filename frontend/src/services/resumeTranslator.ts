@@ -159,7 +159,9 @@ export async function translateResumeData(
     : ''
   const apiUrl = import.meta.env.VITE_API_URL || fallbackApi
 
-  const response = await fetch(`${apiUrl}/api/ai/translate-resume`, {
+  const url = `${apiUrl}/api/ai/translate-resume`
+
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -170,6 +172,7 @@ export async function translateResumeData(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({ error: 'Translation failed' }))
+    console.error('Translation API error:', response.status, errorData)
     throw new Error(errorData.error || errorData.details || 'Translation failed')
   }
 

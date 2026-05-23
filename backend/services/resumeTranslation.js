@@ -128,6 +128,18 @@ ${JSON.stringify(fieldsToTranslate, null, 2)}`
 
     const translatedFields = JSON.parse(content)
 
+    // Debug: log what OpenAI actually returned for key fields
+    console.log('🔍 Translation debug — AI returned:')
+    console.log('  summary:', translatedFields.summary?.substring(0, 80) + '...')
+    console.log('  areas_of_excellence[0]:', translatedFields.areas_of_excellence?.[0])
+    console.log('  work_experience count:', translatedFields.work_experience?.length)
+    if (translatedFields.work_experience?.[0]) {
+      console.log('  work_exp[0].job_title:', translatedFields.work_experience[0].job_title)
+      console.log('  work_exp[0].scope_description:', translatedFields.work_experience[0].scope_description?.substring(0, 60) + '...')
+      console.log('  work_exp[0].accomplishments[0].bullet_text:', translatedFields.work_experience[0].accomplishments?.[0]?.bullet_text?.substring(0, 80) + '...')
+    }
+    console.log('  education[0]?.degree_title:', translatedFields.education?.[0]?.degree_title)
+
     // Deep-merge: start with original data, overlay translated text fields
     const result = JSON.parse(JSON.stringify(resumeData)) // deep clone
 

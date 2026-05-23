@@ -264,7 +264,6 @@ export default function ResumeFinalPreview() {
 
         try {
             const { language, sectionHeaders: headers } = JSON.parse(stored)
-            // Don't remove yet — keep it in case of failure so user can retry
 
             // Set section headers immediately
             setActiveLanguage(language)
@@ -284,7 +283,6 @@ export default function ResumeFinalPreview() {
             if (cachedTranslation) {
                 try {
                     const cached = JSON.parse(cachedTranslation)
-                    console.log('📦 Using cached translation from localStorage')
                     setResumeData(cached)
                     setEditSummaryText(cached.summary || '')
                     localStorage.removeItem(RESUME_LANG_KEY)
@@ -294,11 +292,36 @@ export default function ResumeFinalPreview() {
                 }
             }
 
+            // No localStorage cache — check Supabase for a saved translation
+            const resumeId = loadedData.master_resume_id
+            if (resumeId) {
+                try {
+                    const { data: savedTranslation } = await supabase
+                        .from('resume_translations')
+                        .select('content_hash, translated_data')
+                        .eq('resume_id', resumeId)
+                        .eq('language', language)
+                        .maybeSingle()
+
+                    if (savedTranslation && savedTranslation.content_hash === contentHash) {
+                        setResumeData(savedTranslation.translated_data)
+                        setEditSummaryText(savedTranslation.translated_data.summary || '')
+                        // Also cache in localStorage for next time
+                        try { localStorage.setItem(cacheKey, JSON.stringify(savedTranslation.translated_data)) } catch {}
+                        localStorage.removeItem(RESUME_LANG_KEY)
+                        return
+                    }
+                } catch (e) {
+                    // Table might not exist yet — continue to API translation
+                }
+            }
+
             // No valid cache — translate via API
+            console.log('🌐 Starting translation via API, language:', language)
             setIsTranslating(true)
             const { data: { session } } = await supabase.auth.getSession()
             const token = session?.access_token
-            if (!token) { setIsTranslating(false); return }
+            if (!token) { console.error('🌐 No auth token available'); setIsTranslating(false); return }
 
             const translated = await translateResumeData(loadedData, language, token)
             setResumeData(translated)
@@ -317,7 +340,27 @@ export default function ResumeFinalPreview() {
                 }
                 keysToRemove.forEach(k => localStorage.removeItem(k))
             } catch (saveErr) {
-                console.warn('Could not cache translation:', saveErr)
+                console.warn('Could not cache translation in localStorage:', saveErr)
+            }
+
+            // Save translation to Supabase for cross-session persistence
+            try {
+                const resumeId = loadedData.master_resume_id
+                if (resumeId && userId) {
+                    await supabase
+                        .from('resume_translations')
+                        .upsert({
+                            user_id: userId,
+                            resume_id: resumeId,
+                            language,
+                            content_hash: contentHash,
+                            translated_data: translated,
+                            updated_at: new Date().toISOString(),
+                        }, { onConflict: 'resume_id,language' })
+                    console.log('💾 Translation saved to Supabase')
+                }
+            } catch (saveErr) {
+                console.warn('Could not save translation to Supabase:', saveErr)
             }
 
             localStorage.removeItem(RESUME_LANG_KEY)
