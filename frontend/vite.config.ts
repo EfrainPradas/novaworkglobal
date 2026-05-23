@@ -69,12 +69,14 @@ export default defineConfig({
 
     proxy: {
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'https://3.145.4.238.nip.io',
         changeOrigin: true,
         secure: false,
+        timeout: 120000,
+        rewrite: (path) => path.replace(/^\/api/, '/novaworkglobal-api/api'),
       },
       '/novaworkglobal-api': {
-        target: 'http://localhost:5001',
+        target: 'https://3.145.4.238.nip.io',
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/novaworkglobal-api/, ''),

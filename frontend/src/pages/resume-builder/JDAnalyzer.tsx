@@ -51,6 +51,13 @@ const JDAnalyzer: React.FC = () => {
   const [sendToCompany, setSendToCompany] = useState('')
   const [sendMethod, setSendMethod] = useState('email')
   const [resumeFormat, setResumeFormat] = useState<'chronological' | 'functional'>('chronological')
+  const [outputLanguage, setOutputLanguage] = useState<'en' | 'es'>('en')
+  const [generatedResumeMeta, setGeneratedResumeMeta] = useState<{
+    id: string
+    company_name: string
+    job_title: string
+    document_name: string
+  } | null>(null)
 
   useEffect(() => {
     checkUser()
@@ -548,10 +555,10 @@ const JDAnalyzer: React.FC = () => {
     setError(null)
 
     try {
-      console.log('🎨 Generating tailored resume...')
-
       // Load full resume data
       const resumeData = await loadResumeData(userId, resumeId)
+
+      const docName = `Resume — ${jobTitle || 'Untitled'} — ${companyName || 'Unknown Company'}`
 
       // Create tailored version - save to database
       const { data: tailoredResume, error: saveError } = await supabase
@@ -570,25 +577,52 @@ const JDAnalyzer: React.FC = () => {
             format_type: resumeFormat
           },
           match_score: analysis.match_score || 0,
-          status: 'draft'
+          status: 'generated',
+          document_name: docName,
+          output_language: outputLanguage,
+          generated_at: new Date().toISOString(),
         })
         .select()
         .single()
 
       if (saveError) throw saveError
 
-      console.log('✅ Tailored resume created:', tailoredResume)
-
-      alert(`✅ Tailored resume generated for ${companyName}!\n\nYou can now edit it manually or export it.`)
+      // Show metadata confirmation panel for editing
+      setGeneratedResumeMeta({
+        id: tailoredResume.id,
+        company_name: companyName,
+        job_title: jobTitle,
+        document_name: docName,
+      })
 
       // Reload tailored resumes
       await loadTailoredResumes(userId)
 
     } catch (error: any) {
-      console.error('❌ Error generating tailored resume:', error)
+      console.error('Error generating tailored resume:', error)
       setError('Failed to generate tailored resume: ' + error.message)
     } finally {
       setGenerating(false)
+    }
+  }
+
+  const handleSaveMetadata = async () => {
+    if (!generatedResumeMeta) return
+    try {
+      const { error } = await supabase
+        .from('tailored_resumes')
+        .update({
+          company_name: generatedResumeMeta.company_name,
+          job_title: generatedResumeMeta.job_title,
+          document_name: generatedResumeMeta.document_name,
+        })
+        .eq('id', generatedResumeMeta.id)
+      if (error) throw error
+      setGeneratedResumeMeta(null)
+      if (userId) await loadTailoredResumes(userId)
+    } catch (error: any) {
+      console.error('Error saving metadata:', error)
+      setError('Failed to save metadata: ' + error.message)
     }
   }
 
@@ -1446,6 +1480,32 @@ const JDAnalyzer: React.FC = () => {
                     </label>
                   </div>
 
+                  <div className="flex flex-wrap items-center gap-6 p-1">
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">Output Language:</span>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="outputLanguage"
+                        value="en"
+                        checked={outputLanguage === 'en'}
+                        onChange={() => setOutputLanguage('en')}
+                        className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                      />
+                      English
+                    </label>
+                    <label className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 font-medium cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                      <input
+                        type="radio"
+                        name="outputLanguage"
+                        value="es"
+                        checked={outputLanguage === 'es'}
+                        onChange={() => setOutputLanguage('es')}
+                        className="text-primary-600 focus:ring-primary-500 bg-white dark:bg-gray-800 border-gray-300 dark:border-gray-600 w-4 h-4 cursor-pointer"
+                      />
+                      Espa&ntilde;ol
+                    </label>
+                  </div>
+
                   <div className="flex gap-3">
                     <button
                       onClick={handleGenerateTailoredResume}
@@ -1455,6 +1515,59 @@ const JDAnalyzer: React.FC = () => {
                       {generating ? '⏳ Generating...' : '📄 Generate Tailored Resume'}
                     </button>
                   </div>
+
+                  {/* Metadata Confirmation Panel */}
+                  {generatedResumeMeta && (
+                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5 space-y-4">
+                      <h3 className="text-sm font-bold text-blue-800 dark:text-blue-300">Resume Metadata</h3>
+                      <p className="text-xs text-blue-600 dark:text-blue-400">Confirm or edit the details below:</p>
+                      <div className="space-y-3">
+                        <div>
+                          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Document Name</label>
+                          <input
+                            type="text"
+                            value={generatedResumeMeta.document_name}
+                            onChange={(e) => setGeneratedResumeMeta({ ...generatedResumeMeta, document_name: e.target.value })}
+                            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Company</label>
+                            <input
+                              type="text"
+                              value={generatedResumeMeta.company_name}
+                              onChange={(e) => setGeneratedResumeMeta({ ...generatedResumeMeta, company_name: e.target.value })}
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-1">Position</label>
+                            <input
+                              type="text"
+                              value={generatedResumeMeta.job_title}
+                              onChange={(e) => setGeneratedResumeMeta({ ...generatedResumeMeta, job_title: e.target.value })}
+                              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-3 pt-2">
+                          <button
+                            onClick={handleSaveMetadata}
+                            className="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setGeneratedResumeMeta(null)}
+                            className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+                          >
+                            Dismiss
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Cover Letter Action */}

@@ -12,11 +12,14 @@ interface TailoredResume {
   jd_analysis_id: string
   company_name: string
   job_title: string
+  document_name?: string
+  output_language?: string
+  generated_at?: string
   tailored_profile: string
   tailored_skills: string[]
   tailored_bullets: any
   match_score: number
-  status: 'draft' | 'sent' | 'reviewed'
+  status: 'generated' | 'draft' | 'sent' | 'reviewed'
   application_status: string
   sent_to_company: string
   sent_at: string
@@ -575,7 +578,7 @@ export const ResumeTracker: React.FC = () => {
                   <div className="flex items-start gap-4 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-bold text-gray-900">{resume.job_title}</h3>
+                        <h3 className="text-xl font-bold text-gray-900">{resume.document_name || resume.job_title}</h3>
                         <span className={`px-3 py-1 text-xs font-semibold rounded-full border ${getStatusColor(resume.application_status || 'draft')}`}>
                           {(resume.application_status || 'draft').replace(/_/g, ' ')}
                         </span>

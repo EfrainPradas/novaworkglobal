@@ -9,6 +9,9 @@ interface TrackedResume {
   id: string
   job_title: string
   company_name: string
+  document_name?: string
+  output_language?: string
+  generated_at?: string
   sent_at: string
   sent_to_company: string
   application_status: string
@@ -25,6 +28,7 @@ interface TrackedResume {
 }
 
 const STATUS_OPTIONS = [
+  { value: 'generated', label: '📄 Generated', color: 'bg-teal-100 text-teal-700 dark:bg-teal-900/30 dark:text-teal-300' },
   { value: 'draft', label: '📝 Draft', color: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300' },
   { value: 'sent', label: '✉️ Sent', color: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300' },
   { value: 'under_review', label: '👀 Under Review', color: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300' },
@@ -54,6 +58,9 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
   const [editingNotes, setEditingNotes] = useState<string>('')
   const [editingInterviewDate, setEditingInterviewDate] = useState<string>('')
   const [editingRecruiter, setEditingRecruiter] = useState<string>('')
+  const [editingDocumentName, setEditingDocumentName] = useState<string>('')
+  const [editingCompanyName, setEditingCompanyName] = useState<string>('')
+  const [editingJobTitle, setEditingJobTitle] = useState<string>('')
   const [sortBy, setSortBy] = useState<'date' | 'company' | 'status'>('date')
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc')
   const [dateFrom, setDateFrom] = useState<string>(() => localStorage.getItem('resumeTracking.dateFrom') || '')
@@ -146,6 +153,9 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
     setEditingNotes(resume.notes || '')
     setEditingInterviewDate(resume.interview_date ? new Date(resume.interview_date).toISOString().slice(0, 16) : '')
     setEditingRecruiter(resume.recruiter_contact || '')
+    setEditingDocumentName(resume.document_name || '')
+    setEditingCompanyName(resume.company_name || '')
+    setEditingJobTitle(resume.job_title || '')
   }
 
   const handleSaveStatus = async () => {
@@ -157,6 +167,9 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
         last_status_update: new Date().toISOString(),
         notes: editingNotes || null,
         recruiter_contact: editingRecruiter || null,
+        document_name: editingDocumentName || null,
+        company_name: editingCompanyName || null,
+        job_title: editingJobTitle || null,
       }
 
       if (editingInterviewDate) {
@@ -512,11 +525,16 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3">
                   {/* Position & Company */}
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate" title={resume.job_title}>
-                      {resume.job_title}
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate" title={resume.document_name || resume.job_title}>
+                      {resume.document_name || resume.job_title}
                     </h3>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       {resume.company_name}
+                      {resume.output_language && resume.output_language !== 'en' && (
+                        <span className="ml-2 inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
+                          {resume.output_language === 'es' ? 'ES' : resume.output_language.toUpperCase()}
+                        </span>
+                      )}
                       {resume.recruiter_contact && <span className="ml-2">• Recruiter: {resume.recruiter_contact}</span>}
                     </p>
                   </div>
@@ -547,7 +565,7 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
 
                   {/* Date */}
                   <div className="flex-shrink-0 text-xs text-gray-400 dark:text-gray-500 w-28 text-right hidden md:block">
-                    {formatDate(resume.sent_at || resume.created_at).split(',')[0]}
+                    {formatDate(resume.generated_at || resume.sent_at || resume.created_at).split(',')[0]}
                     {resume.interview_date && (
                       <div className="text-purple-500 mt-0.5">📅 {formatDate(resume.interview_date).split(',')[0]}</div>
                     )}
@@ -600,6 +618,44 @@ export default function ResumeTracking({ embedded = false }: ResumeTrackingProps
               </div>
 
               <div className="p-6 space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Document Name
+                  </label>
+                  <input
+                    type="text"
+                    value={editingDocumentName}
+                    onChange={(e) => setEditingDocumentName(e.target.value)}
+                    placeholder="e.g., Resume — Senior PM — Google"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Company
+                    </label>
+                    <input
+                      type="text"
+                      value={editingCompanyName}
+                      onChange={(e) => setEditingCompanyName(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Position
+                    </label>
+                    <input
+                      type="text"
+                      value={editingJobTitle}
+                      onChange={(e) => setEditingJobTitle(e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+                    />
+                  </div>
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Application Status *

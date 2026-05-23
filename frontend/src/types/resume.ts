@@ -229,11 +229,21 @@ export interface TailoredResume {
   tailored_skills?: string[]
   tailored_bullets?: any // JSONB
 
+  // JD Metadata
+  company_name?: string
+  job_title?: string
+  document_name?: string
+  output_language?: string  // 'en' | 'es'
+  status?: string           // 'generated' | 'draft' | 'sent' | 'reviewed'
+  match_score?: number
+  generated_at?: string
+
   // Export
   file_url?: string
   filename?: string
 
   created_at?: string
+  updated_at?: string
 }
 
 // Competencies (for PAR stories)

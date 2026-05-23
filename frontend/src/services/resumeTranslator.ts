@@ -144,8 +144,12 @@ export function detectResumeLanguage(data: ResumeData): ResumeLanguage {
   return 'en'
 }
 
+const MAX_RETRIES = 2
+const RETRY_DELAYS = [3000, 6000] // ms — waits 3s then 6s before retrying
+
 /**
  * Call the backend translation endpoint and return translated resume data.
+ * Retries on 504 (Gateway Timeout) and 429 (Rate Limit) with backoff.
  */
 export async function translateResumeData(
   resumeData: ResumeData,
@@ -159,21 +163,56 @@ export async function translateResumeData(
 
   const url = `${apiUrl}/api/ai/translate-resume`
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${authToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ resumeData, targetLanguage }),
-  })
+  let lastError: Error = new Error('Translation failed')
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ error: 'Translation failed' }))
-    console.error('Translation API error:', response.status, errorData)
-    throw new Error(errorData.error || errorData.details || 'Translation failed')
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 90000) // 90s client-side timeout
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ resumeData, targetLanguage }),
+        signal: controller.signal,
+      })
+
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: 'Translation failed' }))
+        const errorMsg = errorData.error || errorData.details || 'Translation failed'
+
+        if ((response.status === 504 || response.status === 429) && attempt < MAX_RETRIES) {
+          await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]))
+          continue
+        }
+
+        throw new Error(errorMsg)
+      }
+
+      const { translatedResumeData } = await response.json()
+      return translatedResumeData as ResumeData
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        lastError = new Error('Translation timed out. Please try again.')
+        if (attempt < MAX_RETRIES) {
+          await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]))
+          continue
+        }
+      } else {
+        lastError = err
+        if (attempt < MAX_RETRIES && (err.message?.includes('504') || err.message?.includes('429') || err.message?.includes('Failed to fetch'))) {
+          await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]))
+          continue
+        }
+      }
+      throw err
+    }
   }
 
-  const { translatedResumeData } = await response.json()
-  return translatedResumeData as ResumeData
+  throw lastError
 }

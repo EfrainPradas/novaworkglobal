@@ -17,7 +17,7 @@ import {
 } from '../../services/resumeTranslator'
 
 const RESUME_LANG_KEY = 'novawork_resume_output_language'
-const TRANSLATION_CACHE_PREFIX = 'novawork_translation_v2_'
+const TRANSLATION_CACHE_PREFIX = 'novawork_translation_v3_'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
@@ -227,6 +227,7 @@ export default function ResumeFinalPreview() {
             setEditSummaryText(combinedProfile)
 
             // After loading full data, check if user selected a different output language
+            translationInitiated.current = false
             await applyOutputLanguage(fullResumeData, masterResume, uid)
         } catch (error) {
             console.error('Error loading resume preview:', error)
