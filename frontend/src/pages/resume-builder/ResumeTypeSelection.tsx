@@ -46,23 +46,26 @@ export default function ResumeTypeSelection() {
                 }
 
                 // Detect language from existing resume data
-                const detected = await detectLanguageFromResume(user!.id)
+                let detected: ResumeLanguage = 'en'
+                try {
+                    detected = await detectLanguageFromResume(user!.id)
+                } catch (e) {
+                    console.warn('Language detection failed, defaulting to English:', e)
+                }
                 setDetectedLanguage(detected)
-
                 setShowLanguageModal(true)
             } catch (error) {
                 console.error('Error saving resume type:', error)
-                navigate('/dashboard/resume/final-preview')
+                // Still show language modal even if save fails
+                setShowLanguageModal(true)
             }
         }
     }
 
     const handleLanguageConfirm = (language: ResumeLanguage) => {
         // Store the selected output language for ResumeFinalPreview to consume
-        localStorage.setItem(RESUME_LANG_KEY, JSON.stringify({
-          language,
-          sectionHeaders: SECTION_HEADERS[language],
-        }))
+        const stored = { language, sectionHeaders: SECTION_HEADERS[language] }
+        localStorage.setItem(RESUME_LANG_KEY, JSON.stringify(stored))
 
         setShowLanguageModal(false)
         navigate('/dashboard/resume/final-preview')
@@ -79,7 +82,7 @@ export default function ResumeTypeSelection() {
         try {
             const { data: masterResumes } = await supabase
                 .from('user_resumes')
-                .select('profile_summary, areas_of_excellence')
+                .select('id, profile_summary, areas_of_excellence')
                 .eq('user_id', userId)
                 .eq('is_master', true)
                 .order('created_at', { ascending: false })

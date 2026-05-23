@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Download, Printer, CheckCircle, Pencil, Save, Loader2, Globe } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
@@ -17,7 +17,7 @@ import {
 } from '../../services/resumeTranslator'
 
 const RESUME_LANG_KEY = 'novawork_resume_output_language'
-const TRANSLATION_CACHE_PREFIX = 'novawork_translation_cache_'
+const TRANSLATION_CACHE_PREFIX = 'novawork_translation_v2_'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
@@ -44,6 +44,8 @@ export default function ResumeFinalPreview() {
     const [activeLanguage, setActiveLanguage] = useState<ResumeLanguage>('en')
     const [sectionHeaders, setSectionHeaders] = useState<SectionHeaders>(SECTION_HEADERS.en)
     const [isTranslating, setIsTranslating] = useState(false)
+    const [translationError, setTranslationError] = useState<string | null>(null)
+    const translationInitiated = useRef(false)
 
     useEffect(() => {
         const checkUser = async () => {
@@ -225,17 +227,18 @@ export default function ResumeFinalPreview() {
             setEditSummaryText(combinedProfile)
 
             // After loading full data, check if user selected a different output language
-            await applyOutputLanguage(fullResumeData, masterResume)
+            await applyOutputLanguage(fullResumeData, masterResume, uid)
         } catch (error) {
             console.error('Error loading resume preview:', error)
         }
     }
 
-    // Simple hash function for change detection
+    // Hash function for change detection — includes all translatable fields
     const hashResumeContent = (data: any): string => {
         const fields = [
             data.summary || '',
             JSON.stringify(data.areas_of_excellence || []),
+            JSON.stringify(data.skills_section || {}),
             JSON.stringify(data.work_experience?.map((e: any) => ({
                 job_title: e.job_title, scope_description: e.scope_description,
                 role_explanation: e.role_explanation,
@@ -246,6 +249,11 @@ export default function ResumeFinalPreview() {
             })) || []),
             JSON.stringify(data.certifications?.map((c: any) => c.certification_name) || []),
             JSON.stringify(data.awards?.map((a: any) => a.certification_name || a.name) || []),
+            data.resume_type || 'chronological',
+            JSON.stringify(data.contact ? {
+                name: data.contact.full_name,
+                location: data.contact.location,
+            } : {}),
         ]
         const combined = fields.join('|||')
         let hash = 0
@@ -258,12 +266,20 @@ export default function ResumeFinalPreview() {
     }
 
     // Check localStorage for selected output language and translate if needed
-    const applyOutputLanguage = async (loadedData: any, masterResume: any) => {
+    const applyOutputLanguage = async (loadedData: any, masterResume: any, uid: string) => {
+        // Guard against StrictMode double-mount: skip if already initiated
+        if (translationInitiated.current) return
+        translationInitiated.current = true
+
         const stored = localStorage.getItem(RESUME_LANG_KEY)
         if (!stored) return
 
+        // Consume the key immediately to prevent double-processing
+        const { language, sectionHeaders: headers } = JSON.parse(stored)
+        localStorage.removeItem(RESUME_LANG_KEY)
+
         try {
-            const { language, sectionHeaders: headers } = JSON.parse(stored)
+            setTranslationError(null)
 
             // Set section headers immediately
             setActiveLanguage(language)
@@ -271,7 +287,6 @@ export default function ResumeFinalPreview() {
 
             // If English (original language), no translation needed
             if (language === 'en') {
-                localStorage.removeItem(RESUME_LANG_KEY)
                 return
             }
 
@@ -285,7 +300,6 @@ export default function ResumeFinalPreview() {
                     const cached = JSON.parse(cachedTranslation)
                     setResumeData(cached)
                     setEditSummaryText(cached.summary || '')
-                    localStorage.removeItem(RESUME_LANG_KEY)
                     return
                 } catch {
                     localStorage.removeItem(cacheKey)
@@ -308,20 +322,22 @@ export default function ResumeFinalPreview() {
                         setEditSummaryText(savedTranslation.translated_data.summary || '')
                         // Also cache in localStorage for next time
                         try { localStorage.setItem(cacheKey, JSON.stringify(savedTranslation.translated_data)) } catch {}
-                        localStorage.removeItem(RESUME_LANG_KEY)
                         return
                     }
-                } catch (e) {
+                } catch {
                     // Table might not exist yet — continue to API translation
                 }
             }
 
             // No valid cache — translate via API
-            console.log('🌐 Starting translation via API, language:', language)
             setIsTranslating(true)
             const { data: { session } } = await supabase.auth.getSession()
             const token = session?.access_token
-            if (!token) { console.error('🌐 No auth token available'); setIsTranslating(false); return }
+            if (!token) {
+                setIsTranslating(false)
+                setTranslationError(t('resumeBuilder.translationFailed', 'Translation failed. Showing original version.'))
+                return
+            }
 
             const translated = await translateResumeData(loadedData, language, token)
             setResumeData(translated)
@@ -330,7 +346,7 @@ export default function ResumeFinalPreview() {
             // Cache the translation in localStorage for future use
             try {
                 localStorage.setItem(cacheKey, JSON.stringify(translated))
-                // Also clean up old cached translations for this language
+                // Clean up old cached translations for this language
                 const keysToRemove: string[] = []
                 for (let i = 0; i < localStorage.length; i++) {
                     const key = localStorage.key(i)
@@ -339,35 +355,30 @@ export default function ResumeFinalPreview() {
                     }
                 }
                 keysToRemove.forEach(k => localStorage.removeItem(k))
-            } catch (saveErr) {
-                console.warn('Could not cache translation in localStorage:', saveErr)
-            }
+            } catch { /* localStorage quota exceeded — non-critical */ }
 
             // Save translation to Supabase for cross-session persistence
             try {
                 const resumeId = loadedData.master_resume_id
-                if (resumeId && userId) {
+                if (resumeId && uid) {
                     await supabase
                         .from('resume_translations')
                         .upsert({
-                            user_id: userId,
+                            user_id: uid,
                             resume_id: resumeId,
                             language,
                             content_hash: contentHash,
                             translated_data: translated,
                             updated_at: new Date().toISOString(),
                         }, { onConflict: 'resume_id,language' })
-                    console.log('💾 Translation saved to Supabase')
                 }
-            } catch (saveErr) {
-                console.warn('Could not save translation to Supabase:', saveErr)
-            }
+            } catch { /* Supabase save failed — non-critical, translation still works */ }
 
-            localStorage.removeItem(RESUME_LANG_KEY)
             setIsTranslating(false)
         } catch (e) {
             console.error('Error applying output language:', e)
             setIsTranslating(false)
+            setTranslationError(t('resumeBuilder.translationFailed', 'Translation failed. Showing original version.'))
         }
     }
 
@@ -526,11 +537,11 @@ export default function ResumeFinalPreview() {
                                 {t('resumeBuilder.languageSelection.changeLanguage', 'Change Language')}
                             </button>
                         )}
-                        <button onClick={() => window.print()} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm">
+                        <button onClick={() => window.print()} disabled={isTranslating} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed">
                             <Printer className="w-4 h-4" /> Print
                         </button>
                         {canUse('canExportResume') ? (
-                        <button onClick={handleExport} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium text-sm">
+                        <button onClick={handleExport} disabled={isTranslating} className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed">
                             <Download className="w-4 h-4" /> Word
                         </button>
                         ) : (
@@ -541,6 +552,37 @@ export default function ResumeFinalPreview() {
                         </button>
                     </div>
                 </div>
+
+                {/* ── Translation error banner ── */}
+                {translationError && (
+                    <div className="flex items-center justify-between gap-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300 px-5 py-3 rounded-xl">
+                        <span className="text-sm font-medium">{translationError}</span>
+                        <button
+                            onClick={() => {
+                                setTranslationError(null)
+                                translationInitiated.current = false
+                                if (userId) {
+                                    loadResumeData(userId)
+                                }
+                            }}
+                            className="text-xs font-semibold underline hover:no-underline whitespace-nowrap"
+                        >
+                            {t('resumeBuilder.retryTranslation', 'Retry')}
+                        </button>
+                    </div>
+                )}
+
+                {/* ── Translation loading overlay ── */}
+                {isTranslating && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl px-8 py-6 flex flex-col items-center gap-3">
+                            <div className="w-8 h-8 border-3 border-blue-600 border-t-transparent rounded-full animate-spin" />
+                            <p className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                                {t('resumeBuilder.translatingResume', 'Translating resume...')}
+                            </p>
+                        </div>
+                    </div>
+                )}
 
                 {/* ── Resume paper ── */}
                 <div className="bg-white dark:bg-slate-900 rounded-2xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-800 p-4 md:p-8">

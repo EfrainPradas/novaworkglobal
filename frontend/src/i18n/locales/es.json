@@ -966,6 +966,8 @@
       "saveAsVersion": "Guardar como versión traducida",
       "saveAsVersionDesc": "Crear un registro de currículum separado. Tu original permanece sin cambios.",
       "translationError": "Error en la traducción. Intenta de nuevo o selecciona tu idioma original.",
+      "retryTranslation": "Reintentar",
+      "translatingResume": "Traduciendo currículum...",
       "changeLanguage": "Cambiar idioma"
     },
     "aiExtractor": {

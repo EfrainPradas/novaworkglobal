@@ -72,8 +72,6 @@ export interface ResumeData {
   master_resume_id: string | null
 }
 
-const STORAGE_KEY = 'novawork_translated_resume'
-
 /**
  * Detect the source language of resume content using a heuristic.
  * Checks the professional summary and first accomplishment bullet
@@ -178,38 +176,4 @@ export async function translateResumeData(
 
   const { translatedResumeData } = await response.json()
   return translatedResumeData as ResumeData
-}
-
-/**
- * Save translated resume data to localStorage for consumption by ResumeFinalPreview.
- */
-export function saveTranslatedResumeToStorage(
-  resumeData: ResumeData,
-  language: ResumeLanguage,
-  sectionHeaders: SectionHeaders
-): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({ resumeData, language, sectionHeaders }))
-}
-
-/**
- * Read and consume translated resume data from localStorage.
- * Returns null if no translated data is available.
- * Automatically clears the key after reading (one-time consume).
- */
-export function consumeTranslatedResumeFromStorage(): {
-  resumeData: ResumeData
-  language: ResumeLanguage
-  sectionHeaders: SectionHeaders
-} | null {
-  const stored = localStorage.getItem(STORAGE_KEY)
-  if (!stored) return null
-
-  try {
-    const parsed = JSON.parse(stored)
-    localStorage.removeItem(STORAGE_KEY)
-    return parsed
-  } catch {
-    localStorage.removeItem(STORAGE_KEY)
-    return null
-  }
 }

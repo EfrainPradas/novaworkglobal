@@ -885,6 +885,8 @@
       "saveAsVersion": "Save as translated version",
       "saveAsVersionDesc": "Create a separate resume record. Your original stays unchanged.",
       "translationError": "Translation failed. Please try again or select your original language.",
+      "retryTranslation": "Retry",
+      "translatingResume": "Translating resume...",
       "changeLanguage": "Change Language"
     },
     "aiExtractor": {
