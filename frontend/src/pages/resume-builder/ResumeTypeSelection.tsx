@@ -9,12 +9,12 @@ import { BackButton } from '../../components/common/BackButton'
 import SelectResumeLanguage from '../../components/resume-builder/SelectResumeLanguage'
 import {
   detectResumeLanguage,
-  translateResumeData,
-  saveTranslatedResumeToStorage,
   SECTION_HEADERS,
   type ResumeLanguage,
-  type ResumeData,
+  type SectionHeaders,
 } from '../../services/resumeTranslator'
+
+const RESUME_LANG_KEY = 'novawork_resume_output_language'
 
 export default function ResumeTypeSelection() {
     const { t } = useTranslation()
@@ -29,7 +29,6 @@ export default function ResumeTypeSelection() {
     const [isTranslating, setIsTranslating] = useState(false)
     const [translationError, setTranslationError] = useState<string | null>(null)
     const [detectedLanguage, setDetectedLanguage] = useState<ResumeLanguage>('en')
-    const [resumeDataForTranslation, setResumeDataForTranslation] = useState<ResumeData | null>(null)
 
     const handleContinue = async () => {
         if (selectedType) {
@@ -46,55 +45,28 @@ export default function ResumeTypeSelection() {
                     if (error) throw error
                 }
 
-                // Load resume data to detect language and show modal
-                const data = await loadMinimalResumeData(user!.id)
-                if (data) {
-                    const detected = detectResumeLanguage(data)
-                    setDetectedLanguage(detected)
-                    setResumeDataForTranslation(data)
-                }
+                // Detect language from existing resume data
+                const detected = await detectLanguageFromResume(user!.id)
+                setDetectedLanguage(detected)
 
                 setShowLanguageModal(true)
             } catch (error) {
                 console.error('Error saving resume type:', error)
-                // Fallback: navigate directly
                 navigate('/dashboard/resume/final-preview')
             }
         }
     }
 
-    const handleLanguageConfirm = async (language: ResumeLanguage) => {
-        // Same language — no translation needed
-        if (language === detectedLanguage || !resumeDataForTranslation) {
-            setShowLanguageModal(false)
-            navigate('/dashboard/resume/final-preview')
-            return
-        }
+    const handleLanguageConfirm = (language: ResumeLanguage) => {
+        // Store the selected output language for ResumeFinalPreview to consume
+        localStorage.setItem(RESUME_LANG_KEY, JSON.stringify({
+          language,
+          detectedLanguage,
+          sectionHeaders: SECTION_HEADERS[language],
+        }))
 
-        // Different language — translate
-        setIsTranslating(true)
-        setTranslationError(null)
-
-        try {
-            const { data: { session } } = await supabase.auth.getSession()
-            const token = session?.access_token
-            if (!token) {
-                setShowLanguageModal(false)
-                navigate('/dashboard/resume/final-preview')
-                return
-            }
-
-            const translated = await translateResumeData(resumeDataForTranslation, language, token)
-            const sectionHeaders = SECTION_HEADERS[language]
-            saveTranslatedResumeToStorage(translated, language, sectionHeaders)
-
-            setShowLanguageModal(false)
-            navigate('/dashboard/resume/final-preview')
-        } catch (error: any) {
-            console.error('Translation error:', error)
-            setTranslationError(error.message || 'Translation failed')
-            setIsTranslating(false)
-        }
+        setShowLanguageModal(false)
+        navigate('/dashboard/resume/final-preview')
     }
 
     const handleLanguageClose = () => {
@@ -103,45 +75,47 @@ export default function ResumeTypeSelection() {
         setTranslationError(null)
     }
 
-    // Minimal load to detect language — full data will be loaded by ResumeFinalPreview
-    const loadMinimalResumeData = async (userId: string): Promise<ResumeData | null> => {
+    // Detect language from minimal resume data
+    const detectLanguageFromResume = async (userId: string): Promise<ResumeLanguage> => {
         try {
             const { data: masterResumes } = await supabase
                 .from('user_resumes')
-                .select('*')
+                .select('profile_summary, areas_of_excellence')
                 .eq('user_id', userId)
                 .eq('is_master', true)
                 .order('created_at', { ascending: false })
                 .limit(1)
 
             const masterResume = masterResumes?.[0]
-            if (!masterResume) return null
+            if (!masterResume) return 'en'
 
             const { data: work } = await supabase
                 .from('work_experience')
-                .select('*, accomplishments(*)')
+                .select('scope_description, accomplishments(bullet_text)')
                 .eq('resume_id', masterResume.id)
                 .order('start_date', { ascending: false })
                 .limit(1)
 
-            return {
-                contact: { full_name: '', email: null, phone: null, linkedin: null, linkedin_url: null, location: null, portfolio: null },
-                summary: masterResume.profile_summary || '',
-                areas_of_excellence: masterResume.areas_of_excellence || [],
-                skills_section: {},
-                work_experience: (work || []).map((exp: any) => ({
-                    ...exp,
-                    accomplishments: (exp.accomplishments || []).filter((a: any) => a.is_visible !== false),
-                })),
-                education: [],
-                certifications: [],
-                awards: [],
-                resume_type: masterResume.resume_type || selectedType || 'chronological',
-                master_resume_id: masterResume.id,
+            const minimalData = {
+              contact: { full_name: '', email: null, phone: null, linkedin: null, linkedin_url: null, location: null, portfolio: null },
+              summary: masterResume.profile_summary || '',
+              areas_of_excellence: masterResume.areas_of_excellence || [],
+              skills_section: {},
+              work_experience: (work || []).map((exp: any) => ({
+                  ...exp,
+                  accomplishments: (exp.accomplishments || []),
+              })),
+              education: [],
+              certifications: [],
+              awards: [],
+              resume_type: selectedType || 'chronological',
+              master_resume_id: null,
             }
+
+            return detectResumeLanguage(minimalData)
         } catch (e) {
-            console.error('Error loading resume data for language detection:', e)
-            return null
+            console.error('Error detecting language:', e)
+            return 'en'
         }
     }
 

@@ -8,7 +8,15 @@ import { useGuidedStep } from '../../hooks/useGuidedStep'
 import { CompletionCelebration } from '../../components/guided-path'
 import { usePlanTier } from '../../hooks/usePlanTier'
 import UpgradePrompt from '../../components/billing/UpgradePrompt'
-import { SECTION_HEADERS, consumeTranslatedResumeFromStorage, type ResumeLanguage, type SectionHeaders } from '../../services/resumeTranslator'
+import {
+  SECTION_HEADERS,
+  translateResumeData,
+  detectResumeLanguage,
+  type ResumeLanguage,
+  type SectionHeaders,
+} from '../../services/resumeTranslator'
+
+const RESUME_LANG_KEY = 'novawork_resume_output_language'
 
 export default function ResumeFinalPreview() {
     const guided = useGuidedStep('guided_path_complete')
@@ -34,6 +42,7 @@ export default function ResumeFinalPreview() {
     const [selectedGroupId, setSelectedGroupId] = useState<string>('')
     const [activeLanguage, setActiveLanguage] = useState<ResumeLanguage>('en')
     const [sectionHeaders, setSectionHeaders] = useState<SectionHeaders>(SECTION_HEADERS.en)
+    const [isTranslating, setIsTranslating] = useState(false)
 
     useEffect(() => {
         const checkUser = async () => {
@@ -186,7 +195,7 @@ export default function ResumeFinalPreview() {
                     .join(', ')
                 : null
 
-            setResumeData({
+            const fullResumeData = {
                 contact: {
                     full_name: contactName || masterResume?.full_name || user?.full_name || profile?.full_name || null,
                     email: contactProfile?.email || masterResume?.email || user?.email || null,
@@ -209,23 +218,49 @@ export default function ResumeFinalPreview() {
                 awards: finalAwards,
                 resume_type: masterResume?.resume_type || 'chronological',
                 master_resume_id: masterResume?.id
-            })
+            }
+
+            setResumeData(fullResumeData)
             setEditSummaryText(combinedProfile)
+
+            // After loading full data, check if user selected a different output language
+            await applyOutputLanguage(fullResumeData)
         } catch (error) {
             console.error('Error loading resume preview:', error)
         }
     }
 
-    // Check for pre-translated resume data from localStorage
-    useEffect(() => {
-        const translated = consumeTranslatedResumeFromStorage()
-        if (translated) {
-            setResumeData(translated.resumeData)
-            setActiveLanguage(translated.language)
-            setSectionHeaders(translated.sectionHeaders)
-            setEditSummaryText(translated.resumeData.summary || '')
+    // Check localStorage for selected output language and translate if needed
+    const applyOutputLanguage = async (loadedData: any) => {
+        const stored = localStorage.getItem(RESUME_LANG_KEY)
+        if (!stored) return
+
+        try {
+            const { language, detectedLanguage, sectionHeaders: headers } = JSON.parse(stored)
+            localStorage.removeItem(RESUME_LANG_KEY)
+
+            // Set section headers immediately
+            setActiveLanguage(language)
+            setSectionHeaders(headers)
+
+            // If same language, no translation needed
+            if (language === detectedLanguage) return
+
+            // Different language — translate the full resume data
+            setIsTranslating(true)
+            const { data: { session } } = await supabase.auth.getSession()
+            const token = session?.access_token
+            if (!token) { setIsTranslating(false); return }
+
+            const translated = await translateResumeData(loadedData, language, token)
+            setResumeData(translated)
+            setEditSummaryText(translated.summary || '')
+            setIsTranslating(false)
+        } catch (e) {
+            console.error('Error applying output language:', e)
+            setIsTranslating(false)
         }
-    }, [userId])
+    }
 
     const formatDate = (dateString: string | undefined, isCurrent: boolean) => {
         if (isCurrent) return t('common.present') || 'Present'
@@ -303,9 +338,14 @@ export default function ResumeFinalPreview() {
         }
     }
 
-    if (loading) return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-slate-950">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600" />
+    if (loading || isTranslating) return (
+        <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-slate-950 gap-4">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600" />
+            <p className="text-slate-600 dark:text-slate-400 font-medium">
+                {isTranslating
+                    ? t('resumeBuilder.languageSelection.translating', 'Translating your resume...')
+                    : 'Loading...'}
+            </p>
         </div>
     )
 
@@ -364,7 +404,15 @@ export default function ResumeFinalPreview() {
                         )}
                         {activeLanguage !== 'en' && (
                             <button
-                                onClick={() => navigate('/dashboard/resume/type-selection?mode=standalone')}
+                                onClick={() => {
+                                    // Store current language as detected so modal shows correct state
+                                    localStorage.setItem(RESUME_LANG_KEY, JSON.stringify({
+                                      language: activeLanguage,
+                                      detectedLanguage: detectResumeLanguage(resumeData),
+                                      sectionHeaders: SECTION_HEADERS[activeLanguage],
+                                    }))
+                                    navigate('/dashboard/resume/type-selection?mode=standalone')
+                                }}
                                 className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-primary-600 dark:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors no-print"
                             >
                                 <Globe className="w-3.5 h-3.5" />
