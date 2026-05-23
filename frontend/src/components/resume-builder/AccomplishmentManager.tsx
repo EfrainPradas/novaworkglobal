@@ -546,7 +546,7 @@ export const AccomplishmentManager: React.FC<AccomplishmentManagerProps> = ({
                           setShowImproveAsCAR(true)
                         }}
                         disabled={saving}
-                        className="p-1.5 border border-amber-200 dark:border-amber-900 bg-amber-50/50 dark:bg-amber-950/20 text-amber-600 dark:text-amber-400 hover:bg-amber-100 dark:hover:bg-amber-900/40 rounded-lg transition-all"
+                        className="p-1.5 border border-primary-200 dark:border-primary-900 bg-primary-50/50 dark:bg-primary-950/20 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/40 rounded-lg transition-all"
                         title={t('improveAsCAR.buttonLabel')}
                       >
                         <Sparkles className="w-3.5 h-3.5" />

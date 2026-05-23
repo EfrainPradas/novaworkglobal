@@ -218,7 +218,7 @@ export default function ImproveAsCARModal({
         {/* Header */}
         <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
+            <div className="w-9 h-9 rounded-lg bg-[var(--ascendia-primary)] flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
@@ -238,13 +238,13 @@ export default function ImproveAsCARModal({
               <div key={s.key} className="flex items-center gap-2">
                 <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold ${
                   i < currentStepIndex ? 'bg-green-500 text-white' :
-                  i === currentStepIndex ? 'bg-purple-600 text-white' :
+                  i === currentStepIndex ? 'bg-primary-600 text-white' :
                   'bg-gray-200 text-gray-500'
                 }`}>
                   {i < currentStepIndex ? <Check className="w-4 h-4" /> : i + 1}
                 </div>
                 <span className={`text-xs hidden sm:inline ${
-                  i === currentStepIndex ? 'text-purple-700 font-semibold' : 'text-gray-400'
+                  i === currentStepIndex ? 'text-primary-700 font-semibold' : 'text-gray-400'
                 }`}>{s.label}</span>
                 {i < stepLabels.length - 1 && <div className="w-4 h-px bg-gray-300 mx-1" />}
               </div>
@@ -268,7 +268,7 @@ export default function ImproveAsCARModal({
                 <h3 className="text-sm font-semibold text-gray-700">{t('improveAsCAR.contextCard')}</h3>
                 <button
                   onClick={() => setIsEditingContext(!isEditingContext)}
-                  className="flex items-center gap-1 text-xs text-purple-600 hover:text-purple-800"
+                  className="flex items-center gap-1 text-xs text-primary-600 hover:text-primary-800"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
                   {t('improveAsCAR.contextEdit')}
@@ -281,7 +281,7 @@ export default function ImproveAsCARModal({
                 <textarea
                   value={contextChallenge}
                   onChange={e => setContextChallenge(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 min-h-[100px]"
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm text-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-h-[100px]"
                   rows={4}
                 />
               ) : (
@@ -292,7 +292,7 @@ export default function ImproveAsCARModal({
               <button
                 onClick={() => setStep('actions')}
                 disabled={!contextChallenge.trim()}
-                className="w-full py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {t('improveAsCAR.stepActions')} <ChevronRight className="w-4 h-4" />
               </button>
@@ -315,7 +315,7 @@ export default function ImproveAsCARModal({
                     setActions(next)
                   }}
                   placeholder={t(`improveAsCAR.actionPlaceholder${i + 1}` as any)}
-                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
                 />
               ))}
               <div className="flex gap-3">
@@ -327,7 +327,7 @@ export default function ImproveAsCARModal({
                 </button>
                 <button
                   onClick={() => setStep('results')}
-                  className="flex-1 py-3 bg-purple-600 text-white rounded-lg font-semibold hover:bg-purple-700 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-primary-600 text-white rounded-lg font-semibold hover:bg-primary-700 flex items-center justify-center gap-2"
                 >
                   {t('improveAsCAR.stepResults')} <ChevronRight className="w-4 h-4" />
                 </button>
@@ -347,7 +347,7 @@ export default function ImproveAsCARModal({
                 value={result}
                 onChange={e => setResult(e.target.value)}
                 placeholder={t('improveAsCAR.resultPlaceholder')}
-                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 focus:border-purple-500 min-h-[100px]"
+                className="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 min-h-[100px]"
                 rows={4}
               />
               <div className="flex gap-3">
@@ -360,7 +360,7 @@ export default function ImproveAsCARModal({
                 <button
                   onClick={handleGenerate}
                   disabled={isGenerating}
-                  className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="flex-1 py-3 bg-gradient-to-r from-primary-600 to-[var(--ascendia-primary)] text-white rounded-lg font-semibold hover:from-primary-700 hover:to-primary-800 disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isGenerating ? (
                     <><Loader2 className="w-4 h-4 animate-spin" /> {t('improveAsCAR.generating')}</>
@@ -375,8 +375,8 @@ export default function ImproveAsCARModal({
           {/* Generating */}
           {step === 'generating' && (
             <div className="flex flex-col items-center justify-center py-12 gap-4">
-              <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
-                <Loader2 className="w-6 h-6 text-purple-600 animate-spin" />
+              <div className="w-12 h-12 rounded-full bg-primary-100 flex items-center justify-center">
+                <Loader2 className="w-6 h-6 text-primary-600 animate-spin" />
               </div>
               <p className="text-sm text-gray-500">{t('improveAsCAR.generating')}</p>
             </div>
@@ -393,8 +393,8 @@ export default function ImproveAsCARModal({
                     <p className="text-xs font-semibold text-blue-700 mb-1">{t('improveAsCAR.contextCard')}</p>
                     <p className="text-sm text-gray-800">{generatedResult.improved_challenge}</p>
                   </div>
-                  <div className="p-3 bg-purple-50 border border-purple-200 rounded-lg">
-                    <p className="text-xs font-semibold text-purple-700 mb-1">{t('improveAsCAR.stepActions')}</p>
+                  <div className="p-3 bg-primary-50 border border-primary-200 rounded-lg">
+                    <p className="text-xs font-semibold text-primary-700 mb-1">{t('improveAsCAR.stepActions')}</p>
                     <ul className="text-sm text-gray-800 space-y-1">
                       {generatedResult.improved_actions.map((a, i) => <li key={i}>• {a}</li>)}
                     </ul>
@@ -416,7 +416,7 @@ export default function ImproveAsCARModal({
                         type="checkbox"
                         checked={selectedBullets.has(i)}
                         onChange={() => toggleBullet(i)}
-                        className="mt-1 rounded border-gray-300 text-purple-600 focus:ring-purple-500"
+                        className="mt-1 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
                       />
                       <span className="text-sm text-gray-800">{bullet}</span>
                     </label>
@@ -465,7 +465,7 @@ export default function ImproveAsCARModal({
                     onClick={handleSaveCAR}
                     disabled={isSaving || savedCAR}
                     className={`flex-1 py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 ${
-                      savedCAR ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-purple-600 text-white hover:bg-purple-700'
+                      savedCAR ? 'bg-green-100 text-green-700 border border-green-300' : 'bg-primary-600 text-white hover:bg-primary-700'
                     }`}
                   >
                     {savedCAR ? <><Check className="w-4 h-4" /> {t('improveAsCAR.saved')}</> : isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> {t('improveAsCAR.saving')}</> : t('improveAsCAR.saveCAR')}
@@ -473,14 +473,14 @@ export default function ImproveAsCARModal({
                   <button
                     onClick={handleSaveBullets}
                     disabled={isSaving || savedBullets || selectedBullets.size === 0}
-                    className="flex-1 py-3 border border-purple-300 text-purple-700 rounded-lg font-semibold text-sm hover:bg-purple-50 disabled:opacity-50 flex items-center justify-center gap-2"
+                    className="flex-1 py-3 border border-primary-300 text-primary-700 rounded-lg font-semibold text-sm hover:bg-primary-50 disabled:opacity-50 flex items-center justify-center gap-2"
                   >
                     {savedBullets ? <><Check className="w-4 h-4" /> {t('improveAsCAR.saved')}</> : isSaving ? <><Loader2 className="w-4 h-4 animate-spin" /> {t('improveAsCAR.saving')}</> : t('improveAsCAR.saveBullets')}
                   </button>
                 </div>
                 <button
                   onClick={handleGenerate}
-                  className="w-full py-2 text-sm text-gray-500 hover:text-purple-600 flex items-center justify-center gap-1"
+                  className="w-full py-2 text-sm text-gray-500 hover:text-primary-600 flex items-center justify-center gap-1"
                 >
                   <Sparkles className="w-3.5 h-3.5" /> {t('improveAsCAR.regenerate')}
                 </button>
